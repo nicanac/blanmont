@@ -29,4 +29,18 @@
 - **Responsiveness**: Mobile-first media queries are preferred.
 
 ## 6. Testing & Debugging
-- **Debug Scripts**: If you create a standalone debug script, place it in the project root with the prefix `debug-`. Do not put it in `app/`.
+- **Debug Scripts**: If you create a standalone debug script, place it in the `/debug-scripts/` folder with the prefix `debug-`. Do not put it in `app/`.
+
+## 7. Version Control
+- **Branch Naming**: When suggesting git commands or branch creations, ALWAYS follow the pattern `user_name/type/feature_explanation_name`.
+  - Example: `nicolas_bruyere/feature/trace-filtering`
+  - Valid types: `feature`, `fix`, `chore`, `refactor`, `docs`.
+- **Commit Messages**: When generating commit messages, use the Semantic Commit pattern: `type(scope): subject`.
+  - Example: `feature(trace): add filter by distance`
+  - Keep the subject short and imperative (e.g., "add" not "added").
+
+## 8. Continuous Documentation
+- **Update Rule**: Whenever you modify code (new features, refactors, bug fixes), you **MUST** simultaneously update:
+  1.  Relevant **JSDoc** comments.
+  2.  `AI_CONTEXT.md` (if architectural or business logic changes).
+  3.  This file (`.github/copilot-instructions.md`) if coding standards evolve.
