@@ -1,4 +1,6 @@
-import { submitMapPreview } from './lib/notion';
+'use server'
+
+import { submitMapPreview, createRide, submitVote } from './lib/notion';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -58,4 +60,18 @@ export async function generateMapPreview(formData: FormData) {
   }
   
   redirect(`/traces/${traceId}`);
+}
+
+export async function createRideAction(date: string, traceIds: string[]) {
+    if (!date || traceIds.length === 0) throw new Error('Invalid input');
+    
+    await createRide(date, traceIds);
+    revalidatePath('/saturday-ride');
+}
+
+export async function submitVoteAction(rideId: string, memberId: string, traceId: string) {
+    if (!rideId || !memberId || !traceId) throw new Error('Invalid input');
+
+    await submitVote(rideId, memberId, traceId);
+    revalidatePath('/saturday-ride');
 }

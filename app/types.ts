@@ -33,3 +33,18 @@ export interface Feedback {
   createdAt?: string;
   memberId?: string;
 }
+
+export interface SaturdayRide {
+  id: string;
+  date: string; // YYYY-MM-DD
+  candidateTraceIds: string[];
+  selectedTraceId?: string;
+  status: 'Draft' | 'Voting' | 'Closed';
+}
+
+export interface Vote {
+  id: string;
+  rideId: string;
+  memberId: string;
+  traceId: string;
+}

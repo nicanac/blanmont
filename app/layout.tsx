@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <nav className={styles.navbar}>
           <div className={`container ${styles.navContainer}`}>
@@ -24,6 +24,7 @@ export default function RootLayout({
             <div className={styles.links}>
               <Link href="/members">Members</Link>
               <Link href="/traces">Traces</Link>
+              <Link href="/saturday-ride">Saturday Ride</Link>
             </div>
           </div>
         </nav>
