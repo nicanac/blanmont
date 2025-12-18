@@ -12,6 +12,15 @@ interface Props {
     votes: Vote[];
 }
 
+/**
+ * Component for displaying active Saturday Rides and handling member voting.
+ * Implements optimistic UI updates for instant voting feedback.
+ * 
+ * @param traces - List of all available traces (for reference).
+ * @param members - List of all club members (for user selection/auth simulation).
+ * @param activeRides - List of rides currently open for voting.
+ * @param votes - List of all current votes fetched from the server.
+ */
 export default function SaturdayRideView({ traces, members, activeRides, votes }: Props) {
     const [currentUser, setCurrentUser] = useState<Member | null>(null);
     const [votingRideIds, setVotingRideIds] = useState<string[]>([]);

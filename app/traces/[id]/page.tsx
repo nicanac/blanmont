@@ -18,6 +18,13 @@ export async function generateStaticParams() {
     }));
 }
 
+/**
+ * Trace Detail Page.
+ * Displays comprehensive information about a specific trace (Map, Stats, Photos, Feedback).
+ * Includes forms for submitting feedback and admin tools for updating map previews.
+ * 
+ * @param props.params - Route parameters containing the trace `id`.
+ */
 export default async function TraceDetailPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const trace = await getTrace(params.id);

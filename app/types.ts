@@ -1,50 +1,101 @@
+/**
+ * Represents a club member.
+ */
 export interface Member {
+  /** Unique identifier for the member (Notion Page ID). */
   id: string;
+  /** Full name of the member. */
   name: string;
+  /** List of roles assigned to the member (e.g., 'President', 'Admin', 'Member'). */
   role: string[];
+  /** Short biography or tagline. */
   bio: string;
+  /** URL to the member's profile photo. */
   photoUrl: string;
 }
 
+/**
+ * Represents a cycling route (Trace).
+ */
 export interface Trace {
+  /** Unique identifier for the trace (Notion Page ID). */
   id: string;
+  /** Name or title of the trace. */
   name: string;
+  /** Total distance in kilometers. */
   distance: number;
-  elevation?: number; // Not present in new schema, making optional
-  surface: string; // Changed to string as 'road' column is flexible
-  quality: number; // 1-5
-  mapUrl?: string; // from Komoot
-  gpxUrl?: string; // from Gpx property
-  photoUrl?: string; // New field
-  photoAlbumUrl?: string; // Google Photos album URL
-  photoPreviews?: string[]; // Scraped preview images
+  /** Total elevation gain in meters. Optional as it may be missing in old records. */
+  elevation?: number;
+  /** Surface type (e.g., 'Road', 'Gravel'). */
+  surface: string;
+  /** Subjective quality rating (1-5 stars) derived from Notion. */
+  quality: number;
+  /** URL to the Komoot route map. */
+  mapUrl?: string;
+  /** URL to the GPX file download. */
+  gpxUrl?: string;
+  /** URL to the main cover photo for the trace. */
+  photoUrl?: string;
+  /** URL to a Google Photos album associated with this trace. */
+  photoAlbumUrl?: string;
+  /** List of photo URLs scraped from the album for preview. */
+  photoPreviews?: string[];
+  /** Color code associated with the difficulty/rating. */
   ratingColor?: string;
+  /** Name of the starting location. */
   start?: string;
+  /** Name of the ending location. */
   end?: string;
-  description: string; // from Note
+  /** specific description or notes about the route. */
+  description: string;
 }
 
+/**
+ * Represents user feedback on a specific trace.
+ */
 export interface Feedback {
+  /** Unique identifier for the feedback entry. */
   id: string;
+  /** ID of the trace being reviewed. */
   traceId: string;
+  /** Text comment provided by the user. */
   comment: string;
-  rating: number; // 1-5
+  /** Numerical rating (1-5). */
+  rating: number;
+  /** Name of the member who left the feedback (optional). */
   memberName?: string;
+  /** ISO timestamp of when the feedback was created. */
   createdAt?: string;
+  /** ID of the member who left the feedback (optional). */
   memberId?: string;
 }
 
+/**
+ * Represents a weekly Saturday Ride event.
+ */
 export interface SaturdayRide {
+  /** Unique identifier for the ride event. */
   id: string;
-  date: string; // YYYY-MM-DD
+  /** Date of the ride in YYYY-MM-DD format. */
+  date: string;
+  /** List of Trace IDs proposed for this ride. */
   candidateTraceIds: string[];
+  /** ID of the final selected trace (if decided). */
   selectedTraceId?: string;
+  /** Current status of the voting process. */
   status: 'Draft' | 'Voting' | 'Closed';
 }
 
+/**
+ * Represents a member's vote for a Saturday Ride.
+ */
 export interface Vote {
+  /** Unique identifier for the vote record. */
   id: string;
+  /** ID of the Saturday Ride event. */
   rideId: string;
+  /** ID of the member who voted. */
   memberId: string;
+  /** ID of the trace the member voted for. */
   traceId: string;
 }
