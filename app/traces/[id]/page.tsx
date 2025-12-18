@@ -26,6 +26,8 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
         notFound();
     }
 
+
+
     // Fetch additional data
     const members = await getMembers();
     const feedbackList = await getFeedbackForTrace(trace.id);
@@ -68,11 +70,40 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
             <div className={styles.content}>
                 <div className={styles.main}>
                     <p className={styles.description}>{trace.description}</p>
-                    {trace.mapUrl && (
-                        <a href={trace.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                            View Interactive Map
-                        </a>
+
+                    <div className={styles.actions}>
+                        {trace.mapUrl && (
+                            <a href={trace.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                                View Interactive Map
+                            </a>
+                        )}
+
+                        {trace.photoAlbumUrl && (
+                            <a href={trace.photoAlbumUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ background: '#4285f4' }}>
+                                📸 View Photo Album
+                            </a>
+                        )}
+                    </div>
+
+                    {/* Photo Previews */}
+                    {trace.photoPreviews && trace.photoPreviews.length > 0 && (
+                        <div className={styles.photoGrid}>
+                            {trace.photoPreviews.map((url, i) => (
+                                <a key={i} href={trace.photoAlbumUrl} target="_blank" rel="noopener noreferrer">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={url}
+                                        alt={`Ride preview ${i + 1}`}
+                                        className={styles.photoPreview}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer"
+                                    />
+                                </a>
+                            ))}
+                        </div>
                     )}
+
+
 
                     {/* Feedback List */}
                     <div className={styles.commentsSection}>

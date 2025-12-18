@@ -112,7 +112,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                             <div className={styles.cardContent}>
                                 <div className={styles.cardHeader}>
                                     <div className={styles.badges}>
-                                        <span className={styles.tag} style={{ backgroundColor: ratingColor, color: "white" }}>{trace.surface}</span>
+                                        <span className={`${styles.tag} ${styles.tagPrimary}`}>{trace.surface}</span>
                                         {trace.start && <span className={styles.tag}>{trace.start}</span>}
                                     </div>
                                     <span className={styles.rating} style={ratingColorStyle}>
@@ -140,7 +140,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                 </div>
 
                                 <div className={styles.actions}>
-                                    <Link href={`/traces/${trace.id}`} className={styles.btnAction} style={{ backgroundColor: ratingColor, color: "white", border: "none" }}>
+                                    <Link href={`/traces/${trace.id}`} className={`${styles.btnAction} ${styles.btnPrimary}`}>
                                         Details
                                     </Link>
                                     {trace.gpxUrl && (
