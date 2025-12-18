@@ -53,6 +53,21 @@ export default function TraceList({ initialTraces }: TraceListProps) {
         return null;
     };
 
+    // Get rating color based on quality score
+    const getRatingColor = (quality: number): string => {
+        if (quality > 4) {
+            return '#22c55e'; // Green for excellent ratings (5 stars)
+        } else if (quality === 4) {
+            return '#84cc16'; // Yellow-green for good ratings (4 stars)
+        } else if (quality === 3) {
+            return '#eab308'; // Yellow for average ratings (3 stars)
+        } else if (quality === 2) {
+            return '#f97316'; // Orange for below average (2 stars)
+        } else {
+            return '#ef4444'; // Red for poor ratings (1 star)
+        }
+    };
+
     return (
         <>
             <div className={styles.controls}>
@@ -74,7 +89,8 @@ export default function TraceList({ initialTraces }: TraceListProps) {
             <div className={styles.grid}>
                 {filteredTraces.map((trace) => {
                     const embedUrl = getKomootEmbedUrl(trace.mapUrl);
-                    const ratingColorStyle = trace.ratingColor ? { color: `var(--color-${trace.ratingColor}, #fbbf24)` } : {};
+                    const ratingColor = getRatingColor(trace.quality);
+                    const ratingColorStyle = { color: ratingColor };
 
                     return (
                         <div key={trace.id} className={styles.card}>
@@ -96,7 +112,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                             <div className={styles.cardContent}>
                                 <div className={styles.cardHeader}>
                                     <div className={styles.badges}>
-                                        <span className={`${styles.tag} ${styles.tagPrimary}`}>{trace.surface}</span>
+                                        <span className={styles.tag} style={{ backgroundColor: ratingColor, color: "white" }}>{trace.surface}</span>
                                         {trace.start && <span className={styles.tag}>{trace.start}</span>}
                                     </div>
                                     <span className={styles.rating} style={ratingColorStyle}>
@@ -124,7 +140,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                 </div>
 
                                 <div className={styles.actions}>
-                                    <Link href={`/traces/${trace.id}`} className={`${styles.btnAction} ${styles.btnPrimary}`}>
+                                    <Link href={`/traces/${trace.id}`} className={styles.btnAction} style={{ backgroundColor: ratingColor, color: "white", border: "none" }}>
                                         Details
                                     </Link>
                                     {trace.gpxUrl && (

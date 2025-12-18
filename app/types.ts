@@ -16,6 +16,8 @@ export interface Trace {
   mapUrl?: string; // from Komoot
   gpxUrl?: string; // from Gpx property
   photoUrl?: string; // New field
+  photoAlbumUrl?: string; // Google Photos album URL
+  photoPreviews?: string[]; // Scraped preview images
   ratingColor?: string;
   start?: string;
   end?: string;
