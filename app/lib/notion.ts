@@ -17,6 +17,16 @@ const cleanId = (id: string | undefined) => {
 };
 
 // Robust fetch wrapper replacing @notionhq/client
+/**
+ * A robust wrapper around the standard `fetch` API for making requests to the Notion API.
+ * Handles authentication, headers, and standard error parsing.
+ * 
+ * @param endpoint - The API endpoint (e.g., 'databases/QUERY').
+ * @param method - HTTP method ('GET', 'POST', 'PATCH', etc.).
+ * @param body - Optional JSON body for the request.
+ * @returns The JSON response from the Notion API.
+ * @throws Error if the response status is not OK.
+ */
 async function notionRequest(endpoint: string, method: string, body?: any) {
   const token = process.env.NOTION_TOKEN;
   if (!token) throw new Error('Missing Notion Token');
@@ -39,6 +49,12 @@ async function notionRequest(endpoint: string, method: string, body?: any) {
   return res.json();
 }
 
+/**
+ * Fetches the list of all active members from the Notion 'Members' database.
+ * Falls back to mock data if Notion Token is missing or in mock mode.
+ * 
+ * @returns A promise resolving to an array of `Member` objects.
+ */
 export const getMembers = async (): Promise<Member[]> => {
   if (isMockMode || !MEMBERS_DB_ID) {
     if (!isMockMode) console.warn('Missing NOTION_MEMBERS_DB_ID, falling back to mock.');
@@ -74,6 +90,12 @@ export const getMembers = async (): Promise<Member[]> => {
 };
 
 // Helper to scrape og:image from Komoot
+/**
+ * Attempts to scrape the OpenGraph image from a public Komoot URL.
+ * 
+ * @param url - The Komoot route URL.
+ * @returns The URL of the image, or undefined if scraping failed.
+ */
 export async function getKomootImage(url: string): Promise<string | undefined> {
   try {
     const res = await fetch(url);
@@ -161,6 +183,13 @@ async function scrapeGooglePhotos(url: string): Promise<string[]> {
   }
 }
 
+/**
+ * Fetches a single trace by its Notion Page ID.
+ * Enriches the trace data with Google Photos previews if an album URL is present.
+ * 
+ * @param id - The UUID of the trace.
+ * @returns A `Trace` object or `null` if not found/error.
+ */
 export const getTrace = async (id: string): Promise<Trace | null> => {
     if (isMockMode) return null;
     try {
@@ -179,6 +208,12 @@ export const getTrace = async (id: string): Promise<Trace | null> => {
     }
 };
 
+/**
+ * Fetches all available traces from the Notion database.
+ * Handles pagination automatically to retrieve the complete dataset.
+ * 
+ * @returns A promise resolving to an array of `Trace` objects.
+ */
 export const getTraces = async (): Promise<Trace[]> => {
   if (isMockMode || !TRACES_DB_ID) {
     if (!isMockMode) console.warn('Missing NOTION_TRACES_DB_ID, falling back to mock.');
@@ -215,6 +250,12 @@ export const getTraces = async (): Promise<Trace[]> => {
   }
 };
 
+/**
+ * Retrieves feedback entries for a specific trace.
+ * 
+ * @param traceId - The UUID of the trace.
+ * @returns A promise resolving to an array of `Feedback` objects.
+ */
 export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> => {
   if (isMockMode || !FEEDBACK_DB_ID) return [];
 
@@ -246,6 +287,17 @@ export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> 
   }
 };
 
+/**
+ * Submits or updates feedback for a trace.
+ * If `feedbackId` is provided, it updates the existing entry.
+ * If not, it checks for an existing entry by the same member to prevent duplicates.
+ * 
+ * @param traceId - The ID of the trace being reviewed.
+ * @param memberId - The ID of the member leaving feedback.
+ * @param rating - Numeric rating (1-5).
+ * @param comment - Text comment.
+ * @param feedbackId - Optional ID of an existing feedback entry to update.
+ */
 export const submitFeedback = async (traceId: string, memberId: string, rating: number, comment: string, feedbackId?: string) => {
    if (isMockMode || !FEEDBACK_DB_ID) {
      console.log('Mock submission:', { traceId, memberId, rating, comment, feedbackId });
@@ -310,6 +362,12 @@ export const submitFeedback = async (traceId: string, memberId: string, rating: 
      console.error('Failed to submit feedback:', error);
    }
 };
+/**
+ * Updates the 'map-preview' file property of a trace page with a new image URL.
+ * 
+ * @param traceId - The UUID of the trace.
+ * @param imageUrl - The public URL of the image to set as the preview.
+ */
 export const submitMapPreview = async (traceId: string, imageUrl: string) => {
     if (isMockMode) {
       console.log('Mock map preview update:', { traceId, imageUrl });
@@ -338,6 +396,12 @@ export const submitMapPreview = async (traceId: string, imageUrl: string) => {
     }
 };
 
+/**
+ * Fetches all Saturday Ride events that are currently in the 'Voting' status.
+ * Used to display active polls to members.
+ * 
+ * @returns A promise resolving to an array of active `SaturdayRide` objects.
+ */
 export const getActiveRides = async (): Promise<SaturdayRide[]> => {
     if (isMockMode || !SATURDAY_RIDE_DB_ID) {
         if (isMockMode) return [{ id: 'mock-ride', date: '2024-05-18', candidateTraceIds: ['1'], status: 'Voting' }] as any;
@@ -375,6 +439,12 @@ export const getActiveRides = async (): Promise<SaturdayRide[]> => {
     }
 };
 
+/**
+ * Creates a new Saturday Ride event in Notion.
+ * 
+ * @param date - The date of the ride (YYYY-MM-DD).
+ * @param traceIds - Array of Trace IDs that are candidates for this ride.
+ */
 export const createRide = async (date: string, traceIds: string[]) => {
     if (isMockMode || !SATURDAY_RIDE_DB_ID) return;
 
@@ -395,6 +465,12 @@ export const createRide = async (date: string, traceIds: string[]) => {
     }
 };
 
+/**
+ * Retrieves all votes cast for a specific ride.
+ * 
+ * @param rideId - The UUID of the Saturday Ride.
+ * @returns A promise resolving to an array of `Vote` objects.
+ */
 export const getVotes = async (rideId: string): Promise<Vote[]> => {
     if (isMockMode || !VOTES_DB_ID) return [];
 
@@ -419,6 +495,14 @@ export const getVotes = async (rideId: string): Promise<Vote[]> => {
     }
 };
 
+/**
+ * Submits a vote for a Saturday Ride.
+ * If the member has already voted for this ride, their previous vote is updated.
+ * 
+ * @param rideId - The ID of the ride event.
+ * @param memberId - The ID of the member voting.
+ * @param traceId - The ID of the trace selected.
+ */
 export const submitVote = async (rideId: string, memberId: string, traceId: string) => {
     if (isMockMode || !VOTES_DB_ID) return;
 

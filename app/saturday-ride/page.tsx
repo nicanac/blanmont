@@ -6,6 +6,12 @@ import { Vote } from '../types';
 // Revalidate every minute to show fresh votes
 export const revalidate = 60;
 
+/**
+ * Saturday Ride Voting Page.
+ * Aggregates all data needed for the voting interface: members, all traces, active rides, and current votes.
+ * Wraps the interactive `SaturdayRideView` client component.
+ * Revalidates every 60 seconds.
+ */
 export default async function SaturdayRidePage() {
     const [traces, members, activeRides] = await Promise.all([
         getTraces(),

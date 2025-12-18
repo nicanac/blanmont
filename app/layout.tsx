@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   description: 'Premium Road Cycling Club',
 };
 
+/**
+ * Root Layout component that wraps the entire application.
+ * Provides the HTML structure, global styles, navigation bar, and footer.
+ * 
+ * @param children - The page content to render.
+ */
 export default function RootLayout({
   children,
 }: {

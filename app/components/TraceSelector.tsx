@@ -9,6 +9,14 @@ interface Props {
     onToggle: (id: string) => void;
 }
 
+/**
+ * Component to select multiple traces from a grid.
+ * Used when creating a new ride proposal.
+ * 
+ * @param traces - The list of traces to choose from.
+ * @param selectedIds - Array of currently selected trace IDs.
+ * @param onToggle - Callback function when a trace is clicked.
+ */
 export default function TraceSelector({ traces, selectedIds, onToggle }: Props) {
     return (
         <div className={styles.container}>
