@@ -1,4 +1,4 @@
-import { Member, Trace, Feedback } from '../types';
+import { Member, Trace, Feedback, SaturdayRide, Vote } from '../types';
 
 // Helper to check if we are in mock mode
 const isMockMode = !process.env.NOTION_TOKEN;
@@ -6,6 +6,8 @@ const isMockMode = !process.env.NOTION_TOKEN;
 const MEMBERS_DB_ID = process.env.NOTION_MEMBERS_DB_ID;
 const TRACES_DB_ID = process.env.NOTION_TRACES_DB_ID;
 const FEEDBACK_DB_ID = process.env.NOTION_FEEDBACK_DB_ID;
+const SATURDAY_RIDE_DB_ID = process.env.NOTION_SATURDAY_RIDE_DB_ID;
+const VOTES_DB_ID = process.env.NOTION_VOTES_DB_ID;
 
 const cleanId = (id: string | undefined) => {
   if (!id) return '';
@@ -187,12 +189,24 @@ export const getTraces = async (): Promise<Trace[]> => {
 
   try {
     const dbId = cleanId(TRACES_DB_ID);
-    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
-      sorts: [{ property: 'Name', direction: 'ascending' }],
-    });
+    let allResults: any[] = [];
+    let hasMore = true;
+    let startCursor = undefined;
+
+    while (hasMore) {
+        const response: any = await notionRequest(`databases/${dbId}/query`, 'POST', {
+            sorts: [{ property: 'Name', direction: 'ascending' }],
+            page_size: 100,
+            start_cursor: startCursor
+        });
+        
+        allResults = [...allResults, ...response.results];
+        hasMore = response.has_more;
+        startCursor = response.next_cursor;
+    }
 
     // Process traces in parallel to fetch images if needed
-    const traces = await Promise.all(response.results.map(mapPageToTrace));
+    const traces = await Promise.all(allResults.map(mapPageToTrace));
 
     return traces;
   } catch (error) {
@@ -321,5 +335,119 @@ export const submitMapPreview = async (traceId: string, imageUrl: string) => {
     } catch (error) {
        console.error('Failed to update map preview in Notion:', error);
        throw error;
+    }
+};
+
+export const getActiveRides = async (): Promise<SaturdayRide[]> => {
+    if (isMockMode || !SATURDAY_RIDE_DB_ID) {
+        if (isMockMode) return [{ id: 'mock-ride', date: '2024-05-18', candidateTraceIds: ['1'], status: 'Voting' }] as any;
+        return [];
+    }
+
+    try {
+        const dbId = cleanId(SATURDAY_RIDE_DB_ID);
+        // Fetch all rides and filter in memory to avoid API validation errors
+        const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
+             sorts: [{ property: 'Date', direction: 'ascending' }],
+        });
+
+        const activeRides = response.results
+            .map((page: any) => {
+                const props = page.properties;
+                const candidates = props.Candidates?.relation?.map((r: any) => r.id) || [];
+                const selected = props['Selected Trace']?.relation?.[0]?.id;
+
+                return {
+                    id: page.id,
+                    date: props.Date?.date?.start || '',
+                    candidateTraceIds: candidates,
+                    selectedTraceId: selected,
+                    status: props.Status?.status?.name || props.Status?.select?.name || 'Draft'
+                };
+            })
+            .filter((ride: SaturdayRide) => ride.status === 'Voting');
+
+        return activeRides;
+
+    } catch (e) {
+        console.error('Failed to get active rides:', e);
+        return [];
+    }
+};
+
+export const createRide = async (date: string, traceIds: string[]) => {
+    if (isMockMode || !SATURDAY_RIDE_DB_ID) return;
+
+    try {
+        const dbId = cleanId(SATURDAY_RIDE_DB_ID);
+        await notionRequest('pages', 'POST', {
+            parent: { database_id: dbId },
+            properties: {
+                Name: { title: [{ text: { content: `Ride ${date}` } }] },
+                Date: { date: { start: date } },
+                Candidates: { relation: traceIds.map(id => ({ id })) },
+                Status: { status: { name: 'Voting' } }
+            }
+        });
+    } catch (e) {
+        console.error('Failed to create ride:', e);
+        throw e;
+    }
+};
+
+export const getVotes = async (rideId: string): Promise<Vote[]> => {
+    if (isMockMode || !VOTES_DB_ID) return [];
+
+    try {
+        const dbId = cleanId(VOTES_DB_ID);
+        const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
+            filter: {
+                property: 'Ride',
+                relation: { contains: rideId }
+            }
+        });
+
+        return response.results.map((page: any) => ({
+            id: page.id,
+            rideId: rideId,
+            memberId: page.properties.Member?.relation?.[0]?.id || '',
+            traceId: page.properties.Trace?.relation?.[0]?.id || ''
+        }));
+    } catch (e) {
+        console.error('Failed to get votes:', e);
+        return [];
+    }
+};
+
+export const submitVote = async (rideId: string, memberId: string, traceId: string) => {
+    if (isMockMode || !VOTES_DB_ID) return;
+
+    try {
+        // Check if member already voted for this ride
+        const votes = await getVotes(rideId);
+        const existingVote = votes.find(v => v.memberId === memberId);
+
+        if (existingVote) {
+             // Update existing vote
+             await notionRequest(`pages/${existingVote.id}`, 'PATCH', {
+                 properties: {
+                     Trace: { relation: [{ id: traceId }] }
+                 }
+             });
+        } else {
+            // Create new vote
+            const dbId = cleanId(VOTES_DB_ID);
+            await notionRequest('pages', 'POST', {
+                parent: { database_id: dbId },
+                properties: {
+                    Ride: { relation: [{ id: rideId }] },
+                    Member: { relation: [{ id: memberId }] },
+                    Trace: { relation: [{ id: traceId }] }
+                }
+            });
+        }
+    } catch (e) {
+        console.error('Failed to submit vote:', e);
+        throw e;
     }
 };
