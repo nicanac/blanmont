@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 
+/**
+ * The Landing Page (Home).
+ * Displays a hero section with call-to-action buttons for Traces and Members.
+ */
 export default function Home() {
   return (
     <div className={styles.hero}>
