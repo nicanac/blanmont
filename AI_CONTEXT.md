@@ -70,3 +70,15 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
     - The Notion API is strict. Use `isMockMode` check for local dev without secrets.
     - DB Queries often return raw pages; these MUST be mapped to clean interfaces (e.g., `mapPageToTrace`) immediately.
     - `Status` properties are type `active_status` or `status`, NOT `select`.
+
+5.  **Version Control**:
+    - **Branch Naming**: All branches must follow the pattern `user_name/type/feature_explanation_name`.
+      - Example: `nicolas_bruyere/feature/trace-filtering`
+      - Types: `feature`, `fix`, `chore`, `refactor`, `docs`.
+    - **Commit Messages**: Follow the Semantic Commit pattern: `type(scope): subject`.
+      - Example: `feature(voting): add optimistic UI for vote button`
+      - Types match the branch types.
+
+6.  **Continuous Documentation**:
+    - **Rule**: Every time a feature is added or code is modified, the corresponding documentation (JSDoc, `AI_CONTEXT.md`, etc.) MUST be updated immediately.
+    - **Scope**: Keep the AI context and Copilot instructions in sync with the codebase state.
