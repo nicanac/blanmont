@@ -102,6 +102,9 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
   const quality = ratingStr.replace(/[^⭐]/g, '').length || 3;
 
   // Parse Photo
+  
+  // Parse Google Photos Album URL
+  const photoAlbumUrl = props.photo?.url || undefined;
   const photoFiles = props.photo?.files || [];
   let photoUrl = photoFiles.length > 0 ? photoFiles[0].file?.url || photoFiles[0].external?.url : undefined;
 
@@ -133,16 +136,41 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
     mapUrl: props.Komoot?.url || undefined,
     gpxUrl: props.Gpx?.url || undefined,
     photoUrl: photoUrl,
+    photoAlbumUrl: photoAlbumUrl,
     start: props.start?.select?.name,
     end: props.end?.select?.name
   };
 };
 
+// Helper to scrape Google Photos
+async function scrapeGooglePhotos(url: string): Promise<string[]> {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const html = await res.text();
+    const regex = /https:\/\/lh3\.googleusercontent\.com\/pw\/[a-zA-Z0-9_-]+/g;
+    const matches = html.match(regex);
+    if (!matches) return [];
+    
+    return [...new Set(matches)].slice(0, 5).map(u => `${u}=w600-h400-c`);
+  } catch (e) {
+    console.warn('Failed to scrape photos:', e);
+    return [];
+  }
+}
+
 export const getTrace = async (id: string): Promise<Trace | null> => {
     if (isMockMode) return null;
     try {
         const page = await notionRequest(`pages/${id}`, 'GET');
-        return await mapPageToTrace(page);
+        const trace = await mapPageToTrace(page);
+        
+        // Enrich with photo previews if album exists
+        if (trace.photoAlbumUrl) {
+            trace.photoPreviews = await scrapeGooglePhotos(trace.photoAlbumUrl);
+        }
+        
+        return trace;
     } catch (e) {
         console.error('Failed to fetch trace:', e);
         return null;
