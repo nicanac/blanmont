@@ -1,0 +1,143 @@
+'use client';
+
+import { useState, useMemo } from 'react';
+import Link from 'next/link';
+import { Trace } from '../types';
+import { stripSuffix } from '../utils/string.utils';
+import styles from './page.module.css';
+
+interface TraceListProps {
+    initialTraces: Trace[];
+}
+
+type SortOption = 'newest' | 'distance_asc' | 'distance_desc' | 'elevation_asc' | 'elevation_desc' | 'start';
+
+export default function TraceList({ initialTraces }: TraceListProps) {
+    const [sort, setSort] = useState<SortOption>('newest');
+
+    const filteredTraces = useMemo(() => {
+        let sorted = [...initialTraces];
+
+        switch (sort) {
+            case 'distance_asc':
+                sorted.sort((a, b) => a.distance - b.distance);
+                break;
+            case 'distance_desc':
+                sorted.sort((a, b) => b.distance - a.distance);
+                break;
+            case 'elevation_asc':
+                sorted.sort((a, b) => (a.elevation || 0) - (b.elevation || 0));
+                break;
+            case 'elevation_desc':
+                sorted.sort((a, b) => (b.elevation || 0) - (a.elevation || 0));
+                break;
+            case 'start':
+                sorted.sort((a, b) => (a.start || '').localeCompare(b.start || ''));
+                break;
+            case 'newest':
+            default:
+                // Assuming initialTraces came in some order (date created?), keep it or rely on ID/Default
+                break;
+        }
+        return sorted;
+    }, [initialTraces, sort]);
+
+    const getKomootEmbedUrl = (url?: string) => {
+        if (!url) return null;
+        const match = url.match(/komoot\.[a-z]+(\/[a-z]{2})?\/tour\/(\d+)/);
+        const matchSimple = url.match(/komoot\.[a-z]+\/tour\/(\d+)/);
+        const tourId = match ? match[2] : (matchSimple ? matchSimple[1] : null);
+        if (tourId) {
+            return `https://www.komoot.com/tour/${tourId}/embed?profile=1`;
+        }
+        return null;
+    };
+
+    return (
+        <>
+            <div className={styles.controls}>
+                <label className={styles.sortLabel}>Sort by:</label>
+                <select
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value as SortOption)}
+                    className={styles.sortSelect}
+                >
+                    <option value="newest">Default</option>
+                    <option value="distance_asc">Distance (Short → Long)</option>
+                    <option value="distance_desc">Distance (Long → Short)</option>
+                    <option value="elevation_asc">Elevation (Flat → Hilly)</option>
+                    <option value="elevation_desc">Elevation (Hilly → Flat)</option>
+                    <option value="start">Start Location (A-Z)</option>
+                </select>
+            </div>
+
+            <div className={styles.grid}>
+                {filteredTraces.map((trace) => {
+                    const embedUrl = getKomootEmbedUrl(trace.mapUrl);
+                    const ratingColorStyle = trace.ratingColor ? { color: `var(--color-${trace.ratingColor}, #fbbf24)` } : {};
+
+                    return (
+                        <div key={trace.id} className={styles.card}>
+                            <div className={styles.mediaContainer}>
+                                {trace.photoUrl ? (
+                                    <div className={styles.cardImage} style={{ backgroundImage: `url(${trace.photoUrl})` }} />
+                                ) : embedUrl ? (
+                                    <iframe
+                                        src={embedUrl}
+                                        className={styles.mapFrame}
+                                        title={`Map of ${trace.name}`}
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <div className={styles.cardImage} style={{ backgroundColor: '#2a2a2a' }} />
+                                )}
+                            </div>
+
+                            <div className={styles.cardContent}>
+                                <div className={styles.cardHeader}>
+                                    <div className={styles.badges}>
+                                        <span className={`${styles.tag} ${styles.tagPrimary}`}>{trace.surface}</span>
+                                        {trace.start && <span className={styles.tag}>{trace.start}</span>}
+                                    </div>
+                                    <span className={styles.rating} style={ratingColorStyle}>
+                                        {'★'.repeat(trace.quality)}
+                                    </span>
+                                </div>
+
+                                <Link href={`/traces/${trace.id}`} className={styles.name}>
+                                    {stripSuffix(trace.name, '#')}
+                                </Link>
+
+                                <p className={styles.description}>
+                                    {trace.description || "No description provided."}
+                                </p>
+
+                                <div className={styles.stats}>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statValue}>{trace.distance}km</span>
+                                        <span className={styles.statLabel}>Distance</span>
+                                    </div>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statValue}>{trace.elevation || '-'}m</span>
+                                        <span className={styles.statLabel}>Elevation</span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.actions}>
+                                    <Link href={`/traces/${trace.id}`} className={`${styles.btnAction} ${styles.btnPrimary}`}>
+                                        Details
+                                    </Link>
+                                    {trace.gpxUrl && (
+                                        <a href={trace.gpxUrl} target="_blank" rel="noopener noreferrer" className={styles.btnAction}>
+                                            GPX
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </>
+    );
+}
