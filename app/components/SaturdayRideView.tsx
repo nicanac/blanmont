@@ -3,7 +3,21 @@
 import { useState } from 'react';
 import { Member, SaturdayRide, Trace, Vote } from '../types';
 import { submitVoteAction } from '../actions';
-import styles from './SaturdayRideView.module.css';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 interface Props {
     traces: Trace[];
@@ -63,51 +77,54 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
             alert('Failed to submit vote. Please try again.');
         } finally {
             setVotingRideIds(prev => prev.filter(id => id !== rideId));
-            // Do NOT clear optimistic state here. 
-            // We keep it to prevent flickering (flash of old state) before server props update.
-            // It will be naturally consistent with the new server state when it arrives.
         }
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.topBar}>
-                <h1>Saturday Ride Selection</h1>
-                <div className={styles.userSelect}>
-                    <label>Viewing as:</label>
-                    <select
-                        onChange={(e) => handleUserChange(e.target.value)}
-                        value={currentUser?.id || ''}
-                    >
-                        <option value="">Select User...</option>
-                        {members.map(m => (
-                            <option key={m.id} value={m.id}>
-                                {m.name} {(m.role.includes('President') || m.role.includes('Admin')) ? '(Admin)' : ''}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            </div>
+        <Box sx={{ maxWidth: 1000, mx: 'auto', p: 2 }}>
+            <Paper elevation={0} sx={{ p: 3, mb: 4, bgcolor: 'background.paper', borderRadius: 2 }}>
+                <Stack direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="space-between" spacing={2}>
+                    <Typography variant="h4" component="h1" fontWeight="bold">
+                        Saturday Ride Selection
+                    </Typography>
+                    <Box sx={{ minWidth: 250 }}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel>Viewing as</InputLabel>
+                            <Select
+                                value={currentUser?.id || ''}
+                                label="Viewing as"
+                                onChange={(e) => handleUserChange(e.target.value)}
+                            >
+                                <MenuItem value="">Select User...</MenuItem>
+                                {members.map(m => (
+                                    <MenuItem key={m.id} value={m.id}>
+                                        {m.name} {(m.role.includes('President') || m.role.includes('Admin')) ? '(Admin)' : ''}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Box>
+                </Stack>
+            </Paper>
 
             {!currentUser && (
-                <div className={styles.placeholder}>
-                    <p>Please select a user to continue.</p>
-                </div>
+                <Paper sx={{ p: 6, textAlign: 'center', bgcolor: 'transparent', border: '1px dashed rgba(255,255,255,0.2)' }}>
+                    <Typography color="text.secondary">Please select a user above to continue.</Typography>
+                </Paper>
             )}
 
             {currentUser && (
                 <>
-                    {/* Active Rides List */}
                     {activeRides.length === 0 ? (
-                        <div className={styles.section}>
-                            <h2>No Active Voting Sessions</h2>
-                            <p style={{ color: 'var(--text-secondary)' }}>
+                        <Box sx={{ textAlign: 'center', py: 8 }}>
+                            <Typography variant="h5" gutterBottom>No Active Voting Sessions</Typography>
+                            <Typography color="text.secondary">
                                 There are currently no rides open for voting.
                                 {!isAdmin && " Check back later!"}
-                            </p>
-                        </div>
+                            </Typography>
+                        </Box>
                     ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                        <Stack spacing={4}>
                             {activeRides.map(ride => {
                                 // Calculate votes with optimistic updates
                                 const rideVotes = votes.filter(v => v.rideId === ride.id);
@@ -116,7 +133,6 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                 // Check for optimistic vote
                                 const optVote = optimisticVotes[ride.id];
                                 if (optVote && optVote.memberId === currentUser.id) {
-                                    // Override current member vote
                                     currentMemberVote = {
                                         id: 'optimistic',
                                         rideId: ride.id,
@@ -126,14 +142,11 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                 }
 
                                 const voteCounts = rideVotes.reduce((acc, vote) => {
-                                    // If this is the current user's old vote and we have a new optimistic vote, ignore it
                                     if (optVote && vote.memberId === currentUser.id) return acc;
-
                                     acc[vote.traceId] = (acc[vote.traceId] || 0) + 1;
                                     return acc;
                                 }, {} as Record<string, number>);
 
-                                // Add optimistic vote to counts
                                 if (optVote) {
                                     voteCounts[optVote.traceId] = (voteCounts[optVote.traceId] || 0) + 1;
                                 }
@@ -141,15 +154,13 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                 const isVoting = votingRideIds.includes(ride.id);
 
                                 return (
-                                    <div key={ride.id} className={styles.section}>
-                                        <div className={styles.statusHeader}>
-                                            <h2>Vote for Saturday {ride.date}</h2>
-                                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                                <span className={styles.statusTag}>{ride.status}</span>
-                                            </div>
-                                        </div>
+                                    <Box key={ride.id}>
+                                        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                                            <Typography variant="h5" fontWeight="bold">Vote for Saturday {ride.date}</Typography>
+                                            <Chip label={ride.status} color="primary" size="small" />
+                                        </Box>
 
-                                        <div className={styles.candidatesGrid}>
+                                        <Grid container spacing={3}>
                                             {ride.candidateTraceIds.map(traceId => {
                                                 const trace = traces.find(t => t.id === traceId);
                                                 if (!trace) return null;
@@ -158,33 +169,84 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                 const voteCount = voteCounts[traceId] || 0;
 
                                                 return (
-                                                    <div key={traceId} className={`${styles.candidateCard} ${isVoted ? styles.voted : ''}`} style={{ opacity: (isVoting && !isVoted) ? 0.5 : 1 }}>
-                                                        {isVoted && <div className={styles.votedBadge}>Your Vote</div>}
-                                                        <h3>{trace.name}</h3>
-                                                        <div className={styles.traceStats}>
-                                                            <span>{trace.distance}km</span>
-                                                            <span>{trace.elevation}m</span>
-                                                            <span>{voteCount} votes</span>
-                                                        </div>
-                                                        <button
-                                                            className={isVoted ? styles.btnSecondary : styles.btnPrimary}
-                                                            onClick={() => handleVote(ride.id, traceId)}
-                                                            disabled={isVoting || isVoted}
-                                                            style={{ cursor: isVoted ? 'default' : (isVoting ? 'wait' : 'pointer') }}
+                                                    <Grid size={{ xs: 12, md: 6 }} key={traceId}>
+                                                        <Card
+                                                            variant="outlined"
+                                                            sx={{
+                                                                height: '100%',
+                                                                display: 'flex',
+                                                                flexDirection: 'column',
+                                                                borderColor: isVoted ? 'primary.main' : 'divider',
+                                                                borderWidth: isVoted ? 2 : 1,
+                                                                opacity: (isVoting && !isVoted) ? 0.5 : 1,
+                                                                transition: 'all 0.2s'
+                                                            }}
                                                         >
-                                                            {isVoted ? 'Voted' : 'Vote'}
-                                                        </button>
-                                                    </div>
+                                                            <CardContent sx={{ flexGrow: 1 }}>
+                                                                {isVoted && (
+                                                                    <Chip label="Your Vote" color="primary" size="small" sx={{ mb: 1 }} />
+                                                                )}
+                                                                <Typography variant="h6" gutterBottom fontWeight="bold">
+                                                                    {trace.name}
+                                                                </Typography>
+
+                                                                <Stack direction="row" spacing={2} sx={{ mb: 2, color: 'text.secondary', fontSize: '0.9rem' }}>
+                                                                    <span>{trace.distance}km</span>
+                                                                    <span>{trace.elevation}m</span>
+                                                                    {trace.direction && <span>{trace.direction}</span>}
+                                                                    <span style={{ color: 'white', fontWeight: 'bold' }}>{voteCount} votes</span>
+                                                                </Stack>
+                                                            </CardContent>
+
+                                                            <CardActions sx={{ p: 2, pt: 0, flexDirection: 'column', gap: 1 }}>
+                                                                <ButtonGroup fullWidth variant="outlined" size="small">
+                                                                    <Button
+                                                                        component="a"
+                                                                        href={`/traces/${trace.id}`}
+                                                                        target="_blank"
+                                                                    >
+                                                                        Details
+                                                                    </Button>
+                                                                    {trace.gpxUrl && (
+                                                                        <Button
+                                                                            component="a"
+                                                                            href={trace.gpxUrl}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                        >
+                                                                            GPX
+                                                                        </Button>
+                                                                    )}
+                                                                </ButtonGroup>
+
+                                                                <Button
+                                                                    variant="contained"
+                                                                    fullWidth
+                                                                    onClick={() => handleVote(ride.id, traceId)}
+                                                                    disabled={isVoting || isVoted}
+                                                                    color={isVoted ? "inherit" : "primary"}
+                                                                    sx={{
+                                                                        bgcolor: isVoted ? 'action.disabledBackground' : 'primary.main',
+                                                                        color: isVoted ? 'text.disabled' : 'white'
+                                                                    }}
+                                                                >
+                                                                    {isVoted ? 'Voted' : 'Vote'}
+                                                                </Button>
+                                                            </CardActions>
+                                                        </Card>
+                                                    </Grid>
                                                 );
                                             })}
-                                        </div>
-                                    </div>
+                                        </Grid>
+                                    </Box>
                                 );
                             })}
-                        </div>
+                        </Stack>
                     )}
                 </>
             )}
-        </div>
+        </Box>
     );
 }
+
+

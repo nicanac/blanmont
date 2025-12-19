@@ -1,7 +1,23 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import styles from './page.module.css';
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import Divider from '@mui/material/Divider';
 
 export interface FilterState {
     minDist: number;
@@ -24,10 +40,6 @@ interface FilterPanelProps {
     onFilterChange: (filters: FilterState) => void;
 }
 
-/**
- * Component for filtering traces.
- * Provides controls for Range (Dist/Elev), Checkboxes (Start/Surface), and Rating.
- */
 export default function FilterPanel({
     minDist, maxDist,
     minElev, maxElev,
@@ -36,29 +48,30 @@ export default function FilterPanel({
     filters,
     onFilterChange
 }: FilterPanelProps) {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
 
-    const togglePanel = () => setIsExpanded(!isExpanded);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-                setIsExpanded(false);
-            }
-        };
-
-        if (isExpanded) {
-            document.addEventListener('mousedown', handleClickOutside);
+    const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (
+            event.type === 'keydown' &&
+            ((event as React.KeyboardEvent).key === 'Tab' ||
+                (event as React.KeyboardEvent).key === 'Shift')
+        ) {
+            return;
         }
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [isExpanded]);
+        setIsOpen(open);
+    };
 
-    const handleRangeChange = (key: keyof FilterState, value: number) => {
-        onFilterChange({ ...filters, [key]: value });
+    const handleDistChange = (_event: Event, newValue: number | number[]) => {
+        if (Array.isArray(newValue)) {
+            onFilterChange({ ...filters, minDist: newValue[0], maxDist: newValue[1] });
+        }
+    };
+
+    const handleElevChange = (_event: Event, newValue: number | number[]) => {
+        if (Array.isArray(newValue)) {
+            onFilterChange({ ...filters, minElev: newValue[0], maxElev: newValue[1] });
+        }
     };
 
     const handleCheckboxChange = (key: 'selectedStarts' | 'selectedSurfaces', value: string) => {
@@ -70,137 +83,169 @@ export default function FilterPanel({
     };
 
     return (
-        <div className={styles.filterContainer} ref={containerRef}>
-            <button
-                onClick={togglePanel}
-                className={styles.pillsFilter}
-                aria-expanded={isExpanded}
+
+        <>
+            <Button
+                onClick={toggleDrawer(true)}
+                variant="outlined"
+                startIcon={<FilterListIcon />}
+                sx={{
+                    textTransform: 'none',
+                    borderRadius: 2,
+                    borderColor: 'divider',
+                    color: 'text.primary',
+                }}
             >
-                {isExpanded ? 'Hide Filters' : 'Show Filters 🔍'}
-            </button>
+                Filter Traces
+            </Button>
 
-            {isExpanded && (
-                <div className={styles.filterPanel}>
-                    <div className={styles.filterSection}>
-                        <h4>Distance (km)</h4>
-                        <div className={styles.rangeInputs}>
-                            <div className={styles.rangeGroup}>
-                                <label>Min: {filters.minDist}km</label>
-                                <input
-                                    type="range"
-                                    min={minDist}
-                                    max={maxDist}
-                                    value={filters.minDist}
-                                    onChange={(e) => handleRangeChange('minDist', Number(e.target.value))}
-                                    className={styles.rangeInput}
-                                />
-                            </div>
-                            <div className={styles.rangeGroup}>
-                                <label>Max: {filters.maxDist}km</label>
-                                <input
-                                    type="range"
-                                    min={minDist}
-                                    max={maxDist}
-                                    value={filters.maxDist}
-                                    onChange={(e) => handleRangeChange('maxDist', Number(e.target.value))}
-                                    className={styles.rangeInput}
-                                />
-                            </div>
-                        </div>
-                    </div>
+            <Drawer
+                anchor="left"
+                open={isOpen}
+                onClose={toggleDrawer(false)}
+            >
+                <Box
+                    sx={{
+                        width: { xs: '100vw', sm: 350 },
+                        p: 3,
+                        height: '100%',
+                        overflowY: 'auto',
+                        // Custom Scrollbar Styling
+                        '&::-webkit-scrollbar': {
+                            width: '8px',
+                        },
+                        '&::-webkit-scrollbar-track': {
+                            background: 'rgba(0,0,0,0.1)',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            background: 'rgba(255,255,255,0.2)',
+                            borderRadius: '4px',
+                        },
+                        '&::-webkit-scrollbar-thumb:hover': {
+                            background: 'rgba(255,255,255,0.3)',
+                        },
+                    }}
+                    role="presentation"
+                >
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+                        <Typography variant="h6" fontWeight="bold">
+                            Filters
+                        </Typography>
+                        <IconButton onClick={toggleDrawer(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
+                    <Divider sx={{ mb: 3 }} />
 
-                    <div className={styles.filterSection}>
-                        <h4>Elevation (m)</h4>
-                        <div className={styles.rangeInputs}>
-                            <div className={styles.rangeGroup}>
-                                <label>Min: {filters.minElev}m</label>
-                                <input
-                                    type="range"
-                                    min={minElev}
-                                    max={maxElev}
-                                    value={filters.minElev}
-                                    onChange={(e) => handleRangeChange('minElev', Number(e.target.value))}
-                                    className={styles.rangeInput}
-                                />
-                            </div>
-                            <div className={styles.rangeGroup}>
-                                <label>Max: {filters.maxElev}m</label>
-                                <input
-                                    type="range"
-                                    min={minElev}
-                                    max={maxElev}
-                                    value={filters.maxElev}
-                                    onChange={(e) => handleRangeChange('maxElev', Number(e.target.value))}
-                                    className={styles.rangeInput}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <Stack spacing={4}>
+                        <Box>
+                            <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                <Typography gutterBottom fontWeight="bold">Distance</Typography>
+                                <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 'mono' }}>
+                                    {filters.minDist} - {filters.maxDist} km
+                                </Typography>
+                            </Stack>
+                            <Slider
+                                value={[filters.minDist, filters.maxDist]}
+                                onChange={handleDistChange}
+                                valueLabelDisplay="auto"
+                                min={minDist}
+                                max={maxDist}
+                                disableSwap
+                            />
+                        </Box>
 
-                    <div className={styles.filterSection}>
-                        <h4>Filter by Start Location</h4>
-                        <div className={styles.checkboxGroup}>
-                            {availableStarts.map(start => (
-                                <label key={start} className={styles.checkboxLabel}>
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.selectedStarts.includes(start)}
-                                        onChange={() => handleCheckboxChange('selectedStarts', start)}
+                        <Box>
+                            <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                <Typography gutterBottom fontWeight="bold">Elevation</Typography>
+                                <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 'mono' }}>
+                                    {filters.minElev} - {filters.maxElev} m
+                                </Typography>
+                            </Stack>
+                            <Slider
+                                value={[filters.minElev, filters.maxElev]}
+                                onChange={handleElevChange}
+                                valueLabelDisplay="auto"
+                                min={minElev}
+                                max={maxElev}
+                                disableSwap
+                            />
+                        </Box>
+
+                        <Box>
+                            <Typography gutterBottom fontWeight="bold">Start Location</Typography>
+                            <FormGroup>
+                                {availableStarts.map(start => (
+                                    <FormControlLabel
+                                        key={start}
+                                        control={
+                                            <Checkbox
+                                                checked={filters.selectedStarts.includes(start)}
+                                                onChange={() => handleCheckboxChange('selectedStarts', start)}
+                                                size="small"
+                                            />
+                                        }
+                                        label={start}
                                     />
-                                    {start}
-                                </label>
-                            ))}
-                        </div>
-                    </div>
+                                ))}
+                            </FormGroup>
+                        </Box>
 
-                    <div className={styles.filterSection}>
-                        <h4>Surface</h4>
-                        <div className={styles.checkboxGroup}>
-                            {availableSurfaces.map(surface => (
-                                <label key={surface} className={styles.checkboxLabel}>
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.selectedSurfaces.includes(surface)}
-                                        onChange={() => handleCheckboxChange('selectedSurfaces', surface)}
+                        <Box>
+                            <Typography gutterBottom fontWeight="bold">Surface</Typography>
+                            <FormGroup>
+                                {availableSurfaces.map(surface => (
+                                    <FormControlLabel
+                                        key={surface}
+                                        control={
+                                            <Checkbox
+                                                checked={filters.selectedSurfaces.includes(surface)}
+                                                onChange={() => handleCheckboxChange('selectedSurfaces', surface)}
+                                                size="small"
+                                            />
+                                        }
+                                        label={surface}
                                     />
-                                    {surface}
-                                </label>
-                            ))}
-                        </div>
-                    </div>
+                                ))}
+                            </FormGroup>
+                        </Box>
 
-                    <div className={styles.filterSection}>
-                        <h4>Minimum Rating</h4>
-                        <select
-                            value={filters.minQuality}
-                            onChange={(e) => handleRangeChange('minQuality', Number(e.target.value))}
-                            className={styles.sortSelect}
-                            style={{ width: '100%' }}
+                        <Box>
+                            <FormControl fullWidth size="small">
+                                <InputLabel>Minimum Rating</InputLabel>
+                                <Select
+                                    value={filters.minQuality}
+                                    label="Minimum Rating"
+                                    onChange={(e) => onFilterChange({ ...filters, minQuality: Number(e.target.value) })}
+                                >
+                                    <MenuItem value={0}>Any Rating</MenuItem>
+                                    <MenuItem value={2}>2+ Stars</MenuItem>
+                                    <MenuItem value={3}>3+ Stars</MenuItem>
+                                    <MenuItem value={4}>4+ Stars</MenuItem>
+                                    <MenuItem value={5}>5 Stars Only</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            fullWidth
+                            onClick={() => onFilterChange({
+                                minDist: minDist,
+                                maxDist: maxDist,
+                                minElev: minElev,
+                                maxElev: maxElev,
+                                selectedStarts: [],
+                                selectedSurfaces: [],
+                                minQuality: 0
+                            })}
                         >
-                            <option value={0}>Any Rating</option>
-                            <option value={2}>2+ Stars</option>
-                            <option value={3}>3+ Stars</option>
-                            <option value={4}>4+ Stars</option>
-                            <option value={5}>5 Stars Only</option>
-                        </select>
-                    </div>
-
-                    <button
-                        className={styles.resetBtn}
-                        onClick={() => onFilterChange({
-                            minDist: minDist,
-                            maxDist: maxDist,
-                            minElev: minElev,
-                            maxElev: maxElev,
-                            selectedStarts: [],
-                            selectedSurfaces: [],
-                            minQuality: 0
-                        })}
-                    >
-                        Reset All Filters
-                    </button>
-                </div>
-            )}
-        </div>
+                            Reset All Filters
+                        </Button>
+                    </Stack>
+                </Box>
+            </Drawer>
+        </>
     );
 }

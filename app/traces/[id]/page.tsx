@@ -3,9 +3,18 @@ import { uploadMapPreview, generateMapPreview } from '../../actions';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { Suspense } from 'react';
-import styles from './page.module.css';
 import FeedbackForm from './FeedbackForm';
 import FeedbackList from './FeedbackList';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid'; // Stable Grid v1
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
 
 // Revalidate every minute
 export const revalidate = 60;
@@ -33,8 +42,6 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
         notFound();
     }
 
-
-
     // Fetch additional data
     const members = await getMembers();
     const feedbackList = await getFeedbackForTrace(trace.id);
@@ -54,115 +61,192 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
     }
 
     return (
-        <div className="container">
-            <div className={styles.hero}>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+            {/* Hero Section */}
+            <Paper
+                elevation={0}
+                sx={{
+                    position: 'relative',
+                    mb: 4,
+                    borderRadius: 4,
+                    overflow: 'hidden',
+                    height: { xs: 300, md: 400 },
+                    bgcolor: 'grey.900',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end'
+                }}
+            >
                 {trace.photoUrl && (
-                    <div className={styles.heroImage} style={{ backgroundImage: `url(${trace.photoUrl})` }} />
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundImage: `url(${trace.photoUrl})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            opacity: 0.6
+                        }}
+                    />
                 )}
-                <span className={styles.tag}>{trace.surface}</span>
-                <h1 className={styles.title}>{trace.name}</h1>
-                <div className={styles.meta}>
-                    <div className={styles.stat}>{trace.distance}km</div>
-                    <div className={styles.divider}>•</div>
-                    <div className={styles.stat}>{'★'.repeat(trace.quality)}</div>
-                </div>
-                {(trace.start || trace.end) && (
-                    <div className={styles.routePoints}>
-                        {trace.start && <span>Start: <strong>{trace.start}</strong></span>}
-                        {trace.end && <span>End: <strong>{trace.end}</strong></span>}
-                    </div>
-                )}
-            </div>
+                <Box
+                    sx={{
+                        position: 'relative',
+                        zIndex: 1,
+                        p: 4,
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)'
+                    }}
+                >
+                    <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+                        <Chip label={trace.surface} color="primary" size="small" />
+                        {trace.start && <Chip label={`Start: ${trace.start}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
+                        {trace.end && <Chip label={`End: ${trace.end}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
+                        {trace.direction && <Chip label={`Dir: ${trace.direction}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
+                    </Stack>
+                    <Typography variant="h3" component="h1" fontWeight="800" color="white" gutterBottom>
+                        {trace.name}
+                    </Typography>
+                    <Stack direction="row" alignItems="center" spacing={2} sx={{ color: 'white' }}>
+                        <Typography variant="h6" fontWeight="bold">{trace.distance}km</Typography>
+                        <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
+                        <Typography variant="h6" sx={{ color: 'warning.main', fontWeight: 'bold' }}>
+                            {'★'.repeat(trace.quality)}
+                        </Typography>
+                    </Stack>
+                </Box>
+            </Paper>
 
-            <div className={styles.content}>
-                <div className={styles.main}>
-                    <p className={styles.description}>{trace.description}</p>
+            <Grid container spacing={4}>
+                {/* Main Content */}
+                <Grid size={{ xs: 12, md: 8 }}>
+                    <Box sx={{ mb: 4 }}>
+                        <Typography variant="body1" paragraph color="text.secondary" sx={{ fontSize: '1.1rem', whiteSpace: 'pre-line' }}>
+                            {trace.description}
+                        </Typography>
 
-                    <div className={styles.actions}>
-                        {trace.mapUrl && (
-                            <a href={trace.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                                View Interactive Map
-                            </a>
+                        <Stack direction="row" spacing={2} sx={{ my: 3 }}>
+                            {trace.mapUrl && (
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    href={trace.mapUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    View Interactive Map
+                                </Button>
+                            )}
+
+                            {trace.photoAlbumUrl && (
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    href={trace.photoAlbumUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    sx={{ bgcolor: '#4285f4', '&:hover': { bgcolor: '#3367d6' } }}
+                                    startIcon={<span>📸</span>}
+                                >
+                                    View Photo Album
+                                </Button>
+                            )}
+                        </Stack>
+
+                        {/* Photo Previews */}
+                        {trace.photoPreviews && trace.photoPreviews.length > 0 && (
+                            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 2, mb: 4 }}>
+                                {trace.photoPreviews.map((url, i) => (
+                                    <Box
+                                        key={i}
+                                        component="a"
+                                        href={trace.photoAlbumUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        sx={{
+                                            borderRadius: 2,
+                                            overflow: 'hidden',
+                                            aspectRatio: '1',
+                                            display: 'block',
+                                            '&:hover': { opacity: 0.9 }
+                                        }}
+                                    >
+                                        <img
+                                            src={url}
+                                            alt={`Ride preview ${i + 1}`}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            loading="lazy"
+                                        />
+                                    </Box>
+                                ))}
+                            </Box>
                         )}
-
-                        {trace.photoAlbumUrl && (
-                            <a href={trace.photoAlbumUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ background: '#4285f4' }}>
-                                📸 View Photo Album
-                            </a>
-                        )}
-                    </div>
-
-                    {/* Photo Previews */}
-                    {trace.photoPreviews && trace.photoPreviews.length > 0 && (
-                        <div className={styles.photoGrid}>
-                            {trace.photoPreviews.map((url, i) => (
-                                <a key={i} href={trace.photoAlbumUrl} target="_blank" rel="noopener noreferrer">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={url}
-                                        alt={`Ride preview ${i + 1}`}
-                                        className={styles.photoPreview}
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer"
-                                    />
-                                </a>
-                            ))}
-                        </div>
-                    )}
-
-
+                    </Box>
 
                     {/* Feedback List */}
-                    <div className={styles.commentsSection}>
-                        <h3>Community Feedback</h3>
+                    <Box sx={{ mt: 6 }}>
+                        <Typography variant="h5" gutterBottom fontWeight="bold">Community Feedback</Typography>
                         <FeedbackList feedbackList={feedbackList} members={members} />
-                    </div>
-                </div>
+                    </Box>
+                </Grid>
 
-                <div className={styles.sidebar}>
-                    <div className={styles.feedbackBox}>
-                        <h3>Ride Feedback</h3>
-                        <p className={styles.feedbackHint}>Ridden this route? Let the club know.</p>
-
-                        <Suspense fallback={<div>Loading form...</div>}>
-                            <FeedbackForm
-                                traceId={trace.id}
-                                members={members}
-                                feedbackList={feedbackList}
-                                onSubmit={addFeedback}
-                            />
-                        </Suspense>
-                    </div>
-                    {/* Admin Section (Simplified, no auth for now as per request) */}
-                    <div className={styles.adminBox}>
-                        <h3>Admin Tools</h3>
-                        <p className={styles.feedbackHint}>Update Map Preview (jpg url)</p>
-                        <form action={uploadMapPreview} className={styles.form}>
-                            <input type="hidden" name="traceId" value={trace.id} />
-                            <div className={styles.formGroup}>
-                                <input
-                                    type="url"
-                                    name="imageUrl"
-                                    placeholder="https://example.com/map.jpg"
-                                    className={styles.input}
-                                    required
+                {/* Sidebar */}
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <Stack spacing={3}>
+                        <Paper sx={{ p: 3, borderRadius: 2 }} variant="outlined">
+                            <Typography variant="h6" gutterBottom>Ride Feedback</Typography>
+                            <Typography variant="body2" color="text.secondary" paragraph>
+                                Ridden this route? Let the club know.
+                            </Typography>
+                            <Suspense fallback={<div>Loading form...</div>}>
+                                <FeedbackForm
+                                    traceId={trace.id}
+                                    members={members}
+                                    feedbackList={feedbackList}
+                                    onSubmit={addFeedback}
                                 />
-                            </div>
-                            <button type="submit" className={styles.btnSecondary}>Update Cover Image</button>
-                        </form>
+                            </Suspense>
+                        </Paper>
 
-                        <div className={styles.divider} style={{ margin: '1rem 0' }}>Or</div>
+                        {/* Admin Tools */}
+                        <Paper sx={{ p: 3, borderRadius: 2, bgcolor: 'action.hover' }} variant="outlined">
+                            <Typography variant="h6" gutterBottom>Admin Tools</Typography>
+                            <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
+                                Update Map Preview (jpg url)
+                            </Typography>
 
-                        <form action={generateMapPreview} className={styles.form}>
-                            <input type="hidden" name="traceId" value={trace.id} />
-                            <button type="submit" className={styles.btnSecondary}>
-                                ✨ Auto-Generate from Komoot
-                            </button>
-                        </form>
-                    </div>
+                            <form action={uploadMapPreview}>
+                                <input type="hidden" name="traceId" value={trace.id} />
+                                <Stack spacing={2}>
+                                    <TextField
+                                        size="small"
+                                        name="imageUrl"
+                                        placeholder="https://example.com/map.jpg"
+                                        fullWidth
+                                        required
+                                        variant="outlined"
+                                        InputProps={{ sx: { bgcolor: 'background.paper' } }}
+                                    />
+                                    <Button type="submit" variant="outlined" size="small" fullWidth>
+                                        Update Cover Image
+                                    </Button>
+                                </Stack>
+                            </form>
 
-                </div>
-            </div>
-        </div>
+                            <Divider sx={{ my: 2 }}>Or</Divider>
+
+                            <form action={generateMapPreview}>
+                                <input type="hidden" name="traceId" value={trace.id} />
+                                <Button type="submit" variant="outlined" size="small" fullWidth startIcon={<span>✨</span>}>
+                                    Auto-Generate from Komoot
+                                </Button>
+                            </form>
+                        </Paper>
+                    </Stack>
+                </Grid>
+            </Grid>
+        </Container>
     );
 }

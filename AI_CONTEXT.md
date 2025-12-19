@@ -7,7 +7,9 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 - **Framework**: Next.js 16.0.8 (App Router)
 - **Language**: TypeScript (Strict Mode)
 - **Database**: Notion API (via custom fetch wrapper)
-- **Styling**: CSS Modules (`*.module.css`) + Global CSS variables
+- **Styling**: Material UI v6 (`@mui/material`), `@emotion/react`, CSS Modules (legacy support).
+- **Icons**: `@mui/icons-material`
+- **Theme**: Dark Mode enabled, Custom `ThemeRegistry` using Roboto font.
 - **Build Tool**: Turbopack
 - **Hosting environment**: Node.js (Vercel-compatible)
 
@@ -17,13 +19,18 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 /app
   /actions.ts         # Server Actions for mutations (Votes, Rides, Feedback)
   /components/        # Reusable UI components (Client & Server)
+    Navbar.tsx        # Client Component for AppBar/Navigation
+    HeroActions.tsx   # Client Component for Landing Page interactions
   /lib/
-    notion.ts         # CORE DATA LAYER: Handles all Notion API fetching & mapping
+    notion.ts         # CORE DATA LAYER: Fetching & Mapping (incl. new 'Direction' field)
   /saturday-ride/     # Feature: Weekly voting system
   /traces/            # Feature: Route browsing and details
+    FilterPanel.tsx   # Responsive Drawer for filtering traces
+    TraceCard.tsx     # Enhanced card with visual hover effects & overlay stats
   /types.ts           # Global TypeScript interfaces
-  layout.tsx          # Root layout (Metadata, Navigation)
+  layout.tsx          # Root layout (MUI Theme Registry, Navbar)
   page.tsx            # Landing page
+  ThemeRegistry.tsx   # Material UI Theme provider & configuration
 ```
 
 ## Business Logic & Core Flows
@@ -32,9 +39,11 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 - **Goal**: Catalog valid cycling routes.
 - **Data**: Stored in Notion "Traces" DB.
 - **Features**:
-  - browsing traces with stats (Distance, Elevation, Surface).
+  - browsing traces with stats (Distance, Elevation, Surface, Direction).
+  - Advanced Filtering: Sidebar Drawer (Distance, Elevation, Ratings, etc.).
   - viewing details (Map URL, GPX link).
   - "Google Photos" integration (scraping album previews).
+  - **UI**: Cards with image overlays for ratings, hover effects, and responsive tag layout.
 
 ### 2. Saturday Ride (Voting System)
 - **Goal**: democratic choice of the weekly ride.
