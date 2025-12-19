@@ -44,6 +44,11 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                     <StarIcon className={`h-3 w-3 ${ratingColorClass}`} />
                     {trace.quality}
                 </div>
+                {trace.direction && (
+                    <div className="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-gray-900/60 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm border border-white/20">
+                        {trace.direction}
+                    </div>
+                )}
                 {props.imageOverlay}
             </div>
             <div className="flex flex-1 flex-col p-4 space-y-2">
