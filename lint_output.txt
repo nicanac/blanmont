@@ -1,0 +1,151 @@
+
+> sidereal-satellite@0.1.0 lint
+> eslint
+
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\app\EmotionCache.tsx
+  7:15  warning  'EmotionCache' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\app\layout.tsx
+  4:8  warning  'styles' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\app\lib\notion.ts
+   30:71   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   73:40   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   81:49   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  115:37   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  227:21   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  232:25   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  272:40   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  333:24   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  407:121  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  419:25   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  421:72   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  486:44   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\app\traces\TraceList.tsx
+  57:13  error  'result' is never reassigned. Use 'const' instead  prefer-const
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\app\traces\[id]\FeedbackForm.tsx
+  45:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\app\traces\[id]\FeedbackForm.tsx:45:13
+  43 |     useEffect(() => {
+  44 |         if (editMemberId) {
+> 45 |             handleMemberChange(editMemberId);
+     |             ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  46 |             // Optionally clean up URL
+  47 |             const params = new URLSearchParams(window.location.search);
+  48 |             params.delete('editMemberId');  react-hooks/set-state-in-effect
+  51:8   warning  React Hook useEffect has missing dependencies: 'handleMemberChange' and 'router'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\app\traces\[id]\page.tsx
+  175:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-access.js
+   1:20  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   2:1   error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  16:25  warning  'e' is defined but never used            @typescript-eslint/no-unused-vars
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-count-traces.js
+  1:1  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-data.js
+  1:9   warning  'Client' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:20  error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  2:1   error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-notion-2.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-notion-3.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-notion-4.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-notion-5.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-notion.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-schema-keys.js
+  1:1  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-schema.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-state.js
+  1:1  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\debug-trace.js
+  1:1  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\extract-photos.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\find-feedback-db.js
+  1:9   warning  'Client' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:20  error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  2:1   error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\inspect-db-simple.js
+  1:9   warning  'Client' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:20  error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  2:1   error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\inspect-db.js
+  1:9   warning  'Client' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:20  error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  2:1   error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\inspect-feedback-db.js
+  1:9   warning  'Client' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:20  error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  2:1   error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\inspect-page.js
+  1:9   warning  'Client' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:20  error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  2:1   error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\inspect-photos.js
+  1:1  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\repro-error.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\repro-fetch.js
+  1:9   warning  'Client' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  1:20  error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  2:1   error    A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\repro-inspect.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\repro-search.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\test-photo-extraction.js
+  1:1  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\verify-fix.js
+  1:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\bruye\.gemini\antigravity\playground\sidereal-satellite\debug-scripts\verify-trace-db-id.js
+  1:1  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+✖ 64 problems (52 errors, 12 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+

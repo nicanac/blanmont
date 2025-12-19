@@ -162,7 +162,8 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
     photoUrl: photoUrl,
     photoAlbumUrl: photoAlbumUrl,
     start: props.start?.select?.name,
-    end: props.end?.select?.name
+    end: props.end?.select?.name,
+    direction: props.Direction?.select?.name || props.Direction?.rich_text?.[0]?.plain_text || undefined
   };
 };
 

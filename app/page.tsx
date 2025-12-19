@@ -1,5 +1,7 @@
-import Link from 'next/link';
-import styles from './page.module.css';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import HeroActions from './components/HeroActions';
 
 /**
  * The Landing Page (Home).
@@ -7,24 +9,33 @@ import styles from './page.module.css';
  */
 export default function Home() {
   return (
-    <div className={styles.hero}>
-      <div className="container">
-        <h1 className={styles.title}>
+    <Box
+      sx={{
+        bgcolor: 'background.default',
+        pt: 15,
+        pb: 6,
+        background: 'radial-gradient(circle at 50% 20%, rgba(224, 62, 62, 0.15) 0%, rgba(0,0,0,0) 50%)',
+      }}
+    >
+      <Container maxWidth="md">
+        <Typography
+          component="h1"
+          variant="h2"
+          align="center"
+          color="text.primary"
+          gutterBottom
+          sx={{ fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1 }}
+        >
           RIDE BEYOND<br />
-          <span className={styles.highlight}>THE HORIZON</span>
-        </h1>
-        <p className={styles.subtitle}>
+          <Typography component="span" variant="inherit" color="primary">
+            THE HORIZON
+          </Typography>
+        </Typography>
+        <Typography variant="h5" align="center" color="text.secondary" paragraph sx={{ mt: 3, mb: 5, maxWidth: '600px', mx: 'auto' }}>
           Join the premier road cycling community. Explore curated traces, connect with riders, and push your limits.
-        </p>
-        <div className={styles.ctaGroup}>
-          <Link href="/traces" className="btn-primary">
-            Explore Traces
-          </Link>
-          <Link href="/members" className={styles.secondaryLink}>
-            Meet the Team →
-          </Link>
-        </div>
-      </div>
-    </div>
+        </Typography>
+        <HeroActions />
+      </Container>
+    </Box>
   );
 }
