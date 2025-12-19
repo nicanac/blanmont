@@ -31,7 +31,7 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
     if (feedbackList.length === 0) {
         return (
             <Typography variant="body1" color="text.secondary" fontStyle="italic">
-                No feedback yet. Be the first!
+                Aucun commentaire pour l'instant. Soyez le premier !
             </Typography>
         );
     }

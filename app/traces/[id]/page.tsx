@@ -102,9 +102,9 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                 >
                     <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
                         <Chip label={trace.surface} color="primary" size="small" />
-                        {trace.start && <Chip label={`Start: ${trace.start}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
-                        {trace.end && <Chip label={`End: ${trace.end}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
-                        {trace.direction && <Chip label={`Dir: ${trace.direction}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
+                        {trace.start && <Chip label={`Départ : ${trace.start}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
+                        {trace.end && <Chip label={`Arrivée : ${trace.end}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
+                        {trace.direction && <Chip label={`Dir : ${trace.direction}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
                     </Stack>
                     <Typography variant="h3" component="h1" fontWeight="800" color="white" gutterBottom>
                         {trace.name}
@@ -136,7 +136,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    View Interactive Map
+                                    Voir la carte interactive
                                 </Button>
                             )}
 
@@ -150,7 +150,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                                     sx={{ bgcolor: '#4285f4', '&:hover': { bgcolor: '#3367d6' } }}
                                     startIcon={<span>📸</span>}
                                 >
-                                    View Photo Album
+                                    Voir l'album photo
                                 </Button>
                             )}
                         </Stack>
@@ -187,7 +187,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
 
                     {/* Feedback List */}
                     <Box sx={{ mt: 6 }}>
-                        <Typography variant="h5" gutterBottom fontWeight="bold">Community Feedback</Typography>
+                        <Typography variant="h5" gutterBottom fontWeight="bold">Commentaires de la communauté</Typography>
                         <FeedbackList feedbackList={feedbackList} members={members} />
                     </Box>
                 </Grid>
@@ -196,9 +196,9 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Stack spacing={3}>
                         <Paper sx={{ p: 3, borderRadius: 2 }} variant="outlined">
-                            <Typography variant="h6" gutterBottom>Ride Feedback</Typography>
+                            <Typography variant="h6" gutterBottom>Donnez votre avis</Typography>
                             <Typography variant="body2" color="text.secondary" paragraph>
-                                Ridden this route? Let the club know.
+                                Vous avez roulé ce parcours ? Partagez votre expérience avec le club.
                             </Typography>
                             <Suspense fallback={<div>Loading form...</div>}>
                                 <FeedbackForm
@@ -212,9 +212,9 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
 
                         {/* Admin Tools */}
                         <Paper sx={{ p: 3, borderRadius: 2, bgcolor: 'action.hover' }} variant="outlined">
-                            <Typography variant="h6" gutterBottom>Admin Tools</Typography>
+                            <Typography variant="h6" gutterBottom>Outils Admin</Typography>
                             <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
-                                Update Map Preview (jpg url)
+                                Mettre à jour l'aperçu de la carte (url jpg)
                             </Typography>
 
                             <form action={uploadMapPreview}>
@@ -230,7 +230,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                                         InputProps={{ sx: { bgcolor: 'background.paper' } }}
                                     />
                                     <Button type="submit" variant="outlined" size="small" fullWidth>
-                                        Update Cover Image
+                                        Mettre à jour l'image de couverture
                                     </Button>
                                 </Stack>
                             </form>
@@ -240,7 +240,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                             <form action={generateMapPreview}>
                                 <input type="hidden" name="traceId" value={trace.id} />
                                 <Button type="submit" variant="outlined" size="small" fullWidth startIcon={<span>✨</span>}>
-                                    Auto-Generate from Komoot
+                                    Générer depuis Komoot
                                 </Button>
                             </form>
                         </Paper>

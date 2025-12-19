@@ -7,23 +7,22 @@ import NextAppDirEmotionCacheProvider from './EmotionCache';
 
 const theme = createTheme({
     palette: {
-        mode: 'dark', // Matching the existing dark theme
+        mode: 'light',
         primary: {
-            main: '#e03e3e', // Brand primary color
+            main: '#e03e3e', // Red (Jersey Color)
         },
         background: {
-            default: '#111', // Dark background
-            paper: '#1a1a1a', // Secondary background
+            default: '#f3f4f6', // Tailwind gray-100
+            paper: '#ffffff',
         },
         text: {
-            primary: '#fff',
-            secondary: '#aaa',
+            primary: '#111827', // Tailwind gray-900
+            secondary: '#6b7280', // Tailwind gray-500
         }
     },
-
-    // typography: {
-    //     fontFamily: 'var(--font-geist-sans), sans-serif',
-    // },
+    typography: {
+        fontFamily: ['var(--font-poppins)', 'sans-serif'].join(','),
+    },
     components: {
         MuiButton: {
             styleOverrides: {
@@ -38,8 +37,14 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     borderRadius: 12,
-                    backgroundImage: 'none', // Remove default gradient in dark mode
-                    backgroundColor: '#1a1a1a',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)', // Tailwind shadow-sm/md approximation
+                }
+            }
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundImage: 'none',
                 }
             }
         }

@@ -6,84 +6,76 @@ import { Feedback, Member } from '../../types';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
+import { useAuth } from '../../context/AuthContext';
+import Link from 'next/link';
 
 interface FeedbackFormProps {
     traceId: string;
-    members: Member[];
+    members?: Member[]; // Made optional, as we might not need it anymore
     feedbackList: Feedback[];
     onSubmit: (formData: FormData) => Promise<void>;
 }
 
-export default function FeedbackForm({ traceId, members, feedbackList, onSubmit }: FeedbackFormProps) {
-    const [selectedMemberId, setSelectedMemberId] = useState<string>('');
+export default function FeedbackForm({ traceId, feedbackList, onSubmit }: FeedbackFormProps) {
+    const { user, isAuthenticated } = useAuth();
     const [existingFeedback, setExistingFeedback] = useState<Feedback | null>(null);
     const [rating, setRating] = useState<number | null>(5);
 
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const editMemberId = searchParams.get('editMemberId');
-
-    const handleMemberChange = (memberId: string) => {
-        setSelectedMemberId(memberId);
-        const found = feedbackList.find(f => f.memberId === memberId && f.traceId === traceId);
-        setExistingFeedback(found || null);
-        if (found) {
-            setRating(found.rating);
-        } else {
-            setRating(5); // Default
-        }
-    };
-
-    // Check for edit params
+    // Initial check for existing feedback
     useEffect(() => {
-        if (editMemberId && feedbackList.length > 0) {
-            // Logic moved inline to avoid dependency cycle
-            const found = feedbackList.find(f => f.memberId === editMemberId && f.traceId === traceId);
-            setSelectedMemberId(editMemberId);
+        if (isAuthenticated && user?.id) {
+            const found = feedbackList.find(f => f.memberId === user.id && f.traceId === traceId);
             setExistingFeedback(found || null);
             if (found) {
                 setRating(found.rating);
-            } else {
-                setRating(5);
             }
-
-            // Clean up URL
-            const params = new URLSearchParams(window.location.search);
-            params.delete('editMemberId');
-            router.replace(`?${params.toString()}`, { scroll: false });
         }
-    }, [editMemberId, feedbackList, router, traceId]);
+    }, [isAuthenticated, user?.id, feedbackList, traceId]);
 
+
+    if (!isAuthenticated) {
+        return (
+            <Box sx={{ py: 4, textAlign: 'center', bgcolor: 'background.paper', borderRadius: 2 }}>
+                <Typography variant="body1" gutterBottom sx={{ fontWeight: 500 }}>
+                    Connexion Requise
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    Veuillez vous connecter pour laisser un commentaire.
+                </Typography>
+                <Link href="/login" style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" color="primary" sx={{ bgcolor: '#e03e3e', '&:hover': { bgcolor: '#c92a2a' } }}>
+                        Se connecter
+                    </Button>
+                </Link>
+            </Box>
+        );
+    }
 
     return (
         <form action={onSubmit} id="feedback-form">
             <input type="hidden" name="traceId" value={traceId} />
+            {/* Automatically include the logged-in user's ID */}
+            <input type="hidden" name="memberId" value={user?.id || ''} />
+
             {existingFeedback && <input type="hidden" name="feedbackId" value={existingFeedback.id} />}
 
             <Stack spacing={2}>
-                <TextField
-                    select
-                    label="Select Member"
-                    name="memberId"
-                    value={selectedMemberId}
-                    onChange={(e) => handleMemberChange(e.target.value)}
-                    required
-                    fullWidth
-                    size="small"
-                >
-                    <MenuItem value=""><em>Select...</em></MenuItem>
-                    {members.map(m => (
-                        <MenuItem key={m.id} value={m.id}>{m.name}</MenuItem>
-                    ))}
-                </TextField>
+                {/* Display friendly greeting instead of selector */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                        Publié en tant que :
+                    </Typography>
+                    <Typography variant="subtitle2" fontWeight="bold">
+                        {user?.name}
+                    </Typography>
+                </Box>
 
                 <Box>
-                    <Typography component="legend">Rating</Typography>
+                    <Typography component="legend">Note</Typography>
                     <Rating
                         name="rating"
                         value={rating}
@@ -94,12 +86,12 @@ export default function FeedbackForm({ traceId, members, feedbackList, onSubmit 
                 </Box>
 
                 <TextField
-                    label="Comment"
+                    label="Commentaire"
                     name="comment"
                     multiline
                     rows={4}
                     defaultValue={existingFeedback?.comment || ''}
-                    key={existingFeedback ? existingFeedback.id : 'new'} // Force re-render on switch
+                    key={existingFeedback ? existingFeedback.id : 'new'}
                     required
                     fullWidth
                     variant="outlined"
@@ -108,12 +100,12 @@ export default function FeedbackForm({ traceId, members, feedbackList, onSubmit 
 
                 {existingFeedback && (
                     <Alert severity="info" sx={{ '& .MuiAlert-message': { width: '100%' } }}>
-                        You have already reviewed this trace. Submitting again will update your feedback.
+                        Vous avez déjà noté ce parcours. Soumettre à nouveau mettra à jour votre avis.
                     </Alert>
                 )}
 
-                <Button type="submit" variant="contained" fullWidth>
-                    {existingFeedback ? 'Update Feedback' : 'Submit Feedback'}
+                <Button type="submit" variant="contained" fullWidth sx={{ bgcolor: '#e03e3e', '&:hover': { bgcolor: '#c92a2a' } }}>
+                    {existingFeedback ? 'Mettre à jour l\'avis' : 'Envoyer l\'avis'}
                 </Button>
             </Stack>
         </form>
