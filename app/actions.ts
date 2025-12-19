@@ -99,3 +99,17 @@ export async function submitVoteAction(rideId: string, memberId: string, traceId
     await submitVote(rideId, memberId, traceId);
     revalidatePath('/saturday-ride');
 }
+
+import { validateUser } from './lib/notion';
+
+/**
+ * Server Action to validate user credentials.
+ * 
+ * @param email - The email.
+ * @param password - The password.
+ * @returns The Member object if valid, or null.
+ */
+export async function loginAction(email: string, password: string) {
+  if (!email || !password) return null;
+  return await validateUser(email, password);
+}
