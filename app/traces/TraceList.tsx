@@ -35,13 +35,14 @@ export default function TraceList({ initialTraces }: TraceListProps) {
     const ranges = useMemo(() => {
         if (initialTraces.length === 0) return {
             minDist: 0, maxDist: 100, minElev: 0, maxElev: 1000,
-            starts: [], surfaces: []
+            starts: [], surfaces: [], directions: []
         };
 
         const dists = initialTraces.map(t => t.distance);
         const elevs = initialTraces.map(t => t.elevation || 0);
         const starts = Array.from(new Set(initialTraces.map(t => t.start).filter(Boolean) as string[])).sort();
         const surfaces = Array.from(new Set(initialTraces.map(t => t.surface))).sort();
+        const directions = Array.from(new Set(initialTraces.map(t => t.direction).filter(Boolean) as string[])).sort();
 
         return {
             minDist: Math.floor(Math.min(...dists) / 10) * 10,
@@ -49,7 +50,8 @@ export default function TraceList({ initialTraces }: TraceListProps) {
             minElev: 0,
             maxElev: Math.ceil(Math.max(...elevs) / 100) * 100,
             starts,
-            surfaces
+            surfaces,
+            directions
         };
     }, [initialTraces]);
 
@@ -60,6 +62,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
         maxElev: ranges.maxElev,
         selectedStarts: [],
         selectedSurfaces: [],
+        selectedDirections: [],
         minQuality: 0
     });
 
@@ -70,6 +73,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
             if (elev < filters.minElev || elev > filters.maxElev) return false;
             if (filters.selectedStarts.length > 0 && (!trace.start || !filters.selectedStarts.includes(trace.start))) return false;
             if (filters.selectedSurfaces.length > 0 && !filters.selectedSurfaces.includes(trace.surface)) return false;
+            if (filters.selectedDirections.length > 0 && (!trace.direction || !filters.selectedDirections.includes(trace.direction))) return false;
             if (filters.minQuality > 0 && trace.quality < filters.minQuality) return false;
             return true;
         });
@@ -182,6 +186,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                     maxElev={ranges.maxElev}
                                     availableStarts={ranges.starts}
                                     availableSurfaces={ranges.surfaces}
+                                    availableDirections={ranges.directions}
                                     filters={filters}
                                     onFilterChange={setFilters}
                                     mobileFiltersOpen={mobileFiltersOpen}
@@ -204,7 +209,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                             onClick={() => setFilters({
                                                 minDist: ranges.minDist, maxDist: ranges.maxDist,
                                                 minElev: ranges.minElev, maxElev: ranges.maxElev,
-                                                selectedStarts: [], selectedSurfaces: [], minQuality: 0
+                                                selectedStarts: [], selectedSurfaces: [], selectedDirections: [], minQuality: 0
                                             })}
                                             className="mt-4 text-red-600 font-semibold"
                                         >
