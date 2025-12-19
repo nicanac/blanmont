@@ -12,6 +12,7 @@ export interface FilterState {
     maxElev: number;
     selectedStarts: string[];
     selectedSurfaces: string[];
+    selectedDirections: string[];
     minQuality: number;
 }
 
@@ -22,6 +23,7 @@ interface FilterPanelProps {
     maxElev: number;
     availableStarts: string[];
     availableSurfaces: string[];
+    availableDirections: string[];
     filters: FilterState;
     onFilterChange: (filters: FilterState) => void;
     mobileFiltersOpen: boolean;
@@ -33,13 +35,14 @@ export default function FilterPanel({
     minElev, maxElev,
     availableStarts,
     availableSurfaces,
+    availableDirections,
     filters,
     onFilterChange,
     mobileFiltersOpen,
     setMobileFiltersOpen
 }: FilterPanelProps) {
 
-    const handleCheckboxChange = (key: 'selectedStarts' | 'selectedSurfaces', value: string) => {
+    const handleCheckboxChange = (key: 'selectedStarts' | 'selectedSurfaces' | 'selectedDirections', value: string) => {
         const current = filters[key];
         const updated = current.includes(value)
             ? current.filter(item => item !== value)
@@ -55,8 +58,13 @@ export default function FilterPanel({
         },
         {
             id: 'start',
-            name: 'Start Location',
+            name: 'Départ',
             options: availableStarts.map(s => ({ value: s, label: s, checked: filters.selectedStarts.includes(s) }))
+        },
+        {
+            id: 'direction',
+            name: 'Direction',
+            options: availableDirections.map(s => ({ value: s, label: s, checked: filters.selectedDirections.includes(s) }))
         },
     ];
 
@@ -157,7 +165,12 @@ export default function FilterPanel({
                                                                         defaultValue={option.value}
                                                                         type="checkbox"
                                                                         defaultChecked={option.checked}
-                                                                        onChange={() => handleCheckboxChange(section.id === 'surface' ? 'selectedSurfaces' : 'selectedStarts', option.value)}
+                                                                        onChange={() => handleCheckboxChange(
+                                                                            section.id === 'surface' ? 'selectedSurfaces' :
+                                                                                section.id === 'direction' ? 'selectedDirections' :
+                                                                                    'selectedStarts',
+                                                                            option.value
+                                                                        )}
                                                                         className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
                                                                     />
                                                                     <label
@@ -183,7 +196,7 @@ export default function FilterPanel({
 
             {/* Desktop Filters */}
             <div className="hidden lg:block">
-                <form className="space-y-10 divide-y divide-gray-200">
+                <form className="space-y-10">
 
                     {/* Distance Desktop */}
                     <div>
@@ -205,7 +218,7 @@ export default function FilterPanel({
                     </div>
 
                     {/* Elevation Desktop */}
-                    <div className="pt-10">
+                    <div className="pt-6">
                         <h3 className="text-sm font-medium text-gray-900 mb-4">Max Elevation</h3>
                         <div className="px-1">
                             <div className="flex justify-between text-xs text-gray-500 mb-2">
@@ -223,33 +236,53 @@ export default function FilterPanel({
                         </div>
                     </div>
 
-                    {sections.map((section, sectionIdx) => (
-                        <div key={section.id} className="pt-10">
-                            <fieldset>
-                                <legend className="block text-sm font-medium text-gray-900">{section.name}</legend>
-                                <div className="space-y-3 pt-6">
-                                    {section.options.map((option, optionIdx) => (
-                                        <div key={option.value} className="flex items-center">
-                                            <input
-                                                id={`filter-${section.id}-${optionIdx}`}
-                                                name={`${section.id}[]`}
-                                                defaultValue={option.value}
-                                                type="checkbox"
-                                                defaultChecked={option.checked}
-                                                onChange={() => handleCheckboxChange(section.id === 'surface' ? 'selectedSurfaces' : 'selectedStarts', option.value)}
-                                                className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
-                                            />
-                                            <label
-                                                htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                className="ml-3 text-sm text-gray-600"
-                                            >
-                                                {option.label}
-                                            </label>
+                    {sections.map((section) => (
+                        <Disclosure as="div" key={section.id} className="border-t border-gray-200 pt-6" defaultOpen={true}>
+                            {({ open }) => (
+                                <>
+                                    <h3 className="-mx-2 -my-3 flow-root cursor-pointer">
+                                        <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                                            <span className="font-medium text-gray-900">{section.name}</span>
+                                            <span className="ml-6 flex items-center">
+                                                {open ? (
+                                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                ) : (
+                                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                                )}
+                                            </span>
+                                        </Disclosure.Button>
+                                    </h3>
+                                    <Disclosure.Panel className="pt-3">
+                                        <div className="space-y-2">
+                                            {section.options.map((option, optionIdx) => (
+                                                <div key={option.value} className="flex items-center">
+                                                    <input
+                                                        id={`filter-${section.id}-${optionIdx}`}
+                                                        name={`${section.id}[]`}
+                                                        defaultValue={option.value}
+                                                        type="checkbox"
+                                                        defaultChecked={option.checked}
+                                                        onChange={() => handleCheckboxChange(
+                                                            section.id === 'surface' ? 'selectedSurfaces' :
+                                                                section.id === 'direction' ? 'selectedDirections' :
+                                                                    'selectedStarts',
+                                                            option.value
+                                                        )}
+                                                        className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500 cursor-pointer"
+                                                    />
+                                                    <label
+                                                        htmlFor={`filter-${section.id}-${optionIdx}`}
+                                                        className="ml-3 min-w-0 flex-1 text-gray-500 cursor-pointer"
+                                                    >
+                                                        {option.label}
+                                                    </label>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </fieldset>
-                        </div>
+                                    </Disclosure.Panel>
+                                </>
+                            )}
+                        </Disclosure>
                     ))}
 
                     <div className="pt-10">
@@ -262,6 +295,7 @@ export default function FilterPanel({
                                 maxElev: maxElev,
                                 selectedStarts: [],
                                 selectedSurfaces: [],
+                                selectedDirections: [],
                                 minQuality: 0
                             })}
                             className="text-sm font-medium text-red-600 hover:text-red-500"
