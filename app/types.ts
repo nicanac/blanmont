@@ -12,6 +12,8 @@ export interface Member {
   bio: string;
   /** URL to the member's profile photo. */
   photoUrl: string;
+  /** Email address of the member. */
+  email?: string;
 }
 
 /**

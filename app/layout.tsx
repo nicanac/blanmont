@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import Link from 'next/link';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-poppins',
+});
 
 
 
@@ -16,10 +19,12 @@ import Link from 'next/link';
  * @param children - The page content to render.
  */
 import ThemeRegistry from './ThemeRegistry';
+import { AuthProvider } from './context/AuthContext';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 
 export const metadata: Metadata = {
@@ -40,21 +45,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className={`h-full bg-white ${poppins.variable} font-sans`}>
         <ThemeRegistry>
-          <Navbar />
+          <AuthProvider>
+            <Navbar />
 
-          <Box component="main" sx={{ minHeight: '80vh' }}>
-            {children}
-          </Box>
+            <Box component="main" sx={{ minHeight: '80vh' }}>
+              {children}
+            </Box>
 
-          <Box component="footer" sx={{ py: 3, borderTop: '1px solid rgba(255,255,255,0.1)', mt: 'auto' }}>
-            <Container maxWidth="lg">
-              <Typography variant="body2" color="text.secondary" align="center">
-                © {new Date().getFullYear()} Blanmont Cycling Club. Ride On.
-              </Typography>
-            </Container>
-          </Box>
+            <div className="mt-auto">
+              <Footer />
+            </div>
+          </AuthProvider>
         </ThemeRegistry>
       </body>
     </html>

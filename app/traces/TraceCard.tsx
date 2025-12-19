@@ -3,230 +3,98 @@
 import Link from 'next/link';
 import { Trace } from '../types';
 import { stripSuffix } from '../utils/string.utils';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import TerrainIcon from '@mui/icons-material/Terrain';
-import PlaceIcon from '@mui/icons-material/Place';
-import StarIcon from '@mui/icons-material/Star';
-import StraightenIcon from '@mui/icons-material/Straighten';
-import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
-import DownloadIcon from '@mui/icons-material/Download';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ExploreIcon from '@mui/icons-material/Explore';
+import { MapPinIcon, RocketLaunchIcon, ArrowDownTrayIcon, StarIcon } from '@heroicons/react/20/solid';
 
 interface TraceCardProps {
     trace: Trace;
+    className?: string;
+    children?: React.ReactNode;
+    footer?: React.ReactNode;
+    imageOverlay?: React.ReactNode;
 }
 
-export default function TraceCard({ trace }: TraceCardProps) {
-    const getKomootEmbedUrl = (url?: string) => {
-        if (!url) return null;
-        const match = url.match(/komoot\.[a-z]+(\/[a-z]{2})?\/tour\/(\d+)/);
-        const matchSimple = url.match(/komoot\.[a-z]+\/tour\/(\d+)/);
-        const tourId = match ? match[2] : (matchSimple ? matchSimple[1] : null);
-        if (tourId) {
-            return `https://www.komoot.com/tour/${tourId}/embed?profile=1`;
-        }
-        return null;
+export default function TraceCard({ trace, ...props }: TraceCardProps) {
+
+    // Get rating color based on quality score (helper for text color or stars)
+    const getRatingColorClass = (quality: number): string => {
+        if (quality > 4) return 'text-green-500';
+        if (quality === 4) return 'text-yellow-500';
+        if (quality === 3) return 'text-yellow-400';
+        return 'text-orange-500';
     };
 
-    // Get rating color based on quality score
-    const getRatingColor = (quality: number): string => {
-        if (quality > 4) {
-            return '#22c55e'; // Green for excellent ratings (5 stars)
-        } else if (quality === 4) {
-            return '#84cc16'; // Yellow-green for good ratings (4 stars)
-        } else if (quality === 3) {
-            return '#eab308'; // Yellow for average ratings (3 stars)
-        } else if (quality === 2) {
-            return '#f97316'; // Orange for below average (2 stars)
-        } else {
-            return '#ef4444'; // Red for poor ratings (1 star)
-        }
-    };
-
-    const embedUrl = getKomootEmbedUrl(trace.mapUrl);
-    const ratingColor = getRatingColor(trace.quality);
+    const ratingColorClass = getRatingColorClass(trace.quality);
 
     return (
-
-        <Card
-            sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                border: '1px solid',
-                borderColor: 'transparent',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                    borderColor: 'primary.main',
-                    boxShadow: 8,
-                    transform: 'translateY(-4px)'
-                }
-            }}
-        >
-            <Box sx={{ position: 'relative' }}>
+        <div className={`group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white ${props.className || ''}`}>
+            <div className="aspect-h-3 aspect-w-4 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-52">
                 {trace.photoUrl ? (
-                    <CardMedia
-                        component="img"
-                        height="200"
-                        image={trace.photoUrl}
+                    <img
+                        src={trace.photoUrl}
                         alt={trace.name}
-                        sx={{ objectFit: 'cover' }}
-                    />
-                ) : embedUrl ? (
-                    <CardMedia
-                        component="iframe"
-                        src={embedUrl || ''}
-                        height="200"
-                        title={`Map of ${trace.name}`}
-                        sx={{ border: 'none' }}
+                        className="h-full w-full object-cover object-center sm:h-full sm:w-full"
                     />
                 ) : (
-                    <CardMedia
-                        component="div"
-                        sx={{ height: 200, bgcolor: '#2a2a2a' }}
-                    />
+                    <div className="h-full w-full flex items-center justify-center bg-gray-100 text-gray-400">
+                        <MapPinIcon className="h-12 w-12" />
+                    </div>
                 )}
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        bottom: 8,
-                        right: 8,
-                        bgcolor: 'rgba(0,0,0,0.8)',
-                        borderRadius: 4,
-                        px: 1,
-                        py: 0.5,
-                        display: 'flex',
-                        alignItems: 'center',
-                        color: ratingColor,
-                        backdropFilter: 'blur(4px)'
-                    }}
-                >
-                    {Array.from({ length: trace.quality }).map((_, i) => (
-                        <StarIcon key={i} fontSize="small" sx={{ fontSize: '1rem' }} />
-                    ))}
-                </Box>
-            </Box>
+                {/* Rating Badge Overlay */}
+                <div className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/60 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                    <StarIcon className={`h-3 w-3 ${ratingColorClass}`} />
+                    {trace.quality}
+                </div>
+                {props.imageOverlay}
+            </div>
+            <div className="flex flex-1 flex-col p-4 space-y-2">
+                <h3 className="text-sm font-medium text-gray-900">
+                    <Link href={`/traces/${trace.id}`}>
+                        <span aria-hidden="true" className="absolute inset-0" />
+                        {stripSuffix(trace.name, '#')}
+                    </Link>
+                </h3>
+                <p className="text-sm text-gray-500 line-clamp-2">{trace.description || "No description provided."}</p>
+                <div className="flex flex-1 flex-col justify-end">
+                    <div className="mt-4 flex items-center justify-between text-sm font-medium text-gray-900">
+                        <div className="flex items-center gap-1">
+                            <span>{trace.distance} km</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-gray-500">
+                            <span>{trace.elevation} m</span>
+                        </div>
+                    </div>
+                    <div className="mt-2 flex items-center gap-2">
+                        <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                            {trace.surface}
+                        </span>
+                        {trace.start && (
+                            <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                                {trace.start}
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </div>
+            {props.children}
 
-            <CardContent sx={{ flexGrow: 1, pt: 2 }}>
-                <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mb: 1.5 }}>
-                    <Chip
-                        icon={<TerrainIcon sx={{ '&&': { color: 'white' }, fontSize: '1rem' }} />}
-                        label={trace.surface}
-                        size="small"
-                        sx={{
-                            bgcolor: ratingColor,
-                            color: 'white',
-                            fontWeight: 600,
-                            height: 24,
-                            '& .MuiChip-icon': { ml: 0.5 }
-                        }}
-                    />
-                    {trace.start && (
-                        <Chip
-                            icon={<PlaceIcon sx={{ fontSize: '1rem' }} />}
-                            label={trace.start}
-                            size="small"
-                            variant="outlined"
-                            sx={{ height: 24 }}
-                        />
-                    )}
-                    {trace.direction && (
-                        <Chip
-                            icon={<ExploreIcon sx={{ fontSize: '1rem' }} />}
-                            label={trace.direction}
-                            size="small"
-                            variant="outlined"
-                            sx={{ height: 24 }}
-                        />
-                    )}
-                </Stack>
-
-                <Typography
-                    component={Link}
-                    href={`/traces/${trace.id}`}
-                    gutterBottom
-                    variant="h6"
-                    sx={{
-                        textDecoration: 'none',
-                        color: 'text.primary',
-                        fontWeight: 700,
-                        display: 'block',
-                        '&:hover': { color: 'primary.main' }
-                    }}
-                >
-                    {stripSuffix(trace.name, '#')}
-                </Typography>
-
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {trace.description || "No description provided."}
-                </Typography>
-
-                <Stack direction="row" spacing={3} sx={{ py: 1, borderTop: 1, borderColor: 'divider' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <StraightenIcon color="action" fontSize="small" />
-                        <Typography variant="h6" component="span" sx={{ fontWeight: 700 }}>
-                            {trace.distance}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ ml: 0.5 }}>
-                            km
-                        </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <VerticalAlignTopIcon color="action" fontSize="small" />
-                        <Typography variant="h6" component="span" sx={{ fontWeight: 700 }}>
-                            {trace.elevation || '-'}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ ml: 0.5 }}>
-                            m
-                        </Typography>
-                    </Box>
-                </Stack>
-            </CardContent>
-
-            <CardActions sx={{ p: 2, pt: 0 }}>
-                <Button
-                    component={Link}
-                    href={`/traces/${trace.id}`}
-                    size="small"
-                    fullWidth
-                    variant="contained"
-                    endIcon={<ArrowForwardIcon />}
-                    sx={{
-                        bgcolor: ratingColor,
-                        '&:hover': { bgcolor: ratingColor, filter: 'brightness(0.9)' }
-                    }}
-                >
-                    Details
-                </Button>
-                {trace.gpxUrl && (
-                    <Button
-                        size="small"
-                        fullWidth
-                        variant="outlined"
-                        component="a"
-                        href={trace.gpxUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        startIcon={<DownloadIcon />}
-                        sx={{
-                            borderColor: 'divider',
-                            color: 'text.primary',
-                            '&:hover': { borderColor: 'text.primary', bgcolor: 'transparent' }
-                        }}
-                    >
-                        GPX
-                    </Button>
-                )}
-            </CardActions>
-        </Card>
+            {
+                props.footer ? (
+                    props.footer
+                ) : (
+                    trace.gpxUrl && (
+                        <div className="border-t border-gray-100 px-4 py-3 bg-gray-50">
+                            <a
+                                href={trace.gpxUrl}
+                                target="_blank"
+                                className="relative z-10 flex items-center justify-center gap-2 text-xs font-semibold text-red-600 hover:text-red-500"
+                                download
+                            >
+                                <ArrowDownTrayIcon className="h-4 w-4" /> Download GPX
+                            </a>
+                        </div>
+                    )
+                )
+            }
+        </div >
     );
 }

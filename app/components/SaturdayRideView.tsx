@@ -1,23 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import Link from 'next/link';
 import { Member, SaturdayRide, Trace, Vote } from '../types';
 import { submitVoteAction } from '../actions';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
+import TraceCard from '../traces/TraceCard';
 
 interface Props {
     traces: Trace[];
@@ -26,33 +15,21 @@ interface Props {
     votes: Vote[];
 }
 
-/**
- * Component for displaying active Saturday Rides and handling member voting.
- * Implements optimistic UI updates for instant voting feedback.
- * 
- * @param traces - List of all available traces (for reference).
- * @param members - List of all club members (for user selection/auth simulation).
- * @param activeRides - List of rides currently open for voting.
- * @param votes - List of all current votes fetched from the server.
- */
+function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+}
+
 export default function SaturdayRideView({ traces, members, activeRides, votes }: Props) {
-    const [currentUser, setCurrentUser] = useState<Member | null>(null);
+    const { user, isAuthenticated } = useAuth();
     const [votingRideIds, setVotingRideIds] = useState<string[]>([]);
     const [optimisticVotes, setOptimisticVotes] = useState<Record<string, { traceId: string, memberId: string }>>({});
 
-    // Derived state
+    const currentUser = user ? members.find(m => m.id === user.id) : null;
     const isAdmin = currentUser?.role.includes('President') || currentUser?.role.includes('Admin');
-
-    const handleUserChange = (memberId: string) => {
-        const member = members.find(m => m.id === memberId) || null;
-        setCurrentUser(member);
-        setOptimisticVotes({}); // Reset local state to ensure no stale data for new user
-    };
 
     const handleVote = async (rideId: string, traceId: string) => {
         if (!currentUser || votingRideIds.includes(rideId)) return;
 
-        // Optimistic update
         const previousOptimistic = optimisticVotes[rideId];
         setOptimisticVotes(prev => ({
             ...prev,
@@ -64,7 +41,6 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
             await submitVoteAction(rideId, currentUser.id, traceId);
         } catch (e) {
             console.error(e);
-            // Revert on failure
             if (previousOptimistic) {
                 setOptimisticVotes(prev => ({ ...prev, [rideId]: previousOptimistic }));
             } else {
@@ -74,63 +50,51 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                     return newState;
                 });
             }
-            alert('Failed to submit vote. Please try again.');
+            alert('Impossible de soumettre le vote. Veuillez réessayer.');
         } finally {
             setVotingRideIds(prev => prev.filter(id => id !== rideId));
         }
     };
 
     return (
-        <Box sx={{ maxWidth: 1000, mx: 'auto', p: 2 }}>
-            <Paper elevation={0} sx={{ p: 3, mb: 4, bgcolor: 'background.paper', borderRadius: 2 }}>
-                <Stack direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="space-between" spacing={2}>
-                    <Typography variant="h4" component="h1" fontWeight="bold">
-                        Saturday Ride Selection
-                    </Typography>
-                    <Box sx={{ minWidth: 250 }}>
-                        <FormControl fullWidth size="small">
-                            <InputLabel>Viewing as</InputLabel>
-                            <Select
-                                value={currentUser?.id || ''}
-                                label="Viewing as"
-                                onChange={(e) => handleUserChange(e.target.value)}
-                            >
-                                <MenuItem value="">Select User...</MenuItem>
-                                {members.map(m => (
-                                    <MenuItem key={m.id} value={m.id}>
-                                        {m.name} {(m.role.includes('President') || m.role.includes('Admin')) ? '(Admin)' : ''}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </Stack>
-            </Paper>
+        <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24 mb-8">
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+                    Choix de la Sortie Samedi
+                </h1>
+            </div>
 
-            {!currentUser && (
-                <Paper sx={{ p: 6, textAlign: 'center', bgcolor: 'transparent', border: '1px dashed rgba(255,255,255,0.2)' }}>
-                    <Typography color="text.secondary">Please select a user above to continue.</Typography>
-                </Paper>
+            {!isAuthenticated && (
+                <div className="rounded-md bg-white p-12 text-center shadow">
+                    <h3 className="mt-2 text-sm font-semibold text-gray-900">Connexion Requise</h3>
+                    <p className="mt-1 text-sm text-gray-500">Veuillez vous connecter pour participer au vote.</p>
+                    <div className="mt-6">
+                        <Link
+                            href="/login"
+                            className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                        >
+                            Se connecter pour voter
+                        </Link>
+                    </div>
+                </div>
             )}
 
             {currentUser && (
                 <>
                     {activeRides.length === 0 ? (
-                        <Box sx={{ textAlign: 'center', py: 8 }}>
-                            <Typography variant="h5" gutterBottom>No Active Voting Sessions</Typography>
-                            <Typography color="text.secondary">
-                                There are currently no rides open for voting.
-                                {!isAdmin && " Check back later!"}
-                            </Typography>
-                        </Box>
+                        <div className="text-center py-12 bg-white rounded-lg shadow">
+                            <h3 className="mt-2 text-sm font-semibold text-gray-900">Aucune session de vote active</h3>
+                            <p className="mt-1 text-sm text-gray-500">
+                                Il n&apos;y a actuellement aucune sortie ouverte au vote.
+                                {!isAdmin && " Revenez plus tard !"}
+                            </p>
+                        </div>
                     ) : (
-                        <Stack spacing={4}>
+                        <div className="space-y-8">
                             {activeRides.map(ride => {
-                                // Calculate votes with optimistic updates
                                 const rideVotes = votes.filter(v => v.rideId === ride.id);
                                 let currentMemberVote = rideVotes.find(v => v.memberId === currentUser.id);
 
-                                // Check for optimistic vote
                                 const optVote = optimisticVotes[ride.id];
                                 if (optVote && optVote.memberId === currentUser.id) {
                                     currentMemberVote = {
@@ -154,13 +118,15 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                 const isVoting = votingRideIds.includes(ride.id);
 
                                 return (
-                                    <Box key={ride.id}>
-                                        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                                            <Typography variant="h5" fontWeight="bold">Vote for Saturday {ride.date}</Typography>
-                                            <Chip label={ride.status} color="primary" size="small" />
-                                        </Box>
+                                    <div key={ride.id}>
+                                        <div className="mb-4 flex items-center gap-4">
+                                            <h2 className="text-xl font-bold text-gray-900">Vote pour le Samedi {ride.date}</h2>
+                                            <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                {ride.status}
+                                            </span>
+                                        </div>
 
-                                        <Grid container spacing={3}>
+                                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                                             {ride.candidateTraceIds.map(traceId => {
                                                 const trace = traces.find(t => t.id === traceId);
                                                 if (!trace) return null;
@@ -169,84 +135,80 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                 const voteCount = voteCounts[traceId] || 0;
 
                                                 return (
-                                                    <Grid size={{ xs: 12, md: 6 }} key={traceId}>
-                                                        <Card
-                                                            variant="outlined"
-                                                            sx={{
-                                                                height: '100%',
-                                                                display: 'flex',
-                                                                flexDirection: 'column',
-                                                                borderColor: isVoted ? 'primary.main' : 'divider',
-                                                                borderWidth: isVoted ? 2 : 1,
-                                                                opacity: (isVoting && !isVoted) ? 0.5 : 1,
-                                                                transition: 'all 0.2s'
-                                                            }}
-                                                        >
-                                                            <CardContent sx={{ flexGrow: 1 }}>
-                                                                {isVoted && (
-                                                                    <Chip label="Your Vote" color="primary" size="small" sx={{ mb: 1 }} />
-                                                                )}
-                                                                <Typography variant="h6" gutterBottom fontWeight="bold">
-                                                                    {trace.name}
-                                                                </Typography>
 
-                                                                <Stack direction="row" spacing={2} sx={{ mb: 2, color: 'text.secondary', fontSize: '0.9rem' }}>
-                                                                    <span>{trace.distance}km</span>
-                                                                    <span>{trace.elevation}m</span>
-                                                                    {trace.direction && <span>{trace.direction}</span>}
-                                                                    <span style={{ color: 'white', fontWeight: 'bold' }}>{voteCount} votes</span>
-                                                                </Stack>
-                                                            </CardContent>
-
-                                                            <CardActions sx={{ p: 2, pt: 0, flexDirection: 'column', gap: 1 }}>
-                                                                <ButtonGroup fullWidth variant="outlined" size="small">
-                                                                    <Button
-                                                                        component="a"
-                                                                        href={`/traces/${trace.id}`}
-                                                                        target="_blank"
-                                                                    >
-                                                                        Details
-                                                                    </Button>
-                                                                    {trace.gpxUrl && (
-                                                                        <Button
-                                                                            component="a"
-                                                                            href={trace.gpxUrl}
+                                                    <div key={traceId}>
+                                                        <TraceCard
+                                                            trace={trace}
+                                                            className={classNames(
+                                                                isVoted ? 'ring-2 ring-red-600' : 'hover:shadow-lg',
+                                                                isVoting && !isVoted ? 'opacity-50' : ''
+                                                            )}
+                                                            footer={
+                                                                <div className="relative z-10 border-t border-gray-100 bg-gray-50 px-4 py-4 sm:px-6 flex flex-col gap-2">
+                                                                    <div className="flex rounded-md shadow-sm">
+                                                                        <Link
+                                                                            href={`/traces/${trace.id}`}
                                                                             target="_blank"
-                                                                            rel="noopener noreferrer"
+                                                                            className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-l-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-red-600"
                                                                         >
-                                                                            GPX
-                                                                        </Button>
+                                                                            Détails <ArrowRightIcon className="h-4 w-4" />
+                                                                        </Link>
+                                                                        {trace.gpxUrl && (
+                                                                            <a
+                                                                                href={trace.gpxUrl}
+                                                                                target="_blank"
+                                                                                rel="noopener noreferrer"
+                                                                                className="relative -ml-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-r-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-red-600"
+                                                                            >
+                                                                                GPX <ArrowDownTrayIcon className="h-4 w-4" />
+                                                                            </a>
+                                                                        )}
+                                                                    </div>
+                                                                    <button
+                                                                        onClick={() => handleVote(ride.id, traceId)}
+                                                                        disabled={isVoting || isVoted}
+                                                                        className={classNames(
+                                                                            isVoted
+                                                                                ? 'bg-gray-100 text-gray-400'
+                                                                                : 'bg-red-600 text-white hover:bg-red-500',
+                                                                            'inline-flex w-full items-center justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:cursor-not-allowed'
+                                                                        )}
+                                                                    >
+                                                                        {isVoted ? 'Voté' : 'Voter'}
+                                                                    </button>
+                                                                </div>
+                                                            }
+                                                            imageOverlay={
+                                                                <>
+                                                                    {isVoted && (
+                                                                        <div className="absolute top-2 left-2">
+                                                                            <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-2 py-1 text-xs font-medium text-white shadow-sm ring-1 ring-inset ring-red-600/10">
+                                                                                <CheckCircleIcon className="h-3 w-3" /> Votre Vote
+                                                                            </span>
+                                                                        </div>
                                                                     )}
-                                                                </ButtonGroup>
-
-                                                                <Button
-                                                                    variant="contained"
-                                                                    fullWidth
-                                                                    onClick={() => handleVote(ride.id, traceId)}
-                                                                    disabled={isVoting || isVoted}
-                                                                    color={isVoted ? "inherit" : "primary"}
-                                                                    sx={{
-                                                                        bgcolor: isVoted ? 'action.disabledBackground' : 'primary.main',
-                                                                        color: isVoted ? 'text.disabled' : 'white'
-                                                                    }}
-                                                                >
-                                                                    {isVoted ? 'Voted' : 'Vote'}
-                                                                </Button>
-                                                            </CardActions>
-                                                        </Card>
-                                                    </Grid>
+                                                                    {voteCount > 0 && (
+                                                                        <div className="absolute bottom-2 left-2">
+                                                                            <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                                                                                {voteCount} vote{voteCount !== 1 ? 's' : ''}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </>
+                                                            }
+                                                        />
+                                                    </div>
                                                 );
                                             })}
-                                        </Grid>
-                                    </Box>
+                                        </div>
+                                    </div>
                                 );
                             })}
-                        </Stack>
-                    )}
+                        </div>
+                    )
+                    }
                 </>
             )}
-        </Box>
+        </div>
     );
 }
-
-

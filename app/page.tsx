@@ -1,41 +1,57 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import HeroActions from './components/HeroActions';
 
 /**
  * The Landing Page (Home).
- * Displays a hero section with call-to-action buttons for Traces and Members.
+ * Refactored to "Split with angled image on right" layout.
  */
 export default function Home() {
   return (
-    <Box
-      sx={{
-        bgcolor: 'background.default',
-        pt: 15,
-        pb: 6,
-        background: 'radial-gradient(circle at 50% 20%, rgba(224, 62, 62, 0.15) 0%, rgba(0,0,0,0) 50%)',
-      }}
-    >
-      <Container maxWidth="md">
-        <Typography
-          component="h1"
-          variant="h2"
-          align="center"
-          color="text.primary"
-          gutterBottom
-          sx={{ fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1 }}
-        >
-          RIDE BEYOND<br />
-          <Typography component="span" variant="inherit" color="primary">
-            THE HORIZON
-          </Typography>
-        </Typography>
-        <Typography variant="h5" align="center" color="text.secondary" paragraph sx={{ mt: 3, mb: 5, maxWidth: '600px', mx: 'auto' }}>
-          Join the premier road cycling community. Explore curated traces, connect with riders, and push your limits.
-        </Typography>
-        <HeroActions />
-      </Container>
-    </Box>
+    <div className="relative bg-white">
+      <div className="mx-auto max-w-7xl">
+        <div className="relative z-10 lg:w-full lg:max-w-2xl">
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            className="absolute inset-y-0 right-8 hidden h-full w-80 translate-x-1/2 transform fill-white lg:block"
+          >
+            <polygon points="0,0 90,0 50,100 0,100" />
+          </svg>
+
+          <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56 lg:pr-0">
+            <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
+              <div className="hidden sm:mb-10 sm:flex">
+                <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-500 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                  De nouveaux parcours chaque semaine.{' '}
+                  <a href="/traces" className="whitespace-nowrap font-semibold text-red-600">
+                    <span className="absolute inset-0" aria-hidden="true" />
+                    Voir les parcours <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                Club ouvert à tous <br />
+                <span className="text-red-600 text-2xl sm:text-4xl block mt-4">Dames, Hommes, Jeunes et moins jeunes, Vététistes et quelques électriques.</span>
+              </h1>
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                Tous les niveaux sont représentés... 3 groupes possibles
+              </p>
+
+              {/* Preserved HeroActions */}
+              <div className="mt-10 flex items-center justify-start">
+                <HeroActions />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="bg-gray-50 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+        <img
+          className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
+          src="/images/home-hero.jpg"
+          alt="Blanmont Cycling Club members"
+        />
+      </div>
+    </div>
   );
 }
