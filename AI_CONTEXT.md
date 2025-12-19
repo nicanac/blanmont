@@ -7,7 +7,10 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 - **Framework**: Next.js 16.0.8 (App Router)
 - **Language**: TypeScript (Strict Mode)
 - **Database**: Notion API (via custom fetch wrapper)
-- **Styling**: CSS Modules (`*.module.css`) + Global CSS variables
+- **Styling**: Tailwind CSS (Primary), Headless UI, Heroicons. (Migrating away from Material UI).
+- **Fonts**: Google Fonts (Poppins) via `next/font/google`.
+- **Icons**: Heroicons (Solid & Outline)
+- **Theme**: Light Mode default, Red/Black (Eco/Ciseco aesthetic).
 - **Build Tool**: Turbopack
 - **Hosting environment**: Node.js (Vercel-compatible)
 
@@ -17,13 +20,25 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 /app
   /actions.ts         # Server Actions for mutations (Votes, Rides, Feedback)
   /components/        # Reusable UI components (Client & Server)
+    Footer.tsx        # Responsive Footer with multi-column layout
+    Navbar.tsx        # Client Component for AppBar/Navigation
+    HeroActions.tsx   # Client Component for Landing Page interactions
+    SaturdayRideView.tsx # Client View for Saturday Ride voting
+  /context/
+    AuthContext.tsx   # React Context for User Authentication state
+  /le-club/           # Feature: Club information page (Bento layout)
   /lib/
-    notion.ts         # CORE DATA LAYER: Handles all Notion API fetching & mapping
-  /saturday-ride/     # Feature: Weekly voting system
+    notion.ts         # CORE DATA LAYER: Fetching & Mapping (incl. new 'Direction' field)
+  /login/             # Feature: User Login page
+  /saturday-ride/     # Feature: Weekly voting system interactions
   /traces/            # Feature: Route browsing and details
+    FilterPanel.tsx   # Responsive Drawer for filtering traces
+    TraceCard.tsx     # Enhanced card with visual hover effects & overlay stats
+    [id]/FeedbackForm.tsx # Component for submitting trace feedback
   /types.ts           # Global TypeScript interfaces
-  layout.tsx          # Root layout (Metadata, Navigation)
+  layout.tsx          # Root layout (Font, Navbar, Footer, AuthProvider)
   page.tsx            # Landing page
+  ThemeRegistry.tsx   # Legacy Material UI Theme provider (being deprecated)
 ```
 
 ## Business Logic & Core Flows
@@ -32,9 +47,11 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 - **Goal**: Catalog valid cycling routes.
 - **Data**: Stored in Notion "Traces" DB.
 - **Features**:
-  - browsing traces with stats (Distance, Elevation, Surface).
+  - browsing traces with stats (Distance, Elevation, Surface, Direction).
+  - Advanced Filtering: Sidebar Drawer (Distance, Elevation, Ratings, etc.).
   - viewing details (Map URL, GPX link).
   - "Google Photos" integration (scraping album previews).
+  - **UI**: Cards with image overlays for ratings, hover effects, and responsive tag layout.
 
 ### 2. Saturday Ride (Voting System)
 - **Goal**: democratic choice of the weekly ride.
@@ -49,6 +66,16 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 ### 3. Feedback Loop
 - **Goal**: Assess route quality.
 - **Flow**: Members rating traces (1-5 stars) and leaving comments relative to specific experiences.
+- **Auth**: Requires Login. Feedback is automatically attributed to the logged-in user.
+
+### 4. Authentication & User Management
+- **System**: Simple email/passwordless (mockable) or notion-backed member matching.
+- **Context**: `AuthContext` provides global user state (`user`, `isAuthenticated`).
+- **Flow**: Login page -> server action verifies against Notion Members DB -> sets cookie/state.
+
+### 5. Localization
+- **Language**: French (Français) is the primary language for all public-facing text.
+- **Scope**: Navbar, Footer, Home, Traces, Voting, Feedback.
 
 ## Key Technical Conventions
 
@@ -62,9 +89,18 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
     - Use `revalidatePath` to refresh data after mutations.
     - Implement **Optimistic UI** for high-latency interactions (e.g., Voting).
 
-3.  **Styling**:
-    - Use CSS Variables defined in `app/globals.css` (e.g., `--foreground`, `--background-start`).
-    - specific styles must go in `[Name].module.css`.
+3.  **Styling & UI**:
+    - **Tailwind First**: All new components should use Tailwind CSS classes.
+    - **Aesthetics**: "Ciseco/Eco" style - Clean, White/Gray backgrounds, Rounded corners (xl/2xl), Black/Red accents.
+    - **Fonts**: Use `var(--font-poppins)` (Poppins).
+    - **Responsive**: Mobile-first approach is mandatory.
+
+4.  **Localization**:
+    - **French**: All UI text must be in French.
+    - **Terminology**:
+      - "Traces" -> "Parcours"
+      - "Rides" -> "Sorties"
+      - "Members" -> "Membres"
 
 4.  **Notion Quirk Handling**:
     - The Notion API is strict. Use `isMockMode` check for local dev without secrets.

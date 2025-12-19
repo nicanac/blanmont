@@ -1,0 +1,24 @@
+
+> sidereal-satellite@0.1.0 build
+> next build
+
+   ▲ Next.js 16.0.8 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 2.6s
+   Running TypeScript ...
+Failed to compile.
+
+./app/traces/[id]/FeedbackList.tsx:63:71
+Type error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+[0m [90m 61 |[39m                                         [33m<[39m[33mButton[39m
+ [90m 62 |[39m                                             size[33m=[39m[32m"small"[39m
+[31m[1m>[22m[39m[90m 63 |[39m                                             onClick[33m=[39m{() [33m=>[39m handleEdit(fb[33m.[39mmemberId)}
+ [90m    |[39m                                                                       [31m[1m^[22m[39m
+ [90m 64 |[39m                                             sx[33m=[39m{{ minWidth[33m:[39m [35m0[39m[33m,[39m p[33m:[39m [35m0.5[39m[33m,[39m fontSize[33m:[39m [32m'1.2rem'[39m }}
+ [90m 65 |[39m                                         [33m>[39m
+ [90m 66 |[39m                                             ✏️[0m
+Next.js build worker exited with code: 1 and signal: null

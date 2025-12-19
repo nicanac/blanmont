@@ -1,7 +1,31 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Link from 'next/link';
-import styles from './layout.module.css';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-poppins',
+});
+
+
+
+
+/**
+ * Root Layout component that wraps the entire application.
+ * Provides the HTML structure, global styles, navigation bar, and footer.
+ * 
+ * @param children - The page content to render.
+ */
+import ThemeRegistry from './ThemeRegistry';
+import { AuthProvider } from './context/AuthContext';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
 
 export const metadata: Metadata = {
   title: 'Blanmont Cycling Club',
@@ -21,25 +45,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <nav className={styles.navbar}>
-          <div className={`container ${styles.navContainer}`}>
-            <Link href="/" className={styles.logo}>
-              BLANMONT
-            </Link>
-            <div className={styles.links}>
-              <Link href="/members">Members</Link>
-              <Link href="/traces">Traces</Link>
-              <Link href="/saturday-ride">Saturday Ride</Link>
+      <body className={`h-full bg-white ${poppins.variable} font-sans`}>
+        <ThemeRegistry>
+          <AuthProvider>
+            <Navbar />
+
+            <Box component="main" sx={{ minHeight: '80vh' }}>
+              {children}
+            </Box>
+
+            <div className="mt-auto">
+              <Footer />
             </div>
-          </div>
-        </nav>
-        <main>{children}</main>
-        <footer className={styles.footer}>
-          <div className="container">
-            © {new Date().getFullYear()} Blanmont Cycling Club. Ride On.
-          </div>
-        </footer>
+          </AuthProvider>
+        </ThemeRegistry>
       </body>
     </html>
   );

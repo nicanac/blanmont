@@ -12,6 +12,8 @@ export interface Member {
   bio: string;
   /** URL to the member's profile photo. */
   photoUrl: string;
+  /** Email address of the member. */
+  email?: string;
 }
 
 /**
@@ -46,6 +48,8 @@ export interface Trace {
   start?: string;
   /** Name of the ending location. */
   end?: string;
+  /** General cardinal direction of the route (e.g., North, South-West). */
+  direction?: string;
   /** specific description or notes about the route. */
   description: string;
 }

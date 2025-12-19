@@ -88,7 +88,58 @@ export const getMembers = async (): Promise<Member[]> => {
     return [];
   }
 };
+// Helper to validate user credentials
+/**
+ * Validates user credentials against the Notion Members database.
+ * 
+ * @param email - The email address to check.
+ * @param password - The password to check.
+ * @returns A promise resolving to the Member object if valid, or null if invalid.
+ */
+export const validateUser = async (email: string, password: string): Promise<Member | null> => {
+  if (!MEMBERS_DB_ID) return null;
 
+  try {
+    const dbId = cleanId(MEMBERS_DB_ID);
+    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
+      filter: {
+        and: [
+          {
+            property: 'Email',
+            email: {
+              equals: email,
+            },
+          },
+          {
+            property: 'Password',
+            rich_text: {
+              equals: password,
+            },
+          },
+        ],
+      },
+    });
+
+    if (response.results.length === 0) return null;
+
+    const page = response.results[0];
+    const props = page.properties;
+    const photoFiles = props.Photo?.files || [];
+    const photoUrl = photoFiles.length > 0 ? photoFiles[0].file?.url || photoFiles[0].external?.url : '';
+
+    return {
+      id: page.id,
+      name: props.Name?.title[0]?.plain_text || 'Unknown',
+      role: props.Role?.multi_select?.map((r: any) => r.name) || [],
+      bio: props.Bio?.rich_text[0]?.plain_text || '',
+      photoUrl: photoUrl || 'https://placehold.co/400x400',
+      email: props.Email?.email || '',
+    };
+  } catch (error) {
+    console.error('Failed to validate user:', error);
+    return null;
+  }
+};
 // Helper to scrape og:image from Komoot
 /**
  * Attempts to scrape the OpenGraph image from a public Komoot URL.
@@ -162,7 +213,8 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
     photoUrl: photoUrl,
     photoAlbumUrl: photoAlbumUrl,
     start: props.start?.select?.name,
-    end: props.end?.select?.name
+    end: props.end?.select?.name,
+    direction: props.Direction?.select?.name || props.Direction?.rich_text?.[0]?.plain_text || undefined
   };
 };
 
