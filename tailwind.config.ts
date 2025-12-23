@@ -9,9 +9,18 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-poppins)', 'sans-serif'],
       },
+      colors: {
+        brand: {
+          primary: '#e03e3e',   // Matches MUI Theme Primary
+          secondary: '#15803d', // Matches Green Theme
+        }
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/forms'),
+  ],
 
 };
 

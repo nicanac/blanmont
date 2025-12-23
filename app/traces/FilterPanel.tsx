@@ -120,7 +120,7 @@ export default function FilterPanel({
                                                 max={maxDist}
                                                 value={filters.maxDist}
                                                 onChange={(e) => onFilterChange({ ...filters, maxDist: Number(e.target.value) })}
-                                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-600"
+                                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                                             />
                                         </div>
                                     </div>
@@ -134,7 +134,7 @@ export default function FilterPanel({
                                             max={maxElev}
                                             value={filters.maxElev}
                                             onChange={(e) => onFilterChange({ ...filters, maxElev: Number(e.target.value) })}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-600"
+                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                                         />
                                     </div>
 
@@ -171,7 +171,7 @@ export default function FilterPanel({
                                                                                     'selectedStarts',
                                                                             option.value
                                                                         )}
-                                                                        className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
+                                                                        className="h-4 w-4 rounded border-gray-300 text-brand-primary focus:ring-brand-primary"
                                                                     />
                                                                     <label
                                                                         htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
@@ -212,7 +212,7 @@ export default function FilterPanel({
                                 max={maxDist}
                                 value={filters.maxDist}
                                 onChange={(e) => onFilterChange({ ...filters, maxDist: Number(e.target.value) })}
-                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-600"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                             />
                         </div>
                     </div>
@@ -231,7 +231,7 @@ export default function FilterPanel({
                                 max={maxElev}
                                 value={filters.maxElev}
                                 onChange={(e) => onFilterChange({ ...filters, maxElev: Number(e.target.value) })}
-                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-600"
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                             />
                         </div>
                     </div>
@@ -268,7 +268,7 @@ export default function FilterPanel({
                                                                     'selectedStarts',
                                                             option.value
                                                         )}
-                                                        className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500 cursor-pointer"
+                                                        className="h-4 w-4 rounded border-gray-300 text-brand-primary focus:ring-brand-primary cursor-pointer"
                                                     />
                                                     <label
                                                         htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -298,7 +298,7 @@ export default function FilterPanel({
                                 selectedDirections: [],
                                 minQuality: 0
                             })}
-                            className="text-sm font-medium text-red-600 hover:text-red-500"
+                            className="text-sm font-medium text-brand-primary hover:text-red-700"
                         >
                             Reset Filters
                         </button>

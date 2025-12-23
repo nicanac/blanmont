@@ -164,21 +164,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
 
                         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                             {/* Deskstop Filters */}
-                            <form className="hidden lg:block">
-                                {/* Note: FilterPanel handles desktop rendering logic inside passing props */}
-                                {/* But FilterPanel is currently rendering BOTH Dialog and Desktop block. 
-                                    I need to make sure I don't duplicate logic. 
-                                    Actually FilterPanel returns the Dialog AND the desktop sidebar div.
-                                    So I should put it HERE if it returns the sidebar div.
-                                    Wait, my FilterPanel returns a fragment containing the Dialog AND the desktop div.
-                                    Ideally, I should place FilterPanel outside the grid for the dialog, 
-                                    and inside the first column for the desktop sidebar?
-                                    
-                                    Let's adjust: I'll Render FilterPanel once inside the grid's first col, 
-                                    and it will render the Desktop form. 
-                                    The mobile dialog uses Portal so it renders to body, so location doesn't matter much.
-                                    So placing it in the first col is correct.
-                                */}
+                            <div className="hidden lg:block">
                                 <FilterPanel
                                     minDist={ranges.minDist}
                                     maxDist={ranges.maxDist}
@@ -192,7 +178,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                     mobileFiltersOpen={mobileFiltersOpen}
                                     setMobileFiltersOpen={setMobileFiltersOpen}
                                 />
-                            </form>
+                            </div>
 
                             {/* Product grid */}
                             <div className="lg:col-span-3">
@@ -211,7 +197,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                                 minElev: ranges.minElev, maxElev: ranges.maxElev,
                                                 selectedStarts: [], selectedSurfaces: [], selectedDirections: [], minQuality: 0
                                             })}
-                                            className="mt-4 text-red-600 font-semibold"
+                                            className="mt-4 text-brand-primary font-semibold"
                                         >
                                             Effacer tous les filtres
                                         </button>
