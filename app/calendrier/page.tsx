@@ -9,8 +9,13 @@ export default async function CalendarPage() {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
             <main className="flex-grow">
-                {/* No container needed here as CalendarView handles its own layout/headings */}
                 <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 h-full">
+                    <div className="max-w-2xl text-center md:text-left mb-8">
+                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Calendrier</h2>
+                        <p className="mt-4 text-lg leading-8 text-gray-600">
+                            Planning des sorties et événements du club.
+                        </p>
+                    </div>
                     <CalendarView events={events} />
                 </div>
             </main>

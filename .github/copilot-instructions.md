@@ -38,6 +38,7 @@
 - **Commit Messages**: When generating commit messages, use the Semantic Commit pattern: `type(scope): subject`.
   - Example: `feature(trace): add filter by distance`
   - Keep the subject short and imperative (e.g., "add" not "added").
+- **Task Completion**: Upon verifying a feature or fix, **ALWAYS** commit and push changes to the current branch. Do not leave code in an uncommitted state after finishing a user request.
 
 ## 8. Continuous Documentation
 - **Update Rule**: Whenever you modify code (new features, refactors, bug fixes), you **MUST** simultaneously update:
