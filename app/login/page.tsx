@@ -61,7 +61,7 @@ export default function LoginPage() {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="example@example.com"
-                                className="block w-full rounded-full border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+                                className="block w-full rounded-lg border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -73,7 +73,7 @@ export default function LoginPage() {
                                     Mot de passe
                                 </label>
                                 <div className="text-sm">
-                                    <a href="#" className="font-medium text-blue-500 hover:text-blue-600">
+                                    <a href="#" className="font-medium text-brand-primary hover:text-red-700">
                                         Mot de passe oublié ?
                                     </a>
                                 </div>
@@ -86,7 +86,7 @@ export default function LoginPage() {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="block w-full rounded-full border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+                                className="block w-full rounded-lg border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -94,7 +94,7 @@ export default function LoginPage() {
                     <div>
                         <button
                             type="submit"
-                            className="flex w-full justify-center rounded-full bg-gray-900 px-3 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+                            className="flex w-full justify-center rounded-lg bg-brand-primary px-3 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
                         >
                             Continuer
                         </button>
@@ -103,7 +103,7 @@ export default function LoginPage() {
 
                 <p className="mt-8 text-center text-sm text-gray-500">
                     Nouveau membre ?{' '}
-                    <a href="/register" className="font-medium text-blue-500 hover:text-blue-600 underline decoration-1 underline-offset-2">
+                    <a href="/register" className="font-medium text-brand-primary hover:text-red-700 underline decoration-1 underline-offset-2">
                         Créer un compte
                     </a>
                 </p>

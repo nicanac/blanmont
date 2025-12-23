@@ -103,3 +103,19 @@ export interface Vote {
   /** ID of the trace the member voted for. */
   traceId: string;
 }
+
+/**
+ * Represents an event in the club calendar.
+ */
+export interface CalendarEvent {
+  id: string;
+  isoDate: string; // YYYY-MM-DD
+  location: string;
+  distances: string;
+  departure: string;
+  address: string;
+  remarks: string;
+  alternative: string;
+  group: string;
+}
+
