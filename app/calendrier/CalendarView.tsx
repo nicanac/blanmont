@@ -32,7 +32,7 @@ function getFirstDayOfMonth(year: number, month: number) {
 }
 
 export default function CalendarView({ events }: { events: CalendarEvent[] }) {
-    const [currentDate, setCurrentDate] = useState(new Date(2025, 0)); // Start at Jan 2025 by default or Today
+    const [currentDate, setCurrentDate] = useState(new Date()); // Start at current date
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
