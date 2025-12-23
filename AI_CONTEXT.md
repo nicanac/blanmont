@@ -77,6 +77,15 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 - **Language**: French (Français) is the primary language for all public-facing text.
 - **Scope**: Navbar, Footer, Home, Traces, Voting, Feedback.
 
+### 6. Calendar System
+- **Goal**: Display the club's annual schedule and events.
+- **Data**: Stored in Notion "Calendar" DB (`CALENDAR_DB_ID`).
+- **Features**:
+  - **Month View**: Client-side interactive calendar (`CalendarView.tsx`).
+  - **Events**: Cycling sorties, meetings, and special events.
+  - **Visuals**: Color-coded days (Weekdays vs Weekends) and event types.
+- **Flow**: Server component fetches all events -> hydrated to client for instant month navigation.
+
 ## Key Technical Conventions
 
 1.  **Data Fetching**:
@@ -114,6 +123,9 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
     - **Commit Messages**: Follow the Semantic Commit pattern: `type(scope): subject`.
       - Example: `feature(voting): add optimistic UI for vote button`
       - Types match the branch types.
+    - **Task Completion Rule**:
+      - When a task or sub-task is verified and completed, **ALWAYS** commit and push the changes immediately.
+      - Do not leave uncommitted changes at the end of a session or task block.
 
 6.  **Continuous Documentation**:
     - **Rule**: Every time a feature is added or code is modified, the corresponding documentation (JSDoc, `AI_CONTEXT.md`, etc.) MUST be updated immediately.
