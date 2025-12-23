@@ -32,7 +32,7 @@ function getFirstDayOfMonth(year: number, month: number) {
 }
 
 export default function CalendarView({ events }: { events: CalendarEvent[] }) {
-    const [currentDate, setCurrentDate] = useState(new Date(2025, 0)); // Start at Jan 2025 by default or Today
+    const [currentDate, setCurrentDate] = useState(new Date()); // Start at current date
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -160,8 +160,10 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                         className={classNames(
                                             // Highlight "today" if we wanted, for now just basic text
                                             cell.currentMonth ? 'font-semibold' : '',
-                                            // Weekend highlight on current month
-                                            (cell.currentMonth && (idx % 7 >= 5)) ? 'text-brand-secondary' : '',
+                                            // Weekend highlight on current month (Black/Visible)
+                                            (cell.currentMonth && (idx % 7 >= 5)) ? 'text-gray-900' : '',
+                                            // Weekday highlight (Red/Primary) if current month and not weekend
+                                            (cell.currentMonth && (idx % 7 < 5)) ? 'text-brand-primary' : '',
                                             'block mb-1'
                                         )}
                                     >
@@ -171,7 +173,11 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                         <ol className="mt-1">
                                             {dayEvents.map(event => (
                                                 <li key={event.id}>
-                                                    <a href="#" className="group flex flex-col gap-0.5 rounded-md p-1.5 hover:bg-gray-100 transition-colors">
+                                                    <a href="#" className={classNames(
+                                                        "group flex flex-col gap-0.5 rounded-md p-1.5 transition-colors border border-transparent",
+                                                        // Weekday events (Mon-Fri) get alternate background
+                                                        (idx % 7 < 5) ? 'bg-red-50 hover:bg-red-100 hover:border-red-200' : 'hover:bg-gray-100 hover:border-gray-200'
+                                                    )}>
                                                         <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
                                                             {event.location}
                                                         </p>
