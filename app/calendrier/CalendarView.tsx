@@ -160,8 +160,10 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                         className={classNames(
                                             // Highlight "today" if we wanted, for now just basic text
                                             cell.currentMonth ? 'font-semibold' : '',
-                                            // Weekend highlight on current month
+                                            // Weekend highlight on current month (Green/Secondary)
                                             (cell.currentMonth && (idx % 7 >= 5)) ? 'text-brand-secondary' : '',
+                                            // Weekday highlight (Red/Primary) if current month and not weekend
+                                            (cell.currentMonth && (idx % 7 < 5)) ? 'text-brand-primary' : '',
                                             'block mb-1'
                                         )}
                                     >
