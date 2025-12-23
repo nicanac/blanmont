@@ -28,6 +28,7 @@ export default function Navbar() {
         { name: 'Parcours', href: '/traces' },
         { name: 'Sortie du Samedi', href: '/saturday-ride' },
         { name: 'Membres', href: '/members' },
+        { name: 'Carré Vert', href: '/leaderboard' },
         { name: 'Le Club', href: '/le-club' },
     ];
 
