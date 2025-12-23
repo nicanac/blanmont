@@ -114,6 +114,9 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
     - **Commit Messages**: Follow the Semantic Commit pattern: `type(scope): subject`.
       - Example: `feature(voting): add optimistic UI for vote button`
       - Types match the branch types.
+    - **Task Completion Rule**:
+      - When a task or sub-task is verified and completed, **ALWAYS** commit and push the changes immediately.
+      - Do not leave uncommitted changes at the end of a session or task block.
 
 6.  **Continuous Documentation**:
     - **Rule**: Every time a feature is added or code is modified, the corresponding documentation (JSDoc, `AI_CONTEXT.md`, etc.) MUST be updated immediately.
