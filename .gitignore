@@ -42,3 +42,5 @@ next-env.d.ts
 
 # debug scripts
 /debug-scripts/
+*.txt
+temp_*.html
