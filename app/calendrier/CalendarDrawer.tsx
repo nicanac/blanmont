@@ -69,35 +69,26 @@ export default function CalendarDrawer({ event, open, onClose }: CalendarDrawerP
                 <Box sx={{ p: 3, flexGrow: 1, overflowY: 'auto' }}>
                     <Stack spacing={3}>
                         {/* Map Preview */}
-                        <Box
-                            sx={{
-                                width: '100%',
-                                height: 200,
-                                bgcolor: 'grey.200',
-                                borderRadius: 2,
-                                overflow: 'hidden',
-                                position: 'relative'
-                            }}
-                        >
-                            <iframe
-                                width="100%"
-                                height="100%"
-                                src={mapSrc}
-                                style={{ border: 0 }}
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
-                        </Box>
-
-                        <Button
-                            variant="outlined"
-                            startIcon={<PlaceIcon />}
+                        {/* Map Preview / Link Card */}
+                        <a
                             href={mapsLink}
                             target="_blank"
-                            fullWidth
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: 'none' }}
+                            className="block group relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-brand-primary transition-colors cursor-pointer"
                         >
-                            Ouvrir dans Google Maps
-                        </Button>
+                            {/* Decorative Background (Abstract Map Pattern) */}
+                            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/map.png')] bg-repeat" />
+
+                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform">
+                                <div className="p-3 bg-white rounded-full shadow-sm text-brand-primary">
+                                    <PlaceIcon fontSize="large" color="error" />
+                                </div>
+                                <Typography variant="body2" fontWeight="medium" color="text.secondary" sx={{ bgcolor: 'white', px: 1, py: 0.5, borderRadius: 1 }}>
+                                    Voir sur la carte
+                                </Typography>
+                            </div>
+                        </a>
 
                         <Divider />
 
