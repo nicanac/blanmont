@@ -113,3 +113,18 @@ export async function loginAction(email: string, password: string) {
   if (!email || !password) return null;
   return await validateUser(email, password);
 }
+
+import { updateMemberPhoto } from './lib/notion';
+
+/**
+ * Server Action to update a member's profile photo.
+ * 
+ * @param memberId - The member ID.
+ * @param photoUrl - The new photo URL.
+ */
+export async function updateProfilePhotoAction(memberId: string, photoUrl: string) {
+    if (!memberId || !photoUrl) throw new Error('Invalid input');
+    
+    await updateMemberPhoto(memberId, photoUrl);
+    revalidatePath('/profile');
+}

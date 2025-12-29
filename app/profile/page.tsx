@@ -1,12 +1,24 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
+import { updateProfilePhotoAction } from '../actions';
 
 export default function ProfilePage() {
     const { user, isAuthenticated } = useAuth();
     const router = useRouter();
+    const [isEditingPhoto, setIsEditingPhoto] = useState(false);
+    const [photoUrl, setPhotoUrl] = useState('');
+
+    const handlePhotoUpdate = async () => {
+        if (user && photoUrl) {
+            await updateProfilePhotoAction(user.id, photoUrl);
+            setIsEditingPhoto(false);
+            // Ideally we reload context or force refresh to see change
+            window.location.reload();
+        }
+    };
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -28,13 +40,43 @@ export default function ProfilePage() {
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
                 {/* Product Image / User Avatar */}
                 <div className="lg:max-w-lg lg:self-end">
-                    <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200">
+                    <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200 relative group">
                         <img
                             src={user.avatarUrl || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=500&h=500&q=80"}
                             alt={user.name}
-                            className="h-full w-full object-cover object-center"
+                            className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                                onClick={() => setIsEditingPhoto(!isEditingPhoto)}
+                                className="bg-black/50 text-white px-4 py-2 rounded-md backdrop-blur-sm hover:bg-black/70"
+                            >
+                                Change Photo
+                            </button>
+                        </div>
                     </div>
+
+                    {isEditingPhoto && (
+                        <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={photoUrl}
+                                    onChange={(e) => setPhotoUrl(e.target.value)}
+                                    placeholder="https://..."
+                                    className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+                                />
+                                <button
+                                    onClick={handlePhotoUpdate}
+                                    className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 text-sm"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                            <p className="mt-2 text-xs text-gray-500">Paste a direct link to a publicly accessible image.</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Product Info / User Details */}

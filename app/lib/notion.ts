@@ -451,6 +451,40 @@ export const submitMapPreview = async (traceId: string, imageUrl: string) => {
 };
 
 /**
+ * Updates the 'Photo' file property of a member page with a new image URL.
+ * 
+ * @param memberId - The UUID of the member.
+ * @param photoUrl - The public URL of the image.
+ */
+export const updateMemberPhoto = async (memberId: string, photoUrl: string) => {
+    if (isMockMode) {
+      console.log('Mock member photo update:', { memberId, photoUrl });
+      return;
+    }
+
+    try {
+      await notionRequest(`pages/${memberId}`, 'PATCH', {
+        properties: {
+          "Photo": {
+            files: [
+              {
+                name: "profile.jpg",
+                type: "external",
+                external: {
+                  url: photoUrl
+                }
+              }
+            ]
+          }
+        }
+      });
+    } catch (error) {
+       console.error('Failed to update member photo in Notion:', error);
+       throw error;
+    }
+};
+
+/**
  * Fetches all Saturday Ride events that are currently in the 'Voting' status.
  * Used to display active polls to members.
  * 
