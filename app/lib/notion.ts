@@ -631,7 +631,7 @@ const CALENDAR_DB_ID = '2d29555c-6779-80b0-a9e3-e07785d2d847'; // Hardcoded vali
  */
 import { CalendarEvent } from '../types';
 
-export const createTrace = async (traceData: Partial<Trace>) => {
+export const createTrace = async (traceData: Partial<Trace> & { photos?: string[] }) => {
     if (isMockMode || !TRACES_DB_ID) {
         console.log('Mock create trace:', traceData);
         return { success: true, id: 'mock-new-id' };
@@ -645,7 +645,10 @@ export const createTrace = async (traceData: Partial<Trace>) => {
             Komoot: { url: traceData.mapUrl || null }, // Using 'Komoot' field for general Map URL
             
             // Fixed property name from 'D+' to 'Elevation' (Case sensitive common convention)
-            Elevation: { number: traceData.elevation || 0 }
+            Elevation: { number: traceData.elevation || 0 },
+
+            // Write Distance to logic property (hoping 'Distance' exists and 'km' formula uses it)
+            Distance: { number: traceData.distance || 0 }
         };
 
         if (traceData.direction) {
@@ -653,6 +656,17 @@ export const createTrace = async (traceData: Partial<Trace>) => {
                 select: {
                     name: traceData.direction
                 }
+            };
+        }
+
+        // Add Photos
+        if (traceData.photos && traceData.photos.length > 0) {
+            properties.photo = {
+                files: traceData.photos.map((url, index) => ({
+                    name: `photo_${index}.jpg`,
+                    type: "external",
+                    external: { url }
+                }))
             };
         }
 
