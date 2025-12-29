@@ -104,5 +104,15 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
          return { error: result.error || 'Notion creation failed' };
      }
 
-     return { success: true, message: "Trace created successfully in Notion!" };
+     return { success: true, message: "Trace created successfully in Notion!", traceId: result.id };
+}
+
+import { deleteTrace } from '../../lib/notion';
+
+export async function deleteTraceAction(traceId: string) {
+    const result = await deleteTrace(traceId);
+    if (!result.success) {
+        return { error: result.error };
+    }
+    return { success: true };
 }
