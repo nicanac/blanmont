@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { fetchStravaActivityAction, importStravaTraceAction, deleteTraceAction } from './actions';
 import { StravaActivity } from '../../lib/strava';
 import { Snackbar } from '@mui/material';
-import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
-import TracePreviewForm from '../../components/import/TracePreviewForm';
+import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import TracePreviewForm from '../../features/import/components/TracePreviewForm';
 
 // Dynamic import for Leaflet map to avoid SSR issues
-const MapPreview = dynamic(() => import('../../components/ui/MapPreview'), { ssr: false });
+const MapPreview = dynamic(() => import('../../features/traces/components/MapPreview'), { ssr: false });
 
 export default function ImportForm() {
     const [url, setUrl] = useState('');

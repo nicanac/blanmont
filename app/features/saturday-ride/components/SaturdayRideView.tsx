@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
 import Link from 'next/link';
-import { Member, SaturdayRide, Trace, Vote } from '../types';
-import { submitVoteAction } from '../actions';
+import { Member, SaturdayRide, Trace, Vote } from '../../../types';
+import { submitVoteAction } from '../../../actions';
 import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
-import TraceCard from '../traces/TraceCard';
+import TraceCard from '../../traces/components/TraceCard';
 
 interface Props {
     traces: Trace[];

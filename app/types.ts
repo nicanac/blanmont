@@ -125,3 +125,31 @@ export interface CalendarEvent {
   group: string;
 }
 
+
+/**
+ * Represents a raw Page object from the Notion API.
+ * This helps strict typing when mapping properties.
+ */
+export interface NotionProperty {
+  id: string;
+  type: string;
+  rich_text?: { plain_text: string; text?: { content: string }; }[];
+  title?: { plain_text: string }[];
+  multi_select?: { name: string; color?: string }[];
+  select?: { name: string; color?: string };
+  number?: number;
+  url?: string;
+  files?: { file?: { url: string }, external?: { url: string } }[];
+  email?: string;
+  phone_number?: string;
+  relation?: { id: string }[];
+  [key: string]: any; // Fallback for other property types
+}
+
+export interface NotionPage {
+  id: string;
+  created_time: string;
+  last_edited_time: string;
+  properties: Record<string, NotionProperty>;
+  url: string;
+}

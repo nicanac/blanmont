@@ -23,8 +23,8 @@ import { AuthProvider } from './context/AuthContext';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 
 
 export const metadata: Metadata = {

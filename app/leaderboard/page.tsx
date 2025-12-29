@@ -56,7 +56,7 @@ async function getLeaderboardData(): Promise<LeaderboardEntry[]> {
 
                 // Extract properties carefully
                 const nameTitle = props['Name']?.type === 'title' ? props['Name'].title : [];
-                const name = nameTitle.length > 0 ? nameTitle[0].plain_text : 'Unknown';
+                const name = nameTitle && nameTitle.length > 0 ? nameTitle[0].plain_text : 'Unknown';
 
                 const rides = props['Rides']?.type === 'number' ? props['Rides'].number || 0 : 0;
 
@@ -64,7 +64,7 @@ async function getLeaderboardData(): Promise<LeaderboardEntry[]> {
                 const group = groupSelect ? groupSelect.name : '-';
 
                 const datesMulti = props['Dates']?.type === 'multi_select' ? props['Dates'].multi_select : [];
-                const dates = datesMulti.map((d: any) => d.name);
+                const dates = datesMulti ? datesMulti.map((d: { name: string }) => d.name) : [];
 
                 pages.push({
                     id: page.id,

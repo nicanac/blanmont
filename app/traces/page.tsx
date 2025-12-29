@@ -1,5 +1,5 @@
-import { getTraces } from '../lib/notion';
-import TraceList from './TraceList';
+import { getTraces } from '../lib/notion/index';
+import TraceList from '../features/traces/components/TraceList';
 
 export const revalidate = 60;
 

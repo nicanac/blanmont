@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import AddTraceForm from '../../components/admin/AddTraceForm';
+import AddTraceForm from '../../features/admin/components/AddTraceForm';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AddTracePage() {

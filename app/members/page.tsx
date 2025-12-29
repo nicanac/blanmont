@@ -1,4 +1,6 @@
-import { getMembers } from '../lib/notion';
+import { getMembers } from '../lib/notion/index';
+import MemberCard from '../features/members/components/MemberCard';
+import { Member } from '../types';
 
 
 export const revalidate = 60; // ISR every 60 seconds
@@ -6,11 +8,11 @@ export const revalidate = 60; // ISR every 60 seconds
 export default async function MembersPage() {
     // Filter to show only members with a role other than just "Member" (e.g. President, Secretary, etc.)
     const allMembers = await getMembers();
-    const members = allMembers.filter(m => {
+    const members = allMembers.filter((m: Member) => {
         // Assume 'Member' is the default role for everyone.
         // We want to show people who have roles *other* than 'Member' (or 'Membre').
         // If the only role is 'Member', exclude them.
-        const interestingRoles = m.role.filter(r => r !== 'Member' && r !== 'Membre');
+        const interestingRoles = m.role.filter((r: string) => r !== 'Member' && r !== 'Membre');
         return interestingRoles.length > 0;
     });
 
@@ -25,15 +27,7 @@ export default async function MembersPage() {
                 </div>
                 <ul role="list" className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
                     {members.map((member) => (
-                        <li key={member.id}>
-                            <img
-                                className="aspect-square w-full rounded-2xl object-cover"
-                                src={member.photoUrl}
-                                alt={member.name}
-                            />
-                            <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-gray-900">{member.name}</h3>
-                            <p className="text-base leading-7 text-gray-600">{member.role.join(' · ')}</p>
-                        </li>
+                        <MemberCard key={member.id} member={member} />
                     ))}
                 </ul>
             </div>

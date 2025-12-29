@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import TracePreviewForm, { TraceImportData } from '../../components/import/TracePreviewForm';
+import TracePreviewForm, { TraceImportData } from '../../features/import/components/TracePreviewForm';
 import { CloudArrowUpIcon, CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import * as toGeoJSON from '@tmcw/togeojson';
 import * as mapboxPolyline from '@mapbox/polyline';
