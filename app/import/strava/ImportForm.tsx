@@ -119,47 +119,54 @@ export default function ImportForm() {
             )}
 
             {successMessage && (
-                <div className="pointer-events-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5 mb-6">
-                    <div className="p-4">
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0">
-                                <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
-                            </div>
-                            <div className="ml-3 w-0 flex-1 pt-0.5">
-                                <p className="text-sm font-medium text-gray-900">Successfully imported!</p>
-                                <p className="mt-1 text-sm text-gray-500">{successMessage}</p>
+                <Snackbar
+                    open={!!successMessage}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    onClose={() => { }}
+                    message={null}
+                >
+                    <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
+                        <div className="p-4">
+                            <div className="flex items-start">
+                                <div className="flex-shrink-0">
+                                    <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                                </div>
+                                <div className="ml-3 w-0 flex-1 pt-0.5">
+                                    <p className="text-sm font-medium text-gray-900">Successfully imported!</p>
+                                    <p className="mt-1 text-sm text-gray-500">{successMessage}</p>
 
-                                {createdTraceId && (
-                                    <div className="mt-4 flex gap-3">
-                                        <Link
-                                            href={`/traces/${createdTraceId}`}
-                                            target="_blank"
-                                            className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                        >
-                                            View Trace <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                                        </Link>
-                                        <button
-                                            onClick={handleDelete}
-                                            className="inline-flex items-center gap-1 text-sm font-medium text-red-600 hover:text-red-500"
-                                        >
-                                            Delete <TrashIcon className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="ml-4 flex flex-shrink-0">
-                                <button
-                                    type="button"
-                                    className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                    onClick={() => setSuccessMessage(null)}
-                                >
-                                    <span className="sr-only">Close</span>
-                                    <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-                                </button>
+                                    {createdTraceId && (
+                                        <div className="mt-4 flex gap-4">
+                                            <Link
+                                                href={`/traces/${createdTraceId}`}
+                                                target="_blank"
+                                                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                                            >
+                                                View Trace
+                                            </Link>
+                                            <button
+                                                onClick={handleDelete}
+                                                className="text-sm font-medium text-red-600 hover:text-red-500"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="ml-4 flex flex-shrink-0">
+                                    <button
+                                        type="button"
+                                        className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        onClick={() => setSuccessMessage(null)}
+                                    >
+                                        <span className="sr-only">Close</span>
+                                        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </Snackbar>
             )}
 
             {preview && (
