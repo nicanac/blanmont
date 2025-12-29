@@ -2,18 +2,20 @@
 
 import { Fragment } from 'react';
 import { usePathname } from 'next/navigation';
-import { Disclosure, Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
+import { Disclosure, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverPanel, Transition } from '@headlessui/react';
 import {
-    MagnifyingGlassIcon,
     UserIcon,
     ShoppingBagIcon,
-    HeartIcon,
-    LifebuoyIcon,
     ArrowRightOnRectangleIcon,
     Bars3Icon,
     XMarkIcon,
     PlusCircleIcon,
-    CloudArrowUpIcon
+    CloudArrowUpIcon,
+    ChevronDownIcon,
+    MapIcon,
+    CalendarIcon,
+    TrophyIcon,
+    InformationCircleIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
@@ -24,16 +26,18 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
     const pathname = usePathname();
-    const { user, login, logout, isAuthenticated } = useAuth();
+    const { user, logout, isAuthenticated } = useAuth();
 
-    const navigation = [
-        { name: 'Parcours', href: '/traces' },
+    const mainNavigation = [
         { name: 'Sortie du Samedi', href: '/saturday-ride' },
         { name: 'Membres', href: '/members' },
-        { name: 'Carré Vert', href: '/leaderboard' },
-        { name: 'Calendrier', href: '/calendrier' },
-        { name: 'Le Club', href: '/le-club' },
-        { name: 'Le Club', href: '/le-club' },
+    ];
+
+    const clubNavigation = [
+        { name: 'Présentation', description: 'Qui sommes-nous ?', href: '/le-club', icon: InformationCircleIcon },
+        { name: 'Parcours', description: 'Nos traces GPS', href: '/traces', icon: MapIcon },
+        { name: 'Calendrier', description: 'Agenda de la saison', href: '/calendrier', icon: CalendarIcon },
+        { name: 'Carré Vert', description: 'Classement', href: '/leaderboard', icon: TrophyIcon },
     ];
 
     return (
@@ -58,8 +62,8 @@ export default function Navbar() {
                                 <div className="hidden sm:block h-6 w-px bg-gray-300 mx-6"></div>
 
                                 {/* Navigation Links */}
-                                <div className="hidden sm:flex sm:space-x-8">
-                                    {navigation.map((item) => {
+                                <div className="hidden sm:flex sm:space-x-8 items-center">
+                                    {mainNavigation.map((item) => {
                                         const isCurrent = pathname === item.href;
                                         return (
                                             <Link
@@ -74,13 +78,64 @@ export default function Navbar() {
                                             </Link>
                                         );
                                     })}
+
+                                    {/* Le Club Popover */}
+                                    <Popover className="relative">
+                                        {({ open }) => (
+                                            <>
+                                                <PopoverButton
+                                                    className={classNames(
+                                                        open ? 'text-gray-900' : 'text-gray-900',
+                                                        'group inline-flex items-center rounded-md text-sm font-medium hover:text-gray-600 focus:outline-none'
+                                                    )}
+                                                >
+                                                    <span>Le Club</span>
+                                                    <ChevronDownIcon
+                                                        className={classNames(
+                                                            open ? 'text-gray-600 rotate-180' : 'text-gray-400',
+                                                            'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-gray-500'
+                                                        )}
+                                                        aria-hidden="true"
+                                                    />
+                                                </PopoverButton>
+
+                                                <Transition
+                                                    as={Fragment}
+                                                    enter="transition ease-out duration-200"
+                                                    enterFrom="opacity-0 translate-y-1"
+                                                    enterTo="opacity-100 translate-y-0"
+                                                    leave="transition ease-in duration-150"
+                                                    leaveFrom="opacity-100 translate-y-0"
+                                                    leaveTo="opacity-0 translate-y-1"
+                                                >
+                                                    <PopoverPanel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-2 sm:px-0">
+                                                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                                                            <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                                                                {clubNavigation.map((item) => (
+                                                                    <Link
+                                                                        key={item.name}
+                                                                        href={item.href}
+                                                                        className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
+                                                                    >
+                                                                        <item.icon className="h-6 w-6 flex-shrink-0 text-brand-primary" aria-hidden="true" />
+                                                                        <div className="ml-4">
+                                                                            <p className="text-base font-medium text-gray-900">{item.name}</p>
+                                                                            <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                                                                        </div>
+                                                                    </Link>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </PopoverPanel>
+                                                </Transition>
+                                            </>
+                                        )}
+                                    </Popover>
                                 </div>
                             </div>
 
                             {/* Right Side: Icons */}
                             <div className="hidden sm:flex items-center space-x-6">
-
-
                                 {/* User Menu / Login */}
                                 {isAuthenticated ? (
                                     <Menu as="div" className="relative">
@@ -194,8 +249,6 @@ export default function Navbar() {
                                         </button>
                                     </div>
                                 )}
-
-
                             </div>
 
                             {/* Mobile menu button */}
@@ -215,7 +268,7 @@ export default function Navbar() {
 
                     <Disclosure.Panel className="sm:hidden bg-white border-b border-gray-200">
                         <div className="space-y-1 pb-3 pt-2">
-                            {navigation.map((item) => {
+                            {mainNavigation.map((item) => {
                                 const isCurrent = pathname === item.href;
                                 return (
                                     <Disclosure.Button
@@ -234,6 +287,40 @@ export default function Navbar() {
                                     </Disclosure.Button>
                                 );
                             })}
+
+                            {/* Mobile Le Club Dropdown using nested Disclosure */}
+                            <Disclosure as="div" className="border-l-4 border-transparent">
+                                {({ open }) => (
+                                    <>
+                                        <Disclosure.Button
+                                            className={classNames(
+                                                'flex w-full items-center justify-between py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                                            )}
+                                        >
+                                            <span className="flex-1 text-left">Le Club</span>
+                                            <ChevronDownIcon
+                                                className={classNames(
+                                                    open ? 'rotate-180' : '',
+                                                    'h-5 w-5 flex-none'
+                                                )}
+                                                aria-hidden="true"
+                                            />
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="mt-2 space-y-1 pl-4">
+                                            {clubNavigation.map((item) => (
+                                                <Disclosure.Button
+                                                    key={item.name}
+                                                    as={Link}
+                                                    href={item.href}
+                                                    className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                                >
+                                                    {item.name}
+                                                </Disclosure.Button>
+                                            ))}
+                                        </Disclosure.Panel>
+                                    </>
+                                )}
+                            </Disclosure>
                         </div>
                         <div className="border-t border-gray-200 pb-3 pt-4">
                             {isAuthenticated ? (

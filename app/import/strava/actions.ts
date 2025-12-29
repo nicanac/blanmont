@@ -97,7 +97,8 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
          direction: overrides?.direction,
          surface: overrides?.surface,
          rating: overrides?.rating,
-         photos: photoUrls
+         photos: photoUrls,
+         polyline: activity.map?.summary_polyline
      });
 
      if (!result.success) {
