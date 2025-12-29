@@ -4,6 +4,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { fetchStravaActivityAction, importStravaTraceAction } from './actions';
 import { StravaActivity } from '../../lib/strava';
+import { CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 // Dynamic import for Leaflet map to avoid SSR issues
 const MapPreview = dynamic(() => import('../../components/ui/MapPreview'), { ssr: false });
@@ -96,9 +97,28 @@ export default function ImportForm() {
             )}
 
             {successMessage && (
-                <div className="p-4 bg-green-50 text-green-700 rounded-md border border-green-200 flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
-                    {successMessage}
+                <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5 mb-6">
+                    <div className="p-4">
+                        <div className="flex items-start">
+                            <div className="flex-shrink-0">
+                                <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                            </div>
+                            <div className="ml-3 w-0 flex-1 pt-0.5">
+                                <p className="text-sm font-medium text-gray-900">Successfully imported!</p>
+                                <p className="mt-1 text-sm text-gray-500">{successMessage}</p>
+                            </div>
+                            <div className="ml-4 flex flex-shrink-0">
+                                <button
+                                    type="button"
+                                    className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    onClick={() => setSuccessMessage(null)}
+                                >
+                                    <span className="sr-only">Close</span>
+                                    <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
 
