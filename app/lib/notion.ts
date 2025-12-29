@@ -81,6 +81,7 @@ export const getMembers = async (): Promise<Member[]> => {
         role: props.Role?.multi_select?.map((r: any) => r.name) || [],
         bio: props.Bio?.rich_text[0]?.plain_text || '',
         photoUrl: photoUrl || 'https://placehold.co/400x400',
+        phone: props.Phone?.phone_number || props.Mobile?.phone_number || '',
       };
     });
   } catch (error) {
@@ -134,6 +135,7 @@ export const validateUser = async (email: string, password: string): Promise<Mem
       bio: props.Bio?.rich_text[0]?.plain_text || '',
       photoUrl: photoUrl || 'https://placehold.co/400x400',
       email: props.Email?.email || '',
+      phone: props.Phone?.phone_number || props.Mobile?.phone_number || props.GSM?.phone_number || '', // Try multiple potential property names
     };
   } catch (error) {
     console.error('Failed to validate user:', error);

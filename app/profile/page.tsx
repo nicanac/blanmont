@@ -18,6 +18,11 @@ export default function ProfilePage() {
         return null; // Or a loading spinner
     }
 
+    // Simple name splitting logic
+    const nameParts = user.name.split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ');
+
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
@@ -34,40 +39,12 @@ export default function ProfilePage() {
 
                 {/* Product Info / User Details */}
                 <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">{user.name}</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">{firstName}</h1>
+                    <h2 className="text-3xl font-bold tracking-tight text-gray-900">{lastName}</h2>
 
                     <div className="mt-3">
-                        <h2 className="sr-only">Type de compte</h2>
-                        <p className="text-3xl tracking-tight text-gray-900">Membre</p>
-                    </div>
-
-                    {/* Reviews / Status */}
-                    <div className="mt-3">
-                        <h3 className="sr-only">Statut</h3>
-                        <div className="flex items-center">
-                            <div className="flex items-center">
-                                {/* Active Stars (Visual Flourish) */}
-                                {[0, 1, 2, 3, 4].map((rating) => (
-                                    <svg
-                                        key={rating}
-                                        className="h-5 w-5 flex-shrink-0 text-brand-primary"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                ))}
-                            </div>
-                            <p className="sr-only">5 out of 5 stars</p>
-                            <span className="ml-3 text-sm font-medium text-brand-primary hover:text-brand-secondary cursor-pointer">
-                                Compte Vérifié
-                            </span>
-                        </div>
+                        <h3 className="sr-only">Type de compte</h3>
+                        <p className="text-3xl tracking-tight text-brand-primary">Membre</p>
                     </div>
 
                     <div className="mt-6">
@@ -76,30 +53,29 @@ export default function ProfilePage() {
                             <p>
                                 Bienvenue sur votre profil membre du Blanmont Cycling Club.
                                 Ici, vous pouvez retrouver les informations liées à votre adhésion.
-                                Votre profil est actif et vous permet de participer aux sorties et aux votes.
                             </p>
                         </div>
                     </div>
 
-                    <div className="mt-6">
-                        <div className="flex items-center">
-                            <h4 className="text-sm font-medium text-gray-900">Email : </h4>
+                    <div className="mt-6 border-t border-gray-100 pt-6">
+                        <div className="flex items-center justify-between py-2 border-b border-gray-50">
+                            <h4 className="text-sm font-medium text-gray-900">Email</h4>
                             <span className="ml-2 text-sm text-gray-500">{user.email}</span>
                         </div>
-                        <div className="flex items-center mt-2">
-                            <h4 className="text-sm font-medium text-gray-900">Identifiant : </h4>
-                            <span className="ml-2 text-sm text-gray-500 font-mono">{user.id}</span>
-                        </div>
+                        {user.phone && (
+                            <div className="flex items-center justify-between py-2 border-b border-gray-50">
+                                <h4 className="text-sm font-medium text-gray-900">Mobile</h4>
+                                <span className="ml-2 text-sm text-gray-500">{user.phone}</span>
+                            </div>
+                        )}
                     </div>
 
                     <form className="mt-10">
                         {/* Fake Actions */}
-                        <div className="flex w-full items-center justify-center rounded-md border border-transparent bg-brand-primary px-8 py-3 text-base font-medium text-white hover:bg-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 cursor-pointer transition-colors">
+                        <div className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer transition-colors shadow-sm">
                             Modifier mes informations
                         </div>
-                        <p className="mt-4 text-center text-sm text-gray-500">
-                            Pour des raisons de sécurité, veuillez contacter un administrateur pour changer votre email ou mot de passe.
-                        </p>
+                        {/* Hidden ID for debugging if needed, but removed from view as requested by user */}
                     </form>
                 </div>
             </div>
