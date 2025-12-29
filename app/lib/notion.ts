@@ -643,12 +643,8 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
             Name: { title: [{ text: { content: traceData.name || 'Untitled Import' } }] },
             Note: { rich_text: [{ text: { content: traceData.description || 'Imported from Strava' } }] },
             Komoot: { url: traceData.mapUrl || null }, // Using 'Komoot' field for general Map URL
-            
             // Fixed property name from 'D+' to 'Elevation' (Case sensitive common convention)
             Elevation: { number: traceData.elevation || 0 },
-
-            // Write Distance to logic property (hoping 'Distance' exists and 'km' formula uses it)
-            Distance: { number: traceData.distance || 0 }
         };
 
         if (traceData.direction) {
@@ -659,24 +655,46 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
             };
         }
 
-        // Add Photos
+        // 'photo' property in this DB seems to be a URL, not a File object.
+        // We set the first photo as the main photo URL.
         if (traceData.photos && traceData.photos.length > 0) {
             properties.photo = {
-                files: traceData.photos.map((url, index) => ({
-                    name: `photo_${index}.jpg`,
-                    type: "external",
-                    external: { url }
-                }))
+                url: traceData.photos[0]
             };
         }
 
-        // If 'km' is writeable (Number), set it. If it's a Formula, we can't.
-        // We'll skip specific Distance write for safety unless we're sure.
-        // But we can put it in description.
+        // Construct page content (Children)
+        const children = [];
+        
+        // Add Description as generic text
+        if (traceData.description) {
+            children.push({
+                object: 'block',
+                type: 'paragraph',
+                paragraph: {
+                    rich_text: [{ text: { content: traceData.description } }]
+                }
+            });
+        }
+
+        // Add Photos as Image Blocks
+        if (traceData.photos) {
+            traceData.photos.forEach(url => {
+                children.push({
+                    object: 'block',
+                    type: 'image',
+                    image: {
+                        type: 'external',
+                        external: { url }
+                    }
+                });
+            });
+        }
         
         await notionRequest('pages', 'POST', {
             parent: { database_id: dbId },
-            properties: properties
+            properties: properties,
+            children: children
         });
         
         return { success: true };
