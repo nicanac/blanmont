@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { fetchStravaActivityAction, importStravaTraceAction, deleteTraceAction } from './actions';
 import { StravaActivity } from '../../lib/strava';
+import { Snackbar } from '@mui/material';
 import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
 // Dynamic import for Leaflet map to avoid SSR issues
