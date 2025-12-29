@@ -631,6 +631,40 @@ const CALENDAR_DB_ID = '2d29555c-6779-80b0-a9e3-e07785d2d847'; // Hardcoded vali
  */
 import { CalendarEvent } from '../types';
 
+export const createTrace = async (traceData: Partial<Trace>) => {
+    if (isMockMode || !TRACES_DB_ID) {
+        console.log('Mock create trace:', traceData);
+        return { success: true, id: 'mock-new-id' };
+    }
+
+    try {
+        const dbId = cleanId(TRACES_DB_ID);
+        const properties: any = {
+            Name: { title: [{ text: { content: traceData.name || 'Untitled Import' } }] },
+            Note: { rich_text: [{ text: { content: traceData.description || 'Imported from Strava' } }] },
+            Komoot: { url: traceData.mapUrl || null }, // Using 'Komoot' field for general Map URL
+            // Attempt to write stats
+            // Note: If 'km' is a formula, this might fail or be ignored. 
+            // We use 'Elevation' or 'D+' 
+            'D+': { number: traceData.elevation || 0 }
+        };
+
+        // If 'km' is writeable (Number), set it. If it's a Formula, we can't.
+        // We'll skip specific Distance write for safety unless we're sure.
+        // But we can put it in description.
+        
+        await notionRequest('pages', 'POST', {
+            parent: { database_id: dbId },
+            properties: properties
+        });
+        
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to create trace:', e);
+        return { success: false, error: String(e) };
+    }
+};
+
 export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
     if (isMockMode || !CALENDAR_DB_ID) {
        console.warn('Missing NOTION_CALENDAR_DB_ID or mock mode'); 

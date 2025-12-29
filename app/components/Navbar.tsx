@@ -32,6 +32,7 @@ export default function Navbar() {
         { name: 'Calendrier', href: '/calendrier' },
         { name: 'Le Club', href: '/le-club' },
         { name: 'Admin', href: '/admin/add-trace' },
+        { name: 'Import Strava', href: '/import/strava' },
     ];
 
     return (
