@@ -92,7 +92,7 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
          name: overrides?.name || activity.name,
          distance: activity.distance / 1000,
          elevation: activity.total_elevation_gain,
-         mapUrl: `https://www.strava.com/activities/${activity.id}`,
+         mapUrl: activity.mapUrl || `https://www.strava.com/activities/${activity.id}`,
          description: activity.description || `Imported from Strava. Distance: ${(activity.distance/1000).toFixed(1)}km`,
          direction: overrides?.direction,
          surface: overrides?.surface,

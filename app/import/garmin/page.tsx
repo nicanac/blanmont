@@ -16,11 +16,51 @@ export default function GarminImportPage() {
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [createdTraceId, setCreatedTraceId] = useState<string | null>(null);
+    const [mode, setMode] = useState<'file' | 'url'>('file');
+    const [url, setUrl] = useState('');
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setFile(e.target.files[0]);
             await parseGPX(e.target.files[0]);
+        }
+    };
+
+    const handleUrlSubmit = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            // dynamic import to avoid server-side issues if needed, or just import at top
+            const { fetchGarminActivityAction } = await import('./actions');
+            const result = await fetchGarminActivityAction(url);
+
+            if (result.error) {
+                setError(result.error);
+                return;
+            }
+
+            if (result.activity) {
+                // We got some data!
+                setPreview({
+                    name: result.activity.name || 'Imported Garmin Activity',
+                    distance: result.activity.distance || 0,
+                    total_elevation_gain: result.activity.elevation || 0,
+                    map: {
+                        summary_polyline: '' // Likely empty if we just scraped HTML
+                    },
+                    total_photo_count: 0,
+                    // Pass the URL so it can be saved as the 'Komoot'/'Map' link in Notion
+                    mapUrl: url
+                });
+
+                if (!result.activity.hasGpx) {
+                    setSuccessMessage('URL loaded! Note: Retrieveing exact map data from Garmin URLs is restricted. Please verify stats below. The link will be saved.');
+                }
+            }
+        } catch (e) {
+            setError('Failed to load URL.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -38,6 +78,10 @@ export default function GarminImportPage() {
             const track = geojson.features.find((f: any) => f.geometry.type === 'LineString');
 
             if (!track || !track.geometry || track.geometry.type !== 'LineString') {
+                // Fallback: Check for MultiLineString
+                const multiTrack = geojson.features.find((f: any) => f.geometry.type === 'MultiLineString');
+                if (multiTrack) throw new Error('MultiLineString not yet supported, please simplify GPX.');
+
                 throw new Error('No track found in GPX file.');
             }
 
@@ -106,11 +150,9 @@ export default function GarminImportPage() {
         setLoading(true);
 
         try {
-            // We need to shape this like a StravaActivity for the action
-            // Or create a new generic action. But to save time and reuse logic, let's mock it.
-            // The existing importStravaTraceAction expects StravaActivity.
+            // The existing importStravaTraceAction expects StravaActivity but takes 'any' in implementation.
 
-            const mockActivity: StravaActivity = {
+            const mockActivity: any = {
                 id: Date.now(), // Fake ID
                 name: details.name,
                 distance: preview.distance,
@@ -123,16 +165,24 @@ export default function GarminImportPage() {
                 description: 'Imported from Garmin/GPX',
                 start_date: new Date().toISOString(),
                 photos: { count: 0, primary: null },
-                total_photo_count: 0
+                total_photo_count: 0,
+                // Pass the URL for Notion 'Komoot' field
+                mapUrl: preview.mapUrl
             };
+
+            // If we have an external URL, let's append it to description or pass it specially if 'actions' supports it.
+            // Looking at importStravaTraceAction... it maps StravaActivity to TraceData.
+            // Currently it puts `komoot` as mapUrl. We can hijack that?
+            // Or better, let's rely on standard logic.
 
             const result = await importStravaTraceAction(mockActivity, details);
 
             if (result.success) {
-                setSuccessMessage('Trace imported successfully from GPX!');
+                setSuccessMessage('Trace imported successfully!');
                 setCreatedTraceId(result.traceId || null);
                 setPreview(null);
                 setFile(null);
+                setUrl('');
             } else {
                 setError(result.error || 'Failed to create trace in Notion.');
             }
@@ -155,7 +205,25 @@ export default function GarminImportPage() {
             </div>
 
             <div className="space-y-6">
-                {!preview && !successMessage && (
+                {/* Mode Toggle */}
+                {!preview && (
+                    <div className="flex space-x-4 mb-4">
+                        <button
+                            onClick={() => setMode('file')}
+                            className={`px-4 py-2 rounded-md font-medium ${mode === 'file' ? 'bg-brand-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                        >
+                            Upload GPX
+                        </button>
+                        <button
+                            onClick={() => setMode('url')}
+                            className={`px-4 py-2 rounded-md font-medium ${mode === 'url' ? 'bg-brand-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                        >
+                            Enter URL
+                        </button>
+                    </div>
+                )}
+
+                {!preview && !successMessage && mode === 'file' && (
                     <div className="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 bg-white">
                         <div className="text-center">
                             <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
@@ -171,6 +239,31 @@ export default function GarminImportPage() {
                             </div>
                             <p className="text-xs leading-5 text-gray-600">.GPX up to 10MB</p>
                         </div>
+                    </div>
+                )}
+
+                {!preview && !successMessage && mode === 'url' && (
+                    <div className="bg-white p-6 rounded-lg shadow-sm border">
+                        <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">Garmin Activity URL</label>
+                        <div className="flex gap-4">
+                            <input
+                                type="text"
+                                value={url}
+                                onChange={(e) => setUrl(e.target.value)}
+                                placeholder="https://connect.garmin.com/modern/activity/..."
+                                className="flex-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                            />
+                            <button
+                                onClick={handleUrlSubmit}
+                                disabled={loading || !url}
+                                className="bg-brand-primary text-white px-4 py-2 rounded-md hover:opacity-90 disabled:opacity-50"
+                            >
+                                {loading ? 'Fetching...' : 'Fetch'}
+                            </button>
+                        </div>
+                        <p className="mt-2 text-xs text-gray-500">
+                            Note: We will try to fetch metadata. If privacy settings block access, you might need to use GPX upload.
+                        </p>
                     </div>
                 )}
 

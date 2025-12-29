@@ -15,6 +15,7 @@ export interface TraceImportData {
         summary_polyline: string;
     };
     total_photo_count?: number;
+    mapUrl?: string;
 }
 
 interface TracePreviewFormProps {
