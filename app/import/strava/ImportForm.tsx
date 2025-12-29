@@ -125,7 +125,7 @@ export default function ImportForm() {
                     onClose={() => { }}
                     message={null}
                 >
-                    <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
+                    <div className="pointer-events-auto w-96 overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
                         <div className="p-4">
                             <div className="flex items-start">
                                 <div className="flex-shrink-0">
