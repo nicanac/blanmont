@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CalendarEvent } from '../types';
+import CalendarDrawer from './CalendarDrawer';
 import {
     ChevronLeftIcon,
     ChevronRightIcon
@@ -22,9 +23,6 @@ function getDaysInMonth(year: number, month: number) {
 }
 
 // Helper to get day of week for the first day of the month (0 = Sunday, 1 = Monday, ...)
-// Standard JS: 0=Sun, 1=Mon.
-// We want Monday as start of week? Tailwind UI usually starts Sunday or Monday.
-// Let's stick to Monday start for Europe.
 function getFirstDayOfMonth(year: number, month: number) {
     let day = new Date(year, month, 1).getDay();
     // Monday start: Sun(0) -> 6, Mon(1) -> 0
@@ -33,6 +31,7 @@ function getFirstDayOfMonth(year: number, month: number) {
 
 export default function CalendarView({ events }: { events: CalendarEvent[] }) {
     const [currentDate, setCurrentDate] = useState(new Date()); // Start at current date
+    const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -46,8 +45,6 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
     // Calculate Previous Month dates
     const prevMonthPadding = Array.from({ length: firstDayOfWeek }, (_, i) => {
         const day = daysInPrevMonth - firstDayOfWeek + i + 1;
-        // Note: Month in Date constructor is 0-indexed. prev month is month-1.
-        // Handling Year rollover is automatic with Date(year, month-1, day)
         const d = new Date(year, month - 1, day);
         const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         return { day: day, currentMonth: false, dateStr };
@@ -174,11 +171,13 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                         <ol className="mt-1">
                                             {dayEvents.map(event => (
                                                 <li key={event.id}>
-                                                    <a href="#" className={classNames(
-                                                        "group flex flex-col gap-0.5 rounded-md p-1.5 transition-colors border border-transparent",
-                                                        // Weekday events (Mon-Fri) get alternate background
-                                                        (idx % 7 < 5) ? 'bg-red-50 hover:bg-red-100 hover:border-red-200' : 'hover:bg-gray-100 hover:border-gray-200'
-                                                    )}>
+                                                    <button
+                                                        onClick={() => setSelectedEvent(event)}
+                                                        className={classNames(
+                                                            "group flex flex-col gap-0.5 rounded-md p-1.5 transition-colors border border-transparent w-full text-left",
+                                                            // Weekday events (Mon-Fri) get alternate background
+                                                            (idx % 7 < 5) ? 'bg-red-50 hover:bg-red-100 hover:border-red-200' : 'hover:bg-gray-100 hover:border-gray-200'
+                                                        )}>
                                                         <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
                                                             {event.location}
                                                         </p>
@@ -191,7 +190,7 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                                                 Alt: {event.alternative}
                                                             </p>
                                                         )}
-                                                    </a>
+                                                    </button>
                                                 </li>
                                             ))}
                                         </ol>
@@ -208,7 +207,11 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                     const [y, m, d] = event.isoDate.split('-').map(Number);
                                     const dateObj = new Date(y, m - 1, d);
                                     return (
-                                        <div key={event.id} className="p-4 border-b border-gray-100 flex gap-4">
+                                        <div
+                                            key={event.id}
+                                            className="p-4 border-b border-gray-100 flex gap-4 cursor-pointer hover:bg-gray-50"
+                                            onClick={() => setSelectedEvent(event)}
+                                        >
                                             <div className="flex-none bg-gray-50 rounded-lg p-2 text-center w-14 h-14 flex flex-col justify-center items-center border border-gray-200">
                                                 <span className="text-xs text-gray-500 font-bold uppercase">{dateObj.toLocaleDateString('fr-FR', { weekday: 'short' })}</span>
                                                 <span className="text-lg font-bold text-gray-900">{dateObj.getDate()}</span>
@@ -231,6 +234,12 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                     </div>
                 </div>
             </div>
+
+            <CalendarDrawer
+                event={selectedEvent}
+                open={!!selectedEvent}
+                onClose={() => setSelectedEvent(null)}
+            />
         </div>
     );
 }
