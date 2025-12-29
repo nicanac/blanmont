@@ -217,7 +217,8 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
     photoAlbumUrl: photoAlbumUrl,
     start: props.start?.select?.name,
     end: props.end?.select?.name,
-    direction: props.Direction?.select?.name || props.Direction?.rich_text?.[0]?.plain_text || undefined
+    direction: props.Direction?.select?.name || props.Direction?.rich_text?.[0]?.plain_text || undefined,
+    polyline: props.MapPolyline?.rich_text?.[0]?.plain_text || undefined
   };
 };
 
@@ -652,6 +653,23 @@ export const ensureDistanceProperty = async () => {
     }
 };
 
+export const ensureMapPolylineProperty = async () => {
+    if (isMockMode || !TRACES_DB_ID) return;
+    const dbId = cleanId(TRACES_DB_ID);
+    try {
+        await notionRequest(`databases/${dbId}`, 'PATCH', {
+            properties: {
+                'MapPolyline': {
+                    rich_text: {}
+                }
+            }
+        });
+        // console.log('MapPolyline property ensured.');
+    } catch (e) {
+        console.error('Failed to ensure MapPolyline property:', e);
+    }
+};
+
 export const createTrace = async (traceData: Partial<Trace> & { photos?: string[] }) => {
     if (isMockMode || !TRACES_DB_ID) {
         console.log('Mock create trace:', traceData);
@@ -660,31 +678,38 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
 
     try {
         await ensureDistanceProperty(); // Ensure field exists before writing
-        
+        await ensureMapPolylineProperty();
+
         const dbId = cleanId(TRACES_DB_ID);
         const properties: any = {
             Name: { title: [{ text: { content: traceData.name || 'Untitled Import' } }] },
             Note: { rich_text: [{ text: { content: traceData.description || 'Imported from Strava' } }] },
-            Komoot: { url: traceData.mapUrl || null }, 
-            
+            Komoot: { url: traceData.mapUrl || null },
+
             Elevation: { number: traceData.elevation || 0 },
             Distance: { number: traceData.distance || 0 }
         };
 
+        if (traceData.polyline) {
+            properties.MapPolyline = {
+                rich_text: [{ text: { content: traceData.polyline } }]
+            };
+        }
+
         // ... direction logic
         if (traceData.direction) {
-             properties.Direction = {
-                 select: {
-                     name: traceData.direction
-                 }
-             };
+            properties.Direction = {
+                select: {
+                    name: traceData.direction
+                }
+            };
         }
-        
+
         // ... rest
         if (traceData.photos && traceData.photos.length > 0) {
-             properties.photo = { url: traceData.photos[0] };
+            properties.photo = { url: traceData.photos[0] };
         }
-        
+
         const children = [];
         if (traceData.description) {
             children.push({
@@ -695,9 +720,9 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
         }
         if (traceData.photos) {
             traceData.photos.forEach(url => {
-                 children.push({
+                children.push({
                     object: 'block', type: 'image', image: { type: 'external', external: { url } }
-                 });
+                });
             });
         }
 
@@ -706,7 +731,7 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
             properties: properties,
             children: children
         });
-        
+
         return { success: true, id: response.id as string };
     } catch (e) {
         console.error('Failed to create trace:', e);

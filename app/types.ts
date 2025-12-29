@@ -56,6 +56,8 @@ export interface Trace {
   direction?: string;
   /** specific description or notes about the route. */
   description: string;
+  /** Encoded polyline string for the route path. */
+  polyline?: string;
 }
 
 /**
