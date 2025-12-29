@@ -1,5 +1,5 @@
-import { getMembers, getTraces, getActiveRides, getVotes } from '../lib/notion';
-import SaturdayRideView from '../components/SaturdayRideView';
+import { getMembers, getTraces, getActiveRides, getVotes } from '../lib/notion/index';
+import SaturdayRideView from '../features/saturday-ride/components/SaturdayRideView';
 import { Suspense } from 'react';
 import { Vote } from '../types';
 

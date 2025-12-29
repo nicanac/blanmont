@@ -63,19 +63,19 @@ if [ $IS_VALID -eq 0 ]; then
   exit 1
 fi
 
-# Detect user prefix from existing branches
-# Looks for branches with a slash, takes the first part before the slash
-USER_PREFIX=$(git branch --list | grep '/' | head -n 1 | sed 's/.* //;s/\/.*//' | tr -d ' *')
+# Get Git username (e.g. "Nicolas Bruyere" -> "nicolas_bruyere")
+GIT_USER=$(git config user.name | tr ' ' '_' | tr '[:upper:]' '[:lower:]')
 
-# Default to 'dev' if detection fails
-if [ -z "$USER_PREFIX" ]; then
-    echo "Could not detect user prefix from existing branches. Using 'dev'."
-    USER_PREFIX="dev"
+# Fallback to 'dev' if not found
+if [ -z "$GIT_USER" ]; then
+    echo "Could not detect git user.name. Using 'dev'."
+    GIT_USER="dev"
 else
-    echo "Detected user prefix: $USER_PREFIX"
+    echo "Detected git user: $GIT_USER"
 fi
 
-BRANCH_NAME="${USER_PREFIX}/${TYPE}/${NAME}"
+# Branch format: username/type/name (e.g. nicolas_bruyere/feature/add-login)
+BRANCH_NAME="${GIT_USER}/${TYPE}/${NAME}"
 
 echo "Creating and switching to branch: $BRANCH_NAME"
 git checkout -b "$BRANCH_NAME"

@@ -1,4 +1,4 @@
-import HeroActions from './components/HeroActions';
+import HeroActions from './components/shared/HeroActions';
 
 /**
  * The Landing Page (Home).

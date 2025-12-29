@@ -6,10 +6,11 @@ import Link from 'next/link';
 import { fetchStravaActivityAction, importStravaTraceAction, deleteTraceAction } from './actions';
 import { StravaActivity } from '../../lib/strava';
 import { Snackbar } from '@mui/material';
-import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import TracePreviewForm from '../../features/import/components/TracePreviewForm';
 
 // Dynamic import for Leaflet map to avoid SSR issues
-const MapPreview = dynamic(() => import('../../components/ui/MapPreview'), { ssr: false });
+const MapPreview = dynamic(() => import('../../features/traces/components/MapPreview'), { ssr: false });
 
 export default function ImportForm() {
     const [url, setUrl] = useState('');
@@ -18,12 +19,6 @@ export default function ImportForm() {
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [createdTraceId, setCreatedTraceId] = useState<string | null>(null);
-
-    // Editable fields
-    const [editedName, setEditedName] = useState('');
-    const [direction, setDirection] = useState('↑ Nord');
-    const [surface, setSurface] = useState('4 - good');
-    const [rating, setRating] = useState('⭐⭐⭐');
 
     const handlePreview = async () => {
         setLoading(true);
@@ -36,7 +31,7 @@ export default function ImportForm() {
                 setError(result.error);
             } else if (result.activity) {
                 setPreview(result.activity);
-                setEditedName(result.activity.name);
+                // setEditedName(result.activity.name); // No longer needed here, passed to child
             }
         } catch (e) {
             setError('An unexpected error occurred.');
@@ -45,15 +40,15 @@ export default function ImportForm() {
         }
     };
 
-    const handleImport = async () => {
+    const handleImport = async (details: { name: string; direction: string; surface: string; rating: string }) => {
         if (!preview) return;
         setLoading(true);
         try {
             const result = await importStravaTraceAction(preview, {
-                name: editedName,
-                direction,
-                surface,
-                rating
+                name: details.name,
+                direction: details.direction,
+                surface: details.surface,
+                rating: details.rating
             });
 
             if (result.success) {
@@ -61,10 +56,6 @@ export default function ImportForm() {
                 setCreatedTraceId(result.traceId || null);
                 setPreview(null);
                 setUrl('');
-                setEditedName('');
-                setDirection('↑ Nord');
-                setSurface('4 - good');
-                setRating('⭐⭐⭐');
             } else {
                 setError(result.error || 'Failed to import trace.');
             }
@@ -170,112 +161,11 @@ export default function ImportForm() {
             )}
 
             {preview && (
-                <div className="border rounded-lg p-6 bg-white shadow-sm transition-all duration-300">
-                    {/* Header Info */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium leading-6 text-gray-900">Name</label>
-                                <input
-                                    type="text"
-                                    value={editedName}
-                                    onChange={(e) => setEditedName(e.target.value)}
-                                    className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium leading-6 text-gray-900">Direction</label>
-                                    <select
-                                        value={direction}
-                                        onChange={(e) => setDirection(e.target.value)}
-                                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    >
-                                        <option value="↑ Nord">↑ Nord</option>
-                                        <option value="↓ Sud">↓ Sud</option>
-                                        <option value="→ Est">→ Est</option>
-                                        <option value="← Ouest">← Ouest</option>
-                                        <option value="↗ Nord Est">↗ Nord Est</option>
-                                        <option value="↗ Nord Ouest">↗ Nord Ouest</option>
-                                        <option value="↘ Sud Est">↘ Sud Est</option>
-                                        <option value="↙ Sud Ouest">↙ Sud Ouest</option>
-                                        {/* Fallback/Duplicate handling just in case */}
-                                        <option value="Nord">Nord (Legacy)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium leading-6 text-gray-900">Rating</label>
-                                    <select
-                                        value={rating}
-                                        onChange={(e) => setRating(e.target.value)}
-                                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    >
-                                        <option value="⭐">⭐</option>
-                                        <option value="⭐⭐">⭐⭐</option>
-                                        <option value="⭐⭐⭐">⭐⭐⭐</option>
-                                        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
-                                        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium leading-6 text-gray-900">Road Quality</label>
-                                <select
-                                    value={surface}
-                                    onChange={(e) => setSurface(e.target.value)}
-                                    className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                >
-                                    <option value="1 - bad">1 - Bad</option>
-                                    <option value="2 - bad -> average">2 - Bad to Average</option>
-                                    <option value="3 - average -> good">3 - Average to Good</option>
-                                    <option value="4 - good">4 - Good</option>
-                                    <option value="5 - good -> very good">5 - Good to Very Good</option>
-                                    <option value="6 - very good -> excellent">6 - Very Good to Excellent</option>
-                                    <option value="7 - Excellent">7 - Excellent</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {/* Map Preview */}
-                        <div className="h-64 rounded-lg overflow-hidden border border-gray-200">
-                            {preview.map?.summary_polyline ? (
-                                <MapPreview summaryPolyline={preview.map.summary_polyline} />
-                            ) : (
-                                <div className="h-full w-full bg-gray-100 flex items-center justify-center text-gray-500">
-                                    No Map Data
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Stats Summary */}
-                    <div className="bg-gray-50 p-4 rounded-md mb-6 text-sm text-gray-600">
-                        <div className="grid grid-cols-3 gap-4 text-center">
-                            <div>
-                                <div className="font-semibold mb-1">Distance</div>
-                                <span className="text-gray-900 font-bold text-lg">{(preview.distance / 1000).toFixed(1)}</span> km
-                            </div>
-                            <div>
-                                <div className="font-semibold mb-1">Elevation</div>
-                                <span className="text-gray-900 font-bold text-lg">{preview.total_elevation_gain}</span> m
-                            </div>
-                            <div>
-                                <div className="font-semibold mb-1">Photos</div>
-                                <span className="text-gray-900 font-bold text-lg">{preview.total_photo_count || 0}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={handleImport}
-                        disabled={loading}
-                        className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 font-bold transition-colors shadow-sm disabled:opacity-50"
-                    >
-                        {loading ? 'Creating Trace...' : 'Create Trace in Notion'}
-                    </button>
-                </div>
+                <TracePreviewForm
+                    data={preview}
+                    onImport={handleImport}
+                    isLoading={loading}
+                />
             )}
         </div>
     );

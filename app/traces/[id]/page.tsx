@@ -1,6 +1,6 @@
 import { getTrace, getTraces, submitFeedback, getMembers, getFeedbackForTrace } from '../../lib/notion';
 import { uploadMapPreview, generateMapPreview } from '../../actions';
-import DownloadGPXButton from '../../components/ui/DownloadGPXButton';
+import DownloadGPXButton from '../../features/traces/components/DownloadGPXButton';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { Suspense } from 'react';
