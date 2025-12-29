@@ -10,6 +10,10 @@ export default function ImportForm() {
     const [preview, setPreview] = useState<StravaActivity | null>(null);
     const [error, setError] = useState<string | null>(null);
 
+    // New fields
+    const [editedName, setEditedName] = useState('');
+    const [direction, setDirection] = useState('Nord');
+
     const handlePreview = async () => {
         setLoading(true);
         setError(null);
@@ -20,6 +24,7 @@ export default function ImportForm() {
                 setError(result.error);
             } else if (result.activity) {
                 setPreview(result.activity);
+                setEditedName(result.activity.name); // Init name
             }
         } catch (e) {
             setError('An unexpected error occurred.');
@@ -32,13 +37,14 @@ export default function ImportForm() {
         if (!preview) return;
         setLoading(true);
         try {
-            const result = await importStravaTraceAction(preview);
+            const result = await importStravaTraceAction(preview, { name: editedName, direction });
             if (result.success) {
                 alert('Trace imported successfully! (Check Notion)');
                 setPreview(null);
                 setUrl('');
+                setEditedName('');
             } else {
-                setError('Failed to import trace.');
+                setError(result.error || 'Failed to import trace.');
             }
         } catch (e) {
             setError('Import failed.');
@@ -73,20 +79,53 @@ export default function ImportForm() {
             )}
 
             {preview && (
-                <div className="border rounded-lg p-4 bg-gray-50">
-                    <h4 className="font-bold text-lg mb-2">{preview.name}</h4>
-                    <div className="grid grid-cols-3 gap-4 mb-4 text-sm text-gray-600">
+                <div className="border rounded-lg p-6 bg-white shadow-sm">
+                    {/* Editable Fields */}
+                    <div className="grid grid-cols-1 gap-6 mb-6">
                         <div>
-                            <span className="block font-semibold">Distance</span>
-                            {(preview.distance / 1000).toFixed(2)} km
+                            <label className="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                            <input
+                                type="text"
+                                value={editedName}
+                                onChange={(e) => setEditedName(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            />
                         </div>
+
                         <div>
-                            <span className="block font-semibold">Elevation</span>
-                            {preview.total_elevation_gain} m
+                            <label className="block text-sm font-medium leading-6 text-gray-900">Direction</label>
+                            <select
+                                value={direction}
+                                onChange={(e) => setDirection(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            >
+                                <option>Nord</option>
+                                <option>Sud</option>
+                                <option>Est</option>
+                                <option>Ouest</option>
+                                <option>Nord-Est</option>
+                                <option>Nord-Ouest</option>
+                                <option>Sud-Est</option>
+                                <option>Sud-Ouest</option>
+                                <option>Centre</option>
+                            </select>
                         </div>
-                        <div>
-                            <span className="block font-semibold">Date</span>
-                            {new Date(preview.start_date).toLocaleDateString()}
+                    </div>
+
+                    <div className="bg-gray-50 p-4 rounded-md mb-6 text-sm text-gray-600">
+                        <div className="grid grid-cols-3 gap-4">
+                            <div>
+                                <span className="block font-semibold">Distance</span>
+                                {(preview.distance / 1000).toFixed(2)} km
+                            </div>
+                            <div>
+                                <span className="block font-semibold">Elevation</span>
+                                {preview.total_elevation_gain} m
+                            </div>
+                            <div>
+                                <span className="block font-semibold">Date</span>
+                                {new Date(preview.start_date).toLocaleDateString()}
+                            </div>
                         </div>
                     </div>
 
@@ -100,9 +139,9 @@ export default function ImportForm() {
                     <button
                         onClick={handleImport}
                         disabled={loading}
-                        className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 font-semibold"
+                        className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 font-bold transition-colors"
                     >
-                        {loading ? 'Importing...' : 'Create Trace in Notion'}
+                        {loading ? 'Creating Trace...' : 'Create Trace in Notion'}
                     </button>
                 </div>
             )}

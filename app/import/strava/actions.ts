@@ -53,7 +53,7 @@ export async function fetchStravaActivityAction(url: string) {
 // 2. Upload/Store it? Or save raw text in Notion?
 // 3. Create Notion Page.
 
-export async function importStravaTraceAction(activity: any) {
+export async function importStravaTraceAction(activity: any, overrides?: { name?: string; direction?: string }) {
      const cookieStore = await cookies();
      const accessToken = cookieStore.get('strava_access_token')?.value;
      if (!accessToken) throw new Error("No token");
@@ -61,22 +61,14 @@ export async function importStravaTraceAction(activity: any) {
      // Fetch Streams for full resolution path
      const streams = await getActivityStreams(String(activity.id), accessToken);
      
-     // Convert to GPX format (Naive implementation for now)
-     // Or just use the summary polyline for mapUrl and save manual GPX later?
-     // User wants "add a trace".
-     // If we can't save a file to Notion API directly (we can't easily), 
-     // we typically paste the GPX content into a code block or description.
-     
-     // For now, let's just create the Notion Page with metadata.
-     // Importing `createTrace` from notion.ts (I need to check if it represents `createPage` for trace DB).
-     
      // Create Notion Page
      const result = await createTrace({
-         name: activity.name,
+         name: overrides?.name || activity.name,
          distance: activity.distance / 1000,
          elevation: activity.total_elevation_gain,
          mapUrl: `https://www.strava.com/activities/${activity.id}`,
-         description: activity.description || `Imported from Strava. Distance: ${(activity.distance/1000).toFixed(1)}km`
+         description: activity.description || `Imported from Strava. Distance: ${(activity.distance/1000).toFixed(1)}km`,
+         direction: overrides?.direction
      });
 
      if (!result.success) {

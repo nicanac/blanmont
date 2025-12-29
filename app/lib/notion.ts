@@ -643,11 +643,18 @@ export const createTrace = async (traceData: Partial<Trace>) => {
             Name: { title: [{ text: { content: traceData.name || 'Untitled Import' } }] },
             Note: { rich_text: [{ text: { content: traceData.description || 'Imported from Strava' } }] },
             Komoot: { url: traceData.mapUrl || null }, // Using 'Komoot' field for general Map URL
-            // Attempt to write stats
-            // Note: If 'km' is a formula, this might fail or be ignored. 
-            // We use 'Elevation' or 'D+' 
-            'D+': { number: traceData.elevation || 0 }
+            
+            // Fixed property name from 'D+' to 'Elevation' (Case sensitive common convention)
+            Elevation: { number: traceData.elevation || 0 }
         };
+
+        if (traceData.direction) {
+            properties.Direction = {
+                select: {
+                    name: traceData.direction
+                }
+            };
+        }
 
         // If 'km' is writeable (Number), set it. If it's a Formula, we can't.
         // We'll skip specific Distance write for safety unless we're sure.
