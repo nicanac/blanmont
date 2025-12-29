@@ -9,6 +9,7 @@ interface User {
     avatarUrl?: string;
     email?: string;
     name: string;
+    phone?: string;
 }
 
 interface AuthContextType {
@@ -32,7 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     username: member.email || member.name, // Fallback to name if email missing
                     name: member.name,
                     avatarUrl: member.photoUrl,
-                    email: member.email
+                    email: member.email,
+                    phone: member.phone
                 });
                 return true;
             }
