@@ -1,0 +1,573 @@
+{
+  "Direction": {
+    "id": "%3B%3Do%7B",
+    "name": "Direction",
+    "description": null,
+    "type": "select",
+    "select": {
+      "options": [
+        {
+          "id": "c0abcc49-2d67-41cc-bcbd-e55e95f53bab",
+          "name": "← Ouest",
+          "color": "brown",
+          "description": null
+        },
+        {
+          "id": "b36da297-2cfe-42c5-a630-21a24da4c473",
+          "name": "↗ Nord Ouest",
+          "color": "blue",
+          "description": null
+        },
+        {
+          "id": "76af21fe-36bb-4381-829e-175ff72c8654",
+          "name": "↑ Nord",
+          "color": "yellow",
+          "description": "°"
+        },
+        {
+          "id": "9c240d62-b29b-40c9-b0be-280cbb76dc5b",
+          "name": "↗ Nord Est",
+          "color": "purple",
+          "description": null
+        },
+        {
+          "id": "514ed1cf-cb6a-4e1e-a258-16b5f906c1ca",
+          "name": "→ Est",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "496c4076-e518-485f-b7a0-52b57963e55b",
+          "name": "↘ Sud Est",
+          "color": "gray",
+          "description": null
+        },
+        {
+          "id": "392cd942-e3d9-49d1-ac7e-e5c8be577fe6",
+          "name": "↓ Sud",
+          "color": "pink",
+          "description": null
+        },
+        {
+          "id": "62d02522-729e-43a2-9ed0-044cff7993b7",
+          "name": "↙ Sud Ouest",
+          "color": "green",
+          "description": null
+        },
+        {
+          "id": "334f9ddf-59d6-48bf-ad57-a5219a5bbdec",
+          "name": "Sud-Ouest",
+          "color": "red",
+          "description": null
+        },
+        {
+          "id": "91a01bd0-b50b-458e-9be6-3cd5cc241745",
+          "name": "Nord",
+          "color": "orange",
+          "description": null
+        }
+      ]
+    }
+  },
+  "Saturday Rides": {
+    "id": "%3Ff%40k",
+    "name": "Saturday Rides",
+    "description": null,
+    "type": "relation",
+    "relation": {
+      "database_id": "2cd9555c-6779-8080-958d-fcc2f3affbf9",
+      "data_source_id": "2cd9555c-6779-80b2-8db6-000bc88802b9",
+      "type": "dual_property",
+      "dual_property": {
+        "synced_property_name": "Selected Trace",
+        "synced_property_id": "DpCk"
+      }
+    }
+  },
+  "km": {
+    "id": "G%5B%5Dl",
+    "name": "km",
+    "description": null,
+    "type": "formula",
+    "formula": {
+      "expression": "toNumber(replaceAll(replaceAll({{notion:block_property:title:00000000-0000-0000-0000-000000000000:13c2530c-9099-48b3-bd31-da6ce9ef5d54}}, \"^[^#]*#\", \"\"), \" .*\", \"\"))"
+    }
+  },
+  "Files & media": {
+    "id": "Hd_m",
+    "name": "Files & media",
+    "description": null,
+    "type": "files",
+    "files": {}
+  },
+  "map-preview": {
+    "id": "K%3Ada",
+    "name": "map-preview",
+    "description": null,
+    "type": "files",
+    "files": {}
+  },
+  "Feedback": {
+    "id": "PWtQ",
+    "name": "Feedback",
+    "description": null,
+    "type": "relation",
+    "relation": {
+      "database_id": "2c59555c-6779-8091-b36a-f021b943e357",
+      "data_source_id": "2c59555c-6779-80d5-a114-000b77842a0f",
+      "type": "dual_property",
+      "dual_property": {
+        "synced_property_name": "Trace",
+        "synced_property_id": "%3Fk%3F%5B"
+      }
+    }
+  },
+  "start": {
+    "id": "WltF",
+    "name": "start",
+    "description": null,
+    "type": "select",
+    "select": {
+      "options": [
+        {
+          "id": "7321ec6b-ba22-466b-a15b-72c9d7c51cfb",
+          "name": "Blanmont",
+          "color": "yellow",
+          "description": null
+        },
+        {
+          "id": "a8e8137c-256d-447c-a27d-931f7b6d3704",
+          "name": "Roux-miroir",
+          "color": "purple",
+          "description": null
+        },
+        {
+          "id": "585ae4ed-17d1-45d7-a7d8-21c001bfa62c",
+          "name": "Namur",
+          "color": "pink",
+          "description": null
+        },
+        {
+          "id": "f6375abf-b0ec-4462-8bbb-9722c255f942",
+          "name": "Incourt",
+          "color": "brown",
+          "description": null
+        },
+        {
+          "id": "872dc075-6865-4a68-a331-590c0c493e70",
+          "name": "La Bresse",
+          "color": "gray",
+          "description": null
+        },
+        {
+          "id": "f4f2783d-cd86-4fc6-893f-9211048c872f",
+          "name": "Amstel",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "bc3a7abd-98af-4ffc-9a7c-6004771b9d38",
+          "name": "LIoret demar",
+          "color": "green",
+          "description": null
+        },
+        {
+          "id": "957323c8-008e-455c-b1c9-ca00f060b1dc",
+          "name": "Rochefort",
+          "color": "blue",
+          "description": null
+        },
+        {
+          "id": "5ab69d7a-cca1-4866-8f35-9566f34aedee",
+          "name": "San Remo",
+          "color": "red",
+          "description": null
+        },
+        {
+          "id": "c61fecda-f69b-4a09-a207-932f4f892044",
+          "name": "Opprebais",
+          "color": "orange",
+          "description": null
+        },
+        {
+          "id": "682e1170-8149-4e69-9a74-d941c879bbcb",
+          "name": "Meux",
+          "color": "green",
+          "description": null
+        },
+        {
+          "id": "338ed063-09e5-4c28-9a2a-eb462fafa3a6",
+          "name": "Achêne",
+          "color": "yellow",
+          "description": null
+        },
+        {
+          "id": "2fba3327-514d-4aae-8e46-0ffa37ddc2d7",
+          "name": "Mozet",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "8866a8c6-592c-4e63-a0d7-e1bb6d6309c4",
+          "name": "La gileppe",
+          "color": "yellow",
+          "description": null
+        },
+        {
+          "id": "99ea8566-daed-4895-971e-088240890003",
+          "name": "Ans",
+          "color": "brown",
+          "description": null
+        },
+        {
+          "id": "e6ae4a48-64a5-4a56-a010-98f7f8476d14",
+          "name": "Luxembourg",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "0a1da2f1-0616-49ff-94a5-b595cddf3867",
+          "name": "Fexhe",
+          "color": "brown",
+          "description": null
+        }
+      ]
+    }
+  },
+  "Note": {
+    "id": "YO~h",
+    "name": "Note",
+    "description": null,
+    "type": "rich_text",
+    "rich_text": {}
+  },
+  "Elevation": {
+    "id": "%5CKds",
+    "name": "Elevation",
+    "description": null,
+    "type": "number",
+    "number": {
+      "format": "number"
+    }
+  },
+  "Komoot": {
+    "id": "%5D%5BAL",
+    "name": "Komoot",
+    "description": null,
+    "type": "url",
+    "url": {}
+  },
+  "end": {
+    "id": "%5DrKY",
+    "name": "end",
+    "description": null,
+    "type": "select",
+    "select": {
+      "options": [
+        {
+          "id": "cf4eee9b-da38-471e-bcc7-3663ba386d64",
+          "name": "Blanmont",
+          "color": "yellow",
+          "description": null
+        },
+        {
+          "id": "cb76984b-4541-4051-a976-716f1a877eac",
+          "name": "Roux-miroir",
+          "color": "blue",
+          "description": null
+        },
+        {
+          "id": "fe3f076d-caba-42de-9fe9-eee939712ada",
+          "name": "Luxembourg",
+          "color": "pink",
+          "description": null
+        },
+        {
+          "id": "a2c82ad8-b3b3-47e3-a86a-e6f852ad6855",
+          "name": "Namur",
+          "color": "brown",
+          "description": null
+        },
+        {
+          "id": "31060d1f-748d-469c-b95e-4296a613c7b8",
+          "name": "Opprebais",
+          "color": "purple",
+          "description": null
+        },
+        {
+          "id": "9d8ef45d-f82e-492a-914e-41585d4f0d58",
+          "name": "Ans",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "b6d0be5e-c67e-45f0-8b0d-720126044118",
+          "name": "La gileppe",
+          "color": "gray",
+          "description": null
+        },
+        {
+          "id": "8168e15b-5974-4de1-adf6-82e4360593c2",
+          "name": "Achêne",
+          "color": "green",
+          "description": null
+        },
+        {
+          "id": "dfbda4e7-7b1f-415e-ba05-b38b9ac5b199",
+          "name": "Mozet",
+          "color": "red",
+          "description": null
+        },
+        {
+          "id": "4fb7e4e3-fddc-4755-b3c7-143b018dccb5",
+          "name": "Fexhe",
+          "color": "orange",
+          "description": null
+        },
+        {
+          "id": "c90f1a3c-a1fe-47fd-8565-217a0890808d",
+          "name": "Meux",
+          "color": "red",
+          "description": null
+        },
+        {
+          "id": "5d8107bc-6199-49a8-9d87-ec68f1c3bf15",
+          "name": "Rochefort",
+          "color": "gray",
+          "description": null
+        },
+        {
+          "id": "b4799ab2-01e1-4854-9d8d-bfee17d139b1",
+          "name": "Incourt",
+          "color": "green",
+          "description": null
+        },
+        {
+          "id": "62ef1425-9bea-4cda-9c5a-237bfb9fe8a0",
+          "name": "La Bresse",
+          "color": "gray",
+          "description": null
+        },
+        {
+          "id": "9545f88b-b892-4c59-97f4-0c8861e425a6",
+          "name": "Amstel",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "e150c60b-6921-4b45-9eb2-e05837140dd3",
+          "name": "LIoret demar",
+          "color": "pink",
+          "description": null
+        },
+        {
+          "id": "ce29786e-8846-473a-a52d-6537383bf34f",
+          "name": "Milan",
+          "color": "purple",
+          "description": null
+        }
+      ]
+    }
+  },
+  "Status": {
+    "id": "bKvt",
+    "name": "Status",
+    "description": null,
+    "type": "status",
+    "status": {
+      "options": [
+        {
+          "id": "e16d2d30-6376-4c3f-ae31-052158bb8169",
+          "name": "To rate",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "f3ddc977-19ac-44b3-96d2-e30edcea1a1d",
+          "name": "In progress",
+          "color": "blue",
+          "description": null
+        },
+        {
+          "id": "1329f1a3-8158-4307-aa87-ad6120119a4d",
+          "name": "Done",
+          "color": "green",
+          "description": null
+        }
+      ],
+      "groups": [
+        {
+          "id": "f3d0c43b-205f-4ed6-85fb-54aa0479f510",
+          "name": "To-do",
+          "color": "gray",
+          "option_ids": [
+            "e16d2d30-6376-4c3f-ae31-052158bb8169"
+          ]
+        },
+        {
+          "id": "2fd3b8fa-0aff-4ea5-a28d-5f49cdf0935d",
+          "name": "In progress",
+          "color": "blue",
+          "option_ids": [
+            "f3ddc977-19ac-44b3-96d2-e30edcea1a1d"
+          ]
+        },
+        {
+          "id": "a44356a5-9be2-4db7-abb1-08946ecf3682",
+          "name": "Complete",
+          "color": "green",
+          "option_ids": [
+            "1329f1a3-8158-4307-aa87-ad6120119a4d"
+          ]
+        }
+      ]
+    }
+  },
+  "Gpx": {
+    "id": "gkPt",
+    "name": "Gpx",
+    "description": null,
+    "type": "url",
+    "url": {}
+  },
+  "photo": {
+    "id": "q%3FQk",
+    "name": "photo",
+    "description": null,
+    "type": "url",
+    "url": {}
+  },
+  "last done": {
+    "id": "sQu%40",
+    "name": "last done",
+    "description": null,
+    "type": "date",
+    "date": {}
+  },
+  "road": {
+    "id": "vm%60N",
+    "name": "road",
+    "description": null,
+    "type": "select",
+    "select": {
+      "options": [
+        {
+          "id": "4da5d138-c6c0-49c3-bb31-97aad1e1e595",
+          "name": "1 - bad",
+          "color": "red",
+          "description": null
+        },
+        {
+          "id": "52ecacd7-6f70-4260-bbbd-ec63de882e67",
+          "name": "2 - bad -> average",
+          "color": "orange",
+          "description": null
+        },
+        {
+          "id": "b0ec7f18-6f8e-4d8f-ac1c-f0de3ca1a91b",
+          "name": "3 - average -> good",
+          "color": "yellow",
+          "description": null
+        },
+        {
+          "id": "b56b60c3-d1eb-4f91-9280-6c39d73bd61b",
+          "name": "4 - good",
+          "color": "purple",
+          "description": null
+        },
+        {
+          "id": "86260f2e-3986-4b42-b149-0394e5752d51",
+          "name": "5 - good -> very good",
+          "color": "blue",
+          "description": null
+        },
+        {
+          "id": "c0cc5981-003d-4822-ae17-9104f3744215",
+          "name": "6 - very good -> excellent",
+          "color": "green",
+          "description": null
+        },
+        {
+          "id": "3bb607d6-6138-45a8-ad44-3f629a1feec7",
+          "name": "7 - Excellent",
+          "color": "green",
+          "description": null
+        }
+      ]
+    }
+  },
+  "Rating": {
+    "id": "xEnu",
+    "name": "Rating",
+    "description": null,
+    "type": "select",
+    "select": {
+      "options": [
+        {
+          "id": "vmbS",
+          "name": "Category",
+          "color": "gray",
+          "description": null
+        },
+        {
+          "id": "05ed3193-4130-4c6b-bf50-dafefaae7ed8",
+          "name": "⭐",
+          "color": "default",
+          "description": null
+        },
+        {
+          "id": "c5a79512-60e9-4756-970c-2c3ff8416844",
+          "name": "In progress",
+          "color": "blue",
+          "description": null
+        },
+        {
+          "id": "b619b84d-e3c9-4e5d-8d1d-f263c0dcbff5",
+          "name": "Done",
+          "color": "green",
+          "description": null
+        },
+        {
+          "id": "0d6b1596-65db-4519-9a51-4f8c7fd88b8a",
+          "name": "⭐⭐",
+          "color": "yellow",
+          "description": null
+        },
+        {
+          "id": "92d79465-0bf5-4f1c-bba0-a3398c68c5f1",
+          "name": "⭐⭐⭐",
+          "color": "purple",
+          "description": null
+        },
+        {
+          "id": "604aa77c-5c18-4e29-98b1-f635f297533f",
+          "name": "⭐⭐⭐⭐",
+          "color": "orange",
+          "description": null
+        },
+        {
+          "id": "d21772c2-d715-4c49-9a9c-a749fc177652",
+          "name": "⭐⭐⭐⭐⭐",
+          "color": "pink",
+          "description": null
+        }
+      ]
+    }
+  },
+  "elevation": {
+    "id": "y%5Ckk",
+    "name": "elevation",
+    "description": null,
+    "type": "number",
+    "number": {
+      "format": "number"
+    }
+  },
+  "Name": {
+    "id": "title",
+    "name": "Name",
+    "description": null,
+    "type": "title",
+    "title": {}
+  }
+}

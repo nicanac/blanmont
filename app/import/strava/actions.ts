@@ -2,7 +2,24 @@
 
 import { cookies } from 'next/headers';
 import { getStravaActivity, getActivityStreams, getStravaActivityPhotos } from '../../lib/strava';
-import { createTrace } from '../../lib/notion'; // Assuming this exists or I need to create/export it. I might need to move it to a shared lib if it's in a different file.
+import { createTrace, getTracesSchema } from '../../lib/notion'; // Assuming this exists or I need to create/export it. I might need to move it to a shared lib if it's in a different file.
+
+import fs from 'fs';
+import path from 'path';
+
+export async function validateSchemaAction() {
+    const schema = await getTracesSchema();
+    if (schema) {
+        try {
+            const dumpPath = path.join(process.cwd(), 'public', 'schema_dump.json');
+            fs.writeFileSync(dumpPath, JSON.stringify(schema, null, 2));
+            return { success: true };
+        } catch (e) {
+            console.error('Failed to write dump', e);
+        }
+    }
+    return { success: false };
+}
 // Checking previous context, createTrace logic is likely in notion.ts or needs to be added.
 // I will check app/lib/notion.ts later. For now I will mock or assume it.
 import toGeoJSON from '@tmcw/togeojson'; // Wait, this changes XML to GeoJSON. Strava gives Polyline or LatLng stream.

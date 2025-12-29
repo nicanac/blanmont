@@ -12,7 +12,7 @@ export default function ImportForm() {
 
     // New fields
     const [editedName, setEditedName] = useState('');
-    const [direction, setDirection] = useState('Nord');
+    const [direction, setDirection] = useState('↑ Nord');
 
     const handlePreview = async () => {
         setLoading(true);
@@ -99,15 +99,15 @@ export default function ImportForm() {
                                 onChange={(e) => setDirection(e.target.value)}
                                 className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
-                                <option>Nord</option>
-                                <option>Sud</option>
-                                <option>Est</option>
-                                <option>Ouest</option>
-                                <option>Nord-Est</option>
-                                <option>Nord-Ouest</option>
-                                <option>Sud-Est</option>
-                                <option>Sud-Ouest</option>
-                                <option>Centre</option>
+                                <option value="↑ Nord">↑ Nord</option>
+                                <option value="↓ Sud">↓ Sud</option>
+                                <option value="→ Est">→ Est</option>
+                                <option value="← Ouest">← Ouest</option>
+                                <option value="↗ Nord Est">↗ Nord Est</option>
+                                <option value="↗ Nord Ouest">↗ Nord Ouest</option>
+                                <option value="↘ Sud Est">↘ Sud Est</option>
+                                <option value="↙ Sud Ouest">↙ Sud Ouest</option>
+                                <option value="Centre">Centre</option>
                             </select>
                         </div>
                     </div>
