@@ -81,6 +81,7 @@ export const getMembers = async (): Promise<Member[]> => {
         role: props.Role?.multi_select?.map((r: any) => r.name) || [],
         bio: props.Bio?.rich_text[0]?.plain_text || '',
         photoUrl: photoUrl || 'https://placehold.co/400x400',
+        phone: props.Phone?.phone_number || props.Mobile?.phone_number || '',
       };
     });
   } catch (error) {
@@ -134,6 +135,7 @@ export const validateUser = async (email: string, password: string): Promise<Mem
       bio: props.Bio?.rich_text[0]?.plain_text || '',
       photoUrl: photoUrl || 'https://placehold.co/400x400',
       email: props.Email?.email || '',
+      phone: props.Phone?.phone_number || props.Mobile?.phone_number || props.GSM?.phone_number || '', // Try multiple potential property names
     };
   } catch (error) {
     console.error('Failed to validate user:', error);
@@ -444,6 +446,40 @@ export const submitMapPreview = async (traceId: string, imageUrl: string) => {
       });
     } catch (error) {
        console.error('Failed to update map preview in Notion:', error);
+       throw error;
+    }
+};
+
+/**
+ * Updates the 'Photo' file property of a member page with a new image URL.
+ * 
+ * @param memberId - The UUID of the member.
+ * @param photoUrl - The public URL of the image.
+ */
+export const updateMemberPhoto = async (memberId: string, photoUrl: string) => {
+    if (isMockMode) {
+      console.log('Mock member photo update:', { memberId, photoUrl });
+      return;
+    }
+
+    try {
+      await notionRequest(`pages/${memberId}`, 'PATCH', {
+        properties: {
+          "Photo": {
+            files: [
+              {
+                name: "profile.jpg",
+                type: "external",
+                external: {
+                  url: photoUrl
+                }
+              }
+            ]
+          }
+        }
+      });
+    } catch (error) {
+       console.error('Failed to update member photo in Notion:', error);
        throw error;
     }
 };

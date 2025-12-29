@@ -106,7 +106,7 @@ export default function Navbar() {
                                                     <MenuItem>
                                                         {({ focus }) => (
                                                             <Link
-                                                                href="#"
+                                                                href="/profile"
                                                                 className={classNames(
                                                                     focus ? 'bg-gray-50' : '',
                                                                     'flex items-center px-4 py-2 text-sm text-gray-700'
@@ -221,8 +221,8 @@ export default function Navbar() {
                                     </div>
                                     <div className="mt-3 space-y-1">
                                         <Disclosure.Button
-                                            as="a"
-                                            href="#"
+                                            as={Link}
+                                            href="/profile"
                                             className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                                         >
                                             My Account

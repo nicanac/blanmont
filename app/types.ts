@@ -14,6 +14,8 @@ export interface Member {
   photoUrl: string;
   /** Email address of the member. */
   email?: string;
+  /** Phone number of the member. */
+  phone?: string;
 }
 
 /**

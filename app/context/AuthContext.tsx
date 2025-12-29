@@ -9,12 +9,14 @@ interface User {
     avatarUrl?: string;
     email?: string;
     name: string;
+    phone?: string;
 }
 
 interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
+    updateUser: (updates: Partial<User>) => void;
     isAuthenticated: boolean;
 }
 
@@ -23,17 +25,32 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
 
+    // Initialize from localStorage
+    React.useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error('Failed to parse user from storage');
+            }
+        }
+    }, []);
+
     const login = async (email: string, password: string): Promise<boolean> => {
         try {
             const member = await loginAction(email, password);
             if (member) {
-                setUser({
+                const newUser = {
                     id: member.id,
                     username: member.email || member.name, // Fallback to name if email missing
                     name: member.name,
                     avatarUrl: member.photoUrl,
-                    email: member.email
-                });
+                    email: member.email,
+                    phone: member.phone
+                };
+                setUser(newUser);
+                localStorage.setItem('user', JSON.stringify(newUser));
                 return true;
             }
             return false;
@@ -45,6 +62,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem('user');
+    };
+
+    const updateUser = (updates: Partial<User>) => {
+        setUser((prev) => {
+            if (!prev) return null;
+            const updated = { ...prev, ...updates };
+            localStorage.setItem('user', JSON.stringify(updated));
+            return updated;
+        });
     };
 
     return (
@@ -52,6 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             user,
             login,
             logout,
+            updateUser,
             isAuthenticated: !!user
         }}>
             {children}

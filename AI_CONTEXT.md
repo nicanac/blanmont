@@ -130,3 +130,10 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 6.  **Continuous Documentation**:
     - **Rule**: Every time a feature is added or code is modified, the corresponding documentation (JSDoc, `AI_CONTEXT.md`, etc.) MUST be updated immediately.
     - **Scope**: Keep the AI context and Copilot instructions in sync with the codebase state.
+
+7.  **Date & Timezone Handling**:
+    - **Issue**: `new Date('YYYY-MM-DD')` parses as UTC 00:00:00. in timezones east of UTC (like Europe), this works, but in timezones west of UTC (like US), or if any time component is added, it can shift to the *previous day*. Conversely, `new Date(year, month, day)` creates a local time date.
+    - **Rule**: When parsing pure dates (e.g., "2026-05-30") for visual display:
+      - **Avoid**: `new Date(isoString)` which risks timezone shifts.
+      - **Prefer**: Manual parsing `const [y, m, d] = isoString.split('-')` or `new Date(y, m-1, d)` which uses local browser time.
+      - **Reason**: We want the date "May 30" to appear as "May 30" regardless of whether the user is in Tokyo, Brussels, or New York.
