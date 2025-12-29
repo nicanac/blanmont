@@ -70,7 +70,7 @@ export async function fetchStravaActivityAction(url: string) {
 // 2. Upload/Store it? Or save raw text in Notion?
 // 3. Create Notion Page.
 
-export async function importStravaTraceAction(activity: any, overrides?: { name?: string; direction?: string }) {
+export async function importStravaTraceAction(activity: any, overrides?: { name?: string; direction?: string; surface?: string; rating?: string }) {
      const cookieStore = await cookies();
      const accessToken = cookieStore.get('strava_access_token')?.value;
      if (!accessToken) throw new Error("No token");
@@ -95,6 +95,8 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
          mapUrl: `https://www.strava.com/activities/${activity.id}`,
          description: activity.description || `Imported from Strava. Distance: ${(activity.distance/1000).toFixed(1)}km`,
          direction: overrides?.direction,
+         surface: overrides?.surface,
+         rating: overrides?.rating,
          photos: photoUrls
      });
 
