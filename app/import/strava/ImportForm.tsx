@@ -131,7 +131,7 @@ export default function ImportForm() {
                                 {createdTraceId && (
                                     <div className="mt-4 flex gap-3">
                                         <Link
-                                            href={`/leaderboard/traces/${createdTraceId}`}
+                                            href={`/traces/${createdTraceId}`}
                                             target="_blank"
                                             className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                         >
