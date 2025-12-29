@@ -701,15 +701,35 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
             });
         }
 
-        await notionRequest('pages', 'POST', {
+        const response = await notionRequest('pages', 'POST', {
             parent: { database_id: dbId },
             properties: properties,
             children: children
         });
         
-        return { success: true };
+        return { success: true, id: response.id as string };
     } catch (e) {
         console.error('Failed to create trace:', e);
+        return { success: false, error: String(e) };
+    }
+};
+
+/**
+ * soft-deletes (archives) a trace page in Notion.
+ */
+export const deleteTrace = async (traceId: string) => {
+    if (isMockMode) {
+        console.log('Mock delete trace:', traceId);
+        return { success: true };
+    }
+    
+    try {
+        await notionRequest(`pages/${traceId}`, 'PATCH', {
+            archived: true
+        });
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to delete trace:', e);
         return { success: false, error: String(e) };
     }
 };

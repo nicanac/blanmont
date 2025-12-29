@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { fetchStravaActivityAction, importStravaTraceAction } from './actions';
+import Link from 'next/link';
+import { fetchStravaActivityAction, importStravaTraceAction, deleteTraceAction } from './actions';
 import { StravaActivity } from '../../lib/strava';
-import { CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
 // Dynamic import for Leaflet map to avoid SSR issues
 const MapPreview = dynamic(() => import('../../components/ui/MapPreview'), { ssr: false });
@@ -15,6 +16,7 @@ export default function ImportForm() {
     const [preview, setPreview] = useState<StravaActivity | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [createdTraceId, setCreatedTraceId] = useState<string | null>(null);
 
     // Editable fields
     const [editedName, setEditedName] = useState('');
@@ -54,7 +56,8 @@ export default function ImportForm() {
             });
 
             if (result.success) {
-                setSuccessMessage('Trace imported successfully! You can find it in Notion.');
+                setSuccessMessage('Trace imported successfully! You can review or delete it below.');
+                setCreatedTraceId(result.traceId || null);
                 setPreview(null);
                 setUrl('');
                 setEditedName('');
@@ -68,6 +71,24 @@ export default function ImportForm() {
             setError('Import failed.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!createdTraceId) return;
+        if (!confirm('Are you sure you want to delete this trace?')) return;
+
+        try {
+            const result = await deleteTraceAction(createdTraceId);
+            if (result.success) {
+                setSuccessMessage(null);
+                setCreatedTraceId(null);
+                alert('Trace deleted.');
+            } else {
+                alert('Failed to delete trace.');
+            }
+        } catch (e) {
+            alert('Error deleting trace.');
         }
     };
 
@@ -97,7 +118,7 @@ export default function ImportForm() {
             )}
 
             {successMessage && (
-                <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5 mb-6">
+                <div className="pointer-events-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5 mb-6">
                     <div className="p-4">
                         <div className="flex items-start">
                             <div className="flex-shrink-0">
@@ -106,6 +127,24 @@ export default function ImportForm() {
                             <div className="ml-3 w-0 flex-1 pt-0.5">
                                 <p className="text-sm font-medium text-gray-900">Successfully imported!</p>
                                 <p className="mt-1 text-sm text-gray-500">{successMessage}</p>
+
+                                {createdTraceId && (
+                                    <div className="mt-4 flex gap-3">
+                                        <Link
+                                            href={`/leaderboard/traces/${createdTraceId}`}
+                                            target="_blank"
+                                            className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                                        >
+                                            View Trace <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                                        </Link>
+                                        <button
+                                            onClick={handleDelete}
+                                            className="inline-flex items-center gap-1 text-sm font-medium text-red-600 hover:text-red-500"
+                                        >
+                                            Delete <TrashIcon className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                             <div className="ml-4 flex flex-shrink-0">
                                 <button
