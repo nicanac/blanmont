@@ -1,23 +1,70 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import { updateProfilePhotoAction } from '../actions';
+import Cropper from 'react-easy-crop';
+import getCroppedImg from '../lib/canvasUtils';
+
+// Helper function to read file as Data URL
+const readFile = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => resolve(reader.result as string), false);
+        reader.readAsDataURL(file);
+    });
+};
 
 export default function ProfilePage() {
     const { user, isAuthenticated } = useAuth();
     const router = useRouter();
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
-    const [photoUrl, setPhotoUrl] = useState('');
 
-    const handlePhotoUpdate = async () => {
-        if (user && photoUrl) {
-            await updateProfilePhotoAction(user.id, photoUrl);
-            setIsEditingPhoto(false);
-            // Ideally we reload context or force refresh to see change
-            window.location.reload();
+    // Cropper State
+    const [imageSrc, setImageSrc] = useState<string | null>(null);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+
+    const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+        setCroppedAreaPixels(croppedAreaPixels);
+    }, []);
+
+    const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const imageDataUrl = await readFile(file);
+            setImageSrc(imageDataUrl);
+            setIsEditingPhoto(true);
         }
+    };
+
+    const handleSave = async () => {
+        try {
+            if (imageSrc && croppedAreaPixels && user) {
+                const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
+                if (croppedBlob) {
+                    const formData = new FormData();
+                    formData.append('file', croppedBlob, 'profile.jpg');
+                    formData.append('memberId', user.id);
+
+                    await updateProfilePhotoAction(formData);
+
+                    // Reset and Reload
+                    setIsEditingPhoto(false);
+                    setImageSrc(null);
+                    window.location.reload();
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const handleCancel = () => {
+        setIsEditingPhoto(false);
+        setImageSrc(null);
     };
 
     useEffect(() => {
@@ -47,37 +94,62 @@ export default function ProfilePage() {
                             className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"
                         />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
-                                onClick={() => setIsEditingPhoto(!isEditingPhoto)}
-                                className="bg-black/50 text-white px-4 py-2 rounded-md backdrop-blur-sm hover:bg-black/70"
-                            >
+                            <label className="bg-black/50 text-white px-4 py-2 rounded-md backdrop-blur-sm hover:bg-black/70 cursor-pointer">
                                 Change Photo
-                            </button>
+                                <input type="file" accept="image/*" className="hidden" onChange={onFileChange} />
+                            </label>
                         </div>
                     </div>
-
-                    {isEditingPhoto && (
-                        <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                            <div className="flex gap-2">
-                                <input
-                                    type="text"
-                                    value={photoUrl}
-                                    onChange={(e) => setPhotoUrl(e.target.value)}
-                                    placeholder="https://..."
-                                    className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
-                                />
-                                <button
-                                    onClick={handlePhotoUpdate}
-                                    className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 text-sm"
-                                >
-                                    Save
-                                </button>
-                            </div>
-                            <p className="mt-2 text-xs text-gray-500">Paste a direct link to a publicly accessible image.</p>
-                        </div>
-                    )}
                 </div>
+
+                {/* Cropper Modal */}
+                {isEditingPhoto && imageSrc && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+                        <div className="bg-white rounded-lg overflow-hidden w-full max-w-md">
+                            <div className="relative h-96 w-full bg-gray-900">
+                                <Cropper
+                                    image={imageSrc}
+                                    crop={crop}
+                                    zoom={zoom}
+                                    aspect={1}
+                                    onCropChange={setCrop}
+                                    onCropComplete={onCropComplete}
+                                    onZoomChange={setZoom}
+                                />
+                            </div>
+                            <div className="p-4 flex flex-col gap-4">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm">Zoom</span>
+                                    <input
+                                        type="range"
+                                        value={zoom}
+                                        min={1}
+                                        max={3}
+                                        step={0.1}
+                                        aria-labelledby="Zoom"
+                                        onChange={(e) => setZoom(Number(e.target.value))}
+                                        className="w-full"
+                                    />
+                                </div>
+                                <div className="flex justify-end gap-2">
+                                    <button
+                                        onClick={handleCancel}
+                                        className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleSave}
+                                        className="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-md"
+                                    >
+                                        Save & Upload
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
 
                 {/* Product Info / User Details */}
                 <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
