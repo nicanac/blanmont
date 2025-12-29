@@ -19,7 +19,7 @@ import {
     InformationCircleIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');

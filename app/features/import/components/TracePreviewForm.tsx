@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { StravaActivity } from '../../lib/strava';
+import { StravaActivity } from '../../../lib/strava';
 
 // Dynamic import for Leaflet map
-const MapPreview = dynamic(() => import('../../components/ui/MapPreview'), { ssr: false });
+const MapPreview = dynamic(() => import('../../traces/components/MapPreview'), { ssr: false });
 
 export interface TraceImportData {
     name: string;

@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Trace } from '../types';
-import { stripSuffix } from '../utils/string.utils';
+import { Trace } from '../../../types';
+import { stripSuffix } from '../../../utils/string.utils';
 import { MapPinIcon, RocketLaunchIcon, ArrowDownTrayIcon, StarIcon } from '@heroicons/react/20/solid';
 
 interface TraceCardProps {

@@ -1,6 +1,6 @@
 'use client';
 
-import { Trace } from '../types';
+import { Trace } from '../../../types';
 import styles from './TraceSelector.module.css';
 
 interface Props {
