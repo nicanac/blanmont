@@ -164,4 +164,5 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
     
     await updateMemberPhoto(targetMemberId, finalPhotoUrl);
     revalidatePath('/profile');
+    return finalPhotoUrl;
 }

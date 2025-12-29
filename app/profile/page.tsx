@@ -17,7 +17,7 @@ const readFile = (file: File): Promise<string> => {
 };
 
 export default function ProfilePage() {
-    const { user, isAuthenticated } = useAuth();
+    const { user, isAuthenticated, updateUser } = useAuth();
     const router = useRouter();
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
 
@@ -49,12 +49,15 @@ export default function ProfilePage() {
                     formData.append('file', croppedBlob, 'profile.jpg');
                     formData.append('memberId', user.id);
 
-                    await updateProfilePhotoAction(formData);
+                    const newUrl = await updateProfilePhotoAction(formData);
 
-                    // Reset and Reload
+                    if (newUrl) {
+                        updateUser({ avatarUrl: newUrl });
+                    }
+
+                    // Reset
                     setIsEditingPhoto(false);
                     setImageSrc(null);
-                    window.location.reload();
                 }
             }
         } catch (e) {
