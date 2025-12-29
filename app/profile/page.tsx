@@ -143,7 +143,7 @@ export default function ProfilePage() {
                                     </button>
                                     <button
                                         onClick={handleSave}
-                                        className="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-md"
+                                        className="px-4 py-2 bg-brand-primary text-white hover:opacity-90 rounded-md"
                                     >
                                         Save & Upload
                                     </button>
@@ -189,7 +189,7 @@ export default function ProfilePage() {
 
                     <form className="mt-10">
                         {/* Fake Actions */}
-                        <div className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer transition-colors shadow-sm">
+                        <div className="flex w-full items-center justify-center rounded-md border border-transparent bg-brand-primary px-8 py-3 text-base font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 cursor-pointer transition-colors shadow-sm">
                             Modifier mes informations
                         </div>
                         {/* Hidden ID for debugging if needed, but removed from view as requested by user */}
