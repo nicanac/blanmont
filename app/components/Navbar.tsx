@@ -11,7 +11,9 @@ import {
     LifebuoyIcon,
     ArrowRightOnRectangleIcon,
     Bars3Icon,
-    XMarkIcon
+    XMarkIcon,
+    PlusCircleIcon,
+    CloudArrowUpIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
@@ -31,8 +33,7 @@ export default function Navbar() {
         { name: 'Carré Vert', href: '/leaderboard' },
         { name: 'Calendrier', href: '/calendrier' },
         { name: 'Le Club', href: '/le-club' },
-        { name: 'Admin', href: '/admin/add-trace' },
-        { name: 'Import Strava', href: '/import/strava' },
+        { name: 'Le Club', href: '/le-club' },
     ];
 
     return (
@@ -136,6 +137,36 @@ export default function Navbar() {
                                                 <div className="py-1">
                                                     <MenuItem>
                                                         {({ focus }) => (
+                                                            <Link
+                                                                href="/admin/add-trace"
+                                                                className={classNames(
+                                                                    focus ? 'bg-gray-50' : '',
+                                                                    'flex items-center px-4 py-2 text-sm text-gray-700'
+                                                                )}
+                                                            >
+                                                                <PlusCircleIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                Admin (Add Trace)
+                                                            </Link>
+                                                        )}
+                                                    </MenuItem>
+                                                    <MenuItem>
+                                                        {({ focus }) => (
+                                                            <Link
+                                                                href="/import/strava"
+                                                                className={classNames(
+                                                                    focus ? 'bg-gray-50' : '',
+                                                                    'flex items-center px-4 py-2 text-sm text-gray-700'
+                                                                )}
+                                                            >
+                                                                <CloudArrowUpIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                Import Strava
+                                                            </Link>
+                                                        )}
+                                                    </MenuItem>
+                                                </div>
+                                                <div className="py-1">
+                                                    <MenuItem>
+                                                        {({ focus }) => (
                                                             <button
                                                                 onClick={() => logout()}
                                                                 className={classNames(
@@ -229,11 +260,18 @@ export default function Navbar() {
                                             My Account
                                         </Disclosure.Button>
                                         <Disclosure.Button
-                                            as="a"
-                                            href="#"
+                                            as={Link}
+                                            href="/admin/add-trace"
                                             className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                                         >
-                                            My Traces
+                                            Admin (Add Trace)
+                                        </Disclosure.Button>
+                                        <Disclosure.Button
+                                            as={Link}
+                                            href="/import/strava"
+                                            className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                                        >
+                                            Import Strava
                                         </Disclosure.Button>
                                         <Disclosure.Button
                                             as="button"
