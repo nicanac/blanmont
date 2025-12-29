@@ -19,69 +19,88 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="bg-white py-24 sm:py-32">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl lg:mx-0">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-brand-primary">Mon Compte</h2>
-                    <p className="mt-2 text-lg leading-8 text-gray-600">
-                        Gérez vos informations personnelles.
-                    </p>
+        <div className="bg-white">
+            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+                {/* Product Image / User Avatar */}
+                <div className="lg:max-w-lg lg:self-end">
+                    <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200">
+                        <img
+                            src={user.avatarUrl || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=500&h=500&q=80"}
+                            alt={user.name}
+                            className="h-full w-full object-cover object-center"
+                        />
+                    </div>
                 </div>
 
-                <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-8 lg:grid-cols-3">
-                        {/* Profile Card */}
-                        <div className="bg-gray-50 rounded-2xl p-8 lg:col-span-1 border border-gray-100 shadow-sm flex flex-col items-center text-center">
-                            <img
-                                className="h-32 w-32 rounded-full ring-4 ring-white shadow-md mb-6 object-cover"
-                                src={user.avatarUrl || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
-                                alt={user.name}
-                            />
-                            <h3 className="text-xl font-bold text-gray-900">{user.name}</h3>
-                            <p className="text-sm text-gray-500 mb-4">{user.username}</p>
+                {/* Product Info / User Details */}
+                <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">{user.name}</h1>
 
-                            {/* Roles */}
-                            <div className="flex flex-wrap gap-2 justify-center">
-                                {/* We don't have roles in the basic user object in AuthContext yet directly populated, 
-                                    but assuming it might serve as a placeholder or needs update in AuthContext to carry roles.
-                                    For now using a static Member badge or logic if roles were present. 
-                                    Actually AuthContext user does not have 'roles' property in the interface defined in AuthContext.tsx lines 6-12.
-                                    The full Member type has it. 
-                                    I will disable roles display for now to avoid TS error until AuthContext is updated, 
-                                    or just display "Membre" generic.
-                                */}
-                                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                    Membre
-                                </span>
+                    <div className="mt-3">
+                        <h2 className="sr-only">Type de compte</h2>
+                        <p className="text-3xl tracking-tight text-gray-900">Membre</p>
+                    </div>
+
+                    {/* Reviews / Status */}
+                    <div className="mt-3">
+                        <h3 className="sr-only">Statut</h3>
+                        <div className="flex items-center">
+                            <div className="flex items-center">
+                                {/* Active Stars (Visual Flourish) */}
+                                {[0, 1, 2, 3, 4].map((rating) => (
+                                    <svg
+                                        key={rating}
+                                        className="h-5 w-5 flex-shrink-0 text-brand-primary"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                ))}
                             </div>
-                        </div>
-
-                        {/* Details Section */}
-                        <div className="bg-white rounded-2xl p-8 lg:col-span-2 border border-gray-100 shadow-sm">
-                            <h3 className="text-lg font-semibold leading-7 text-gray-900 border-b border-gray-100 pb-4 mb-6">Informations Personnelles</h3>
-
-                            <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-                                <div className="sm:col-span-1">
-                                    <dt className="text-sm font-medium leading-6 text-gray-500">Nom complet</dt>
-                                    <dd className="mt-1 text-sm leading-6 text-gray-900 sm:col-span-2 sm:mt-0">{user.name}</dd>
-                                </div>
-                                <div className="sm:col-span-1">
-                                    <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
-                                    <dd className="mt-1 text-sm leading-6 text-gray-900 sm:col-span-2 sm:mt-0">{user.email}</dd>
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <dt className="text-sm font-medium leading-6 text-gray-500">Identifiant</dt>
-                                    <dd className="mt-1 text-sm leading-6 text-gray-900 sm:col-span-2 sm:mt-0">{user.id}</dd>
-                                </div>
-                            </dl>
-
-                            <div className="mt-8 pt-6 border-t border-gray-100">
-                                <p className="text-sm text-gray-500 italic">
-                                    Pour modifier ces informations, veuillez contacter un administrateur du club.
-                                </p>
-                            </div>
+                            <p className="sr-only">5 out of 5 stars</p>
+                            <span className="ml-3 text-sm font-medium text-brand-primary hover:text-brand-secondary cursor-pointer">
+                                Compte Vérifié
+                            </span>
                         </div>
                     </div>
+
+                    <div className="mt-6">
+                        <h3 className="sr-only">Description</h3>
+                        <div className="space-y-6 text-base text-gray-700">
+                            <p>
+                                Bienvenue sur votre profil membre du Blanmont Cycling Club.
+                                Ici, vous pouvez retrouver les informations liées à votre adhésion.
+                                Votre profil est actif et vous permet de participer aux sorties et aux votes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-6">
+                        <div className="flex items-center">
+                            <h4 className="text-sm font-medium text-gray-900">Email : </h4>
+                            <span className="ml-2 text-sm text-gray-500">{user.email}</span>
+                        </div>
+                        <div className="flex items-center mt-2">
+                            <h4 className="text-sm font-medium text-gray-900">Identifiant : </h4>
+                            <span className="ml-2 text-sm text-gray-500 font-mono">{user.id}</span>
+                        </div>
+                    </div>
+
+                    <form className="mt-10">
+                        {/* Fake Actions */}
+                        <div className="flex w-full items-center justify-center rounded-md border border-transparent bg-brand-primary px-8 py-3 text-base font-medium text-white hover:bg-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 cursor-pointer transition-colors">
+                            Modifier mes informations
+                        </div>
+                        <p className="mt-4 text-center text-sm text-gray-500">
+                            Pour des raisons de sécurité, veuillez contacter un administrateur pour changer votre email ou mot de passe.
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>
