@@ -218,7 +218,7 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
     start: props.start?.select?.name,
     end: props.end?.select?.name,
     direction: props.Direction?.select?.name || props.Direction?.rich_text?.[0]?.plain_text || undefined,
-    polyline: props.MapPolyline?.rich_text?.[0]?.plain_text || undefined
+    polyline: props.MapPolyline?.rich_text?.map((t: any) => t.plain_text).join('') || undefined
   };
 };
 
@@ -670,6 +670,11 @@ export const ensureMapPolylineProperty = async () => {
     }
 };
 
+// Helper to chunk string for Notion rich_text limit (2000 chars)
+const chunkString = (str: string, length: number) => {
+    return str.match(new RegExp('.{1,' + length + '}', 'g'));
+};
+
 export const createTrace = async (traceData: Partial<Trace> & { photos?: string[] }) => {
     if (isMockMode || !TRACES_DB_ID) {
         console.log('Mock create trace:', traceData);
@@ -691,8 +696,12 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
         };
 
         if (traceData.polyline) {
+            // Split polyline into 2000-char chunks to satisfy Notion API limit
+            const chunks = chunkString(traceData.polyline, 2000) || [];
             properties.MapPolyline = {
-                rich_text: [{ text: { content: traceData.polyline } }]
+                rich_text: chunks.map(chunk => ({
+                    text: { content: chunk }
+                }))
             };
         }
 
