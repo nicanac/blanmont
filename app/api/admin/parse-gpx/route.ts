@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     };
 
     // Iterate features (usually LineStrings)
-    geoJson.features.forEach(feature => {
+    geoJson.features.forEach((feature: any) => {
         if (feature.geometry.type === 'LineString') {
             const coords = feature.geometry.coordinates;
             for (let i = 0; i < coords.length - 1; i++) {

@@ -1,0 +1,41 @@
+
+> sidereal-satellite@0.1.0 build
+> next build
+
+   ▲ Next.js 16.0.8 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 1 errors:
+./app/features/traces/components/TraceCard.tsx:5:1
+Module not found: Can't resolve '../utils/string.utils'
+[0m [90m 3 |[39m [36mimport[39m [33mLink[39m [36mfrom[39m [32m'next/link'[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { [33mTrace[39m } [36mfrom[39m [32m'../types'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 5 |[39m [36mimport[39m { stripSuffix } [36mfrom[39m [32m'../utils/string.utils'[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 6 |[39m [36mimport[39m { [33mMapPinIcon[39m[33m,[39m [33mRocketLaunchIcon[39m[33m,[39m [33mArrowDownTrayIcon[39m[33m,[39m [33mStarIcon[39m } [36mfrom[39m [32m'@heroicons/react/20/solid'[39m[33m;[39m
+ [90m 7 |[39m
+ [90m 8 |[39m [36minterface[39m [33mTraceCardProps[39m {[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/features/traces/components/TraceCard.tsx [Client Component Browser]
+    ./app/features/saturday-ride/components/SaturdayRideView.tsx [Client Component Browser]
+    ./app/features/saturday-ride/components/SaturdayRideView.tsx [Server Component]
+    ./app/saturday-ride/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/features/traces/components/TraceCard.tsx [Client Component SSR]
+    ./app/features/saturday-ride/components/SaturdayRideView.tsx [Client Component SSR]
+    ./app/features/saturday-ride/components/SaturdayRideView.tsx [Server Component]
+    ./app/saturday-ride/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./app/features/traces/components/TraceCard.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)

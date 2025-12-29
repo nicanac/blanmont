@@ -1,0 +1,95 @@
+import { Feedback, NotionPage } from '../../types';
+import { isMockMode, FEEDBACK_DB_ID, cleanId, notionRequest } from './client';
+
+export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> => {
+  if (isMockMode || !FEEDBACK_DB_ID) return [];
+
+  try {
+    const dbId = cleanId(FEEDBACK_DB_ID);
+    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
+      filter: {
+        property: 'Trace',
+        relation: { contains: traceId }
+      },
+      sorts: [{ timestamp: 'created_time', direction: 'descending' }]
+    });
+
+    return response.results.map((page: NotionPage) => {
+        const props = page.properties;
+        const memberRelation = props.Members?.relation || [];
+        return {
+          id: page.id,
+          traceId: traceId,
+          comment: props.Comment?.title?.[0]?.plain_text || '',
+          rating: props.Rating?.number || 0,
+          memberId: memberRelation.length > 0 ? memberRelation[0].id : undefined,
+          createdAt: page.created_time
+        } as Feedback;
+    });
+  } catch (error) {
+    console.error('Failed to fetch feedback:', error);
+    return [];
+  }
+};
+
+export const submitFeedback = async (traceId: string, memberId: string, rating: number, comment: string, feedbackId?: string) => {
+   if (isMockMode || !FEEDBACK_DB_ID) {
+     console.log('Mock submission:', { traceId, memberId, rating, comment, feedbackId });
+     return;
+   }
+   
+   try {
+     let targetId = feedbackId;
+
+     if (!targetId && memberId) {
+         const existingFeedback = await getFeedbackForTrace(traceId);
+         const match = existingFeedback.find(f => f.memberId === memberId);
+         if (match) {
+             console.log(`Found existing feedback ${match.id} for member ${memberId}, updating instead of creating.`);
+             targetId = match.id;
+         }
+     }
+
+     if (targetId) {
+         await notionRequest(`pages/${targetId}`, 'PATCH', {
+             properties: {
+                 Comment: { title: [{ text: { content: comment } }] },
+                 Rating: { number: rating }
+             }
+         });
+         return;
+     }
+
+     const dbId = cleanId(FEEDBACK_DB_ID);
+     const properties: any = {
+         Comment: {
+           title: [
+             { text: { content: comment } }
+           ]
+         },
+         Rating: {
+           number: rating
+         },
+         Trace: {
+           relation: [
+             { id: traceId }
+           ]
+         }
+     };
+
+     if (memberId) {
+         properties.Members = {
+             relation: [
+                 { id: memberId }
+             ]
+         };
+     }
+
+     await notionRequest('pages', 'POST', {
+       parent: { database_id: dbId },
+       properties: properties
+     });
+   } catch (error) {
+     console.error('Failed to submit feedback:', error);
+   }
+};
