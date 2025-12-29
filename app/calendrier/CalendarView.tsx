@@ -74,8 +74,9 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
 
     // Filter events for current view
     const monthEvents = events.filter(e => {
-        const d = new Date(e.isoDate);
-        return d.getFullYear() === year && d.getMonth() === month;
+        if (!e.isoDate) return false;
+        const [y, m] = e.isoDate.split('-').map(Number);
+        return y === year && (m - 1) === month;
     });
 
     const goToPreviousMonth = () => {
@@ -204,12 +205,13 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                         <div className="flex flex-col">
                             {monthEvents.length > 0 ? (
                                 monthEvents.map(event => {
-                                    const d = new Date(event.isoDate);
+                                    const [y, m, d] = event.isoDate.split('-').map(Number);
+                                    const dateObj = new Date(y, m - 1, d);
                                     return (
                                         <div key={event.id} className="p-4 border-b border-gray-100 flex gap-4">
                                             <div className="flex-none bg-gray-50 rounded-lg p-2 text-center w-14 h-14 flex flex-col justify-center items-center border border-gray-200">
-                                                <span className="text-xs text-gray-500 font-bold uppercase">{d.toLocaleDateString('fr-FR', { weekday: 'short' })}</span>
-                                                <span className="text-lg font-bold text-gray-900">{d.getDate()}</span>
+                                                <span className="text-xs text-gray-500 font-bold uppercase">{dateObj.toLocaleDateString('fr-FR', { weekday: 'short' })}</span>
+                                                <span className="text-lg font-bold text-gray-900">{dateObj.getDate()}</span>
                                             </div>
                                             <div className="flex-auto">
                                                 <h3 className="text-sm font-semibold text-gray-900">{event.location}</h3>
