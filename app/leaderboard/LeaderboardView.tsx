@@ -95,6 +95,20 @@ export default function LeaderboardView({ entries }: Props) {
         );
     };
 
+    // Calculate Group Ranks
+    const groupRanks: Record<string, number> = {};
+    const groupCounts: Record<string, number> = {};
+
+    // Sort by rides desc to ensure correct ranking (though data usually comes sorted)
+    const sortedEntries = [...entries].sort((a, b) => b.rides - a.rides);
+
+    sortedEntries.forEach(entry => {
+        const g = entry.group;
+        if (!groupCounts[g]) groupCounts[g] = 0;
+        groupCounts[g]++;
+        groupRanks[entry.id] = groupCounts[g];
+    });
+
     return (
         <>
             <div className="bg-white py-24 sm:py-32">
@@ -147,26 +161,31 @@ export default function LeaderboardView({ entries }: Props) {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {others.map((person, index) => (
-                                        <tr
-                                            key={person.id}
-                                            onClick={() => handleSelectMember(person)}
-                                            className="hover:bg-green-50 transition-colors cursor-pointer"
-                                        >
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {index + 4}
-                                            </td>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                                                {person.name}
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                <GroupBadge group={person.group} />
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                <div className="font-bold text-gray-900">{person.rides}</div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {others.map((person, index) => {
+                                        const groupRank = groupRanks[person.id];
+                                        const isGroupTop3 = groupRank <= 3;
+
+                                        return (
+                                            <tr
+                                                key={person.id}
+                                                onClick={() => handleSelectMember(person)}
+                                                className="hover:bg-green-50 transition-colors cursor-pointer"
+                                            >
+                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                    {index + 4}
+                                                </td>
+                                                <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-gray-900' : 'font-medium text-gray-600'}`}>
+                                                    {person.name}
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    <GroupBadge group={person.group} />
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    <div className={`font-bold ${isGroupTop3 ? 'text-gray-900' : 'text-gray-500'}`}>{person.rides}</div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>
