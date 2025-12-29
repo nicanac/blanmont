@@ -46,6 +46,7 @@ export default function Navbar() {
         { name: 'Mes Parcours', description: 'Mes traces enregistrées', href: '#', icon: ShoppingBagIcon },
         { name: 'Admin (Add Trace)', description: 'Ajouter une trace', href: '/admin/add-trace', icon: PlusCircleIcon },
         { name: 'Import Strava', description: 'Importer depuis Strava', href: '/import/strava', icon: CloudArrowUpIcon },
+        { name: 'Import Garmin', description: 'Importer depuis GPX', href: '/import/garmin', icon: CloudArrowUpIcon },
     ];
 
     return (
