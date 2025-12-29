@@ -21,6 +21,7 @@ export interface StravaActivity {
         } | null;
         count: number;
     };
+    total_photo_count: number;
 }
 
 const CLIENT_ID = process.env.STRAVA_CLIENT_ID;
