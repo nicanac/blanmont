@@ -170,7 +170,8 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
   
   // Parse Formula for Distance (km)
   const kmFormula = props.km?.formula;
-  const dist = parseFloat(kmFormula?.string || kmFormula?.number || '0');
+  // Prioritize explicit Distance property if available, otherwise fall back to km formula
+  const dist = props.Distance?.number || parseFloat(kmFormula?.string || kmFormula?.number || '0');
   
   // Parse Rating
   const ratingSelect = props.Rating?.select;
@@ -216,7 +217,8 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
     photoAlbumUrl: photoAlbumUrl,
     start: props.start?.select?.name,
     end: props.end?.select?.name,
-    direction: props.Direction?.select?.name || props.Direction?.rich_text?.[0]?.plain_text || undefined
+    direction: props.Direction?.select?.name || props.Direction?.rich_text?.[0]?.plain_text || undefined,
+    polyline: props.MapPolyline?.rich_text?.[0]?.plain_text || undefined
   };
 };
 
@@ -631,6 +633,132 @@ const CALENDAR_DB_ID = '2d29555c-6779-80b0-a9e3-e07785d2d847'; // Hardcoded vali
  */
 import { CalendarEvent } from '../types';
 
+// Migration helper
+export const ensureDistanceProperty = async () => {
+    if (isMockMode || !TRACES_DB_ID) return;
+    const dbId = cleanId(TRACES_DB_ID);
+    try {
+        await notionRequest(`databases/${dbId}`, 'PATCH', {
+            properties: {
+                'Distance': {
+                    number: {
+                        format: 'number'
+                    }
+                }
+            }
+        });
+        console.log('Distance property ensured.');
+    } catch (e) {
+        console.error('Failed to ensure Distance property:', e);
+    }
+};
+
+export const ensureMapPolylineProperty = async () => {
+    if (isMockMode || !TRACES_DB_ID) return;
+    const dbId = cleanId(TRACES_DB_ID);
+    try {
+        await notionRequest(`databases/${dbId}`, 'PATCH', {
+            properties: {
+                'MapPolyline': {
+                    rich_text: {}
+                }
+            }
+        });
+        // console.log('MapPolyline property ensured.');
+    } catch (e) {
+        console.error('Failed to ensure MapPolyline property:', e);
+    }
+};
+
+export const createTrace = async (traceData: Partial<Trace> & { photos?: string[] }) => {
+    if (isMockMode || !TRACES_DB_ID) {
+        console.log('Mock create trace:', traceData);
+        return { success: true, id: 'mock-new-id' };
+    }
+
+    try {
+        await ensureDistanceProperty(); // Ensure field exists before writing
+        await ensureMapPolylineProperty();
+
+        const dbId = cleanId(TRACES_DB_ID);
+        const properties: any = {
+            Name: { title: [{ text: { content: traceData.name || 'Untitled Import' } }] },
+            Note: { rich_text: [{ text: { content: traceData.description || 'Imported from Strava' } }] },
+            Komoot: { url: traceData.mapUrl || null },
+
+            Elevation: { number: traceData.elevation || 0 },
+            Distance: { number: traceData.distance || 0 }
+        };
+
+        if (traceData.polyline) {
+            properties.MapPolyline = {
+                rich_text: [{ text: { content: traceData.polyline } }]
+            };
+        }
+
+        // ... direction logic
+        if (traceData.direction) {
+            properties.Direction = {
+                select: {
+                    name: traceData.direction
+                }
+            };
+        }
+
+        // ... rest
+        if (traceData.photos && traceData.photos.length > 0) {
+            properties.photo = { url: traceData.photos[0] };
+        }
+
+        const children = [];
+        if (traceData.description) {
+            children.push({
+                object: 'block',
+                type: 'paragraph',
+                paragraph: { rich_text: [{ text: { content: traceData.description } }] }
+            });
+        }
+        if (traceData.photos) {
+            traceData.photos.forEach(url => {
+                children.push({
+                    object: 'block', type: 'image', image: { type: 'external', external: { url } }
+                });
+            });
+        }
+
+        const response = await notionRequest('pages', 'POST', {
+            parent: { database_id: dbId },
+            properties: properties,
+            children: children
+        });
+
+        return { success: true, id: response.id as string };
+    } catch (e) {
+        console.error('Failed to create trace:', e);
+        return { success: false, error: String(e) };
+    }
+};
+
+/**
+ * soft-deletes (archives) a trace page in Notion.
+ */
+export const deleteTrace = async (traceId: string) => {
+    if (isMockMode) {
+        console.log('Mock delete trace:', traceId);
+        return { success: true };
+    }
+    
+    try {
+        await notionRequest(`pages/${traceId}`, 'PATCH', {
+            archived: true
+        });
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to delete trace:', e);
+        return { success: false, error: String(e) };
+    }
+};
+
 export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
     if (isMockMode || !CALENDAR_DB_ID) {
        console.warn('Missing NOTION_CALENDAR_DB_ID or mock mode'); 
@@ -673,5 +801,17 @@ export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
     } catch (e) {
         console.error('Failed to fetch calendar events:', e);
         return [];
+    }
+};
+// Debugging helper
+export const getTracesSchema = async () => {
+    if (isMockMode || !TRACES_DB_ID) return null;
+    try {
+        const dbId = cleanId(TRACES_DB_ID);
+        const response = await notionRequest(`databases/${dbId}`, 'GET');
+        return response.properties;
+    } catch (e) {
+        console.error('Failed to get schema:', e);
+        return null;
     }
 };

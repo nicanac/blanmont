@@ -34,6 +34,8 @@ export interface Trace {
   surface: string;
   /** Subjective quality rating (1-5 stars) derived from Notion. */
   quality: number;
+  /** Raw rating string from Notion (e.g., '⭐⭐⭐'). */
+  rating?: string;
   /** URL to the Komoot route map. */
   mapUrl?: string;
   /** URL to the GPX file download. */
@@ -54,6 +56,8 @@ export interface Trace {
   direction?: string;
   /** specific description or notes about the route. */
   description: string;
+  /** Encoded polyline string for the route path. */
+  polyline?: string;
 }
 
 /**
