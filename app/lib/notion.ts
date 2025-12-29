@@ -170,7 +170,8 @@ const mapPageToTrace = async (page: any): Promise<Trace> => {
   
   // Parse Formula for Distance (km)
   const kmFormula = props.km?.formula;
-  const dist = parseFloat(kmFormula?.string || kmFormula?.number || '0');
+  // Prioritize explicit Distance property if available, otherwise fall back to km formula
+  const dist = props.Distance?.number || parseFloat(kmFormula?.string || kmFormula?.number || '0');
   
   // Parse Rating
   const ratingSelect = props.Rating?.select;
@@ -631,6 +632,26 @@ const CALENDAR_DB_ID = '2d29555c-6779-80b0-a9e3-e07785d2d847'; // Hardcoded vali
  */
 import { CalendarEvent } from '../types';
 
+// Migration helper
+export const ensureDistanceProperty = async () => {
+    if (isMockMode || !TRACES_DB_ID) return;
+    const dbId = cleanId(TRACES_DB_ID);
+    try {
+        await notionRequest(`databases/${dbId}`, 'PATCH', {
+            properties: {
+                'Distance': {
+                    number: {
+                        format: 'number'
+                    }
+                }
+            }
+        });
+        console.log('Distance property ensured.');
+    } catch (e) {
+        console.error('Failed to ensure Distance property:', e);
+    }
+};
+
 export const createTrace = async (traceData: Partial<Trace> & { photos?: string[] }) => {
     if (isMockMode || !TRACES_DB_ID) {
         console.log('Mock create trace:', traceData);
@@ -638,59 +659,48 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
     }
 
     try {
+        await ensureDistanceProperty(); // Ensure field exists before writing
+        
         const dbId = cleanId(TRACES_DB_ID);
         const properties: any = {
             Name: { title: [{ text: { content: traceData.name || 'Untitled Import' } }] },
             Note: { rich_text: [{ text: { content: traceData.description || 'Imported from Strava' } }] },
-            Komoot: { url: traceData.mapUrl || null }, // Using 'Komoot' field for general Map URL
-            // Fixed property name from 'D+' to 'Elevation' (Case sensitive common convention)
+            Komoot: { url: traceData.mapUrl || null }, 
+            
             Elevation: { number: traceData.elevation || 0 },
+            Distance: { number: traceData.distance || 0 }
         };
 
+        // ... direction logic
         if (traceData.direction) {
-            properties.Direction = {
-                select: {
-                    name: traceData.direction
-                }
-            };
+             properties.Direction = {
+                 select: {
+                     name: traceData.direction
+                 }
+             };
         }
-
-        // 'photo' property in this DB seems to be a URL, not a File object.
-        // We set the first photo as the main photo URL.
-        if (traceData.photos && traceData.photos.length > 0) {
-            properties.photo = {
-                url: traceData.photos[0]
-            };
-        }
-
-        // Construct page content (Children)
-        const children = [];
         
-        // Add Description as generic text
+        // ... rest
+        if (traceData.photos && traceData.photos.length > 0) {
+             properties.photo = { url: traceData.photos[0] };
+        }
+        
+        const children = [];
         if (traceData.description) {
             children.push({
                 object: 'block',
                 type: 'paragraph',
-                paragraph: {
-                    rich_text: [{ text: { content: traceData.description } }]
-                }
+                paragraph: { rich_text: [{ text: { content: traceData.description } }] }
+            });
+        }
+        if (traceData.photos) {
+            traceData.photos.forEach(url => {
+                 children.push({
+                    object: 'block', type: 'image', image: { type: 'external', external: { url } }
+                 });
             });
         }
 
-        // Add Photos as Image Blocks
-        if (traceData.photos) {
-            traceData.photos.forEach(url => {
-                children.push({
-                    object: 'block',
-                    type: 'image',
-                    image: {
-                        type: 'external',
-                        external: { url }
-                    }
-                });
-            });
-        }
-        
         await notionRequest('pages', 'POST', {
             parent: { database_id: dbId },
             properties: properties,
@@ -746,5 +756,17 @@ export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
     } catch (e) {
         console.error('Failed to fetch calendar events:', e);
         return [];
+    }
+};
+// Debugging helper
+export const getTracesSchema = async () => {
+    if (isMockMode || !TRACES_DB_ID) return null;
+    try {
+        const dbId = cleanId(TRACES_DB_ID);
+        const response = await notionRequest(`databases/${dbId}`, 'GET');
+        return response.properties;
+    } catch (e) {
+        console.error('Failed to get schema:', e);
+        return null;
     }
 };
