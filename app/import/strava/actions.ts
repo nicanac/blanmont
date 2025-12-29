@@ -1,7 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { getStravaActivity, getActivityStreams } from '../../lib/strava';
+import { getStravaActivity, getActivityStreams, getStravaActivityPhotos } from '../../lib/strava';
 import { createTrace } from '../../lib/notion'; // Assuming this exists or I need to create/export it. I might need to move it to a shared lib if it's in a different file.
 // Checking previous context, createTrace logic is likely in notion.ts or needs to be added.
 // I will check app/lib/notion.ts later. For now I will mock or assume it.
@@ -59,8 +59,17 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
      if (!accessToken) throw new Error("No token");
 
      // Fetch Streams for full resolution path
-     const streams = await getActivityStreams(String(activity.id), accessToken);
+     // const streams = await getActivityStreams(String(activity.id), accessToken); // Not used yet
      
+     // Fetch Photos
+     let photoUrls: string[] = [];
+     try {
+         const photos = await getStravaActivityPhotos(String(activity.id), accessToken);
+         photoUrls = photos.map(p => p.urls['2048'] || p.urls['1024'] || p.urls['600']).filter(Boolean);
+     } catch (e) {
+         console.warn('Failed to fetch photos', e);
+     }
+
      // Create Notion Page
      const result = await createTrace({
          name: overrides?.name || activity.name,
@@ -68,7 +77,8 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
          elevation: activity.total_elevation_gain,
          mapUrl: `https://www.strava.com/activities/${activity.id}`,
          description: activity.description || `Imported from Strava. Distance: ${(activity.distance/1000).toFixed(1)}km`,
-         direction: overrides?.direction
+         direction: overrides?.direction,
+         photos: photoUrls
      });
 
      if (!result.success) {
