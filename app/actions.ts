@@ -113,3 +113,56 @@ export async function loginAction(email: string, password: string) {
   if (!email || !password) return null;
   return await validateUser(email, password);
 }
+
+import { updateMemberPhoto } from './lib/notion';
+import fs from 'node:fs';
+import path from 'node:path';
+import { writeFile } from 'node:fs/promises';
+
+/**
+ * Server Action to update a member's profile photo.
+ * Accepts either a raw URL (string) or a File object (via FormData).
+ * 
+ * @param input - FormData or plain string URL.
+ */
+export async function updateProfilePhotoAction(input: string | FormData, memberId?: string) {
+    let finalPhotoUrl = '';
+    let targetMemberId = memberId;
+
+    // Handle FormData (File Upload)
+    if (input instanceof FormData) {
+        const file = input.get('file') as File;
+        targetMemberId = input.get('memberId') as string;
+
+        if (!file || !targetMemberId) throw new Error('Invalid input');
+
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        // Ensure uploads directory exists
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        // Save file
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.name) || '.jpg';
+        const filename = `profile-${targetMemberId}-${uniqueSuffix}${ext}`;
+        const filepath = path.join(uploadDir, filename);
+        
+        await writeFile(filepath, buffer);
+        finalPhotoUrl = `/uploads/${filename}`;
+    } 
+    // Handle string URL (Legacy/Direct URL)
+    else if (typeof input === 'string') {
+        finalPhotoUrl = input;
+        if (!targetMemberId) throw new Error('Member ID required for URL update');
+    }
+
+    if (!finalPhotoUrl || !targetMemberId) throw new Error('Failed to process photo update');
+    
+    await updateMemberPhoto(targetMemberId, finalPhotoUrl);
+    revalidatePath('/profile');
+    return finalPhotoUrl;
+}

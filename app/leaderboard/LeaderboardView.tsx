@@ -38,8 +38,6 @@ export default function LeaderboardView({ entries }: Props) {
         setOpen(false);
     };
 
-    const top3 = entries.slice(0, 3);
-    const others = entries.slice(3);
 
     // Reusable Badge Component
     const GroupBadge = ({ group }: { group: string }) => (
@@ -54,11 +52,11 @@ export default function LeaderboardView({ entries }: Props) {
 
     // Podium Card Component
     const PodiumCard = ({ entry, rank }: { entry: LeaderboardEntry; rank: number }) => {
-        const medal = rank === 0 ? "🏆" : rank === 1 ? "🥈" : "🥉";
-        const titleColor = rank === 0 ? "text-green-600" : "text-gray-900";
-        const ringColor = rank === 0 ? "ring-green-600 ring-2" : "ring-gray-200 ring-1";
-        const shadow = rank === 0 ? "shadow-2xl scale-105 z-10" : "shadow-md";
-        const bg = rank === 0 ? "bg-white" : "bg-gray-50/50";
+        const medal = rank === 1 ? "🏆" : rank === 2 ? "🥈" : "🥉";
+        const titleColor = rank === 1 ? "text-green-600" : "text-gray-900";
+        const ringColor = rank === 1 ? "ring-green-600 ring-2" : "ring-gray-200 ring-1";
+        const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
+        const bg = rank === 1 ? "bg-white" : "bg-gray-50/50";
         const lastDate = entry.dates.length > 0 ? entry.dates[entry.dates.length - 1] : "N/A";
         const fidelity = Math.round((entry.rides / 52) * 100);
 
@@ -70,7 +68,7 @@ export default function LeaderboardView({ entries }: Props) {
                 <div>
                     <div className="flex items-center justify-between">
                         <h3 className={`text-lg font-semibold leading-8 ${titleColor} flex items-center gap-2`}>
-                            {medal} {rank === 0 ? "Champion" : rank === 1 ? "2ème Place" : "3ème Place"}
+                            {medal} {rank === 1 ? "Champion" : rank === 2 ? "2ème Place" : "3ème Place"}
                         </h3>
                         <GroupBadge group={entry.group} />
                     </div>
@@ -95,6 +93,43 @@ export default function LeaderboardView({ entries }: Props) {
         );
     };
 
+    // Sort entries by rides descending
+    const sortedEntries = [...entries].sort((a, b) => b.rides - a.rides);
+
+    // Calculate Global Ranks (Competition Ranking: 1, 1, 3, 4...)
+    const globalRanks: Record<string, number> = {};
+    sortedEntries.forEach((entry, index) => {
+        if (index > 0 && entry.rides === sortedEntries[index - 1].rides) {
+            globalRanks[entry.id] = globalRanks[sortedEntries[index - 1].id];
+        } else {
+            globalRanks[entry.id] = index + 1;
+        }
+    });
+
+    // Calculate Group Ranks (Competition Ranking within each group)
+    const groupRanks: Record<string, number> = {};
+    const groupLists: Record<string, LeaderboardEntry[]> = {};
+
+    // Group entries
+    sortedEntries.forEach(entry => {
+        if (!groupLists[entry.group]) groupLists[entry.group] = [];
+        groupLists[entry.group].push(entry);
+    });
+
+    // Rank within groups
+    Object.values(groupLists).forEach(groupMembers => {
+        groupMembers.forEach((member, index) => {
+            if (index > 0 && member.rides === groupMembers[index - 1].rides) {
+                groupRanks[member.id] = groupRanks[groupMembers[index - 1].id];
+            } else {
+                groupRanks[member.id] = index + 1;
+            }
+        });
+    });
+
+    const top3 = sortedEntries.slice(0, 3);
+    const others = sortedEntries.slice(3);
+
     return (
         <>
             <div className="bg-white py-24 sm:py-32">
@@ -109,19 +144,19 @@ export default function LeaderboardView({ entries }: Props) {
                     {/* Podium Section */}
                     {top3.length > 0 && (
                         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-end gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                            {/* 2nd Place */}
+                            {/* 2nd Place Slot (top3[1]) */}
                             <div className="order-2 lg:order-1">
-                                {top3[1] && <PodiumCard entry={top3[1]} rank={1} />}
+                                {top3[1] && <PodiumCard entry={top3[1]} rank={globalRanks[top3[1].id]} />}
                             </div>
 
-                            {/* 1st Place */}
+                            {/* 1st Place Slot (top3[0]) */}
                             <div className="order-1 lg:order-2">
-                                {top3[0] && <PodiumCard entry={top3[0]} rank={0} />}
+                                {top3[0] && <PodiumCard entry={top3[0]} rank={globalRanks[top3[0].id]} />}
                             </div>
 
-                            {/* 3rd Place */}
+                            {/* 3rd Place Slot (top3[2]) */}
                             <div className="order-3 lg:order-3">
-                                {top3[2] && <PodiumCard entry={top3[2]} rank={2} />}
+                                {top3[2] && <PodiumCard entry={top3[2]} rank={globalRanks[top3[2].id]} />}
                             </div>
                         </div>
                     )}
@@ -147,26 +182,32 @@ export default function LeaderboardView({ entries }: Props) {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {others.map((person, index) => (
-                                        <tr
-                                            key={person.id}
-                                            onClick={() => handleSelectMember(person)}
-                                            className="hover:bg-green-50 transition-colors cursor-pointer"
-                                        >
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {index + 4}
-                                            </td>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                                                {person.name}
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                <GroupBadge group={person.group} />
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                <div className="font-bold text-gray-900">{person.rides}</div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {others.map((person) => {
+                                        const globalRank = globalRanks[person.id];
+                                        const groupRank = groupRanks[person.id];
+                                        const isGroupTop3 = groupRank <= 3;
+
+                                        return (
+                                            <tr
+                                                key={person.id}
+                                                onClick={() => handleSelectMember(person)}
+                                                className="hover:bg-green-50 transition-colors cursor-pointer"
+                                            >
+                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                    {globalRank}
+                                                </td>
+                                                <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-gray-900' : 'font-medium text-gray-600'}`}>
+                                                    {person.name}
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    <GroupBadge group={person.group} />
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    <div className={`font-bold ${isGroupTop3 ? 'text-gray-900' : 'text-gray-500'}`}>{person.rides}</div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>
