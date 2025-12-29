@@ -4,7 +4,15 @@ import { getMembers } from '../lib/notion';
 export const revalidate = 60; // ISR every 60 seconds
 
 export default async function MembersPage() {
-    const members = await getMembers();
+    // Filter to show only members with a role other than just "Member" (e.g. President, Secretary, etc.)
+    const allMembers = await getMembers();
+    const members = allMembers.filter(m => {
+        // Assume 'Member' is the default role for everyone.
+        // We want to show people who have roles *other* than 'Member' (or 'Membre').
+        // If the only role is 'Member', exclude them.
+        const interestingRoles = m.role.filter(r => r !== 'Member' && r !== 'Membre');
+        return interestingRoles.length > 0;
+    });
 
     return (
         <div className="bg-white py-24 sm:py-32">
