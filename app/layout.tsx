@@ -1,31 +1,17 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Link from 'next/link';
 import { Poppins } from 'next/font/google';
+import ThemeRegistry from './ThemeRegistry';
+import { AuthProvider } from './context/AuthContext';
+import Box from '@mui/material/Box';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-poppins',
 });
-
-
-
-
-/**
- * Root Layout component that wraps the entire application.
- * Provides the HTML structure, global styles, navigation bar, and footer.
- * 
- * @param children - The page content to render.
- */
-import ThemeRegistry from './ThemeRegistry';
-import { AuthProvider } from './context/AuthContext';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-
 
 export const metadata: Metadata = {
   title: 'Blanmont Cycling Club',
