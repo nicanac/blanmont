@@ -9,6 +9,7 @@ import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { cn } from '../../../utils/cn';
 
 interface TraceListProps {
     initialTraces: Trace[];
@@ -24,9 +25,6 @@ const sortOptions = [
     { name: 'Dénivelé : Décroissant', value: 'elevation_desc', current: false },
 ];
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export default function TraceList({ initialTraces }: TraceListProps) {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -127,7 +125,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                                     {({ active }) => (
                                                         <button
                                                             onClick={() => setSort(option.value as SortOption)}
-                                                            className={classNames(
+                                                            className={cn(
                                                                 option.value === sort ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                 active ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm w-full text-left'
