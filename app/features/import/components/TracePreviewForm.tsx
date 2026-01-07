@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { StravaActivity } from '../../../lib/strava';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 // Dynamic import for Leaflet map
 const MapPreview = dynamic(() => import('../../traces/components/MapPreview'), { ssr: false });
@@ -25,129 +25,197 @@ interface TracePreviewFormProps {
         direction: string;
         surface: string;
         rating: string;
+        distance: number;
+        elevation: number;
+        description: string;
     }) => Promise<void>;
     isLoading: boolean;
 }
 
 export default function TracePreviewForm({ data, onImport, isLoading }: TracePreviewFormProps) {
     const [editedName, setEditedName] = useState(data.name);
-    const [direction, setDirection] = useState('↑ Nord');
-    const [surface, setSurface] = useState('4 - good');
+    const [direction, setDirection] = useState('North');
+    const [surface, setSurface] = useState('Road');
     const [rating, setRating] = useState('⭐⭐⭐');
+
+    // New editable fields
+    const [editedDistance, setEditedDistance] = useState(data.distance / 1000); // Convert to km
+    const [editedElevation, setEditedElevation] = useState(data.total_elevation_gain);
+    const [description, setDescription] = useState('');
+
+    // Check if elevation data is missing (0 or very low)
+    const elevationMissing = data.total_elevation_gain === 0;
 
     const handleImportClick = () => {
         onImport({
             name: editedName,
             direction,
             surface,
-            rating
+            rating,
+            distance: editedDistance,
+            elevation: editedElevation,
+            description
         });
     };
 
     return (
-        <div className="border rounded-lg p-6 bg-white shadow-sm transition-all duration-300">
-            {/* Header Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium leading-6 text-gray-900">Name</label>
-                        <input
-                            type="text"
-                            value={editedName}
-                            onChange={(e) => setEditedName(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium leading-6 text-gray-900">Direction</label>
-                            <select
-                                value={direction}
-                                onChange={(e) => setDirection(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            >
-                                <option value="↑ Nord">↑ Nord</option>
-                                <option value="↓ Sud">↓ Sud</option>
-                                <option value="→ Est">→ Est</option>
-                                <option value="← Ouest">← Ouest</option>
-                                <option value="↗ Nord Est">↗ Nord Est</option>
-                                <option value="↗ Nord Ouest">↗ Nord Ouest</option>
-                                <option value="↘ Sud Est">↘ Sud Est</option>
-                                <option value="↙ Sud Ouest">↙ Sud Ouest</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium leading-6 text-gray-900">Rating</label>
-                            <select
-                                value={rating}
-                                onChange={(e) => setRating(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            >
-                                <option value="⭐">⭐</option>
-                                <option value="⭐⭐">⭐⭐</option>
-                                <option value="⭐⭐⭐">⭐⭐⭐</option>
-                                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
-                                <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium leading-6 text-gray-900">Road Quality</label>
-                        <select
-                            value={surface}
-                            onChange={(e) => setSurface(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        >
-                            <option value="1 - bad">1 - Bad</option>
-                            <option value="2 - bad -> average">2 - Bad to Average</option>
-                            <option value="3 - average -> good">3 - Average to Good</option>
-                            <option value="4 - good">4 - Good</option>
-                            <option value="5 - good -> very good">5 - Good to Very Good</option>
-                            <option value="6 - very good -> excellent">6 - Very Good to Excellent</option>
-                            <option value="7 - Excellent">7 - Excellent</option>
-                        </select>
-                    </div>
-                </div>
-
-                {/* Map Preview */}
-                <div className="h-64 rounded-lg overflow-hidden border border-gray-200">
+        <div className="py-6 px-4 sm:px-6 lg:px-8">
+            {/* Map Preview Section - Full Width similar to AddTraceForm */}
+            <div className="mb-8 rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                <div className="h-64 sm:h-80 w-full">
                     {data.map?.summary_polyline ? (
                         <MapPreview summaryPolyline={data.map.summary_polyline} />
                     ) : (
-                        <div className="h-full w-full bg-gray-100 flex items-center justify-center text-gray-500">
-                            No Map Data
+                        <div className="h-full w-full flex items-center justify-center text-gray-500">
+                            Pas de données cartographiques
                         </div>
                     )}
                 </div>
-            </div>
-
-            {/* Stats Summary */}
-            <div className="bg-gray-50 p-4 rounded-md mb-6 text-sm text-gray-600">
-                <div className="grid grid-cols-3 gap-4 text-center">
+                {/* Stats Overlay similar to AddTraceForm */}
+                <div className="bg-gray-50 px-4 py-3 border-t border-gray-200 flex gap-6 text-sm">
                     <div>
-                        <div className="font-semibold mb-1">Distance</div>
-                        <span className="text-gray-900 font-bold text-lg">{(data.distance / 1000).toFixed(1)}</span> km
+                        <span className="text-gray-500 font-medium mr-2">Distance:</span>
+                        <span className="font-bold text-gray-900">{editedDistance.toFixed(1)} km</span>
                     </div>
                     <div>
-                        <div className="font-semibold mb-1">Elevation</div>
-                        <span className="text-gray-900 font-bold text-lg">{data.total_elevation_gain}</span> m
-                    </div>
-                    <div>
-                        <div className="font-semibold mb-1">Photos</div>
-                        <span className="text-gray-900 font-bold text-lg">{data.total_photo_count || 0}</span>
+                        <span className="text-gray-500 font-medium mr-2">Dénivelé:</span>
+                        <span className="font-bold text-gray-900">{editedElevation} m</span>
                     </div>
                 </div>
             </div>
 
-            <button
-                onClick={handleImportClick}
-                disabled={isLoading}
-                className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 font-bold transition-colors shadow-sm disabled:opacity-50"
-            >
-                {isLoading ? 'Creating Trace...' : 'Create Trace in Notion'}
-            </button>
+            <div className="space-y-8 max-w-4xl mx-auto">
+                {/* SECTION: GENERAL */}
+                <div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">Informations Générales</h3>
+                    <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                        {/* Name */}
+                        <div className="sm:col-span-4">
+                            <label className="block text-sm font-medium text-gray-700">Nom du Parcours</label>
+                            <input
+                                type="text"
+                                value={editedName}
+                                onChange={(e) => setEditedName(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                            />
+                        </div>
+
+                        {/* Rating */}
+                        <div className="sm:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700">Difficulté (Rating)</label>
+                            <select
+                                value={rating}
+                                onChange={(e) => setRating(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                            >
+                                <option value="⭐">⭐ (Facile)</option>
+                                <option value="⭐⭐">⭐⭐</option>
+                                <option value="⭐⭐⭐">⭐⭐⭐ (Moyen)</option>
+                                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (Difficile)</option>
+                                <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (Expert)</option>
+                            </select>
+                        </div>
+
+                        {/* Direction */}
+                        <div className="sm:col-span-3">
+                            <label className="block text-sm font-medium text-gray-700">Direction</label>
+                            <select
+                                value={direction}
+                                onChange={(e) => setDirection(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                            >
+                                <option value="North">↑ Nord</option>
+                                <option value="South">↓ Sud</option>
+                                <option value="East">→ Est</option>
+                                <option value="West">← Ouest</option>
+                                <option value="North-East">↗ Nord-Est</option>
+                                <option value="North-West">↖ Nord-Ouest</option>
+                                <option value="South-East">↘ Sud-Est</option>
+                                <option value="South-West">↙ Sud-Ouest</option>
+                            </select>
+                        </div>
+
+                        {/* Surface */}
+                        <div className="sm:col-span-3">
+                            <label className="block text-sm font-medium text-gray-700">Type de vélo</label>
+                            <select
+                                value={surface}
+                                onChange={(e) => setSurface(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                            >
+                                <option value="Road">Route</option>
+                                <option value="Gravel">Gravel</option>
+                                <option value="Mixed">Mixte</option>
+                                <option value="MTB">VTT</option>
+                                <option value="Path">Chemin</option>
+                            </select>
+                        </div>
+
+                        {/* Additional Stats Section */}
+                        <div className="sm:col-span-6 pt-4 border-t border-gray-100 mt-2">
+                            <h4 className="text-sm font-medium text-gray-900 mb-3">Statistiques (Modifiables)</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Distance (km)</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        value={editedDistance}
+                                        onChange={(e) => setEditedDistance(parseFloat(e.target.value) || 0)}
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    />
+                                    <p className="mt-1 text-xs text-gray-500">Format: xx.x km</p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Dénivelé (m)
+                                        {elevationMissing && (
+                                            <span className="ml-2 text-amber-600 font-normal text-xs inline-flex items-center">
+                                                <ExclamationTriangleIcon className="h-3 w-3 mr-1" />
+                                                À vérifier
+                                            </span>
+                                        )}
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={editedElevation}
+                                        onChange={(e) => setEditedElevation(parseInt(e.target.value) || 0)}
+                                        className={`mt-1 block w-full rounded-md shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border ${elevationMissing ? 'border-amber-300 bg-amber-50' : 'border-gray-300'}`}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Description */}
+                        <div className="sm:col-span-6">
+                            <label className="block text-sm font-medium text-gray-700">Description / Note</label>
+                            <div className="mt-1">
+                                <textarea
+                                    rows={4}
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    placeholder="Ajoutez une description, état des routes, points d'intérêt..."
+                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Actions */}
+                <div className="pt-5 border-t border-gray-200">
+                    <div className="flex justify-end">
+                        <button
+                            type="button"
+                            onClick={handleImportClick}
+                            disabled={isLoading}
+                            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-brand-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isLoading ? 'Création en cours...' : 'Créer le parcours Notion'}
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
