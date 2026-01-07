@@ -34,8 +34,8 @@ interface TracePreviewFormProps {
 
 export default function TracePreviewForm({ data, onImport, isLoading }: TracePreviewFormProps) {
     const [editedName, setEditedName] = useState(data.name);
-    const [direction, setDirection] = useState('↑ Nord');
-    const [surface, setSurface] = useState('4 - good');
+    const [direction, setDirection] = useState('North');
+    const [surface, setSurface] = useState('Road');
     const [rating, setRating] = useState('⭐⭐⭐');
 
     // New editable fields
@@ -81,14 +81,14 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                                 onChange={(e) => setDirection(e.target.value)}
                                 className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
-                                <option value="↑ Nord">↑ Nord</option>
-                                <option value="↓ Sud">↓ Sud</option>
-                                <option value="→ Est">→ Est</option>
-                                <option value="← Ouest">← Ouest</option>
-                                <option value="↗ Nord Est">↗ Nord Est</option>
-                                <option value="↗ Nord Ouest">↗ Nord Ouest</option>
-                                <option value="↘ Sud Est">↘ Sud Est</option>
-                                <option value="↙ Sud Ouest">↙ Sud Ouest</option>
+                                <option value="North">↑ Nord</option>
+                                <option value="South">↓ Sud</option>
+                                <option value="East">→ Est</option>
+                                <option value="West">← Ouest</option>
+                                <option value="North-East">↗ Nord-Est</option>
+                                <option value="North-West">↖ Nord-Ouest</option>
+                                <option value="South-East">↘ Sud-Est</option>
+                                <option value="South-West">↙ Sud-Ouest</option>
                             </select>
                         </div>
                         <div>
@@ -108,19 +108,17 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium leading-6 text-gray-900">Road Quality</label>
+                        <label className="block text-sm font-medium leading-6 text-gray-900">Type de vélo</label>
                         <select
                             value={surface}
                             onChange={(e) => setSurface(e.target.value)}
                             className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         >
-                            <option value="1 - bad">1 - Bad</option>
-                            <option value="2 - bad -> average">2 - Bad to Average</option>
-                            <option value="3 - average -> good">3 - Average to Good</option>
-                            <option value="4 - good">4 - Good</option>
-                            <option value="5 - good -> very good">5 - Good to Very Good</option>
-                            <option value="6 - very good -> excellent">6 - Very Good to Excellent</option>
-                            <option value="7 - Excellent">7 - Excellent</option>
+                            <option value="Road">Route</option>
+                            <option value="Gravel">Gravel</option>
+                            <option value="Mixed">Mixte</option>
+                            <option value="MTB">VTT</option>
+                            <option value="Path">Chemin</option>
                         </select>
                     </div>
                 </div>
