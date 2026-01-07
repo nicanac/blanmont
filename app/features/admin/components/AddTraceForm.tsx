@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { gpx } from '@tmcw/togeojson';
+import { logger } from '../../../lib/logger';
 
 // Dynamic import for Map to avoid SSR issues with Leaflet
 const MapPreview = dynamic(() => import('./MapPreview'), {
@@ -133,7 +134,7 @@ export default function AddTraceForm() {
                 }));
 
             } catch (err) {
-                console.error('Error parsing GPX:', err);
+                logger.error('Error parsing GPX:', err);
                 setMessage('Erreur lors de la lecture du fichier GPX.');
             } finally {
                 setIsParsingGpx(false);

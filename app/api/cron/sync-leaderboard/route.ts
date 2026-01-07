@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import https from 'https';
+import { logger } from '@/app/lib/logger';
 
 export const dynamic = 'force-dynamic'; // Ensure no caching for this route
 
@@ -193,7 +194,7 @@ export async function GET(request: Request) {
                 await new Promise(r => setTimeout(r, 200));
                 
             } catch (e) {
-                console.error(`Error syncing ${fullName}`, e);
+                logger.error(`Error syncing ${fullName}`, e);
                 errors++;
             }
         }

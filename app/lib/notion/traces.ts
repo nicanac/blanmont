@@ -2,6 +2,7 @@ import { unstable_cache } from 'next/cache';
 import { Trace, NotionPage } from '../../types';
 import { isMockMode, TRACES_DB_ID, cleanId, notionRequest } from './client';
 import { CreateTraceSchema, safeValidate } from '../validation';
+import { logger } from '../logger';
 
 // === Cache Revalidation Utilities ===
 
@@ -37,7 +38,7 @@ export async function getKomootImage(url: string): Promise<string | undefined> {
     if (!match) return undefined;
     return match[1].replace(/&amp;/g, '&');
   } catch (err) {
-    console.error('Failed to scrape Komoot image:', err);
+    logger.error('Failed to scrape Komoot image:', err);
     return undefined;
   }
 }
@@ -53,7 +54,7 @@ async function scrapeGooglePhotos(url: string): Promise<string[]> {
     
     return [...new Set(matches)].slice(0, 5).map(u => `${u}=w600-h400-c`);
   } catch (e) {
-    console.warn('Failed to scrape photos:', e);
+    logger.warn('Failed to scrape photos:', e);
     return [];
   }
 }
@@ -118,7 +119,7 @@ const ensureDistanceProperty = async () => {
             properties: { 'Distance': { number: { format: 'number' } } }
         });
     } catch (e) {
-        console.error('Failed to ensure Distance property:', e);
+        logger.error('Failed to ensure Distance property:', e);
     }
 };
 
@@ -130,7 +131,7 @@ const ensureMapPolylineProperty = async () => {
             properties: { 'MapPolyline': { rich_text: {} } }
         });
     } catch (e) {
-        console.error('Failed to ensure MapPolyline property:', e);
+        logger.error('Failed to ensure MapPolyline property:', e);
     }
 };
 
@@ -168,7 +169,7 @@ const getTraceUncached = async (id: string): Promise<Trace | null> => {
         
         return trace;
     } catch (e) {
-        console.error('Failed to fetch trace:', e);
+        logger.error('Failed to fetch trace:', e);
         return null;
     }
 };
@@ -224,7 +225,7 @@ const batchFetchKomootImages = async (urls: string[]): Promise<Map<string, strin
  */
 const getTracesUncached = async (): Promise<Trace[]> => {
   if (isMockMode || !TRACES_DB_ID) {
-    if (!isMockMode) console.warn('Missing NOTION_TRACES_DB_ID, falling back to mock.');
+    if (!isMockMode) logger.warn('Missing NOTION_TRACES_DB_ID, falling back to mock.');
     return [
       { id: '1', name: 'Morning Coffee Loop', distance: 45, elevation: 300, surface: 'Road', quality: 5, description: 'Easy Sunday ride.', mapUrl: 'https://google.com' },
     ];
@@ -280,7 +281,7 @@ const getTracesUncached = async (): Promise<Trace[]> => {
     
     return traces;
   } catch (error) {
-    console.error('Failed to fetch traces:', error);
+    logger.error('Failed to fetch traces:', error);
     return [];
   }
 };
@@ -317,7 +318,7 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
     const validData = validation.data;
 
     if (isMockMode || !TRACES_DB_ID) {
-        console.log('Mock create trace:', validData);
+        logger.debug('Mock create trace:', validData);
         return { success: true, id: 'mock-new-id' };
     }
 
@@ -378,7 +379,7 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
 
         return { success: true, id: response.id as string };
     } catch (e) {
-        console.error('Failed to create trace:', e);
+        logger.error('Failed to create trace:', e);
         return { success: false, error: String(e) };
     }
 };
@@ -391,7 +392,7 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
  */
 export const deleteTrace = async (traceId: string) => {
     if (isMockMode) {
-        console.log('Mock delete trace:', traceId);
+        logger.debug('Mock delete trace:', traceId);
         return { success: true };
     }
     
@@ -405,7 +406,7 @@ export const deleteTrace = async (traceId: string) => {
         
         return { success: true };
     } catch (e) {
-        console.error('Failed to delete trace:', e);
+        logger.error('Failed to delete trace:', e);
         return { success: false, error: String(e) };
     }
 };
@@ -418,7 +419,7 @@ export const deleteTrace = async (traceId: string) => {
  */
 export const submitMapPreview = async (traceId: string, imageUrl: string) => {
     if (isMockMode) {
-      console.log('Mock map preview update:', { traceId, imageUrl });
+      logger.debug('Mock map preview update:', { traceId, imageUrl });
       return;
     }
 
@@ -440,7 +441,7 @@ export const submitMapPreview = async (traceId: string, imageUrl: string) => {
       // Revalidate trace cache after update
       await revalidateTraceCache(traceId);
     } catch (error) {
-       console.error('Failed to update map preview in Notion:', error);
+       logger.error('Failed to update map preview in Notion:', error);
        throw error;
     }
 };
@@ -452,7 +453,7 @@ export const getTracesSchema = async () => {
         const response = await notionRequest(`databases/${dbId}`, 'GET');
         return response.properties;
     } catch (e) {
-        console.error('Failed to get schema:', e);
+        logger.error('Failed to get schema:', e);
         return null;
     }
 };

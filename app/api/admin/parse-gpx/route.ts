@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { DOMParser } from '@xmldom/xmldom';
 import { gpx } from '@tmcw/togeojson';
 import { ParseGpxApiSchema, safeValidate } from '@/app/lib/validation';
+import { logger } from '@/app/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -83,7 +84,7 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('GPX parse error:', error);
+    logger.error('GPX parse error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

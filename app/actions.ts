@@ -14,6 +14,7 @@ import {
   validateFormData,
   type ValidationResult,
 } from './lib/validation';
+import { logger } from './lib/logger';
 
 /**
  * Server Action to manually upload a map preview image URL for a trace.
@@ -39,7 +40,7 @@ export async function uploadMapPreview(formData: FormData) {
     revalidatePath(`/traces/${traceId}`);
     revalidatePath('/traces');
   } catch (error) {
-    console.error('Failed to update map preview:', error);
+    logger.error('Failed to update map preview:', error);
     throw error;
   }
 
@@ -83,7 +84,7 @@ export async function generateMapPreview(formData: FormData) {
       revalidatePath(`/traces/${traceId}`);
       revalidatePath('/traces');
   } catch (error) {
-      console.error('Failed to auto-generate map preview:', error);
+      logger.error('Failed to auto-generate map preview:', error);
       throw error;
   }
   

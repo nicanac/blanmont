@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { logger } from '@/app/lib/logger';
 
 const DATABASE_ID = '2d29555c-6779-80fc-b4c9-c912fc338142';
 const NOTION_TOKEN = process.env.NOTION_TOKEN || process.env.NOTION_KEY;
@@ -77,7 +78,7 @@ async function getLeaderboardData(): Promise<LeaderboardEntry[]> {
             cursor = response.next_cursor || undefined;
         } while (cursor);
     } catch (error) {
-        console.error("Error fetching leaderboard:", error);
+        logger.error("Error fetching leaderboard:", error);
         return [];
     }
 

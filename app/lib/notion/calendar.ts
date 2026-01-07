@@ -1,9 +1,10 @@
 import { CalendarEvent, NotionPage } from '../../types';
 import { isMockMode, CALENDAR_DB_ID, cleanId, notionRequest } from './client';
+import { logger } from '../logger';
 
 export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
     if (isMockMode || !CALENDAR_DB_ID) {
-       console.warn('Missing NOTION_CALENDAR_DB_ID or mock mode'); 
+       logger.warn('Missing NOTION_CALENDAR_DB_ID or mock mode'); 
        return [];
     }
     
@@ -40,7 +41,7 @@ export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
         });
 
     } catch (e) {
-        console.error('Failed to fetch calendar events:', e);
+        logger.error('Failed to fetch calendar events:', e);
         return [];
     }
 };

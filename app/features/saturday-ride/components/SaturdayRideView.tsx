@@ -7,6 +7,7 @@ import { Member, SaturdayRide, Trace, Vote } from '../../../types';
 import { submitVoteAction } from '../../../actions';
 import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import TraceCard from '../../traces/components/TraceCard';
+import { logger } from '../../../lib/logger';
 
 interface Props {
     traces: Trace[];
@@ -40,7 +41,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
         try {
             await submitVoteAction(rideId, currentUser.id, traceId);
         } catch (e) {
-            console.error(e);
+            logger.error('Failed to submit vote:', e);
             if (previousOptimistic) {
                 setOptimisticVotes(prev => ({ ...prev, [rideId]: previousOptimistic }));
             } else {

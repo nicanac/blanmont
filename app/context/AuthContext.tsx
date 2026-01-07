@@ -2,6 +2,7 @@
 
 import { loginAction } from '../actions';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { logger } from '../lib/logger';
 
 interface User {
     id: string;
@@ -32,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             try {
                 setUser(JSON.parse(storedUser));
             } catch (e) {
-                console.error('Failed to parse user from storage');
+                logger.error('Failed to parse user from storage');
             }
         }
     }, []);
@@ -55,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
             return false;
         } catch (err) {
-            console.error('Login failed', err);
+            logger.error('Login failed', err);
             return false;
         }
     };

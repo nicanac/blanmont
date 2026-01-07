@@ -1,6 +1,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { FetchMetadataApiSchema, safeValidate } from '@/app/lib/validation';
+import { logger } from '@/app/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('Metadata fetch error:', error);
+    logger.error('Metadata fetch error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

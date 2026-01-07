@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { exchangeToken } from '../../../../lib/strava';
+import { logger } from '@/app/lib/logger';
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
@@ -33,7 +34,7 @@ export async function GET(request: NextRequest) {
 
         return response;
     } catch (err) {
-        console.error('Strava Auth Error', err);
+        logger.error('Strava Auth Error', err);
         return NextResponse.redirect(new URL('/import/strava?error=token_exchange_failed', request.url));
     }
 }

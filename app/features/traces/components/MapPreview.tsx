@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Polyline, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { logger } from '../../../lib/logger';
 
 // Fix for default marker icons in Next.js/Leaflet
 // Although we might only draw a polyline, good to have if we add markers later.
@@ -44,7 +45,7 @@ export default function MapPreview({ summaryPolyline }: MapPreviewProps) {
             const decoded = decodePolyline(summaryPolyline);
             setPositions(decoded);
         } catch (e) {
-            console.error("Failed to decode polyline", e);
+            logger.error("Failed to decode polyline", e);
         }
     }, [summaryPolyline]);
 

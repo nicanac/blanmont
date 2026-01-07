@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { updateProfilePhotoAction } from '../actions';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../lib/canvasUtils';
+import { logger } from '../lib/logger';
 
 // Helper function to read file as Data URL
 const readFile = (file: File): Promise<string> => {
@@ -61,7 +62,7 @@ export default function ProfilePage() {
                 }
             }
         } catch (e) {
-            console.error(e);
+            logger.error('Failed to upload profile photo:', e);
         }
     };
 

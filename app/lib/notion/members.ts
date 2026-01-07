@@ -1,12 +1,13 @@
 import { Member, NotionPage } from '../../types';
 import { isMockMode, MEMBERS_DB_ID, cleanId, notionRequest } from './client';
+import { logger } from '../logger';
 
 /**
  * Fetches the list of all active members from the Notion 'Members' database.
  */
 export const getMembers = async (): Promise<Member[]> => {
   if (isMockMode || !MEMBERS_DB_ID) {
-    if (!isMockMode) console.warn('Missing NOTION_MEMBERS_DB_ID, falling back to mock.');
+    if (!isMockMode) logger.warn('Missing NOTION_MEMBERS_DB_ID, falling back to mock.');
     return [
       { id: '1', name: 'Alice Velo', role: ['President'], bio: 'Love climbing.', photoUrl: 'https://placehold.co/400x400' },
       { id: '2', name: 'Bob Sprinter', role: ['Member'], bio: 'Fast on flats.', photoUrl: 'https://placehold.co/400x400' },
@@ -34,7 +35,7 @@ export const getMembers = async (): Promise<Member[]> => {
       };
     });
   } catch (error) {
-    console.error('Failed to fetch members:', error);
+    logger.error('Failed to fetch members:', error);
     return [];
   }
 };
@@ -80,14 +81,14 @@ export const validateUser = async (email: string, password: string): Promise<Mem
       phone: props.Phone?.phone_number || props.Mobile?.phone_number || props.GSM?.phone_number || '',
     };
   } catch (error) {
-    console.error('Failed to validate user:', error);
+    logger.error('Failed to validate user:', error);
     return null;
   }
 };
 
 export const updateMemberPhoto = async (memberId: string, photoUrl: string) => {
     if (isMockMode) {
-      console.log('Mock member photo update:', { memberId, photoUrl });
+      logger.debug('Mock member photo update:', { memberId, photoUrl });
       return;
     }
 
@@ -106,7 +107,7 @@ export const updateMemberPhoto = async (memberId: string, photoUrl: string) => {
         }
       });
     } catch (error) {
-       console.error('Failed to update member photo in Notion:', error);
+       logger.error('Failed to update member photo in Notion:', error);
        throw error;
     }
 };

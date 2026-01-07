@@ -1,6 +1,7 @@
 'use server';
 
 import { FetchGarminActivitySchema, safeValidate } from '../../lib/validation';
+import { logger } from '../../lib/logger';
 
 export async function fetchGarminActivityAction(urlInput: string) {
     const validation = safeValidate(FetchGarminActivitySchema, { url: urlInput });
@@ -57,7 +58,7 @@ export async function fetchGarminActivityAction(urlInput: string) {
         };
 
     } catch (e) {
-        console.error('Garmin Fetch Error:', e);
+        logger.error('Garmin Fetch Error:', e);
         return { error: 'Failed to process Garmin URL.' };
     }
 }

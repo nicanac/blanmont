@@ -8,6 +8,7 @@ import * as mapboxPolyline from '@mapbox/polyline';
 import { importStravaTraceAction } from '../strava/actions';
 import { StravaActivity } from '../../lib/strava';
 import Link from 'next/link';
+import { logger } from '../../lib/logger';
 
 export default function GarminImportPage() {
     const [file, setFile] = useState<File | null>(null);
@@ -122,7 +123,7 @@ export default function GarminImportPage() {
             });
 
         } catch (e) {
-            console.error('GPX Parse Error:', e);
+            logger.error('GPX Parse Error:', e);
             setError('Failed to parse GPX file. Please make sure it is a valid GPX.');
         } finally {
             setLoading(false);
@@ -187,7 +188,7 @@ export default function GarminImportPage() {
                 setError(result.error || 'Failed to create trace in Notion.');
             }
         } catch (e) {
-            console.error(e);
+            logger.error('Import from Garmin failed:', e);
             setError('System error during import.');
         } finally {
             setLoading(false);

@@ -6,6 +6,7 @@ import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import toGeoJSON from '@mapbox/polyline';
 // @ts-ignore
 import togpx from 'togpx';
+import { logger } from '../../../lib/logger';
 
 interface Props {
     polyline?: string;
@@ -52,7 +53,7 @@ export default function DownloadGPXButton({ polyline, traceName }: Props) {
             link.click();
             document.body.removeChild(link);
         } catch (e) {
-            console.error('Failed to generate GPX', e);
+            logger.error('Failed to generate GPX', e);
             alert('Failed to generate GPX file.');
         }
     };

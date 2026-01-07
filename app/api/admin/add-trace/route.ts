@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createTraceWithGPX } from '@/app/lib/notion/traces';
 import { AddTraceApiSchema, safeValidate } from '@/app/lib/validation';
+import { logger } from '@/app/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, id: result.id });
   } catch (error: any) {
-    console.error('Error creating trace:', error);
+    logger.error('Error creating trace:', error);
     return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
   }
 }

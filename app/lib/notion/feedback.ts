@@ -1,6 +1,7 @@
 import { Feedback, NotionPage } from '../../types';
 import { isMockMode, FEEDBACK_DB_ID, cleanId, notionRequest } from './client';
 import { SubmitFeedbackSchema, safeValidate } from '../validation';
+import { logger } from '../logger';
 
 export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> => {
   if (isMockMode || !FEEDBACK_DB_ID) return [];
@@ -28,7 +29,7 @@ export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> 
         } as Feedback;
     });
   } catch (error) {
-    console.error('Failed to fetch feedback:', error);
+    logger.error('Failed to fetch feedback:', error);
     return [];
   }
 };
@@ -49,7 +50,7 @@ export const submitFeedback = async (traceId: string, memberId: string, rating: 
    const validData = validation.data;
 
    if (isMockMode || !FEEDBACK_DB_ID) {
-     console.log('Mock submission:', validData);
+     logger.debug('Mock submission:', validData);
      return;
    }
    
@@ -60,7 +61,7 @@ export const submitFeedback = async (traceId: string, memberId: string, rating: 
          const existingFeedback = await getFeedbackForTrace(validData.traceId);
          const match = existingFeedback.find(f => f.memberId === validData.memberId);
          if (match) {
-             console.log(`Found existing feedback ${match.id} for member ${validData.memberId}, updating instead of creating.`);
+             logger.debug(`Found existing feedback ${match.id} for member ${validData.memberId}, updating instead of creating.`);
              targetId = match.id;
          }
      }
@@ -105,7 +106,7 @@ export const submitFeedback = async (traceId: string, memberId: string, rating: 
        properties: properties
      });
    } catch (error) {
-     console.error('Failed to submit feedback:', error);
+     logger.error('Failed to submit feedback:', error);
      throw error;
    }
 };

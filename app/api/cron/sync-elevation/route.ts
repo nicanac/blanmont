@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import https from 'https';
+import { logger } from '@/app/lib/logger';
 
 // Environment variables should be checked at runtime
 const NOTION_TOKEN = process.env.NOTION_TOKEN || process.env.NOTION_KEY;
@@ -160,7 +161,7 @@ export async function GET(request: Request) {
                     failCount++;
                 }
             } catch (e) {
-                console.error(`Error processing trace ${trace.id}:`, e);
+                logger.error(`Error processing trace ${trace.id}:`, e);
                 failCount++;
             }
         }
@@ -174,7 +175,7 @@ export async function GET(request: Request) {
         });
 
     } catch (error: any) {
-        console.error('Cron job failed:', error);
+        logger.error('Cron job failed:', error);
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }

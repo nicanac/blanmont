@@ -9,6 +9,7 @@ import {
   safeValidate,
 } from '../../lib/validation';
 import toGeoJSON from '@tmcw/togeojson';
+import { logger } from '../../lib/logger';
 
 import fs from 'fs';
 import path from 'path';
@@ -21,7 +22,7 @@ export async function validateSchemaAction() {
             fs.writeFileSync(dumpPath, JSON.stringify(schema, null, 2));
             return { success: true };
         } catch (e) {
-            console.error('Failed to write dump', e);
+            logger.error('Failed to write dump', e);
         }
     }
     return { success: false };
@@ -64,7 +65,7 @@ export async function fetchStravaActivityAction(url: string) {
         const activity = await getStravaActivity(id, accessToken);
         return { success: true, activity };
     } catch (e) {
-        console.error(e);
+        logger.error('Strava activity fetch failed:', e);
         return { error: 'Failed to fetch activity. Ensure it is yours or public.' };
     }
 }
@@ -94,7 +95,7 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
          const photos = await getStravaActivityPhotos(String(validatedActivity.id), accessToken);
          photoUrls = photos.map(p => p.urls['2048'] || p.urls['1024'] || p.urls['600']).filter(Boolean);
      } catch (e) {
-         console.warn('Failed to fetch photos', e);
+         logger.warn('Failed to fetch photos', e);
      }
 
      // Create Notion Page

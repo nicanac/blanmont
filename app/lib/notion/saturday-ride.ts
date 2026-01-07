@@ -1,5 +1,6 @@
 import { SaturdayRide, Vote, NotionPage } from '../../types';
 import { isMockMode, SATURDAY_RIDE_DB_ID, VOTES_DB_ID, cleanId, notionRequest } from './client';
+import { logger } from '../logger';
 
 export const getActiveRides = async (): Promise<SaturdayRide[]> => {
     if (isMockMode || !SATURDAY_RIDE_DB_ID) {
@@ -32,7 +33,7 @@ export const getActiveRides = async (): Promise<SaturdayRide[]> => {
         return activeRides;
 
     } catch (e) {
-        console.error('Failed to get active rides:', e);
+        logger.error('Failed to get active rides:', e);
         return [];
     }
 };
@@ -52,7 +53,7 @@ export const createRide = async (date: string, traceIds: string[]) => {
             }
         });
     } catch (e) {
-        console.error('Failed to create ride:', e);
+        logger.error('Failed to create ride:', e);
         throw e;
     }
 };
@@ -76,7 +77,7 @@ export const getVotes = async (rideId: string): Promise<Vote[]> => {
             traceId: page.properties.Trace?.relation?.[0]?.id || ''
         }));
     } catch (e) {
-        console.error('Failed to get votes:', e);
+        logger.error('Failed to get votes:', e);
         return [];
     }
 };
@@ -109,7 +110,7 @@ export const submitVote = async (rideId: string, memberId: string, traceId: stri
             });
         }
     } catch (e) {
-        console.error('Failed to submit vote:', e);
+        logger.error('Failed to submit vote:', e);
         throw e;
     }
 };
