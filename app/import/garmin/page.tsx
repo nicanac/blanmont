@@ -145,7 +145,15 @@ export default function GarminImportPage() {
         return R * c;
     }
 
-    const handleImport = async (details: { name: string; direction: string; surface: string; rating: string }) => {
+    const handleImport = async (details: {
+        name: string;
+        direction: string;
+        surface: string;
+        rating: string;
+        distance: number;
+        elevation: number;
+        description: string;
+    }) => {
         if (!preview) return;
         setLoading(true);
 
@@ -155,14 +163,15 @@ export default function GarminImportPage() {
             const mockActivity: any = {
                 id: Date.now(), // Fake ID
                 name: details.name,
-                distance: preview.distance,
-                total_elevation_gain: preview.total_elevation_gain,
+                // Use edited values from form instead of preview
+                distance: details.distance * 1000, // Convert km back to meters
+                total_elevation_gain: details.elevation,
                 start_latlng: [0, 0], // Not used for Notion creation really (except maybe map center?)
                 map: {
                     id: `gpx-${Date.now()}`,
                     summary_polyline: preview.map.summary_polyline
                 },
-                description: 'Imported from Garmin/GPX',
+                description: details.description || 'Imported from Garmin/GPX',
                 start_date: new Date().toISOString(),
                 photos: { count: 0, primary: null },
                 total_photo_count: 0,
