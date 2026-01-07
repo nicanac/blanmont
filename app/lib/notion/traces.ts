@@ -281,3 +281,104 @@ export const getTracesSchema = async () => {
         return null;
     }
 };
+
+/**
+ * Creates a trace with complete metadata and optional GPX content blocks
+ * @param traceData Trace properties
+ * @param gpxContent Raw GPX XML string to append as code blocks
+ * @returns Success status and created page ID
+ */
+export const createTraceWithGPX = async (
+    traceData: {
+        name: string;
+        date: string;
+        distance?: number;
+        elevation?: number;
+        direction?: string;
+        start?: string;
+        end?: string;
+        komootLink?: string;
+        gpxLink?: string;
+        photoLink?: string;
+        roadQuality?: string;
+        rating?: string;
+        status?: string;
+        note?: string;
+    },
+    gpxContent?: string
+) => {
+    if (isMockMode || !TRACES_DB_ID) {
+        console.log('Mock create trace with GPX:', traceData);
+        return { success: true, id: 'mock-new-id' };
+    }
+
+    try {
+        const dbId = cleanId(TRACES_DB_ID);
+        
+        const properties: any = {
+            Name: {
+                title: [{ text: { content: traceData.name } }]
+            },
+            'last done': {
+                date: { start: traceData.date }
+            },
+            Status: {
+                status: { name: traceData.status || 'To Do' }
+            }
+        };
+
+        if (traceData.elevation) properties.Elevation = { number: Number(traceData.elevation) };
+        if (traceData.direction) properties.Direction = { select: { name: traceData.direction } };
+        if (traceData.start) properties.start = { select: { name: traceData.start } };
+        if (traceData.end) properties.end = { select: { name: traceData.end } };
+        if (traceData.roadQuality) properties.road = { select: { name: traceData.roadQuality } };
+        if (traceData.rating) properties.Rating = { select: { name: traceData.rating } };
+
+        const newPage = await notionRequest('pages', 'POST', {
+            parent: { database_id: dbId },
+            properties: properties
+        });
+
+        if (gpxContent) {
+            const blocks: any[] = [];
+            
+            const MAX_CHARS_PER_RICH_TEXT = 2000;
+            const RICH_TEXTS_PER_BLOCK = 5; 
+            const BLOCK_CHAR_LIMIT = MAX_CHARS_PER_RICH_TEXT * RICH_TEXTS_PER_BLOCK;
+
+            for (let i = 0; i < gpxContent.length; i += BLOCK_CHAR_LIMIT) {
+                const blockContent = gpxContent.substring(i, Math.min(i + BLOCK_CHAR_LIMIT, gpxContent.length));
+                
+                const richTextChunks = [];
+                for (let j = 0; j < blockContent.length; j += MAX_CHARS_PER_RICH_TEXT) {
+                    richTextChunks.push({
+                        type: "text",
+                        text: { content: blockContent.substring(j, Math.min(j + MAX_CHARS_PER_RICH_TEXT, blockContent.length)) }
+                    });
+                }
+
+                blocks.push({
+                    object: 'block',
+                    type: 'code',
+                    code: {
+                        caption: [{ type: 'text', text: { content: `GPX Data (Part ${Math.floor(i / BLOCK_CHAR_LIMIT) + 1})` } }],
+                        rich_text: richTextChunks,
+                        language: 'xml'
+                    }
+                });
+            }
+
+            const BATCH_SIZE = 30;
+            for (let i = 0; i < blocks.length; i += BATCH_SIZE) {
+                await notionRequest(`blocks/${newPage.id}/children`, 'PATCH', {
+                    children: blocks.slice(i, i + BATCH_SIZE)
+                });
+            }
+        }
+
+        return { success: true, id: newPage.id };
+    } catch (e) {
+        console.error('Failed to create trace with GPX:', e);
+        return { success: false, error: String(e) };
+    }
+};
