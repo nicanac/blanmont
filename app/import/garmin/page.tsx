@@ -225,143 +225,166 @@ export default function GarminImportPage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-            <div className="md:flex md:items-center md:justify-between mb-8">
-                <div className="min-w-0 flex-1">
-                    <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-                        Garmin Import
-                    </h2>
+        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-10">
+                    <Link href="/traces" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4">
+                        <span className="mr-1">←</span> Retour aux parcours
+                    </Link>
+                    <h1 className="text-3xl font-bold text-gray-900">Importer un Parcours</h1>
+                    <p className="mt-2 text-gray-600">
+                        Importez un fichier GPX ou entrez une URL Garmin/Komoot.
+                    </p>
                 </div>
-            </div>
 
-            <div className="space-y-6">
-                {/* Mode Toggle */}
-                {!preview && (
-                    <div className="flex space-x-4 mb-4">
-                        <button
-                            onClick={() => setMode('file')}
-                            className={`px-4 py-2 rounded-md font-medium ${mode === 'file' ? 'bg-brand-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-                        >
-                            Upload GPX
-                        </button>
-                        <button
-                            onClick={() => setMode('url')}
-                            className={`px-4 py-2 rounded-md font-medium ${mode === 'url' ? 'bg-brand-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-                        >
-                            Enter URL
-                        </button>
-                    </div>
-                )}
+                {/* Main Card */}
+                <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
 
-                {!preview && !successMessage && mode === 'file' && (
-                    <div className="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 bg-white">
-                        <div className="text-center">
-                            <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                            <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
-                                <label
-                                    htmlFor="file-upload"
-                                    className="relative cursor-pointer rounded-md bg-white font-semibold text-brand-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-primary focus-within:ring-offset-2 hover:text-indigo-500"
-                                >
-                                    <span>Upload a GPX file</span>
-                                    <input id="file-upload" name="file-upload" type="file" className="sr-only" accept=".gpx" onChange={handleFileChange} />
-                                </label>
-                                <p className="pl-1">or drag and drop</p>
-                            </div>
-                            <p className="text-xs leading-5 text-gray-600">.GPX up to 10MB</p>
-                        </div>
-                    </div>
-                )}
-
-                {!preview && !successMessage && mode === 'url' && (
-                    <div className="bg-white p-6 rounded-lg shadow-sm border">
-                        <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">Garmin Activity URL</label>
-                        <div className="flex gap-4">
-                            <input
-                                type="text"
-                                value={url}
-                                onChange={(e) => setUrl(e.target.value)}
-                                placeholder="https://connect.garmin.com/modern/activity/..."
-                                className="flex-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
-                            />
-                            <button
-                                onClick={handleUrlSubmit}
-                                disabled={loading || !url}
-                                className="bg-brand-primary text-white px-4 py-2 rounded-md hover:opacity-90 disabled:opacity-50"
-                            >
-                                {loading ? 'Fetching...' : 'Fetch'}
-                            </button>
-                        </div>
-                        <p className="mt-2 text-xs text-gray-500">
-                            Note: We will try to fetch metadata. If privacy settings block access, you might need to use GPX upload.
-                        </p>
-                    </div>
-                )}
-
-                {loading && <div className="text-center py-4">Processing...</div>}
-
-                {error && (
-                    <div className="p-4 bg-red-50 text-red-700 rounded-md border border-red-200">
-                        {error}
-                    </div>
-                )}
-
-                {successMessage && (
-                    <div className="rounded-md bg-green-50 p-4 border border-green-200">
-                        <div className="flex">
-                            <div className="flex-shrink-0">
-                                <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
-                            </div>
-                            <div className="ml-3">
-                                <p className="text-sm font-medium text-green-800">{successMessage}</p>
-                            </div>
-                            <div className="ml-auto pl-3">
-                                <div className="-mx-1.5 -my-1.5">
+                    {/* Mode Toggle - Section Header */}
+                    {!preview && !successMessage && (
+                        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                            <div className="flex items-center gap-4">
+                                <span className="text-sm font-medium text-gray-700">Méthode d'import:</span>
+                                <div className="flex gap-2">
                                     <button
-                                        type="button"
-                                        onClick={() => setSuccessMessage(null)}
-                                        className="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                                        onClick={() => setMode('file')}
+                                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === 'file'
+                                            ? 'bg-brand-primary text-white'
+                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
                                     >
-                                        <span className="sr-only">Fermer</span>
-                                        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                                        📁 Fichier GPX
+                                    </button>
+                                    <button
+                                        onClick={() => setMode('url')}
+                                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === 'url'
+                                            ? 'bg-brand-primary text-white'
+                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
+                                    >
+                                        🔗 URL
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        {createdTraceId && (
-                            <div className="mt-4 flex gap-3 flex-wrap">
-                                <Link
-                                    href={`/traces/${createdTraceId}`}
-                                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
-                                >
-                                    Voir le parcours →
-                                </Link>
-                                <Link
-                                    href={`/traces/${createdTraceId}/edit`}
-                                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-md hover:bg-green-50"
-                                >
-                                    <PencilIcon className="h-4 w-4 mr-1.5" />
-                                    Modifier
-                                </Link>
+                    )}
+
+                    {!preview && !successMessage && mode === 'file' && (
+                        <div className="p-6">
+                            <div className="flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 hover:border-gray-400 transition-colors">
+                                <div className="text-center">
+                                    <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />
+                                    <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
+                                        <label
+                                            htmlFor="file-upload"
+                                            className="relative cursor-pointer rounded-md font-semibold text-brand-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-primary focus-within:ring-offset-2 hover:opacity-80"
+                                        >
+                                            <span>Téléverser un fichier GPX</span>
+                                            <input id="file-upload" name="file-upload" type="file" className="sr-only" accept=".gpx" onChange={handleFileChange} />
+                                        </label>
+                                        <p className="pl-1">ou glisser-déposer</p>
+                                    </div>
+                                    <p className="text-xs leading-5 text-gray-500 mt-1">Fichier .GPX jusqu'à 10MB</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {!preview && !successMessage && mode === 'url' && (
+                        <div className="p-6">
+                            <label className="block text-sm font-medium text-gray-900 mb-2">URL de l'activité</label>
+                            <div className="flex gap-4">
+                                <input
+                                    type="text"
+                                    value={url}
+                                    onChange={(e) => setUrl(e.target.value)}
+                                    placeholder="https://connect.garmin.com/modern/activity/... ou https://www.komoot.com/tour/..."
+                                    className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                />
                                 <button
-                                    onClick={handleDelete}
-                                    disabled={loading}
-                                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-md hover:bg-red-50 disabled:opacity-50"
+                                    onClick={handleUrlSubmit}
+                                    disabled={loading || !url}
+                                    className="bg-brand-primary text-white px-6 py-2 rounded-md hover:opacity-90 disabled:opacity-50 font-medium"
                                 >
-                                    <TrashIcon className="h-4 w-4 mr-1.5" />
-                                    Supprimer
+                                    {loading ? 'Chargement...' : 'Charger'}
                                 </button>
                             </div>
-                        )}
-                    </div>
-                )}
+                            <p className="mt-2 text-xs text-gray-500">
+                                Note: Les données seront récupérées si l'activité est publique. Sinon, utilisez un fichier GPX.
+                            </p>
+                        </div>
+                    )}
 
-                {preview && (
-                    <TracePreviewForm
-                        data={preview}
-                        onImport={handleImport}
-                        isLoading={loading}
-                    />
-                )}
+                    {loading && (
+                        <div className="p-6 text-center">
+                            <div className="animate-spin h-8 w-8 border-4 border-brand-primary border-t-transparent rounded-full mx-auto"></div>
+                            <p className="mt-2 text-gray-600">Traitement en cours...</p>
+                        </div>
+                    )}
+
+                    {error && (
+                        <div className="m-6 p-4 bg-red-50 text-red-700 rounded-md border border-red-200">
+                            {error}
+                        </div>
+                    )}
+
+                    {successMessage && (
+                        <div className="rounded-md bg-green-50 p-4 border border-green-200">
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
+                                </div>
+                                <div className="ml-3">
+                                    <p className="text-sm font-medium text-green-800">{successMessage}</p>
+                                </div>
+                                <div className="ml-auto pl-3">
+                                    <div className="-mx-1.5 -my-1.5">
+                                        <button
+                                            type="button"
+                                            onClick={() => setSuccessMessage(null)}
+                                            className="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                                        >
+                                            <span className="sr-only">Fermer</span>
+                                            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {createdTraceId && (
+                                <div className="mt-4 flex gap-3 flex-wrap">
+                                    <Link
+                                        href={`/traces/${createdTraceId}`}
+                                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+                                    >
+                                        Voir le parcours →
+                                    </Link>
+                                    <Link
+                                        href={`/traces/${createdTraceId}/edit`}
+                                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-md hover:bg-green-50"
+                                    >
+                                        <PencilIcon className="h-4 w-4 mr-1.5" />
+                                        Modifier
+                                    </Link>
+                                    <button
+                                        onClick={handleDelete}
+                                        disabled={loading}
+                                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-md hover:bg-red-50 disabled:opacity-50"
+                                    >
+                                        <TrashIcon className="h-4 w-4 mr-1.5" />
+                                        Supprimer
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {preview && (
+                        <TracePreviewForm
+                            data={preview}
+                            onImport={handleImport}
+                            isLoading={loading}
+                        />
+                    )}
+                </div>
             </div>
         </div>
     );

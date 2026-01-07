@@ -362,14 +362,14 @@ export default function AddTraceForm() {
                                     onChange={handleChange}
                                 >
                                     <option value="">Choisir...</option>
-                                    <option value="↑ Nord">↑ Nord</option>
-                                    <option value="↓ Sud">↓ Sud</option>
-                                    <option value="→ Est">→ Est</option>
-                                    <option value="← Ouest">← Ouest</option>
-                                    <option value="↗ Nord Est">↗ Nord Est</option>
-                                    <option value="↗ Nord Ouest">↗ Nord Ouest</option>
-                                    <option value="↘ Sud Est">↘ Sud Est</option>
-                                    <option value="↙ Sud Ouest">↙ Sud Ouest</option>
+                                    <option value="North">↑ Nord</option>
+                                    <option value="South">↓ Sud</option>
+                                    <option value="East">→ Est</option>
+                                    <option value="West">← Ouest</option>
+                                    <option value="North-East">↗ Nord-Est</option>
+                                    <option value="North-West">↖ Nord-Ouest</option>
+                                    <option value="South-East">↘ Sud-Est</option>
+                                    <option value="South-West">↙ Sud-Ouest</option>
                                 </select>
                             </div>
 
