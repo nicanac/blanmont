@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { StravaActivity } from '../../../lib/strava';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 // Dynamic import for Leaflet map
 const MapPreview = dynamic(() => import('../../traces/components/MapPreview'), { ssr: false });
@@ -25,6 +25,9 @@ interface TracePreviewFormProps {
         direction: string;
         surface: string;
         rating: string;
+        distance: number;
+        elevation: number;
+        description: string;
     }) => Promise<void>;
     isLoading: boolean;
 }
@@ -35,12 +38,23 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
     const [surface, setSurface] = useState('4 - good');
     const [rating, setRating] = useState('⭐⭐⭐');
 
+    // New editable fields
+    const [editedDistance, setEditedDistance] = useState(data.distance / 1000); // Convert to km
+    const [editedElevation, setEditedElevation] = useState(data.total_elevation_gain);
+    const [description, setDescription] = useState('');
+
+    // Check if elevation data is missing (0 or very low)
+    const elevationMissing = data.total_elevation_gain === 0;
+
     const handleImportClick = () => {
         onImport({
             name: editedName,
             direction,
             surface,
-            rating
+            rating,
+            distance: editedDistance,
+            elevation: editedElevation,
+            description
         });
     };
 
@@ -123,22 +137,56 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                 </div>
             </div>
 
-            {/* Stats Summary */}
-            <div className="bg-gray-50 p-4 rounded-md mb-6 text-sm text-gray-600">
-                <div className="grid grid-cols-3 gap-4 text-center">
+            {/* Stats - Editable */}
+            <div className="bg-gray-50 p-4 rounded-md mb-4">
+                <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <div className="font-semibold mb-1">Distance</div>
-                        <span className="text-gray-900 font-bold text-lg">{(data.distance / 1000).toFixed(1)}</span> km
+                        <label className="block text-sm font-medium leading-6 text-gray-900">Distance (km)</label>
+                        <input
+                            type="number"
+                            step="0.1"
+                            value={editedDistance}
+                            onChange={(e) => setEditedDistance(parseFloat(e.target.value) || 0)}
+                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
                     </div>
                     <div>
-                        <div className="font-semibold mb-1">Elevation</div>
-                        <span className="text-gray-900 font-bold text-lg">{data.total_elevation_gain}</span> m
-                    </div>
-                    <div>
-                        <div className="font-semibold mb-1">Photos</div>
-                        <span className="text-gray-900 font-bold text-lg">{data.total_photo_count || 0}</span>
+                        <label className="block text-sm font-medium leading-6 text-gray-900">
+                            Dénivelé (m)
+                            {elevationMissing && (
+                                <span className="ml-2 text-amber-600 font-normal text-xs inline-flex items-center">
+                                    <ExclamationTriangleIcon className="h-4 w-4 mr-1" />
+                                    Non détecté
+                                </span>
+                            )}
+                        </label>
+                        <input
+                            type="number"
+                            value={editedElevation}
+                            onChange={(e) => setEditedElevation(parseInt(e.target.value) || 0)}
+                            className={`mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${elevationMissing ? 'ring-amber-300 bg-amber-50' : 'ring-gray-300'
+                                }`}
+                            placeholder={elevationMissing ? 'Saisir manuellement' : ''}
+                        />
+                        {elevationMissing && (
+                            <p className="mt-1 text-xs text-amber-600">
+                                Le fichier GPX ne contient pas de données d&apos;altitude. Veuillez saisir le dénivelé manuellement.
+                            </p>
+                        )}
                     </div>
                 </div>
+            </div>
+
+            {/* Description */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium leading-6 text-gray-900">Description / Note</label>
+                <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={3}
+                    placeholder="Ajoutez une description pour ce parcours..."
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
             </div>
 
             <button
