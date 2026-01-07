@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import TracePreviewForm, { TraceImportData } from '../../features/import/components/TracePreviewForm';
-import { CloudArrowUpIcon, CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CloudArrowUpIcon, CheckCircleIcon, XMarkIcon, TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
 import * as toGeoJSON from '@tmcw/togeojson';
 import * as mapboxPolyline from '@mapbox/polyline';
-import { importStravaTraceAction } from '../strava/actions';
+import { importStravaTraceAction, deleteTraceAction } from '../strava/actions';
 import { StravaActivity } from '../../lib/strava';
 import Link from 'next/link';
 
@@ -203,6 +203,27 @@ export default function GarminImportPage() {
         }
     };
 
+    const handleDelete = async () => {
+        if (!createdTraceId) return;
+        if (!confirm('Êtes-vous sûr de vouloir supprimer ce parcours ?')) return;
+
+        setLoading(true);
+        try {
+            const result = await deleteTraceAction(createdTraceId);
+            if (result.success) {
+                setSuccessMessage(null);
+                setCreatedTraceId(null);
+                alert('Parcours supprimé avec succès.');
+            } else {
+                setError('Échec de la suppression du parcours.');
+            }
+        } catch (e) {
+            setError('Erreur lors de la suppression.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
             <div className="md:flex md:items-center md:justify-between mb-8">
@@ -285,7 +306,7 @@ export default function GarminImportPage() {
                 )}
 
                 {successMessage && (
-                    <div className="rounded-md bg-green-50 p-4">
+                    <div className="rounded-md bg-green-50 p-4 border border-green-200">
                         <div className="flex">
                             <div className="flex-shrink-0">
                                 <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
@@ -300,20 +321,35 @@ export default function GarminImportPage() {
                                         onClick={() => setSuccessMessage(null)}
                                         className="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                                     >
-                                        <span className="sr-only">Dismiss</span>
+                                        <span className="sr-only">Fermer</span>
                                         <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                                     </button>
                                 </div>
                             </div>
                         </div>
                         {createdTraceId && (
-                            <div className="mt-4">
+                            <div className="mt-4 flex gap-3 flex-wrap">
                                 <Link
                                     href={`/traces/${createdTraceId}`}
-                                    className="text-sm font-medium text-green-800 hover:underline"
+                                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
                                 >
-                                    View Created Trace &rarr;
+                                    Voir le parcours →
                                 </Link>
+                                <Link
+                                    href={`/traces/${createdTraceId}/edit`}
+                                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-md hover:bg-green-50"
+                                >
+                                    <PencilIcon className="h-4 w-4 mr-1.5" />
+                                    Modifier
+                                </Link>
+                                <button
+                                    onClick={handleDelete}
+                                    disabled={loading}
+                                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-md hover:bg-red-50 disabled:opacity-50"
+                                >
+                                    <TrashIcon className="h-4 w-4 mr-1.5" />
+                                    Supprimer
+                                </button>
                             </div>
                         )}
                     </div>

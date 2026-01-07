@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeftIcon, CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, CheckCircleIcon, ExclamationTriangleIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface TraceData {
     id: string;
@@ -23,6 +23,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
     const [trace, setTrace] = useState<TraceData | null>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
 
@@ -102,6 +103,29 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
             setError(e.message);
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!trace) return;
+        if (!confirm('Êtes-vous sûr de vouloir supprimer ce parcours ? Cette action est irréversible.')) return;
+
+        setDeleting(true);
+        setError(null);
+
+        try {
+            const response = await fetch(`/api/traces/${trace.id}`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete trace');
+            }
+
+            router.push('/traces');
+        } catch (e: any) {
+            setError('Erreur lors de la suppression du parcours.');
+            setDeleting(false);
         }
     };
 
@@ -278,21 +302,35 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                     />
                 </div>
 
-                {/* Submit Button */}
-                <div className="flex justify-end gap-4">
-                    <Link
-                        href={`/traces/${trace?.id}`}
-                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                    >
-                        Annuler
-                    </Link>
+                {/* Actions */}
+                <div className="flex justify-between items-center pt-4 border-t">
+                    {/* Delete Button - Left side */}
                     <button
-                        type="submit"
-                        disabled={saving}
-                        className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-md hover:opacity-90 disabled:opacity-50"
+                        type="button"
+                        onClick={handleDelete}
+                        disabled={deleting || saving}
+                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-md hover:bg-red-50 disabled:opacity-50"
                     >
-                        {saving ? 'Enregistrement...' : 'Enregistrer les modifications'}
+                        <TrashIcon className="h-4 w-4 mr-1.5" />
+                        {deleting ? 'Suppression...' : 'Supprimer'}
                     </button>
+
+                    {/* Save/Cancel - Right side */}
+                    <div className="flex gap-3">
+                        <Link
+                            href={`/traces/${trace?.id}`}
+                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                        >
+                            Annuler
+                        </Link>
+                        <button
+                            type="submit"
+                            disabled={saving || deleting}
+                            className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-md hover:opacity-90 disabled:opacity-50"
+                        >
+                            {saving ? 'Enregistrement...' : 'Enregistrer'}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
