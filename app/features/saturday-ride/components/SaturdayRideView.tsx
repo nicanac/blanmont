@@ -7,6 +7,7 @@ import { Member, SaturdayRide, Trace, Vote } from '../../../types';
 import { submitVoteAction } from '../../../actions';
 import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import TraceCard from '../../traces/components/TraceCard';
+import { cn } from '../../../utils/cn';
 
 interface Props {
     traces: Trace[];
@@ -15,9 +16,6 @@ interface Props {
     votes: Vote[];
 }
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export default function SaturdayRideView({ traces, members, activeRides, votes }: Props) {
     const { user, isAuthenticated } = useAuth();
@@ -139,7 +137,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                     <div key={traceId}>
                                                         <TraceCard
                                                             trace={trace}
-                                                            className={classNames(
+                                                            className={cn(
                                                                 isVoted ? 'ring-2 ring-brand-primary' : 'hover:shadow-lg',
                                                                 isVoting && !isVoted ? 'opacity-50' : ''
                                                             )}
@@ -167,7 +165,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                     <button
                                                                         onClick={() => handleVote(ride.id, traceId)}
                                                                         disabled={isVoting || isVoted}
-                                                                        className={classNames(
+                                                                        className={cn(
                                                                             isVoted
                                                                                 ? 'bg-gray-100 text-gray-400'
                                                                                 : 'bg-brand-primary text-white hover:bg-red-700',
