@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Dialog, Transition } from '@headlessui/react';
 import { ArrowLeftIcon, CheckCircleIcon, ExclamationTriangleIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface TraceData {
@@ -24,6 +25,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
 
@@ -108,8 +110,8 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
 
     const handleDelete = async () => {
         if (!trace) return;
-        if (!confirm('Êtes-vous sûr de vouloir supprimer ce parcours ? Cette action est irréversible.')) return;
 
+        setShowDeleteModal(false);
         setDeleting(true);
         setError(null);
 
@@ -307,7 +309,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                     {/* Delete Button - Left side */}
                     <button
                         type="button"
-                        onClick={handleDelete}
+                        onClick={() => setShowDeleteModal(true)}
                         disabled={deleting || saving}
                         className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-md hover:bg-red-50 disabled:opacity-50"
                     >
@@ -333,6 +335,74 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                     </div>
                 </div>
             </form>
+
+            {/* Delete Confirmation Modal */}
+            <Transition appear show={showDeleteModal} as={Fragment}>
+                <Dialog as="div" className="relative z-50" onClose={() => setShowDeleteModal(false)}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black/25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-red-100">
+                                            <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
+                                        </div>
+                                        <div>
+                                            <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900">
+                                                Supprimer le parcours
+                                            </Dialog.Title>
+                                            <p className="mt-1 text-sm text-gray-500">
+                                                Cette action est irréversible.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <p className="mt-4 text-sm text-gray-600">
+                                        Êtes-vous sûr de vouloir supprimer <strong>{trace?.name}</strong> ? Toutes les données associées seront perdues.
+                                    </p>
+
+                                    <div className="mt-6 flex justify-end gap-3">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                                            onClick={() => setShowDeleteModal(false)}
+                                        >
+                                            Annuler
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+                                            onClick={handleDelete}
+                                        >
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
         </div>
     );
 }
