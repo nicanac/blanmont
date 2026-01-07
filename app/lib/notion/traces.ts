@@ -1,5 +1,6 @@
 import { Trace, NotionPage } from '../../types';
 import { isMockMode, TRACES_DB_ID, cleanId, notionRequest } from './client';
+import { CreateTraceSchema, safeValidate } from '../validation';
 
 // === Helpers ===
 
@@ -163,8 +164,19 @@ export const getTraces = async (): Promise<Trace[]> => {
 };
 
 export const createTrace = async (traceData: Partial<Trace> & { photos?: string[] }) => {
+    const validation = safeValidate(CreateTraceSchema.partial(), traceData);
+    
+    if (!validation.success) {
+        return { 
+            success: false, 
+            error: `Validation failed: ${validation.errors.map(e => `${e.field}: ${e.message}`).join(', ')}` 
+        };
+    }
+
+    const validData = validation.data;
+
     if (isMockMode || !TRACES_DB_ID) {
-        console.log('Mock create trace:', traceData);
+        console.log('Mock create trace:', validData);
         return { success: true, id: 'mock-new-id' };
     }
 
@@ -174,15 +186,15 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
 
         const dbId = cleanId(TRACES_DB_ID);
         const properties: any = {
-            Name: { title: [{ text: { content: traceData.name || 'Untitled Import' } }] },
-            Note: { rich_text: [{ text: { content: traceData.description || 'Imported from Strava' } }] },
-            Komoot: { url: traceData.mapUrl || null },
-            Elevation: { number: traceData.elevation || 0 },
-            Distance: { number: traceData.distance || 0 }
+            Name: { title: [{ text: { content: validData.name || 'Untitled Import' } }] },
+            Note: { rich_text: [{ text: { content: validData.description || 'Imported from Strava' } }] },
+            Komoot: { url: validData.mapUrl || null },
+            Elevation: { number: validData.elevation || 0 },
+            Distance: { number: validData.distance || 0 }
         };
 
-        if (traceData.polyline) {
-            const chunks = chunkString(traceData.polyline, 2000) || [];
+        if (validData.polyline) {
+            const chunks = chunkString(validData.polyline, 2000) || [];
             properties.MapPolyline = {
                 rich_text: chunks.map(chunk => ({
                     text: { content: chunk }
@@ -190,24 +202,24 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
             };
         }
 
-        if (traceData.direction) {
-            properties.Direction = { select: { name: traceData.direction } };
+        if (validData.direction) {
+            properties.Direction = { select: { name: validData.direction } };
         }
 
-        if (traceData.photos && traceData.photos.length > 0) {
-            properties.photo = { url: traceData.photos[0] };
+        if ((traceData as any).photos && (traceData as any).photos.length > 0) {
+            properties.photo = { url: (traceData as any).photos[0] };
         }
 
         const children = [];
-        if (traceData.description) {
+        if (validData.description) {
             children.push({
                 object: 'block',
                 type: 'paragraph',
-                paragraph: { rich_text: [{ text: { content: traceData.description } }] }
+                paragraph: { rich_text: [{ text: { content: validData.description } }] }
             });
         }
-        if (traceData.photos) {
-            traceData.photos.forEach(url => {
+        if ((traceData as any).photos) {
+            (traceData as any).photos.forEach((url: string) => {
                 children.push({
                     object: 'block', type: 'image', image: { type: 'external', external: { url } }
                 });

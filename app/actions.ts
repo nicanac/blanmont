@@ -3,6 +3,17 @@
 import { submitMapPreview, createRide, submitVote } from './lib/notion';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import {
+  UploadMapPreviewSchema,
+  GenerateMapPreviewSchema,
+  CreateRideSchema,
+  SubmitVoteSchema,
+  LoginSchema,
+  UpdateMemberPhotoSchema,
+  safeValidate,
+  validateFormData,
+  type ValidationResult,
+} from './lib/validation';
 
 /**
  * Server Action to manually upload a map preview image URL for a trace.
@@ -13,12 +24,13 @@ import { redirect } from 'next/navigation';
 export async function uploadMapPreview(formData: FormData) {
   'use server'
   
-  const traceId = formData.get('traceId') as string;
-  const imageUrl = formData.get('imageUrl') as string;
-
-  if (!traceId || !imageUrl) {
-    throw new Error('Missing trace ID or image URL');
+  const validation = validateFormData(formData, UploadMapPreviewSchema);
+  
+  if (!validation.success) {
+    throw new Error(`Validation failed: ${validation.errors.map(e => `${e.field}: ${e.message}`).join(', ')}`);
   }
+
+  const { traceId, imageUrl } = validation.data;
 
   try {
     // We update the Notion page property 'map-preview' with the external URL
@@ -42,8 +54,13 @@ export async function uploadMapPreview(formData: FormData) {
 export async function generateMapPreview(formData: FormData) {
   'use server'
   
-  const traceId = formData.get('traceId') as string;
-  if (!traceId) throw new Error('Missing trace ID');
+  const validation = validateFormData(formData, GenerateMapPreviewSchema);
+  
+  if (!validation.success) {
+    throw new Error(`Validation failed: ${validation.errors.map(e => `${e.field}: ${e.message}`).join(', ')}`);
+  }
+
+  const { traceId } = validation.data;
 
   try {
       // 1. Fetch the trace to get the Komoot URL
@@ -80,9 +97,13 @@ export async function generateMapPreview(formData: FormData) {
  * @param traceIds - The list of candidate traces.
  */
 export async function createRideAction(date: string, traceIds: string[]) {
-    if (!date || traceIds.length === 0) throw new Error('Invalid input');
+    const validation = safeValidate(CreateRideSchema, { date, traceIds });
     
-    await createRide(date, traceIds);
+    if (!validation.success) {
+        throw new Error(`Validation failed: ${validation.errors.map(e => `${e.field}: ${e.message}`).join(', ')}`);
+    }
+    
+    await createRide(validation.data.date, validation.data.traceIds);
     revalidatePath('/saturday-ride');
 }
 
@@ -94,9 +115,13 @@ export async function createRideAction(date: string, traceIds: string[]) {
  * @param traceId - The selected trace ID.
  */
 export async function submitVoteAction(rideId: string, memberId: string, traceId: string) {
-    if (!rideId || !memberId || !traceId) throw new Error('Invalid input');
+    const validation = safeValidate(SubmitVoteSchema, { rideId, memberId, traceId });
+    
+    if (!validation.success) {
+        throw new Error(`Validation failed: ${validation.errors.map(e => `${e.field}: ${e.message}`).join(', ')}`);
+    }
 
-    await submitVote(rideId, memberId, traceId);
+    await submitVote(validation.data.rideId, validation.data.memberId, validation.data.traceId);
     revalidatePath('/saturday-ride');
 }
 
@@ -110,8 +135,13 @@ import { validateUser } from './lib/notion';
  * @returns The Member object if valid, or null.
  */
 export async function loginAction(email: string, password: string) {
-  if (!email || !password) return null;
-  return await validateUser(email, password);
+  const validation = safeValidate(LoginSchema, { email, password });
+  
+  if (!validation.success) {
+    return null;
+  }
+  
+  return await validateUser(validation.data.email, validation.data.password);
 }
 
 import { updateMemberPhoto } from './lib/notion';
@@ -160,9 +190,17 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
         if (!targetMemberId) throw new Error('Member ID required for URL update');
     }
 
-    if (!finalPhotoUrl || !targetMemberId) throw new Error('Failed to process photo update');
+    // Validate the final result
+    const validation = safeValidate(UpdateMemberPhotoSchema, {
+        memberId: targetMemberId,
+        photoUrl: finalPhotoUrl,
+    });
     
-    await updateMemberPhoto(targetMemberId, finalPhotoUrl);
+    if (!validation.success) {
+        throw new Error(`Validation failed: ${validation.errors.map(e => `${e.field}: ${e.message}`).join(', ')}`);
+    }
+    
+    await updateMemberPhoto(validation.data.memberId, validation.data.photoUrl);
     revalidatePath('/profile');
     return finalPhotoUrl;
 }

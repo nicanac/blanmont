@@ -1,5 +1,6 @@
 import { Feedback, NotionPage } from '../../types';
 import { isMockMode, FEEDBACK_DB_ID, cleanId, notionRequest } from './client';
+import { SubmitFeedbackSchema, safeValidate } from '../validation';
 
 export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> => {
   if (isMockMode || !FEEDBACK_DB_ID) return [];
@@ -33,19 +34,33 @@ export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> 
 };
 
 export const submitFeedback = async (traceId: string, memberId: string, rating: number, comment: string, feedbackId?: string) => {
+   const validation = safeValidate(SubmitFeedbackSchema, {
+     traceId,
+     memberId,
+     rating,
+     comment,
+     feedbackId,
+   });
+
+   if (!validation.success) {
+     throw new Error(`Validation failed: ${validation.errors.map(e => `${e.field}: ${e.message}`).join(', ')}`);
+   }
+
+   const validData = validation.data;
+
    if (isMockMode || !FEEDBACK_DB_ID) {
-     console.log('Mock submission:', { traceId, memberId, rating, comment, feedbackId });
+     console.log('Mock submission:', validData);
      return;
    }
    
    try {
-     let targetId = feedbackId;
+     let targetId = validData.feedbackId;
 
-     if (!targetId && memberId) {
-         const existingFeedback = await getFeedbackForTrace(traceId);
-         const match = existingFeedback.find(f => f.memberId === memberId);
+     if (!targetId && validData.memberId) {
+         const existingFeedback = await getFeedbackForTrace(validData.traceId);
+         const match = existingFeedback.find(f => f.memberId === validData.memberId);
          if (match) {
-             console.log(`Found existing feedback ${match.id} for member ${memberId}, updating instead of creating.`);
+             console.log(`Found existing feedback ${match.id} for member ${validData.memberId}, updating instead of creating.`);
              targetId = match.id;
          }
      }
@@ -53,8 +68,8 @@ export const submitFeedback = async (traceId: string, memberId: string, rating: 
      if (targetId) {
          await notionRequest(`pages/${targetId}`, 'PATCH', {
              properties: {
-                 Comment: { title: [{ text: { content: comment } }] },
-                 Rating: { number: rating }
+                 Comment: { title: [{ text: { content: validData.comment } }] },
+                 Rating: { number: validData.rating }
              }
          });
          return;
@@ -64,23 +79,23 @@ export const submitFeedback = async (traceId: string, memberId: string, rating: 
      const properties: any = {
          Comment: {
            title: [
-             { text: { content: comment } }
+             { text: { content: validData.comment } }
            ]
          },
          Rating: {
-           number: rating
+           number: validData.rating
          },
          Trace: {
            relation: [
-             { id: traceId }
+             { id: validData.traceId }
            ]
          }
      };
 
-     if (memberId) {
+     if (validData.memberId) {
          properties.Members = {
              relation: [
-                 { id: memberId }
+                 { id: validData.memberId }
              ]
          };
      }
@@ -91,5 +106,6 @@ export const submitFeedback = async (traceId: string, memberId: string, rating: 
      });
    } catch (error) {
      console.error('Failed to submit feedback:', error);
+     throw error;
    }
 };
