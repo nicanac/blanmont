@@ -216,8 +216,23 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                         {/* Admin Tools */}
                         <Paper sx={{ p: 3, borderRadius: 2, bgcolor: 'action.hover' }} variant="outlined">
                             <Typography variant="h6" gutterBottom>Outils Admin</Typography>
+
+                            {/* Edit Trace Button */}
+                            <Button
+                                href={`/traces/${trace.id}/edit`}
+                                variant="contained"
+                                size="small"
+                                fullWidth
+                                sx={{ mb: 3 }}
+                                startIcon={<span>✏️</span>}
+                            >
+                                Modifier le parcours
+                            </Button>
+
+                            <Divider sx={{ mb: 2 }} />
+
                             <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
-                                Mettre à jour l'aperçu de la carte (url jpg)
+                                Mettre à jour l&apos;aperçu de la carte (url jpg)
                             </Typography>
 
                             <form action={uploadMapPreview}>

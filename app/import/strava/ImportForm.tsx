@@ -40,11 +40,27 @@ export default function ImportForm() {
         }
     };
 
-    const handleImport = async (details: { name: string; direction: string; surface: string; rating: string }) => {
+    const handleImport = async (details: {
+        name: string;
+        direction: string;
+        surface: string;
+        rating: string;
+        distance: number;
+        elevation: number;
+        description: string;
+    }) => {
         if (!preview) return;
         setLoading(true);
         try {
-            const result = await importStravaTraceAction(preview, {
+            // Override activity with edited values
+            const activityWithEdits = {
+                ...preview,
+                distance: details.distance * 1000, // Convert km back to meters
+                total_elevation_gain: details.elevation,
+                description: details.description || preview.description
+            };
+
+            const result = await importStravaTraceAction(activityWithEdits, {
                 name: details.name,
                 direction: details.direction,
                 surface: details.surface,
