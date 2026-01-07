@@ -20,10 +20,8 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
+import { cn } from '../../utils/cn';
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-}
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -78,7 +76,7 @@ export default function Navbar() {
                                             <Link
                                                 key={item.name}
                                                 href={item.href}
-                                                className={classNames(
+                                                className={cn(
                                                     'text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors'
                                                 )}
                                                 aria-current={isCurrent ? 'page' : undefined}
@@ -89,18 +87,17 @@ export default function Navbar() {
                                     })}
 
                                     {/* Le Club Popover */}
-                                    <Popover className="relative">
+                                    <Popover className="relative self-center -mt-px">
                                         {({ open }) => (
                                             <>
                                                 <PopoverButton
-                                                    className={classNames(
-                                                        open ? 'text-gray-900' : 'text-gray-900',
-                                                        'group inline-flex items-center rounded-md text-sm font-medium hover:text-gray-600 focus:outline-none'
+                                                    className={cn(
+                                                        'group inline-flex items-center text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors focus:outline-none'
                                                     )}
                                                 >
                                                     <span>Le Club</span>
                                                     <ChevronDownIcon
-                                                        className={classNames(
+                                                        className={cn(
                                                             open ? 'text-gray-600 rotate-180' : 'text-gray-400',
                                                             'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-gray-500'
                                                         )}
@@ -271,7 +268,7 @@ export default function Navbar() {
                                             key={item.name}
                                             as={Link}
                                             href={item.href}
-                                            className={classNames(
+                                            className={cn(
                                                 isCurrent
                                                     ? 'bg-gray-50 border-l-4 border-gray-900 text-gray-900'
                                                     : 'border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
@@ -289,13 +286,13 @@ export default function Navbar() {
                                     {({ open: subOpen }) => ( // Renamed to avoid confusion with parent Popover open
                                         <>
                                             <Disclosure.Button
-                                                className={classNames(
+                                                className={cn(
                                                     'flex w-full items-center justify-between py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-800'
                                                 )}
                                             >
                                                 <span className="flex-1 text-left">Le Club</span>
                                                 <ChevronDownIcon
-                                                    className={classNames(
+                                                    className={cn(
                                                         subOpen ? 'rotate-180' : '',
                                                         'h-5 w-5 flex-none'
                                                     )}

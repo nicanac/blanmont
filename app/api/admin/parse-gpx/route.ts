@@ -2,14 +2,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { DOMParser } from '@xmldom/xmldom';
 import { gpx } from '@tmcw/togeojson';
+import { ParseGpxApiSchema, safeValidate } from '@/app/lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
-    const { url } = await req.json();
-
-    if (!url) {
-        return NextResponse.json({ error: 'URL is required' }, { status: 400 });
+    const body = await req.json();
+    
+    const validation = safeValidate(ParseGpxApiSchema, body);
+    
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: validation.errors },
+        { status: 400 }
+      );
     }
+
+    const { url } = validation.data;
 
     const res = await fetch(url, {
         headers: {

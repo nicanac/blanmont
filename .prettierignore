@@ -1,0 +1,12 @@
+.next
+out
+build
+node_modules
+dist
+*.lock
+package-lock.json
+public
+build_log*.txt
+lint_output.txt
+*.csv
+debug-scripts
