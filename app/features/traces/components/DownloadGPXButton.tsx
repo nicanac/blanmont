@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@mui/material';
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 // @ts-ignore
 import toGeoJSON from '@mapbox/polyline';
@@ -18,7 +17,6 @@ export default function DownloadGPXButton({ polyline, traceName }: Props) {
     const handleDownload = () => {
         try {
             // 1. Decode Polyline to GeoJSON LineString
-            // Note: Strava polylines are usually precision 5, sometimes 6. Mapbox polyline defaults to 5.
             const coordinates = toGeoJSON.decode(polyline);
             // decode returns [lat, lon], geojson expects [lon, lat]
             const flipped = coordinates.map((c: number[]) => [c[1], c[0]]);
@@ -58,13 +56,13 @@ export default function DownloadGPXButton({ polyline, traceName }: Props) {
     };
 
     return (
-        <Button
-            variant="outlined"
-            size="large"
+        <button
             onClick={handleDownload}
-            startIcon={<ArrowDownTrayIcon className="w-5 h-5" />}
+            className="flex items-center justify-center w-full px-4 py-2 bg-brand-primary hover:bg-brand-dark text-white font-medium rounded-lg shadow-sm transition-colors gap-2"
         >
-            Download GPX
-        </Button>
+            <ArrowDownTrayIcon className="w-5 h-5" />
+            Télécharger GPX
+        </button>
     );
 }
+

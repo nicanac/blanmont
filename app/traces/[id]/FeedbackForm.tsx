@@ -1,21 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
 import { Feedback, Member } from '../../types';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
 import { useAuth } from '../../context/AuthContext';
 import Link from 'next/link';
+import { StarIcon } from '@heroicons/react/24/solid';
+import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
 
 interface FeedbackFormProps {
     traceId: string;
-    members?: Member[]; // Made optional, as we might not need it anymore
+    members?: Member[];
     feedbackList: Feedback[];
     onSubmit: (formData: FormData) => Promise<void>;
 }
@@ -23,7 +17,8 @@ interface FeedbackFormProps {
 export default function FeedbackForm({ traceId, feedbackList, onSubmit }: FeedbackFormProps) {
     const { user, isAuthenticated } = useAuth();
     const [existingFeedback, setExistingFeedback] = useState<Feedback | null>(null);
-    const [rating, setRating] = useState<number | null>(5);
+    const [rating, setRating] = useState<number>(5);
+    const [hoverRating, setHoverRating] = useState<number | null>(null);
 
     // Initial check for existing feedback
     useEffect(() => {
@@ -39,75 +34,91 @@ export default function FeedbackForm({ traceId, feedbackList, onSubmit }: Feedba
 
     if (!isAuthenticated) {
         return (
-            <Box sx={{ py: 4, textAlign: 'center', bgcolor: 'background.paper', borderRadius: 2 }}>
-                <Typography variant="body1" gutterBottom sx={{ fontWeight: 500 }}>
+            <div className="py-6 text-center bg-gray-50 rounded-lg border border-gray-100">
+                <p className="font-medium text-gray-900 mb-1">
                     Connexion Requise
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                </p>
+                <p className="text-sm text-gray-500 mb-4">
                     Veuillez vous connecter pour laisser un commentaire.
-                </Typography>
-                <Link href="/login" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" color="primary" sx={{ bgcolor: '#e03e3e', '&:hover': { bgcolor: '#c92a2a' } }}>
+                </p>
+                <Link href="/login" className="inline-block">
+                    <button className="bg-brand-primary hover:bg-brand-dark text-white font-medium py-2 px-6 rounded-lg transition-colors shadow-sm text-sm">
                         Se connecter
-                    </Button>
+                    </button>
                 </Link>
-            </Box>
+            </div>
         );
     }
 
     return (
-        <form action={onSubmit} id="feedback-form">
+        <form action={onSubmit} id="feedback-form" className="space-y-4">
             <input type="hidden" name="traceId" value={traceId} />
-            {/* Automatically include the logged-in user's ID */}
             <input type="hidden" name="memberId" value={user?.id || ''} />
-
             {existingFeedback && <input type="hidden" name="feedbackId" value={existingFeedback.id} />}
 
-            <Stack spacing={2}>
-                {/* Display friendly greeting instead of selector */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                    <Typography variant="body2" color="text.secondary">
-                        Publié en tant que :
-                    </Typography>
-                    <Typography variant="subtitle2" fontWeight="bold">
-                        {user?.name}
-                    </Typography>
-                </Box>
+            {/* User Info */}
+            <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm text-gray-500">Publié en tant que :</span>
+                <span className="text-sm font-semibold text-gray-900">{user?.name}</span>
+            </div>
 
-                <Box>
-                    <Typography component="legend">Note</Typography>
-                    <Rating
-                        name="rating"
-                        value={rating}
-                        onChange={(event, newValue) => {
-                            setRating(newValue);
-                        }}
-                    />
-                </Box>
+            {/* Rating Input */}
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Note</label>
+                <div className="flex gap-1" onMouseLeave={() => setHoverRating(null)}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                            key={star}
+                            type="button"
+                            onClick={() => setRating(star)}
+                            onMouseEnter={() => setHoverRating(star)}
+                            className="focus:outline-none transition-transform hover:scale-110"
+                        >
+                            {star <= (hoverRating || rating) ? (
+                                <StarIcon className="h-8 w-8 text-yellow-400" />
+                            ) : (
+                                <StarIconOutline className="h-8 w-8 text-gray-300" />
+                            )}
+                        </button>
+                    ))}
+                    <input type="hidden" name="rating" value={rating} />
+                </div>
+            </div>
 
-                <TextField
-                    label="Commentaire"
+            {/* Comment Input */}
+            <div>
+                <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1">
+                    Commentaire
+                </label>
+                <textarea
+                    id="comment"
                     name="comment"
-                    multiline
                     rows={4}
                     defaultValue={existingFeedback?.comment || ''}
                     key={existingFeedback ? existingFeedback.id : 'new'}
                     required
-                    fullWidth
-                    variant="outlined"
-                    size="small"
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-3 border resize-none"
+                    placeholder="Racontez votre expérience..."
                 />
+            </div>
 
-                {existingFeedback && (
-                    <Alert severity="info" sx={{ '& .MuiAlert-message': { width: '100%' } }}>
+            {/* Existing Feedback Alert */}
+            {existingFeedback && (
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 flex items-start gap-3">
+                    <span className="text-blue-500 text-lg">ℹ️</span>
+                    <p className="text-sm text-blue-700">
                         Vous avez déjà noté ce parcours. Soumettre à nouveau mettra à jour votre avis.
-                    </Alert>
-                )}
+                    </p>
+                </div>
+            )}
 
-                <Button type="submit" variant="contained" fullWidth sx={{ bgcolor: '#e03e3e', '&:hover': { bgcolor: '#c92a2a' } }}>
-                    {existingFeedback ? 'Mettre à jour l\'avis' : 'Envoyer l\'avis'}
-                </Button>
-            </Stack>
+            <button
+                type="submit"
+                className="w-full bg-brand-primary hover:bg-brand-dark text-white font-medium py-2.5 px-4 rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2"
+            >
+                {existingFeedback ? 'Mettre à jour l\'avis' : 'Envoyer l\'avis'}
+            </button>
         </form>
     );
 }
+
