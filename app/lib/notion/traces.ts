@@ -411,6 +411,78 @@ export const deleteTrace = async (traceId: string) => {
 };
 
 /**
+ * Updates an existing trace in the Notion database
+ * Automatically revalidates the traces cache
+ * @param traceId - The trace ID to update
+ * @param traceData - The updated trace data
+ * @returns Success status
+ */
+export const updateTrace = async (
+    traceId: string,
+    traceData: {
+        name?: string;
+        distance?: number;
+        elevation?: number;
+        direction?: string;
+        surface?: string;
+        rating?: string;
+        description?: string;
+        mapUrl?: string;
+    }
+) => {
+    if (isMockMode) {
+        console.log('Mock update trace:', { traceId, traceData });
+        return { success: true };
+    }
+
+    try {
+        const properties: any = {};
+
+        if (traceData.name !== undefined) {
+            properties.Name = { title: [{ text: { content: traceData.name } }] };
+        }
+
+        if (traceData.distance !== undefined) {
+            properties.Distance = { number: traceData.distance };
+        }
+
+        if (traceData.elevation !== undefined) {
+            properties.Elevation = { number: traceData.elevation };
+        }
+
+        if (traceData.direction !== undefined) {
+            properties.Direction = { select: { name: traceData.direction } };
+        }
+
+        if (traceData.surface !== undefined) {
+            properties.road = { select: { name: traceData.surface } };
+        }
+
+        if (traceData.rating !== undefined) {
+            properties.Rating = { select: { name: traceData.rating } };
+        }
+
+        if (traceData.description !== undefined) {
+            properties.Note = { rich_text: [{ text: { content: traceData.description } }] };
+        }
+
+        if (traceData.mapUrl !== undefined) {
+            properties.Komoot = { url: traceData.mapUrl || null };
+        }
+
+        await notionRequest(`pages/${traceId}`, 'PATCH', { properties });
+
+        // Revalidate trace cache after update
+        await revalidateTraceCache(traceId);
+
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to update trace:', e);
+        return { success: false, error: String(e) };
+    }
+};
+
+/**
  * Updates the map preview for a trace in the Notion database
  * Automatically revalidates the trace cache
  * @param traceId - The trace ID
