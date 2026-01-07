@@ -1,15 +1,16 @@
 'use server';
 
-import { trace } from "console";
+import { FetchGarminActivitySchema, safeValidate } from '../../lib/validation';
 
-// Attempt to fetch Garmin activity data
-// Note: Garmin is very strict. True API requires OAuth.
-// Public scraping is brittle. We will try best-effort or return error.
 export async function fetchGarminActivityAction(urlInput: string) {
+    const validation = safeValidate(FetchGarminActivitySchema, { url: urlInput });
+    
+    if (!validation.success) {
+        return { error: validation.errors.map(e => e.message).join(', ') };
+    }
+
     try {
-        // Extract Activity ID
-        // Formats: https://connect.garmin.com/modern/activity/12345678...
-        const match = urlInput.match(/\/activity\/(\d+)/);
+        const match = validation.data.url.match(/\/activity\/(\d+)/);
         if (!match) {
             return { error: 'Invalid Garmin URL. Expected format: .../activity/12345678' };
         }
@@ -22,8 +23,7 @@ export async function fetchGarminActivityAction(urlInput: string) {
         // we will implement a "Metadata Only" fetch if possible, or just acknowledge we need the file.
         // HOWEVER, the user asked to "put the garmin url".
         
-        // Let's try to fetch the page and see if there's JSON-LD or embedded metadata.
-        const pageRes = await fetch(urlInput, {
+        const pageRes = await fetch(validation.data.url, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }

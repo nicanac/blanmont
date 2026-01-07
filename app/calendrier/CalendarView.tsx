@@ -7,15 +7,13 @@ import {
     ChevronLeftIcon,
     ChevronRightIcon
 } from '@heroicons/react/20/solid';
+import { cn } from '../utils/cn';
 
 const MONTH_NAMES = [
     'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
 ];
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-}
 
 // Helper to get days in month
 function getDaysInMonth(year: number, month: number) {
@@ -148,14 +146,14 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                             return (
                                 <div
                                     key={idx}
-                                    className={classNames(
+                                    className={cn(
                                         cell.currentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500',
                                         'relative px-3 py-2 min-h-[120px]'
                                     )}
                                 >
                                     <time
                                         dateTime={cell.dateStr}
-                                        className={classNames(
+                                        className={cn(
                                             // Highlight "today" if we wanted, for now just basic text
                                             cell.currentMonth ? 'font-semibold' : '',
                                             // Weekend highlight on current month (Black/Visible)
@@ -173,7 +171,7 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                                 <li key={event.id}>
                                                     <button
                                                         onClick={() => setSelectedEvent(event)}
-                                                        className={classNames(
+                                                        className={cn(
                                                             "group flex flex-col gap-0.5 rounded-md p-1.5 transition-colors border border-transparent w-full text-left",
                                                             // Weekday events (Mon-Fri) get alternate background
                                                             (idx % 7 < 5) ? 'bg-red-50 hover:bg-red-100 hover:border-red-200' : 'hover:bg-gray-100 hover:border-gray-200'
