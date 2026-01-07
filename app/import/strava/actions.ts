@@ -2,7 +2,13 @@
 
 import { cookies } from 'next/headers';
 import { getStravaActivity, getActivityStreams, getStravaActivityPhotos } from '../../lib/strava';
-import { createTrace, getTracesSchema } from '../../lib/notion'; // Assuming this exists or I need to create/export it. I might need to move it to a shared lib if it's in a different file.
+import { createTrace, getTracesSchema, deleteTrace } from '../../lib/notion';
+import {
+  FetchStravaActivitySchema,
+  ImportStravaTraceSchema,
+  safeValidate,
+} from '../../lib/validation';
+import toGeoJSON from '@tmcw/togeojson';
 
 import fs from 'fs';
 import path from 'path';
@@ -20,10 +26,6 @@ export async function validateSchemaAction() {
     }
     return { success: false };
 }
-// Checking previous context, createTrace logic is likely in notion.ts or needs to be added.
-// I will check app/lib/notion.ts later. For now I will mock or assume it.
-import toGeoJSON from '@tmcw/togeojson'; // Wait, this changes XML to GeoJSON. Strava gives Polyline or LatLng stream.
-// I'll need a utility to convert Strava LatLng stream to GPX or GeoJSON.
 
 export async function getStravaAuthLink() {
     // Dynamically determine host if possible, or use env var.
@@ -40,6 +42,12 @@ export async function getStravaAuthLink() {
 }
 
 export async function fetchStravaActivityAction(url: string) {
+    const validation = safeValidate(FetchStravaActivitySchema, { url });
+    
+    if (!validation.success) {
+        return { error: validation.errors.map(e => e.message).join(', ') };
+    }
+
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('strava_access_token')?.value;
 
@@ -48,15 +56,12 @@ export async function fetchStravaActivityAction(url: string) {
     }
 
     // Extract ID
-    // Supports: https://www.strava.com/activities/1234567890
-    const match = url.match(/\/activities\/(\d+)/);
+    const match = validation.data.url.match(/\/activities\/(\d+)/);
     if (!match) return { error: 'Invalid Strava URL' };
     const id = match[1];
 
     try {
         const activity = await getStravaActivity(id, accessToken);
-        // We could also fetch streams here if we want to preview the map immediately
-        // or just return the summary polyline.
         return { success: true, activity };
     } catch (e) {
         console.error(e);
@@ -71,17 +76,22 @@ export async function fetchStravaActivityAction(url: string) {
 // 3. Create Notion Page.
 
 export async function importStravaTraceAction(activity: any, overrides?: { name?: string; direction?: string; surface?: string; rating?: string }) {
+     const validation = safeValidate(ImportStravaTraceSchema, { activity, overrides });
+     
+     if (!validation.success) {
+         return { error: validation.errors.map(e => `${e.field}: ${e.message}`).join(', ') };
+     }
+
      const cookieStore = await cookies();
      const accessToken = cookieStore.get('strava_access_token')?.value;
-     if (!accessToken) throw new Error("No token");
+     if (!accessToken) return { error: 'No authentication token' };
 
-     // Fetch Streams for full resolution path
-     // const streams = await getActivityStreams(String(activity.id), accessToken); // Not used yet
+     const { activity: validatedActivity, overrides: validatedOverrides } = validation.data;
      
      // Fetch Photos
      let photoUrls: string[] = [];
      try {
-         const photos = await getStravaActivityPhotos(String(activity.id), accessToken);
+         const photos = await getStravaActivityPhotos(String(validatedActivity.id), accessToken);
          photoUrls = photos.map(p => p.urls['2048'] || p.urls['1024'] || p.urls['600']).filter(Boolean);
      } catch (e) {
          console.warn('Failed to fetch photos', e);
@@ -89,16 +99,16 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
 
      // Create Notion Page
      const result = await createTrace({
-         name: overrides?.name || activity.name,
-         distance: activity.distance / 1000,
-         elevation: activity.total_elevation_gain,
-         mapUrl: activity.mapUrl || `https://www.strava.com/activities/${activity.id}`,
-         description: activity.description || `Imported from Strava. Distance: ${(activity.distance/1000).toFixed(1)}km`,
-         direction: overrides?.direction,
-         surface: overrides?.surface,
-         rating: overrides?.rating,
+         name: validatedOverrides?.name || validatedActivity.name,
+         distance: validatedActivity.distance / 1000,
+         elevation: validatedActivity.total_elevation_gain,
+         mapUrl: validatedActivity.mapUrl || `https://www.strava.com/activities/${validatedActivity.id}`,
+         description: validatedActivity.description || `Imported from Strava. Distance: ${(validatedActivity.distance/1000).toFixed(1)}km`,
+         direction: validatedOverrides?.direction,
+         surface: validatedOverrides?.surface,
+         rating: validatedOverrides?.rating,
          photos: photoUrls,
-         polyline: activity.map?.summary_polyline
+         polyline: validatedActivity.map?.summary_polyline
      });
 
      if (!result.success) {
@@ -108,9 +118,11 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
      return { success: true, message: "Trace created successfully in Notion!", traceId: result.id };
 }
 
-import { deleteTrace } from '../../lib/notion';
-
 export async function deleteTraceAction(traceId: string) {
+    if (!traceId || typeof traceId !== 'string') {
+        return { error: 'Invalid trace ID' };
+    }
+    
     const result = await deleteTrace(traceId);
     if (!result.success) {
         return { error: result.error };

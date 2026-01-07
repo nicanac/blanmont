@@ -1,20 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createTraceWithGPX } from '@/app/lib/notion/traces';
+import { AddTraceApiSchema, safeValidate } from '@/app/lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    
+    const validation = safeValidate(AddTraceApiSchema, body);
+    
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: validation.errors },
+        { status: 400 }
+      );
+    }
+
     const { 
         name, date, distance, elevation, 
         direction, start, end,
         komootLink, gpxLink, photoLink,
         roadQuality, rating, status, note,
         gpxContent
-    } = body;
-
-    if (!name || !date) {
-        return NextResponse.json({ error: 'Name and Date are required' }, { status: 400 });
-    }
+    } = validation.data;
 
     const result = await createTraceWithGPX({
         name,
