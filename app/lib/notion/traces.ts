@@ -450,15 +450,15 @@ export const updateTrace = async (
             properties.Elevation = { number: traceData.elevation };
         }
 
-        if (traceData.direction !== undefined) {
+        if (traceData.direction !== undefined && traceData.direction !== '') {
             properties.Direction = { select: { name: traceData.direction } };
         }
 
-        if (traceData.surface !== undefined) {
+        if (traceData.surface !== undefined && traceData.surface !== '') {
             properties.road = { select: { name: traceData.surface } };
         }
 
-        if (traceData.rating !== undefined) {
+        if (traceData.rating !== undefined && traceData.rating !== '') {
             properties.Rating = { select: { name: traceData.rating } };
         }
 
