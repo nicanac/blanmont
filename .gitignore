@@ -44,3 +44,13 @@ next-env.d.ts
 /debug-scripts/
 *.txt
 temp_*.html
+
+# Agent/skills folder (contains Python files that confuse Tailwind CSS scanner)
+/.agent/
+/.github/skills/
+
+# Local data
+backups/
+public/uploads/
+nul
+
