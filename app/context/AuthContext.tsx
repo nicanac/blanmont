@@ -10,6 +10,7 @@ interface User {
     email?: string;
     name: string;
     phone?: string;
+    role?: string[];
 }
 
 interface AuthContextType {
@@ -41,16 +42,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             const member = await loginAction(email, password);
             if (member) {
-                const newUser = {
+                const newUser: User = {
                     id: member.id,
                     username: member.email || member.name, // Fallback to name if email missing
                     name: member.name,
                     avatarUrl: member.photoUrl,
                     email: member.email,
-                    phone: member.phone
+                    phone: member.phone,
+                    role: member.role
                 };
                 setUser(newUser);
                 localStorage.setItem('user', JSON.stringify(newUser));
+                // Redundant but helpful if other parts of the app rely on memberData
+                localStorage.setItem('memberData', JSON.stringify(member)); 
                 return true;
             }
             return false;
@@ -63,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const logout = () => {
         setUser(null);
         localStorage.removeItem('user');
+        localStorage.removeItem('memberData');
     };
 
     const updateUser = (updates: Partial<User>) => {
