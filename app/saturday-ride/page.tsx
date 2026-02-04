@@ -1,4 +1,4 @@
-import { getMembers, getTraces, getActiveRides, getVotes } from '../lib/notion/index';
+import { getMembers, getTraces, getActiveRides, getVotes } from '../lib/firebase';
 import SaturdayRideView from '../features/saturday-ride/components/SaturdayRideView';
 import { Suspense } from 'react';
 import { Vote } from '../types';

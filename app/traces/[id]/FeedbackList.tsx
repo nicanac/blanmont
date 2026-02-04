@@ -58,13 +58,15 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
                                         <Typography variant="body2" sx={{ color: 'warning.main' }}>
                                             {'★'.repeat(fb.rating)}
                                         </Typography>
-                                        <Button
-                                            size="small"
-                                            onClick={() => fb.memberId && handleEdit(fb.memberId)}
-                                            sx={{ minWidth: 0, p: 0.5, fontSize: '1.2rem' }}
-                                        >
-                                            ✏️
-                                        </Button>
+                                        {fb.memberId && (
+                                            <Button
+                                                size="small"
+                                                onClick={() => handleEdit(fb.memberId!)}
+                                                sx={{ minWidth: 0, p: 0.5, fontSize: '1.2rem' }}
+                                            >
+                                                ✏️
+                                            </Button>
+                                        )}
                                     </Stack>
                                 </Stack>
                                 <Typography variant="body2" color="text.primary">

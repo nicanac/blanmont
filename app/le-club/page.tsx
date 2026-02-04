@@ -1,6 +1,8 @@
-import React from 'react';
 import Image from 'next/image';
 
+/**
+ * Le Club page describing cycling groups within the club.
+ */
 export default function LeClubPage() {
     return (
         <div className="bg-white py-24 sm:py-32">
@@ -53,33 +55,42 @@ export default function LeClubPage() {
                     <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                         {/* Top Right Large Image */}
                         <div className="col-span-2 relative h-64 sm:h-80 lg:h-96 rounded-2xl overflow-hidden">
-                            <img
+                            <Image
                                 src="/images/home-hero.jpg"
                                 alt="Groupe Cycliste"
-                                className="absolute inset-0 h-full w-full object-cover"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                priority
                             />
                         </div>
 
                         {/* Bottom Row Images */}
                         <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
-                            <img
+                            <Image
                                 src="/images/IMG_8019.JPG"
                                 alt="VTT"
-                                className="absolute inset-0 h-full w-full object-cover"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 50vw, 25vw"
                             />
                         </div>
                         <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
-                            <img
+                            <Image
                                 src="/images/IMG_5777.JPG"
                                 alt="Groupe Route"
-                                className="absolute inset-0 h-full w-full object-cover"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 50vw, 25vw"
                             />
                         </div>
                         <div className="col-span-2 relative h-48 sm:h-64 rounded-2xl overflow-hidden">
-                            <img
+                            <Image
                                 src="/images/6efc2d5e-2326-446d-98d8-47889f881454.jpg"
                                 alt="Ambiance Club"
-                                className="absolute inset-0 h-full w-full object-cover"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
                             />
                         </div>
                     </div>

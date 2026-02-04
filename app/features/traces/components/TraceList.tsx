@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { Trace } from '../../../types';
 import FilterPanel, { FilterState } from './FilterPanel';
 import TraceCard from './TraceCard';
-import { getTracesSchema } from '../../../lib/notion';
+import { getTracesSchema } from '../../../lib/firebase';
 import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';

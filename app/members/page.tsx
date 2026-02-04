@@ -1,4 +1,4 @@
-import { getMembers } from '../lib/notion/index';
+import { getMembers } from '../lib/firebase';
 import MemberCard from '../features/members/components/MemberCard';
 import { Member } from '../types';
 
@@ -12,7 +12,8 @@ export default async function MembersPage() {
         // Assume 'Member' is the default role for everyone.
         // We want to show people who have roles *other* than 'Member' (or 'Membre').
         // If the only role is 'Member', exclude them.
-        const interestingRoles = m.role.filter((r: string) => r !== 'Member' && r !== 'Membre');
+        const roles = Array.isArray(m.role) ? m.role : ['Member'];
+        const interestingRoles = roles.filter((r: string) => r !== 'Member' && r !== 'Membre');
         return interestingRoles.length > 0;
     });
 
