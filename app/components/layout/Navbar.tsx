@@ -30,6 +30,7 @@ export default function Navbar() {
     const mainNavigation = [
         { name: 'Sortie du Samedi', href: '/saturday-ride' },
         { name: 'Membres', href: '/members' },
+        { name: 'Blog', href: '/blog' },
     ];
 
     const clubNavigation = [
