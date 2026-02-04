@@ -1,4 +1,4 @@
-import { getCalendarEvents } from '../lib/notion';
+import { getCalendarEvents } from '../lib/firebase';
 import CalendarView from './CalendarView';
 
 export const revalidate = 3600; // Revalidate every hour

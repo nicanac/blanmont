@@ -1,4 +1,4 @@
-import { getTraces } from '../lib/notion/index';
+import { getTraces } from '../lib/firebase';
 import TraceList from '../features/traces/components/TraceList';
 
 export const revalidate = 60;

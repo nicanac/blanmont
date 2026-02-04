@@ -1,4 +1,4 @@
-import { getTrace, getTraces, submitFeedback, getMembers, getFeedbackForTrace } from '../../lib/notion';
+import { getTrace, getTraces, submitFeedback, getMembers, getFeedbackForTrace } from '../../lib/firebase';
 import { uploadMapPreview, generateMapPreview } from '../../actions';
 import DownloadGPXButton from '../../features/traces/components/DownloadGPXButton';
 import { notFound } from 'next/navigation';

@@ -16,6 +16,8 @@ export interface Member {
   email?: string;
   /** Phone number of the member. */
   phone?: string;
+  /** Strava athlete ID. */
+  stravaId?: string;
 }
 
 /**
@@ -125,7 +127,6 @@ export interface CalendarEvent {
   group: string;
 }
 
-
 /**
  * Represents a raw Page object from the Notion API.
  * This helps strict typing when mapping properties.
@@ -133,13 +134,13 @@ export interface CalendarEvent {
 export interface NotionProperty {
   id: string;
   type: string;
-  rich_text?: { plain_text: string; text?: { content: string }; }[];
+  rich_text?: { plain_text: string; text?: { content: string } }[];
   title?: { plain_text: string }[];
   multi_select?: { name: string; color?: string }[];
   select?: { name: string; color?: string };
   number?: number;
   url?: string;
-  files?: { file?: { url: string }, external?: { url: string } }[];
+  files?: { file?: { url: string }; external?: { url: string } }[];
   email?: string;
   phone_number?: string;
   relation?: { id: string }[];
@@ -152,4 +153,32 @@ export interface NotionPage {
   last_edited_time: string;
   properties: Record<string, NotionProperty>;
   url: string;
+}
+
+/**
+ * Represents a blog post.
+ */
+export interface BlogPost {
+  /** Unique identifier for the blog post. */
+  id: string;
+  /** Title of the blog post. */
+  title: string;
+  /** Short excerpt or summary (max ~160 chars). */
+  excerpt: string;
+  /** Full content of the blog post (Markdown or HTML). */
+  content: string;
+  /** URL to the cover image. */
+  coverImage: string;
+  /** Author name. */
+  author: string;
+  /** URL to the author's avatar. */
+  authorAvatar?: string;
+  /** ISO timestamp of publication date. */
+  publishedAt: string;
+  /** Category/tag of the post (e.g., 'Events', 'Tips', 'Gear'). */
+  category: string;
+  /** Slug for URL-friendly identification. */
+  slug: string;
+  /** Whether the post is published (visible). */
+  isPublished: boolean;
 }
