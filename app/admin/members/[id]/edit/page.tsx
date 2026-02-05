@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { use } from 'react';
+import { useImageUpload } from '@/app/hooks/useImageUpload';
 
 const ROLES = ['Member', 'Admin', 'President', 'Treasurer', 'Secretary'];
 
@@ -15,6 +16,7 @@ interface EditMemberPageProps {
 export default function EditMemberPage({ params }: EditMemberPageProps): React.ReactElement {
   const { id } = use(params);
   const router = useRouter();
+  const { uploadImage, isUploading: isImageUploading, progress: uploadProgress } = useImageUpload();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -56,6 +58,22 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
       setFormData({ ...formData, role: [...formData.role, role] });
     } else {
       setFormData({ ...formData, role: formData.role.filter((r) => r !== role) });
+    }
+  };
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      try {
+        // Use a consistent path structure: members/{uid}/avatar-{timestamp}.jpg
+        const timestamp = Date.now();
+        const path = `members/${id}/avatar-${timestamp}.jpg`;
+        const url = await uploadImage(file, path);
+        setFormData(prev => ({ ...prev, photoUrl: url }));
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        alert('Erreur lors du téléchargement de l\'image');
+      }
     }
   };
 
@@ -144,15 +162,44 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
             {/* Photo URL */}
             <div>
               <label htmlFor="photoUrl" className="mb-2 block text-sm font-medium text-gray-700">
-                Photo URL
+                Photo de profil
               </label>
-              <input
-                type="text"
-                id="photoUrl"
-                value={formData.photoUrl}
-                onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-              />
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-4">
+                  {(formData.photoUrl) && (
+                    <img
+                      src={formData.photoUrl}
+                      alt="Avatar"
+                      className="h-16 w-16 rounded-full object-cover border border-gray-200"
+                    />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageSelect}
+                    disabled={isImageUploading}
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100"
+                  />
+                </div>
+                {isImageUploading && (
+                   <div className="h-1.5 w-full rounded-full bg-gray-100 overflow-hidden">
+                     <div 
+                       className="h-full bg-red-600 transition-all duration-300" 
+                       style={{ width: `${uploadProgress}%` }} 
+                     />
+                   </div>
+                )}
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="photoUrl"
+                    placeholder="Ou entrer une URL manuelle"
+                    value={formData.photoUrl}
+                    onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Strava ID */}
