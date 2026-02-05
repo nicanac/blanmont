@@ -6,6 +6,7 @@ import { ArrowLeftIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
+import { useImageUpload } from '@/app/hooks/useImageUpload';
 
 // Interface for the editor props
 interface RichTextEditorProps {
@@ -34,6 +35,7 @@ const CATEGORIES = [
 
 export default function NewBlogPostPage(): React.ReactElement {
   const router = useRouter();
+  const { uploadImage, isUploading: isImageUploading, progress: uploadProgress } = useImageUpload();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -43,6 +45,23 @@ export default function NewBlogPostPage(): React.ReactElement {
     coverImage: '',
     isPublished: true,
   });
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      try {
+        const date = new Date().toISOString().split('T')[0];
+        const filename = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const path = `blog/uploads/${date}-${filename}`;
+        
+        const url = await uploadImage(file, path);
+        setFormData(prev => ({ ...prev, coverImage: url }));
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        alert('Erreur lors du téléchargement de l\'image');
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -152,32 +171,54 @@ export default function NewBlogPostPage(): React.ReactElement {
               <label htmlFor="coverImage" className="mb-2 block text-sm font-medium text-gray-700">
                 Image de couverture
               </label>
-              <div className="flex gap-4">
-                <input
-                  type="text"
-                  id="coverImage"
-                  value={formData.coverImage}
-                  onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                  placeholder="URL de l'image ou télécharger ci-dessous"
-                />
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                >
-                  <PhotoIcon className="h-5 w-5" />
-                  Uploader
-                </button>
-              </div>
-              {formData.coverImage && (
-                <div className="mt-2">
-                  <img
-                    src={formData.coverImage}
-                    alt="Preview"
-                    className="h-32 w-auto rounded-lg object-cover"
+              <div className="space-y-3">
+                 <div className="flex gap-4">
+                  <div className="flex-1">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageSelect}
+                      disabled={isImageUploading}
+                      className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100"
+                    />
+                  </div>
+                   <input
+                    type="text"
+                    id="coverImage"
+                    value={formData.coverImage}
+                    onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+                    className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                    placeholder="URL de l'image"
                   />
                 </div>
-              )}
+                 {isImageUploading && (
+                   <div className="h-1.5 w-full rounded-full bg-gray-100 overflow-hidden">
+                     <div 
+                       className="h-full bg-red-600 transition-all duration-300" 
+                       style={{ width: `${uploadProgress}%` }} 
+                     />
+                   </div>
+                )}
+                {formData.coverImage && (
+                  <div className="mt-2 relative group w-fit">
+                    <img
+                      src={formData.coverImage}
+                      alt="Preview"
+                      className="h-48 w-auto rounded-lg object-cover border border-gray-200"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setFormData({...formData, coverImage: ''})}
+                        className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Supprimer l'image"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                        </svg>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Content */}
