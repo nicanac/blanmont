@@ -31,17 +31,17 @@ export default async function Home() {
         </div>
 
         {/* Hero image + floating stat bar */}
-        <div className="relative mx-auto mt-16 max-w-6xl px-7">
+        <div className="relative mx-auto mt-10 max-w-6xl px-4 sm:mt-16 sm:px-7">
           <div className="overflow-hidden rounded-2xl shadow-xl">
             <img
-              className="aspect-16/7 w-full object-cover"
+              className="aspect-[16/9] w-full object-cover sm:aspect-[16/7]"
               src="/images/home-hero.jpg"
               alt="Blanmont Cycling Club – peloton sur route"
             />
           </div>
 
-          {/* Single stat bar – overlaps image bottom */}
-          <div className="absolute inset-x-6 -bottom-12 flex justify-center">
+          {/* Single stat bar – overlaps image bottom (hidden on mobile, shown inline below) */}
+          <div className="hidden sm:flex absolute inset-x-6 -bottom-12 justify-center">
             <div className="inline-flex divide-x divide-gray-200 rounded-xl bg-white shadow-lg">
               {[
                 { value: '3', label: 'Groupes de niveau' },
@@ -63,8 +63,28 @@ export default async function Home() {
             </div>
           </div>
         </div>
-              {/* Spacer for the overlapping stat bar */}
-      <div className="h-20" aria-hidden="true" />
+
+        {/* Mobile stat bar – stacked below the image */}
+        <div className="mx-auto mt-6 grid grid-cols-3 gap-2 px-4 sm:hidden">
+          {[
+            { value: '3', label: 'Groupes de niveau' },
+            { value: 'Hebdo', label: 'Au moins une sortie' },
+            { value: '100%', label: 'Ouvert à tous' },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="rounded-lg bg-white px-3 py-4 text-center shadow-sm ring-1 ring-gray-200"
+            >
+              <p className="text-lg font-bold text-gray-900">{s.value}</p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Spacer for the overlapping stat bar (desktop only) */}
+        <div className="hidden sm:block h-20" aria-hidden="true" />
       </section>
 
 
