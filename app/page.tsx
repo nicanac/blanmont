@@ -41,7 +41,7 @@ export default async function Home() {
           </div>
 
           {/* Single stat bar – overlaps image bottom (hidden on mobile, shown inline below) */}
-          <div className="hidden sm:flex absolute inset-x-6 -bottom-12 justify-center">
+          <div className="absolute inset-x-6 -bottom-12 hidden justify-center sm:flex">
             <div className="inline-flex divide-x divide-gray-200 rounded-xl bg-white shadow-lg">
               {[
                 { value: '3', label: 'Groupes de niveau' },
@@ -84,7 +84,7 @@ export default async function Home() {
         </div>
 
         {/* Spacer for the overlapping stat bar (desktop only) */}
-        <div className="hidden sm:block h-20" aria-hidden="true" />
+        <div className="h-20 hidden sm:block" aria-hidden="true" />
       </section>
 
 
