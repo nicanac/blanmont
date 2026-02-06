@@ -37,11 +37,11 @@ Firebase Storage nécessite un plan Blaze (Pay-as-you-go) pour les nouveaux proj
 
 ```bash
 # Ajouté
-CLOUDINARY_CLOUD_NAME=dizy3s5zh
-CLOUDINARY_API_KEY=365289438817247
-CLOUDINARY_API_SECRET=oN88OAc1SEVIlpvGMrP3yXvGbhE
-CLOUDINARY_URL=cloudinary://365289438817247:oN88OAc1SEVIlpvGMrP3yXvGbhE@dizy3s5zh
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dizy3s5zh
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+CLOUDINARY_URL=cloudinary://your_api_key:your_api_secret@your_cloud_name
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
 ```
 
 ### 2. API Route (`app/api/upload/route.ts`)

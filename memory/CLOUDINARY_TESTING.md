@@ -81,9 +81,9 @@
 **Solution**: Vérifier que `.env.local` contient:
 
 ```bash
-CLOUDINARY_CLOUD_NAME=dizy3s5zh
-CLOUDINARY_API_KEY=365289438817247
-CLOUDINARY_API_SECRET=oN88OAc1SEVIlpvGMrP3yXvGbhE
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 Puis redémarrer le serveur: `npm run dev`
@@ -137,9 +137,9 @@ La migration est réussie si:
 
 ## 📝 Rapport de Test
 
-### Date: ****\_\_\_****
+### Date: \***\*\_\_\_\*\***
 
-### Testeur: ****\_\_\_****
+### Testeur: \***\*\_\_\_\*\***
 
 | Test                 | Statut            | Notes |
 | -------------------- | ----------------- | ----- |
