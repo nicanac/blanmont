@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Trace } from '../../../types';
 import { stripSuffix } from '../../../utils/string.utils';
 import { MapPinIcon, RocketLaunchIcon, ArrowDownTrayIcon, StarIcon } from '@heroicons/react/20/solid';
@@ -27,12 +28,14 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
 
     return (
         <div className={`group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white ${props.className || ''}`}>
-            <div className="aspect-h-3 aspect-w-4 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-52">
+            <div className="aspect-h-3 aspect-w-4 relative bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-52">
                 {trace.photoUrl ? (
-                    <img
+                    <Image
                         src={trace.photoUrl}
                         alt={trace.name}
-                        className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover object-center"
                     />
                 ) : (
                     <div className="h-full w-full flex items-center justify-center bg-gray-100 text-gray-400">

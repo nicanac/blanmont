@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { Trace } from '../../../types';
 import FilterPanel, { FilterState } from './FilterPanel';
 import TraceCard from './TraceCard';
-import { getTracesSchema } from '../../../lib/firebase';
+import { PageHeader } from '../../../components/ui/PageHeader';
 import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
@@ -26,7 +26,7 @@ const sortOptions = [
 ];
 
 
-export default function TraceList({ initialTraces }: TraceListProps) {
+export default function TraceList({ initialTraces }: TraceListProps): React.ReactElement {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
     const [sort, setSort] = useState<SortOption>('newest');
 
@@ -94,11 +94,8 @@ export default function TraceList({ initialTraces }: TraceListProps) {
 
 
                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">Nos Parcours</h1>
-
-                        <div className="flex items-center">
-                            <Menu as="div" className="relative inline-block text-left">
+                    <PageHeader title="Nos Parcours">
+                        <Menu as="div" className="relative inline-block text-left">
                                 <div>
                                     <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                         Trier
@@ -153,8 +150,7 @@ export default function TraceList({ initialTraces }: TraceListProps) {
                                 <span className="sr-only">Filters</span>
                                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
                             </button>
-                        </div>
-                    </div>
+                    </PageHeader>
 
                     <section aria-labelledby="products-heading" className="pb-24 pt-6">
                         <h2 id="products-heading" className="sr-only">

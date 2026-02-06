@@ -77,9 +77,9 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
         
         const url = await uploadImage(file, path);
         setFormData(prev => ({ ...prev, coverImage: url }));
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error uploading image:', error);
-        alert('Erreur lors du téléchargement de l\'image');
+        alert(`Erreur lors du téléchargement de l'image (Check CORS/Admin): ${error.message || error}`);
       }
     }
   };

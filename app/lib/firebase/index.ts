@@ -8,3 +8,5 @@ export * from './feedback';
 export * from './saturday-ride';
 export * from './calendar';
 export * from './blog';
+export * from './leaderboard';
+export * from './attendance';

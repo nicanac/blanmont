@@ -1,22 +1,38 @@
 import { getCalendarEvents } from '../lib/firebase';
+import { getAllAttendance } from '../lib/firebase/attendance';
 import CalendarView from './CalendarView';
+import { PageHeader } from '../components/ui/PageHeader';
 
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function CalendarPage() {
-    const events = await getCalendarEvents();
+    const [events, allAttendance] = await Promise.all([
+        getCalendarEvents(),
+        getAllAttendance(),
+    ]);
+
+    // Build attendance map: eventId -> { memberName, group }[]
+    const attendanceMap: Record<string, { name: string; group: string }[]> = {};
+    allAttendance.forEach((att) => {
+        if (att.members) {
+            attendanceMap[att.eventId] = Object.values(att.members).map((m) => ({
+                name: m.name,
+                group: m.group,
+            }));
+        }
+    });
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
             <main className="flex-grow">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <PageHeader 
+                        title="Calendrier" 
+                        description="Planning des sorties et événements du club." 
+                    />
+                </div>
                 <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 h-full">
-                    <div className="max-w-2xl text-center md:text-left mb-8">
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Calendrier</h2>
-                        <p className="mt-4 text-lg leading-8 text-gray-600">
-                            Planning des sorties et événements du club.
-                        </p>
-                    </div>
-                    <CalendarView events={events} />
+                    <CalendarView events={events} attendanceMap={attendanceMap} />
                 </div>
             </main>
         </div>

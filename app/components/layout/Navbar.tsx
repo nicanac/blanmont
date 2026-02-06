@@ -3,15 +3,13 @@
 
 import { Fragment } from 'react';
 import { usePathname } from 'next/navigation';
-import { Disclosure, Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverPanel, Transition, PopoverBackdrop } from '@headlessui/react';
+import { Disclosure, Popover, PopoverButton, PopoverPanel, Transition, PopoverBackdrop } from '@headlessui/react';
 import {
     UserIcon,
-    ShoppingBagIcon,
     ArrowRightOnRectangleIcon,
     Bars3Icon,
     XMarkIcon,
     PlusCircleIcon,
-    CloudArrowUpIcon,
     ChevronDownIcon,
     MapIcon,
     CalendarIcon,
@@ -28,25 +26,28 @@ export default function Navbar() {
     const { user, logout, isAuthenticated } = useAuth();
 
     const mainNavigation = [
-        { name: 'Sortie du Samedi', href: '/saturday-ride' },
+        { name: 'Les News', href: '/blog' },
         { name: 'Membres', href: '/members' },
-        { name: 'Blog', href: '/blog' },
+        { name: 'Calendrier', description: 'Agenda de la saison', href: '/calendrier', icon: CalendarIcon },
+
     ];
 
     const clubNavigation = [
         { name: 'Présentation', description: 'Qui sommes-nous ?', href: '/le-club', icon: InformationCircleIcon },
         { name: 'Parcours', description: 'Nos traces GPS', href: '/traces', icon: MapIcon },
-        { name: 'Calendrier', description: 'Agenda de la saison', href: '/calendrier', icon: CalendarIcon },
         { name: 'Carré Vert', description: 'Classement', href: '/leaderboard', icon: TrophyIcon },
     ];
 
+    // Simple user menu - only essential items
+    // Trace management has been moved to Admin section
     const userNavigation = [
         { name: 'Mon Compte', description: 'Gérer mon profil', href: '/profile', icon: UserIcon },
-        { name: 'Mes Parcours', description: 'Mes traces enregistrées', href: '#', icon: ShoppingBagIcon },
-        { name: 'Admin (Add Trace)', description: 'Ajouter une trace', href: '/admin/add-trace', icon: PlusCircleIcon },
-        { name: 'Import Strava', description: 'Importer depuis Strava', href: '/import/strava', icon: CloudArrowUpIcon },
-        { name: 'Import Garmin', description: 'Importer depuis GPX', href: '/import/garmin', icon: CloudArrowUpIcon },
     ];
+
+    // Admin link - shown only for users with admin access
+    const adminNavigation = user?.role?.includes('Admin') || user?.role?.includes('WebMaster')
+        ? [{ name: 'Admin', description: 'Administration du site', href: '/admin', icon: PlusCircleIcon }]
+        : [];
 
     return (
         <Popover as="nav" className={`${pathname === '/' ? 'absolute z-50 w-full bg-transparent' : 'bg-white border-b border-gray-100'} `}>
@@ -178,7 +179,7 @@ export default function Navbar() {
                                                                     <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
                                                                 </div>
 
-                                                                {userNavigation.map((item) => (
+                                                                {[...userNavigation, ...adminNavigation].map((item) => (
                                                                     <PopoverButton
                                                                         key={item.name}
                                                                         as={Link}
@@ -333,7 +334,7 @@ export default function Navbar() {
                                             </div>
                                         </div>
                                         <div className="mt-3 space-y-1">
-                                            {userNavigation.map((item) => (
+                                            {[...userNavigation, ...adminNavigation].map((item) => (
                                                 <PopoverButton
                                                     key={item.name}
                                                     as={Link}
