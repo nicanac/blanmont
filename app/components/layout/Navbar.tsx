@@ -17,6 +17,7 @@ import {
     InformationCircleIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../utils/cn';
 
@@ -153,10 +154,13 @@ export default function Navbar() {
                                                 <PopoverButton className="flex items-center text-gray-900 hover:text-gray-600 focus:outline-none">
                                                     <span className="sr-only">Ouvrir le menu utilisateur</span>
                                                     {user?.avatarUrl ? (
-                                                        <img
+                                                        <Image
                                                             className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-100"
                                                             src={user.avatarUrl}
                                                             alt={user.name || "User avatar"}
+                                                            width={32}
+                                                            height={32}
+                                                            unoptimized={!user.avatarUrl.includes('cloudinary.com')}
                                                         />
                                                     ) : (
                                                         <UserIcon className="h-6 w-6" aria-hidden="true" />
@@ -322,10 +326,13 @@ export default function Navbar() {
                                     <div className="space-y-1">
                                         <div className="flex items-center px-4">
                                             <div className="flex-shrink-0">
-                                                <img
+                                                <Image
                                                     className="h-10 w-10 rounded-full"
-                                                    src={user?.avatarUrl || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
-                                                    alt=""
+                                                    src={user?.avatarUrl || "/images/default-avatar.svg"}
+                                                    alt={user?.name || "User avatar"}
+                                                    width={40}
+                                                    height={40}
+                                                    unoptimized={!user?.avatarUrl?.includes('cloudinary.com')}
                                                 />
                                             </div>
                                             <div className="ml-3">
