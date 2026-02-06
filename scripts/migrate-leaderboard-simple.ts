@@ -3,8 +3,8 @@
  * Run with: npx tsx scripts/migrate-leaderboard-simple.ts
  */
 
-const admin = require('firebase-admin');
-const dotenv = require('dotenv');
+import * as admin from 'firebase-admin';
+import * as dotenv from 'dotenv';
 
 // Load environment variables
 dotenv.config({ path: '.env.local' });
