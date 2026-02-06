@@ -153,9 +153,14 @@ export async function loginAction(email: string, password: string) {
 }
 
 import { updateMemberPhoto } from './lib/firebase';
-import fs from 'node:fs';
-import path from 'node:path';
-import { writeFile } from 'node:fs/promises';
+import { v2 as cloudinary } from 'cloudinary';
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 /**
  * Server Action to update a member's profile photo.
@@ -174,23 +179,31 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
 
     if (!file || !targetMemberId) throw new Error('Invalid input');
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Ensure uploads directory exists
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    // Verify Cloudinary configuration
+    if (
+      !process.env.CLOUDINARY_CLOUD_NAME ||
+      !process.env.CLOUDINARY_API_KEY ||
+      !process.env.CLOUDINARY_API_SECRET
+    ) {
+      throw new Error('Cloudinary not configured');
     }
 
-    // Save file
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.name) || '.jpg';
-    const filename = `profile-${targetMemberId}-${uniqueSuffix}${ext}`;
-    const filepath = path.join(uploadDir, filename);
+    // Convert File to base64 data URI for Cloudinary upload
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const base64 = buffer.toString('base64');
+    const dataURI = `data:${file.type};base64,${base64}`;
 
-    await writeFile(filepath, buffer);
-    finalPhotoUrl = `/uploads/${filename}`;
+    // Upload to Cloudinary
+    const result = await cloudinary.uploader.upload(dataURI, {
+      folder: 'profiles',
+      public_id: `profile-${targetMemberId}`,
+      resource_type: 'auto',
+      overwrite: true,
+      transformation: [{ width: 256, height: 256, crop: 'fill', gravity: 'face' }],
+    });
+
+    finalPhotoUrl = result.secure_url;
   }
   // Handle string URL (Legacy/Direct URL)
   else if (typeof input === 'string') {

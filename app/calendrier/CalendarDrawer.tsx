@@ -16,13 +16,18 @@ import StraightenIcon from '@mui/icons-material/Straighten';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 
+import PeopleIcon from '@mui/icons-material/People';
+
+type AttendeeInfo = { name: string; group: string };
+
 interface CalendarDrawerProps {
     event: CalendarEvent | null;
     open: boolean;
     onClose: () => void;
+    attendees?: AttendeeInfo[];
 }
 
-export default function CalendarDrawer({ event, open, onClose }: CalendarDrawerProps) {
+export default function CalendarDrawer({ event, open, onClose, attendees = [] }: CalendarDrawerProps) {
     if (!event) return null;
 
     // Format Date
@@ -159,6 +164,35 @@ export default function CalendarDrawer({ event, open, onClose }: CalendarDrawerP
                                         </Box>
                                     )}
                                 </Stack>
+                            </>
+                        )}
+
+                        {/* Attendance Section - show for past events */}
+                        {attendees.length > 0 && (
+                            <>
+                                <Divider />
+                                <Box>
+                                    <Stack direction="row" alignItems="center" gap={1} mb={1.5}>
+                                        <PeopleIcon fontSize="small" color="success" />
+                                        <Typography variant="subtitle2" fontWeight="bold">
+                                            Présents ({attendees.length})
+                                        </Typography>
+                                    </Stack>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+                                        {attendees
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .map((att, idx) => (
+                                            <Chip
+                                                key={idx}
+                                                label={att.name}
+                                                size="small"
+                                                variant="outlined"
+                                                color="success"
+                                                sx={{ fontSize: '0.75rem' }}
+                                            />
+                                        ))}
+                                    </Box>
+                                </Box>
                             </>
                         )}
                     </Stack>
