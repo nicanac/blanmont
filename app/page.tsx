@@ -31,7 +31,7 @@ export default async function Home() {
         </div>
 
         {/* Hero image + floating stat bar */}
-        <div className="relative mx-auto mt-16 max-w-6xl px-6">
+        <div className="relative mx-auto mt-16 max-w-6xl px-7">
           <div className="overflow-hidden rounded-2xl shadow-xl">
             <img
               className="aspect-16/7 w-full object-cover"
