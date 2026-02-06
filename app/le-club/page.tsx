@@ -1,21 +1,20 @@
 import Image from 'next/image';
+import { PageHeader } from '../components/ui/PageHeader';
 
 /**
  * Le Club page describing cycling groups within the club.
  */
-export default function LeClubPage() {
+export default function LeClubPage(): React.ReactElement {
     return (
-        <div className="bg-white py-24 sm:py-32">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2 lg:items-start">
+        <div className="bg-white">
+            <main className="mx-auto max-w-7xl px-6 lg:px-8">
+                <PageHeader 
+                    title="Nos Groupes" 
+                    description="Notre club se compose de 3 groupes pour la route, et depuis quelques années d'une section VTT." 
+                />
+                <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2 lg:items-start mt-10">
                     {/* Left Column: Text Content */}
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                            Nos Groupes
-                        </h2>
-                        <p className="mt-4 text-lg leading-8 text-gray-500">
-                            Notre club se compose de 3 groupes pour la route, et depuis quelques années d&apos;une section VTT.
-                        </p>
 
                         <div className="mt-8 space-y-8">
                             <div>
@@ -95,7 +94,7 @@ export default function LeClubPage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     );
 }

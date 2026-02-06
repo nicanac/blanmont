@@ -1,23 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import { GlobeAltIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
+import { GlobeAltIcon } from '@heroicons/react/20/solid';
 
 export default function HeroActions() {
     return (
-        <div className="flex items-center gap-x-6">
+        <div className="flex items-center gap-x-4">
             <Link
                 href="/traces"
-                className="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 flex items-center gap-2"
+                className="inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
             >
                 <GlobeAltIcon className="h-5 w-5" aria-hidden="true" />
                 Explorer les Parcours
             </Link>
             <Link
                 href="/le-club"
-                className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-1 group"
+                className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-50"
             >
-                Découvrir le Club <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                Découvrir le Club
             </Link>
         </div>
     );

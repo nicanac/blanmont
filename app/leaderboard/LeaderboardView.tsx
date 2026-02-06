@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
     Drawer,
     Box,
@@ -9,6 +10,7 @@ import {
     Divider
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { PageHeader } from '../components/ui/PageHeader';
 
 type LeaderboardEntry = {
     id: string;
@@ -20,9 +22,71 @@ type LeaderboardEntry = {
 
 type Props = {
     entries: LeaderboardEntry[];
+    totalPossibleRides: number;
+    selectedYear: number;
+    availableYears: number[];
 };
 
-export default function LeaderboardView({ entries }: Props) {
+// Reusable Badge Component
+const GroupBadge = ({ group }: { group: string }): React.ReactElement => (
+    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${group.startsWith('A') ? 'bg-red-50 text-red-700 ring-red-600/10' :
+        group.startsWith('B') ? 'bg-blue-50 text-blue-700 ring-blue-600/10' :
+            group.startsWith('C') ? 'bg-green-50 text-green-700 ring-green-600/10' :
+                'bg-gray-50 text-gray-600 ring-gray-500/10'
+        }`}>
+        {group}
+    </span>
+);
+
+// Podium Card Component
+const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: LeaderboardEntry; rank: number; onSelect: (entry: LeaderboardEntry) => void; totalPossibleRides: number }): React.ReactElement => {
+    const medal = rank === 1 ? "🏆" : rank === 2 ? "🥈" : "🥉";
+    const titleColor = rank === 1 ? "text-green-600" : "text-gray-900";
+    const ringColor = rank === 1 ? "ring-green-600 ring-2" : "ring-gray-200 ring-1";
+    const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
+    const bg = rank === 1 ? "bg-white" : "bg-gray-50/50";
+    const lastDate = entry.dates.length > 0 ? entry.dates[entry.dates.length - 1] : "N/A";
+    
+    // Avoid division by zero
+    const fidelity = totalPossibleRides > 0 
+        ? Math.round((entry.rides / totalPossibleRides) * 100)
+        : 0;
+
+    return (
+        <div
+            onClick={() => onSelect(entry)}
+            className={`rounded-3xl p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-all duration-300 hover:shadow-xl cursor-pointer`}
+        >
+            <div>
+                <div className="flex items-center justify-between">
+                    <h3 className={`text-lg font-semibold leading-8 ${titleColor} flex items-center gap-2`}>
+                        {medal} {rank === 1 ? "Champion" : rank === 2 ? "2ème Place" : "3ème Place"}
+                    </h3>
+                    <GroupBadge group={entry.group} />
+                </div>
+
+                <p className="mt-4 text-2xl font-bold tracking-tight text-gray-900 truncate">{entry.name}</p>
+
+                <div className="mt-6 flex items-baseline gap-x-2">
+                    <span className="text-5xl font-bold tracking-tight text-gray-900">{entry.rides}</span>
+                    <span className="text-sm font-semibold leading-6 text-gray-600">sorties</span>
+                </div>
+
+                <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+                    <li className="flex gap-x-3">
+                        <span className="font-semibold text-gray-900">Fidélité:</span> {fidelity}%
+                    </li>
+                    <li className="flex gap-x-3">
+                        <span className="font-semibold text-gray-900">Dernière:</span> {lastDate}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    );
+};
+
+export default function LeaderboardView({ entries, totalPossibleRides, selectedYear, availableYears }: Props): React.ReactElement {
+    const router = useRouter();
     const [selectedMember, setSelectedMember] = useState<LeaderboardEntry | null>(null);
     const [open, setOpen] = useState(false);
 
@@ -39,59 +103,7 @@ export default function LeaderboardView({ entries }: Props) {
     };
 
 
-    // Reusable Badge Component
-    const GroupBadge = ({ group }: { group: string }) => (
-        <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${group.startsWith('A') ? 'bg-red-50 text-red-700 ring-red-600/10' :
-            group.startsWith('B') ? 'bg-blue-50 text-blue-700 ring-blue-600/10' :
-                group.startsWith('C') ? 'bg-green-50 text-green-700 ring-green-600/10' :
-                    'bg-gray-50 text-gray-600 ring-gray-500/10'
-            }`}>
-            {group}
-        </span>
-    );
 
-    // Podium Card Component
-    const PodiumCard = ({ entry, rank }: { entry: LeaderboardEntry; rank: number }) => {
-        const medal = rank === 1 ? "🏆" : rank === 2 ? "🥈" : "🥉";
-        const titleColor = rank === 1 ? "text-green-600" : "text-gray-900";
-        const ringColor = rank === 1 ? "ring-green-600 ring-2" : "ring-gray-200 ring-1";
-        const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
-        const bg = rank === 1 ? "bg-white" : "bg-gray-50/50";
-        const lastDate = entry.dates.length > 0 ? entry.dates[entry.dates.length - 1] : "N/A";
-        const fidelity = Math.round((entry.rides / 52) * 100);
-
-        return (
-            <div
-                onClick={() => handleSelectMember(entry)}
-                className={`rounded-3xl p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-all duration-300 hover:shadow-xl cursor-pointer`}
-            >
-                <div>
-                    <div className="flex items-center justify-between">
-                        <h3 className={`text-lg font-semibold leading-8 ${titleColor} flex items-center gap-2`}>
-                            {medal} {rank === 1 ? "Champion" : rank === 2 ? "2ème Place" : "3ème Place"}
-                        </h3>
-                        <GroupBadge group={entry.group} />
-                    </div>
-
-                    <p className="mt-4 text-2xl font-bold tracking-tight text-gray-900 truncate">{entry.name}</p>
-
-                    <div className="mt-6 flex items-baseline gap-x-2">
-                        <span className="text-5xl font-bold tracking-tight text-gray-900">{entry.rides}</span>
-                        <span className="text-sm font-semibold leading-6 text-gray-600">sorties</span>
-                    </div>
-
-                    <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
-                        <li className="flex gap-x-3">
-                            <span className="font-semibold text-gray-900">Fidélité:</span> {fidelity}%
-                        </li>
-                        <li className="flex gap-x-3">
-                            <span className="font-semibold text-gray-900">Dernière:</span> {lastDate}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        );
-    };
 
     // Sort entries by rides descending
     const sortedEntries = [...entries].sort((a, b) => b.rides - a.rides);
@@ -132,13 +144,30 @@ export default function LeaderboardView({ entries }: Props) {
 
     return (
         <>
-            <div className="bg-white py-24 sm:py-32">
+            <div className="bg-white">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl lg:mx-0">
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-green-700">Classé Vert</h2>
-                        <p className="mt-2 text-lg leading-8 text-gray-600">
-                            Le peloton de tête et le classement complet de la saison.
-                        </p>
+                    <PageHeader 
+                        title="Carré Vert" 
+                        description="Le peloton de tête et le classement complet de la saison." 
+                    />
+
+                    {/* Year Selector */}
+                    <div className="mt-6 flex justify-center">
+                        <div className="inline-flex rounded-lg bg-gray-100 p-1">
+                            {availableYears.map(year => (
+                                <button
+                                    key={year}
+                                    onClick={() => router.push(`/leaderboard?year=${year}`)}
+                                    className={`rounded-md px-5 py-2 text-sm font-semibold transition-all duration-200 ${
+                                        year === selectedYear
+                                            ? 'bg-green-600 text-white shadow-sm'
+                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    {year}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     {/* Podium Section */}
@@ -146,17 +175,17 @@ export default function LeaderboardView({ entries }: Props) {
                         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-end gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                             {/* 2nd Place Slot (top3[1]) */}
                             <div className="order-2 lg:order-1">
-                                {top3[1] && <PodiumCard entry={top3[1]} rank={globalRanks[top3[1].id]} />}
+                                {top3[1] && <PodiumCard entry={top3[1]} rank={globalRanks[top3[1].id]} onSelect={handleSelectMember} totalPossibleRides={totalPossibleRides} />}
                             </div>
 
                             {/* 1st Place Slot (top3[0]) */}
                             <div className="order-1 lg:order-2">
-                                {top3[0] && <PodiumCard entry={top3[0]} rank={globalRanks[top3[0].id]} />}
+                                {top3[0] && <PodiumCard entry={top3[0]} rank={globalRanks[top3[0].id]} onSelect={handleSelectMember} totalPossibleRides={totalPossibleRides} />}
                             </div>
 
                             {/* 3rd Place Slot (top3[2]) */}
                             <div className="order-3 lg:order-3">
-                                {top3[2] && <PodiumCard entry={top3[2]} rank={globalRanks[top3[2].id]} />}
+                                {top3[2] && <PodiumCard entry={top3[2]} rank={globalRanks[top3[2].id]} onSelect={handleSelectMember} totalPossibleRides={totalPossibleRides} />}
                             </div>
                         </div>
                     )}
@@ -268,7 +297,7 @@ export default function LeaderboardView({ entries }: Props) {
                                         Fidélité
                                     </Typography>
                                     <Typography variant="body2" color="text.primary">
-                                        {Math.round((selectedMember.rides / 52) * 100)}%
+                                        {totalPossibleRides > 0 ? Math.round((selectedMember.rides / totalPossibleRides) * 100) : 0}%
                                     </Typography>
                                 </Box>
                                 <Box>

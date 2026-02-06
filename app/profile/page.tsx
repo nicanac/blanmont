@@ -92,7 +92,7 @@ export default function ProfilePage() {
                 <div className="lg:max-w-lg lg:self-end">
                     <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200 relative group">
                         <img
-                            src={user.avatarUrl || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=500&h=500&q=80"}
+                            src={user.avatarUrl || "/images/default-avatar.svg"}
                             alt={user.name}
                             className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"
                         />

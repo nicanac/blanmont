@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { getFirebaseStorage } from '../lib/firebase/client';
 
 interface UseImageUploadResult {
   uploadImage: (file: File, path: string) => Promise<string>;
@@ -15,40 +13,48 @@ export function useImageUpload(): UseImageUploadResult {
   const [isUploading, setIsUploading] = useState(false);
 
   const uploadImage = async (file: File, path: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      setIsUploading(true);
-      setError(null);
-      setProgress(0);
+    setIsUploading(true);
+    setError(null);
+    setProgress(0);
 
-      const storage = getFirebaseStorage();
-      const storageRef = ref(storage, path);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('path', path);
 
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setProgress(progress);
-        },
-        (error) => {
-          setError(error.message);
-          setIsUploading(false);
-          reject(error);
-        },
-        async () => {
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            setIsUploading(false);
-            resolve(downloadURL);
-          } catch (err: any) {
-            setError(err.message || 'Error getting download URL');
-            setIsUploading(false);
-            reject(err);
-          }
-        }
-      );
-    });
+      // Simulate progress (since we can't track real progress with fetch easily)
+      const progressInterval = setInterval(() => {
+        setProgress((prev) => Math.min(prev + 10, 90));
+      }, 100);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      clearInterval(progressInterval);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
+      }
+
+      const data = await response.json();
+      setProgress(100);
+      setIsUploading(false);
+      
+      return data.url;
+    } catch (err: any) {
+      setError(err.message || 'Upload failed');
+      setIsUploading(false);
+      throw err;
+    }
   };
 
-  return { uploadImage, progress, error, isUploading };
+  return {
+    uploadImage,
+    progress,
+    error,
+    isUploading,
+  };
 }

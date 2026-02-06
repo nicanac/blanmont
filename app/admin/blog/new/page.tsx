@@ -56,9 +56,9 @@ export default function NewBlogPostPage(): React.ReactElement {
         
         const url = await uploadImage(file, path);
         setFormData(prev => ({ ...prev, coverImage: url }));
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error uploading image:', error);
-        alert('Erreur lors du téléchargement de l\'image');
+        alert(`Erreur lors du téléchargement de l'image: ${error.message || error}`);
       }
     }
   };
