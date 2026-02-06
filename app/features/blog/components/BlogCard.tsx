@@ -31,7 +31,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
     <Link
       href={`/blog/${post.slug}`}
       className={cn(
-        'group block overflow-hidden rounded-lg bg-white transition-shadow hover:shadow-lg',
+        'group block overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-lg',
         featured ? 'lg:col-span-2' : ''
       )}
     >

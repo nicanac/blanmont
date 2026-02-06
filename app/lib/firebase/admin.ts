@@ -3,7 +3,7 @@ import { getDatabase, Database } from 'firebase-admin/database';
 import { getAuth, Auth } from 'firebase-admin/auth';
 
 // Firebase Admin configuration
-const getAdminApp = (): App => {
+export const getAdminApp = (): App => {
   const existingApps = getApps();
 
   if (existingApps.length > 0) {
@@ -17,9 +17,16 @@ const getAdminApp = (): App => {
     try {
       console.log('Initializing Firebase Admin with Service Account...');
       const parsedServiceAccount = JSON.parse(serviceAccount);
+      
+      // Fix for newline characters in private key being interpreted literally
+      if (parsedServiceAccount.private_key) {
+        parsedServiceAccount.private_key = parsedServiceAccount.private_key.replace(/\\n/g, '\n');
+      }
+
       return initializeApp({
         credential: cert(parsedServiceAccount),
         databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       });
     } catch (error) {
       console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY:', error);
@@ -32,6 +39,7 @@ const getAdminApp = (): App => {
   console.warn('Initializing Firebase Admin WITHOUT credentials (fallback).');
   return initializeApp({
     databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   });
 };
 

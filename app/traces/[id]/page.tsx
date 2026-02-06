@@ -1,6 +1,8 @@
 import { getTrace, getTraces, submitFeedback, getMembers, getFeedbackForTrace } from '../../lib/firebase';
 import { uploadMapPreview, generateMapPreview } from '../../actions';
 import DownloadGPXButton from '../../features/traces/components/DownloadGPXButton';
+import Link from 'next/link'; // Added simply to be consistent, though not used in replaced chunk directly but Image is needs to be imported
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { Suspense } from 'react';
@@ -86,12 +88,17 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            backgroundImage: `url(${trace.photoUrl})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
                             opacity: 0.6
                         }}
-                    />
+                    >
+                        <Image
+                            src={trace.photoUrl}
+                            alt={trace.name}
+                            fill
+                            className="object-cover object-center"
+                            priority
+                        />
+                    </Box>
                 )}
                 <Box
                     sx={{
@@ -176,10 +183,12 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                                             '&:hover': { opacity: 0.9 }
                                         }}
                                     >
-                                        <img
+                                        <Image
                                             src={url}
                                             alt={`Ride preview ${i + 1}`}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            fill
+                                            sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+                                            className="object-cover"
                                             loading="lazy"
                                         />
                                     </Box>

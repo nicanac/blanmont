@@ -10,16 +10,20 @@ import {
   CalendarIcon,
   ChartBarIcon,
   ArrowLeftIcon,
+  MapIcon,
+  CheckBadgeIcon,
 } from '@heroicons/react/24/outline';
 import { cn } from '../utils/cn';
 import AdminGuard from './components/AdminGuard';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: HomeIcon },
-  { name: 'Blog Posts', href: '/admin/blog', icon: DocumentTextIcon },
+  { name: 'Les News', href: '/admin/blog', icon: DocumentTextIcon },
   { name: 'Members', href: '/admin/members', icon: UsersIcon },
   { name: 'Events', href: '/admin/events', icon: CalendarIcon },
+  { name: 'Carré Vert', href: '/admin/carre-vert', icon: CheckBadgeIcon },
   { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
+  { name: 'Traces', href: '/admin/traces', icon: MapIcon },
 ];
 
 interface AdminLayoutProps {

@@ -27,7 +27,9 @@ function getFirstDayOfMonth(year: number, month: number) {
     return day === 0 ? 6 : day - 1;
 }
 
-export default function CalendarView({ events }: { events: CalendarEvent[] }) {
+type AttendeeInfo = { name: string; group: string };
+
+export default function CalendarView({ events, attendanceMap = {} }: { events: CalendarEvent[]; attendanceMap?: Record<string, AttendeeInfo[]> }) {
     const [currentDate, setCurrentDate] = useState(new Date()); // Start at current date
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
@@ -181,7 +183,14 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                                                         </p>
                                                         <div className="flex justify-between items-center text-[10px] text-gray-500">
                                                             <span>{event.departure}</span>
-                                                            {event.distances && <span>{event.distances}km</span>}
+                                                            <div className="flex items-center gap-1">
+                                                                {event.distances && <span>{event.distances}km</span>}
+                                                                {(attendanceMap[event.id]?.length ?? 0) > 0 && (
+                                                                    <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
+                                                                        👥 {attendanceMap[event.id].length}
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                         {event.alternative && (
                                                             <p className="text-[9px] text-orange-600 truncate mt-0.5">
@@ -237,6 +246,7 @@ export default function CalendarView({ events }: { events: CalendarEvent[] }) {
                 event={selectedEvent}
                 open={!!selectedEvent}
                 onClose={() => setSelectedEvent(null)}
+                attendees={selectedEvent ? (attendanceMap[selectedEvent.id] || []) : []}
             />
         </div>
     );

@@ -1,57 +1,76 @@
 import HeroActions from './components/shared/HeroActions';
+import HomeBlogSection from './components/shared/HomeBlogSection';
+import { getBlogPosts } from './lib/firebase';
 
 /**
- * The Landing Page (Home).
- * Refactored to "Split with angled image on right" layout.
+ * Landing page – centred hero with stat overlay and news grid.
  */
-export default function Home() {
+export default async function Home() {
+  const posts = await getBlogPosts();
+
   return (
-    <div className="relative bg-white">
-      <div className="mx-auto max-w-7xl">
-        <div className="relative z-10 lg:w-full lg:max-w-2xl">
-          <svg
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            className="absolute inset-y-0 right-8 hidden h-full w-80 translate-x-1/2 transform fill-white lg:block"
-          >
-            <polygon points="0,0 90,0 50,100 0,100" />
-          </svg>
+    <>
+      {/* ──── Hero ──── */}
+      <section className="bg-white pt-16 sm:pt-24">
+        {/* Centred copy */}
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <h1 className="font-serif text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
+            Club ouvert à tous
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
+            Dames, Hommes, Jeunes et moins jeunes, Vététistes et
+            quelques électriques.{' '}
+            <span className="font-medium text-red-600">
+              Tous les niveaux sont représentés.
+            </span>
+          </p>
 
-          <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56 lg:pr-0">
-            <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
-              <div className="hidden sm:mb-10 sm:flex">
-                <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-500 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                  De nouveaux parcours chaque semaine.{' '}
-                  <a href="/traces" className="whitespace-nowrap font-semibold text-red-600">
-                    <span className="absolute inset-0" aria-hidden="true" />
-                    Voir les parcours <span aria-hidden="true">&rarr;</span>
-                  </a>
+          <div className="mt-8 flex items-center justify-center">
+            <HeroActions />
+          </div>
+        </div>
+
+        {/* Hero image + floating stat bar */}
+        <div className="relative mx-auto mt-16 max-w-6xl px-6">
+          <div className="overflow-hidden rounded-2xl shadow-xl">
+            <img
+              className="aspect-16/7 w-full object-cover"
+              src="/images/home-hero.jpg"
+              alt="Blanmont Cycling Club – peloton sur route"
+            />
+          </div>
+
+          {/* Single stat bar – overlaps image bottom */}
+          <div className="absolute inset-x-6 -bottom-12 flex justify-center">
+            <div className="inline-flex divide-x divide-gray-200 rounded-xl bg-white shadow-lg">
+              {[
+                { value: '3', label: 'Groupes de niveau' },
+                { value: 'Hebdo', label: 'Au moins une sortie' },
+                { value: '100%', label: 'Ouvert à tous' },
+              ].map((s) => (
+                <div
+                  key={s.label}
+                  className="px-10 py-6 text-center sm:px-14"
+                >
+                  <p className="text-2xl font-bold text-gray-900 sm:text-3xl">
+                    {s.value}
+                  </p>
+                  <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-gray-500">
+                    {s.label}
+                  </p>
                 </div>
-              </div>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                Club ouvert à tous <br />
-                <span className="text-red-600 text-2xl sm:text-4xl block mt-4">Dames, Hommes, Jeunes et moins jeunes, Vététistes et quelques électriques.</span>
-              </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-600">
-                Tous les niveaux sont représentés... 3 groupes possibles
-              </p>
-
-              {/* Preserved HeroActions */}
-              <div className="mt-10 flex items-center justify-start">
-                <HeroActions />
-              </div>
+              ))}
             </div>
           </div>
         </div>
-      </div>
-      <div className="bg-gray-50 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <img
-          className="aspect-[3/2] object-cover lg:aspect-auto lg:h-full lg:w-full"
-          src="/images/home-hero.jpg"
-          alt="Blanmont Cycling Club members"
-        />
-      </div>
-    </div>
+              {/* Spacer for the overlapping stat bar */}
+      <div className="h-20" aria-hidden="true" />
+      </section>
+
+
+
+      {/* ──── News ──── */}
+      <HomeBlogSection posts={posts} />
+    </>
   );
 }
