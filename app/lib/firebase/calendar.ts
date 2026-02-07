@@ -66,14 +66,20 @@ export const createCalendarEvent = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
     const newId = `event_${Date.now()}`;
-    const eventRef = ref(db, `calendar-events/${newId}`);
-
-    await set(eventRef, {
+    const dataToSave = {
       ...eventData,
       createdAt: new Date().toISOString(),
-    });
+    };
+
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`calendar-events/${newId}`).set(dataToSave);
+    } else {
+      const db = getFirebaseDatabase();
+      const eventRef = ref(db, `calendar-events/${newId}`);
+      await set(eventRef, dataToSave);
+    }
 
     return { success: true, id: newId };
   } catch (error) {
@@ -95,12 +101,20 @@ export const updateCalendarEvent = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const eventRef = ref(db, `calendar-events/${eventId}`);
-    await update(eventRef, {
-      ...eventData,
-      updatedAt: new Date().toISOString(),
-    });
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`calendar-events/${eventId}`).update({
+        ...eventData,
+        updatedAt: new Date().toISOString(),
+      });
+    } else {
+      const db = getFirebaseDatabase();
+      const eventRef = ref(db, `calendar-events/${eventId}`);
+      await update(eventRef, {
+        ...eventData,
+        updatedAt: new Date().toISOString(),
+      });
+    }
 
     return { success: true };
   } catch (error) {
@@ -121,9 +135,14 @@ export const deleteCalendarEvent = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const eventRef = ref(db, `calendar-events/${eventId}`);
-    await remove(eventRef);
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`calendar-events/${eventId}`).remove();
+    } else {
+      const db = getFirebaseDatabase();
+      const eventRef = ref(db, `calendar-events/${eventId}`);
+      await remove(eventRef);
+    }
 
     return { success: true };
   } catch (error) {

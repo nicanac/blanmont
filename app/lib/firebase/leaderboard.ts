@@ -81,12 +81,20 @@ export const updateLeaderboardEntry = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const entryRef = ref(db, `leaderboard/${entryId}`);
-    await update(entryRef, {
-      ...entryData,
-      updatedAt: new Date().toISOString(),
-    });
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`leaderboard/${entryId}`).update({
+        ...entryData,
+        updatedAt: new Date().toISOString(),
+      });
+    } else {
+      const db = getFirebaseDatabase();
+      const entryRef = ref(db, `leaderboard/${entryId}`);
+      await update(entryRef, {
+        ...entryData,
+        updatedAt: new Date().toISOString(),
+      });
+    }
 
     return { success: true };
   } catch (error) {
@@ -107,14 +115,20 @@ export const createLeaderboardEntry = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
     const newId = `entry_${Date.now()}`;
-    const entryRef = ref(db, `leaderboard/${newId}`);
-
-    await set(entryRef, {
+    const dataToSave = {
       ...entryData,
       createdAt: new Date().toISOString(),
-    });
+    };
+
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`leaderboard/${newId}`).set(dataToSave);
+    } else {
+      const db = getFirebaseDatabase();
+      const entryRef = ref(db, `leaderboard/${newId}`);
+      await set(entryRef, dataToSave);
+    }
 
     return { success: true, id: newId };
   } catch (error) {

@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import { updateProfilePhotoAction } from '../actions';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../lib/canvasUtils';
+import { PageHero } from '../components/ui/PageHero';
+import { UserCircleIcon } from '@heroicons/react/20/solid';
 
 // Helper function to read file as Data URL
 const readFile = (file: File): Promise<string> => {
@@ -86,8 +88,16 @@ export default function ProfilePage() {
     const lastName = nameParts.slice(1).join(' ');
 
     return (
-        <div className="bg-white">
-            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+        <main className="min-h-screen bg-gray-50">
+            <PageHero
+                title="Mon Profil"
+                description="Gérez vos informations personnelles et votre compte membre."
+                badge="Espace Membre"
+                badgeIcon={<UserCircleIcon className="h-4 w-4" />}
+                variant="red"
+                size="md"
+            />
+            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
                 {/* Product Image / User Avatar */}
                 <div className="lg:max-w-lg lg:self-end">
                     <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200 relative group">
@@ -196,6 +206,6 @@ export default function ProfilePage() {
                     </form>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

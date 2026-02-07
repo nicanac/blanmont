@@ -73,11 +73,10 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${
-                    filter === f
+                  className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${filter === f
                       ? 'bg-green-600 text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   {f === 'past' ? 'Passés' : f === 'upcoming' ? 'À venir' : 'Tous'}
                 </button>
@@ -111,21 +110,19 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                   <button
                     key={event.id}
                     onClick={() => setSelectedEventId(event.id)}
-                    className={`w-full text-left p-4 transition-colors ${
-                      isSelected
+                    className={`w-full text-left p-4 transition-colors ${isSelected
                         ? 'bg-green-50 border-l-4 border-green-600'
                         : 'hover:bg-gray-50 border-l-4 border-transparent'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span
-                            className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium ${
-                              dayType === 'weekend'
+                            className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium ${dayType === 'weekend'
                                 ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20'
                                 : 'bg-orange-50 text-orange-700 ring-1 ring-orange-600/20'
-                            }`}
+                              }`}
                           >
                             {dayType === 'weekend' ? 'WE' : 'Sem'}
                           </span>
@@ -144,11 +141,10 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                       </div>
                       <div className="ml-4 flex-shrink-0">
                         <span
-                          className={`inline-flex items-center justify-center rounded-full h-8 w-8 text-xs font-bold ${
-                            attendeeCount > 0
+                          className={`inline-flex items-center justify-center rounded-full h-8 w-8 text-xs font-bold ${attendeeCount > 0
                               ? 'bg-green-100 text-green-800'
                               : 'bg-gray-100 text-gray-400'
-                          }`}
+                            }`}
                         >
                           {attendeeCount}
                         </span>
@@ -166,6 +162,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
       <div className="lg:col-span-2">
         {selectedEvent ? (
           <EventAttendancePanel
+            key={selectedEvent.id}
             event={selectedEvent}
             members={members}
             initialAttendees={attendanceMap[selectedEvent.id] || {}}

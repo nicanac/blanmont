@@ -180,6 +180,10 @@ npm run build
 - Toutes les variables de `.env.local`
 - Configurer dans Firebase Hosting ou Vercel
 
+## Gestion du Carré Vert
+
+Voir la procédure détaillée dans [CARRE_VERT_PROCESS.md](./CARRE_VERT_PROCESS.md).
+
 ## Gestion des Traces GPS
 
 ### Sources
