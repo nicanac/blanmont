@@ -10,7 +10,8 @@ import {
     Divider
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { PageHeader } from '../components/ui/PageHeader';
+import { PageHero } from '../components/ui/PageHero';
+import { TrophyIcon } from '@heroicons/react/24/outline';
 
 type LeaderboardEntry = {
     id: string;
@@ -46,9 +47,9 @@ const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: Lead
     const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
     const bg = rank === 1 ? "bg-white" : "bg-gray-50/50";
     const lastDate = entry.dates.length > 0 ? entry.dates[entry.dates.length - 1] : "N/A";
-    
+
     // Avoid division by zero
-    const fidelity = totalPossibleRides > 0 
+    const fidelity = totalPossibleRides > 0
         ? Math.round((entry.rides / totalPossibleRides) * 100)
         : 0;
 
@@ -144,25 +145,27 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
 
     return (
         <>
-            <div className="bg-white">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <PageHeader 
-                        title="Carré Vert" 
-                        description="Le peloton de tête et le classement complet de la saison." 
-                    />
-
+            <main className="min-h-screen bg-gray-50">
+                <PageHero
+                    title="Carré Vert"
+                    description="Le peloton de tête et le classement complet de la saison."
+                    badge="Leaderboard"
+                    badgeIcon={<TrophyIcon className="h-4 w-4" />}
+                    variant="dark"
+                    size="md"
+                />
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
                     {/* Year Selector */}
-                    <div className="mt-6 flex justify-center">
+                    <div className="flex justify-center">
                         <div className="inline-flex rounded-lg bg-gray-100 p-1">
                             {availableYears.map(year => (
                                 <button
                                     key={year}
                                     onClick={() => router.push(`/leaderboard?year=${year}`)}
-                                    className={`rounded-md px-5 py-2 text-sm font-semibold transition-all duration-200 ${
-                                        year === selectedYear
-                                            ? 'bg-green-600 text-white shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
-                                    }`}
+                                    className={`rounded-md px-5 py-2 text-sm font-semibold transition-all duration-200 ${year === selectedYear
+                                        ? 'bg-green-600 text-white shadow-sm'
+                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                                        }`}
                                 >
                                     {year}
                                 </button>
@@ -242,7 +245,7 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                         </div>
                     )}
                 </div>
-            </div>
+            </main>
 
             {/* MUI Drawer */}
             <Drawer

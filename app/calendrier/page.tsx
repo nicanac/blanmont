@@ -1,7 +1,8 @@
 import { getCalendarEvents } from '../lib/firebase';
 import { getAllAttendance } from '../lib/firebase/attendance';
+import { PageHero } from '../components/ui/PageHero';
 import CalendarView from './CalendarView';
-import { PageHeader } from '../components/ui/PageHeader';
+import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -23,18 +24,18 @@ export default async function CalendarPage() {
     });
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
-            <main className="flex-grow">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <PageHeader 
-                        title="Calendrier" 
-                        description="Planning des sorties et événements du club." 
-                    />
-                </div>
-                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 h-full">
-                    <CalendarView events={events} attendanceMap={attendanceMap} />
-                </div>
-            </main>
-        </div>
+        <main className="min-h-screen bg-gray-50">
+            <PageHero
+                title="Calendrier"
+                description="Planning des sorties et événements du club."
+                badge="Événements"
+                badgeIcon={<CalendarDaysIcon className="h-4 w-4" />}
+                variant="green"
+                size="md"
+            />
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 h-full">
+                <CalendarView events={events} attendanceMap={attendanceMap} />
+            </div>
+        </main>
     );
 }
