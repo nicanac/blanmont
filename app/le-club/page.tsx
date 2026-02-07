@@ -1,22 +1,26 @@
 import Image from 'next/image';
-import { PageHeader } from '../components/ui/PageHeader';
+import { PageHero } from '../components/ui/PageHero';
+import { UserGroupIcon } from '@heroicons/react/24/outline';
 
 /**
  * Le Club page describing cycling groups within the club.
  */
 export default function LeClubPage(): React.ReactElement {
     return (
-        <div className="bg-white">
-            <main className="mx-auto max-w-7xl px-6 lg:px-8">
-                <PageHeader 
-                    title="Nos Groupes" 
-                    description="Notre club se compose de 3 groupes pour la route, et depuis quelques années d'une section VTT." 
-                />
-                <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2 lg:items-start mt-10">
+        <main className="min-h-screen bg-gray-50">
+            <PageHero
+                title="Le Club"
+                description="Découvrez nos groupes et trouvez celui qui correspond à votre niveau et vos envies."
+                badge="Nos Groupes"
+                badgeIcon={<UserGroupIcon className="h-4 w-4" />}
+                variant="red"
+                size="md"
+            />
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2 lg:items-start">
                     {/* Left Column: Text Content */}
                     <div>
-
-                        <div className="mt-8 space-y-8">
+                        <div className="space-y-8">
                             <div>
                                 <h3 className="text-xl font-semibold text-gray-900">Le groupe des A</h3>
                                 <p className="mt-2 text-base leading-7 text-gray-600">
@@ -44,7 +48,7 @@ export default function LeClubPage(): React.ReactElement {
                         </div>
 
                         <div className="mt-10">
-                            <a href="/register" className="rounded-md bg-brand-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary">
+                            <a href="/register" className="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
                                 Rejoindre le club
                             </a>
                         </div>
@@ -94,7 +98,7 @@ export default function LeClubPage(): React.ReactElement {
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     );
 }

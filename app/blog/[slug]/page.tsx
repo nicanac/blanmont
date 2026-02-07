@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, TagIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { PageHero } from '@/app/components/ui/PageHero';
 import { getBlogPostBySlug, getBlogPosts } from '../../lib/firebase';
 
 interface BlogPostPageProps {
@@ -73,8 +74,37 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
 
   return (
     <div className="bg-white">
-      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 pt-24">
-        {/* Back Link */}
+      <PageHero
+        title={post.title}
+        description={post.excerpt}
+        badge={post.category}
+        badgeIcon={<TagIcon className="h-4 w-4" />}
+        variant="dark"
+        size="md"
+      >
+        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="relative h-12 w-12 overflow-hidden rounded-full ring-2 ring-white/20 bg-gray-800 flex items-center justify-center">
+              {post.authorAvatar ? (
+                <Image
+                  src={post.authorAvatar}
+                  alt={post.author}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <UserCircleIcon className="h-8 w-8 text-gray-400" />
+              )}
+            </div>
+            <div>
+              <p className="font-medium text-white">{post.author}</p>
+              <p className="text-sm text-gray-400">{formatDate(post.publishedAt)}</p>
+            </div>
+          </div>
+        </div>
+      </PageHero>
+
+      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-red-600 transition-colors mb-8"
@@ -83,41 +113,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
           Retour au blog
         </Link>
 
-        {/* Header */}
-        <header className="mb-8">
-          <div className="mb-4">
-            <span className="inline-block rounded bg-red-600 px-3 py-1 text-xs font-medium text-white">
-              {post.category}
-            </span>
-          </div>
-
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-4">
-            {post.title}
-          </h1>
-
-          <p className="text-xl text-gray-600 mb-6">{post.excerpt}</p>
-
-          {/* Author & Date */}
-          <div className="flex items-center gap-4 border-b border-gray-200 pb-6">
-            <div className="relative h-12 w-12 overflow-hidden rounded-full bg-gray-200">
-              {post.authorAvatar && (
-                <Image
-                  src={post.authorAvatar}
-                  alt={post.author}
-                  fill
-                  className="object-cover"
-                />
-              )}
-            </div>
-            <div>
-              <p className="font-medium text-gray-900">{post.author}</p>
-              <p className="text-sm text-gray-500">{formatDate(post.publishedAt)}</p>
-            </div>
-          </div>
-        </header>
-
         {/* Cover Image */}
-        <div className="relative aspect-video overflow-hidden rounded-lg mb-8">
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-lg mb-12">
           <Image
             src={post.coverImage}
             alt={post.title}

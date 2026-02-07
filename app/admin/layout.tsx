@@ -14,6 +14,7 @@ import {
   CheckBadgeIcon,
   Bars3Icon,
   XMarkIcon,
+  ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import { cn } from '../utils/cn';
 import AdminGuard from './components/AdminGuard';
@@ -23,6 +24,7 @@ const navigation = [
   { name: 'Les News', href: '/admin/blog', icon: DocumentTextIcon },
   { name: 'Members', href: '/admin/members', icon: UsersIcon },
   { name: 'Events', href: '/admin/events', icon: CalendarIcon },
+  { name: 'Équipements', href: '/admin/equipements', icon: ShoppingBagIcon },
   { name: 'Carré Vert', href: '/admin/carre-vert', icon: CheckBadgeIcon },
   { name: 'Statistics', href: '/admin/statistics', icon: ChartBarIcon },
   { name: 'Traces', href: '/admin/traces', icon: MapIcon },
@@ -54,9 +56,9 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
       {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4">
         {navigation.map((item) => {
-          const isActive = pathname === item.href || 
+          const isActive = pathname === item.href ||
             (item.href !== '/admin' && pathname.startsWith(item.href));
-          
+
           return (
             <Link
               key={item.name}

@@ -14,7 +14,8 @@ import {
     MapIcon,
     CalendarIcon,
     TrophyIcon,
-    InformationCircleIcon
+    InformationCircleIcon,
+    ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -36,6 +37,7 @@ export default function Navbar() {
     const clubNavigation = [
         { name: 'Présentation', description: 'Qui sommes-nous ?', href: '/le-club', icon: InformationCircleIcon },
         { name: 'Parcours', description: 'Nos traces GPS', href: '/traces', icon: MapIcon },
+        { name: 'Équipement', description: 'Collection 2026', href: '/le-club/equipement', icon: ShoppingBagIcon },
         { name: 'Carré Vert', description: 'Classement', href: '/leaderboard', icon: TrophyIcon },
     ];
 

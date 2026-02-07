@@ -110,14 +110,20 @@ export const setEventAttendance = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const attendanceRef = ref(db, `attendance/${eventId}`);
-
-    await set(attendanceRef, {
+    const dataToSave = {
       isoDate,
       members,
       updatedAt: new Date().toISOString(),
-    });
+    };
+
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`attendance/${eventId}`).set(dataToSave);
+    } else {
+      const db = getFirebaseDatabase();
+      const attendanceRef = ref(db, `attendance/${eventId}`);
+      await set(attendanceRef, dataToSave);
+    }
 
     return { success: true };
   } catch (error) {
@@ -139,19 +145,29 @@ export const addMemberAttendance = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    // Ensure the isoDate is set on the attendance record
-    const dateRef = ref(db, `attendance/${eventId}/isoDate`);
-    await set(dateRef, isoDate);
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`attendance/${eventId}/isoDate`).set(isoDate);
+      await db.ref(`attendance/${eventId}/members/${member.memberId}`).set({
+        ...member,
+        markedAt: new Date().toISOString(),
+      });
+      await db.ref(`attendance/${eventId}/updatedAt`).set(new Date().toISOString());
+    } else {
+      const db = getFirebaseDatabase();
+      // Ensure the isoDate is set on the attendance record
+      const dateRef = ref(db, `attendance/${eventId}/isoDate`);
+      await set(dateRef, isoDate);
 
-    const memberRef = ref(db, `attendance/${eventId}/members/${member.memberId}`);
-    await set(memberRef, {
-      ...member,
-      markedAt: new Date().toISOString(),
-    });
+      const memberRef = ref(db, `attendance/${eventId}/members/${member.memberId}`);
+      await set(memberRef, {
+        ...member,
+        markedAt: new Date().toISOString(),
+      });
 
-    const updatedAtRef = ref(db, `attendance/${eventId}/updatedAt`);
-    await set(updatedAtRef, new Date().toISOString());
+      const updatedAtRef = ref(db, `attendance/${eventId}/updatedAt`);
+      await set(updatedAtRef, new Date().toISOString());
+    }
 
     return { success: true };
   } catch (error) {
@@ -172,12 +188,18 @@ export const removeMemberAttendance = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const memberRef = ref(db, `attendance/${eventId}/members/${memberId}`);
-    await remove(memberRef);
+    if (typeof window === 'undefined') {
+      const db = getAdminDatabase();
+      await db.ref(`attendance/${eventId}/members/${memberId}`).remove();
+      await db.ref(`attendance/${eventId}/updatedAt`).set(new Date().toISOString());
+    } else {
+      const db = getFirebaseDatabase();
+      const memberRef = ref(db, `attendance/${eventId}/members/${memberId}`);
+      await remove(memberRef);
 
-    const updatedAtRef = ref(db, `attendance/${eventId}/updatedAt`);
-    await set(updatedAtRef, new Date().toISOString());
+      const updatedAtRef = ref(db, `attendance/${eventId}/updatedAt`);
+      await set(updatedAtRef, new Date().toISOString());
+    }
 
     return { success: true };
   } catch (error) {
