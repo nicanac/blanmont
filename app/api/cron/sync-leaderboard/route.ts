@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'; // Ensure no caching for this route
 
 const NOTION_TOKEN = process.env.NOTION_TOKEN || process.env.NOTION_KEY;
 const DATABASE_ID = '2d29555c-6779-80fc-b4c9-c912fc338142'; // Carré Vert DB
-const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1VwlMyl_ePIb-zWzlwl7JfagPftdonz6akamlYrWgsdg/export?format=csv&gid=1551990117';
+const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1iKk938MCgkKn7CXconmZpjmy0xmSFaEPhYOqf0Nis84/export?format=csv&gid=1551990117';
 const NOTION_VERSION = '2022-06-28';
 
 // --- Helpers ---
