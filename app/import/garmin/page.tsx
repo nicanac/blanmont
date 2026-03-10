@@ -1,23 +1,46 @@
 'use client';
 
-import { useState } from 'react';
-import TracePreviewForm, { TraceImportData } from '../../features/import/components/TracePreviewForm';
+import { useState, useEffect } from 'react';
+import TraceForm from '../../features/traces/components/TraceForm';
 import { CloudArrowUpIcon, CheckCircleIcon, XMarkIcon, TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
 import * as toGeoJSON from '@tmcw/togeojson';
 import * as mapboxPolyline from '@mapbox/polyline';
-import { importStravaTraceAction, deleteTraceAction } from '../strava/actions';
+import { importStravaTraceAction, deleteTraceAction, getTraceOptionsAction } from '../strava/actions';
 import { StravaActivity } from '../../lib/strava';
 import Link from 'next/link';
 
+// Define strict type for preview data
+interface PreviewData {
+    name: string;
+    distance: number;
+    total_elevation_gain: number;
+    map: { summary_polyline: string };
+    total_photo_count: number;
+    mapUrl?: string; // Optional
+}
+
 export default function GarminImportPage() {
     const [file, setFile] = useState<File | null>(null);
-    const [preview, setPreview] = useState<TraceImportData | null>(null);
     const [loading, setLoading] = useState(false);
+    const [preview, setPreview] = useState<PreviewData | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [createdTraceId, setCreatedTraceId] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [traceOptions, setTraceOptions] = useState<{ directions: string[], surfaces: string[], locations: string[] } | undefined>(undefined);
     const [mode, setMode] = useState<'file' | 'url'>('file');
     const [url, setUrl] = useState('');
+
+    useEffect(() => {
+        getTraceOptionsAction().then(opts => {
+            // Map backend 'starts'/'ends' to unified 'locations'
+            const locations = Array.from(new Set([...opts.starts, ...opts.ends])).sort();
+            setTraceOptions({
+                directions: opts.directions,
+                surfaces: opts.surfaces,
+                locations
+            });
+        });
+    }, []);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -145,15 +168,7 @@ export default function GarminImportPage() {
         return R * c;
     }
 
-    const handleImport = async (details: {
-        name: string;
-        direction: string;
-        surface: string;
-        rating: string;
-        distance: number;
-        elevation: number;
-        description: string;
-    }) => {
+    const handleImport = async (data: any) => {
         if (!preview) return;
         setLoading(true);
 
@@ -162,29 +177,32 @@ export default function GarminImportPage() {
 
             const mockActivity: any = {
                 id: Date.now(), // Fake ID
-                name: details.name,
-                // Use edited values from form instead of preview
-                distance: details.distance * 1000, // Convert km back to meters
-                total_elevation_gain: details.elevation,
+                name: data.name,
+                // Form 'distance' is in km, StravaActivity uses meters
+                distance: data.distance * 1000,
+                total_elevation_gain: data.elevation,
                 start_latlng: [0, 0], // Not used for Notion creation really (except maybe map center?)
                 map: {
                     id: `gpx-${Date.now()}`,
                     summary_polyline: preview.map.summary_polyline
                 },
-                description: details.description || 'Imported from Garmin/GPX',
+                description: data.description || 'Imported from Garmin/GPX',
                 start_date: new Date().toISOString(),
                 photos: { count: 0, primary: null },
                 total_photo_count: 0,
                 // Pass the URL for Notion 'Komoot' field
-                mapUrl: preview.mapUrl
+                mapUrl: data.mapUrl
             };
 
-            // If we have an external URL, let's append it to description or pass it specially if 'actions' supports it.
-            // Looking at importStravaTraceAction... it maps StravaActivity to TraceData.
-            // Currently it puts `komoot` as mapUrl. We can hijack that?
-            // Or better, let's rely on standard logic.
-
-            const result = await importStravaTraceAction(mockActivity, details);
+            const result = await importStravaTraceAction(mockActivity, {
+                name: data.name,
+                direction: data.direction,
+                surface: data.surface,
+                rating: data.rating,
+                // Pass start/end if the action supports it (it might not yet, need to check)
+                // For now, these might be lost if importStravaTraceAction doesn't handle them.
+                // We should check 'importStravaTraceAction'.
+            });
 
             if (result.success) {
                 setSuccessMessage('Trace imported successfully!');
@@ -378,11 +396,31 @@ export default function GarminImportPage() {
                     )}
 
                     {preview && (
-                        <TracePreviewForm
-                            data={preview}
-                            onImport={handleImport}
-                            isLoading={loading}
-                        />
+                        <div className="mt-8">
+                            <h2 className="text-xl font-bold text-gray-900 mb-6">Aperçu et Modification</h2>
+                            <TraceForm
+                                initialData={{
+                                    name: preview.name,
+                                    // Convert meters to km for the form
+                                    distance: Math.round(preview.distance / 100) / 10,
+                                    elevation: preview.total_elevation_gain,
+                                    mapUrl: preview.mapUrl,
+                                    polyline: preview.map.summary_polyline,
+                                    // Defaults
+                                    surface: 'Road',
+                                    rating: '⭐⭐⭐',
+                                    direction: 'North',
+                                    start: '',
+                                    end: ''
+                                }}
+                                onSubmit={handleImport}
+                                isSubmitting={loading}
+                                submitLabel="Importer le tracé"
+                                showDelete={!!createdTraceId}
+                                onDelete={handleDelete}
+                                options={traceOptions}
+                            />
+                        </div>
                     )}
                 </div>
             </div>

@@ -59,11 +59,17 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
         <div className="min-h-screen bg-gray-50 pb-12">
             {/* HERRO SECTION */}
             <div className="relative h-[45vh] lg:h-[50vh] w-full bg-gray-900 overflow-hidden">
-                {/* Background Image with Overlay */}
-                <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-                    style={{ backgroundImage: `url(${trace.photoUrl || '/placeholder-trace.jpg'})` }}
-                />
+                {/* Background Image or Map Fallback */}
+                {trace.photoUrl ? (
+                    <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
+                        style={{ backgroundImage: `url(${trace.photoUrl})` }}
+                    />
+                ) : (
+                    <div className="absolute inset-0 grayscale-[30%]">
+                        <TraceMapWrapper polyline={trace.polyline || ''} />
+                    </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent" />
 
                 <div className="absolute inset-0 flex flex-col justify-end px-4 sm:px-6 lg:px-8 pb-10 sm:pb-16 max-w-7xl mx-auto w-full">

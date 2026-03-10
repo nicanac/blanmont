@@ -134,6 +134,47 @@ const ensureMapPolylineProperty = async () => {
     }
 };
 
+/**
+ * Fetches the options for Select properties from the Notion Database Schema
+ */
+export async function getTraceFormOptions() {
+    if (isMockMode || !TRACES_DB_ID) {
+        return {
+            directions: ['Nord', 'Sud', 'Est', 'Ouest', 'Boucle'],
+            surfaces: ['1 - Bad', '4 - Good', '7 - Excellent'],
+            starts: ['Blanmont'],
+            ends: ['Blanmont']
+        };
+    }
+
+    try {
+        const dbId = cleanId(TRACES_DB_ID);
+        const db = await notionRequest(`databases/${dbId}`, 'GET');
+        
+        const getOptions = (propName: string) => {
+            const prop = db.properties?.[propName];
+            if (!prop || !prop.select || !prop.select.options) return [];
+            return prop.select.options.map((o: any) => o.name);
+        };
+
+        return {
+            directions: getOptions('Direction'),
+            surfaces: getOptions('road'), // Note: lowercase 'road' as per previous analysis
+            starts: getOptions('start'),
+            ends: getOptions('end')
+        };
+    } catch (e) {
+        console.error('Failed to fetch trace options:', e);
+        return {
+            directions: [],
+            surfaces: [],
+            starts: [],
+            ends: []
+        };
+    }
+}
+
+
 // === Exports ===
 
 /**
@@ -345,6 +386,22 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
 
         if (validData.direction) {
             properties.Direction = { select: { name: validData.direction } };
+        }
+
+        if (validData.surface) {
+            properties.road = { select: { name: validData.surface } };
+        }
+
+        if (validData.rating) {
+            properties.Rating = { select: { name: validData.rating } };
+        }
+
+        if (validData.start) {
+            properties.start = { select: { name: validData.start } };
+        }
+
+        if (validData.end) {
+            properties.end = { select: { name: validData.end } };
         }
 
         if ((traceData as any).photos && (traceData as any).photos.length > 0) {

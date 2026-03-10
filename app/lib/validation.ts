@@ -132,6 +132,8 @@ export const ImportStravaTraceSchema = z.object({
     direction: z.string().optional(),
     surface: z.string().optional(),
     rating: z.string().optional(),
+    start: z.string().optional(),
+    end: z.string().optional(),
   }).optional(),
 });
 

@@ -2,7 +2,8 @@
 
 import { cookies } from 'next/headers';
 import { getStravaActivity, getActivityStreams, getStravaActivityPhotos } from '../../lib/strava';
-import { createTrace, getTracesSchema, deleteTrace } from '../../lib/notion';
+
+import { createTrace, getTracesSchema, deleteTrace, getTraceFormOptions } from '../../lib/notion';
 import {
   FetchStravaActivitySchema,
   ImportStravaTraceSchema,
@@ -75,7 +76,7 @@ export async function fetchStravaActivityAction(url: string) {
 // 2. Upload/Store it? Or save raw text in Notion?
 // 3. Create Notion Page.
 
-export async function importStravaTraceAction(activity: any, overrides?: { name?: string; direction?: string; surface?: string; rating?: string }) {
+export async function importStravaTraceAction(activity: any, overrides?: { name?: string; direction?: string; surface?: string; rating?: string; start?: string; end?: string }) {
      const validation = safeValidate(ImportStravaTraceSchema, { activity, overrides });
      
      if (!validation.success) {
@@ -107,6 +108,8 @@ export async function importStravaTraceAction(activity: any, overrides?: { name?
          direction: validatedOverrides?.direction,
          surface: validatedOverrides?.surface,
          rating: validatedOverrides?.rating,
+         start: validatedOverrides?.start,
+         end: validatedOverrides?.end,
          photos: photoUrls,
          polyline: validatedActivity.map?.summary_polyline
      });
@@ -128,4 +131,8 @@ export async function deleteTraceAction(traceId: string) {
         return { error: result.error };
     }
     return { success: true };
+}
+
+export async function getTraceOptionsAction() {
+    return await getTraceFormOptions();
 }
