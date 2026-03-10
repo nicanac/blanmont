@@ -15,34 +15,7 @@ const NOTION_VERSION = '2022-06-28';
 
 // Initialize Firebase Admin
 function initializeFirebase() {
-    if (admin.apps.length === 0) {
-        const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
-        
-        if (!serviceAccountKey) {
-            console.error('❌ FIREBASE_SERVICE_ACCOUNT_KEY not found in environment!');
-            process.exit(1);
-        }
-
-        try {
-            const parsedServiceAccount = JSON.parse(serviceAccountKey);
-           
-            // Fix for newline characters in private key
-            if (parsedServiceAccount.private_key) {
-                parsedServiceAccount.private_key = parsedServiceAccount.private_key.replace(/\\n/g, '\n');
-            }
-
-            admin.initializeApp({
-                credential: admin.credential.cert(parsedServiceAccount),
-                databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || process.env.FIREBASE_DATABASE_URL,
-            });
-
-            console.log('✅ Firebase Admin initialized');
-        } catch (error) {
-            console.error('❌ Failed to initialize Firebase:', error);
-            process.exit(1);
-        }
-    }
-    return admin.database();
+    return getAdminDatabase();
 }
 
 // Fetch data from Notion

@@ -18,12 +18,14 @@ import {
 
 export async function GET() {
     try {
-        const csvPath = path.join(process.cwd(), 'public', 'CC Blanmont - sorties 2026 - SORTiES.csv');
-        if (!fs.existsSync(csvPath)) {
-            return NextResponse.json({ error: 'CSV file not found' }, { status: 404 });
+        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1iKk938MCgkKn7CXconmZpjmy0xmSFaEPhYOqf0Nis84/export?format=csv&gid=1551990117';
+        
+        const response = await fetch(GOOGLE_SHEET_CSV_URL);
+        if (!response.ok) {
+            return NextResponse.json({ error: 'Failed to fetch CSV from Google Sheets' }, { status: 500 });
         }
-
-        const fileContent = fs.readFileSync(csvPath, 'utf-8');
+        
+        const fileContent = await response.text();
         const lines = fileContent.split(/\r?\n/).filter((l) => l.trim().length > 0);
 
         if (lines.length < 2) {
