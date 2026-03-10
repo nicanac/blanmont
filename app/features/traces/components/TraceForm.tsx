@@ -4,7 +4,7 @@ import { useState, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import { ExclamationTriangleIcon, CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import { Combobox, Transition } from '@headlessui/react';
-import { Trace } from '../../../../types';
+import { Trace } from '../../../types';
 
 // Dynamic import for Leaflet map (Client-side only)
 const MapPreview = dynamic(() => import('./MapPreview'), { ssr: false });
@@ -45,7 +45,7 @@ function LocationCombobox({
             );
 
     return (
-        <Combobox value={value} onChange={onChange}>
+        <Combobox value={value} onChange={(val: string | null) => onChange(val ?? '')}>
             <div className="relative mt-1">
                 <Combobox.Label className="block text-sm font-medium text-gray-700">{label}</Combobox.Label>
                 <div className="relative w-full cursor-default overflow-hidden rounded-md border border-gray-300 bg-white text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
