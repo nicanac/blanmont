@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { fetchStravaActivityAction, importStravaTraceAction, deleteTraceAction } from './actions';
+import { fetchStravaActivityAction, importStravaTraceAction, deleteTraceAction, getTraceOptionsAction } from './actions';
 import { StravaActivity } from '../../lib/strava';
-import { Snackbar } from '@mui/material';
-import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
-import TracePreviewForm from '../../features/import/components/TracePreviewForm';
+import { CheckCircleIcon, XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import TraceForm from '../../features/traces/components/TraceForm';
 
 // Dynamic import for Leaflet map to avoid SSR issues
 const MapPreview = dynamic(() => import('../../features/traces/components/MapPreview'), { ssr: false });
@@ -15,68 +14,78 @@ const MapPreview = dynamic(() => import('../../features/traces/components/MapPre
 export default function ImportForm() {
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
-    const [preview, setPreview] = useState<StravaActivity | null>(null);
+    const [preview, setPreview] = useState<any | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [success, setSuccess] = useState<boolean>(false);
     const [createdTraceId, setCreatedTraceId] = useState<string | null>(null);
+    const [traceOptions, setTraceOptions] = useState<{ directions: string[], surfaces: string[], locations: string[] } | undefined>(undefined);
+
+    useEffect(() => {
+        getTraceOptionsAction().then(opts => {
+            const locations = Array.from(new Set([...opts.starts, ...opts.ends])).sort();
+            setTraceOptions({
+                directions: opts.directions,
+                surfaces: opts.surfaces,
+                locations
+            });
+        });
+    }, []);
 
     const handlePreview = async () => {
         setLoading(true);
         setError(null);
-        setSuccessMessage(null);
+        setSuccess(false);
         setPreview(null);
+        setCreatedTraceId(null);
+
         try {
             const result = await fetchStravaActivityAction(url);
-            if (result.error) {
-                setError(result.error);
-            } else if (result.activity) {
-                setPreview(result.activity);
-                // setEditedName(result.activity.name); // No longer needed here, passed to child
+            if (!result.success || !result.activity) {
+                throw new Error(result.error || 'Failed to fetch activity');
             }
-        } catch (e) {
-            setError('An unexpected error occurred.');
+            setPreview(result.activity);
+        } catch (err: any) {
+            setError(err.message || 'Error occurred');
         } finally {
             setLoading(false);
         }
     };
 
-    const handleImport = async (details: {
-        name: string;
-        direction: string;
-        surface: string;
-        rating: string;
-        distance: number;
-        elevation: number;
-        description: string;
-    }) => {
+    const handleImport = async (data: any) => {
         if (!preview) return;
         setLoading(true);
+        setError(null);
+
         try {
-            // Override activity with edited values
+            // Prepare activity object with overrides for the action
             const activityWithEdits = {
                 ...preview,
-                distance: details.distance * 1000, // Convert km back to meters
-                total_elevation_gain: details.elevation,
-                description: details.description || preview.description
+                distance: data.distance * 1000, // Convert km back to meters
+                total_elevation_gain: data.elevation,
+                description: data.description || preview.description,
+                mapUrl: data.mapUrl
             };
 
             const result = await importStravaTraceAction(activityWithEdits, {
-                name: details.name,
-                direction: details.direction,
-                surface: details.surface,
-                rating: details.rating
+                name: data.name,
+                direction: data.direction,
+                surface: data.surface,
+                rating: data.rating,
+                start: data.start,
+                end: data.end
             });
 
-            if (result.success) {
-                setSuccessMessage('Trace imported successfully! You can review or delete it below.');
-                setCreatedTraceId(result.traceId || null);
-                setPreview(null);
-                setUrl('');
-            } else {
-                setError(result.error || 'Failed to import trace.');
+            if (!result.success) {
+                throw new Error(result.error || 'Import failed');
             }
-        } catch (e) {
-            setError('Import failed.');
+
+            setCreatedTraceId(result.traceId || null);
+            setSuccess(true);
+            setPreview(null);
+            setUrl('');
+
+        } catch (err: any) {
+            setError(err.message || 'Import failed');
         } finally {
             setLoading(false);
         }
@@ -89,99 +98,97 @@ export default function ImportForm() {
         try {
             const result = await deleteTraceAction(createdTraceId);
             if (result.success) {
-                setSuccessMessage(null);
                 setCreatedTraceId(null);
-                alert('Trace deleted.');
+                setSuccess(false);
+                alert('Trace deleted successfully');
             } else {
-                alert('Failed to delete trace.');
+                throw new Error(result.error);
             }
-        } catch (e) {
-            alert('Error deleting trace.');
+        } catch (err: any) {
+            alert(err.message);
         }
     };
 
     return (
-        <div className="space-y-6">
-            <div className="flex gap-4">
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Importer depuis Strava</h2>
+
+            {/* URL Input */}
+            <div className="flex gap-4 mb-6">
                 <input
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    placeholder="https://www.strava.com/activities/123456789"
-                    className="flex-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#fc4c02] sm:text-sm sm:leading-6"
+                    placeholder="https://www.strava.com/activities/..."
+                    className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm"
                 />
                 <button
                     onClick={handlePreview}
                     disabled={loading || !url}
-                    className="bg-brand-primary text-white px-4 py-2 rounded-md hover:opacity-90 disabled:opacity-50"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-primary hover:opacity-90 disabled:opacity-50"
                 >
-                    {loading ? 'Loading...' : 'Preview'}
+                    {loading ? 'Chargement...' : 'Prévisualiser'}
                 </button>
             </div>
 
+            {/* Error Message */}
             {error && (
-                <div className="p-4 bg-red-50 text-red-700 rounded-md border border-red-200">
+                <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md border border-red-200 flex items-center">
+                    <XMarkIcon className="h-5 w-5 mr-2" />
                     {error}
                 </div>
             )}
 
-            {successMessage && (
-                <Snackbar
-                    open={!!successMessage}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                    onClose={() => { }}
-                    message={null}
-                >
-                    <div className="pointer-events-auto w-96 overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
-                        <div className="p-4">
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
-                                </div>
-                                <div className="ml-3 w-0 flex-1 pt-0.5">
-                                    <p className="text-sm font-medium text-gray-900">Successfully imported!</p>
-                                    <p className="mt-1 text-sm text-gray-500">{successMessage}</p>
-
-                                    {createdTraceId && (
-                                        <div className="mt-4 flex gap-4">
-                                            <Link
-                                                href={`/traces/${createdTraceId}`}
-                                                target="_blank"
-                                                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                            >
-                                                View Trace
-                                            </Link>
-                                            <button
-                                                onClick={handleDelete}
-                                                className="text-sm font-medium text-red-600 hover:text-red-500"
-                                            >
-                                                Delete
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="ml-4 flex flex-shrink-0">
-                                    <button
-                                        type="button"
-                                        className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                        onClick={() => setSuccessMessage(null)}
-                                    >
-                                        <span className="sr-only">Close</span>
-                                        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+            {/* Success Message */}
+            {success && createdTraceId && (
+                <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-md border border-green-200">
+                    <div className="flex items-center mb-2">
+                        <CheckCircleIcon className="h-5 w-5 mr-2" />
+                        <span className="font-medium">Import réussi !</span>
                     </div>
-                </Snackbar>
+                    <div className="flex gap-4 mt-2 ml-7">
+                        <Link
+                            href={`/traces/${createdTraceId}`}
+                            className="text-sm font-medium underline hover:text-green-800 flex items-center"
+                        >
+                            Voir le parcours <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-1" />
+                        </Link>
+                        <button
+                            onClick={handleDelete}
+                            className="text-sm font-medium text-red-600 hover:text-red-800 flex items-center"
+                        >
+                            Supprimer <TrashIcon className="h-4 w-4 ml-1" />
+                        </button>
+                    </div>
+                </div>
             )}
 
+            {/* Preview & Edit Form */}
             {preview && (
-                <TracePreviewForm
-                    data={preview}
-                    onImport={handleImport}
-                    isLoading={loading}
-                />
+                <div className="mt-8 border-t pt-6">
+                    <TraceForm
+                        initialData={{
+                            id: 'preview',
+                            name: preview.name,
+                            distance: preview.distance / 1000,
+                            elevation: preview.total_elevation_gain,
+                            mapUrl: `https://www.strava.com/activities/${preview.id}`,
+                            polyline: preview.map?.summary_polyline,
+                            description: preview.description || '',
+                            surface: 'Road',
+                            rating: '⭐⭐⭐',
+                            direction: '',
+                            quality: 5,
+                            start: '',
+                            end: ''
+                        }}
+                        onSubmit={handleImport}
+                        isSubmitting={loading}
+                        submitLabel="Importer le tracé"
+                        showDelete={false}
+                        options={traceOptions}
+                    />
+                </div>
             )}
         </div>
     );
