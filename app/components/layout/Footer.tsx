@@ -1,4 +1,105 @@
 import Link from 'next/link';
+import { getCalendarEvents } from '../../lib/firebase/calendar';
+import { MapPinIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { CalendarEvent } from '../../types';
+
+interface ScheduledRideInfo {
+    dateFormatted: string;
+    location: string;
+    departure: string;
+    distances?: string;
+    address?: string;
+    group?: string;
+    isCustomEvent: boolean;
+}
+
+/**
+ * Calculates the next upcoming scheduled ride (prioritizing the next Saturday).
+ */
+function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const todayIso = `${y}-${m}-${d}`;
+
+    const currentDay = now.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+    const daysUntilSaturday = (6 - currentDay + 7) % 7;
+    const nextSaturdayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilSaturday);
+    const nextSatIso = `${nextSaturdayDate.getFullYear()}-${String(nextSaturdayDate.getMonth() + 1).padStart(2, '0')}-${String(nextSaturdayDate.getDate()).padStart(2, '0')}`;
+
+    const nextSundayDate = new Date(nextSaturdayDate.getFullYear(), nextSaturdayDate.getMonth(), nextSaturdayDate.getDate() + 1);
+    const nextSunIso = `${nextSundayDate.getFullYear()}-${String(nextSundayDate.getMonth() + 1).padStart(2, '0')}-${String(nextSundayDate.getDate()).padStart(2, '0')}`;
+
+    // Helper to format ISO date to readable French (e.g., "Samedi 29 août")
+    const formatFrenchDate = (iso: string): string => {
+        const [yr, mo, dy] = iso.split('-');
+        const dateObj = new Date(Number(yr), Number(mo) - 1, Number(dy));
+        const formatted = dateObj.toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+        });
+        return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    };
+
+    const formatDistances = (d?: string) => {
+        if (!d) return undefined;
+        return d.toLowerCase().includes('km') ? d : `${d} km`;
+    };
+
+    // 1. Exact match on next Saturday
+    const satEvent = events.find((e) => e.isoDate === nextSatIso);
+    if (satEvent) {
+        return {
+            dateFormatted: formatFrenchDate(satEvent.isoDate),
+            location: satEvent.location || 'Blanmont',
+            departure: satEvent.departure || '8h30',
+            distances: formatDistances(satEvent.distances),
+            address: satEvent.address,
+            group: satEvent.group,
+            isCustomEvent: true,
+        };
+    }
+
+    // 2. Exact match on next Sunday (if no Saturday event)
+    const sunEvent = events.find((e) => e.isoDate === nextSunIso);
+    if (sunEvent) {
+        return {
+            dateFormatted: formatFrenchDate(sunEvent.isoDate),
+            location: sunEvent.location || 'Blanmont',
+            departure: sunEvent.departure || '8h30',
+            distances: formatDistances(sunEvent.distances),
+            address: sunEvent.address,
+            group: sunEvent.group,
+            isCustomEvent: true,
+        };
+    }
+
+    // 3. Closest future event >= today
+    const futureEvents = events.filter((e) => e.isoDate >= todayIso).sort((a, b) => a.isoDate.localeCompare(b.isoDate));
+    if (futureEvents.length > 0) {
+        const nextEvent = futureEvents[0];
+        return {
+            dateFormatted: formatFrenchDate(nextEvent.isoDate),
+            location: nextEvent.location || 'Blanmont',
+            departure: nextEvent.departure || '8h30',
+            distances: formatDistances(nextEvent.distances),
+            address: nextEvent.address,
+            group: nextEvent.group,
+            isCustomEvent: true,
+        };
+    }
+
+    // 4. Default weekly club ride at Blanmont
+    return {
+        dateFormatted: formatFrenchDate(nextSatIso),
+        location: 'Place de Blanmont (Chastre)',
+        departure: '8h30',
+        distances: 'Groupes A, B, C & VTT',
+        isCustomEvent: false,
+    };
+}
 
 const navigation = {
     club: [
@@ -21,7 +122,10 @@ const navigation = {
     ],
 };
 
-export default function Footer() {
+export default async function Footer() {
+    const events = await getCalendarEvents();
+    const nextRide = getNextScheduledRide(events);
+
     return (
         <footer className="bg-slate-50 border-t border-slate-200" aria-labelledby="footer-heading">
             <h2 id="footer-heading" className="sr-only">
@@ -43,18 +147,46 @@ export default function Footer() {
                             Cyclo Club Saint-Martin Blanmont. Convivialité, passion du cyclisme sur route et esprit d&apos;équipe au cœur du Brabant wallon.
                         </p>
 
-                        {/* Practical club info */}
-                        <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2 text-xs text-slate-600 max-w-sm">
-                            <div className="flex items-center gap-2 font-medium text-slate-800">
-                                <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
-                                Rendez-vous hebdomadaire
+                        {/* Dynamic Next Rendez-vous card linked to Calendar */}
+                        <Link
+                            href="/calendrier"
+                            className="group block p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-red-300 hover:shadow-md transition-all space-y-2 max-w-sm"
+                            aria-label="Voir le prochain rendez-vous dans le calendrier"
+                        >
+                            <div className="flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-2 font-semibold text-xs uppercase tracking-wider text-slate-800">
+                                    <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
+                                    Prochain Rendez-vous
+                                </div>
+                                <span className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">
+                                    {nextRide.dateFormatted}
+                                </span>
                             </div>
-                            <p>Départ le samedi matin — Place de Blanmont (Chastre)</p>
-                            <p className="text-slate-500">Groupes A (30+ km/h), B (25-28 km/h), C (&lt;25 km/h) &amp; VTT.</p>
-                        </div>
+
+                            <div className="space-y-1 pt-1">
+                                <p className="text-sm font-bold text-slate-900 group-hover:text-[#e03e3e] transition-colors flex items-center gap-1.5">
+                                    <MapPinIcon className="h-4 w-4 text-[#e03e3e] flex-shrink-0" />
+                                    <span>{nextRide.location}</span>
+                                </p>
+                                <p className="text-xs text-slate-600">
+                                    Départ à <span className="font-semibold text-slate-800">{nextRide.departure}</span>
+                                    {nextRide.distances ? ` • ${nextRide.distances}` : ''}
+                                </p>
+                                {nextRide.address && (
+                                    <p className="text-[11px] text-slate-500 truncate">
+                                        {nextRide.address}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#e03e3e]">
+                                <span>Voir le calendrier complet</span>
+                                <ArrowRightIcon className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                            </div>
+                        </Link>
 
                         {/* Social icons */}
-                        <div className="flex space-x-5 pt-2">
+                        <div className="flex space-x-5 pt-1">
                             <a
                                 href="https://www.facebook.com"
                                 target="_blank"
