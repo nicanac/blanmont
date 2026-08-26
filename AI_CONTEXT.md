@@ -1,17 +1,18 @@
 # Sidereal Satellite - Project Context
 
 ## Executive Summary
-Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It serves as a central hub for managing cycling routes ("Traces"), club members, and coordinating the weekly "Saturday Ride". The application leverages **Notion** as a headless CMS and database, providing a flexible backend that non-technical users can easily manage.
+Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It serves as a central hub for managing cycling routes ("Traces"), club members, the annual calendar, news/blog, club gear, Carré Vert attendance, and coordinating the weekly "Saturday Ride". The application leverages **Firebase Realtime Database (RTDB)** as its primary backend and database (with Cloudinary for media storage and optional Notion fallback). Detailed database wiring and schemas are documented in [DATABASE.md](DATABASE.md).
 
 ## Tech Stack
-- **Framework**: Next.js 16.0.8 (App Router)
+- **Framework**: Next.js 16.0.8 (App Router with Turbopack)
 - **Language**: TypeScript (Strict Mode)
-- **Database**: Notion API (via custom fetch wrapper)
-- **Styling**: Tailwind CSS (Primary), Headless UI, Heroicons. (Migrating away from Material UI).
+- **Database**: Firebase Realtime Database (via Admin SDK & Client SDK) — See [DATABASE.md](DATABASE.md)
+- **Authentication**: Firebase Authentication (Email/Password, Custom Admin Claims)
+- **Storage**: Cloudinary (Image uploads) & Firebase Storage
+- **Styling**: Tailwind CSS (Primary), Headless UI, Heroicons.
 - **Fonts**: Google Fonts (Poppins) via `next/font/google`.
 - **Icons**: Heroicons (Solid & Outline)
 - **Theme**: Light Mode default, Red/Black (Eco/Ciseco aesthetic).
-- **Build Tool**: Turbopack
 - **Hosting environment**: Node.js (Vercel-compatible)
 
 ## Architecture & Folder Structure
@@ -79,11 +80,12 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
 
 ### 6. Calendar System
 - **Goal**: Display the club's annual schedule and events.
-- **Data**: Stored in Notion "Calendar" DB (`CALENDAR_DB_ID`).
+- **Data**: Stored in Firebase Realtime Database `calendar-events` (with Notion fallback).
 - **Features**:
   - **Month View**: Client-side interactive calendar (`CalendarView.tsx`).
   - **Events**: Cycling sorties, meetings, and special events.
   - **Visuals**: Color-coded days (Weekdays vs Weekends) and event types.
+  - **Admin Navigation**: When logged in as an administrator/president, clicking an event in the calendar directly redirects to the admin edit page (`/admin/events/[id]/edit`) with visual edit indicators and quick-action buttons in the event drawer.
 - **Flow**: Server component fetches all events -> hydrated to client for instant month navigation.
 
 ## Key Technical Conventions
