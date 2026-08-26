@@ -137,3 +137,15 @@ Sidereal Satellite is a web application for the **Blanmont Cycling Club**. It se
       - **Avoid**: `new Date(isoString)` which risks timezone shifts.
       - **Prefer**: Manual parsing `const [y, m, d] = isoString.split('-')` or `new Date(y, m-1, d)` which uses local browser time.
       - **Reason**: We want the date "May 30" to appear as "May 30" regardless of whether the user is in Tokyo, Brussels, or New York.
+
+8.  **Graft Context Graph & Token Economy**:
+    - **Purpose**: This repository is indexed with **Graft** (`@nanonets/graft`) to dramatically reduce token consumption (up to 40-60%+ savings) and eliminate repetitive cold exploration overhead.
+    - **Usage**:
+      - For semantic exploration / code location: `npx graft ask "<query>" --source` (or `npm run graft:ask -- "<query>" --source`).
+      - For viewing file API skeleton: `npx graft skeleton <file>` (~200 tokens).
+      - For dependency and caller blast-radius tracing: `npx graft callers <symbol> --depth 2`.
+      - For codebase structure map: `npx graft map` (or `npm run graft:map`).
+      - For exhaustive regex search across indexed code: `npx graft grep "<pattern>"`.
+      - Rebuild index after major code updates: `npm run graft:build`.
+    - **MCP Server**: Graft MCP server is configured in `.vscode/mcp.json` and `.mcp.json` providing native MCP tools (`graft_find_code`, `graft_file_api`, `graft_trace_calls`, etc.).
+

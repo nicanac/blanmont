@@ -4,6 +4,10 @@
 This file tracks the history of tasks performed in this session and planned future work.
 
 ## ✅ Completed Tasks
+- **Production Footer Redesign**: Replaced template filler text in `app/components/layout/Footer.tsx` with production-ready links (Le Club, Parcours & Sorties, Vie du Club), added weekly meeting point info (Blanmont place & speed groups), integrated real club social channels (Facebook, Instagram, Strava), and refined styling aligned with the `DESIGN.md` aesthetic.
+  - *Status*: Verified with browser rendering and build tests.
+- **Graft Context Graph & Token Economy Installation**: Installed `@nanonets/graft`, initialized and wired Graft across AI agent ecosystems (Copilot, Claude Code, Cursor, OpenCode, Gemini, Grok, Windsurf, Kiro, AdaL), registered MCP server in `.vscode/mcp.json` and `.mcp.json`, added `graft:*` npm scripts, added skills, and generated `graft/` context graph.
+  - *Status*: Verified and operational.
 - **Members Search**: Implemented a client-side search/filter for the members list in the admin panel.
   - *File*: `app/admin/members/page.tsx`, `components/admin/MembersTable.tsx`
 - **Database Backup**: Created and executed a script to backup the Firebase Realtime Database to a local JSON file.
