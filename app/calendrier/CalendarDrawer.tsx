@@ -15,8 +15,10 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
-
+import EditIcon from '@mui/icons-material/Edit';
 import PeopleIcon from '@mui/icons-material/People';
+import Link from 'next/link';
+import { useAuth } from '../context/AuthContext';
 
 type AttendeeInfo = { name: string; group: string };
 
@@ -28,6 +30,7 @@ interface CalendarDrawerProps {
 }
 
 export default function CalendarDrawer({ event, open, onClose, attendees = [] }: CalendarDrawerProps) {
+    const { isAdmin } = useAuth();
     if (!event) return null;
 
     // Format Date
@@ -57,7 +60,22 @@ export default function CalendarDrawer({ event, open, onClose, attendees = [] }:
                 {/* Header */}
                 <Box sx={{ p: 3, bgcolor: 'grey.50', borderBottom: 1, borderColor: 'divider' }}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
-                        <Chip label="Sortie Club" size="small" color="primary" />
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <Chip label="Sortie Club" size="small" color="primary" />
+                            {isAdmin && (
+                                <Chip
+                                    component={Link}
+                                    href={`/admin/events/${event.id}/edit`}
+                                    clickable
+                                    label="Modifier"
+                                    size="small"
+                                    color="error"
+                                    variant="outlined"
+                                    icon={<EditIcon sx={{ fontSize: '0.9rem !important' }} />}
+                                    sx={{ fontWeight: 600 }}
+                                />
+                            )}
+                        </Stack>
                         <IconButton onClick={onClose} size="small">
                             <CloseIcon />
                         </IconButton>
@@ -193,6 +211,29 @@ export default function CalendarDrawer({ event, open, onClose, attendees = [] }:
                                         ))}
                                     </Box>
                                 </Box>
+                            </>
+                        )}
+
+                        {/* Admin Action Button */}
+                        {isAdmin && (
+                            <>
+                                <Divider />
+                                <Button
+                                    component={Link}
+                                    href={`/admin/events/${event.id}/edit`}
+                                    variant="contained"
+                                    fullWidth
+                                    startIcon={<EditIcon />}
+                                    sx={{
+                                        bgcolor: '#e03e3e',
+                                        '&:hover': { bgcolor: '#c53030' },
+                                        textTransform: 'none',
+                                        fontWeight: 600,
+                                        py: 1
+                                    }}
+                                >
+                                    Modifier dans l&apos;administration
+                                </Button>
                             </>
                         )}
                     </Stack>

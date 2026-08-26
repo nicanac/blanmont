@@ -1,4 +1,17 @@
 /**
+ * Represents an authenticated user in the auth context.
+ */
+export interface User {
+  id: string;
+  username: string;
+  avatarUrl?: string;
+  email?: string;
+  name: string;
+  phone?: string;
+  role?: string[];
+}
+
+/**
  * Represents a club member.
  */
 export interface Member {

@@ -25,7 +25,7 @@ import { cn } from '../../utils/cn';
 
 export default function Navbar() {
     const pathname = usePathname();
-    const { user, logout, isAuthenticated } = useAuth();
+    const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
     const mainNavigation = [
         { name: 'Les News', href: '/blog' },
@@ -48,7 +48,7 @@ export default function Navbar() {
     ];
 
     // Admin link - shown only for users with admin access
-    const adminNavigation = user?.role?.includes('Admin') || user?.role?.includes('WebMaster')
+    const adminNavigation = isAdmin
         ? [{ name: 'Admin', description: 'Administration du site', href: '/admin', icon: PlusCircleIcon }]
         : [];
 
