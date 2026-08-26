@@ -1,13 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { CalendarEvent } from '../types';
 import CalendarDrawer from './CalendarDrawer';
 import {
     ChevronLeftIcon,
     ChevronRightIcon
 } from '@heroicons/react/20/solid';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { cn } from '../utils/cn';
+import { useAuth } from '../context/AuthContext';
 
 const MONTH_NAMES = [
     'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
@@ -30,6 +33,7 @@ function getFirstDayOfMonth(year: number, month: number) {
 type AttendeeInfo = { name: string; group: string };
 
 export default function CalendarView({ events, attendanceMap = {} }: { events: CalendarEvent[]; attendanceMap?: Record<string, AttendeeInfo[]> }) {
+    const { isAdmin } = useAuth();
     const [currentDate, setCurrentDate] = useState(new Date()); // Start at current date
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
@@ -171,33 +175,70 @@ export default function CalendarView({ events, attendanceMap = {} }: { events: C
                                         <ol className="mt-1">
                                             {dayEvents.map(event => (
                                                 <li key={event.id}>
-                                                    <button
-                                                        onClick={() => setSelectedEvent(event)}
-                                                        className={cn(
-                                                            "group flex flex-col gap-0.5 rounded-md p-1.5 transition-colors border border-transparent w-full text-left",
-                                                            // Weekday events (Mon-Fri) get alternate background
-                                                            (idx % 7 < 5) ? 'bg-red-50 hover:bg-red-100 hover:border-red-200' : 'hover:bg-gray-100 hover:border-gray-200'
-                                                        )}>
-                                                        <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
-                                                            {event.location}
-                                                        </p>
-                                                        <div className="flex justify-between items-center text-[10px] text-gray-500">
-                                                            <span>{event.departure}</span>
-                                                            <div className="flex items-center gap-1">
-                                                                {event.distances && <span>{event.distances}km</span>}
-                                                                {(attendanceMap[event.id]?.length ?? 0) > 0 && (
-                                                                    <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
-                                                                        👥 {attendanceMap[event.id].length}
-                                                                    </span>
-                                                                )}
+                                                    {isAdmin ? (
+                                                        <Link
+                                                            href={`/admin/events/${event.id}/edit`}
+                                                            className={cn(
+                                                                "group flex flex-col gap-0.5 rounded-md p-1.5 transition-all border border-transparent w-full text-left",
+                                                                // Weekday events (Mon-Fri) get alternate background
+                                                                (idx % 7 < 5) ? 'bg-red-50 hover:bg-red-100 hover:border-red-300' : 'hover:bg-gray-100 hover:border-gray-300'
+                                                            )}
+                                                            title="Modifier l'événement (Admin)"
+                                                        >
+                                                            <div className="flex items-center justify-between gap-1">
+                                                                <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
+                                                                    {event.location}
+                                                                </p>
+                                                                <PencilSquareIcon className="h-3.5 w-3.5 text-gray-400 group-hover:text-brand-primary shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
                                                             </div>
-                                                        </div>
-                                                        {event.alternative && (
-                                                            <p className="text-[9px] text-orange-600 truncate mt-0.5">
-                                                                Alt: {event.alternative}
+                                                            <div className="flex justify-between items-center text-[10px] text-gray-500">
+                                                                <span>{event.departure}</span>
+                                                                <div className="flex items-center gap-1">
+                                                                    {event.distances && <span>{event.distances}km</span>}
+                                                                    {(attendanceMap[event.id]?.length ?? 0) > 0 && (
+                                                                        <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
+                                                                            👥 {attendanceMap[event.id].length}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            {event.alternative && (
+                                                                <p className="text-[9px] text-orange-600 truncate mt-0.5">
+                                                                    Alt: {event.alternative}
+                                                                </p>
+                                                            )}
+                                                        </Link>
+                                                    ) : (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setSelectedEvent(event)}
+                                                            className={cn(
+                                                                "group flex flex-col gap-0.5 rounded-md p-1.5 transition-colors border border-transparent w-full text-left",
+                                                                // Weekday events (Mon-Fri) get alternate background
+                                                                (idx % 7 < 5) ? 'bg-red-50 hover:bg-red-100 hover:border-red-200' : 'hover:bg-gray-100 hover:border-gray-200'
+                                                            )}
+                                                        >
+                                                            <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
+                                                                {event.location}
                                                             </p>
-                                                        )}
-                                                    </button>
+                                                            <div className="flex justify-between items-center text-[10px] text-gray-500">
+                                                                <span>{event.departure}</span>
+                                                                <div className="flex items-center gap-1">
+                                                                    {event.distances && <span>{event.distances}km</span>}
+                                                                    {(attendanceMap[event.id]?.length ?? 0) > 0 && (
+                                                                        <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
+                                                                            👥 {attendanceMap[event.id].length}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            {event.alternative && (
+                                                                <p className="text-[9px] text-orange-600 truncate mt-0.5">
+                                                                    Alt: {event.alternative}
+                                                                </p>
+                                                            )}
+                                                        </button>
+                                                    )}
                                                 </li>
                                             ))}
                                         </ol>
@@ -213,26 +254,54 @@ export default function CalendarView({ events, attendanceMap = {} }: { events: C
                                 monthEvents.map(event => {
                                     const [y, m, d] = event.isoDate.split('-').map(Number);
                                     const dateObj = new Date(y, m - 1, d);
-                                    return (
-                                        <div
-                                            key={event.id}
-                                            className="p-4 border-b border-gray-100 flex gap-4 cursor-pointer hover:bg-gray-50"
-                                            onClick={() => setSelectedEvent(event)}
-                                        >
+                                    const cardContent = (
+                                        <>
                                             <div className="flex-none bg-gray-50 rounded-lg p-2 text-center w-14 h-14 flex flex-col justify-center items-center border border-gray-200">
                                                 <span className="text-xs text-gray-500 font-bold uppercase">{dateObj.toLocaleDateString('fr-FR', { weekday: 'short' })}</span>
                                                 <span className="text-lg font-bold text-gray-900">{dateObj.getDate()}</span>
                                             </div>
                                             <div className="flex-auto">
-                                                <h3 className="text-sm font-semibold text-gray-900">{event.location}</h3>
+                                                <div className="flex items-center justify-between">
+                                                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-brand-primary">{event.location}</h3>
+                                                    {isAdmin && (
+                                                        <span className="inline-flex items-center gap-1 text-xs text-brand-primary font-medium">
+                                                            <PencilSquareIcon className="h-3.5 w-3.5" />
+                                                            Modifier
+                                                        </span>
+                                                    )}
+                                                </div>
                                                 <div className="mt-1 flex flex-wrap gap-2 text-xs text-gray-500">
                                                     <span>🕒 {event.departure}</span>
                                                     {event.distances && <span>🚲 {event.distances} km</span>}
+                                                    {(attendanceMap[event.id]?.length ?? 0) > 0 && (
+                                                        <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
+                                                            👥 {attendanceMap[event.id].length}
+                                                        </span>
+                                                    )}
                                                 </div>
                                                 {event.alternative && <div className="text-xs text-orange-600 mt-1">Alt: {event.alternative}</div>}
                                             </div>
+                                        </>
+                                    );
+
+                                    return isAdmin ? (
+                                        <Link
+                                            key={event.id}
+                                            href={`/admin/events/${event.id}/edit`}
+                                            className="group p-4 border-b border-gray-100 flex gap-4 cursor-pointer hover:bg-gray-50 transition-colors"
+                                            title="Modifier l'événement (Admin)"
+                                        >
+                                            {cardContent}
+                                        </Link>
+                                    ) : (
+                                        <div
+                                            key={event.id}
+                                            className="p-4 border-b border-gray-100 flex gap-4 cursor-pointer hover:bg-gray-50"
+                                            onClick={() => setSelectedEvent(event)}
+                                        >
+                                            {cardContent}
                                         </div>
-                                    )
+                                    );
                                 })
                             ) : (
                                 <div className="p-8 text-center text-gray-500 italic">Aucun événement pour ce mois.</div>

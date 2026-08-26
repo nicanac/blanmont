@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
+import { checkIsAdmin } from '../../utils/auth';
 import Link from 'next/link';
 import { ShieldExclamationIcon } from '@heroicons/react/24/outline';
 
@@ -15,7 +16,7 @@ interface AdminGuardProps {
  * Only users with 'Admin' or 'President' roles can access admin pages.
  */
 export default function AdminGuard({ children }: AdminGuardProps): React.ReactElement {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isAdmin } = useAuth();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
   const [hasAccess, setHasAccess] = useState(false);
@@ -28,55 +29,13 @@ export default function AdminGuard({ children }: AdminGuardProps): React.ReactEl
         return;
       }
 
-      // Check if user has admin/president role
-      const allowedRoles = ['Admin', 'President', 'admin', 'president', 'WebMaster'];
-      
-      // 1. Check Role from Context
-      if (user && user.role) {
-         const hasAdminRole = user.role.some((role: string) => 
-            allowedRoles.includes(role)
-         );
-         if (hasAdminRole) {
-             setHasAccess(true);
-             setIsChecking(false);
-             return;
-         }
-      }
-
-      // 2. Fallback: The user object from AuthContext didn't have roles (old session?), check localStorage
-      const storedMember = localStorage.getItem('memberData');
-      if (storedMember) {
-        try {
-          const member = JSON.parse(storedMember);
-          const userRoles = member.role || [];
-          const hasAdminRole = userRoles.some((role: string) => 
-            allowedRoles.includes(role)
-          );
-          if (hasAdminRole) {
-              setHasAccess(true);
-              setIsChecking(false);
-              return;
-          }
-        } catch {
-          // ignore error
-        }
-      } 
-      
-      // 3. Fallback: Check email
-      const adminEmails = ['admin@blanmont.be', 'president@blanmont.be', 'bruyere.nicolas@gmail.com'];
-      if(adminEmails.includes(user?.email || '')) {
-          setHasAccess(true);
-          setIsChecking(false);
-          return;
-      }
-
-      setHasAccess(false);
-      
+      const hasAdminAccess = isAdmin || checkIsAdmin(user);
+      setHasAccess(hasAdminAccess);
       setIsChecking(false);
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated, user, isAdmin, router]);
 
   // Loading state
   if (isChecking) {

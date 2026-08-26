@@ -2,16 +2,8 @@
 
 import { loginAction } from '../actions';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-interface User {
-    id: string;
-    username: string;
-    avatarUrl?: string;
-    email?: string;
-    name: string;
-    phone?: string;
-    role?: string[];
-}
+import { checkIsAdmin } from '../utils/auth';
+import { User } from '../types';
 
 interface AuthContextType {
     user: User | null;
@@ -19,6 +11,7 @@ interface AuthContextType {
     logout: () => void;
     updateUser: (updates: Partial<User>) => void;
     isAuthenticated: boolean;
+    isAdmin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -79,13 +72,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
     };
 
+    const isAdmin = checkIsAdmin(user);
+
     return (
         <AuthContext.Provider value={{
             user,
             login,
             logout,
             updateUser,
-            isAuthenticated: !!user
+            isAuthenticated: !!user,
+            isAdmin
         }}>
             {children}
         </AuthContext.Provider>
