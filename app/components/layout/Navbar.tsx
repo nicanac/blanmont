@@ -53,7 +53,7 @@ export default function Navbar() {
         : [];
 
     return (
-        <Popover as="nav" className={`${pathname === '/' ? 'absolute z-50 w-full bg-transparent' : 'bg-white border-b border-gray-100'} `}>
+        <Popover as="nav" className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs">
             {({ open, close }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -64,8 +64,8 @@ export default function Navbar() {
                                 {/* Logo */}
                                 <div className="flex-shrink-0 flex items-center">
                                     <Link href="/" className="flex items-center gap-2">
-                                        <span className="text-2xl font-bold text-gray-900 tracking-tight font-sans">
-                                            BLANMONT
+                                        <span className="text-2xl font-extrabold text-gray-900 tracking-tight font-sans">
+                                            BLAN<span className="text-[#e03e3e]">MONT</span>
                                         </span>
                                     </Link>
                                 </div>
@@ -82,7 +82,10 @@ export default function Navbar() {
                                                 key={item.name}
                                                 href={item.href}
                                                 className={cn(
-                                                    'text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors'
+                                                    'text-sm font-medium transition-colors',
+                                                    isCurrent
+                                                        ? 'text-[#e03e3e] font-semibold'
+                                                        : 'text-gray-900 hover:text-[#e03e3e]'
                                                 )}
                                                 aria-current={isCurrent ? 'page' : undefined}
                                             >
@@ -97,14 +100,14 @@ export default function Navbar() {
                                             <>
                                                 <PopoverButton
                                                     className={cn(
-                                                        'group inline-flex items-center text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors focus:outline-none'
+                                                        'group inline-flex items-center text-sm font-medium text-gray-900 hover:text-[#e03e3e] transition-colors focus:outline-none'
                                                     )}
                                                 >
                                                     <span>Le Club</span>
                                                     <ChevronDownIcon
                                                         className={cn(
-                                                            open ? 'text-gray-600 rotate-180' : 'text-gray-400',
-                                                            'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-gray-500'
+                                                            open ? 'text-[#e03e3e] rotate-180' : 'text-gray-400',
+                                                            'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-[#e03e3e]'
                                                         )}
                                                         aria-hidden="true"
                                                     />
@@ -219,22 +222,22 @@ export default function Navbar() {
                                     </Popover>
                                 ) : (
                                     <div className="flex items-center space-x-4">
-                                        <Link href="/login" className="text-gray-900 hover:text-gray-600 font-medium text-sm">
+                                        <Link href="/login" className="text-gray-900 hover:text-[#e03e3e] font-medium text-sm transition-colors">
                                             Se connecter
                                         </Link>
-                                        <button onClick={() => { }} className="text-gray-900 hover:text-gray-600">
+                                        <Link href="/login" className="text-gray-700 hover:text-[#e03e3e] transition-colors">
                                             <span className="sr-only">Se connecter</span>
                                             <UserIcon className="h-6 w-6" aria-hidden="true" />
-                                        </button>
+                                        </Link>
                                     </div>
                                 )}
                             </div>
 
                             {/* Mobile menu button */}
                             <div className="-mr-2 flex items-center sm:hidden">
-                                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-primary">
+                                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
                                     <span className="absolute -inset-0.5" />
-                                    <span className="sr-only">Open main menu</span>
+                                    <span className="sr-only">Ouvrir le menu principal</span>
                                     {open ? (
                                         <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                                     ) : (
@@ -278,9 +281,9 @@ export default function Navbar() {
                                             href={item.href}
                                             className={cn(
                                                 isCurrent
-                                                    ? 'bg-gray-50 border-l-4 border-gray-900 text-gray-900'
-                                                    : 'border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                                                'block py-2 pl-3 pr-4 text-base font-medium'
+                                                    ? 'bg-red-50 border-l-4 border-[#e03e3e] text-[#e03e3e] font-semibold'
+                                                    : 'border-l-4 border-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900',
+                                                'block py-2 pl-3 pr-4 text-base font-medium transition-colors'
                                             )}
                                             aria-current={isCurrent ? 'page' : undefined}
                                         >
