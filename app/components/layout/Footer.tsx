@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getCalendarEvents } from '../../lib/firebase/calendar';
-import { MapPinIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { MapPinIcon, ArrowRightIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { CalendarEvent } from '../../types';
 
 interface ScheduledRideInfo {
@@ -10,6 +10,7 @@ interface ScheduledRideInfo {
   distances?: string;
   address?: string;
   remarks?: string;
+  gpxUrl?: string;
   group?: string;
   isCustomEvent: boolean;
 }
@@ -67,6 +68,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
       distances: formatDistances(satEvent.distances),
       address: satEvent.address,
       remarks: satEvent.remarks,
+      gpxUrl: satEvent.gpxUrl,
       group: satEvent.group,
       isCustomEvent: true,
     };
@@ -82,6 +84,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
       distances: formatDistances(sunEvent.distances),
       address: sunEvent.address,
       remarks: sunEvent.remarks,
+      gpxUrl: sunEvent.gpxUrl,
       group: sunEvent.group,
       isCustomEvent: true,
     };
@@ -100,6 +103,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
       distances: formatDistances(nextEvent.distances),
       address: nextEvent.address,
       remarks: nextEvent.remarks,
+      gpxUrl: nextEvent.gpxUrl,
       group: nextEvent.group,
       isCustomEvent: true,
     };
@@ -211,11 +215,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
 
           {/* Dynamic Next Rendez-vous card linked to Calendar */}
           <div className="w-full lg:w-auto lg:min-w-[360px] lg:max-w-md">
-            <Link
-              href="/calendrier"
-              className="group block p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-red-300 hover:shadow-md transition-all space-y-2.5"
-              aria-label="Voir le prochain rendez-vous dans le calendrier"
-            >
+            <div className="group block p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-red-300 hover:shadow-md transition-all space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 font-semibold text-xs uppercase tracking-wider text-slate-800">
                   <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
@@ -227,10 +227,13 @@ export default async function Footer(): Promise<React.JSX.Element> {
               </div>
 
               <div className="space-y-1 pt-1">
-                <p className="text-sm font-bold text-slate-900 group-hover:text-[#e03e3e] transition-colors flex items-center gap-1.5">
+                <Link
+                  href="/calendrier"
+                  className="text-sm font-bold text-slate-900 hover:text-[#e03e3e] transition-colors flex items-center gap-1.5"
+                >
                   <MapPinIcon className="h-4 w-4 text-[#e03e3e] flex-shrink-0" />
                   <span>{nextRide.location}</span>
-                </p>
+                </Link>
                 <p className="text-xs text-slate-600">
                   Départ à{' '}
                   <span className="font-semibold text-slate-800">{nextRide.departure}</span>
@@ -247,11 +250,38 @@ export default async function Footer(): Promise<React.JSX.Element> {
                 )}
               </div>
 
+              {nextRide.gpxUrl && (
+                <div className="pt-1">
+                  <a
+                    href={nextRide.gpxUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 w-full rounded-lg bg-red-50 hover:bg-red-100 text-[#e03e3e] px-3 py-1.5 text-xs font-semibold border border-red-200 transition-colors"
+                  >
+                    <ArrowDownTrayIcon className="h-3.5 w-3.5" />
+                    <span>
+                      {nextRide.gpxUrl.includes('strava.com')
+                        ? 'Trace GPS (Strava)'
+                        : nextRide.gpxUrl.includes('garmin.com')
+                          ? 'Trace GPS (Garmin Connect)'
+                          : nextRide.gpxUrl.includes('komoot')
+                            ? 'Trace GPS (Komoot)'
+                            : 'Télécharger la trace GPX'}
+                    </span>
+                  </a>
+                </div>
+              )}
+
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#e03e3e]">
-                <span>Voir le calendrier complet</span>
-                <ArrowRightIcon className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                <Link
+                  href="/calendrier"
+                  className="inline-flex items-center justify-between w-full hover:underline"
+                >
+                  <span>Voir le calendrier complet</span>
+                  <ArrowRightIcon className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
 
