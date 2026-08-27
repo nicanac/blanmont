@@ -224,7 +224,7 @@ function getMockBlogPosts(): BlogPost[] {
       content: `
 # Sustainable Cycling Practices
 
-Cycling is already one of the most eco-friendly modes of transportation, but there's always room for improvement. Here are some practices we're implementing at Blanmont Cycling Club to minimize our environmental footprint.
+Cycling is already one of the most eco-friendly modes of transportation, but there's always room for improvement. Here are some practices we're implementing at Club de Blanmont to minimize our environmental footprint.
 
 ## Equipment Maintenance
 
@@ -256,7 +256,7 @@ Join us in making cycling even more sustainable!
       content: `
 # How We Plan Cycling Events
 
-Planning a successful cycling event requires careful coordination and attention to detail. Here's a behind-the-scenes look at how Blanmont Cycling Club organizes our signature events.
+Planning a successful cycling event requires careful coordination and attention to detail. Here's a behind-the-scenes look at how Club de Blanmont organizes our signature events.
 
 ## Route Selection
 

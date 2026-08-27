@@ -49,15 +49,15 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         </div>
         <div>
           <p className="text-sm font-semibold text-white">BLANMONT</p>
-          <p className="text-xs text-gray-400">CYCLING CLUB</p>
+          <p className="text-xs text-gray-400">CLUB DE BLANMONT</p>
         </div>
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4">
         {navigation.map((item) => {
-          const isActive = pathname === item.href ||
-            (item.href !== '/admin' && pathname.startsWith(item.href));
+          const isActive =
+            pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
 
           return (
             <Link
@@ -122,11 +122,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         {sidebarOpen && (
           <div className="fixed inset-0 z-40 md:hidden">
             {/* Backdrop */}
-            <div
-              className="fixed inset-0 bg-black/50"
-              onClick={closeSidebar}
-              aria-hidden="true"
-            />
+            <div className="fixed inset-0 bg-black/50" onClick={closeSidebar} aria-hidden="true" />
             {/* Drawer */}
             <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900">
               <div className="absolute right-2 top-3">
@@ -151,9 +147,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
 
         {/* Main Content */}
         <main className="pt-0 md:pl-64 md:pt-16">
-          <div className="p-4 sm:p-6 md:p-8">
-            {children}
-          </div>
+          <div className="p-4 sm:p-6 md:p-8">{children}</div>
         </main>
       </div>
     </AdminGuard>
