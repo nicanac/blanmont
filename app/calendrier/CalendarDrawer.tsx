@@ -101,30 +101,116 @@ export default function CalendarDrawer({
 
         {/* Content */}
         <Box sx={{ p: 3, flexGrow: 1, overflowY: 'auto' }}>
-          <Stack spacing={3}>
-            {/* Map Preview */}
-            {/* Map Preview / Link Card */}
+          <Stack spacing={2.5}>
+            {/* GPX / Garmin / Strava Trace Section (Top Priority) */}
+            {event.gpxUrl && (
+              <Box
+                sx={{
+                  p: 2.5,
+                  bgcolor: '#fff5f5',
+                  borderRadius: 2.5,
+                  border: '1px solid',
+                  borderColor: '#fecaca',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                }}
+              >
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <RouteIcon fontSize="small" sx={{ color: '#e03e3e' }} />
+                    <Typography variant="subtitle2" fontWeight="bold" sx={{ color: '#1e293b' }}>
+                      Trace GPS du parcours
+                    </Typography>
+                  </Stack>
+                  <Chip
+                    label={
+                      event.gpxUrl.includes('strava.com')
+                        ? 'Strava'
+                        : event.gpxUrl.includes('garmin.com')
+                          ? 'Garmin Connect'
+                          : event.gpxUrl.includes('komoot')
+                            ? 'Komoot'
+                            : 'GPX'
+                    }
+                    size="small"
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: '0.7rem',
+                      bgcolor: '#fee2e2',
+                      color: '#b91c1c',
+                      height: 22,
+                    }}
+                  />
+                </Stack>
+
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  display="block"
+                  sx={{ mb: 1.5, lineHeight: 1.4 }}
+                >
+                  {event.gpxUrl.includes('strava.com')
+                    ? 'Consulter l’itinéraire et télécharger la trace sur Strava.'
+                    : event.gpxUrl.includes('garmin.com')
+                      ? 'Consulter et envoyer le parcours directement sur votre GPS Garmin.'
+                      : event.gpxUrl.includes('komoot')
+                        ? 'Consulter et télécharger la trace sur Komoot.'
+                        : 'Télécharger le fichier GPX pour votre GPS de vélo.'}
+                </Typography>
+
+                <Button
+                  component="a"
+                  href={event.gpxUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="contained"
+                  fullWidth
+                  startIcon={<FileDownloadIcon />}
+                  sx={{
+                    bgcolor: '#e03e3e',
+                    '&:hover': { bgcolor: '#c53030' },
+                    textTransform: 'none',
+                    fontWeight: 700,
+                    py: 1.25,
+                    fontSize: '0.875rem',
+                    borderRadius: 2,
+                    boxShadow: '0 2px 4px rgba(224, 62, 62, 0.2)',
+                  }}
+                >
+                  {event.gpxUrl.includes('strava.com')
+                    ? 'Ouvrir la trace sur Strava'
+                    : event.gpxUrl.includes('garmin.com')
+                      ? 'Ouvrir sur Garmin Connect'
+                      : event.gpxUrl.includes('komoot')
+                        ? 'Ouvrir la trace sur Komoot'
+                        : event.gpxUrl.endsWith('.gpx')
+                          ? 'Télécharger le fichier GPX'
+                          : 'Télécharger / Ouvrir le GPX'}
+                </Button>
+              </Box>
+            )}
+
+            {/* Map Preview / Google Maps Link Card */}
             <a
               href={mapsLink}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}
-              className="block group relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-brand-primary transition-colors cursor-pointer"
+              className="block group relative w-full h-36 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-brand-primary transition-colors cursor-pointer"
             >
               {/* Decorative Background (Abstract Map Pattern) */}
               <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/map.png')] bg-repeat" />
 
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform">
-                <div className="p-3 bg-white rounded-full shadow-sm text-brand-primary">
-                  <PlaceIcon fontSize="large" color="error" />
+                <div className="p-2.5 bg-white rounded-full shadow-sm text-brand-primary">
+                  <PlaceIcon fontSize="medium" color="error" />
                 </div>
                 <Typography
                   variant="body2"
                   fontWeight="medium"
                   color="text.secondary"
-                  sx={{ bgcolor: 'white', px: 1, py: 0.5, borderRadius: 1 }}
+                  sx={{ bgcolor: 'white', px: 1.5, py: 0.5, borderRadius: 1 }}
                 >
-                  Voir sur la carte
+                  Lieu de départ sur Google Maps
                 </Typography>
               </div>
             </a>
@@ -227,67 +313,6 @@ export default function CalendarDrawer({
                     </Box>
                   )}
                 </Stack>
-              </>
-            )}
-
-            {/* GPX / Garmin / Strava Trace Section */}
-            {event.gpxUrl && (
-              <>
-                <Divider />
-                <Box
-                  sx={{
-                    p: 2,
-                    bgcolor: 'grey.50',
-                    borderRadius: 2,
-                    border: '1px solid',
-                    borderColor: 'grey.200',
-                  }}
-                >
-                  <Stack direction="row" alignItems="center" gap={1} mb={0.75}>
-                    <RouteIcon fontSize="small" color="error" />
-                    <Typography variant="subtitle2" fontWeight="bold">
-                      Trace GPS / Parcours
-                    </Typography>
-                  </Stack>
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    display="block"
-                    sx={{ mb: 1.5 }}
-                  >
-                    {event.gpxUrl.includes('strava.com')
-                      ? 'Parcours disponible sur Strava'
-                      : event.gpxUrl.includes('garmin.com')
-                        ? 'Parcours disponible sur Garmin Connect'
-                        : event.gpxUrl.includes('komoot')
-                          ? 'Parcours disponible sur Komoot'
-                          : 'Fichier GPX / trace de la sortie'}
-                  </Typography>
-                  <Button
-                    component="a"
-                    href={event.gpxUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="contained"
-                    fullWidth
-                    startIcon={<FileDownloadIcon />}
-                    sx={{
-                      bgcolor: '#e03e3e',
-                      '&:hover': { bgcolor: '#c53030' },
-                      textTransform: 'none',
-                      fontWeight: 600,
-                      py: 1,
-                    }}
-                  >
-                    {event.gpxUrl.includes('strava.com')
-                      ? 'Ouvrir sur Strava'
-                      : event.gpxUrl.includes('garmin.com')
-                        ? 'Ouvrir sur Garmin Connect'
-                        : event.gpxUrl.endsWith('.gpx')
-                          ? 'Télécharger le fichier GPX'
-                          : 'Télécharger / Voir le GPX'}
-                  </Button>
-                </Box>
               </>
             )}
 
