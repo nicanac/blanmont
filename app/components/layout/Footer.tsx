@@ -150,10 +150,10 @@ export default async function Footer(): Promise<React.JSX.Element> {
         Pied de page
       </h2>
       <div className="mx-auto max-w-7xl px-6 pb-12 pt-16 sm:pt-20 lg:px-8">
-        {/* Top Section: Brand/Info on the left, Next ride card on the right */}
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 pb-12 border-b border-slate-200">
+        {/* Top Section: Brand/Info on the left, Next ride card on the right (50/50 split on desktop) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start pb-12 border-b border-slate-200">
           {/* Brand & Club identity */}
-          <div className="space-y-4 max-w-xl">
+          <div className="space-y-4">
             <Link href="/" className="inline-flex items-center gap-2">
               <span className="text-2xl font-extrabold text-slate-900 tracking-tight font-sans">
                 BLAN<span className="text-[#e03e3e]">MONT</span>
@@ -169,7 +169,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
           </div>
 
           {/* Dynamic Next Rendez-vous card linked to Calendar */}
-          <div className="w-full lg:w-auto lg:min-w-[360px] lg:max-w-md">
+          <div className="w-full">
             <div className="group block p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-red-300 hover:shadow-md transition-all space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 font-semibold text-xs uppercase tracking-wider text-slate-800">
