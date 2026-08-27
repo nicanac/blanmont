@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GlobeAltIcon } from '@heroicons/react/24/outline'; // Using outline for consistency with PageHero icons if any, or solid 
+import { GlobeAltIcon } from '@heroicons/react/24/outline'; // Using outline for consistency with PageHero icons if any, or solid
 import { PageHero } from './components/ui/PageHero';
 import HomeBlogSection from './components/shared/HomeBlogSection';
 import { getBlogPosts } from './lib/firebase';
@@ -20,8 +20,7 @@ export default async function Home() {
             title="Club ouvert à tous"
             description={
               <span>
-                Dames, Hommes, Jeunes et moins jeunes, Vététistes et
-                quelques électriques.{' '}
+                Dames, Hommes, Jeunes et moins jeunes, Vététistes et quelques électriques.{' '}
                 <span className="font-medium text-white underline decoration-yellow-400 decoration-2 underline-offset-4">
                   Tous les niveaux sont représentés.
                 </span>
@@ -57,7 +56,7 @@ export default async function Home() {
               <img
                 className="aspect-[16/9] w-full object-cover sm:aspect-[2/1] lg:aspect-[16/7]"
                 src="/images/home-hero.jpg"
-                alt="Blanmont Cycling Club – peloton sur route"
+                alt="Club de Blanmont – peloton sur route"
               />
             </div>
 
@@ -69,10 +68,7 @@ export default async function Home() {
                   { value: 'Hebdo', label: 'Au moins une sortie' },
                   { value: '100%', label: 'Ouvert à tous' },
                 ].map((s) => (
-                  <div
-                    key={s.label}
-                    className="px-10 py-6 text-center sm:px-14"
-                  >
+                  <div key={s.label} className="px-10 py-6 text-center sm:px-14">
                     <p className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                       {s.value}
                     </p>
