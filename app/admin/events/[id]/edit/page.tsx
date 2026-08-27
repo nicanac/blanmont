@@ -24,6 +24,7 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
     remarks: '',
     alternative: '',
     group: 'Blanmont',
+    gpxUrl: '',
   });
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
             remarks: data.remarks || '',
             alternative: data.alternative || '',
             group: data.group || 'Blanmont',
+            gpxUrl: data.gpxUrl || '',
           });
         }
       } catch (error) {
@@ -68,11 +70,11 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
         router.push('/admin/events');
         router.refresh();
       } else {
-        alert('Erreur lors de la mise à jour de l\'événement');
+        alert("Erreur lors de la mise à jour de l'événement");
       }
     } catch (error) {
       console.error('Error updating event:', error);
-      alert('Erreur lors de la mise à jour de l\'événement');
+      alert("Erreur lors de la mise à jour de l'événement");
     } finally {
       setIsSubmitting(false);
     }
@@ -90,10 +92,7 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link
-          href="/admin/events"
-          className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
-        >
+        <Link href="/admin/events" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100">
           <ArrowLeftIcon className="h-5 w-5" />
         </Link>
         <div>
@@ -204,6 +203,25 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
                 onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
               />
+            </div>
+
+            {/* GPX / Garmin / Strava Trace Link */}
+            <div className="md:col-span-2">
+              <label htmlFor="gpxUrl" className="mb-2 block text-sm font-medium text-gray-700">
+                Lien de la trace / GPX (Garmin, Strava, Komoot ou URL de fichier .gpx)
+              </label>
+              <input
+                type="url"
+                id="gpxUrl"
+                value={formData.gpxUrl}
+                onChange={(e) => setFormData({ ...formData, gpxUrl: e.target.value })}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                placeholder="https://connect.garmin.com/modern/course/... ou https://www.strava.com/routes/..."
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                Ce lien sera directement accessible sur le calendrier et dans le bloc « Prochain
+                Rendez-vous » pour télécharger ou visualiser la trace.
+              </p>
             </div>
 
             {/* Group */}

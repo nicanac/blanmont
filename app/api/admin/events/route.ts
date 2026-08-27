@@ -19,6 +19,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       remarks: data.remarks || '',
       alternative: data.alternative || '',
       group: data.group || 'Blanmont',
+      gpxUrl: data.gpxUrl || '',
     };
 
     await newEventRef.set({

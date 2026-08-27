@@ -17,6 +17,7 @@ export default function NewEventPage(): React.ReactElement {
     remarks: '',
     alternative: '',
     group: 'Blanmont',
+    gpxUrl: '',
   });
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -34,11 +35,11 @@ export default function NewEventPage(): React.ReactElement {
         router.push('/admin/events');
         router.refresh();
       } else {
-        alert('Erreur lors de la création de l\'événement');
+        alert("Erreur lors de la création de l'événement");
       }
     } catch (error) {
       console.error('Error creating event:', error);
-      alert('Erreur lors de la création de l\'événement');
+      alert("Erreur lors de la création de l'événement");
     } finally {
       setIsSubmitting(false);
     }
@@ -48,10 +49,7 @@ export default function NewEventPage(): React.ReactElement {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link
-          href="/admin/events"
-          className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
-        >
+        <Link href="/admin/events" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100">
           <ArrowLeftIcon className="h-5 w-5" />
         </Link>
         <div>
@@ -170,6 +168,25 @@ export default function NewEventPage(): React.ReactElement {
               />
             </div>
 
+            {/* GPX / Garmin / Strava Trace Link */}
+            <div className="md:col-span-2">
+              <label htmlFor="gpxUrl" className="mb-2 block text-sm font-medium text-gray-700">
+                Lien de la trace / GPX (Garmin, Strava, Komoot ou URL de fichier .gpx)
+              </label>
+              <input
+                type="url"
+                id="gpxUrl"
+                value={formData.gpxUrl}
+                onChange={(e) => setFormData({ ...formData, gpxUrl: e.target.value })}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                placeholder="https://connect.garmin.com/modern/course/... ou https://www.strava.com/routes/..."
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                Ce lien sera directement accessible sur le calendrier et dans le bloc « Prochain
+                Rendez-vous » pour télécharger ou visualiser la trace.
+              </p>
+            </div>
+
             {/* Group */}
             <div>
               <label htmlFor="group" className="mb-2 block text-sm font-medium text-gray-700">
@@ -203,7 +220,7 @@ export default function NewEventPage(): React.ReactElement {
             disabled={isSubmitting}
             className="rounded-lg bg-red-600 px-6 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
           >
-            {isSubmitting ? 'Création...' : 'Créer l\'événement'}
+            {isSubmitting ? 'Création...' : "Créer l'événement"}
           </button>
         </div>
       </form>
