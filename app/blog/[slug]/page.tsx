@@ -42,12 +42,12 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   if (!post) {
     return {
-      title: 'Article non trouvé | Blanmont Cycling Club',
+      title: 'Article non trouvé | Club de Blanmont',
     };
   }
 
   return {
-    title: `${post.title} | Blanmont Cycling Club`,
+    title: `${post.title} | Club de Blanmont`,
     description: post.excerpt,
     openGraph: {
       title: post.title,
@@ -64,7 +64,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
  * Blog Post Detail Page.
  * Displays a single blog post with full content.
  */
-export default async function BlogPostPage({ params }: BlogPostPageProps): Promise<React.ReactElement> {
+export default async function BlogPostPage({
+  params,
+}: BlogPostPageProps): Promise<React.ReactElement> {
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
 
@@ -86,12 +88,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
           <div className="flex items-center gap-4">
             <div className="relative h-12 w-12 overflow-hidden rounded-full ring-2 ring-white/20 bg-gray-800 flex items-center justify-center">
               {post.authorAvatar ? (
-                <Image
-                  src={post.authorAvatar}
-                  alt={post.author}
-                  fill
-                  className="object-cover"
-                />
+                <Image src={post.authorAvatar} alt={post.author} fill className="object-cover" />
               ) : (
                 <UserCircleIcon className="h-8 w-8 text-gray-400" />
               )}
@@ -153,32 +150,34 @@ export default async function BlogPostPage({ params }: BlogPostPageProps): Promi
  * For production, consider using a library like marked or remark.
  */
 function convertMarkdownToHtml(markdown: string): string {
-  return markdown
-    // Headers
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-    // Bold
-    .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-    // Italic
-    .replace(/\*(.*)\*/gim, '<em>$1</em>')
-    // Lists
-    .replace(/^\- (.*$)/gim, '<li>$1</li>')
-    // Links
-    .replace(/\[([^\]]+)\]\(([^\)]+)\)/gim, '<a href="$2">$1</a>')
-    // Paragraphs (basic)
-    .split('\n\n')
-    .map((block) => {
-      const trimmed = block.trim();
-      if (!trimmed) return '';
-      if (trimmed.startsWith('<h') || trimmed.startsWith('<li')) {
-        // Wrap consecutive li elements in ul
-        if (trimmed.includes('<li>')) {
-          return `<ul>${trimmed}</ul>`;
+  return (
+    markdown
+      // Headers
+      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+      // Bold
+      .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+      // Italic
+      .replace(/\*(.*)\*/gim, '<em>$1</em>')
+      // Lists
+      .replace(/^\- (.*$)/gim, '<li>$1</li>')
+      // Links
+      .replace(/\[([^\]]+)\]\(([^\)]+)\)/gim, '<a href="$2">$1</a>')
+      // Paragraphs (basic)
+      .split('\n\n')
+      .map((block) => {
+        const trimmed = block.trim();
+        if (!trimmed) return '';
+        if (trimmed.startsWith('<h') || trimmed.startsWith('<li')) {
+          // Wrap consecutive li elements in ul
+          if (trimmed.includes('<li>')) {
+            return `<ul>${trimmed}</ul>`;
+          }
+          return trimmed;
         }
-        return trimmed;
-      }
-      return `<p>${trimmed.replace(/\n/g, '<br>')}</p>`;
-    })
-    .join('\n');
+        return `<p>${trimmed.replace(/\n/g, '<br>')}</p>`;
+      })
+      .join('\n')
+  );
 }

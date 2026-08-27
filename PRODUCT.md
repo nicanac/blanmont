@@ -8,12 +8,12 @@ web
 
 ## Users
 
-- **Club Members (Cyclists)**: Amateur and passionate road cyclists of the Blanmont Cycling Club (CC Saint-Martin Blanmont) looking for weekly ride schedules, route details ("parcours"), voting on Saturday routes ("Sortie du Samedi"), event calendar, leaderboard rankings, club apparel ("équipements"), and community blog posts. Accessing mostly from mobile smartphones before/after rides and desktop/laptop at home.
+- **Club Members (Cyclists)**: Amateur and passionate road cyclists of the Club de Blanmont (CC Saint-Martin Blanmont) looking for weekly ride schedules, route details ("parcours"), voting on Saturday routes ("Sortie du Samedi"), event calendar, leaderboard rankings, club apparel ("équipements"), and community blog posts. Accessing mostly from mobile smartphones before/after rides and desktop/laptop at home.
 - **Club Admins & Committee (President, Road Captains, Admins)**: Organizers managing routes, uploading/importing GPX/Strava/Garmin tracks, organizing weekly votes, managing calendar events (including PDF and CSV imports), moderating member directories, managing equipment orders/inventory, and publishing club articles.
 
 ## Product Purpose
 
-Sidereal Satellite (Blanmont Cycling Club Platform) is the central digital operating hub for the **CC Saint-Martin Blanmont** cycling club. It automates ride coordination, route cataloging with interactive GPX/elevation visualization, transparent democratic route voting for weekly rides, yearly calendar schedule management, and club member connection.
+Sidereal Satellite (Club de Blanmont Platform) is the central digital operating hub for the **CC Saint-Martin Blanmont** cycling club. It automates ride coordination, route cataloging with interactive GPX/elevation visualization, transparent democratic route voting for weekly rides, yearly calendar schedule management, and club member connection.
 
 ## Positioning
 

@@ -14,21 +14,17 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Blanmont Cycling Club',
+  title: 'Club de Blanmont',
   description: 'Premium Road Cycling Club',
 };
 
 /**
  * Root Layout component that wraps the entire application.
  * Provides the HTML structure, global styles, navigation bar, and footer.
- * 
+ *
  * @param children - The page content to render.
  */
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`h-full bg-white ${poppins.variable} font-sans`}>
