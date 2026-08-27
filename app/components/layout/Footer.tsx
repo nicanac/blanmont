@@ -9,6 +9,7 @@ interface ScheduledRideInfo {
   departure: string;
   distances?: string;
   address?: string;
+  remarks?: string;
   group?: string;
   isCustomEvent: boolean;
 }
@@ -65,6 +66,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
       departure: satEvent.departure || '8h30',
       distances: formatDistances(satEvent.distances),
       address: satEvent.address,
+      remarks: satEvent.remarks,
       group: satEvent.group,
       isCustomEvent: true,
     };
@@ -79,6 +81,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
       departure: sunEvent.departure || '8h30',
       distances: formatDistances(sunEvent.distances),
       address: sunEvent.address,
+      remarks: sunEvent.remarks,
       group: sunEvent.group,
       isCustomEvent: true,
     };
@@ -96,6 +99,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
       departure: nextEvent.departure || '8h30',
       distances: formatDistances(nextEvent.distances),
       address: nextEvent.address,
+      remarks: nextEvent.remarks,
       group: nextEvent.group,
       isCustomEvent: true,
     };
@@ -234,6 +238,12 @@ export default async function Footer(): Promise<React.JSX.Element> {
                 </p>
                 {nextRide.address && (
                   <p className="text-[11px] text-slate-500 truncate">{nextRide.address}</p>
+                )}
+                {nextRide.remarks && (
+                  <p className="text-[11px] text-slate-600 line-clamp-2">
+                    <span className="font-semibold text-slate-700">Remarques :</span>{' '}
+                    {nextRide.remarks}
+                  </p>
                 )}
               </div>
 
