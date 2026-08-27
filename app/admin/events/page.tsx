@@ -1,6 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { PlusIcon, PencilIcon, CalendarIcon, MapPinIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import {
+  PlusIcon,
+  PencilIcon,
+  CalendarIcon,
+  MapPinIcon,
+  ArrowUpTrayIcon,
+} from '@heroicons/react/24/outline';
 import { getCalendarEvents } from '@/app/lib/firebase/calendar';
 import DeleteEventButton from './components/DeleteEventButton';
 
@@ -12,7 +18,10 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
   // Separate upcoming and past events
   const today = new Date().toISOString().split('T')[0];
   const upcomingEvents = events.filter((e) => e.isoDate >= today);
-  const pastEvents = events.filter((e) => e.isoDate < today).slice(-10).reverse();
+  const pastEvents = events
+    .filter((e) => e.isoDate < today)
+    .slice(-10)
+    .reverse();
 
   const formatDate = (isoDate: string): string => {
     const date = new Date(isoDate);
@@ -59,12 +68,13 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
         </div>
         <div className="divide-y divide-gray-200">
           {upcomingEvents.length === 0 ? (
-            <div className="px-6 py-8 text-center text-gray-500">
-              Aucun événement à venir
-            </div>
+            <div className="px-6 py-8 text-center text-gray-500">Aucun événement à venir</div>
           ) : (
             upcomingEvents.map((event) => (
-              <div key={event.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50">
+              <div
+                key={event.id}
+                className="flex items-center justify-between px-6 py-4 hover:bg-gray-50"
+              >
                 <div className="flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-600">
                     <CalendarIcon className="h-6 w-6" />
@@ -81,6 +91,19 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
                     )}
                     {event.remarks && (
                       <p className="mt-1 text-sm text-amber-600">{event.remarks}</p>
+                    )}
+                    {event.gpxUrl && (
+                      <p className="mt-1 text-xs text-blue-600 truncate max-w-md">
+                        <span className="font-semibold">Trace GPS :</span>{' '}
+                        <a
+                          href={event.gpxUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline"
+                        >
+                          {event.gpxUrl}
+                        </a>
+                      </p>
                     )}
                   </div>
                 </div>
@@ -108,7 +131,10 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
           </div>
           <div className="divide-y divide-gray-200">
             {pastEvents.map((event) => (
-              <div key={event.id} className="flex items-center justify-between px-6 py-4 opacity-60 hover:bg-gray-50">
+              <div
+                key={event.id}
+                className="flex items-center justify-between px-6 py-4 opacity-60 hover:bg-gray-50"
+              >
                 <div className="flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-400">
                     <CalendarIcon className="h-6 w-6" />

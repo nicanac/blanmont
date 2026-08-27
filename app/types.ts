@@ -138,6 +138,7 @@ export interface CalendarEvent {
   remarks: string;
   alternative: string;
   group: string;
+  gpxUrl?: string; // Link to Garmin, Strava, Komoot or direct GPX file
 }
 
 /**
