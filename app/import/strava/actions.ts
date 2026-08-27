@@ -122,7 +122,7 @@ export async function importStravaTraceAction(
     return { error: result.error || 'Notion creation failed' };
   }
 
-  return { success: true, message: 'Trace created successfully in Notion!', traceId: result.id };
+  return { success: true, message: 'Trace created successfully in Notion!', traceId: (result as any).id };
 }
 
 export async function deleteTraceAction(traceId: string) {
