@@ -1,385 +1,445 @@
-
 'use client';
 
 import { Fragment } from 'react';
 import { usePathname } from 'next/navigation';
-import { Disclosure, Popover, PopoverButton, PopoverPanel, Transition, PopoverBackdrop } from '@headlessui/react';
 import {
-    UserIcon,
-    ArrowRightOnRectangleIcon,
-    Bars3Icon,
-    XMarkIcon,
-    PlusCircleIcon,
-    ChevronDownIcon,
-    MapIcon,
-    CalendarIcon,
-    TrophyIcon,
-    InformationCircleIcon,
-    ShoppingBagIcon,
+  Disclosure,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+  PopoverBackdrop,
+} from '@headlessui/react';
+import {
+  UserIcon,
+  ArrowRightOnRectangleIcon,
+  Bars3Icon,
+  XMarkIcon,
+  PlusCircleIcon,
+  ChevronDownIcon,
+  CalendarIcon,
+  TrophyIcon,
+  InformationCircleIcon,
+  ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../utils/cn';
 
-
 export default function Navbar() {
-    const pathname = usePathname();
-    const { user, logout, isAuthenticated, isAdmin } = useAuth();
+  const pathname = usePathname();
+  const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
-    const mainNavigation = [
-        { name: 'Les News', href: '/blog' },
-        { name: 'Membres', href: '/members' },
-        { name: 'Calendrier', description: 'Agenda de la saison', href: '/calendrier', icon: CalendarIcon },
+  const mainNavigation = [
+    { name: 'Les News', href: '/blog' },
+    { name: 'Membres', href: '/members' },
+    {
+      name: 'Calendrier',
+      description: 'Agenda de la saison',
+      href: '/calendrier',
+      icon: CalendarIcon,
+    },
+  ];
 
-    ];
+  const clubNavigation = [
+    {
+      name: 'Présentation',
+      description: 'Qui sommes-nous ?',
+      href: '/le-club',
+      icon: InformationCircleIcon,
+    },
+    {
+      name: 'Équipement',
+      description: 'Collection 2026',
+      href: '/le-club/equipement',
+      icon: ShoppingBagIcon,
+    },
+    { name: 'Carré Vert', description: 'Classement', href: '/leaderboard', icon: TrophyIcon },
+  ];
 
-    const clubNavigation = [
-        { name: 'Présentation', description: 'Qui sommes-nous ?', href: '/le-club', icon: InformationCircleIcon },
-        { name: 'Parcours', description: 'Nos traces GPS', href: '/traces', icon: MapIcon },
-        { name: 'Équipement', description: 'Collection 2026', href: '/le-club/equipement', icon: ShoppingBagIcon },
-        { name: 'Carré Vert', description: 'Classement', href: '/leaderboard', icon: TrophyIcon },
-    ];
+  // Simple user menu - only essential items
+  // Trace management has been moved to Admin section
+  const userNavigation = [
+    { name: 'Mon Compte', description: 'Gérer mon profil', href: '/profile', icon: UserIcon },
+  ];
 
-    // Simple user menu - only essential items
-    // Trace management has been moved to Admin section
-    const userNavigation = [
-        { name: 'Mon Compte', description: 'Gérer mon profil', href: '/profile', icon: UserIcon },
-    ];
+  // Admin link - shown only for users with admin access
+  const adminNavigation = isAdmin
+    ? [
+        {
+          name: 'Admin',
+          description: 'Administration du site',
+          href: '/admin',
+          icon: PlusCircleIcon,
+        },
+      ]
+    : [];
 
-    // Admin link - shown only for users with admin access
-    const adminNavigation = isAdmin
-        ? [{ name: 'Admin', description: 'Administration du site', href: '/admin', icon: PlusCircleIcon }]
-        : [];
+  return (
+    <Popover
+      as="nav"
+      className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs"
+    >
+      {({ open, close }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 justify-between items-center">
+              {/* Left Side: Logo | Divider | Links */}
+              <div className="flex items-center">
+                {/* Logo */}
+                <div className="flex-shrink-0 flex items-center">
+                  <Link href="/" className="flex items-center gap-2">
+                    <span className="text-2xl font-extrabold text-gray-900 tracking-tight font-sans">
+                      BLAN<span className="text-[#e03e3e]">MONT</span>
+                    </span>
+                  </Link>
+                </div>
 
-    return (
-        <Popover as="nav" className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs">
-            {({ open, close }) => (
-                <>
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="flex h-16 justify-between items-center">
+                {/* Divider */}
+                <div className="hidden sm:block h-6 w-px bg-gray-300 mx-6"></div>
 
-                            {/* Left Side: Logo | Divider | Links */}
-                            <div className="flex items-center">
-                                {/* Logo */}
-                                <div className="flex-shrink-0 flex items-center">
-                                    <Link href="/" className="flex items-center gap-2">
-                                        <span className="text-2xl font-extrabold text-gray-900 tracking-tight font-sans">
-                                            BLAN<span className="text-[#e03e3e]">MONT</span>
-                                        </span>
-                                    </Link>
-                                </div>
+                {/* Navigation Links */}
+                <div className="hidden sm:flex sm:space-x-8 items-center">
+                  {mainNavigation.map((item) => {
+                    const isCurrent = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={cn(
+                          'text-sm font-medium transition-colors',
+                          isCurrent
+                            ? 'text-[#e03e3e] font-semibold'
+                            : 'text-gray-900 hover:text-[#e03e3e]'
+                        )}
+                        aria-current={isCurrent ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </Link>
+                    );
+                  })}
 
-                                {/* Divider */}
-                                <div className="hidden sm:block h-6 w-px bg-gray-300 mx-6"></div>
+                  {/* Le Club Popover */}
+                  <Popover className="relative self-center -mt-px">
+                    {({ open }) => (
+                      <>
+                        <PopoverButton
+                          className={cn(
+                            'group inline-flex items-center text-sm font-medium text-gray-900 hover:text-[#e03e3e] transition-colors focus:outline-none'
+                          )}
+                        >
+                          <span>Le Club</span>
+                          <ChevronDownIcon
+                            className={cn(
+                              open ? 'text-[#e03e3e] rotate-180' : 'text-gray-400',
+                              'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-[#e03e3e]'
+                            )}
+                            aria-hidden="true"
+                          />
+                        </PopoverButton>
 
-                                {/* Navigation Links */}
-                                <div className="hidden sm:flex sm:space-x-8 items-center">
-                                    {mainNavigation.map((item) => {
-                                        const isCurrent = pathname === item.href;
-                                        return (
-                                            <Link
-                                                key={item.name}
-                                                href={item.href}
-                                                className={cn(
-                                                    'text-sm font-medium transition-colors',
-                                                    isCurrent
-                                                        ? 'text-[#e03e3e] font-semibold'
-                                                        : 'text-gray-900 hover:text-[#e03e3e]'
-                                                )}
-                                                aria-current={isCurrent ? 'page' : undefined}
-                                            >
-                                                {item.name}
-                                            </Link>
-                                        );
-                                    })}
-
-                                    {/* Le Club Popover */}
-                                    <Popover className="relative self-center -mt-px">
-                                        {({ open }) => (
-                                            <>
-                                                <PopoverButton
-                                                    className={cn(
-                                                        'group inline-flex items-center text-sm font-medium text-gray-900 hover:text-[#e03e3e] transition-colors focus:outline-none'
-                                                    )}
-                                                >
-                                                    <span>Le Club</span>
-                                                    <ChevronDownIcon
-                                                        className={cn(
-                                                            open ? 'text-[#e03e3e] rotate-180' : 'text-gray-400',
-                                                            'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-[#e03e3e]'
-                                                        )}
-                                                        aria-hidden="true"
-                                                    />
-                                                </PopoverButton>
-
-                                                <Transition
-                                                    as={Fragment}
-                                                    enter="transition ease-out duration-200"
-                                                    enterFrom="opacity-0 translate-y-1"
-                                                    enterTo="opacity-100 translate-y-0"
-                                                    leave="transition ease-in duration-150"
-                                                    leaveFrom="opacity-100 translate-y-0"
-                                                    leaveTo="opacity-0 translate-y-1"
-                                                >
-                                                    <PopoverPanel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-2 sm:px-0">
-                                                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                                                            <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                                                {clubNavigation.map((item) => (
-                                                                    <PopoverButton
-                                                                        key={item.name}
-                                                                        as={Link}
-                                                                        href={item.href}
-                                                                        className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
-                                                                    >
-                                                                        <item.icon className="h-6 w-6 flex-shrink-0 text-brand-primary" aria-hidden="true" />
-                                                                        <div className="ml-4 text-left">
-                                                                            <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                                            <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                                        </div>
-                                                                    </PopoverButton>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    </PopoverPanel>
-                                                </Transition>
-                                            </>
-                                        )}
-                                    </Popover>
-                                </div>
-                            </div>
-
-                            {/* Right Side: Icons */}
-                            <div className="hidden sm:flex items-center space-x-6">
-                                {/* User Menu / Login */}
-                                {isAuthenticated ? (
-                                    <Popover className="relative">
-                                        {({ open }) => (
-                                            <>
-                                                <PopoverButton className="flex items-center text-gray-900 hover:text-gray-600 focus:outline-none">
-                                                    <span className="sr-only">Ouvrir le menu utilisateur</span>
-                                                    {user?.avatarUrl ? (
-                                                        <Image
-                                                            className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-100"
-                                                            src={user.avatarUrl}
-                                                            alt={user.name || "User avatar"}
-                                                            width={32}
-                                                            height={32}
-                                                            unoptimized={!user.avatarUrl.includes('cloudinary.com')}
-                                                        />
-                                                    ) : (
-                                                        <UserIcon className="h-6 w-6" aria-hidden="true" />
-                                                    )}
-                                                </PopoverButton>
-                                                <Transition
-                                                    as={Fragment}
-                                                    enter="transition ease-out duration-200"
-                                                    enterFrom="opacity-0 translate-y-1"
-                                                    enterTo="opacity-100 translate-y-0"
-                                                    leave="transition ease-in duration-150"
-                                                    leaveFrom="opacity-100 translate-y-0"
-                                                    leaveTo="opacity-0 translate-y-1"
-                                                >
-                                                    <PopoverPanel className="absolute right-0 z-10 mt-3 w-screen max-w-xs transform px-2 sm:px-0">
-                                                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                                                            <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                                                <div className="-m-3 p-3 border-b border-gray-100 pb-4 mb-1">
-                                                                    <p className="text-xs text-gray-500">Connecté en tant que</p>
-                                                                    <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
-                                                                </div>
-
-                                                                {[...userNavigation, ...adminNavigation].map((item) => (
-                                                                    <PopoverButton
-                                                                        key={item.name}
-                                                                        as={Link}
-                                                                        href={item.href}
-                                                                        className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
-                                                                    >
-                                                                        <item.icon className="h-6 w-6 flex-shrink-0 text-brand-primary" aria-hidden="true" />
-                                                                        <div className="ml-4 text-left">
-                                                                            <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                                            <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                                        </div>
-                                                                    </PopoverButton>
-                                                                ))}
-
-                                                                <button
-                                                                    onClick={() => logout()}
-                                                                    className="-m-3 flex w-full items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
-                                                                >
-                                                                    <ArrowRightOnRectangleIcon className="h-6 w-6 flex-shrink-0 text-red-500" aria-hidden="true" />
-                                                                    <div className="ml-4 text-left">
-                                                                        <p className="text-base font-medium text-red-600">Se déconnecter</p>
-                                                                        <p className="mt-1 text-sm text-gray-500">Fermer la session</p>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </PopoverPanel>
-                                                </Transition>
-                                            </>
-                                        )}
-                                    </Popover>
-                                ) : (
-                                    <div className="flex items-center space-x-4">
-                                        <Link href="/login" className="text-gray-900 hover:text-[#e03e3e] font-medium text-sm transition-colors">
-                                            Se connecter
-                                        </Link>
-                                        <Link href="/login" className="text-gray-700 hover:text-[#e03e3e] transition-colors">
-                                            <span className="sr-only">Se connecter</span>
-                                            <UserIcon className="h-6 w-6" aria-hidden="true" />
-                                        </Link>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <PopoverPanel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-2 sm:px-0">
+                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                                {clubNavigation.map((item) => (
+                                  <PopoverButton
+                                    key={item.name}
+                                    as={Link}
+                                    href={item.href}
+                                    className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
+                                  >
+                                    <item.icon
+                                      className="h-6 w-6 flex-shrink-0 text-brand-primary"
+                                      aria-hidden="true"
+                                    />
+                                    <div className="ml-4 text-left">
+                                      <p className="text-base font-medium text-gray-900">
+                                        {item.name}
+                                      </p>
+                                      <p className="mt-1 text-sm text-gray-500">
+                                        {item.description}
+                                      </p>
                                     </div>
-                                )}
+                                  </PopoverButton>
+                                ))}
+                              </div>
                             </div>
+                          </PopoverPanel>
+                        </Transition>
+                      </>
+                    )}
+                  </Popover>
+                </div>
+              </div>
 
-                            {/* Mobile menu button */}
-                            <div className="-mr-2 flex items-center sm:hidden">
-                                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
-                                    <span className="absolute -inset-0.5" />
-                                    <span className="sr-only">Ouvrir le menu principal</span>
-                                    {open ? (
-                                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                                    ) : (
-                                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                                    )}
-                                </PopoverButton>
+              {/* Right Side: Icons */}
+              <div className="hidden sm:flex items-center space-x-6">
+                {/* User Menu / Login */}
+                {isAuthenticated ? (
+                  <Popover className="relative">
+                    {({ open }) => (
+                      <>
+                        <PopoverButton className="flex items-center text-gray-900 hover:text-gray-600 focus:outline-none">
+                          <span className="sr-only">Ouvrir le menu utilisateur</span>
+                          {user?.avatarUrl ? (
+                            <Image
+                              className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-100"
+                              src={user.avatarUrl}
+                              alt={user.name || 'User avatar'}
+                              width={32}
+                              height={32}
+                              unoptimized={!user.avatarUrl.includes('cloudinary.com')}
+                            />
+                          ) : (
+                            <UserIcon className="h-6 w-6" aria-hidden="true" />
+                          )}
+                        </PopoverButton>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <PopoverPanel className="absolute right-0 z-10 mt-3 w-screen max-w-xs transform px-2 sm:px-0">
+                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                                <div className="-m-3 p-3 border-b border-gray-100 pb-4 mb-1">
+                                  <p className="text-xs text-gray-500">Connecté en tant que</p>
+                                  <p className="text-sm font-semibold text-gray-900 truncate">
+                                    {user?.name}
+                                  </p>
+                                </div>
+
+                                {[...userNavigation, ...adminNavigation].map((item) => (
+                                  <PopoverButton
+                                    key={item.name}
+                                    as={Link}
+                                    href={item.href}
+                                    className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
+                                  >
+                                    <item.icon
+                                      className="h-6 w-6 flex-shrink-0 text-brand-primary"
+                                      aria-hidden="true"
+                                    />
+                                    <div className="ml-4 text-left">
+                                      <p className="text-base font-medium text-gray-900">
+                                        {item.name}
+                                      </p>
+                                      <p className="mt-1 text-sm text-gray-500">
+                                        {item.description}
+                                      </p>
+                                    </div>
+                                  </PopoverButton>
+                                ))}
+
+                                <button
+                                  onClick={() => logout()}
+                                  className="-m-3 flex w-full items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
+                                >
+                                  <ArrowRightOnRectangleIcon
+                                    className="h-6 w-6 flex-shrink-0 text-red-500"
+                                    aria-hidden="true"
+                                  />
+                                  <div className="ml-4 text-left">
+                                    <p className="text-base font-medium text-red-600">
+                                      Se déconnecter
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-500">Fermer la session</p>
+                                  </div>
+                                </button>
+                              </div>
                             </div>
-                        </div>
+                          </PopoverPanel>
+                        </Transition>
+                      </>
+                    )}
+                  </Popover>
+                ) : (
+                  <div className="flex items-center space-x-4">
+                    <Link
+                      href="/login"
+                      className="text-gray-900 hover:text-[#e03e3e] font-medium text-sm transition-colors"
+                    >
+                      Se connecter
+                    </Link>
+                    <Link
+                      href="/login"
+                      className="text-gray-700 hover:text-[#e03e3e] transition-colors"
+                    >
+                      <span className="sr-only">Se connecter</span>
+                      <UserIcon className="h-6 w-6" aria-hidden="true" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile menu button */}
+              <div className="-mr-2 flex items-center sm:hidden">
+                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
+                  <span className="absolute -inset-0.5" />
+                  <span className="sr-only">Ouvrir le menu principal</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </PopoverButton>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Overlay Backdrop */}
+          <Transition
+            as={Fragment}
+            enter="duration-200 ease-out"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="duration-150 ease-in"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <PopoverBackdrop className="fixed inset-0 bg-black/25 z-40 sm:hidden" />
+          </Transition>
+
+          <Transition
+            as={Fragment}
+            enter="duration-200 ease-out"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="duration-150 ease-in"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-lg sm:hidden bg-white border-b border-gray-200">
+              <div className="space-y-1 pb-3 pt-2">
+                {mainNavigation.map((item) => {
+                  const isCurrent = pathname === item.href;
+                  return (
+                    <PopoverButton
+                      key={item.name}
+                      as={Link}
+                      href={item.href}
+                      className={cn(
+                        isCurrent
+                          ? 'bg-red-50 border-l-4 border-[#e03e3e] text-[#e03e3e] font-semibold'
+                          : 'border-l-4 border-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900',
+                        'block py-2 pl-3 pr-4 text-base font-medium transition-colors'
+                      )}
+                      aria-current={isCurrent ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </PopoverButton>
+                  );
+                })}
+
+                {/* Mobile Le Club Dropdown using nested Disclosure */}
+                <Disclosure as="div" className="border-l-4 border-transparent">
+                  {(
+                    { open: subOpen } // Renamed to avoid confusion with parent Popover open
+                  ) => (
+                    <>
+                      <Disclosure.Button
+                        className={cn(
+                          'flex w-full items-center justify-between py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                        )}
+                      >
+                        <span className="flex-1 text-left">Le Club</span>
+                        <ChevronDownIcon
+                          className={cn(subOpen ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
+                          aria-hidden="true"
+                        />
+                      </Disclosure.Button>
+                      <Disclosure.Panel className="mt-2 space-y-1 pl-4">
+                        {clubNavigation.map((item) => (
+                          <PopoverButton
+                            key={item.name}
+                            as={Link}
+                            href={item.href}
+                            className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                          >
+                            {item.name}
+                          </PopoverButton>
+                        ))}
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
+              </div>
+              <div className="border-t border-gray-200 pb-3 pt-4">
+                {isAuthenticated ? (
+                  <div className="space-y-1">
+                    <div className="flex items-center px-4">
+                      <div className="flex-shrink-0">
+                        <Image
+                          className="h-10 w-10 rounded-full"
+                          src={user?.avatarUrl || '/images/default-avatar.svg'}
+                          alt={user?.name || 'User avatar'}
+                          width={40}
+                          height={40}
+                          unoptimized={!user?.avatarUrl?.includes('cloudinary.com')}
+                        />
+                      </div>
+                      <div className="ml-3">
+                        <div className="text-base font-medium text-gray-800">{user?.name}</div>
+                        <div className="text-sm font-medium text-gray-500">{user?.email}</div>
+                      </div>
                     </div>
-
-                    {/* Mobile Overlay Backdrop */}
-                    <Transition
-                        as={Fragment}
-                        enter="duration-200 ease-out"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="duration-150 ease-in"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
+                    <div className="mt-3 space-y-1">
+                      {[...userNavigation, ...adminNavigation].map((item) => (
+                        <PopoverButton
+                          key={item.name}
+                          as={Link}
+                          href={item.href}
+                          className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                        >
+                          {item.name}
+                        </PopoverButton>
+                      ))}
+                      <PopoverButton
+                        as="button"
+                        onClick={() => logout()}
+                        className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                      >
+                        Log out
+                      </PopoverButton>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-1 px-4">
+                    <PopoverButton
+                      as={Link}
+                      href="/login"
+                      className="block text-base font-medium text-gray-500 hover:text-gray-900"
                     >
-                        <PopoverBackdrop className="fixed inset-0 bg-black/25 z-40 sm:hidden" />
-                    </Transition>
-
-                    <Transition
-                        as={Fragment}
-                        enter="duration-200 ease-out"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="duration-150 ease-in"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
+                      Log in
+                    </PopoverButton>
+                    <PopoverButton
+                      as={Link}
+                      href="/register"
+                      className="block text-base font-medium text-gray-500 hover:text-gray-900"
                     >
-                        <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-lg sm:hidden bg-white border-b border-gray-200">
-                            <div className="space-y-1 pb-3 pt-2">
-                                {mainNavigation.map((item) => {
-                                    const isCurrent = pathname === item.href;
-                                    return (
-                                        <PopoverButton
-                                            key={item.name}
-                                            as={Link}
-                                            href={item.href}
-                                            className={cn(
-                                                isCurrent
-                                                    ? 'bg-red-50 border-l-4 border-[#e03e3e] text-[#e03e3e] font-semibold'
-                                                    : 'border-l-4 border-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900',
-                                                'block py-2 pl-3 pr-4 text-base font-medium transition-colors'
-                                            )}
-                                            aria-current={isCurrent ? 'page' : undefined}
-                                        >
-                                            {item.name}
-                                        </PopoverButton>
-                                    );
-                                })}
-
-                                {/* Mobile Le Club Dropdown using nested Disclosure */}
-                                <Disclosure as="div" className="border-l-4 border-transparent">
-                                    {({ open: subOpen }) => ( // Renamed to avoid confusion with parent Popover open
-                                        <>
-                                            <Disclosure.Button
-                                                className={cn(
-                                                    'flex w-full items-center justify-between py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-800'
-                                                )}
-                                            >
-                                                <span className="flex-1 text-left">Le Club</span>
-                                                <ChevronDownIcon
-                                                    className={cn(
-                                                        subOpen ? 'rotate-180' : '',
-                                                        'h-5 w-5 flex-none'
-                                                    )}
-                                                    aria-hidden="true"
-                                                />
-                                            </Disclosure.Button>
-                                            <Disclosure.Panel className="mt-2 space-y-1 pl-4">
-                                                {clubNavigation.map((item) => (
-                                                    <PopoverButton
-                                                        key={item.name}
-                                                        as={Link}
-                                                        href={item.href}
-                                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                                                    >
-                                                        {item.name}
-                                                    </PopoverButton>
-                                                ))}
-                                            </Disclosure.Panel>
-                                        </>
-                                    )}
-                                </Disclosure>
-                            </div>
-                            <div className="border-t border-gray-200 pb-3 pt-4">
-                                {isAuthenticated ? (
-                                    <div className="space-y-1">
-                                        <div className="flex items-center px-4">
-                                            <div className="flex-shrink-0">
-                                                <Image
-                                                    className="h-10 w-10 rounded-full"
-                                                    src={user?.avatarUrl || "/images/default-avatar.svg"}
-                                                    alt={user?.name || "User avatar"}
-                                                    width={40}
-                                                    height={40}
-                                                    unoptimized={!user?.avatarUrl?.includes('cloudinary.com')}
-                                                />
-                                            </div>
-                                            <div className="ml-3">
-                                                <div className="text-base font-medium text-gray-800">{user?.name}</div>
-                                                <div className="text-sm font-medium text-gray-500">{user?.email}</div>
-                                            </div>
-                                        </div>
-                                        <div className="mt-3 space-y-1">
-                                            {[...userNavigation, ...adminNavigation].map((item) => (
-                                                <PopoverButton
-                                                    key={item.name}
-                                                    as={Link}
-                                                    href={item.href}
-                                                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                                                >
-                                                    {item.name}
-                                                </PopoverButton>
-                                            ))}
-                                            <PopoverButton
-                                                as="button"
-                                                onClick={() => logout()}
-                                                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                                            >
-                                                Log out
-                                            </PopoverButton>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-1 px-4">
-                                        <PopoverButton as={Link} href="/login" className="block text-base font-medium text-gray-500 hover:text-gray-900">
-                                            Log in
-                                        </PopoverButton>
-                                        <PopoverButton as={Link} href="/register" className="block text-base font-medium text-gray-500 hover:text-gray-900">
-                                            Sign up
-                                        </PopoverButton>
-                                    </div>
-                                )}
-                            </div>
-                        </PopoverPanel>
-                    </Transition>
-                </>
-            )}
-        </Popover>
-    );
+                      Sign up
+                    </PopoverButton>
+                  </div>
+                )}
+              </div>
+            </PopoverPanel>
+          </Transition>
+        </>
+      )}
+    </Popover>
+  );
 }
