@@ -151,7 +151,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
       </h2>
       <div className="mx-auto max-w-7xl px-6 pb-12 pt-16 sm:pt-20 lg:px-8">
         {/* Top Section: Brand/Info on the left, Next ride card on the right */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 pb-12 border-b border-slate-200">
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 pb-12 border-b border-slate-200">
           {/* Brand & Club identity */}
           <div className="space-y-4 max-w-xl">
             <Link href="/" className="inline-flex items-center gap-2">
