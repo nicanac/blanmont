@@ -4,6 +4,7 @@ import { Poppins } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import FirstArrivalLoader from './components/ui/FirstArrivalLoader';
 import { Toaster } from 'sonner';
 
 const poppins = Poppins({
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={`h-full bg-white ${poppins.variable} font-sans`}>
+        <FirstArrivalLoader />
         <AuthProvider>
           <Navbar />
 
