@@ -8,6 +8,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { cn } from '../utils/cn';
 import { useAuth } from '../context/AuthContext';
+import CalendarSubscribeButton from './CalendarSubscribeButton';
 
 const MONTH_NAMES = [
   'Janvier',
@@ -107,13 +108,14 @@ export default function CalendarView({
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
       {/* Top Bar */}
-      <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
-        <h1 className="text-base font-semibold leading-6 text-gray-900">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-200 px-6 py-4 lg:flex-none">
+        <h1 className="text-lg font-bold leading-6 text-gray-900">
           <time dateTime={`${year}-${String(month + 1).padStart(2, '0')}`}>
             {MONTH_NAMES[month]} {year}
           </time>
         </h1>
-        <div className="flex items-center">
+        <div className="flex flex-wrap items-center gap-3">
+          <CalendarSubscribeButton />
           <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
             <button
               type="button"
