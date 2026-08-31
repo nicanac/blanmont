@@ -4,6 +4,12 @@
 This file tracks the history of tasks performed in this session and planned future work.
 
 ## ✅ Completed Tasks
+- **Priority 3 Calendar Subscription (.ics), Weather Forecast & 2-Step PDF Import**:
+  - **iCalendar Sync Feed**: Implemented RFC 5545 generator (`app/lib/calendar-ics.ts`) and API routes (`/api/calendar/subscribe.ics`, `/api/calendar/ics`) for continuous 1-click calendar synchronization across Apple Calendar (`webcal://`), Google Agenda, Outlook, and manual `.ics` download.
+  - **Calendar Subscription Modal**: Added `CalendarSubscribeButton` on `/calendrier` header with quick 1-click links and clipboard feed URL copy.
+  - **Live Weather & Wind Direction Integration**: Implemented Open-Meteo weather integration (`app/lib/weather.ts`) with `RideWeatherBadge` displaying temperature, sky condition, rain probability, wind speed (km/h) and wind cardinal/arrow rotation (e.g., SO ↗) on `/calendrier` event drawer and `Footer` Next Ride card.
+  - **2-Step PDF Calendar Import**: Refactored `/admin/events/import` into an interactive 2-step workflow (`parsePdfForPreviewAction` -> editable preview table with batch toggles, line editing and addition -> `saveImportedEventsAction` with database commit).
+  - *Status*: Verified with build and unit test runs.
 - **Priority 1 Security, HttpOnly Session Cookies & Blog XSS Protection**:
   - Implemented secure Web Crypto HMAC-SHA256 session token management (`app/lib/auth/session.ts`) with `HttpOnly`, `Secure`, `SameSite=Lax` cookies.
   - Secured all admin API endpoints under `app/api/admin/*` (`members`, `events`, `attendance`, `blog`, `equipements`, `add-trace`, `import-csv`, `parse-gpx`, `fetch-metadata`) plus mutation routes (`/api/traces/[id]`, `/api/upload`) with server-side authorization checks (`verifyAdminRequest`).

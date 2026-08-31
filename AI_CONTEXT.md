@@ -86,12 +86,15 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 - **Language**: French (Français) is the primary language for all public-facing text.
 - **Scope**: Navbar, Footer, Home, Traces, Voting, Feedback.
 
-### 6. Calendar System
+### 6. Calendar & Weather System
 
-- **Goal**: Display the club's annual schedule and events.
+- **Goal**: Display the club's annual schedule, live meteorological forecasts, and automatic agenda synchronization.
 - **Data**: Stored in Firebase Realtime Database `calendar-events` (with Notion fallback).
 - **Features**:
   - **Month View**: Client-side interactive calendar (`CalendarView.tsx`).
+  - **iCalendar Feed Sync**: Live dynamic `.ics` subscription (`/api/calendar/subscribe.ics` & `/api/calendar/ics`) supporting Apple Calendar (`webcal://`), Google Calendar, Outlook, and manual download.
+  - **Live Weather & Wind Direction**: Open-Meteo API integration (`app/lib/weather.ts` & `RideWeatherBadge.tsx`) displaying forecast temperatures, sky conditions, rain probability, wind speed in km/h, and cardinal wind direction with animated arrows on calendar events and the footer next ride block.
+  - **2-Step PDF Calendar Ingestion**: `/admin/events/import` enables administrators to upload official club calendar PDFs, preview and edit detected rows in an interactive table, and commit them safely into the database.
   - **Events**: Cycling sorties, meetings, and special events.
   - **Visuals**: Color-coded days (Weekdays vs Weekends) and event types.
   - **Admin Navigation**: When logged in as an administrator/president, clicking an event in the calendar directly redirects to the admin edit page (`/admin/events/[id]/edit`) with visual edit indicators and quick-action buttons in the event drawer.
