@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeftIcon, TagIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { PageHero } from '@/app/components/ui/PageHero';
 import { getBlogPostBySlug, getBlogPosts } from '../../lib/firebase';
 
@@ -123,12 +125,11 @@ export default async function BlogPostPage({
         </div>
 
         {/* Content */}
-        <div
-          className="prose prose-lg prose-gray max-w-none prose-headings:font-semibold prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline"
-          dangerouslySetInnerHTML={{
-            __html: convertMarkdownToHtml(post.content),
-          }}
-        />
+        <div className="prose prose-lg prose-gray max-w-none prose-headings:font-semibold prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {post.content}
+          </ReactMarkdown>
+        </div>
 
         {/* Footer */}
         <footer className="mt-12 pt-8 border-t border-gray-200">
@@ -142,42 +143,5 @@ export default async function BlogPostPage({
         </footer>
       </article>
     </div>
-  );
-}
-
-/**
- * Simple Markdown to HTML converter for basic content.
- * For production, consider using a library like marked or remark.
- */
-function convertMarkdownToHtml(markdown: string): string {
-  return (
-    markdown
-      // Headers
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-      // Bold
-      .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-      // Italic
-      .replace(/\*(.*)\*/gim, '<em>$1</em>')
-      // Lists
-      .replace(/^\- (.*$)/gim, '<li>$1</li>')
-      // Links
-      .replace(/\[([^\]]+)\]\(([^\)]+)\)/gim, '<a href="$2">$1</a>')
-      // Paragraphs (basic)
-      .split('\n\n')
-      .map((block) => {
-        const trimmed = block.trim();
-        if (!trimmed) return '';
-        if (trimmed.startsWith('<h') || trimmed.startsWith('<li')) {
-          // Wrap consecutive li elements in ul
-          if (trimmed.includes('<li>')) {
-            return `<ul>${trimmed}</ul>`;
-          }
-          return trimmed;
-        }
-        return `<p>${trimmed.replace(/\n/g, '<br>')}</p>`;
-      })
-      .join('\n')
   );
 }

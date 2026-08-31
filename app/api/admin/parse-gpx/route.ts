@@ -3,8 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { DOMParser } from '@xmldom/xmldom';
 import { gpx } from '@tmcw/togeojson';
 import { ParseGpxApiSchema, safeValidate } from '@/app/lib/validation';
+import { verifyAdminRequest } from '@/app/lib/auth/session';
 
 export async function POST(req: NextRequest) {
+  const authCheck = await verifyAdminRequest(req);
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const body = await req.json();
     

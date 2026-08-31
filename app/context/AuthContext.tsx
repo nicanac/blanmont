@@ -1,6 +1,6 @@
 'use client';
 
-import { loginAction } from '../actions';
+import { loginAction, logoutAction, getCurrentSessionUserAction } from '../actions';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { checkIsAdmin } from '../utils/auth';
 import { User } from '../types';
@@ -8,7 +8,7 @@ import { User } from '../types';
 interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<boolean>;
-    logout: () => void;
+    logout: () => Promise<void>;
     updateUser: (updates: Partial<User>) => void;
     isAuthenticated: boolean;
     isAdmin: boolean;
@@ -19,16 +19,46 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
 
-    // Initialize from localStorage
+    // Initialize session from server HttpOnly cookie with fallback
     React.useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
+        let isMounted = true;
+
+        async function initSession() {
             try {
-                setUser(JSON.parse(storedUser));
+                const sessionUser = await getCurrentSessionUserAction();
+                if (sessionUser && isMounted) {
+                    const authenticatedUser: User = {
+                        id: sessionUser.id,
+                        username: sessionUser.email || sessionUser.name,
+                        name: sessionUser.name,
+                        avatarUrl: sessionUser.photoUrl || '/images/default-avatar.png',
+                        email: sessionUser.email || undefined,
+                        role: sessionUser.role,
+                    };
+                    setUser(authenticatedUser);
+                    localStorage.setItem('user', JSON.stringify(authenticatedUser));
+                    return;
+                }
             } catch (e) {
-                console.error('Failed to parse user from storage');
+                console.warn('Could not verify server session cookie:', e);
+            }
+
+            // Fallback to localStorage if offline/initial load
+            const storedUser = localStorage.getItem('user');
+            if (storedUser && isMounted) {
+                try {
+                    setUser(JSON.parse(storedUser));
+                } catch {
+                    console.error('Failed to parse user from storage');
+                }
             }
         }
+
+        initSession();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const login = async (email: string, password: string): Promise<boolean> => {
@@ -57,10 +87,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('memberData');
+    const logout = async () => {
+        try {
+            await logoutAction();
+        } catch (err) {
+            console.error('Logout error on server:', err);
+        } finally {
+            setUser(null);
+            localStorage.removeItem('user');
+            localStorage.removeItem('memberData');
+        }
     };
 
     const updateUser = (updates: Partial<User>) => {

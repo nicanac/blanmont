@@ -1,11 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
+import { calculateMemberCarres, parseDateInfo } from '@/app/lib/carreVert';
+import { verifyAdminRequest } from '@/app/lib/auth/session';
 
 /**
  * GET /api/admin/attendance?eventId=xxx
  * Fetch attendance for a specific event, or all attendance if no eventId.
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  const authCheck = await verifyAdminRequest(request);
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('eventId');
@@ -36,6 +43,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  * Body: { eventId, isoDate, memberId, name, group, action: 'add' | 'remove' }
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const authCheck = await verifyAdminRequest(request);
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const data = await request.json();
     const { eventId, isoDate, memberId, name, group, action } = data;
@@ -60,7 +72,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       // Set the isoDate on the attendance record
       await db.ref(`attendance/${eventId}/isoDate`).set(isoDate);
 
-      // Add the member
+      // Add the member to attendance
       await db.ref(`attendance/${eventId}/members/${memberId}`).set({
         memberId,
         name,
@@ -70,12 +82,81 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       await db.ref(`attendance/${eventId}/updatedAt`).set(new Date().toISOString());
 
+      // Also keep leaderboard entry in sync
+      try {
+        const memberSnap = await db.ref(`leaderboard/${memberId}`).once('value');
+        if (memberSnap.exists()) {
+          const memberData = memberSnap.val() || {};
+          const currentDates: string[] = Array.isArray(memberData.dates) ? memberData.dates : [];
+          const dateInfo = parseDateInfo(isoDate);
+          
+          if (dateInfo) {
+            const dateStrWithYear = `${String(dateInfo.day).padStart(2, '0')}/${String(dateInfo.month).padStart(2, '0')}/${dateInfo.year}`;
+            const altDateStr = `${dateInfo.day}/${dateInfo.month}/${dateInfo.year}`;
+            
+            const alreadyHasDate = currentDates.some(d => {
+              const info = parseDateInfo(d);
+              return info && info.isoDate === dateInfo.isoDate;
+            });
+
+            if (!alreadyHasDate) {
+              const updatedDates = [...currentDates, dateStrWithYear];
+              const totalCarres = calculateMemberCarres(updatedDates).carres;
+              await db.ref(`leaderboard/${memberId}`).update({
+                dates: updatedDates,
+                rides: totalCarres,
+                updatedAt: new Date().toISOString(),
+              });
+            }
+          }
+        }
+      } catch (leaderboardError) {
+        console.warn('Could not update leaderboard for member:', memberId, leaderboardError);
+      }
+
       return NextResponse.json({ success: true });
     }
 
     if (action === 'remove') {
       await db.ref(`attendance/${eventId}/members/${memberId}`).remove();
       await db.ref(`attendance/${eventId}/updatedAt`).set(new Date().toISOString());
+
+      // Also keep leaderboard entry in sync
+      try {
+        const memberSnap = await db.ref(`leaderboard/${memberId}`).once('value');
+        if (memberSnap.exists()) {
+          const memberData = memberSnap.val() || {};
+          const currentDates: string[] = Array.isArray(memberData.dates) ? memberData.dates : [];
+          
+          // Check if isoDate is provided in request or fetch from event
+          let targetIso = isoDate;
+          if (!targetIso) {
+            const eventSnap = await db.ref(`attendance/${eventId}/isoDate`).once('value');
+            if (eventSnap.exists()) {
+              targetIso = eventSnap.val();
+            }
+          }
+
+          if (targetIso) {
+            const dateInfo = parseDateInfo(targetIso);
+            if (dateInfo) {
+              const updatedDates = currentDates.filter(d => {
+                const info = parseDateInfo(d);
+                return !info || info.isoDate !== dateInfo.isoDate;
+              });
+
+              const totalCarres = calculateMemberCarres(updatedDates).carres;
+              await db.ref(`leaderboard/${memberId}`).update({
+                dates: updatedDates,
+                rides: totalCarres,
+                updatedAt: new Date().toISOString(),
+              });
+            }
+          }
+        }
+      } catch (leaderboardError) {
+        console.warn('Could not update leaderboard for member:', memberId, leaderboardError);
+      }
 
       return NextResponse.json({ success: true });
     }

@@ -31,7 +31,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Les News</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Manage your blog articles and publications
+            Gérez vos articles de blog et publications
           </p>
         </div>
         <Link
@@ -39,7 +39,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
           className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 transition-colors"
         >
           <PlusIcon className="h-5 w-5" />
-          New Post
+          Nouvel article
         </Link>
       </div>
 
@@ -50,19 +50,19 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Post
+                  Article
                 </th>
                 <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Author
+                  Auteur
                 </th>
                 <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Category
+                  Catégorie
                 </th>
                 <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Date
                 </th>
                 <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Status
+                  Statut
                 </th>
                 <th className="px-6 py-3.5 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                   Actions
@@ -77,16 +77,16 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                       <div className="rounded-full bg-gray-100 p-3">
                         <PlusIcon className="h-6 w-6 text-gray-400" />
                       </div>
-                      <p className="mt-4 text-sm font-medium text-gray-900">No blog posts</p>
+                      <p className="mt-4 text-sm font-medium text-gray-900">Aucun article de blog</p>
                       <p className="mt-1 text-sm text-gray-500">
-                        Get started by creating a new post.
+                        Commencez par créer un nouvel article.
                       </p>
                       <Link
                         href="/admin/blog/new"
                         className="mt-4 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
                         <PlusIcon className="h-4 w-4" />
-                        Create Post
+                        Créer un article
                       </Link>
                     </div>
                   </td>
@@ -134,7 +134,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                             : 'bg-yellow-100 text-yellow-800'
                         }`}
                       >
-                        {post.isPublished ? 'Published' : 'Draft'}
+                        {post.isPublished ? 'Publié' : 'Brouillon'}
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right">
@@ -143,7 +143,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                           href={`/blog/${post.slug}`}
                           target="_blank"
                           className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                          title="View"
+                          title="Voir"
                         >
                           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -152,7 +152,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                         <Link
                           href={`/admin/blog/${post.id}/edit`}
                           className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-blue-600"
-                          title="Edit"
+                          title="Modifier"
                         >
                           <PencilIcon className="h-4 w-4" />
                         </Link>

@@ -10,6 +10,13 @@ import {
 } from '@heroicons/react/24/outline';
 
 import type { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
+import type { CalendarEvent } from '@/app/types';
+import type { EventAttendance } from '@/app/lib/firebase/attendance';
+import {
+  parseDateInfo,
+  calculateLeaderboardFromAttendance,
+  getPossibleCarresCount,
+} from '@/app/lib/carreVert';
 
 import {
   Chart as ChartJS,
@@ -35,122 +42,87 @@ ChartJS.register(
 
 interface StatsChartsProps {
   entries: LeaderboardEntry[];
+  events?: CalendarEvent[];
+  allAttendance?: EventAttendance[];
 }
 
-const parseDate = (dateStr: string): string => {
-  if (!dateStr) return '';
-  // Format: DD/MM/YYYY
-  const parts = dateStr.split('/');
-  if (parts.length === 3) {
-    return `${parts[2]}-${parts[1]}-${parts[0]}`;
-  }
-  return dateStr;
-};
-
-const getYear = (dateStr: string): string => {
-  if (!dateStr) return '';
-  const parts = dateStr.split('/');
-  return parts.length === 3 ? parts[2] : '';
-};
-
-const getISOWeekKey = (d: Date): string => {
-  const jan4 = new Date(Date.UTC(d.getUTCFullYear(), 0, 4));
-  const startOfWeek = new Date(jan4);
-  startOfWeek.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() + 6) % 7));
-  const weekNo = Math.ceil(((d.getTime() - startOfWeek.getTime()) / 86400000 + 1) / 7);
-  return `${d.getUTCFullYear()}-${weekNo}`;
-};
-
-export default function StatsCharts({ entries }: StatsChartsProps): React.ReactElement {
+export default function StatsCharts({
+  entries,
+  events = [],
+  allAttendance = [],
+}: StatsChartsProps): React.ReactElement {
   // Extract all available years from the data
   const availableYears = useMemo(() => {
+    const currentYear = new Date().getFullYear();
     const years = new Set<string>();
-    entries.forEach(entry => {
-      entry.dates?.forEach(date => {
-        years.add(getYear(date));
+    years.add(currentYear.toString());
+
+    entries.forEach((entry) => {
+      entry.dates?.forEach((date) => {
+        const info = parseDateInfo(date);
+        if (info) years.add(info.year.toString());
       });
     });
+
+    events.forEach((evt) => {
+      const info = parseDateInfo(evt.isoDate);
+      if (info) years.add(info.year.toString());
+    });
+
+    allAttendance.forEach((att) => {
+      if (att.isoDate) {
+        const info = parseDateInfo(att.isoDate);
+        if (info) years.add(info.year.toString());
+      }
+    });
+
     return Array.from(years).sort().reverse();
-  }, [entries]);
+  }, [entries, events, allAttendance]);
 
   const [selectedYear, setSelectedYear] = useState<string>(
     availableYears.length > 0 ? availableYears[0] : new Date().getFullYear().toString()
   );
 
-  // Recalculate stats based on selected year
+  // Recalculate stats based on selected year using Carré Vert rules
   const filteredStats = useMemo(() => {
-    // 1. Identify all unique dates and categorize them (Weekend vs Weekday)
-    const allDatesInYear = new Set<string>();
-    entries.forEach(entry => {
-      entry.dates?.forEach(date => {
-        if (getYear(date) === selectedYear) {
-          allDatesInYear.add(date);
-        }
-      });
+    const yearNum = parseInt(selectedYear, 10);
+
+    // Calculate member entries using Carré Vert rules
+    const processedEntries = calculateLeaderboardFromAttendance(
+      entries,
+      events,
+      allAttendance,
+      yearNum
+    );
+
+    // Calculate total possible carrés for the year
+    const totalPossibleCarres = getPossibleCarresCount(events, yearNum, {
+      includeOnlyPastOrAttended: true,
+      allAttendance,
     });
 
-    const weekendWeeks = new Set<string>();
-    const weekdayDates = new Set<string>();
-
-    allDatesInYear.forEach(dateStr => {
-      const [d, m, y] = dateStr.split('/').map(Number);
-      const date = new Date(Date.UTC(y, m - 1, d));
-      const dayOfWeek = date.getUTCDay();
-      if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday or Saturday
-        weekendWeeks.add(getISOWeekKey(date));
-      } else {
-        weekdayDates.add(dateStr);
-      }
-    });
-
-    const totalPossibleCarres = weekendWeeks.size + weekdayDates.size;
-
-    // 2. Process entries with the rule: 1 per weekend max, weekdays count separately
-    const processedEntries = entries.map(entry => {
-      const datesInYear = entry.dates?.filter(date => getYear(date) === selectedYear) || [];
-
-      const memberWeekendWeeks = new Set<string>();
-      const memberWeekdayDates = new Set<string>();
-
-      datesInYear.forEach(dateStr => {
-        const [d, m, y] = dateStr.split('/').map(Number);
-        const date = new Date(Date.UTC(y, m - 1, d));
-        const dayOfWeek = date.getUTCDay();
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-          memberWeekendWeeks.add(getISOWeekKey(date));
-        } else {
-          memberWeekdayDates.add(dateStr);
-        }
-      });
-
-      const carresCount = memberWeekendWeeks.size + memberWeekdayDates.size;
-
-      return {
-        ...entry,
-        rides: carresCount, // "rides" here actually means "carres" based on the rule
-        actualRides: datesInYear.length, // total number of physical attendances
-        activeDates: datesInYear,
-      };
-    });
-
-    const activeParticipants = processedEntries.filter(e => e.rides > 0);
+    const activeParticipants = processedEntries.filter((e) => e.rides > 0);
     const sortedByRides = [...processedEntries].sort((a, b) => b.rides - a.rides);
 
     const totalMembers = entries.length; // Total registered
     const participatingMembers = activeParticipants.length;
     const totalRides = processedEntries.reduce((sum, e) => sum + e.rides, 0);
-    const averageRides = participatingMembers > 0 ? Math.round(totalRides / participatingMembers) : 0; // Avg among active
-    const maxRides = processedEntries.length > 0 ? Math.max(...processedEntries.map(e => e.rides)) : 0;
+    const averageRides =
+      participatingMembers > 0 ? Math.round(totalRides / participatingMembers) : 0;
+    const maxRides =
+      processedEntries.length > 0 ? Math.max(...processedEntries.map((e) => e.rides)) : 0;
 
     const topPerformerEntry = sortedByRides[0];
-    const topPerformer = topPerformerEntry && topPerformerEntry.rides > 0 ? topPerformerEntry.name : '-';
+    const topPerformer =
+      topPerformerEntry && topPerformerEntry.rides > 0 ? topPerformerEntry.name : '-';
 
-    const participationRate = totalMembers > 0 ? Math.round((participatingMembers / totalMembers) * 100) : 0;
+    const participationRate =
+      totalMembers > 0 ? Math.round((participatingMembers / totalMembers) * 100) : 0;
 
     // Group stats
     const groupMap = new Map<string, { count: number; rides: number }>();
     for (const e of processedEntries) {
-      if (e.rides === 0) continue; // Only count active participants for group stats in this year?
+      if (e.rides === 0) continue;
       const groupName = e.group || 'Inconnu';
       const current = groupMap.get(groupName) || { count: 0, rides: 0 };
       groupMap.set(groupName, { count: current.count + 1, rides: current.rides + e.rides });
@@ -164,20 +136,41 @@ export default function StatsCharts({ entries }: StatsChartsProps): React.ReactE
       }))
       .sort((a, b) => b.avgRides - a.avgRides);
 
-    // Weekly/Event distribution
-    const dateCounts = new Map<string, number>();
-    for (const entry of processedEntries) {
-      for (const date of entry.activeDates) {
-        const count = dateCounts.get(date) || 0;
-        dateCounts.set(date, count + 1);
+    // Weekly/Event distribution: count attendance per date in this year
+    const dateCounts = new Map<string, { count: number; isoDate: string }>();
+
+    // If attendance collection exists, use real event attendance counts
+    if (allAttendance.length > 0) {
+      allAttendance.forEach((att) => {
+        if (!att.isoDate || !att.members) return;
+        const info = parseDateInfo(att.isoDate);
+        if (!info || info.year !== yearNum) return;
+
+        const count = Object.keys(att.members).length;
+        if (count > 0) {
+          dateCounts.set(info.displayDate, { count, isoDate: info.isoDate });
+        }
+      });
+    }
+
+    // Fallback/supplement with member dates
+    if (dateCounts.size === 0) {
+      for (const entry of processedEntries) {
+        for (const date of entry.dates) {
+          const info = parseDateInfo(date);
+          if (!info || info.year !== yearNum) continue;
+
+          const existing = dateCounts.get(info.displayDate) || { count: 0, isoDate: info.isoDate };
+          dateCounts.set(info.displayDate, { count: existing.count + 1, isoDate: info.isoDate });
+        }
       }
     }
 
     const weeklyDistribution = Array.from(dateCounts.entries())
-      .map(([date, count]) => ({
+      .map(([date, data]) => ({
         week: date,
-        count,
-        isoDate: parseDate(date)
+        count: data.count,
+        isoDate: data.isoDate,
       }))
       .sort((a, b) => a.isoDate.localeCompare(b.isoDate));
 
@@ -213,9 +206,9 @@ export default function StatsCharts({ entries }: StatsChartsProps): React.ReactE
       weeklyDistribution,
       ridesBuckets,
       sortedEntries: sortedByRides,
-      totalPossibleCarres
+      totalPossibleCarres,
     };
-  }, [entries, selectedYear]);
+  }, [entries, events, allAttendance, selectedYear]);
 
   const getGroupColor = (group: string): string => {
     if (group.startsWith('A')) return 'bg-red-500';
