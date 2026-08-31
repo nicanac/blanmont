@@ -9,6 +9,7 @@ import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon, CalendarDaysIcon } 
 import TraceCard from '../../traces/components/TraceCard';
 import { cn } from '../../../utils/cn';
 import { PageHero } from '../../../components/ui/PageHero';
+import { toast } from 'sonner';
 
 interface Props {
     traces: Trace[];
@@ -38,6 +39,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
 
         try {
             await submitVoteAction(rideId, currentUser.id, traceId);
+            toast.success('Votre vote a été enregistré avec succès !');
         } catch (e) {
             console.error(e);
             if (previousOptimistic) {
@@ -49,7 +51,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                     return newState;
                 });
             }
-            alert('Impossible de soumettre le vote. Veuillez réessayer.');
+            toast.error('Impossible de soumettre le vote. Veuillez réessayer.');
         } finally {
             setVotingRideIds(prev => prev.filter(id => id !== rideId));
         }

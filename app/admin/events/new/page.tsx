@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function NewEventPage(): React.ReactElement {
   const router = useRouter();
@@ -32,14 +33,15 @@ export default function NewEventPage(): React.ReactElement {
       });
 
       if (response.ok) {
+        toast.success('Événement créé avec succès !');
         router.push('/admin/events');
         router.refresh();
       } else {
-        alert("Erreur lors de la création de l'événement");
+        toast.error("Erreur lors de la création de l'événement");
       }
     } catch (error) {
       console.error('Error creating event:', error);
-      alert("Erreur lors de la création de l'événement");
+      toast.error("Erreur lors de la création de l'événement");
     } finally {
       setIsSubmitting(false);
     }

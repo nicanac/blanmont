@@ -1,27 +1,20 @@
 'use client';
 
 import { CalendarEvent } from '../types';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
-import CloseIcon from '@mui/icons-material/Close';
-import PlaceIcon from '@mui/icons-material/Place';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import StraightenIcon from '@mui/icons-material/Straighten';
-import GroupsIcon from '@mui/icons-material/Groups';
-import AnnouncementIcon from '@mui/icons-material/Announcement';
-import EditIcon from '@mui/icons-material/Edit';
-import PeopleIcon from '@mui/icons-material/People';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import RouteIcon from '@mui/icons-material/Route';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
+import {
+  XMarkIcon,
+  MapPinIcon,
+  ClockIcon,
+  MapIcon,
+  UserGroupIcon,
+  InformationCircleIcon,
+  PencilSquareIcon,
+  ArrowDownTrayIcon,
+  ArrowTopRightOnSquareIcon,
+} from '@heroicons/react/24/outline';
 
 type AttendeeInfo = { name: string; group: string };
 
@@ -39,10 +32,11 @@ export default function CalendarDrawer({
   attendees = [],
 }: CalendarDrawerProps) {
   const { isAdmin } = useAuth();
-  if (!event) return null;
+  if (!event || !open) return null;
 
-  // Format Date
-  const dateObj = new Date(event.isoDate);
+  // Format Date in French
+  const [yr, mo, dy] = event.isoDate.split('-');
+  const dateObj = new Date(Number(yr), Number(mo) - 1, Number(dy));
   const dateStr = dateObj.toLocaleDateString('fr-FR', {
     weekday: 'long',
     year: 'numeric',
@@ -50,332 +44,246 @@ export default function CalendarDrawer({
     day: 'numeric',
   });
 
-  // Create Google Maps link
-  const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${event.location} ${event.address}`)}`;
-  // Simple Embed fallback (might be restricted without API key but worth a try or just use the link)
-  const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(`${event.location} ${event.address}`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${event.location} ${event.address || ''}`
+  )}`;
 
   return (
-    <Drawer
-      anchor="right"
-      open={open}
-      onClose={onClose}
-      PaperProps={{
-        sx: { width: { xs: '100%', sm: 400 }, p: 0 },
-      }}
-    >
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        {/* Header */}
-        <Box sx={{ p: 3, bgcolor: 'grey.50', borderBottom: 1, borderColor: 'divider' }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Chip label="Sortie Club" size="small" color="primary" />
-              {isAdmin && (
-                <Chip
-                  component={Link}
-                  href={`/admin/events/${event.id}/edit`}
-                  clickable
-                  label="Modifier"
-                  size="small"
-                  color="error"
-                  variant="outlined"
-                  icon={<EditIcon sx={{ fontSize: '0.9rem !important' }} />}
-                  sx={{ fontWeight: 600 }}
-                />
-              )}
-            </Stack>
-            <IconButton onClick={onClose} size="small">
-              <CloseIcon />
-            </IconButton>
-          </Stack>
-          <Typography variant="h5" fontWeight="bold" gutterBottom>
-            {event.location}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            color="text.secondary"
-            sx={{ textTransform: 'capitalize' }}
-          >
-            {dateStr}
-          </Typography>
-        </Box>
+    <div className="fixed inset-0 z-50 overflow-hidden">
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+        onClick={onClose}
+      />
 
-        {/* Content */}
-        <Box sx={{ p: 3, flexGrow: 1, overflowY: 'auto' }}>
-          <Stack spacing={2.5}>
-            {/* Weather & Wind forecast badge */}
-            <Box>
-              <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} />
-            </Box>
-
-            {/* GPX / Garmin / Strava Trace Section (Top Priority) */}
-            {event.gpxUrl && (
-              <Box
-                sx={{
-                  p: 2.5,
-                  bgcolor: '#fff5f5',
-                  borderRadius: 2.5,
-                  border: '1px solid',
-                  borderColor: '#fecaca',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-                }}
+      <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+          {/* Header */}
+          <div className="bg-slate-50 border-b border-slate-200 p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-[#e03e3e] px-2.5 py-0.5 text-xs font-semibold text-white shadow-xs">
+                  Sortie Club
+                </span>
+                {isAdmin && (
+                  <Link
+                    href={`/admin/events/${event.id}/edit`}
+                    className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-[#e03e3e] hover:bg-red-100 transition-colors"
+                  >
+                    <PencilSquareIcon className="h-3.5 w-3.5" />
+                    <span>Modifier</span>
+                  </Link>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-full p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"
+                aria-label="Fermer"
               >
-                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
-                  <Stack direction="row" alignItems="center" gap={1}>
-                    <RouteIcon fontSize="small" sx={{ color: '#e03e3e' }} />
-                    <Typography variant="subtitle2" fontWeight="bold" sx={{ color: '#1e293b' }}>
-                      Trace GPS du parcours
-                    </Typography>
-                  </Stack>
-                  <Chip
-                    label={
-                      event.gpxUrl.includes('strava.com')
-                        ? 'Strava'
-                        : event.gpxUrl.includes('garmin.com')
-                          ? 'Garmin Connect'
-                          : event.gpxUrl.includes('komoot')
-                            ? 'Komoot'
-                            : 'GPX'
-                    }
-                    size="small"
-                    sx={{
-                      fontWeight: 700,
-                      fontSize: '0.7rem',
-                      bgcolor: '#fee2e2',
-                      color: '#b91c1c',
-                      height: 22,
-                    }}
-                  />
-                </Stack>
+                <XMarkIcon className="h-5 w-5" />
+              </button>
+            </div>
 
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  display="block"
-                  sx={{ mb: 1.5, lineHeight: 1.4 }}
-                >
+            <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+              {event.location}
+            </h2>
+            <p className="text-xs font-medium text-slate-500 capitalize mt-1">
+              {dateStr}
+            </p>
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-5">
+            {/* Weather & Wind forecast widget */}
+            <div>
+              <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} />
+            </div>
+
+            {/* GPX / Garmin / Strava Trace Section */}
+            {event.gpxUrl && (
+              <div className="rounded-2xl border border-red-200 bg-red-50/50 p-4 shadow-xs space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <MapIcon className="h-4 w-4 text-[#e03e3e]" />
+                    <span className="text-xs font-bold text-slate-900">
+                      Trace GPS du parcours
+                    </span>
+                  </div>
+                  <span className="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-[#e03e3e]">
+                    {event.gpxUrl.includes('strava.com')
+                      ? 'Strava'
+                      : event.gpxUrl.includes('garmin.com')
+                        ? 'Garmin Connect'
+                        : event.gpxUrl.includes('komoot')
+                          ? 'Komoot'
+                          : 'GPX'}
+                  </span>
+                </div>
+
+                <p className="text-[11px] text-slate-600 leading-relaxed">
                   {event.gpxUrl.includes('strava.com')
                     ? 'Consulter l’itinéraire et télécharger la trace sur Strava.'
                     : event.gpxUrl.includes('garmin.com')
-                      ? 'Consulter et envoyer le parcours directement sur votre GPS Garmin.'
+                      ? 'Envoyer le parcours directement sur votre compteur/GPS Garmin.'
                       : event.gpxUrl.includes('komoot')
                         ? 'Consulter et télécharger la trace sur Komoot.'
-                        : 'Télécharger le fichier GPX pour votre GPS de vélo.'}
-                </Typography>
+                        : 'Télécharger le fichier GPX pour votre compteur GPS.'}
+                </p>
 
-                <Button
-                  component="a"
+                <a
                   href={event.gpxUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  variant="contained"
-                  fullWidth
-                  startIcon={<FileDownloadIcon />}
-                  sx={{
-                    bgcolor: '#e03e3e',
-                    '&:hover': { bgcolor: '#c53030' },
-                    textTransform: 'none',
-                    fontWeight: 700,
-                    py: 1.25,
-                    fontSize: '0.875rem',
-                    borderRadius: 2,
-                    boxShadow: '0 2px 4px rgba(224, 62, 62, 0.2)',
-                  }}
+                  className="inline-flex items-center justify-center gap-2 w-full rounded-xl bg-[#e03e3e] hover:bg-[#c93434] text-white py-2.5 text-xs font-bold shadow-xs transition-colors"
                 >
-                  {event.gpxUrl.includes('strava.com')
-                    ? 'Ouvrir la trace sur Strava'
-                    : event.gpxUrl.includes('garmin.com')
-                      ? 'Ouvrir sur Garmin Connect'
-                      : event.gpxUrl.includes('komoot')
-                        ? 'Ouvrir la trace sur Komoot'
-                        : event.gpxUrl.endsWith('.gpx')
-                          ? 'Télécharger le fichier GPX'
-                          : 'Télécharger / Ouvrir le GPX'}
-                </Button>
-              </Box>
+                  <ArrowDownTrayIcon className="h-4 w-4" />
+                  <span>
+                    {event.gpxUrl.includes('strava.com')
+                      ? 'Ouvrir la trace sur Strava'
+                      : event.gpxUrl.includes('garmin.com')
+                        ? 'Ouvrir sur Garmin Connect'
+                        : event.gpxUrl.includes('komoot')
+                          ? 'Ouvrir sur Komoot'
+                          : 'Télécharger le fichier GPX'}
+                  </span>
+                </a>
+              </div>
             )}
 
-            {/* Map Preview / Google Maps Link Card */}
+            {/* Google Maps link card */}
             <a
               href={mapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ textDecoration: 'none' }}
-              className="block group relative w-full h-36 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-brand-primary transition-colors cursor-pointer"
+              className="group block relative w-full h-28 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 p-4 hover:border-red-300 transition-all text-center flex flex-col items-center justify-center gap-2"
             >
-              {/* Decorative Background (Abstract Map Pattern) */}
-              <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/map.png')] bg-repeat" />
-
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform">
-                <div className="p-2.5 bg-white rounded-full shadow-sm text-brand-primary">
-                  <PlaceIcon fontSize="medium" color="error" />
-                </div>
-                <Typography
-                  variant="body2"
-                  fontWeight="medium"
-                  color="text.secondary"
-                  sx={{ bgcolor: 'white', px: 1.5, py: 0.5, borderRadius: 1 }}
-                >
-                  Lieu de départ sur Google Maps
-                </Typography>
+              <div className="rounded-full bg-white p-2 text-[#e03e3e] shadow-xs group-hover:scale-110 transition-transform">
+                <MapPinIcon className="h-5 w-5" />
               </div>
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-800 shadow-xs">
+                <span>Voir le lieu sur Google Maps</span>
+                <ArrowTopRightOnSquareIcon className="h-3 w-3 text-slate-400" />
+              </span>
             </a>
 
-            <Divider />
-
             {/* Details Grid */}
-            <Stack spacing={2}>
-              <Box display="flex" alignItems="center" gap={2}>
-                <AccessTimeIcon color="action" />
-                <Box>
-                  <Typography variant="caption" display="block" color="text.secondary">
-                    Départ
-                  </Typography>
-                  <Typography variant="body1" fontWeight="medium">
-                    {event.departure}
-                  </Typography>
-                </Box>
-              </Box>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4 space-y-3 text-xs">
+              <div className="flex items-center gap-3">
+                <ClockIcon className="h-4 w-4 text-slate-400 shrink-0" />
+                <div>
+                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
+                    Heure de départ
+                  </span>
+                  <span className="font-bold text-slate-900">{event.departure}</span>
+                </div>
+              </div>
 
-              <Box display="flex" alignItems="center" gap={2}>
-                <StraightenIcon color="action" />
-                <Box>
-                  <Typography variant="caption" display="block" color="text.secondary">
+              <div className="flex items-center gap-3">
+                <MapIcon className="h-4 w-4 text-slate-400 shrink-0" />
+                <div>
+                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
                     Distances
-                  </Typography>
-                  <Typography variant="body1" fontWeight="medium">
-                    {event.distances || 'Non spécifié'} km
-                  </Typography>
-                </Box>
-              </Box>
+                  </span>
+                  <span className="font-bold text-slate-900">
+                    {event.distances ? `${event.distances} km` : 'Non spécifié'}
+                  </span>
+                </div>
+              </div>
 
               {event.group && (
-                <Box display="flex" alignItems="center" gap={2}>
-                  <GroupsIcon color="action" />
-                  <Box>
-                    <Typography variant="caption" display="block" color="text.secondary">
+                <div className="flex items-center gap-3">
+                  <UserGroupIcon className="h-4 w-4 text-slate-400 shrink-0" />
+                  <div>
+                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
                       Groupe
-                    </Typography>
-                    <Typography variant="body1" fontWeight="medium">
-                      {event.group}
-                    </Typography>
-                  </Box>
-                </Box>
+                    </span>
+                    <span className="font-bold text-slate-900">{event.group}</span>
+                  </div>
+                </div>
               )}
 
               {event.address && (
-                <Box display="flex" alignItems="start" gap={2}>
-                  <PlaceIcon color="action" sx={{ mt: 0.5 }} />
-                  <Box>
-                    <Typography variant="caption" display="block" color="text.secondary">
-                      Adresse
-                    </Typography>
-                    <Typography variant="body2">{event.address}</Typography>
-                  </Box>
-                </Box>
+                <div className="flex items-start gap-3">
+                  <MapPinIcon className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
+                      Adresse de rassemblement
+                    </span>
+                    <span className="font-medium text-slate-800">{event.address}</span>
+                  </div>
+                </div>
               )}
-            </Stack>
+            </div>
 
             {/* Remarks & Alternatives */}
             {(event.remarks || event.alternative) && (
-              <>
-                <Divider />
-                <Stack spacing={2}>
-                  {event.remarks && (
-                    <Box>
-                      <Stack direction="row" alignItems="center" gap={1} mb={0.5}>
-                        <AnnouncementIcon fontSize="small" color="info" />
-                        <Typography variant="subtitle2" fontWeight="bold">
-                          Remarques
-                        </Typography>
-                      </Stack>
-                      <Typography variant="body2" color="text.secondary">
-                        {event.remarks}
-                      </Typography>
-                    </Box>
-                  )}
+              <div className="space-y-3">
+                {event.remarks && (
+                  <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-1">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                      <InformationCircleIcon className="h-4 w-4 text-blue-600" />
+                      <span>Remarques</span>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed">{event.remarks}</p>
+                  </div>
+                )}
 
-                  {event.alternative && (
-                    <Box
-                      sx={{
-                        bgcolor: 'orange.50',
-                        p: 2,
-                        borderRadius: 2,
-                        border: '1px solid',
-                        borderColor: 'orange.200',
-                      }}
-                    >
-                      <Typography
-                        variant="subtitle2"
-                        color="orange.800"
-                        fontWeight="bold"
-                        gutterBottom
-                      >
-                        Alternative
-                      </Typography>
-                      <Typography variant="body2" color="orange.900">
-                        {event.alternative}
-                      </Typography>
-                    </Box>
-                  )}
-                </Stack>
-              </>
+                {event.alternative && (
+                  <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-1">
+                    <div className="text-xs font-bold text-amber-900">Alternative</div>
+                    <p className="text-xs text-amber-800 leading-relaxed">
+                      {event.alternative}
+                    </p>
+                  </div>
+                )}
+              </div>
             )}
 
-            {/* Attendance Section - show for past events */}
+            {/* Attendance Section */}
             {attendees.length > 0 && (
-              <>
-                <Divider />
-                <Box>
-                  <Stack direction="row" alignItems="center" gap={1} mb={1.5}>
-                    <PeopleIcon fontSize="small" color="success" />
-                    <Typography variant="subtitle2" fontWeight="bold">
-                      Présents ({attendees.length})
-                    </Typography>
-                  </Stack>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-                    {attendees
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((att, idx) => (
-                        <Chip
-                          key={idx}
-                          label={att.name}
-                          size="small"
-                          variant="outlined"
-                          color="success"
-                          sx={{ fontSize: '0.75rem' }}
-                        />
-                      ))}
-                  </Box>
-                </Box>
-              </>
+              <div className="border-t border-slate-100 pt-4 space-y-2">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                  <UserGroupIcon className="h-4 w-4 text-emerald-600" />
+                  <span>Présents enregistrés ({attendees.length})</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {attendees
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((att, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center rounded-lg bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-800 border border-emerald-200"
+                      >
+                        {att.name}
+                      </span>
+                    ))}
+                </div>
+              </div>
             )}
+          </div>
 
-            {/* Admin Action Button */}
-            {isAdmin && (
-              <>
-                <Divider />
-                <Button
-                  component={Link}
-                  href={`/admin/events/${event.id}/edit`}
-                  variant="contained"
-                  fullWidth
-                  startIcon={<EditIcon />}
-                  sx={{
-                    bgcolor: '#e03e3e',
-                    '&:hover': { bgcolor: '#c53030' },
-                    textTransform: 'none',
-                    fontWeight: 600,
-                    py: 1,
-                  }}
-                >
-                  Modifier dans l&apos;administration
-                </Button>
-              </>
+          {/* Footer */}
+          <div className="p-4 border-t border-slate-100 flex justify-between items-center bg-slate-50">
+            {isAdmin ? (
+              <Link
+                href={`/admin/events/${event.id}/edit`}
+                className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition-colors"
+              >
+                Modifier dans l&apos;administration
+              </Link>
+            ) : (
+              <div />
             )}
-          </Stack>
-        </Box>
-      </Box>
-    </Drawer>
+            <button
+              onClick={onClose}
+              className="rounded-full border border-slate-200 bg-white px-5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

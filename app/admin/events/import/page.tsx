@@ -14,6 +14,7 @@ import {
   ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 interface PreviewEventItem extends CalendarEvent {
   selected: boolean;
@@ -112,7 +113,7 @@ export default function ImportEventsPage() {
   const handleConfirmImport = async () => {
     const selectedEvents = events.filter((e) => e.selected);
     if (selectedEvents.length === 0) {
-      alert('Veuillez sélectionner au moins un événement à importer.');
+      toast.error('Veuillez sélectionner au moins un événement à importer.');
       return;
     }
 

@@ -6,6 +6,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { use } from 'react';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
+import { toast } from 'sonner';
 
 const ROLES = ['Member', 'Admin', 'President', 'Treasurer', 'Secretary'];
 
@@ -70,9 +71,10 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
         const path = `members/${id}/avatar-${timestamp}.jpg`;
         const url = await uploadImage(file, path);
         setFormData(prev => ({ ...prev, photoUrl: url }));
+        toast.success('Photo mise à jour avec succès !');
       } catch (error) {
         console.error('Error uploading image:', error);
-        alert('Erreur lors du téléchargement de l\'image');
+        toast.error('Erreur lors du téléchargement de l\'image');
       }
     }
   };
@@ -89,14 +91,15 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
       });
 
       if (response.ok) {
+        toast.success('Membre mis à jour avec succès !');
         router.push('/admin/members');
         router.refresh();
       } else {
-        alert('Erreur lors de la mise à jour du membre');
+        toast.error('Erreur lors de la mise à jour du membre');
       }
     } catch (error) {
       console.error('Error updating member:', error);
-      alert('Erreur lors de la mise à jour du membre');
+      toast.error('Erreur lors de la mise à jour du membre');
     } finally {
       setIsSubmitting(false);
     }

@@ -7,6 +7,7 @@ import { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
 import { parseDateInfo } from '@/app/lib/carreVert';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import EventAttendancePanel from './EventAttendancePanel';
+import { toast } from 'sonner';
 
 type AttendanceInfo = { name: string; group: string; markedAt: string };
 
@@ -39,9 +40,12 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
       setSyncMessage(
         `Synchronisation réussie ! (${data.stats?.eventsProcessed || 0} événements, ${data.stats?.membersUpdated || 0} membres)`
       );
+      toast.success(
+        `Synchronisation réussie (${data.stats?.eventsProcessed || 0} événements, ${data.stats?.membersUpdated || 0} membres)`
+      );
       router.refresh();
     } catch (err: any) {
-      alert(`Erreur de synchronisation: ${err.message}`);
+      toast.error(`Erreur de synchronisation: ${err.message}`);
     } finally {
       setSyncing(false);
     }

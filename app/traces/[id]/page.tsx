@@ -1,279 +1,269 @@
 import { getTrace, getTraces, submitFeedback, getMembers, getFeedbackForTrace } from '../../lib/firebase';
 import { uploadMapPreview, generateMapPreview } from '../../actions';
 import DownloadGPXButton from '../../features/traces/components/DownloadGPXButton';
-import Link from 'next/link'; // Added simply to be consistent, though not used in replaced chunk directly but Image is needs to be imported
+import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { Suspense } from 'react';
 import FeedbackForm from './FeedbackForm';
 import FeedbackList from './FeedbackList';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid'; // Stable Grid v1
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
+import {
+  MapIcon,
+  PhotoIcon,
+  PencilSquareIcon,
+  SparklesIcon,
+  ArrowDownTrayIcon,
+} from '@heroicons/react/24/outline';
 
 // Revalidate every minute
 export const revalidate = 60;
 
 // Enable static generation for known paths (optional, but good for performance)
 export async function generateStaticParams() {
-    const traces = await getTraces();
-    return traces.map((trace) => ({
-        id: trace.id,
-    }));
+  const traces = await getTraces();
+  return traces.map((trace) => ({
+    id: trace.id,
+  }));
 }
 
 /**
  * Trace Detail Page.
  * Displays comprehensive information about a specific trace (Map, Stats, Photos, Feedback).
  * Includes forms for submitting feedback and admin tools for updating map previews.
- * 
+ *
  * @param props.params - Route parameters containing the trace `id`.
  */
 export default async function TraceDetailPage(props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const trace = await getTrace(params.id);
+  const params = await props.params;
+  const trace = await getTrace(params.id);
 
-    if (!trace) {
-        notFound();
+  if (!trace) {
+    notFound();
+  }
+
+  // Fetch additional data
+  const members = await getMembers();
+  const feedbackList = await getFeedbackForTrace(trace.id);
+
+  async function addFeedback(formData: FormData) {
+    'use server';
+
+    const rating = Number(formData.get('rating'));
+    const comment = formData.get('comment') as string;
+    const memberId = formData.get('memberId') as string;
+    const feedbackId = formData.get('feedbackId') as string; // Capture ID for update
+
+    if (trace && rating && comment && memberId) {
+      await submitFeedback(trace.id, memberId, rating, comment, feedbackId || undefined);
+      revalidatePath(`/traces/${trace.id}`);
     }
+  }
 
-    // Fetch additional data
-    const members = await getMembers();
-    const feedbackList = await getFeedbackForTrace(trace.id);
+  return (
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      {/* Hero Section */}
+      <div className="relative mb-8 h-[300px] sm:h-[400px] overflow-hidden rounded-3xl bg-slate-900 flex flex-col justify-end shadow-xl">
+        {trace.photoUrl && (
+          <div className="absolute inset-0 opacity-60">
+            <Image
+              src={trace.photoUrl}
+              alt={trace.name}
+              fill
+              className="object-cover object-center"
+              priority
+            />
+          </div>
+        )}
+        <div className="relative z-10 p-6 sm:p-8 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent">
+          <div className="flex flex-wrap gap-2 mb-2">
+            <span className="rounded-full bg-[#e03e3e] px-3 py-1 text-xs font-semibold text-white shadow-xs">
+              {trace.surface}
+            </span>
+            {trace.start && (
+              <span className="rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-xs">
+                Départ : {trace.start}
+              </span>
+            )}
+            {trace.end && (
+              <span className="rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-xs">
+                Arrivée : {trace.end}
+              </span>
+            )}
+            {trace.direction && (
+              <span className="rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-xs">
+                Dir : {trace.direction}
+              </span>
+            )}
+          </div>
 
-    async function addFeedback(formData: FormData) {
-        'use server'
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            {trace.name}
+          </h1>
 
-        const rating = Number(formData.get('rating'));
-        const comment = formData.get('comment') as string;
-        const memberId = formData.get('memberId') as string;
-        const feedbackId = formData.get('feedbackId') as string; // Capture ID for update
+          <div className="mt-3 flex items-center gap-4 text-white text-sm font-bold">
+            <span className="text-lg">{trace.distance} km</span>
+            <span className="text-white/40">•</span>
+            {trace.elevation && (
+              <>
+                <span className="text-lg">{trace.elevation} m D+</span>
+                <span className="text-white/40">•</span>
+              </>
+            )}
+            <span className="text-amber-400 text-lg">
+              {'★'.repeat(trace.quality || 5)}
+            </span>
+          </div>
+        </div>
+      </div>
 
-        if (trace && rating && comment && memberId) {
-            await submitFeedback(trace.id, memberId, rating, comment, feedbackId || undefined);
-            revalidatePath(`/traces/${trace.id}`);
-        }
-    }
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+        {/* Main Content */}
+        <div className="lg:col-span-8 space-y-8">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="text-base text-slate-700 leading-relaxed whitespace-pre-line">
+              {trace.description || 'Aucune description fournie.'}
+            </div>
 
-    return (
-        <Container maxWidth="lg" sx={{ py: 4 }}>
-            {/* Hero Section */}
-            <Paper
-                elevation={0}
-                sx={{
-                    position: 'relative',
-                    mb: 4,
-                    borderRadius: 4,
-                    overflow: 'hidden',
-                    height: { xs: 300, md: 400 },
-                    bgcolor: 'grey.900',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end'
-                }}
-            >
-                {trace.photoUrl && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            opacity: 0.6
-                        }}
-                    >
-                        <Image
-                            src={trace.photoUrl}
-                            alt={trace.name}
-                            fill
-                            className="object-cover object-center"
-                            priority
-                        />
-                    </Box>
-                )}
-                <Box
-                    sx={{
-                        position: 'relative',
-                        zIndex: 1,
-                        p: 4,
-                        background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)'
-                    }}
+            <div className="flex flex-wrap gap-3 pt-2">
+              {trace.mapUrl && (
+                <a
+                  href={trace.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#c93434] transition-colors"
                 >
-                    <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-                        <Chip label={trace.surface} color="primary" size="small" />
-                        {trace.start && <Chip label={`Départ : ${trace.start}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
-                        {trace.end && <Chip label={`Arrivée : ${trace.end}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
-                        {trace.direction && <Chip label={`Dir : ${trace.direction}`} size="small" variant="outlined" sx={{ color: 'white', borderColor: 'white' }} />}
-                    </Stack>
-                    <Typography variant="h3" component="h1" fontWeight="800" color="white" gutterBottom>
-                        {trace.name}
-                    </Typography>
-                    <Stack direction="row" alignItems="center" spacing={2} sx={{ color: 'white' }}>
-                        <Typography variant="h6" fontWeight="bold">{trace.distance}km</Typography>
-                        <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
-                        <Typography variant="h6" sx={{ color: 'warning.main', fontWeight: 'bold' }}>
-                            {'★'.repeat(trace.quality)}
-                        </Typography>
-                    </Stack>
-                </Box>
-            </Paper>
+                  <MapIcon className="h-4 w-4" />
+                  <span>Voir la carte interactive</span>
+                </a>
+              )}
 
-            <Grid container spacing={4}>
-                {/* Main Content */}
-                <Grid size={{ xs: 12, md: 8 }}>
-                    <Box sx={{ mb: 4 }}>
-                        <Typography variant="body1" paragraph color="text.secondary" sx={{ fontSize: '1.1rem', whiteSpace: 'pre-line' }}>
-                            {trace.description}
-                        </Typography>
+              <DownloadGPXButton polyline={trace.polyline} traceName={trace.name} />
 
-                        <Stack direction="row" spacing={2} sx={{ my: 3 }}>
-                            {trace.mapUrl && (
-                                <Button
-                                    variant="contained"
-                                    size="large"
-                                    href={trace.mapUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Voir la carte interactive
-                                </Button>
-                            )}
+              {trace.photoAlbumUrl && (
+                <a
+                  href={trace.photoAlbumUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                >
+                  <PhotoIcon className="h-4 w-4" />
+                  <span>Voir l&apos;album photo</span>
+                </a>
+              )}
+            </div>
 
-                            <DownloadGPXButton polyline={trace.polyline} traceName={trace.name} />
+            {/* Photo Previews */}
+            {trace.photoPreviews && trace.photoPreviews.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-4 border-t border-slate-100">
+                {trace.photoPreviews.map((url, i) => (
+                  <a
+                    key={i}
+                    href={trace.photoAlbumUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100 hover:opacity-90 transition-opacity"
+                  >
+                    <Image
+                      src={url}
+                      alt={`Ride preview ${i + 1}`}
+                      fill
+                      sizes="(max-width: 600px) 50vw, 25vw"
+                      className="object-cover"
+                      loading="lazy"
+                    />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
 
-                            {trace.photoAlbumUrl && (
-                                <Button
-                                    variant="contained"
-                                    size="large"
-                                    href={trace.photoAlbumUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    sx={{ bgcolor: '#4285f4', '&:hover': { bgcolor: '#3367d6' } }}
-                                    startIcon={<span>📸</span>}
-                                >
-                                    Voir l'album photo
-                                </Button>
-                            )}
-                        </Stack>
+          {/* Feedback Section */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-slate-900">
+              Commentaires de la communauté
+            </h3>
+            <FeedbackList feedbackList={feedbackList} members={members} />
+          </div>
+        </div>
 
-                        {/* Photo Previews */}
-                        {trace.photoPreviews && trace.photoPreviews.length > 0 && (
-                            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 2, mb: 4 }}>
-                                {trace.photoPreviews.map((url, i) => (
-                                    <Box
-                                        key={i}
-                                        component="a"
-                                        href={trace.photoAlbumUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        sx={{
-                                            borderRadius: 2,
-                                            overflow: 'hidden',
-                                            aspectRatio: '1',
-                                            display: 'block',
-                                            '&:hover': { opacity: 0.9 }
-                                        }}
-                                    >
-                                        <Image
-                                            src={url}
-                                            alt={`Ride preview ${i + 1}`}
-                                            fill
-                                            sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-                                            className="object-cover"
-                                            loading="lazy"
-                                        />
-                                    </Box>
-                                ))}
-                            </Box>
-                        )}
-                    </Box>
+        {/* Sidebar */}
+        <div className="lg:col-span-4 space-y-6">
+          {/* Feedback Form Card */}
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">Donnez votre avis</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Vous avez roulé ce parcours ? Partagez votre expérience avec le club.
+              </p>
+            </div>
+            <Suspense fallback={<div className="text-xs text-slate-400">Chargement...</div>}>
+              <FeedbackForm
+                traceId={trace.id}
+                members={members}
+                feedbackList={feedbackList}
+                onSubmit={addFeedback}
+              />
+            </Suspense>
+          </div>
 
-                    {/* Feedback List */}
-                    <Box sx={{ mt: 6 }}>
-                        <Typography variant="h5" gutterBottom fontWeight="bold">Commentaires de la communauté</Typography>
-                        <FeedbackList feedbackList={feedbackList} members={members} />
-                    </Box>
-                </Grid>
+          {/* Admin Tools Card */}
+          <div className="rounded-3xl border border-slate-200 bg-slate-50/70 p-6 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+              Outils Administrateur
+            </h3>
 
-                {/* Sidebar */}
-                <Grid size={{ xs: 12, md: 4 }}>
-                    <Stack spacing={3}>
-                        <Paper sx={{ p: 3, borderRadius: 2 }} variant="outlined">
-                            <Typography variant="h6" gutterBottom>Donnez votre avis</Typography>
-                            <Typography variant="body2" color="text.secondary" paragraph>
-                                Vous avez roulé ce parcours ? Partagez votre expérience avec le club.
-                            </Typography>
-                            <Suspense fallback={<div>Loading form...</div>}>
-                                <FeedbackForm
-                                    traceId={trace.id}
-                                    members={members}
-                                    feedbackList={feedbackList}
-                                    onSubmit={addFeedback}
-                                />
-                            </Suspense>
-                        </Paper>
+            {/* Edit Trace Button */}
+            <Link
+              href={`/traces/${trace.id}/edit`}
+              className="inline-flex items-center justify-center gap-2 w-full rounded-full bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white hover:bg-slate-800 transition-colors"
+            >
+              <PencilSquareIcon className="h-4 w-4" />
+              <span>Modifier le parcours</span>
+            </Link>
 
-                        {/* Admin Tools */}
-                        <Paper sx={{ p: 3, borderRadius: 2, bgcolor: 'action.hover' }} variant="outlined">
-                            <Typography variant="h6" gutterBottom>Outils Admin</Typography>
+            <div className="border-t border-slate-200 pt-3 space-y-3">
+              <p className="text-xs text-slate-500">
+                Mettre à jour l&apos;aperçu de la carte (URL de l&apos;image)
+              </p>
 
-                            {/* Edit Trace Button */}
-                            <Button
-                                href={`/traces/${trace.id}/edit`}
-                                variant="contained"
-                                size="small"
-                                fullWidth
-                                sx={{ mb: 3 }}
-                                startIcon={<span>✏️</span>}
-                            >
-                                Modifier le parcours
-                            </Button>
+              <form action={uploadMapPreview} className="space-y-2">
+                <input type="hidden" name="traceId" value={trace.id} />
+                <input
+                  type="url"
+                  name="imageUrl"
+                  placeholder="https://example.com/map.jpg"
+                  required
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
+                />
+                <button
+                  type="submit"
+                  className="w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+                >
+                  Mettre à jour l&apos;image
+                </button>
+              </form>
 
-                            <Divider sx={{ mb: 2 }} />
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-slate-200" />
+                <span className="shrink mx-2 text-[10px] text-slate-400 font-semibold uppercase">ou</span>
+                <div className="flex-grow border-t border-slate-200" />
+              </div>
 
-                            <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
-                                Mettre à jour l&apos;aperçu de la carte (url jpg)
-                            </Typography>
-
-                            <form action={uploadMapPreview}>
-                                <input type="hidden" name="traceId" value={trace.id} />
-                                <Stack spacing={2}>
-                                    <TextField
-                                        size="small"
-                                        name="imageUrl"
-                                        placeholder="https://example.com/map.jpg"
-                                        fullWidth
-                                        required
-                                        variant="outlined"
-                                        InputProps={{ sx: { bgcolor: 'background.paper' } }}
-                                    />
-                                    <Button type="submit" variant="outlined" size="small" fullWidth>
-                                        Mettre à jour l'image de couverture
-                                    </Button>
-                                </Stack>
-                            </form>
-
-                            <Divider sx={{ my: 2 }}>Or</Divider>
-
-                            <form action={generateMapPreview}>
-                                <input type="hidden" name="traceId" value={trace.id} />
-                                <Button type="submit" variant="outlined" size="small" fullWidth startIcon={<span>✨</span>}>
-                                    Générer depuis Komoot
-                                </Button>
-                            </form>
-                        </Paper>
-                    </Stack>
-                </Grid>
-            </Grid>
-        </Container>
-    );
+              <form action={generateMapPreview}>
+                <input type="hidden" name="traceId" value={trace.id} />
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+                >
+                  <SparklesIcon className="h-3.5 w-3.5 text-amber-500" />
+                  <span>Générer depuis Komoot</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
