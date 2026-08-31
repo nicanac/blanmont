@@ -6,6 +6,7 @@ import {
   ArrowRightIcon,
   CalendarDaysIcon,
   UserPlusIcon,
+  ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 
 interface HomeBlogSectionProps {
@@ -25,102 +26,122 @@ function formatDate(dateString: string): string {
 }
 
 /**
- * HomeBlogSection – featured post with sidebar info cards.
+ * HomeBlogSection – Featured article with responsive info blocks.
  */
 export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.ReactElement | null {
   if (!posts || posts.length === 0) return null;
 
   const featuredPost = posts[0];
+  const secondaryPosts = posts.slice(1, 3);
 
   return (
-    <section className="bg-gray-50 py-20">
+    <section className="bg-white py-20 border-t border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section header */}
-        <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-red-600 mb-2">
-              Actualités &amp; vie du club
-            </p>
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Les dernières nouvelles
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-12">
+          <div className="space-y-1">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#e03e3e]">
+              Actualités &amp; Vie du Club
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+              Les dernières nouvelles du peloton
             </h2>
           </div>
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-2.5 text-xs font-bold text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-400"
           >
-            Toutes les news
+            <span>Toutes les actualités</span>
+            <ArrowRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
           </Link>
         </div>
 
         {/* Content grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Featured post */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Featured post (8 cols) */}
           <Link
             href={`/blog/${featuredPost.slug}`}
-            className="group relative lg:col-span-3 overflow-hidden rounded-2xl bg-gray-900 min-h-[420px]"
+            className="group relative lg:col-span-8 overflow-hidden rounded-3xl bg-slate-950 min-h-[440px] shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-end"
           >
             <Image
               src={featuredPost.coverImage}
               alt={featuredPost.title}
               fill
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 1024px) 100vw, 66vw"
+              className="object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-linear-to-t from-gray-900/90 via-gray-900/30 to-transparent" />
-            <div className="absolute bottom-0 p-8">
-              <span className="mb-3 inline-block rounded bg-red-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                À la une
-              </span>
-              <h3 className="text-2xl font-bold text-white group-hover:text-red-200 transition-colors line-clamp-2">
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+            
+            <div className="relative z-10 p-6 sm:p-10 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-[#e03e3e] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs">
+                  À la une
+                </span>
+                <span className="rounded-full bg-white/20 backdrop-blur-xs px-3 py-1 text-xs font-medium text-white">
+                  {featuredPost.category}
+                </span>
+                <span className="text-xs text-white/70">
+                  {formatDate(featuredPost.publishedAt)}
+                </span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white group-hover:text-red-200 transition-colors line-clamp-2">
                 {featuredPost.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-300 line-clamp-2 max-w-lg">
+              <p className="text-sm leading-relaxed text-slate-300 line-clamp-2 max-w-2xl">
                 {featuredPost.excerpt}
               </p>
             </div>
           </Link>
 
-          {/* Sidebar info cards */}
-          <div className="lg:col-span-2 flex flex-col gap-6">
-            {/* Prochains événements */}
-            <div className="flex-1 rounded-2xl bg-white p-6 shadow-sm">
-              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                <CalendarDaysIcon className="h-5 w-5" />
+          {/* Sidebar info cards (4 cols) */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
+            {/* Événements & Agenda */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50/60 p-6 shadow-xs flex-1 flex flex-col justify-between hover:border-slate-300 transition-all">
+              <div className="space-y-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                  <CalendarDaysIcon className="h-6 w-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Agenda des sorties
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Consultez les prochaines sorties du club, les horaires de départ et les randos extérieures prévues.
+                </p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Prochains Événements
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Ne manquez pas notre souper annuel le 15 mars.
-              </p>
-              <Link
-                href="/calendrier"
-                className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-gray-900 hover:text-red-600 transition-colors"
-              >
-                Voir l&apos;agenda
-                <ArrowRightIcon className="h-4 w-4" />
-              </Link>
+              <div className="pt-4 mt-4 border-t border-slate-200/80">
+                <Link
+                  href="/calendrier"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#e03e3e] hover:underline"
+                >
+                  <span>Voir le calendrier complet</span>
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </Link>
+              </div>
             </div>
 
-            {/* Nouveau membre */}
-            <div className="flex-1 rounded-2xl bg-white p-6 shadow-sm">
-              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 text-red-600">
-                <UserPlusIcon className="h-5 w-5" />
+            {/* Rejoindre le club */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50/60 p-6 shadow-xs flex-1 flex flex-col justify-between hover:border-slate-300 transition-all">
+              <div className="space-y-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50 text-[#e03e3e]">
+                  <UserPlusIcon className="h-6 w-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Envie de nous rejoindre ?
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Venez tester une sortie sans engagement. Découvrez notre esprit club et trouvez le groupe qui vous correspond.
+                </p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Nouveau Membre ?
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Guide complet pour rejoindre le club et choisir votre groupe.
-              </p>
-              <Link
-                href="/le-club"
-                className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-gray-900 hover:text-red-600 transition-colors"
-              >
-                Lire le guide
-                <ArrowRightIcon className="h-4 w-4" />
-              </Link>
+              <div className="pt-4 mt-4 border-t border-slate-200/80">
+                <Link
+                  href="/le-club"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#e03e3e] hover:underline"
+                >
+                  <span>Présentation &amp; Groupes</span>
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
