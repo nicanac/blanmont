@@ -33,7 +33,6 @@ export default function Navbar() {
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
   const mainNavigation = [
-    { name: 'Sondage Weekend', href: '/sondage' },
     { name: 'Les News', href: '/blog' },
     { name: 'Membres', href: '/members' },
     {
@@ -42,15 +41,15 @@ export default function Navbar() {
       href: '/calendrier',
       icon: CalendarIcon,
     },
-  ];
-
-  const clubNavigation = [
     {
-      name: 'Sondage du Weekend',
+      name: 'Sondage Weekend',
       description: 'Qui roule ce weekend ?',
       href: '/sondage',
       icon: ChatBubbleLeftRightIcon,
     },
+  ];
+
+  const clubNavigation = [
     {
       name: 'Présentation',
       description: 'Qui sommes-nous ?',
@@ -64,6 +63,12 @@ export default function Navbar() {
       icon: ShoppingBagIcon,
     },
     { name: 'Carré Vert', description: 'Classement', href: '/leaderboard', icon: TrophyIcon },
+    {
+      name: 'Sondage du Weekend',
+      description: 'Qui roule ce weekend ?',
+      href: '/sondage',
+      icon: ChatBubbleLeftRightIcon,
+    },
   ];
 
   // Simple user menu - only essential items
