@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 const ROLES = ['Member', 'Admin', 'President', 'Treasurer', 'Secretary'];
 
@@ -39,14 +40,15 @@ export default function NewMemberPage(): React.ReactElement {
       });
 
       if (response.ok) {
+        toast.success('Membre créé avec succès !');
         router.push('/admin/members');
         router.refresh();
       } else {
-        alert('Erreur lors de la création du membre');
+        toast.error('Erreur lors de la création du membre');
       }
     } catch (error) {
       console.error('Error creating member:', error);
-      alert('Erreur lors de la création du membre');
+      toast.error('Erreur lors de la création du membre');
     } finally {
       setIsSubmitting(false);
     }

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { use } from 'react';
+import { toast } from 'sonner';
 
 interface ResetPasswordPageProps {
   params: Promise<{ id: string }>;
@@ -48,13 +49,14 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps): R
 
       if (response.ok) {
         setSuccess(true);
+        toast.success('Mot de passe réinitialisé avec succès !');
       } else {
         const data = await response.json();
-        alert(data.error || 'Erreur lors de la réinitialisation');
+        toast.error(data.error || 'Erreur lors de la réinitialisation');
       }
     } catch (error) {
       console.error('Error resetting password:', error);
-      alert('Erreur lors de la réinitialisation');
+      toast.error('Erreur lors de la réinitialisation');
     } finally {
       setIsSubmitting(false);
     }

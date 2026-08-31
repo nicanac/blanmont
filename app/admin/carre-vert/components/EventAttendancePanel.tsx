@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { CalendarEvent } from '@/app/types';
 import { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
+import { toast } from 'sonner';
 
 type AttendanceInfo = { name: string; group: string; markedAt: string };
 
@@ -106,11 +107,17 @@ export default function EventAttendancePanel({
           }
         });
 
+        toast.success(
+          action === 'add'
+            ? `${member.name} marqué présent !`
+            : `${member.name} retiré des présences.`
+        );
+
         // Refresh server data in background
         router.refresh();
       } catch (error) {
         console.error('Failed to toggle attendance:', error);
-        alert('Erreur lors de la mise à jour de la présence.');
+        toast.error('Erreur lors de la mise à jour de la présence.');
       } finally {
         setLoading((prev) => ({ ...prev, [memberId]: false }));
       }
