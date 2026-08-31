@@ -186,44 +186,6 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Poll Information Banner */}
-      <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 shadow-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
-                  isClosed ? 'bg-slate-100 text-slate-700' : 'bg-emerald-50 text-emerald-800'
-                }`}
-              >
-                {!isClosed && <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />}
-                {isClosed ? 'Sondage Clôturé' : 'Sondage Actif'}
-              </span>
-              <span className="text-xs text-slate-400 font-medium">
-                Weekend du {poll.weekendIsoDate}
-              </span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              {poll.title}
-            </h1>
-            {poll.description && (
-              <p className="text-sm text-slate-600 leading-relaxed pt-1">
-                {poll.description}
-              </p>
-            )}
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="text-right">
-              <div className="text-3xl font-extrabold text-slate-900">{activeAttendees.length}</div>
-              <div className="text-[11px] uppercase tracking-wider font-semibold text-slate-400">
-                Cyclistes inscrits
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Grid: Left = Form / My Vote, Right = Live Tally & List */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Member QCM Form */}
