@@ -21,19 +21,28 @@ export default async function SondagePage(): Promise<React.ReactElement> {
   const responses = activePoll ? await getPollResponses(activePoll.id) : [];
 
   return (
-    <main className="min-h-screen bg-slate-50 pb-16">
+    <div className="min-h-screen bg-slate-50 pb-16">
       <PageHero
-        title="Sondage du Weekend"
-        description="Qui vient rouler ce weekend ? Choisissez votre jour, votre groupe et découvrez le peloton en direct."
-        badge="Sorties Weekend"
+        title={activePoll ? activePoll.title : 'Sondage du Weekend'}
+        description={
+          activePoll?.description ||
+          'Qui vient rouler ce weekend ? Choisissez votre jour, votre groupe et découvrez le peloton en direct.'
+        }
+        badge={
+          activePoll
+            ? activePoll.status === 'closed'
+              ? 'Sondage Clôturé'
+              : `Sondage Actif • Weekend du ${activePoll.weekendIsoDate}`
+            : 'Sorties Weekend'
+        }
         badgeIcon={<ChatBubbleLeftRightIcon className="h-4 w-4" />}
         variant="red"
         size="md"
       />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <WeekendPollView poll={activePoll} responses={responses} members={members} />
       </div>
-    </main>
+    </div>
   );
 }
