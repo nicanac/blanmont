@@ -9,6 +9,7 @@ import {
   safeValidate,
 } from '../../lib/validation';
 import toGeoJSON from '@tmcw/togeojson';
+import { requireAdminSession } from '@/app/lib/auth/session';
 
 import fs from 'fs';
 import path from 'path';
@@ -79,6 +80,7 @@ export async function importStravaTraceAction(
   activity: any,
   overrides?: { name?: string; direction?: string; surface?: string; rating?: string }
 ) {
+  await requireAdminSession();
   const validation = safeValidate(ImportStravaTraceSchema, { activity, overrides });
 
   if (!validation.success) {
@@ -126,6 +128,7 @@ export async function importStravaTraceAction(
 }
 
 export async function deleteTraceAction(traceId: string) {
+  await requireAdminSession();
   if (!traceId || typeof traceId !== 'string') {
     return { error: 'Invalid trace ID' };
   }

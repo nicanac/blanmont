@@ -21,35 +21,28 @@ Sidereal Satellite is the digital hub for the **Club de Blanmont**. It provides 
 
 ## Tech Stack
 
-- **Frontend**: Next.js 16 (App Router), React, Tailwind CSS.
-- **Data**: Notion API (Headless CMS).
+- **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS v4.
+- **Database**: Firebase Realtime Database (RTDB) via Admin SDK (server) & Client SDK (client). Full details in [DATABASE.md](DATABASE.md).
+- **Authentication**: Firebase Authentication.
+- **Storage**: Cloudinary & Firebase Storage.
 - **State**: React Context (`AuthContext`) + Server Actions.
 - **Icons**: Heroicons.
 - **Fonts**: Poppins (Google Fonts).
 
 ## Getting Started
 
-1.  **Environment Setup**:
-    Create a `.env.local` file with the following Notion secrets:
+1. **Environment Setup**:
+   Create a `.env.local` file with the required Firebase, Cloudinary, and optional Notion credentials (refer to [DATABASE.md](DATABASE.md) for full specification).
 
-    ```bash
-    NOTION_TOKEN=secret_...
-    NOTION_MEMBERS_DB_ID=...
-    NOTION_TRACES_DB_ID=...
-    NOTION_FEEDBACK_DB_ID=...
-    NOTION_SATURDAY_RIDE_DB_ID=...
-    NOTION_VOTES_DB_ID=...
-    # (Optional) Mock Mode is enabled if TOKEN is missing
-    ```
+    2.  **Run Development Server**:
+        ```bash
+        npm run dev
+        ```
+        Open [http://localhost:3000](http://localhost:3000).
 
-2.  **Run Development Server**:
-    ```bash
-    npm run dev
-    ```
-    Open [http://localhost:3000](http://localhost:3000).
+    ## Project Documentation
 
-## Project Structure
-
+<<<<<<< Updated upstream
 - `/app`: Next.js App Router source.
   - `/lib/notion.ts`: **Core Data Layer**. All Notion API calls live here.
   - `/components`: Reusable UI components.
@@ -57,6 +50,11 @@ Sidereal Satellite is the digital hub for the **Club de Blanmont**. It provides 
   - `/le-club`: Club info feature.
   - `/saturday-ride`: Voting feature.
   - `/traces`: Route catalog feature.
+=======
+    -   [DATABASE.md](DATABASE.md) — Comprehensive guide on database architecture, schemas, access layers, caching, and scripts.
+    -   [AI_CONTEXT.md](AI_CONTEXT.md) — Context and technical conventions for development.
+    -   [DESIGN.md](DESIGN.md) — Design tokens, color palette, typography, and styling standards.
+>>>>>>> Stashed changes
 
 ## Contributing
 

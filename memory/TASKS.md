@@ -4,6 +4,14 @@
 This file tracks the history of tasks performed in this session and planned future work.
 
 ## ✅ Completed Tasks
+- **Priority 1 Security, HttpOnly Session Cookies & Blog XSS Protection**:
+  - Implemented secure Web Crypto HMAC-SHA256 session token management (`app/lib/auth/session.ts`) with `HttpOnly`, `Secure`, `SameSite=Lax` cookies.
+  - Secured all admin API endpoints under `app/api/admin/*` (`members`, `events`, `attendance`, `blog`, `equipements`, `add-trace`, `import-csv`, `parse-gpx`, `fetch-metadata`) plus mutation routes (`/api/traces/[id]`, `/api/upload`) with server-side authorization checks (`verifyAdminRequest`).
+  - Added Next.js `middleware.ts` to intercept and protect `/admin/*` pages and `/api/admin/*` endpoints at the network perimeter.
+  - Connected `AuthContext` and Server Actions (`loginAction`, `logoutAction`, `getCurrentSessionUserAction`) directly to the HttpOnly session cookie lifecycle.
+  - Created dedicated public equipment API (`app/api/equipements/route.ts`) to separate public catalog reads from protected admin inventory management.
+  - Secured blog Markdown rendering in `app/blog/[slug]/page.tsx` by replacing unescaped `dangerouslySetInnerHTML` with `react-markdown` and `remark-gfm` for complete XSS prevention.
+  - *Status*: Verified with build and test runs.
 - **Dynamic Next Rendez-Vous Footer Feature**: Connected `app/components/layout/Footer.tsx` directly to the calendar database (`getCalendarEvents()`) to dynamically retrieve and display the scheduled destination, departure time, distances, and location for the upcoming Saturday/weekend ride. Wrapped the block in an accessible interactive link redirecting straight to `/calendrier`.
   - *Status*: Verified with browser rendering and build tests.
 - **Header Navbar Solid Background Fix**: Updated `app/components/layout/Navbar.tsx` to use a sticky translucent white background (`bg-white/95 backdrop-blur-md`) with high-contrast text and branding across all routes, preventing dark text on red hero backgrounds on initial load.

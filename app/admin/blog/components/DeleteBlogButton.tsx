@@ -24,11 +24,11 @@ export default function DeleteBlogButton({ postId, postTitle: _postTitle }: Dele
       if (response.ok) {
         router.refresh();
       } else {
-        alert('Failed to delete post');
+        alert('Erreur lors de la suppression de l\'article');
       }
     } catch (error) {
       console.error('Error deleting post:', error);
-      alert('Failed to delete post');
+      alert('Erreur lors de la suppression de l\'article');
     } finally {
       setIsDeleting(false);
       setShowConfirm(false);
@@ -43,13 +43,13 @@ export default function DeleteBlogButton({ postId, postTitle: _postTitle }: Dele
           disabled={isDeleting}
           className="rounded-lg px-2 py-1 text-xs font-medium text-white bg-red-600 hover:bg-red-700 disabled:opacity-50"
         >
-          {isDeleting ? '...' : 'Yes'}
+          {isDeleting ? '...' : 'Oui'}
         </button>
         <button
           onClick={() => setShowConfirm(false)}
           className="rounded-lg px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200"
         >
-          No
+          Non
         </button>
       </div>
     );
@@ -59,7 +59,7 @@ export default function DeleteBlogButton({ postId, postTitle: _postTitle }: Dele
     <button
       onClick={() => setShowConfirm(true)}
       className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-red-600"
-      title="Delete"
+      title="Supprimer"
     >
       <TrashIcon className="h-4 w-4" />
     </button>
