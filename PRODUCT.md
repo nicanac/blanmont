@@ -32,14 +32,17 @@ Unlike generic cycling apps (Strava/Garmin Connect) or static club websites, Sid
   - Route Catalog ("Parcours"): Search, multi-criteria filtering (distance, elevation, surface, direction, rating), interactive Leaflet map preview, elevation charts, Google Photos album embedding, and instant GPX export.
   - Route Importer: Import and parse Strava polylines, Garmin activities, and GPX files with automatic distance and elevation calculation.
   - Saturday Ride Voting ("Sortie du Samedi"): Optimistic voting system with real-time tallying and status lifecycle (`Draft` -> `Voting` -> `Closed`).
-  - Club Calendar ("Calendrier"): Interactive monthly calendar view with categorized cycling outings, meetings, and special events. Includes automated PDF schedule import.
-  - Member Directory & Profiles: Searchable member list, role-based authorization (President, Admin, Member), password reset, and profile management.
-  - Club Gear & Equipment ("Équipements"): Catalog of club apparel, size availability, stock status, and order requests.
-  - Club Blog: Markdown/rich-text article publishing with Cloudinary-backed image assets.
-  - Leaderboard & Statistics: Annual attendance tracking and club activity metrics.
+  - Weekend Attendance Polls ("Sondage du Weekend"): Dedicated interactive QCM presence survey (`/sondage`) for choosing ride days (Samedi, Dimanche, Les deux, Absent), speed groups (A, B, C, VTT), custom QCM questions, live attendee directory, and 1-click WhatsApp summary generator for road captains.
+  - Club Calendar ("Calendrier"): Interactive monthly calendar view with categorized cycling outings, meetings, and special events. Includes 2-step PDF preview & batch import, and dynamic iCalendar feed subscription (`/api/calendar/subscribe.ics` / `webcal://`) for Apple Calendar, Google Calendar, and Outlook.
+  - Live Weather & Wind Forecasts: Open-Meteo integration providing localized departure temperature, sky condition, rain probability, wind speed (km/h), and cardinal direction with animated directional arrows.
+  - Member Directory & Profiles: Searchable member list, role-based authorization (President, Admin, Member), password reset, and profile management with Cloudinary photo uploads.
+  - Club Gear & Equipment ("Équipements"): Catalog of club apparel, size availability, stock status, and order requests with dedicated admin inventory management.
+  - Club Blog: Markdown article publishing with `react-markdown` and Cloudinary-backed media assets.
+  - Leaderboard & Statistics: Annual Carré Vert attendance tracking and club activity metrics with Google Sheets sync.
 - **Constraints**:
   - Primary UI language must strictly be French (Français) for all user-facing copy.
   - Strict data validation using Zod and Firebase Admin/Client SDKs.
+  - Secure session-based authentication with `HttpOnly`, `Secure`, `SameSite=Lax` cookies and middleware perimeter protection.
   - Client-side Leaflet rendering requires dynamic imports with `ssr: false`.
   - Date parsing must be timezone-safe (local date interpretation without UTC offset shifts).
 
