@@ -2,6 +2,7 @@
 
 import { CalendarEvent } from '@/app/types';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
+import { requireAdminSession } from '@/app/lib/auth/session';
 
 const MONTHS: { [key: string]: string } = {
   janvier: '01',
@@ -19,6 +20,7 @@ const MONTHS: { [key: string]: string } = {
 };
 
 export async function processPdf(formData: FormData) {
+  await requireAdminSession();
   console.log('Starting PDF processing...');
 
   const file = formData.get('file') as File;

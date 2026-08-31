@@ -24,7 +24,7 @@ export default function EquipementPage() {
     useEffect(() => {
         const fetchEquipment = async () => {
             try {
-                const response = await fetch('/api/admin/equipements');
+                const response = await fetch('/api/equipements');
                 if (response.ok) {
                     const data = await response.json();
                     setEquipment(data);

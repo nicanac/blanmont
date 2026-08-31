@@ -52,28 +52,28 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
 
   const stats = [
     {
-      name: 'Total Members',
+      name: 'Total Membres',
       value: totalMembers,
       icon: UsersIcon,
       href: '/admin/members',
       color: 'bg-blue-500',
-      description: 'Active members',
+      description: 'Membres actifs',
     },
     {
-      name: 'Blog Posts',
+      name: 'Articles de Blog',
       value: totalBlogPosts,
       icon: DocumentTextIcon,
       href: '/admin/blog',
       color: 'bg-green-500',
-      description: 'Published articles',
+      description: 'Articles publiés',
     },
     {
-      name: 'Upcoming Events',
+      name: 'Événements à venir',
       value: upcomingEvents,
       icon: CalendarDaysIcon,
       href: '/admin/events',
       color: 'bg-purple-500',
-      description: 'Next 7 days',
+      description: '7 prochains jours',
     },
   ];
 
@@ -82,9 +82,9 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Tableau de bord Admin</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Manage your cycling club content and members
+            Gérez le contenu et les membres de votre club de cyclisme
           </p>
         </div>
         <Link
@@ -92,7 +92,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 transition-colors"
         >
           <PlusIcon className="h-5 w-5" />
-          Create New Post
+          Nouvel article
         </Link>
       </div>
 

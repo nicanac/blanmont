@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createTraceWithGPX } from '@/app/lib/firebase/traces';
 import { AddTraceApiSchema, safeValidate } from '@/app/lib/validation';
+import { verifyAdminRequest } from '@/app/lib/auth/session';
 
 export async function POST(req: NextRequest) {
+  const authCheck = await verifyAdminRequest(req);
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const body = await req.json();
 

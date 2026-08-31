@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createBlogPost } from '@/app/lib/firebase/blog';
 import { BlogPost } from '@/app/types';
+import { verifyAdminRequest } from '@/app/lib/auth/session';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const authCheck = await verifyAdminRequest(request);
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const data = await request.json();
 
