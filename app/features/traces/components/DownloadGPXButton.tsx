@@ -1,70 +1,65 @@
 'use client';
 
-import { Button } from '@mui/material';
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 // @ts-ignore
 import toGeoJSON from '@mapbox/polyline';
 // @ts-ignore
 import togpx from 'togpx';
+import { toast } from 'sonner';
 
 interface Props {
-    polyline?: string;
-    traceName: string;
+  polyline?: string;
+  traceName: string;
 }
 
 export default function DownloadGPXButton({ polyline, traceName }: Props) {
-    if (!polyline) return null;
+  if (!polyline) return null;
 
-    const handleDownload = () => {
-        try {
-            // 1. Decode Polyline to GeoJSON LineString
-            // Note: Strava polylines are usually precision 5, sometimes 6. Mapbox polyline defaults to 5.
-            const coordinates = toGeoJSON.decode(polyline);
-            // decode returns [lat, lon], geojson expects [lon, lat]
-            const flipped = coordinates.map((c: number[]) => [c[1], c[0]]);
+  const handleDownload = () => {
+    try {
+      const coordinates = toGeoJSON.decode(polyline);
+      const flipped = coordinates.map((c: number[]) => [c[1], c[0]]);
 
-            const geoJson = {
-                type: "FeatureCollection",
-                features: [
-                    {
-                        type: "Feature",
-                        properties: {
-                            name: traceName
-                        },
-                        geometry: {
-                            type: "LineString",
-                            coordinates: flipped
-                        }
-                    }
-                ]
-            };
+      const geoJson = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {
+              name: traceName,
+            },
+            geometry: {
+              type: 'LineString',
+              coordinates: flipped,
+            },
+          },
+        ],
+      };
 
-            // 2. Convert GeoJSON to GPX
-            const gpxData = togpx(geoJson);
+      const gpxData = togpx(geoJson);
+      const blob = new Blob([gpxData], { type: 'application/gpx+xml' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${traceName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.gpx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success('Trace GPX téléchargée avec succès !');
+    } catch (e) {
+      console.error('Failed to generate GPX', e);
+      toast.error('Impossible de générer le fichier GPX.');
+    }
+  };
 
-            // 3. Trigger Download
-            const blob = new Blob([gpxData], { type: 'application/gpx+xml' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${traceName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.gpx`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } catch (e) {
-            console.error('Failed to generate GPX', e);
-            alert('Failed to generate GPX file.');
-        }
-    };
-
-    return (
-        <Button
-            variant="outlined"
-            size="large"
-            onClick={handleDownload}
-            startIcon={<ArrowDownTrayIcon className="w-5 h-5" />}
-        >
-            Download GPX
-        </Button>
-    );
+  return (
+    <button
+      type="button"
+      onClick={handleDownload}
+      className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-xs hover:bg-slate-50 hover:border-slate-400 transition-all active:scale-95"
+    >
+      <ArrowDownTrayIcon className="h-4 w-4 text-[#e03e3e]" />
+      <span>Télécharger GPX</span>
+    </button>
+  );
 }

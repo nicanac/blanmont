@@ -8,6 +8,7 @@ import * as mapboxPolyline from '@mapbox/polyline';
 import { importStravaTraceAction, deleteTraceAction } from '../strava/actions';
 import { StravaActivity } from '../../lib/strava';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function GarminImportPage() {
     const [file, setFile] = useState<File | null>(null);
@@ -213,12 +214,14 @@ export default function GarminImportPage() {
             if (result.success) {
                 setSuccessMessage(null);
                 setCreatedTraceId(null);
-                alert('Parcours supprimé avec succès.');
+                toast.success('Parcours supprimé avec succès.');
             } else {
                 setError('Échec de la suppression du parcours.');
+                toast.error('Échec de la suppression du parcours.');
             }
         } catch (e) {
             setError('Erreur lors de la suppression.');
+            toast.error('Erreur lors de la suppression.');
         } finally {
             setLoading(false);
         }

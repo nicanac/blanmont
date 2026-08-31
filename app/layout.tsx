@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Poppins } from 'next/font/google';
-import ThemeRegistry from './ThemeRegistry';
 import { AuthProvider } from './context/AuthContext';
-import Box from '@mui/material/Box';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import { Toaster } from 'sonner';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -15,7 +14,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: 'Club de Blanmont',
-  description: 'Premium Road Cycling Club',
+  description: 'Cyclo Club Saint-Martin Blanmont - Club de cyclisme sur route et VTT',
 };
 
 /**
@@ -26,21 +25,21 @@ export const metadata: Metadata = {
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <body className={`h-full bg-white ${poppins.variable} font-sans`}>
-        <ThemeRegistry>
-          <AuthProvider>
-            <Navbar />
+        <AuthProvider>
+          <Navbar />
 
-            <Box component="main" sx={{ minHeight: '80vh' }}>
-              {children}
-            </Box>
+          <main className="min-h-[80vh] flex-grow">
+            {children}
+          </main>
 
-            <div className="mt-auto">
-              <Footer />
-            </div>
-          </AuthProvider>
-        </ThemeRegistry>
+          <div className="mt-auto">
+            <Footer />
+          </div>
+
+          <Toaster position="top-right" richColors closeButton />
+        </AuthProvider>
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { use } from 'react';
+import { toast } from 'sonner';
 
 interface EditEventPageProps {
   params: Promise<{ id: string }>;
@@ -67,14 +68,15 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
       });
 
       if (response.ok) {
+        toast.success('Événement mis à jour avec succès !');
         router.push('/admin/events');
         router.refresh();
       } else {
-        alert("Erreur lors de la mise à jour de l'événement");
+        toast.error("Erreur lors de la mise à jour de l'événement");
       }
     } catch (error) {
       console.error('Error updating event:', error);
-      alert("Erreur lors de la mise à jour de l'événement");
+      toast.error("Erreur lors de la mise à jour de l'événement");
     } finally {
       setIsSubmitting(false);
     }

@@ -1,82 +1,98 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Feedback, Member } from '../../types';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
+import { PencilSquareIcon, StarIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 
 interface FeedbackListProps {
-    feedbackList: Feedback[];
-    members: Member[];
+  feedbackList: Feedback[];
+  members: Member[];
 }
 
 export default function FeedbackList({ feedbackList, members }: FeedbackListProps) {
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleEdit = (memberId: string) => {
-        const params = new URLSearchParams(window.location.search);
-        params.set('editMemberId', memberId);
-        router.replace(`?${params.toString()}`, { scroll: false });
+  const handleEdit = (memberId: string) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('editMemberId', memberId);
+    router.replace(`?${params.toString()}`, { scroll: false });
 
-        const form = document.getElementById('feedback-form');
-        if (form) {
-            form.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    if (feedbackList.length === 0) {
-        return (
-            <Typography variant="body1" color="text.secondary" fontStyle="italic">
-                Aucun commentaire pour l'instant. Soyez le premier !
-            </Typography>
-        );
+    const form = document.getElementById('feedback-form');
+    if (form) {
+      form.scrollIntoView({ behavior: 'smooth' });
     }
+  };
 
+  if (feedbackList.length === 0) {
     return (
-        <Stack spacing={2}>
-            {feedbackList.map((fb) => {
-                const authorMember = members.find(m => m.id === fb.memberId);
-                const authorName = authorMember?.name || 'Unknown Rider';
-                const avatarUrl = authorMember?.photoUrl;
-
-                return (
-                    <Paper key={fb.id} sx={{ p: 2, borderRadius: 2 }} variant="outlined">
-                        <Stack direction="row" spacing={2} alignItems="flex-start">
-                            <Avatar alt={authorName} src={avatarUrl} sx={{ bgcolor: 'primary.main' }}>
-                                {authorName.charAt(0)}
-                            </Avatar>
-                            <Box sx={{ flexGrow: 1 }}>
-                                <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>
-                                    <Typography variant="subtitle1" fontWeight="bold">
-                                        {authorName}
-                                    </Typography>
-                                    <Stack direction="row" spacing={1} alignItems="center">
-                                        <Typography variant="body2" sx={{ color: 'warning.main' }}>
-                                            {'★'.repeat(fb.rating)}
-                                        </Typography>
-                                        {fb.memberId && (
-                                            <Button
-                                                size="small"
-                                                onClick={() => handleEdit(fb.memberId!)}
-                                                sx={{ minWidth: 0, p: 0.5, fontSize: '1.2rem' }}
-                                            >
-                                                ✏️
-                                            </Button>
-                                        )}
-                                    </Stack>
-                                </Stack>
-                                <Typography variant="body2" color="text.primary">
-                                    {fb.comment}
-                                </Typography>
-                            </Box>
-                        </Stack>
-                    </Paper>
-                );
-            })}
-        </Stack>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-8 text-center text-sm italic text-slate-500">
+        Aucun commentaire pour l&apos;instant. Soyez le premier à donner votre avis !
+      </div>
     );
+  }
+
+  return (
+    <div className="space-y-4">
+      {feedbackList.map((fb) => {
+        const authorMember = members.find((m) => m.id === fb.memberId);
+        const authorName = authorMember?.name || 'Cycliste du club';
+        const avatarUrl = authorMember?.photoUrl;
+
+        return (
+          <div
+            key={fb.id}
+            className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs hover:border-slate-300 transition-all"
+          >
+            <div className="flex items-start gap-4">
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-red-100 flex items-center justify-center text-[#e03e3e] font-bold">
+                {avatarUrl ? (
+                  <Image
+                    src={avatarUrl}
+                    alt={authorName}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <span>{authorName.charAt(0)}</span>
+                )}
+              </div>
+
+              <div className="flex-1 space-y-1">
+                <div className="flex items-center justify-between gap-2">
+                  <h4 className="text-sm font-bold text-slate-900">{authorName}</h4>
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex text-amber-400">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <StarIcon
+                          key={star}
+                          className={`h-4 w-4 ${
+                            star <= fb.rating ? 'text-amber-400' : 'text-slate-200'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    {fb.memberId && (
+                      <button
+                        type="button"
+                        onClick={() => handleEdit(fb.memberId!)}
+                        className="rounded-lg p-1 text-slate-400 hover:text-[#e03e3e] hover:bg-red-50 transition-colors"
+                        title="Modifier mon avis"
+                      >
+                        <PencilSquareIcon className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                  {fb.comment}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface DeleteBlogButtonProps {
   postId: string;
@@ -22,13 +23,14 @@ export default function DeleteBlogButton({ postId, postTitle: _postTitle }: Dele
       });
 
       if (response.ok) {
+        toast.success('Article supprimé avec succès.');
         router.refresh();
       } else {
-        alert('Erreur lors de la suppression de l\'article');
+        toast.error('Erreur lors de la suppression de l\'article');
       }
     } catch (error) {
       console.error('Error deleting post:', error);
-      alert('Erreur lors de la suppression de l\'article');
+      toast.error('Erreur lors de la suppression de l\'article');
     } finally {
       setIsDeleting(false);
       setShowConfirm(false);
