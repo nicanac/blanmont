@@ -56,16 +56,17 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
   - "Google Photos" integration (scraping album previews).
   - **UI**: Cards with image overlays for ratings, hover effects, and responsive tag layout.
 
-### 2. Saturday Ride (Voting System)
+### 2. Saturday Ride (Voting System) & Weekend Attendance Polls
 
-- **Goal**: democratic choice of the weekly ride.
-- **Roles**:
-  - **President/Admin**: Can propose multiple traces for the upcoming Saturday.
-  - **Members**: Can vote for their preferred trace.
-- **Mechanism**:
-  - Optimistic UI updates for instant voting feedback.
-  - Limits: 1 vote per member per ride.
-  - Statuses: `Draft` -> `Voting` -> `Closed`.
+- **Goal**: Democratic choice of the weekly ride and weekend attendance coordination.
+- **Saturday Ride Route Voting**:
+  - Propose multiple traces for upcoming Saturday (`saturday-rides`).
+  - Members vote for their preferred route.
+- **Weekend Attendance Poll (QCM)**:
+  - Weekly poll (`weekend-polls` & `weekend-poll-responses`) accessible at `/sondage`.
+  - Members choose ride day (Samedi / Dimanche / Les deux / Absent), cycling speed group (Groupe A/B/C/VTT), custom admin QCM questions, and notes.
+  - Live tally dashboard with group distribution and rider list.
+  - Full admin management at `/admin/sondages` with 1-click WhatsApp formatted summary export.
 
 ### 3. Feedback Loop
 

@@ -15,12 +15,14 @@ import {
   Bars3Icon,
   XMarkIcon,
   ShoppingBagIcon,
+  ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline';
 import { cn } from '../utils/cn';
 import AdminGuard from './components/AdminGuard';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: HomeIcon },
+  { name: 'Sondages Weekend', href: '/admin/sondages', icon: ChatBubbleLeftRightIcon },
   { name: 'Les News', href: '/admin/blog', icon: DocumentTextIcon },
   { name: 'Members', href: '/admin/members', icon: UsersIcon },
   { name: 'Events', href: '/admin/events', icon: CalendarIcon },

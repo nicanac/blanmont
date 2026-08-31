@@ -119,6 +119,7 @@ const navigation = {
     { name: 'Classement Carré Vert', href: '/leaderboard' },
   ],
   routes: [
+    { name: 'Sondage du Weekend', href: '/sondage' },
     { name: 'Sortie du Samedi (Vote)', href: '/saturday-ride' },
     { name: 'Tous les Parcours GPS', href: '/traces' },
     { name: 'Calendrier des Sorties', href: '/calendrier' },

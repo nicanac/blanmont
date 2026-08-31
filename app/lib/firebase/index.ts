@@ -11,3 +11,4 @@ export * from './calendar';
 export * from './blog';
 export * from './leaderboard';
 export * from './attendance';
+export * from './polls';
