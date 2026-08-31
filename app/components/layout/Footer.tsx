@@ -1,21 +1,7 @@
 import Link from 'next/link';
 import { getCalendarEvents } from '../../lib/firebase/calendar';
-import { MapPinIcon, ArrowRightIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { CalendarEvent } from '../../types';
-import RideWeatherBadge from '../ui/RideWeatherBadge';
-
-interface ScheduledRideInfo {
-  isoDate: string;
-  dateFormatted: string;
-  location: string;
-  departure: string;
-  distances?: string;
-  address?: string;
-  remarks?: string;
-  gpxUrl?: string;
-  group?: string;
-  isCustomEvent: boolean;
-}
+import NextRideCard, { type ScheduledRideInfo } from './NextRideCard';
 
 /**
  * Calculates the next upcoming scheduled ride (prioritizing the next Saturday).
@@ -174,81 +160,8 @@ export default async function Footer(): Promise<React.JSX.Element> {
             </p>
           </div>
 
-          {/* Dynamic Next Rendez-vous card linked to Calendar */}
-          <div className="w-full">
-            <div className="group block p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-red-300 hover:shadow-md transition-all space-y-2.5">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 font-semibold text-xs uppercase tracking-wider text-slate-800">
-                  <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
-                  Prochain Rendez-vous
-                </div>
-                <span className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">
-                  {nextRide.dateFormatted}
-                </span>
-              </div>
-
-              <div className="space-y-1 pt-1">
-                <Link
-                  href="/calendrier"
-                  className="text-sm font-bold text-slate-900 hover:text-[#e03e3e] transition-colors flex items-center gap-1.5"
-                >
-                  <MapPinIcon className="h-4 w-4 text-[#e03e3e] flex-shrink-0" />
-                  <span>{nextRide.location}</span>
-                </Link>
-                <p className="text-xs text-slate-600">
-                  Départ à{' '}
-                  <span className="font-semibold text-slate-800">{nextRide.departure}</span>
-                  {nextRide.distances ? ` • ${nextRide.distances}` : ''}
-                </p>
-                {nextRide.address && (
-                  <p className="text-[11px] text-slate-500 truncate">{nextRide.address}</p>
-                )}
-                {nextRide.remarks && (
-                  <p className="text-[11px] text-slate-600 line-clamp-2">
-                    <span className="font-semibold text-slate-700">Remarques :</span>{' '}
-                    {nextRide.remarks}
-                  </p>
-                )}
-              </div>
-
-              {/* Weather & Wind forecast */}
-              <div className="pt-1">
-                <RideWeatherBadge isoDate={nextRide.isoDate} departure={nextRide.departure} />
-              </div>
-
-              {nextRide.gpxUrl && (
-                <div className="pt-1">
-                  <a
-                    href={nextRide.gpxUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 w-full rounded-lg bg-red-50 hover:bg-red-100 text-[#e03e3e] px-3 py-1.5 text-xs font-semibold border border-red-200 transition-colors"
-                  >
-                    <ArrowDownTrayIcon className="h-3.5 w-3.5" />
-                    <span>
-                      {nextRide.gpxUrl.includes('strava.com')
-                        ? 'Trace GPS (Strava)'
-                        : nextRide.gpxUrl.includes('garmin.com')
-                          ? 'Trace GPS (Garmin Connect)'
-                          : nextRide.gpxUrl.includes('komoot')
-                            ? 'Trace GPS (Komoot)'
-                            : 'Télécharger la trace GPX'}
-                    </span>
-                  </a>
-                </div>
-              )}
-
-              <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#e03e3e]">
-                <Link
-                  href="/calendrier"
-                  className="inline-flex items-center justify-between w-full hover:underline"
-                >
-                  <span>Voir le calendrier complet</span>
-                  <ArrowRightIcon className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
-          </div>
+          {/* Dynamic Next Rendez-vous card linked to Calendar (Expandable) */}
+          <NextRideCard nextRide={nextRide} />
         </div>
 
         {/* Navigation Columns in 3 parts */}
