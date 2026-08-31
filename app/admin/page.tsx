@@ -5,10 +5,12 @@ import {
   DocumentTextIcon,
   CalendarDaysIcon,
   PlusIcon,
+  ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline';
 import { getBlogPosts } from '../lib/firebase/blog';
 import { getMembers } from '../lib/firebase/members';
 import { getCalendarEvents } from '../lib/firebase/calendar';
+import { getActiveWeekendPoll, getPollResponses } from '../lib/firebase/polls';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,11 +31,15 @@ function formatDate(dateString: string): string {
  */
 export default async function AdminDashboardPage(): Promise<React.ReactElement> {
   // Fetch data for stats
-  const [blogPosts, members, events] = await Promise.all([
+  const [blogPosts, members, events, activePoll] = await Promise.all([
     getBlogPosts(),
     getMembers(),
     getCalendarEvents(),
+    getActiveWeekendPoll(),
   ]);
+
+  const pollResponses = activePoll ? await getPollResponses(activePoll.id) : [];
+  const activeAttendees = pollResponses.filter((r) => r.dayChoice !== 'absent').length;
 
   // Calculate stats
   const totalMembers = members.length;
@@ -51,6 +57,14 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   const recentPosts = blogPosts.slice(0, 5);
 
   const stats = [
+    {
+      name: 'Sondage Weekend',
+      value: activePoll ? `${activeAttendees} présents` : 'Inactif',
+      icon: ChatBubbleLeftRightIcon,
+      href: activePoll ? `/admin/sondages/${activePoll.id}` : '/admin/sondages',
+      color: 'bg-red-600',
+      description: activePoll ? activePoll.title : 'Créer un sondage',
+    },
     {
       name: 'Total Membres',
       value: totalMembers,

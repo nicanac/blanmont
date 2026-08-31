@@ -4,6 +4,12 @@
 This file tracks the history of tasks performed in this session and planned future work.
 
 ## ✅ Completed Tasks
+- **Weekend Poll QCM System & Admin Management Suite**:
+  - Implemented Firebase data layer (`app/lib/firebase/polls.ts`) for managing weekend poll sessions (`weekend-polls`) and member responses (`weekend-poll-responses`).
+  - Created dedicated member-facing QCM page (`app/sondage/page.tsx` & `WeekendPollView.tsx`) with day choices (Samedi, Dimanche, Les deux, Absent), group selector (Groupe A/B/C/VTT), custom QCM questions, and real-time live attendance tallies with rider directory.
+  - Built complete Admin management suite (`app/admin/sondages/page.tsx`, `new/page.tsx`, `[id]/page.tsx`, `[id]/edit/page.tsx`) with poll creation, status toggles, response inspections, member response removals, and 1-click WhatsApp formatted summary generator.
+  - Linked Weekend Poll across Navbar, Footer, and Admin Dashboard.
+  - *Status*: Verified with Next.js build.
 - **Complete Removal of Material UI (@mui, @emotion), Sonner Toasts & HTML Cleanup**:
   - Uninstalled all `@mui/material`, `@mui/icons-material`, `@emotion/*`, and `@fontsource/roboto` packages (-40 packages, -250 KB JS bundle).
   - Deleted legacy `ThemeRegistry.tsx`, `EmotionCache.tsx`, and `TraceList.tsx.backup`.

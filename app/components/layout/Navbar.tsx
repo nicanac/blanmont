@@ -21,6 +21,7 @@ import {
   TrophyIcon,
   InformationCircleIcon,
   ShoppingBagIcon,
+  ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -32,6 +33,7 @@ export default function Navbar() {
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
   const mainNavigation = [
+    { name: 'Sondage Weekend', href: '/sondage' },
     { name: 'Les News', href: '/blog' },
     { name: 'Membres', href: '/members' },
     {
@@ -43,6 +45,12 @@ export default function Navbar() {
   ];
 
   const clubNavigation = [
+    {
+      name: 'Sondage du Weekend',
+      description: 'Qui roule ce weekend ?',
+      href: '/sondage',
+      icon: ChatBubbleLeftRightIcon,
+    },
     {
       name: 'Présentation',
       description: 'Qui sommes-nous ?',
