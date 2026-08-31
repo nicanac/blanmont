@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { getCalendarEvents } from '../../lib/firebase/calendar';
 import { MapPinIcon, ArrowRightIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { CalendarEvent } from '../../types';
+import RideWeatherBadge from '../ui/RideWeatherBadge';
 
 interface ScheduledRideInfo {
+  isoDate: string;
   dateFormatted: string;
   location: string;
   departure: string;
@@ -62,6 +64,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
   const satEvent = events.find((e) => e.isoDate === nextSatIso);
   if (satEvent) {
     return {
+      isoDate: satEvent.isoDate,
       dateFormatted: formatFrenchDate(satEvent.isoDate),
       location: satEvent.location || 'Blanmont',
       departure: satEvent.departure || '8h30',
@@ -78,6 +81,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
   const sunEvent = events.find((e) => e.isoDate === nextSunIso);
   if (sunEvent) {
     return {
+      isoDate: sunEvent.isoDate,
       dateFormatted: formatFrenchDate(sunEvent.isoDate),
       location: sunEvent.location || 'Blanmont',
       departure: sunEvent.departure || '8h30',
@@ -97,6 +101,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
   if (futureEvents.length > 0) {
     const nextEvent = futureEvents[0];
     return {
+      isoDate: nextEvent.isoDate,
       dateFormatted: formatFrenchDate(nextEvent.isoDate),
       location: nextEvent.location || 'Blanmont',
       departure: nextEvent.departure || '8h30',
@@ -111,6 +116,7 @@ function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo {
 
   // 4. Default weekly club ride at Blanmont
   return {
+    isoDate: nextSatIso,
     dateFormatted: formatFrenchDate(nextSatIso),
     location: 'Place de Blanmont (Chastre)',
     departure: '8h30',
@@ -203,6 +209,11 @@ export default async function Footer(): Promise<React.JSX.Element> {
                     {nextRide.remarks}
                   </p>
                 )}
+              </div>
+
+              {/* Weather & Wind forecast */}
+              <div className="pt-1">
+                <RideWeatherBadge isoDate={nextRide.isoDate} departure={nextRide.departure} />
               </div>
 
               {nextRide.gpxUrl && (

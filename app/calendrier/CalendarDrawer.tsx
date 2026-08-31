@@ -21,6 +21,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import RouteIcon from '@mui/icons-material/Route';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
+import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 
 type AttendeeInfo = { name: string; group: string };
 
@@ -102,6 +103,11 @@ export default function CalendarDrawer({
         {/* Content */}
         <Box sx={{ p: 3, flexGrow: 1, overflowY: 'auto' }}>
           <Stack spacing={2.5}>
+            {/* Weather & Wind forecast badge */}
+            <Box>
+              <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} />
+            </Box>
+
             {/* GPX / Garmin / Strava Trace Section (Top Priority) */}
             {event.gpxUrl && (
               <Box
