@@ -51,8 +51,8 @@ export default async function Home() {
           </PageHero>
 
           {/* Hero image + floating stat bar (Overlapping) */}
-          <div className="relative mx-auto -mt-40 max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="relative overflow-hidden rounded-2xl shadow-xl ring-1 ring-gray-900/10">
+          <div className="relative mx-auto -mt-40 max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-700 ease-out">
+            <div className="relative overflow-hidden rounded-2xl shadow-xl ring-1 ring-gray-900/10 hover:shadow-2xl transition-shadow">
               <img
                 className="aspect-[16/9] w-full object-cover sm:aspect-[2/1] lg:aspect-[16/7]"
                 src="/images/home-hero.jpg"
