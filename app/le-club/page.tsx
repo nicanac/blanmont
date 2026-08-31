@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { PageHero } from '../components/ui/PageHero';
 import { UserGroupIcon } from '@heroicons/react/24/outline';
 
@@ -47,10 +48,19 @@ export default function LeClubPage(): React.ReactElement {
                             </div>
                         </div>
 
-                        <div className="mt-10">
-                            <a href="/register" className="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
-                                Rejoindre le club
+                        <div className="mt-10 flex flex-wrap items-center gap-4">
+                            <a
+                                href="mailto:info@blanmont.be?subject=Demande%20d'adh%C3%A9sion%20au%20Club%20de%20Blanmont&body=Bonjour%20l'%C3%A9quipe%20du%20Club%20de%20Blanmont,%0A%0AJe%20souhaite%20rejoindre%20le%20club%20ou%20participer%20%C3%A0%20une%20premi%C3%A8re%20sortie%20d'essai.%0A%0AMes%20coordonn%C3%A9es%20:%0ANom%20:%20%0AT%C3%A9l%C3%A9phone%20:%20%0AGroupe%20souhait%C3%A9%20(A,%20B,%20C,%20VTT)%20:%20%0A%0AMerci%20!"
+                                className="rounded-full bg-[#e03e3e] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#c93434] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e03e3e]"
+                            >
+                                Rejoindre le club (Contact)
                             </a>
+                            <Link
+                                href="/calendrier"
+                                className="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                            >
+                                Voir les prochaines sorties
+                            </Link>
                         </div>
                     </div>
 

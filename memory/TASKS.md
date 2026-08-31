@@ -4,6 +4,13 @@
 This file tracks the history of tasks performed in this session and planned future work.
 
 ## ✅ Completed Tasks
+- **Complete Removal of Material UI (@mui, @emotion), Sonner Toasts & HTML Cleanup**:
+  - Uninstalled all `@mui/material`, `@mui/icons-material`, `@emotion/*`, and `@fontsource/roboto` packages (-40 packages, -250 KB JS bundle).
+  - Deleted legacy `ThemeRegistry.tsx`, `EmotionCache.tsx`, and `TraceList.tsx.backup`.
+  - Converted all remaining MUI pages and components (`app/layout.tsx`, `app/traces/[id]/page.tsx`, `app/traces/[id]/FeedbackList.tsx`, `app/traces/[id]/FeedbackForm.tsx`, `app/traces/loading.tsx`, `app/leaderboard/LeaderboardView.tsx`, `app/calendrier/CalendarDrawer.tsx`, `app/import/strava/ImportForm.tsx`, `app/features/traces/components/DownloadGPXButton.tsx`) to 100% Tailwind CSS v4 + Heroicons.
+  - Replaced all 17 blocking `window.alert(...)` dialogs across the entire application with modern, lightweight `sonner` toasts (`<Toaster />`).
+  - Configured `<html lang="fr">` in `app/layout.tsx` and updated the "Rejoindre le club" action on `/le-club` to contact mailto / calendar ride information.
+  - *Status*: Verified with Next.js build.
 - **Priority 3 Calendar Subscription (.ics), Weather Forecast & 2-Step PDF Import**:
   - **iCalendar Sync Feed**: Implemented RFC 5545 generator (`app/lib/calendar-ics.ts`) and API routes (`/api/calendar/subscribe.ics`, `/api/calendar/ics`) for continuous 1-click calendar synchronization across Apple Calendar (`webcal://`), Google Agenda, Outlook, and manual `.ics` download.
   - **Calendar Subscription Modal**: Added `CalendarSubscribeButton` on `/calendrier` header with quick 1-click links and clipboard feed URL copy.

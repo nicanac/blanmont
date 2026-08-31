@@ -1,17 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import {
-    Drawer,
-    Box,
-    Typography,
-    IconButton,
-    Divider
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { useRouter } from 'next/navigation';
 import { PageHero } from '../components/ui/PageHero';
-import { TrophyIcon } from '@heroicons/react/24/outline';
+import { TrophyIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 type LeaderboardEntry = {
     id: string;
@@ -247,94 +239,104 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                 </div>
             </main>
 
-            {/* MUI Drawer */}
-            <Drawer
-                anchor="right"
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                    sx: { width: { xs: '100%', sm: 400 } }
-                }}
-            >
-                {selectedMember && (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                        {/* Header */}
-                        <Box sx={{ bgcolor: '#15803d', color: 'white', px: 3, py: 3 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                                <Typography variant="subtitle1" fontWeight="bold">
-                                    Détails du membre
-                                </Typography>
-                                <IconButton onClick={handleClose} sx={{ color: 'white' }}>
-                                    <CloseIcon />
-                                </IconButton>
-                            </Box>
-                            <Typography variant="h4" fontWeight="bold">
-                                {selectedMember.name}
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#dcfce7', mt: 0.5 }}>
-                                Rang actuel: #{selectedRank}
-                            </Typography>
-                        </Box>
+            {/* Slide-over Drawer */}
+            {open && selectedMember && (
+                <div className="fixed inset-0 z-50 overflow-hidden">
+                    {/* Backdrop */}
+                    <div
+                        className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+                        onClick={handleClose}
+                    />
 
-                        {/* Content */}
-                        <Box sx={{ p: 3, flex: 1, overflowY: 'auto' }}>
-                            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 3 }}>
-                                <Box>
-                                    <Typography variant="caption" color="text.secondary" fontWeight="medium">
-                                        Groupe
-                                    </Typography>
-                                    <Box mt={0.5}>
-                                        <GroupBadge group={selectedMember.group} />
-                                    </Box>
-                                </Box>
-                                <Box>
-                                    <Typography variant="caption" color="text.secondary" fontWeight="medium">
-                                        Total Sorties
-                                    </Typography>
-                                    <Typography variant="h5" fontWeight="bold" color="text.primary">
-                                        {selectedMember.rides}
-                                    </Typography>
-                                </Box>
-                                <Box>
-                                    <Typography variant="caption" color="text.secondary" fontWeight="medium">
-                                        Fidélité
-                                    </Typography>
-                                    <Typography variant="body2" color="text.primary">
-                                        {totalPossibleRides > 0 ? Math.round((selectedMember.rides / totalPossibleRides) * 100) : 0}%
-                                    </Typography>
-                                </Box>
-                                <Box>
-                                    <Typography variant="caption" color="text.secondary" fontWeight="medium">
-                                        Dernière participation
-                                    </Typography>
-                                    <Typography variant="body2" color="text.primary">
-                                        {selectedMember.dates.length > 0 ? selectedMember.dates[selectedMember.dates.length - 1] : "Aucune"}
-                                    </Typography>
-                                </Box>
-                            </Box>
-
-                            <Divider sx={{ my: 4 }} />
-
-                            <Typography variant="h6" fontWeight="bold" gutterBottom>
-                                Historique des présences
-                            </Typography>
-
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 2 }}>
-                                {selectedMember.dates.map((date) => (
-                                    <span key={date} className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                        {date}
+                    <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
+                        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+                            {/* Header */}
+                            <div className="bg-emerald-700 text-white p-6">
+                                <div className="flex items-center justify-between mb-4">
+                                    <span className="text-xs font-semibold uppercase tracking-wider text-emerald-200">
+                                        Détails du membre
                                     </span>
-                                ))}
-                                {selectedMember.dates.length === 0 && (
-                                    <Typography variant="body2" color="text.secondary" fontStyle="italic">
-                                        Aucune sortie enregistrée
-                                    </Typography>
-                                )}
-                            </Box>
-                        </Box>
-                    </Box>
-                )}
-            </Drawer>
+                                    <button
+                                        onClick={handleClose}
+                                        className="rounded-full p-1.5 text-white/80 hover:text-white hover:bg-emerald-600 transition-colors"
+                                        aria-label="Fermer"
+                                    >
+                                        <XMarkIcon className="h-5 w-5" />
+                                    </button>
+                                </div>
+                                <h2 className="text-2xl font-bold tracking-tight text-white">
+                                    {selectedMember.name}
+                                </h2>
+                                <p className="text-xs font-medium text-emerald-100 mt-1">
+                                    Rang actuel : #{selectedRank} au classement général
+                                </p>
+                            </div>
+
+                            {/* Content */}
+                            <div className="p-6 flex-1 overflow-y-auto space-y-6">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+                                        <div className="text-xs font-medium text-slate-500">Groupe</div>
+                                        <div className="mt-1">
+                                            <GroupBadge group={selectedMember.group} />
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+                                        <div className="text-xs font-medium text-slate-500">Total Sorties</div>
+                                        <div className="mt-1 text-xl font-extrabold text-slate-900">
+                                            {selectedMember.rides}
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+                                        <div className="text-xs font-medium text-slate-500">Taux de Fidélité</div>
+                                        <div className="mt-1 text-xl font-extrabold text-emerald-600">
+                                            {totalPossibleRides > 0 ? Math.round((selectedMember.rides / totalPossibleRides) * 100) : 0}%
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+                                        <div className="text-xs font-medium text-slate-500">Dernière sortie</div>
+                                        <div className="mt-1 text-xs font-bold text-slate-800">
+                                            {selectedMember.dates.length > 0 ? selectedMember.dates[selectedMember.dates.length - 1] : "Aucune"}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="border-t border-slate-100 pt-6 space-y-3">
+                                    <h3 className="text-sm font-bold text-slate-900">
+                                        Historique des présences ({selectedMember.dates.length})
+                                    </h3>
+
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {selectedMember.dates.map((date) => (
+                                            <span
+                                                key={date}
+                                                className="inline-flex items-center rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800 border border-emerald-200"
+                                            >
+                                                {date}
+                                            </span>
+                                        ))}
+                                        {selectedMember.dates.length === 0 && (
+                                            <p className="text-xs italic text-slate-400">
+                                                Aucune sortie enregistrée pour cette saison.
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="p-4 border-t border-slate-100 flex justify-end">
+                                <button
+                                    onClick={handleClose}
+                                    className="rounded-full border border-slate-200 bg-white px-5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                                >
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

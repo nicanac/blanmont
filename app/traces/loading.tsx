@@ -1,10 +1,7 @@
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-
 export default function Loading() {
-    return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-            <CircularProgress />
-        </Box>
-    );
+  return (
+    <div className="flex h-[50vh] items-center justify-center">
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-[#e03e3e]" />
+    </div>
+  );
 }

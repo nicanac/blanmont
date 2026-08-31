@@ -7,6 +7,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { use } from 'react';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
+import { toast } from 'sonner';
 
 const RichTextEditor = dynamic(() => import('../../components/RichTextEditor'), {
   ssr: false,
@@ -77,9 +78,10 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
         
         const url = await uploadImage(file, path);
         setFormData(prev => ({ ...prev, coverImage: url }));
+        toast.success('Image importée avec succès !');
       } catch (error: any) {
         console.error('Error uploading image:', error);
-        alert(`Erreur lors du téléchargement de l'image (Check CORS/Admin): ${error.message || error}`);
+        toast.error(`Erreur lors du téléchargement de l'image: ${error.message || error}`);
       }
     }
   };
@@ -96,14 +98,15 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
       });
 
       if (response.ok) {
+        toast.success('Article mis à jour avec succès !');
         router.push('/admin/blog');
         router.refresh();
       } else {
-        alert('Erreur lors de la mise à jour de l\'article');
+        toast.error('Erreur lors de la mise à jour de l\'article');
       }
     } catch (error) {
       console.error('Error updating post:', error);
-      alert('Erreur lors de la mise à jour de l\'article');
+      toast.error('Erreur lors de la mise à jour de l\'article');
     } finally {
       setIsSubmitting(false);
     }

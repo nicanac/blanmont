@@ -14,6 +14,7 @@ import {
 import { Equipment } from '../../types/equipment';
 
 import { EQUIPMENT_CATEGORIES } from '../../data/equipment';
+import { toast } from 'sonner';
 
 export default function AdminEquipementsPage() {
     const [equipment, setEquipment] = useState<Equipment[]>([]);
@@ -62,11 +63,13 @@ export default function AdminEquipementsPage() {
             });
             if (response.ok) {
                 setEquipment((prev) => prev.filter((item) => item.id !== id));
+                toast.success('Équipement supprimé avec succès.');
             } else {
-                alert('Erreur lors de la suppression');
+                toast.error('Erreur lors de la suppression.');
             }
         } catch (error) {
             console.error('Error deleting equipment:', error);
+            toast.error('Erreur lors de la suppression.');
         } finally {
             setIsLoading(false);
         }

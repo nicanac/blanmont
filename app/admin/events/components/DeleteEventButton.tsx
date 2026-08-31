@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface DeleteEventButtonProps {
   eventId: string;
@@ -22,13 +23,14 @@ export default function DeleteEventButton({ eventId, eventDate: _eventDate }: De
       });
 
       if (response.ok) {
+        toast.success('Événement supprimé avec succès.');
         router.refresh();
       } else {
-        alert('Échec de la suppression de l\'événement');
+        toast.error('Échec de la suppression de l\'événement');
       }
     } catch (error) {
       console.error('Error deleting event:', error);
-      alert('Échec de la suppression de l\'événement');
+      toast.error('Échec de la suppression de l\'événement');
     } finally {
       setIsDeleting(false);
       setShowConfirm(false);

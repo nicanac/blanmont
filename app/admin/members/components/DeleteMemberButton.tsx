@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface DeleteMemberButtonProps {
   memberId: string;
@@ -22,13 +23,14 @@ export default function DeleteMemberButton({ memberId, memberName: _memberName }
       });
 
       if (response.ok) {
+        toast.success('Membre supprimé avec succès.');
         router.refresh();
       } else {
-        alert('Échec de la suppression du membre');
+        toast.error('Échec de la suppression du membre');
       }
     } catch (error) {
       console.error('Error deleting member:', error);
-      alert('Échec de la suppression du membre');
+      toast.error('Échec de la suppression du membre');
     } finally {
       setIsDeleting(false);
       setShowConfirm(false);

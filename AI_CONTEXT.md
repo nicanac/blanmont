@@ -39,9 +39,8 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
     TraceCard.tsx     # Enhanced card with visual hover effects & overlay stats
     [id]/FeedbackForm.tsx # Component for submitting trace feedback
   /types.ts           # Global TypeScript interfaces
-  layout.tsx          # Root layout (Font, Navbar, Footer, AuthProvider)
+  layout.tsx          # Root layout (Font, Navbar, Footer, AuthProvider, Toaster)
   page.tsx            # Landing page
-  ThemeRegistry.tsx   # Legacy Material UI Theme provider (being deprecated)
 ```
 
 ## Business Logic & Core Flows
