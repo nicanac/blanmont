@@ -8,12 +8,20 @@ interface PageHeroProps {
     description?: string | React.ReactNode;
     badge?: string;
     badgeIcon?: React.ReactNode;
-    variant?: 'red' | 'green' | 'gray' | 'dark';
+    variant?: 'red' | 'green' | 'gray' | 'dark' | 'light';
     size?: 'sm' | 'md' | 'lg';
     children?: React.ReactNode;
 }
 
 const variantStyles = {
+    light: {
+        bg: 'bg-gradient-to-b from-slate-50 via-white to-slate-50/50',
+        accent: 'from-red-500/10',
+        secondary: 'from-slate-200/50',
+        badge: 'bg-red-50 text-[#e03e3e] border border-red-200/80 font-bold',
+        title: 'text-slate-900',
+        description: 'text-slate-600',
+    },
     red: {
         bg: 'bg-gradient-to-r from-red-600 via-red-700 to-red-800',
         accent: 'from-yellow-400/20',
