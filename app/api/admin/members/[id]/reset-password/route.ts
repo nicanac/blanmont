@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminAuth } from '@/app/lib/firebase/admin';
-import { getAdminDatabase } from '@/app/lib/firebase/admin';
+import { getAdminAuth, getAdminDatabase } from '@/app/lib/firebase/admin';
+import { verifyAdminRequest } from '@/app/lib/auth/session';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
 export async function POST(request: NextRequest, context: RouteContext): Promise<NextResponse> {
+  const authCheck = await verifyAdminRequest(request);
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const { id } = await context.params;
     const { password } = await request.json();

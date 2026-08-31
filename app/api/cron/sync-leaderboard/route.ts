@@ -9,6 +9,7 @@ import {
     LeaderboardEntry,
     CalendarEvent,
 } from '@/app/lib/firebase';
+import { calculateMemberCarres } from '@/app/lib/carreVert';
 
 export const dynamic = 'force-dynamic'; // Ensure no caching for this route
 
@@ -79,15 +80,16 @@ export async function GET() {
             const newDates = originalDates.filter(d => !d.endsWith('/2026'));
 
             if (originalDates.length !== newDates.length) {
+                const updatedCarres = calculateMemberCarres(newDates).carres;
                 await updateLeaderboardEntry(entry.id, {
                     dates: newDates,
-                    rides: newDates.length
+                    rides: updatedCarres
                 });
                 // Update local map reference to reflect changes
                 memberMapByName[entry.name.toLowerCase().trim()] = {
                     ...entry,
                     dates: newDates,
-                    rides: newDates.length
+                    rides: updatedCarres
                 };
             }
         }
@@ -161,16 +163,18 @@ export async function GET() {
             const member = await getOrCreateMember(firstName, lastName, group);
             const memberId = member.id;
 
-            let rideCount = member.rides || 0;
             const rideDates = [...(member.dates || [])];
 
             // Iterate Date Columns
             for (const col of dateColumns) {
                 const val = row[col.index]?.trim();
-                // A '1' indicates participation in the group's event
-                if (val === '1') {
+                // A non-empty value (e.g. '1', '2', '3') indicates participation
+                if (val && val !== '0' && val !== '-' && val !== '') {
                     // Member attended this event
                     const eventId = await getOrCreateEventId(col.isoDate);
+
+                    // Infer group from cell value if numeric (1=A, 2=B, 3=C) or fallback to member group
+                    const attendanceGroup = val === '1' ? 'A' : val === '2' ? 'B' : val === '3' ? 'C' : group;
 
                     // Prepare Attendance Update
                     if (!attendanceUpdates[eventId]) {
@@ -183,22 +187,24 @@ export async function GET() {
                     attendanceUpdates[eventId].members[memberId] = {
                         memberId: memberId,
                         name: member.name,
-                        group: group,
+                        group: attendanceGroup,
                         markedAt: new Date().toISOString()
                     };
 
-                    // Update Leaderboard Stats locally
+                    // Record date in member's dates list
                     if (!rideDates.includes(col.dateStr)) {
                         rideDates.push(col.dateStr);
-                        rideCount++;
                     }
                 }
             }
 
+            // Recalculate Carré Vert count based on all attended dates
+            const totalCarres = calculateMemberCarres(rideDates).carres;
+
             // Store member updates if changed
-            if (rideCount !== member.rides || rideDates.length !== (member.dates?.length || 0)) {
+            if (totalCarres !== member.rides || rideDates.length !== (member.dates?.length || 0)) {
                 memberUpdates[memberId] = {
-                    rides: rideCount,
+                    rides: totalCarres,
                     dates: rideDates
                 };
             }
@@ -230,3 +236,8 @@ export async function GET() {
         return NextResponse.json({ error: String(error) }, { status: 500 });
     }
 }
+
+export async function POST() {
+    return GET();
+}
+

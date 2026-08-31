@@ -14,6 +14,7 @@ import {
   validateFormData,
   type ValidationResult,
 } from './lib/validation';
+import { requireAdminSession, getSessionUser } from './lib/auth/session';
 
 /**
  * Server Action to manually upload a map preview image URL for a trace.
@@ -24,6 +25,7 @@ import {
 export async function uploadMapPreview(formData: FormData) {
   'use server';
 
+  await requireAdminSession();
   const validation = validateFormData(formData, UploadMapPreviewSchema);
 
   if (!validation.success) {
@@ -56,6 +58,7 @@ export async function uploadMapPreview(formData: FormData) {
 export async function generateMapPreview(formData: FormData) {
   'use server';
 
+  await requireAdminSession();
   const validation = validateFormData(formData, GenerateMapPreviewSchema);
 
   if (!validation.success) {
@@ -101,6 +104,7 @@ export async function generateMapPreview(formData: FormData) {
  * @param traceIds - The list of candidate traces.
  */
 export async function createRideAction(date: string, traceIds: string[]) {
+  await requireAdminSession();
   const validation = safeValidate(CreateRideSchema, { date, traceIds });
 
   if (!validation.success) {
@@ -121,6 +125,11 @@ export async function createRideAction(date: string, traceIds: string[]) {
  * @param traceId - The selected trace ID.
  */
 export async function submitVoteAction(rideId: string, memberId: string, traceId: string) {
+  const session = await getSessionUser();
+  if (session && session.id !== memberId && !session.isAdmin) {
+    throw new Error('Action non autorisée pour ce membre.');
+  }
+
   const validation = safeValidate(SubmitVoteSchema, { rideId, memberId, traceId });
 
   if (!validation.success) {
@@ -134,9 +143,10 @@ export async function submitVoteAction(rideId: string, memberId: string, traceId
 }
 
 import { validateUser } from './lib/firebase';
+import { setSessionCookie, clearSessionCookie, type SessionUser } from './lib/auth/session';
 
 /**
- * Server Action to validate user credentials.
+ * Server Action to validate user credentials and establish an HttpOnly session cookie.
  *
  * @param email - The email.
  * @param password - The password.
@@ -149,7 +159,25 @@ export async function loginAction(email: string, password: string) {
     return null;
   }
 
-  return await validateUser(validation.data.email, validation.data.password);
+  const member = await validateUser(validation.data.email, validation.data.password);
+  if (member) {
+    await setSessionCookie(member);
+  }
+  return member;
+}
+
+/**
+ * Server Action to logout and clear the HttpOnly session cookie.
+ */
+export async function logoutAction(): Promise<void> {
+  await clearSessionCookie();
+}
+
+/**
+ * Server Action to fetch the current authenticated session user from HttpOnly cookie.
+ */
+export async function getCurrentSessionUserAction(): Promise<SessionUser | null> {
+  return await getSessionUser();
 }
 
 import { updateMemberPhoto } from './lib/firebase';
@@ -178,6 +206,11 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
     targetMemberId = input.get('memberId') as string;
 
     if (!file || !targetMemberId) throw new Error('Invalid input');
+
+    const session = await getSessionUser();
+    if (session && session.id !== targetMemberId && !session.isAdmin) {
+      throw new Error('Action non autorisée pour ce profil.');
+    }
 
     // Verify Cloudinary configuration
     if (

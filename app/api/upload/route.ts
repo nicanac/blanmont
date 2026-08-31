@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
+import { getSessionUserFromRequest, isSessionAdmin } from '@/app/lib/auth/session';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -9,6 +10,14 @@ cloudinary.config({
 });
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const session = getSessionUserFromRequest(request);
+  if (!session) {
+    return NextResponse.json(
+      { error: 'Non authentifié. Veuillez vous connecter.' },
+      { status: 401 }
+    );
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File;

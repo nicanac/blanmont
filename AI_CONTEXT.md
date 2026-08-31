@@ -76,9 +76,10 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 
 ### 4. Authentication & User Management
 
-- **System**: Simple email/passwordless (mockable) or notion-backed member matching.
-- **Context**: `AuthContext` provides global user state (`user`, `isAuthenticated`).
-- **Flow**: Login page -> server action verifies against Notion Members DB -> sets cookie/state.
+- **System**: Secure session-based authentication backed by Firebase Auth & Realtime Database with `HttpOnly`, `Secure`, `SameSite=Lax` cookies (`ccb_session`).
+- **Session Layer**: Centralized in `app/lib/auth/session.ts` using tamper-proof Web Crypto HMAC-SHA256 tokens.
+- **Middleware & Route Protection**: `middleware.ts` intercepts `/admin/*` and `/api/admin/*`, coupled with defense-in-depth verification (`verifyAdminRequest`) on all administrative API endpoints.
+- **Context**: `AuthContext` provides client-side reactivity (`user`, `isAuthenticated`, `isAdmin`) synchronized with the server session cookie via Server Actions (`loginAction`, `logoutAction`, `getCurrentSessionUserAction`).
 
 ### 5. Localization
 
@@ -95,6 +96,16 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
   - **Visuals**: Color-coded days (Weekdays vs Weekends) and event types.
   - **Admin Navigation**: When logged in as an administrator/president, clicking an event in the calendar directly redirects to the admin edit page (`/admin/events/[id]/edit`) with visual edit indicators and quick-action buttons in the event drawer.
 - **Flow**: Server component fetches all events -> hydrated to client for instant month navigation.
+
+### 7. Carré Vert & Leaderboard System
+- **Goal**: Track member attendance and calculate annual fidelity ranking.
+- **Rules**:
+  - **Weekend**: Participation on Saturday and/or Sunday gives **1 Carré Vert point max** per weekend. Both individual dates are preserved in the member's history.
+  - **Weekdays**: Each ride on Monday-Friday (including public holidays) gives **+1 Carré Vert point**.
+  - **Fidelity Rate**: $\frac{\text{Member Carrés}}{\text{Total Possible Carrés to Date}} \times 100$.
+- **Source of Truth**: Google Sheets CSV export (`/api/admin/import-csv` & `/api/cron/sync-leaderboard`) with fallback to local `public/CC Blanmont - sorties 2026 - SORTiES.csv`, plus real-time admin toggles (`/admin/carre-vert` -> `/api/admin/attendance`).
+- **Engine**: Centralized in `app/lib/carreVert.ts` (`calculateMemberCarres`, `getPossibleCarresCount`, `calculateLeaderboardFromAttendance`).
+- **Data Model**: Firebase Realtime Database `attendance/{eventId}` and `leaderboard/{memberId}`. Detailed documentation in `memory/CARRE_VERT_PROCESS.md`.
 
 ## Key Technical Conventions
 
