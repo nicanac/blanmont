@@ -196,3 +196,37 @@ export interface BlogPost {
   /** Whether the post is published (visible). */
   isPublished: boolean;
 }
+
+export type PollDayChoice = 'samedi' | 'dimanche' | 'les-deux' | 'absent';
+export type CyclingGroupChoice = 'Groupe A' | 'Groupe B' | 'Groupe C' | 'Groupe VTT' | 'Autre';
+
+export interface PollCustomQuestion {
+  id: string;
+  title: string;
+  options: string[];
+  allowMultiple?: boolean;
+}
+
+export interface WeekendPoll {
+  id: string;
+  title: string;
+  weekendIsoDate: string; // Target Saturday (e.g., '2026-09-05')
+  description?: string;
+  status: 'draft' | 'active' | 'closed';
+  createdAt: string;
+  closedAt?: string;
+  customQuestions?: PollCustomQuestion[];
+}
+
+export interface PollResponse {
+  id: string;
+  pollId: string;
+  memberId: string;
+  memberName: string;
+  memberPhotoUrl?: string;
+  dayChoice: PollDayChoice;
+  groupChoice: CyclingGroupChoice;
+  customAnswers?: Record<string, string | string[]>;
+  comment?: string;
+  updatedAt: string;
+}
