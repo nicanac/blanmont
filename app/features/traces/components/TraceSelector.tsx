@@ -1,7 +1,6 @@
 'use client';
 
 import { Trace } from '../../../types';
-import styles from './TraceSelector.module.css';
 
 interface Props {
     traces: Trace[];
@@ -19,27 +18,31 @@ interface Props {
  */
 export default function TraceSelector({ traces, selectedIds, onToggle }: Props) {
     return (
-        <div className={styles.container}>
-            <div style={{ marginBottom: '1rem', fontSize: '0.9rem', color: '#666' }}>
-                {traces.length} traces available
+        <div className="max-h-96 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50/50 p-4 space-y-3">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 tabular-nums">
+                {traces.length} parcours disponibles
             </div>
-            <div className={styles.grid}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {traces.map(trace => {
                     const isSelected = selectedIds.includes(trace.id);
                     return (
                         <div
                             key={trace.id}
-                            className={`${styles.card} ${isSelected ? styles.selected : ''}`}
+                            className={`rounded-xl border p-4 transition-all cursor-pointer ${
+                                isSelected
+                                    ? 'border-[#e03e3e] bg-red-50/60 ring-2 ring-[#e03e3e]/20 shadow-xs'
+                                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+                            }`}
                             onClick={() => onToggle(trace.id)}
                         >
-                            <div className={styles.header}>
-                                <span className={styles.name}>{trace.name}</span>
-                                {isSelected && <span className={styles.check}>✓</span>}
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                                <span className="text-sm font-bold text-slate-900 truncate">{trace.name}</span>
+                                {isSelected && <span className="text-[#e03e3e] font-bold text-xs">✓</span>}
                             </div>
-                            <div className={styles.meta}>
-                                <span>{trace.distance}km</span>
-                                <span>{trace.elevation}m</span>
-                                <span>{trace.surface}</span>
+                            <div className="flex items-center gap-3 text-xs text-slate-500 tabular-nums">
+                                <span>{trace.distance}&nbsp;km</span>
+                                <span>{trace.elevation}&nbsp;m D+</span>
+                                {trace.surface && <span>{trace.surface}</span>}
                             </div>
                         </div>
                     );

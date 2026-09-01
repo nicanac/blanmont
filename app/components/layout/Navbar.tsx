@@ -347,9 +347,9 @@ export default function Navbar() {
                       href={item.href}
                       className={cn(
                         isCurrent
-                          ? 'bg-red-50 border-l-4 border-[#e03e3e] text-[#e03e3e] font-semibold'
-                          : 'border-l-4 border-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900',
-                        'block py-2 pl-3 pr-4 text-base font-medium transition-colors'
+                          ? 'bg-red-50 text-[#e03e3e] font-semibold'
+                          : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900',
+                        'block py-2.5 px-4 rounded-xl text-base font-medium transition-colors'
                       )}
                       aria-current={isCurrent ? 'page' : undefined}
                     >
@@ -359,14 +359,14 @@ export default function Navbar() {
                 })}
 
                 {/* Mobile Le Club Dropdown using nested Disclosure */}
-                <Disclosure as="div" className="border-l-4 border-transparent">
+                <Disclosure as="div" className="px-1">
                   {(
                     { open: subOpen } // Renamed to avoid confusion with parent Popover open
                   ) => (
                     <>
                       <Disclosure.Button
                         className={cn(
-                          'flex w-full items-center justify-between py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                          'flex w-full items-center justify-between py-2.5 px-3 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900'
                         )}
                       >
                         <span className="flex-1 text-left">Le Club</span>
@@ -375,13 +375,13 @@ export default function Navbar() {
                           aria-hidden="true"
                         />
                       </Disclosure.Button>
-                      <Disclosure.Panel className="mt-2 space-y-1 pl-4">
+                      <Disclosure.Panel className="mt-1 space-y-1 pl-3">
                         {clubNavigation.map((item) => (
                           <PopoverButton
                             key={item.name}
                             as={Link}
                             href={item.href}
-                            className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                            className="block py-2 px-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                           >
                             {item.name}
                           </PopoverButton>

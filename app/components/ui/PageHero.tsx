@@ -59,18 +59,18 @@ const variantStyles = {
 const sizeStyles = {
     sm: {
         padding: 'py-10 sm:py-12',
-        title: 'text-2xl sm:text-3xl font-extrabold',
-        description: 'text-xs sm:text-sm',
+        title: 'text-2xl sm:text-3xl font-bold leading-tight',
+        description: 'text-sm sm:text-base leading-relaxed',
     },
     md: {
         padding: 'py-12 sm:py-16',
-        title: 'text-3xl sm:text-4xl font-extrabold',
-        description: 'text-sm sm:text-base',
+        title: 'text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight',
+        description: 'text-base sm:text-lg leading-relaxed',
     },
     lg: {
         padding: 'py-16 sm:py-20',
-        title: 'text-3xl sm:text-5xl font-extrabold',
-        description: 'text-base sm:text-lg',
+        title: 'text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight',
+        description: 'text-base sm:text-xl leading-relaxed',
     },
 };
 
@@ -96,16 +96,16 @@ export function PageHero({
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
                     {badge && (
-                        <div className={`inline-flex items-center gap-2 rounded-full backdrop-blur-sm px-4 py-1.5 text-sm mb-6 ${styles.badge}`}>
-                            {badgeIcon || <SparklesIcon className="h-4 w-4" />}
+                        <div className={`inline-flex items-center gap-2 rounded-full backdrop-blur-xs px-3.5 py-1 text-xs uppercase tracking-wider mb-5 ${styles.badge}`}>
+                            {badgeIcon || <SparklesIcon className="h-3.5 w-3.5" />}
                             {badge}
                         </div>
                     )}
-                    <h1 className={`font-bold tracking-tight ${styles.title} ${sizes.title}`}>
+                    <h1 className={`tracking-tight text-balance ${styles.title} ${sizes.title}`}>
                         {title}
                     </h1>
                     {description && (
-                        <p className={`mx-auto mt-6 max-w-2xl ${styles.description} ${sizes.description}`}>
+                        <p className={`mx-auto mt-4 max-w-2xl ${styles.description} ${sizes.description}`}>
                             {description}
                         </p>
                     )}

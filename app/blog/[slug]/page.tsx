@@ -103,17 +103,17 @@ export default async function BlogPostPage({
         </div>
       </PageHero>
 
-      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+      <article className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-red-600 transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-[#e03e3e] transition-colors mb-8"
         >
           <ArrowLeftIcon className="h-4 w-4" />
-          Retour au blog
+          <span>Retour au blog</span>
         </Link>
 
         {/* Cover Image */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-lg mb-12">
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-lg mb-12 border border-slate-200">
           <Image
             src={post.coverImage}
             alt={post.title}
@@ -125,20 +125,20 @@ export default async function BlogPostPage({
         </div>
 
         {/* Content */}
-        <div className="prose prose-lg prose-gray max-w-none prose-headings:font-semibold prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline">
+        <div className="prose prose-lg prose-slate max-w-none leading-relaxed prose-headings:font-bold prose-headings:tracking-tight prose-a:text-[#e03e3e] prose-a:font-semibold hover:prose-a:underline prose-img:rounded-2xl">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {post.content}
           </ReactMarkdown>
         </div>
 
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200">
+        <footer className="mt-12 pt-8 border-t border-slate-200">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-700 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#e03e3e] hover:text-[#c93434] transition-colors"
           >
             <ArrowLeftIcon className="h-4 w-4" />
-            Voir tous les articles
+            <span>Voir tous les articles</span>
           </Link>
         </footer>
       </article>

@@ -120,7 +120,7 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                         p.status === 'active'
                           ? 'bg-emerald-100 text-emerald-800'
                           : p.status === 'draft'
@@ -174,7 +174,7 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
 
                   <Link
                     href={`/admin/sondages/${p.id}/edit`}
-                    className="rounded-xl p-2 text-slate-400 hover:text-[#e03e3e] hover:bg-red-50 transition-colors"
+                    className="rounded-xl p-2 text-slate-400 hover:text-[#e03e3e] hover:bg-slate-100 transition-colors"
                     title="Modifier les paramètres du sondage"
                   >
                     <PencilSquareIcon className="h-4 w-4" />

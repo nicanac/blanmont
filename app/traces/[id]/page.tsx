@@ -97,16 +97,16 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
             )}
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight text-balance">
             {trace.name}
           </h1>
 
           <div className="mt-3 flex items-center gap-4 text-white text-sm font-bold">
-            <span className="text-lg">{trace.distance} km</span>
+            <span className="text-lg tabular-nums">{trace.distance} km</span>
             <span className="text-white/40">•</span>
             {trace.elevation && (
               <>
-                <span className="text-lg">{trace.elevation} m D+</span>
+                <span className="text-lg tabular-nums">{trace.elevation} m D+</span>
                 <span className="text-white/40">•</span>
               </>
             )}
@@ -246,7 +246,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
 
               <div className="relative flex py-1 items-center">
                 <div className="flex-grow border-t border-slate-200" />
-                <span className="shrink mx-2 text-[10px] text-slate-400 font-semibold uppercase">ou</span>
+                <span className="shrink mx-2 text-xs text-slate-400 font-semibold uppercase tracking-wider">ou</span>
                 <div className="flex-grow border-t border-slate-200" />
               </div>
 

@@ -182,7 +182,7 @@ export default function NewBlogPostPage(): React.ReactElement {
                       accept="image/*"
                       onChange={handleImageSelect}
                       disabled={isImageUploading}
-                      className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100"
+                      className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-slate-800 hover:file:bg-slate-200"
                     />
                   </div>
                    <input
