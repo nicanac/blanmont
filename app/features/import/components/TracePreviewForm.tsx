@@ -61,25 +61,25 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
     return (
         <div className="py-6 px-4 sm:px-6 lg:px-8">
             {/* Map Preview Section - Full Width similar to AddTraceForm */}
-            <div className="mb-8 rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+            <div className="mb-8 rounded-lg overflow-hidden border border-[#e4e0d8] bg-[#f2efe9]">
                 <div className="h-64 sm:h-80 w-full">
                     {data.map?.summary_polyline ? (
                         <MapPreview summaryPolyline={data.map.summary_polyline} />
                     ) : (
-                        <div className="h-full w-full flex items-center justify-center text-gray-500">
+                        <div className="h-full w-full flex items-center justify-center text-[#5c6370]">
                             Pas de données cartographiques
                         </div>
                     )}
                 </div>
                 {/* Stats Overlay similar to AddTraceForm */}
-                <div className="bg-gray-50 px-4 py-3 border-t border-gray-200 flex gap-6 text-sm">
+                <div className="bg-[#f2efe9] px-4 py-3 border-t border-[#e4e0d8] flex gap-6 text-sm">
                     <div>
-                        <span className="text-gray-500 font-medium mr-2">Distance:</span>
-                        <span className="font-bold text-gray-900">{editedDistance.toFixed(1)} km</span>
+                        <span className="text-[#5c6370] font-medium mr-2">Distance:</span>
+                        <span className="font-bold text-[#101216]">{editedDistance.toFixed(1)} km</span>
                     </div>
                     <div>
-                        <span className="text-gray-500 font-medium mr-2">Dénivelé:</span>
-                        <span className="font-bold text-gray-900">{editedElevation} m</span>
+                        <span className="text-[#5c6370] font-medium mr-2">Dénivelé:</span>
+                        <span className="font-bold text-[#101216]">{editedElevation} m</span>
                     </div>
                 </div>
             </div>
@@ -87,11 +87,11 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
             <div className="space-y-8 max-w-4xl mx-auto">
                 {/* SECTION: GENERAL */}
                 <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Informations Générales</h3>
+                    <h3 className="text-lg font-medium text-[#101216] mb-4">Informations Générales</h3>
                     <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                         {/* Name */}
                         <div className="sm:col-span-4">
-                            <label className="block text-sm font-medium text-gray-700">Nom du Parcours</label>
+                            <label className="block text-sm font-medium text-[#3a3f4a]">Nom du Parcours</label>
                             <input
                                 type="text"
                                 value={editedName}
@@ -102,7 +102,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
 
                         {/* Rating */}
                         <div className="sm:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700">Difficulté (Rating)</label>
+                            <label className="block text-sm font-medium text-[#3a3f4a]">Difficulté (Rating)</label>
                             <select
                                 value={rating}
                                 onChange={(e) => setRating(e.target.value)}
@@ -118,7 +118,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
 
                         {/* Direction */}
                         <div className="sm:col-span-3">
-                            <label className="block text-sm font-medium text-gray-700">Direction</label>
+                            <label className="block text-sm font-medium text-[#3a3f4a]">Direction</label>
                             <select
                                 value={direction}
                                 onChange={(e) => setDirection(e.target.value)}
@@ -137,7 +137,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
 
                         {/* Surface */}
                         <div className="sm:col-span-3">
-                            <label className="block text-sm font-medium text-gray-700">Type de vélo</label>
+                            <label className="block text-sm font-medium text-[#3a3f4a]">Type de vélo</label>
                             <select
                                 value={surface}
                                 onChange={(e) => setSurface(e.target.value)}
@@ -152,11 +152,11 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                         </div>
 
                         {/* Additional Stats Section */}
-                        <div className="sm:col-span-6 pt-4 border-t border-gray-100 mt-2">
-                            <h4 className="text-sm font-medium text-gray-900 mb-3">Statistiques (Modifiables)</h4>
+                        <div className="sm:col-span-6 pt-4 border-t border-[#efece5] mt-2">
+                            <h4 className="text-sm font-medium text-[#101216] mb-3">Statistiques (Modifiables)</h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Distance (km)</label>
+                                    <label className="block text-sm font-medium text-[#3a3f4a]">Distance (km)</label>
                                     <input
                                         type="number"
                                         step="0.1"
@@ -164,10 +164,10 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                                         onChange={(e) => setEditedDistance(parseFloat(e.target.value) || 0)}
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
                                     />
-                                    <p className="mt-1 text-xs text-gray-500">Format: xx.x km</p>
+                                    <p className="mt-1 text-xs text-[#5c6370]">Format: xx.x km</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="block text-sm font-medium text-[#3a3f4a]">
                                         Dénivelé (m)
                                         {elevationMissing && (
                                             <span className="ml-2 text-amber-600 font-normal text-xs inline-flex items-center">
@@ -188,7 +188,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
 
                         {/* Description */}
                         <div className="sm:col-span-6">
-                            <label className="block text-sm font-medium text-gray-700">Description / Note</label>
+                            <label className="block text-sm font-medium text-[#3a3f4a]">Description / Note</label>
                             <div className="mt-1">
                                 <textarea
                                     rows={4}
@@ -203,7 +203,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                 </div>
 
                 {/* Actions */}
-                <div className="pt-5 border-t border-gray-200">
+                <div className="pt-5 border-t border-[#e4e0d8]">
                     <div className="flex justify-end">
                         <button
                             type="button"

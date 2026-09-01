@@ -9,10 +9,10 @@ export default function NotFound() {
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-24 sm:py-32 lg:px-8">
       <div className="text-center">
         <p className="text-base font-semibold text-brand-primary">404</p>
-        <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">
+        <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-[#101216] sm:text-7xl">
           Page introuvable
         </h1>
-        <p className="mt-6 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
+        <p className="mt-6 text-lg font-medium text-pretty text-[#5c6370] sm:text-xl/8">
           Désolé, la page que vous recherchez n&apos;existe pas ou a été déplacée.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -22,7 +22,7 @@ export default function NotFound() {
           >
             Retour à l&apos;accueil
           </Link>
-          <Link href="/traces" className="text-sm font-semibold text-gray-900">
+          <Link href="/traces" className="text-sm font-semibold text-[#101216]">
             Voir les parcours <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>

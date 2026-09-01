@@ -61,26 +61,30 @@ export default function EquipementPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+        <div className="min-h-screen bg-[#faf8f5]">
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-r from-red-600 via-red-700 to-red-800 py-20">
-                <div className="absolute inset-0 bg-[url('/images/pattern-dots.svg')] opacity-10"></div>
-                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-yellow-400/20 to-transparent rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-red-900/30 to-transparent rounded-full blur-2xl"></div>
+            <section className="relative overflow-hidden bg-[#0a0c10] border-b border-white/10 py-14 sm:py-20">
+                <div className="pointer-events-none absolute -top-24 right-0 w-96 h-96 bg-[#e03e3e]/20 rounded-full blur-[120px]"></div>
+                <div className="pointer-events-none absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[100px]"></div>
 
                 <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-sm px-4 py-1.5 text-sm text-white/90 mb-6">
-                            <SparklesIcon className="h-4 w-4" />
-                            Collection 2026
-                        </div>
-                        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                    <div className="max-w-3xl">
+                        <h1 className="text-balance text-white text-[clamp(2rem,5vw,3.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98]">
                             Équipement Club
                         </h1>
-                        <p className="mx-auto mt-6 max-w-2xl text-lg text-red-100">
-                            Portez les couleurs de Blanmont avec fierté. Découvrez notre collection d&apos;équipements
-                            cyclistes conçus pour la performance et le confort.
+                        <p className="mt-5 max-w-[65ch] text-[#a7adbb] text-base sm:text-lg leading-relaxed">
+                            Portez les couleurs de Blanmont avec fierté. Découvrez notre collection d&apos;équipements cyclistes conçus pour la performance et le confort.
                         </p>
+                        <div className="mt-7 flex flex-wrap items-center gap-4">
+                            <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30">
+                                <SparklesIcon className="h-3.5 w-3.5" />
+                                Collection 2026
+                            </div>
+                            <span className="text-xs text-[#a7adbb]/70 flex items-center gap-1.5">
+                                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#10b981]"></span>
+                                Commandes par email · Retrait aux sorties du samedi
+                            </span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -97,7 +101,7 @@ export default function EquipementPage() {
                         <div className="mb-10">
                             <div className="flex flex-wrap items-center justify-between gap-4">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-sm font-medium text-slate-500">Filtrer par :</span>
+                                    <span className="text-sm font-medium text-[#5c6370]">Filtrer par :</span>
                                     <div className="flex flex-wrap gap-2">
                                         {EQUIPMENT_CATEGORIES.map((category) => (
                                             <button
@@ -105,7 +109,7 @@ export default function EquipementPage() {
                                                 onClick={() => setSelectedCategory(category)}
                                                 className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300 ${selectedCategory === category
                                                     ? 'bg-gradient-to-r from-red-600 to-[#e03e3e] text-white shadow-md shadow-red-500/25 scale-105'
-                                                    : 'bg-white text-slate-700 hover:bg-slate-50 hover:text-[#e03e3e] border border-slate-200 hover:border-red-200'
+                                                    : 'bg-white text-[#3a3f4a] hover:bg-[#f2efe9] hover:text-[#e03e3e] border border-[#e4e0d8] hover:border-red-200'
                                                     }`}
                                             >
                                                 {category}
@@ -113,7 +117,7 @@ export default function EquipementPage() {
                                         ))}
                                     </div>
                                 </div>
-                                <p className="text-sm text-slate-500 tabular-nums">
+                                <p className="text-sm text-[#5c6370] tabular-nums">
                                     {filteredEquipment.length} article{filteredEquipment.length !== 1 ? 's' : ''}
                                 </p>
                             </div>
@@ -124,7 +128,7 @@ export default function EquipementPage() {
                             {filteredEquipment.map((item, index) => (
                                 <article
                                     key={item.id}
-                                    className="group relative overflow-hidden rounded-2xl bg-white shadow-xs border border-slate-200/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-1"
+                                    className="group relative overflow-hidden rounded-md bg-white shadow-xs border border-[#e4e0d8] transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-1"
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
                                     {/* Product Image */}
@@ -147,14 +151,14 @@ export default function EquipementPage() {
                                         {/* Quick View Button */}
                                         <button
                                             onClick={() => openProductDetail(item)}
-                                            className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 rounded-full bg-white px-6 py-2.5 text-xs font-bold text-slate-900 shadow-lg hover:bg-[#e03e3e] hover:text-white"
+                                            className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 rounded-full bg-white px-6 py-2.5 text-xs font-bold text-[#101216] shadow-lg hover:bg-[#e03e3e] hover:text-white"
                                         >
                                             Voir les détails
                                         </button>
 
                                         {/* Category Badge */}
                                         <div className="absolute top-4 left-4">
-                                            <span className="inline-flex rounded-full bg-white/90 backdrop-blur-xs px-3 py-1 text-xs font-semibold text-slate-800 shadow-xs">
+                                            <span className="inline-flex rounded-full bg-white/90 backdrop-blur-xs px-3 py-1 text-xs font-semibold text-[#101216] shadow-xs">
                                                 {item.category}
                                             </span>
                                         </div>
@@ -171,19 +175,19 @@ export default function EquipementPage() {
 
                                     {/* Product Info */}
                                     <div className="p-6">
-                                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#e03e3e] transition-colors leading-snug">
+                                        <h3 className="text-lg font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug">
                                             {item.name}
                                         </h3>
-                                        <p className="mt-2 text-sm text-slate-600 line-clamp-2 leading-relaxed">
+                                        <p className="mt-2 text-sm text-[#3a3f4a] line-clamp-2 leading-relaxed">
                                             {item.description}
                                         </p>
 
-                                        <div className="mt-4 flex items-end justify-between pt-2 border-t border-slate-100">
+                                        <div className="mt-4 flex items-end justify-between pt-2 border-t border-[#efece5]">
                                             <div>
-                                                <p className="text-2xl font-extrabold text-slate-900 tabular-nums">
+                                                <p className="text-2xl font-extrabold text-[#101216] tabular-nums">
                                                     {item.price.toFixed(2)}&nbsp;€
                                                 </p>
-                                                <p className="text-xs text-slate-500 mt-0.5">
+                                                <p className="text-xs text-[#5c6370] mt-0.5">
                                                     Tailles : {item.sizes.join(', ')}
                                                 </p>
                                             </div>
@@ -202,12 +206,12 @@ export default function EquipementPage() {
 
                         {/* Empty State */}
                         {filteredEquipment.length === 0 && (
-                            <div className="rounded-2xl bg-white p-16 text-center shadow-sm border border-gray-100">
+                            <div className="rounded-md bg-white p-16 text-center shadow-sm border border-[#efece5]">
                                 <ShoppingBagIcon className="mx-auto h-16 w-16 text-gray-300" />
-                                <h3 className="mt-4 text-lg font-semibold text-gray-900">
+                                <h3 className="mt-4 text-lg font-semibold text-[#101216]">
                                     Aucun équipement disponible
                                 </h3>
-                                <p className="mt-2 text-gray-500">
+                                <p className="mt-2 text-[#5c6370]">
                                     Aucun article ne correspond à cette catégorie pour le moment.
                                 </p>
                                 <button
@@ -220,7 +224,7 @@ export default function EquipementPage() {
                         )}
 
                         {/* Info Section */}
-                        <section className="mt-16 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-8 md:p-12 text-white">
+                        <section className="mt-16 rounded-md bg-gradient-to-br from-gray-900 to-gray-800 p-8 md:p-12 text-white">
                             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                                 <div className="flex gap-4">
                                     <div className="flex-shrink-0 rounded-xl bg-red-600/20 p-3">
@@ -278,10 +282,10 @@ export default function EquipementPage() {
                         ></div>
 
                         {/* Modal Content */}
-                        <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+                        <div className="relative w-full max-w-4xl overflow-hidden rounded-md bg-white shadow-2xl">
                             <button
                                 onClick={closeModal}
-                                className="absolute right-4 top-4 z-10 rounded-full bg-white/90 p-2 text-gray-500 shadow-lg hover:bg-white hover:text-gray-900 transition-colors"
+                                className="absolute right-4 top-4 z-10 rounded-full bg-white/90 p-2 text-[#5c6370] shadow-lg hover:bg-white hover:text-[#101216] transition-colors"
                             >
                                 <XMarkIcon className="h-6 w-6" />
                             </button>
@@ -308,22 +312,22 @@ export default function EquipementPage() {
                                         <span className="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
                                             {selectedProduct.category}
                                         </span>
-                                        <h2 className="mt-4 text-2xl font-bold text-gray-900">
+                                        <h2 className="mt-4 text-2xl font-bold text-[#101216]">
                                             {selectedProduct.name}
                                         </h2>
-                                        <p className="mt-4 text-gray-600 leading-relaxed">
+                                        <p className="mt-4 text-[#3a3f4a] leading-relaxed">
                                             {selectedProduct.description}
                                         </p>
 
                                         <div className="mt-6">
-                                            <p className="text-3xl font-bold text-gray-900">
+                                            <p className="text-3xl font-bold text-[#101216]">
                                                 {selectedProduct.price.toFixed(2)} €
                                             </p>
                                         </div>
 
                                         {/* Size Selection */}
                                         <div className="mt-6">
-                                            <h4 className="text-sm font-medium text-gray-900">Taille</h4>
+                                            <h4 className="text-sm font-medium text-[#101216]">Taille</h4>
                                             <div className="mt-3 flex flex-wrap gap-2">
                                                 {selectedProduct.sizes.map((size) => {
                                                     const inStock = isInStock(selectedProduct, size);
@@ -335,8 +339,8 @@ export default function EquipementPage() {
                                                             className={`min-w-[3rem] rounded-lg border-2 px-4 py-2.5 text-sm font-medium transition-all ${selectedSize === size
                                                                 ? 'border-red-600 bg-red-600 text-white'
                                                                 : inStock
-                                                                    ? 'border-gray-200 bg-white text-gray-900 hover:border-red-300'
-                                                                    : 'border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed line-through'
+                                                                    ? 'border-[#e4e0d8] bg-white text-[#101216] hover:border-red-300'
+                                                                    : 'border-[#efece5] bg-[#f2efe9] text-gray-300 cursor-not-allowed line-through'
                                                                 }`}
                                                         >
                                                             {size}
@@ -358,14 +362,14 @@ export default function EquipementPage() {
                                             href={`mailto:info@blanmont.be?subject=Commande équipement: ${selectedProduct.name}&body=Bonjour,%0A%0AJe souhaite commander:%0A- ${selectedProduct.name}%0A- Taille: ${selectedSize || '[À préciser]'}%0A- Prix: ${selectedProduct.price.toFixed(2)} €%0A%0AMerci!`}
                                             className={`flex w-full items-center justify-center gap-2 rounded-xl px-6 py-4 text-base font-semibold transition-all duration-300 ${selectedSize
                                                 ? 'bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-500/25 hover:shadow-xl hover:shadow-red-500/30'
-                                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                : 'bg-[#f2efe9] text-gray-400 cursor-not-allowed'
                                                 }`}
                                             onClick={(e) => !selectedSize && e.preventDefault()}
                                         >
                                             <ShoppingBagIcon className="h-5 w-5" />
                                             {selectedSize ? 'Commander par email' : 'Sélectionnez une taille'}
                                         </Link>
-                                        <p className="text-center text-xs text-gray-500">
+                                        <p className="text-center text-xs text-[#5c6370]">
                                             Les commandes sont traitées par email. Paiement et retrait lors des sorties club.
                                         </p>
                                     </div>

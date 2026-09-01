@@ -37,7 +37,7 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
 
   if (!isoDate || loading) {
     return (
-      <div className="inline-flex items-center gap-1.5 rounded-xl bg-slate-100 px-2.5 py-1 text-xs text-slate-500 animate-pulse">
+      <div className="inline-flex items-center gap-1.5 rounded-xl bg-[#f2efe9] px-2.5 py-1 text-xs text-[#5c6370] animate-pulse">
         <span>🌤️</span>
         <span className="text-xs">Météo...</span>
       </div>
@@ -47,7 +47,7 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
   if (!weather || !weather.isAvailable) {
     if (compact) return null;
     return (
-      <div className="inline-flex items-center gap-1 rounded-xl bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500 border border-slate-200/60">
+      <div className="inline-flex items-center gap-1 rounded-xl bg-[#f2efe9] px-2.5 py-1 text-xs font-medium text-[#5c6370] border border-[#e4e0d8]">
         <span>📅</span>
         <span>Météo disponible J-14</span>
       </div>
@@ -70,7 +70,7 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
         <span>{weather.icon}</span>
         <span className="font-bold">{weather.temperature}°C</span>
         <span className="text-slate-300">•</span>
-        <span className="flex items-center gap-0.5 text-slate-700">
+        <span className="flex items-center gap-0.5 text-[#3a3f4a]">
           <span
             className="inline-block transition-transform text-sky-600 font-black text-xs"
             style={{ transform: `rotate(${arrowAngle}deg)` }}
@@ -84,21 +84,21 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
   }
 
   return (
-    <div className="rounded-2xl bg-gradient-to-br from-sky-50 via-white to-sky-50/60 p-3.5 border border-sky-200/80 shadow-xs space-y-2">
+    <div className="rounded-md bg-gradient-to-br from-sky-50 via-white to-sky-50/60 p-3.5 border border-sky-200/80 shadow-xs space-y-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xl">{weather.icon}</span>
           <div>
-            <div className="text-xs font-bold text-slate-900">
+            <div className="text-xs font-bold text-[#101216]">
               {weather.condition}
             </div>
-            <div className="text-xs text-slate-500">
+            <div className="text-xs text-[#5c6370]">
               Prévisions pour le départ {departure ? `(${departure})` : ''}
             </div>
           </div>
         </div>
         <div className="text-right">
-          <span className="text-lg font-bold text-slate-900 tabular-nums">
+          <span className="text-lg font-bold text-[#101216] tabular-nums">
             {weather.temperature}°C
           </span>
           {weather.precipitationProb > 10 && (
@@ -111,10 +111,10 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
 
       {/* Wind & Riding Strategy */}
       <div className="flex items-center justify-between pt-2 border-t border-sky-100/80 text-xs">
-        <div className="flex items-center gap-1.5 font-medium text-slate-700">
+        <div className="flex items-center gap-1.5 font-medium text-[#3a3f4a]">
           <span className="text-sm">💨</span>
           <span>
-            Vent : <strong className="text-slate-900">{weather.windSpeed} km/h</strong> ({weather.windCardinal})
+            Vent : <strong className="text-[#101216]">{weather.windSpeed} km/h</strong> ({weather.windCardinal})
           </span>
           <span
             className="inline-block text-sky-600 font-bold text-xs"
@@ -125,7 +125,7 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
           </span>
         </div>
 
-        <span className="text-xs font-medium text-slate-600 bg-white px-2 py-0.5 rounded-full border border-sky-200/60">
+        <span className="text-xs font-medium text-[#3a3f4a] bg-white px-2 py-0.5 rounded-full border border-sky-200/60">
           {weather.windSpeed < 15 ? 'Vent faible' : weather.windSpeed < 30 ? 'Vent modéré' : 'Vent soutenu ⚠️'}
         </span>
       </div>

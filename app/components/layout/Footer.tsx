@@ -29,26 +29,29 @@ export default async function Footer(): Promise<React.JSX.Element> {
   const nextRide = getNextScheduledRide(events);
 
   return (
-    <footer className="bg-slate-50 border-t border-slate-200" aria-labelledby="footer-heading">
+    <footer className="bg-[#0a0c10] border-t border-white/10" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Pied de page
       </h2>
       <div className="mx-auto max-w-7xl px-6 pb-12 pt-16 sm:pt-20 lg:px-8">
         {/* Top Section: Brand/Info on the left, Next ride card on the right (50/50 split on desktop) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start pb-12 border-b border-slate-200">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start pb-12 border-b border-white/10">
           {/* Brand & Club identity */}
-          <div className="space-y-4">
-            <Link href="/" className="inline-flex items-center gap-2">
-              <span className="text-2xl font-extrabold text-slate-900 tracking-tight font-sans">
-                BLAN<span className="text-[#e03e3e]">MONT</span>
+          <div className="space-y-5">
+            <Link href="/" className="inline-flex items-baseline gap-2.5">
+              <span className="text-3xl font-extrabold uppercase tracking-[-0.02em] text-white font-sans">
+                Blan<span className="text-[#e03e3e]">mont</span>
               </span>
-              <span className="text-xs font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-red-100 text-[#e03e3e]">
+              <span className="text-[0.625rem] font-semibold tracking-[0.14em] uppercase text-[#7d8493]">
                 CC St-Martin
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-slate-600">
+            <p className="text-sm leading-relaxed text-[#a7adbb] max-w-md">
               Cyclo Club Saint-Martin Blanmont. Convivialité, passion du cyclisme sur route et
               esprit d&apos;équipe au cœur du Brabant wallon.
+            </p>
+            <p className="text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+              Fondé en 1978 &bull; Brabant wallon, Belgique
             </p>
           </div>
 
@@ -59,7 +62,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
         {/* Navigation Columns in 3 parts */}
         <div className="pt-10 grid grid-cols-2 gap-8 sm:grid-cols-3">
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
+            <h3 className="text-[0.8125rem] font-semibold text-white uppercase tracking-[0.08em]">
               Le Club
             </h3>
             <ul role="list" className="mt-4 space-y-3">
@@ -67,7 +70,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm leading-6 text-slate-600 hover:text-[#e03e3e] transition-colors"
+                    className="text-sm leading-6 text-[#a7adbb] hover:text-[#e03e3e] transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -77,7 +80,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
+            <h3 className="text-[0.8125rem] font-semibold text-white uppercase tracking-[0.08em]">
               Parcours &amp; Sorties
             </h3>
             <ul role="list" className="mt-4 space-y-3">
@@ -85,7 +88,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm leading-6 text-slate-600 hover:text-[#e03e3e] transition-colors"
+                    className="text-sm leading-6 text-[#a7adbb] hover:text-[#e03e3e] transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -95,7 +98,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
           </div>
 
           <div className="col-span-2 sm:col-span-1">
-            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">
+            <h3 className="text-[0.8125rem] font-semibold text-white uppercase tracking-[0.08em]">
               Vie du Club
             </h3>
             <ul role="list" className="mt-4 space-y-3">
@@ -103,7 +106,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm leading-6 text-slate-600 hover:text-[#e03e3e] transition-colors"
+                    className="text-sm leading-6 text-[#a7adbb] hover:text-[#e03e3e] transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -114,12 +117,12 @@ export default async function Footer(): Promise<React.JSX.Element> {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 border-t border-slate-200 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs leading-5 text-slate-500 text-center sm:text-left">
+        <div className="mt-12 border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs leading-5 text-[#7d8493] text-center sm:text-left">
             &copy; {new Date().getFullYear()} Cyclo Club Saint-Martin Blanmont. Tous droits
             réservés.
           </p>
-          <p className="text-xs text-slate-400 text-center sm:text-right">
+          <p className="text-xs text-[#5c6370] text-center sm:text-right">
             Fait avec passion pour le cyclisme à Blanmont &bull; Brabant wallon
           </p>
         </div>

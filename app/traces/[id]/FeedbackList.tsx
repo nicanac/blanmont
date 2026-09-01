@@ -26,7 +26,7 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
 
   if (feedbackList.length === 0) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-8 text-center text-sm italic text-slate-500">
+      <div className="rounded-md border border-[#e4e0d8] bg-[#f2efe9]/50 p-8 text-center text-sm italic text-[#5c6370]">
         Aucun commentaire pour l&apos;instant. Soyez le premier à donner votre avis !
       </div>
     );
@@ -42,7 +42,7 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
         return (
           <div
             key={fb.id}
-            className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs hover:border-slate-300 transition-all"
+            className="rounded-md border border-[#e4e0d8] bg-white p-4 sm:p-5 shadow-xs hover:border-slate-300 transition-all"
           >
             <div className="flex items-start gap-4">
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-red-100 flex items-center justify-center text-[#e03e3e] font-bold">
@@ -60,7 +60,7 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
 
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-sm font-bold text-slate-900">{authorName}</h4>
+                  <h4 className="text-sm font-bold text-[#101216]">{authorName}</h4>
                   <div className="flex items-center gap-1.5">
                     <div className="flex text-amber-400">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -76,7 +76,7 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
                       <button
                         type="button"
                         onClick={() => handleEdit(fb.memberId!)}
-                        className="rounded-lg p-1 text-slate-400 hover:text-[#e03e3e] hover:bg-slate-100 transition-colors"
+                        className="rounded-lg p-1 text-slate-400 hover:text-[#e03e3e] hover:bg-[#f2efe9] transition-colors"
                         title="Modifier mon avis"
                       >
                         <PencilSquareIcon className="h-4 w-4" />
@@ -85,7 +85,7 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
                   </div>
                 </div>
 
-                <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                <p className="text-sm text-[#3a3f4a] leading-relaxed whitespace-pre-line">
                   {fb.comment}
                 </p>
               </div>

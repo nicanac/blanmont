@@ -56,28 +56,28 @@ export default function Navbar() {
       description: 'Qui sommes-nous ?',
       href: '/le-club',
       icon: InformationCircleIcon,
-      iconBg: 'bg-slate-100 text-slate-700',
+      iconBg: 'bg-white/10 text-white',
     },
     {
       name: 'Équipement',
       description: 'Collection 2026',
       href: '/le-club/equipement',
       icon: ShoppingBagIcon,
-      iconBg: 'bg-amber-50 text-amber-700',
+      iconBg: 'bg-amber-400/10 text-amber-400',
     },
     {
       name: 'Carré Vert',
       description: 'Classement & Assiduité',
       href: '/leaderboard',
       icon: TrophyIcon,
-      iconBg: 'bg-emerald-50 text-emerald-700',
+      iconBg: 'bg-emerald-400/10 text-emerald-400',
     },
     {
       name: 'Sondage du Weekend',
       description: 'Qui roule ce weekend ?',
       href: '/sondage',
       icon: ChatBubbleLeftRightIcon,
-      iconBg: 'bg-red-50 text-[#e03e3e]',
+      iconBg: 'bg-[#e03e3e]/15 text-[#e03e3e]',
     },
   ];
 
@@ -102,7 +102,7 @@ export default function Navbar() {
   return (
     <Popover
       as="nav"
-      className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs"
+      className="sticky top-0 z-50 w-full bg-[#0a0c10]/95 backdrop-blur-md border-b border-white/10"
     >
       {({ open, close }) => (
         <>
@@ -112,18 +112,23 @@ export default function Navbar() {
               <div className="flex items-center">
                 {/* Logo */}
                 <div className="flex-shrink-0 flex items-center">
-                  <Link href="/" className="flex items-center gap-2">
-                    <span className="text-2xl font-extrabold text-gray-900 tracking-tight font-sans">
-                      BLAN<span className="text-[#e03e3e]">MONT</span>
+                  <Link href="/" className="flex items-center gap-2.5">
+                    <span className="text-xl font-extrabold uppercase tracking-[-0.02em] text-white font-sans">
+                      Blan<span className="text-[#e03e3e]">mont</span>
+                    </span>
+                    <span className="hidden md:inline-block text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-[#7d8493] border-l border-white/15 pl-2.5 leading-tight">
+                      Cyclo Club
+                      <br />
+                      Saint-Martin
                     </span>
                   </Link>
                 </div>
 
                 {/* Divider */}
-                <div className="hidden sm:block h-6 w-px bg-gray-300 mx-6"></div>
+                <div className="hidden sm:block h-6 w-px bg-white/15 mx-6"></div>
 
                 {/* Navigation Links */}
-                <div className="hidden sm:flex sm:space-x-8 items-center">
+                <div className="hidden sm:flex sm:space-x-7 items-center">
                   {mainNavigation.map((item) => {
                     const isCurrent = pathname === item.href;
                     return (
@@ -131,10 +136,10 @@ export default function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={cn(
-                          'text-sm font-medium transition-colors inline-flex items-center gap-1.5',
+                          'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 py-1',
                           isCurrent
-                            ? 'text-[#e03e3e] font-semibold'
-                            : 'text-gray-900 hover:text-[#e03e3e]'
+                            ? 'text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
+                            : 'text-[#a7adbb] hover:text-white'
                         )}
                         aria-current={isCurrent ? 'page' : undefined}
                       >
@@ -155,14 +160,14 @@ export default function Navbar() {
                       <>
                         <PopoverButton
                           className={cn(
-                            'group inline-flex items-center text-sm font-medium text-gray-900 hover:text-[#e03e3e] transition-colors focus:outline-none'
+                            'group inline-flex items-center text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#a7adbb] hover:text-white transition-colors focus:outline-none'
                           )}
                         >
                           <span>Le Club</span>
                           <ChevronDownIcon
                             className={cn(
-                              open ? 'text-[#e03e3e] rotate-180' : 'text-gray-400',
-                              'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-[#e03e3e]'
+                              open ? 'text-[#e03e3e] rotate-180' : 'text-[#5c6370]',
+                              'ml-1.5 h-4 w-4 transition duration-150 ease-in-out group-hover:text-white'
                             )}
                             aria-hidden="true"
                           />
@@ -178,26 +183,26 @@ export default function Navbar() {
                           leaveTo="opacity-0 translate-y-1"
                         >
                           <PopoverPanel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-2 sm:px-0">
-                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                            <div className="overflow-hidden rounded-md shadow-2xl border border-[#262b38] bg-[#161922]">
+                              <div className="relative grid gap-2 px-3 py-3 sm:p-4">
                                 {clubNavigation.map((item) => (
                                   <PopoverButton
                                     key={item.name}
                                     as={Link}
                                     href={item.href}
-                                    className="-m-3 flex items-start rounded-xl p-3 hover:bg-slate-50 transition ease-in-out duration-150 group"
+                                    className="flex items-start rounded-md p-3 hover:bg-white/5 transition ease-in-out duration-150 group"
                                   >
-                                    <div className={cn('p-2 rounded-lg flex-shrink-0 transition-transform group-hover:scale-105', item.iconBg || 'bg-slate-100 text-slate-700')}>
+                                    <div className={cn('p-2 rounded-md flex-shrink-0 transition-transform group-hover:scale-105', item.iconBg || 'bg-white/10 text-white')}>
                                       <item.icon
                                         className="h-5 w-5"
                                         aria-hidden="true"
                                       />
                                     </div>
                                     <div className="ml-4 text-left">
-                                      <p className="text-sm font-semibold text-gray-900 group-hover:text-[#e03e3e] transition-colors">
+                                      <p className="text-sm font-semibold text-white group-hover:text-[#e03e3e] transition-colors">
                                         {item.name}
                                       </p>
-                                      <p className="mt-0.5 text-xs text-gray-500">
+                                      <p className="mt-0.5 text-xs text-[#7d8493]">
                                         {item.description}
                                       </p>
                                     </div>
@@ -220,11 +225,11 @@ export default function Navbar() {
                   <Popover className="relative">
                     {({ open }) => (
                       <>
-                        <PopoverButton className="flex items-center text-gray-900 hover:text-gray-600 focus:outline-none">
+                        <PopoverButton className="flex items-center text-white hover:text-[#a7adbb] focus:outline-none">
                           <span className="sr-only">Ouvrir le menu utilisateur</span>
                           {user?.avatarUrl ? (
                             <Image
-                              className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-100"
+                              className="h-8 w-8 rounded-full object-cover ring-2 ring-white/20"
                               src={user.avatarUrl}
                               alt={user.name || 'User avatar'}
                               width={32}
@@ -245,11 +250,11 @@ export default function Navbar() {
                           leaveTo="opacity-0 translate-y-1"
                         >
                           <PopoverPanel className="absolute right-0 z-10 mt-3 w-screen max-w-xs transform px-2 sm:px-0">
-                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                <div className="-m-3 p-3 border-b border-gray-100 pb-4 mb-1">
-                                  <p className="text-xs text-gray-500">Connecté en tant que</p>
-                                  <p className="text-sm font-semibold text-gray-900 truncate">
+                            <div className="overflow-hidden rounded-md shadow-2xl border border-[#262b38] bg-[#161922]">
+                              <div className="relative grid gap-2 px-3 py-3 sm:p-4">
+                                <div className="p-3 border-b border-[#262b38] pb-4 mb-1">
+                                  <p className="text-xs text-[#7d8493]">Connecté en tant que</p>
+                                  <p className="text-sm font-semibold text-white truncate">
                                     {user?.name}
                                   </p>
                                 </div>
@@ -259,17 +264,17 @@ export default function Navbar() {
                                     key={item.name}
                                     as={Link}
                                     href={item.href}
-                                    className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
+                                    className="flex items-start rounded-md p-3 hover:bg-white/5 transition ease-in-out duration-150"
                                   >
                                     <item.icon
-                                      className="h-6 w-6 flex-shrink-0 text-brand-primary"
+                                      className="h-6 w-6 flex-shrink-0 text-[#e03e3e]"
                                       aria-hidden="true"
                                     />
                                     <div className="ml-4 text-left">
-                                      <p className="text-base font-medium text-gray-900">
+                                      <p className="text-sm font-semibold text-white">
                                         {item.name}
                                       </p>
-                                      <p className="mt-1 text-sm text-gray-500">
+                                      <p className="mt-0.5 text-xs text-[#7d8493]">
                                         {item.description}
                                       </p>
                                     </div>
@@ -278,17 +283,17 @@ export default function Navbar() {
 
                                 <button
                                   onClick={() => logout()}
-                                  className="-m-3 flex w-full items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
+                                  className="flex w-full items-start rounded-md p-3 hover:bg-white/5 transition ease-in-out duration-150"
                                 >
                                   <ArrowRightOnRectangleIcon
-                                    className="h-6 w-6 flex-shrink-0 text-red-500"
+                                    className="h-6 w-6 flex-shrink-0 text-[#e03e3e]"
                                     aria-hidden="true"
                                   />
                                   <div className="ml-4 text-left">
-                                    <p className="text-base font-medium text-red-600">
+                                    <p className="text-sm font-semibold text-[#e03e3e]">
                                       Se déconnecter
                                     </p>
-                                    <p className="mt-1 text-sm text-gray-500">Fermer la session</p>
+                                    <p className="mt-0.5 text-xs text-[#7d8493]">Fermer la session</p>
                                   </div>
                                 </button>
                               </div>
@@ -302,16 +307,15 @@ export default function Navbar() {
                   <div className="flex items-center space-x-4">
                     <Link
                       href="/login"
-                      className="text-gray-900 hover:text-[#e03e3e] font-medium text-sm transition-colors"
+                      className="text-[#a7adbb] hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors"
                     >
                       Se connecter
                     </Link>
                     <Link
                       href="/login"
-                      className="text-gray-700 hover:text-[#e03e3e] transition-colors"
+                      className="inline-flex items-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-4 py-2 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
                     >
-                      <span className="sr-only">Se connecter</span>
-                      <UserIcon className="h-6 w-6" aria-hidden="true" />
+                      Espace Membre
                     </Link>
                   </div>
                 )}
@@ -319,7 +323,7 @@ export default function Navbar() {
 
               {/* Mobile menu button */}
               <div className="-mr-2 flex items-center sm:hidden">
-                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
+                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Ouvrir le menu principal</span>
                   {open ? (
@@ -342,7 +346,7 @@ export default function Navbar() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <PopoverBackdrop className="fixed inset-0 bg-black/25 z-40 sm:hidden" />
+            <PopoverBackdrop className="fixed inset-0 bg-black/50 z-40 sm:hidden" />
           </Transition>
 
           <Transition
@@ -354,8 +358,8 @@ export default function Navbar() {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-lg sm:hidden bg-white border-b border-gray-200">
-              <div className="space-y-1 pb-3 pt-2">
+            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl sm:hidden bg-[#0a0c10] border-b border-white/10">
+              <div className="space-y-1 pb-3 pt-2 px-2">
                 {mainNavigation.map((item) => {
                   const isCurrent = pathname === item.href;
                   return (
@@ -365,9 +369,9 @@ export default function Navbar() {
                       href={item.href}
                       className={cn(
                         isCurrent
-                          ? 'bg-red-50 text-[#e03e3e] font-semibold'
-                          : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900',
-                        'flex items-center justify-between py-2.5 px-4 rounded-xl text-base font-medium transition-colors'
+                          ? 'bg-white/10 text-white font-semibold'
+                          : 'text-[#a7adbb] hover:bg-white/5 hover:text-white',
+                        'flex items-center justify-between py-2.5 px-4 rounded-md text-sm font-semibold uppercase tracking-[0.08em] transition-colors'
                       )}
                       aria-current={isCurrent ? 'page' : undefined}
                     >
@@ -390,7 +394,7 @@ export default function Navbar() {
                     <>
                       <Disclosure.Button
                         className={cn(
-                          'flex w-full items-center justify-between py-2.5 px-3 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                          'flex w-full items-center justify-between py-2.5 px-3 rounded-md text-sm font-semibold uppercase tracking-[0.08em] text-[#a7adbb] hover:bg-white/5 hover:text-white'
                         )}
                       >
                         <span className="flex-1 text-left">Le Club</span>
@@ -405,7 +409,7 @@ export default function Navbar() {
                             key={item.name}
                             as={Link}
                             href={item.href}
-                            className="block py-2 px-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                            className="block py-2 px-3 rounded-md text-sm font-medium text-[#a7adbb] hover:bg-white/5 hover:text-white"
                           >
                             {item.name}
                           </PopoverButton>
@@ -415,7 +419,7 @@ export default function Navbar() {
                   )}
                 </Disclosure>
               </div>
-              <div className="border-t border-gray-200 pb-3 pt-4">
+              <div className="border-t border-white/10 pb-3 pt-4">
                 {isAuthenticated ? (
                   <div className="space-y-1">
                     <div className="flex items-center px-4">
@@ -430,8 +434,8 @@ export default function Navbar() {
                         />
                       </div>
                       <div className="ml-3">
-                        <div className="text-base font-medium text-gray-800">{user?.name}</div>
-                        <div className="text-sm font-medium text-gray-500">{user?.email}</div>
+                        <div className="text-base font-medium text-white">{user?.name}</div>
+                        <div className="text-sm font-medium text-[#7d8493]">{user?.email}</div>
                       </div>
                     </div>
                     <div className="mt-3 space-y-1">
@@ -440,7 +444,7 @@ export default function Navbar() {
                           key={item.name}
                           as={Link}
                           href={item.href}
-                          className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                          className="block px-4 py-2 text-sm font-medium text-[#a7adbb] hover:bg-white/5 hover:text-white rounded-md"
                         >
                           {item.name}
                         </PopoverButton>
@@ -448,27 +452,27 @@ export default function Navbar() {
                       <PopoverButton
                         as="button"
                         onClick={() => logout()}
-                        className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                        className="block w-full text-left px-4 py-2 text-sm font-medium text-[#e03e3e] hover:bg-white/5 rounded-md"
                       >
-                        Log out
+                        Se déconnecter
                       </PopoverButton>
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-1 px-4">
+                  <div className="space-y-2 px-4">
                     <PopoverButton
                       as={Link}
                       href="/login"
-                      className="block text-base font-medium text-gray-500 hover:text-gray-900"
+                      className="block text-sm font-semibold uppercase tracking-[0.08em] text-[#a7adbb] hover:text-white"
                     >
-                      Log in
+                      Se connecter
                     </PopoverButton>
                     <PopoverButton
                       as={Link}
-                      href="/register"
-                      className="block text-base font-medium text-gray-500 hover:text-gray-900"
+                      href="/login"
+                      className="inline-flex items-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-4 py-2 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
                     >
-                      Sign up
+                      Espace Membre
                     </PopoverButton>
                   </div>
                 )}

@@ -22,10 +22,10 @@ export default function Error({
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-24 sm:py-32 lg:px-8">
       <div className="text-center">
         <p className="text-base font-semibold text-brand-primary">Erreur</p>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#101216] sm:text-5xl">
           Une erreur s&apos;est produite
         </h1>
-        <p className="mt-6 text-lg text-gray-500">
+        <p className="mt-6 text-lg text-[#5c6370]">
           Nous sommes désolés, quelque chose s&apos;est mal passé.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -35,7 +35,7 @@ export default function Error({
           >
             Réessayer
           </button>
-          <a href="/" className="text-sm font-semibold text-gray-900">
+          <a href="/" className="text-sm font-semibold text-[#101216]">
             Retour à l&apos;accueil <span aria-hidden="true">&rarr;</span>
           </a>
         </div>

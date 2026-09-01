@@ -31,7 +31,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
     <Link
       href={`/blog/${post.slug}`}
       className={cn(
-        'group block overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xs transition-all hover:shadow-lg hover:border-slate-300',
+        'group block overflow-hidden rounded-md border border-[#e4e0d8] bg-white shadow-2xs transition-all hover:shadow-lg hover:border-slate-300',
         featured ? 'lg:col-span-2' : ''
       )}
     >
@@ -61,18 +61,18 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
       <div className="p-6 space-y-3">
         <h3
           className={cn(
-            'font-bold text-slate-900 group-hover:text-[#e03e3e] transition-colors leading-snug line-clamp-2',
+            'font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug line-clamp-2',
             featured ? 'text-2xl' : 'text-lg'
           )}
         >
           {post.title}
         </h3>
 
-        <p className="text-slate-600 text-sm line-clamp-3 leading-relaxed">{post.excerpt}</p>
+        <p className="text-[#3a3f4a] text-sm line-clamp-3 leading-relaxed">{post.excerpt}</p>
 
         {/* Meta Info */}
-        <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
-          <div className="relative h-8 w-8 overflow-hidden rounded-full bg-slate-100 ring-1 ring-slate-200">
+        <div className="flex items-center gap-3 pt-2 border-t border-[#efece5]">
+          <div className="relative h-8 w-8 overflow-hidden rounded-full bg-[#f2efe9] ring-1 ring-slate-200">
             {post.authorAvatar && (
               <Image
                 src={post.authorAvatar}
@@ -83,8 +83,8 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
             )}
           </div>
           <div className="flex flex-col">
-            <span className="text-xs font-semibold text-slate-800">{post.author}</span>
-            <span className="text-xs text-slate-500">{formatDate(post.publishedAt)}</span>
+            <span className="text-xs font-semibold text-[#101216]">{post.author}</span>
+            <span className="text-xs text-[#5c6370]">{formatDate(post.publishedAt)}</span>
           </div>
         </div>
       </div>
