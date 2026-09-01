@@ -100,8 +100,10 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
             />
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
                 {/* Controls Bar */}
-                <div className="flex items-center justify-between border-b border-gray-200 pb-6">
-                    <h2 className="text-lg font-medium text-gray-900">{filteredTraces.length} parcours</h2>
+                <div className="flex items-center justify-between border-b border-slate-200 pb-6">
+                    <h2 className="text-base font-bold text-slate-900 tabular-nums">
+                        {filteredTraces.length} parcours disponibles
+                    </h2>
                     <div className="flex items-center">
                         <Menu as="div" className="relative inline-block text-left">
                             <div>

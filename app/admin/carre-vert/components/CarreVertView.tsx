@@ -171,16 +171,16 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                     <button
                       key={event.id}
                       onClick={() => setSelectedEventId(event.id)}
-                      className={`w-full text-left p-4 transition-colors ${isSelected
-                          ? 'bg-green-50 border-l-4 border-green-600'
-                          : 'hover:bg-gray-50 border-l-4 border-transparent'
+                      className={`w-full text-left p-4 rounded-xl transition-all ${isSelected
+                          ? 'bg-emerald-50/80 ring-1 ring-emerald-600/30 font-semibold'
+                          : 'hover:bg-slate-50'
                         }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span
-                              className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium ${dayType === 'weekend'
+                              className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ${dayType === 'weekend'
                                   ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20'
                                   : 'bg-orange-50 text-orange-700 ring-1 ring-orange-600/20'
                                 }`}
@@ -191,7 +191,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                               {formatDate(event.isoDate)}
                             </span>
                             {!isPast && (
-                              <span className="inline-flex items-center rounded-full bg-blue-50 px-1.5 py-0.5 text-[10px] font-medium text-blue-700 ring-1 ring-blue-600/20">
+                              <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700 ring-1 ring-blue-600/20">
                                 À venir
                               </span>
                             )}

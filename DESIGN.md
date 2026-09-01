@@ -5,12 +5,16 @@ colors:
   primary: "#e03e3e"
   primary-hover: "#c93434"
   primary-light: "#fef2f2"
+  primary-selection: "#fee2e2"
+  primary-dark: "#991b1b"
   neutral-bg: "#ffffff"
   neutral-surface: "#f8fafc"
   neutral-card: "#ffffff"
   neutral-border: "#e2e8f0"
   neutral-text: "#0f172a"
   neutral-muted: "#64748b"
+  neutral-subtle: "#94a3b8"
+  neutral-scrollbar: "#cbd5e1"
   neutral-dark: "#020617"
   accent-green: "#10b981"
   accent-amber: "#f59e0b"
@@ -43,6 +47,12 @@ typography:
     fontSize: "0.875rem"
     fontWeight: 500
     lineHeight: 1.4
+  data:
+    fontFamily: "Poppins, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    fontSize: "1rem"
+    fontWeight: 700
+    lineHeight: 1.2
+    fontVariantNumeric: "tabular-nums"
 rounded:
   sm: "6px"
   md: "12px"
@@ -95,11 +105,13 @@ The CC Saint-Martin Blanmont visual system ("Ciseco / Eco Sporting") blends cris
 
 - **Font Family**: Google Font `Poppins` (`var(--font-poppins)`), backed by clean system sans-serif fallbacks.
 - **Hierarchy**:
-  - `Display`: Bold hero headers (`font-bold text-4xl lg:text-5xl tracking-tight text-slate-900`).
-  - `Headline`: Section titles (`font-semibold text-2xl lg:text-3xl text-slate-900`).
-  - `Title`: Card headings, modal titles (`font-semibold text-lg text-slate-800`).
-  - `Body`: Informative paragraphs and descriptions (`font-normal text-base text-slate-600 leading-relaxed`).
-  - `Label / Badge`: Route stats, tags, chip filters (`font-medium text-xs uppercase tracking-wider`).
+  - `Display / Hero`: Bold hero headers (`font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-slate-900 leading-tight text-balance`).
+  - `Headline`: Section titles (`font-bold text-2xl sm:text-3xl tracking-tight text-slate-900 text-balance`).
+  - `Title`: Card headings, modal titles (`font-bold text-base sm:text-lg text-slate-900 leading-snug`).
+  - `Subtitle / Lead`: Section introduction (`font-normal text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl`).
+  - `Body`: Informative paragraphs and descriptions (`font-normal text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl`).
+  - `Label / Badge`: Route stats, tags, chip filters (`font-semibold text-xs uppercase tracking-wider`).
+  - `Data / Metric`: Numeric cycling stats, distance, elevation, dates, times (`font-bold text-slate-900 tabular-nums`).
 
 ## Layout
 

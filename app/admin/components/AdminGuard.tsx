@@ -42,7 +42,7 @@ export default function AdminGuard({ children }: AdminGuardProps): React.ReactEl
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-2 border-[#e03e3e] border-t-transparent mx-auto"></div>
           <p className="mt-4 text-gray-600">Vérification des accès...</p>
         </div>
       </div>

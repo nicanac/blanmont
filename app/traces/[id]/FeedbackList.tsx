@@ -76,7 +76,7 @@ export default function FeedbackList({ feedbackList, members }: FeedbackListProp
                       <button
                         type="button"
                         onClick={() => handleEdit(fb.memberId!)}
-                        className="rounded-lg p-1 text-slate-400 hover:text-[#e03e3e] hover:bg-red-50 transition-colors"
+                        className="rounded-lg p-1 text-slate-400 hover:text-[#e03e3e] hover:bg-slate-100 transition-colors"
                         title="Modifier mon avis"
                       >
                         <PencilSquareIcon className="h-4 w-4" />
