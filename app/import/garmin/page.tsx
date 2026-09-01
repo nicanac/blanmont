@@ -228,33 +228,33 @@ export default function GarminImportPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[#f2efe9] py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <Link href="/traces" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4">
+                    <Link href="/traces" className="inline-flex items-center text-sm text-[#3a3f4a] hover:text-[#101216] mb-4">
                         <span className="mr-1">←</span> Retour aux parcours
                     </Link>
-                    <h1 className="text-3xl font-bold text-gray-900">Importer un Parcours</h1>
-                    <p className="mt-2 text-gray-600">
+                    <h1 className="text-3xl font-bold text-[#101216]">Importer un Parcours</h1>
+                    <p className="mt-2 text-[#3a3f4a]">
                         Importez un fichier GPX ou entrez une URL Garmin/Komoot.
                     </p>
                 </div>
 
                 {/* Main Card */}
-                <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-lg border border-[#efece5] overflow-hidden">
 
                     {/* Mode Toggle - Section Header */}
                     {!preview && !successMessage && (
-                        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                        <div className="bg-[#f2efe9] px-6 py-4 border-b border-[#e4e0d8]">
                             <div className="flex items-center gap-4">
-                                <span className="text-sm font-medium text-gray-700">Méthode d'import:</span>
+                                <span className="text-sm font-medium text-[#3a3f4a]">Méthode d'import:</span>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => setMode('file')}
                                         className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === 'file'
                                             ? 'bg-brand-primary text-white'
-                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
+                                            : 'bg-white text-[#3a3f4a] border border-gray-300 hover:bg-[#f2efe9]'}`}
                                     >
                                         📁 Fichier GPX
                                     </button>
@@ -262,7 +262,7 @@ export default function GarminImportPage() {
                                         onClick={() => setMode('url')}
                                         className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === 'url'
                                             ? 'bg-brand-primary text-white'
-                                            : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
+                                            : 'bg-white text-[#3a3f4a] border border-gray-300 hover:bg-[#f2efe9]'}`}
                                     >
                                         🔗 URL
                                     </button>
@@ -276,7 +276,7 @@ export default function GarminImportPage() {
                             <div className="flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 hover:border-gray-400 transition-colors">
                                 <div className="text-center">
                                     <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />
-                                    <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
+                                    <div className="mt-4 flex text-sm leading-6 text-[#3a3f4a] justify-center">
                                         <label
                                             htmlFor="file-upload"
                                             className="relative cursor-pointer rounded-md font-semibold text-brand-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-primary focus-within:ring-offset-2 hover:opacity-80"
@@ -286,7 +286,7 @@ export default function GarminImportPage() {
                                         </label>
                                         <p className="pl-1">ou glisser-déposer</p>
                                     </div>
-                                    <p className="text-xs leading-5 text-gray-500 mt-1">Fichier .GPX jusqu'à 10MB</p>
+                                    <p className="text-xs leading-5 text-[#5c6370] mt-1">Fichier .GPX jusqu'à 10MB</p>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +294,7 @@ export default function GarminImportPage() {
 
                     {!preview && !successMessage && mode === 'url' && (
                         <div className="p-6">
-                            <label className="block text-sm font-medium text-gray-900 mb-2">URL de l'activité</label>
+                            <label className="block text-sm font-medium text-[#101216] mb-2">URL de l'activité</label>
                             <div className="flex gap-4">
                                 <input
                                     type="text"
@@ -311,7 +311,7 @@ export default function GarminImportPage() {
                                     {loading ? 'Chargement...' : 'Charger'}
                                 </button>
                             </div>
-                            <p className="mt-2 text-xs text-gray-500">
+                            <p className="mt-2 text-xs text-[#5c6370]">
                                 Note: Les données seront récupérées si l'activité est publique. Sinon, utilisez un fichier GPX.
                             </p>
                         </div>
@@ -320,7 +320,7 @@ export default function GarminImportPage() {
                     {loading && (
                         <div className="p-6 text-center">
                             <div className="animate-spin h-8 w-8 border-4 border-brand-primary border-t-transparent rounded-full mx-auto"></div>
-                            <p className="mt-2 text-gray-600">Traitement en cours...</p>
+                            <p className="mt-2 text-[#3a3f4a]">Traitement en cours...</p>
                         </div>
                     )}
 

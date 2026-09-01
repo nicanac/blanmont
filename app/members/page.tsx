@@ -16,7 +16,7 @@ export default async function MembersPage() {
     });
 
     return (
-        <main className="min-h-screen bg-gray-50">
+        <main className="min-h-screen bg-[#faf8f5]">
             <PageHero
                 title="Le Peloton"
                 description="Rencontrez les cyclistes qui font vivre Blanmont."

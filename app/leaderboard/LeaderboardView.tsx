@@ -25,7 +25,7 @@ const GroupBadge = ({ group }: { group: string }): React.ReactElement => (
     <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${group.startsWith('A') ? 'bg-red-50 text-red-700 ring-red-600/10' :
         group.startsWith('B') ? 'bg-blue-50 text-blue-700 ring-blue-600/10' :
             group.startsWith('C') ? 'bg-green-50 text-green-700 ring-green-600/10' :
-                'bg-gray-50 text-gray-600 ring-gray-500/10'
+                'bg-[#f2efe9] text-[#3a3f4a] ring-gray-500/10'
         }`}>
         {group}
     </span>
@@ -34,10 +34,10 @@ const GroupBadge = ({ group }: { group: string }): React.ReactElement => (
 // Podium Card Component
 const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: LeaderboardEntry; rank: number; onSelect: (entry: LeaderboardEntry) => void; totalPossibleRides: number }): React.ReactElement => {
     const medal = rank === 1 ? "🏆" : rank === 2 ? "🥈" : "🥉";
-    const titleColor = rank === 1 ? "text-emerald-700" : "text-slate-900";
+    const titleColor = rank === 1 ? "text-emerald-700" : "text-[#101216]";
     const ringColor = rank === 1 ? "ring-emerald-600 ring-2" : "ring-slate-200 ring-1";
     const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
-    const bg = rank === 1 ? "bg-white" : "bg-slate-50/70";
+    const bg = rank === 1 ? "bg-white" : "bg-[#f2efe9]/70";
     const lastDate = entry.dates.length > 0 ? entry.dates[entry.dates.length - 1] : "N/A";
 
     // Avoid division by zero
@@ -48,7 +48,7 @@ const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: Lead
     return (
         <div
             onClick={() => onSelect(entry)}
-            className={`rounded-3xl p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-all duration-300 hover:shadow-xl cursor-pointer`}
+            className={`rounded-lg p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-all duration-300 hover:shadow-xl cursor-pointer`}
         >
             <div>
                 <div className="flex items-center justify-between">
@@ -58,19 +58,19 @@ const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: Lead
                     <GroupBadge group={entry.group} />
                 </div>
 
-                <p className="mt-4 text-xl font-bold tracking-tight text-slate-900 truncate">{entry.name}</p>
+                <p className="mt-4 text-xl font-bold tracking-tight text-[#101216] truncate">{entry.name}</p>
 
                 <div className="mt-6 flex items-baseline gap-x-2">
-                    <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 tabular-nums">{entry.rides}</span>
-                    <span className="text-sm font-semibold text-slate-500">sorties</span>
+                    <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#101216] tabular-nums">{entry.rides}</span>
+                    <span className="text-sm font-semibold text-[#5c6370]">sorties</span>
                 </div>
 
-                <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-slate-600">
+                <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-[#3a3f4a]">
                     <li className="flex gap-x-3 tabular-nums">
-                        <span className="font-semibold text-slate-900">Fidélité :</span> {fidelity}&nbsp;%
+                        <span className="font-semibold text-[#101216]">Fidélité :</span> {fidelity}&nbsp;%
                     </li>
                     <li className="flex gap-x-3">
-                        <span className="font-semibold text-slate-900">Dernière :</span> {lastDate}
+                        <span className="font-semibold text-[#101216]">Dernière :</span> {lastDate}
                     </li>
                 </ul>
             </div>
@@ -137,7 +137,7 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
 
     return (
         <>
-            <main className="min-h-screen bg-gray-50">
+            <main className="min-h-screen bg-[#faf8f5]">
                 <PageHero
                     title="Carré Vert"
                     description="Le peloton de tête et le classement complet de la saison."
@@ -149,14 +149,14 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
                     {/* Year Selector */}
                     <div className="flex justify-center">
-                        <div className="inline-flex rounded-lg bg-gray-100 p-1">
+                        <div className="inline-flex rounded-lg bg-[#f2efe9] p-1">
                             {availableYears.map(year => (
                                 <button
                                     key={year}
                                     onClick={() => router.push(`/leaderboard?year=${year}`)}
                                     className={`rounded-md px-5 py-2 text-sm font-semibold tabular-nums transition-all duration-200 ${year === selectedYear
                                         ? 'bg-emerald-600 text-white shadow-xs'
-                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                                        : 'text-[#3a3f4a] hover:text-[#101216] hover:bg-gray-200'
                                         }`}
                                 >
                                     {year}
@@ -187,25 +187,25 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
 
                     {/* Full Table (Others) */}
                     {others.length > 0 && (
-                        <div className="mt-20 overflow-hidden shadow-xs ring-1 ring-slate-200 sm:rounded-2xl bg-white">
-                            <table className="min-w-full divide-y divide-slate-200">
-                                <thead className="bg-slate-50">
+                        <div className="mt-20 overflow-hidden shadow-xs ring-1 ring-slate-200 sm:rounded-md bg-white">
+                            <table className="min-w-full divide-y divide-[#e4e0d8]">
+                                <thead className="bg-[#f2efe9]">
                                     <tr>
-                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700 sm:pl-6">
+                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] sm:pl-6">
                                             Rang
                                         </th>
-                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#3a3f4a]">
                                             Nom
                                         </th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                                        <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#3a3f4a]">
                                             Groupe
                                         </th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                                        <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#3a3f4a]">
                                             Sorties
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-100 bg-white">
+                                <tbody className="divide-y divide-[#efece5] bg-white">
                                     {others.map((person) => {
                                         const globalRank = globalRanks[person.id];
                                         const groupRank = groupRanks[person.id];
@@ -215,19 +215,19 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                                             <tr
                                                 key={person.id}
                                                 onClick={() => handleSelectMember(person)}
-                                                className="hover:bg-slate-50 transition-colors cursor-pointer"
+                                                className="hover:bg-[#f2efe9] transition-colors cursor-pointer"
                                             >
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-slate-900 tabular-nums sm:pl-6">
+                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-[#101216] tabular-nums sm:pl-6">
                                                     #{globalRank}
                                                 </td>
-                                                <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-slate-900' : 'font-medium text-slate-700'}`}>
+                                                <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-[#101216]' : 'font-medium text-[#3a3f4a]'}`}>
                                                     {person.name}
                                                 </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-[#5c6370]">
                                                     <GroupBadge group={person.group} />
                                                 </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
-                                                    <div className={`font-bold tabular-nums ${isGroupTop3 ? 'text-slate-900' : 'text-slate-600'}`}>{person.rides}</div>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-[#5c6370]">
+                                                    <div className={`font-bold tabular-nums ${isGroupTop3 ? 'text-[#101216]' : 'text-[#3a3f4a]'}`}>{person.rides}</div>
                                                 </td>
                                             </tr>
                                         )
@@ -275,34 +275,34 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                             {/* Content */}
                             <div className="p-6 flex-1 overflow-y-auto space-y-6">
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
-                                        <div className="text-xs font-medium text-slate-500">Groupe</div>
+                                    <div className="rounded-md border border-[#efece5] bg-[#f2efe9]/70 p-4">
+                                        <div className="text-xs font-medium text-[#5c6370]">Groupe</div>
                                         <div className="mt-1">
                                             <GroupBadge group={selectedMember.group} />
                                         </div>
                                     </div>
-                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
-                                        <div className="text-xs font-medium text-slate-500">Total Sorties</div>
-                                        <div className="mt-1 text-xl font-extrabold text-slate-900">
+                                    <div className="rounded-md border border-[#efece5] bg-[#f2efe9]/70 p-4">
+                                        <div className="text-xs font-medium text-[#5c6370]">Total Sorties</div>
+                                        <div className="mt-1 text-xl font-extrabold text-[#101216]">
                                             {selectedMember.rides}
                                         </div>
                                     </div>
-                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
-                                        <div className="text-xs font-medium text-slate-500">Taux de Fidélité</div>
+                                    <div className="rounded-md border border-[#efece5] bg-[#f2efe9]/70 p-4">
+                                        <div className="text-xs font-medium text-[#5c6370]">Taux de Fidélité</div>
                                         <div className="mt-1 text-xl font-extrabold text-emerald-600">
                                             {totalPossibleRides > 0 ? Math.round((selectedMember.rides / totalPossibleRides) * 100) : 0}%
                                         </div>
                                     </div>
-                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
-                                        <div className="text-xs font-medium text-slate-500">Dernière sortie</div>
-                                        <div className="mt-1 text-xs font-bold text-slate-800">
+                                    <div className="rounded-md border border-[#efece5] bg-[#f2efe9]/70 p-4">
+                                        <div className="text-xs font-medium text-[#5c6370]">Dernière sortie</div>
+                                        <div className="mt-1 text-xs font-bold text-[#101216]">
                                             {selectedMember.dates.length > 0 ? selectedMember.dates[selectedMember.dates.length - 1] : "Aucune"}
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="border-t border-slate-100 pt-6 space-y-3">
-                                    <h3 className="text-sm font-bold text-slate-900">
+                                <div className="border-t border-[#efece5] pt-6 space-y-3">
+                                    <h3 className="text-sm font-bold text-[#101216]">
                                         Historique des présences ({selectedMember.dates.length})
                                     </h3>
 
@@ -325,10 +325,10 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                             </div>
 
                             {/* Footer */}
-                            <div className="p-4 border-t border-slate-100 flex justify-end">
+                            <div className="p-4 border-t border-[#efece5] flex justify-end">
                                 <button
                                     onClick={handleClose}
-                                    className="rounded-full border border-slate-200 bg-white px-5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                                    className="rounded-full border border-[#e4e0d8] bg-white px-5 py-2 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
                                 >
                                     Fermer
                                 </button>

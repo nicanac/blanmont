@@ -3,8 +3,19 @@
 @theme {
   --color-brand-primary: #e03e3e;
   --color-brand-primary-hover: #c93434;
-  --color-brand-primary-light: #fef2f2;
+  --color-brand-primary-light: #fdecec;
   --color-brand-secondary: #ffffff;
+  --color-paper: #faf8f5;
+  --color-paper-dim: #f2efe9;
+  --color-paper-border: #e4e0d8;
+  --color-ink: #101216;
+  --color-ink-deep: #0a0c10;
+  --color-ink-panel: #161922;
+  --color-ink-border: #262b38;
+  --color-ink-body: #3a3f4a;
+  --color-ink-muted: #5c6370;
+  --color-ondark-text: #f5f6f8;
+  --color-ondark-muted: #a7adbb;
   --font-sans: var(--font-poppins), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -18,6 +29,9 @@
   --color-purple: #6940a5;
   --color-pink: #ad1a72;
   --color-red: #e03e3e;
+
+  /* Editorial motion signature: fast, exponential ease-out */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
@@ -27,13 +41,17 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom Brand Text Selection */
-::selection {
-  background-color: #fee2e2;
-  color: #991b1b;
+body {
+  background-color: #faf8f5;
 }
 
-/* Brand Caret for inputs and textareas */
+/* Editorial text selection: brand red ink on paper */
+::selection {
+  background-color: #e03e3e;
+  color: #ffffff;
+}
+
+/* Brand caret for inputs and textareas */
 input, textarea, select, [contenteditable] {
   caret-color: #e03e3e;
 }
@@ -49,23 +67,80 @@ input, textarea, select, [contenteditable] {
   outline-offset: 2px;
 }
 
-/* Custom Sleek Scrollbar */
+/* Custom Sleek Scrollbar — ink on paper */
 @media (pointer: fine) {
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #f8fafc;
+    background: #f2efe9;
   }
   ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: #c9c4ba;
     border-radius: 9999px;
-    border: 2px solid #f8fafc;
+    border: 2px solid #f2efe9;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: #5c6370;
   }
 }
 
+/* ── Editorial cover reveal ─────────────────────────────────────────────
+   The one authored moment of a cover page: masked line reveal on the
+   display headline + soft rise on supporting elements. CSS-only, instant
+   fallback under prefers-reduced-motion. */
+@keyframes cover-line-up {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
 
+@keyframes cover-fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cover-line {
+  display: block;
+  overflow: hidden;
+}
+
+.cover-line > span {
+  display: block;
+  transform: translateY(110%);
+  animation: cover-line-up 0.9s var(--ease-editorial) forwards;
+}
+
+.cover-line:nth-child(2) > span { animation-delay: 0.08s; }
+.cover-line:nth-child(3) > span { animation-delay: 0.16s; }
+
+.cover-rise {
+  opacity: 0;
+  animation: cover-fade-rise 0.7s var(--ease-editorial) forwards;
+}
+
+.cover-rise-1 { animation-delay: 0.24s; }
+.cover-rise-2 { animation-delay: 0.34s; }
+.cover-rise-3 { animation-delay: 0.44s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .cover-line > span,
+  .cover-rise {
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+}

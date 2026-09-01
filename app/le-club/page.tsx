@@ -8,7 +8,7 @@ import { UserGroupIcon } from '@heroicons/react/24/outline';
  */
 export default function LeClubPage(): React.ReactElement {
     return (
-        <main className="min-h-screen bg-gray-50">
+        <main className="min-h-screen bg-[#faf8f5]">
             <PageHero
                 title="Le Club"
                 description="Découvrez nos groupes et trouvez celui qui correspond à votre niveau et vos envies."
@@ -22,50 +22,50 @@ export default function LeClubPage(): React.ReactElement {
                     {/* Left Column: Text Content */}
                     <div>
                         <div className="space-y-8">
-                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                            <div className="rounded-md border border-[#e4e0d8] bg-white p-6 shadow-2xs space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des A</h3>
+                                    <h3 className="text-lg font-bold text-[#101216]">Le groupe des A</h3>
                                     <span className="rounded-full bg-red-50 text-red-700 border border-red-200/70 px-2.5 py-0.5 text-xs font-semibold tabular-nums">
                                         &gt;&nbsp;30&nbsp;km/h
                                     </span>
                                 </div>
-                                <p className="text-sm leading-relaxed text-slate-600">
+                                <p className="text-sm leading-relaxed text-[#3a3f4a]">
                                     Groupe assez sportif, allure rarement en dessous des 30&nbsp;km/h de moyenne... Ils nous représentent lors des randos organisées par d&apos;autres clubs. Ils suivent généralement une trace GPS envoyée via WhatsApp par les capitaines (Lucien et Laurent), mais un autre membre peut lui aussi en proposer une.
                                 </p>
                             </div>
 
-                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                            <div className="rounded-md border border-[#e4e0d8] bg-white p-6 shadow-2xs space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des B</h3>
+                                    <h3 className="text-lg font-bold text-[#101216]">Le groupe des B</h3>
                                     <span className="rounded-full bg-blue-50 text-blue-700 border border-blue-200/70 px-2.5 py-0.5 text-xs font-semibold tabular-nums">
                                         25 - 28&nbsp;km/h
                                     </span>
                                 </div>
-                                <p className="text-sm leading-relaxed text-slate-600">
+                                <p className="text-sm leading-relaxed text-[#3a3f4a]">
                                     Groupe roulant à une allure entre 25 et 28&nbsp;km/h de moyenne... Ici, rarement de trace GPS, ils partent vent de face pour un retour plus facile. Les circuits évitent généralement les nationales, et sont assez variés. Nous essayons de rentrer groupés, les capitaines (Dany, Philippe et René) y veillent particulièrement...
                                 </p>
                             </div>
 
-                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                            <div className="rounded-md border border-[#e4e0d8] bg-white p-6 shadow-2xs space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des C</h3>
+                                    <h3 className="text-lg font-bold text-[#101216]">Le groupe des C</h3>
                                     <span className="rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/70 px-2.5 py-0.5 text-xs font-semibold tabular-nums">
                                         &lt;&nbsp;25&nbsp;km/h
                                     </span>
                                 </div>
-                                <p className="text-sm leading-relaxed text-slate-600">
+                                <p className="text-sm leading-relaxed text-[#3a3f4a]">
                                     Groupe roulant à une allure inférieure à 25&nbsp;km/h, en espérant toutefois y arriver avant la fin de saison, de même que de réaliser un éventuel 100&nbsp;km... On y retrouve des personnes de tout âge, jeunes débutants ou moins entraînés, ou moins jeunes, encadrés par les capitaines (les 2 Joël et notre Président Michel).
                                 </p>
                             </div>
 
-                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                            <div className="rounded-md border border-[#e4e0d8] bg-white p-6 shadow-2xs space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des VTT</h3>
+                                    <h3 className="text-lg font-bold text-[#101216]">Le groupe des VTT</h3>
                                     <span className="rounded-full bg-amber-50 text-amber-700 border border-amber-200/70 px-2.5 py-0.5 text-xs font-semibold">
                                         Sentiers &amp; Bois
                                     </span>
                                 </div>
-                                <p className="text-sm leading-relaxed text-slate-600">
+                                <p className="text-sm leading-relaxed text-[#3a3f4a]">
                                     Groupe où tout le monde sera attendu au sommet des bosses et passages délicats. Le plus souvent l&apos;un ou l&apos;autre envoie une trace GPX ou propose un lieu de départ afin de diversifier les circuits. Ils participent aussi souvent à des randos organisées par d&apos;autres clubs, où chacun choisit sa distance en fonction de sa forme... Encadrement par Nicolas, Pascal et Jean.
                                 </p>
                             </div>
@@ -80,7 +80,7 @@ export default function LeClubPage(): React.ReactElement {
                             </a>
                             <Link
                                 href="/calendrier"
-                                className="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                                className="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
                             >
                                 Voir les prochaines sorties
                             </Link>
@@ -90,7 +90,7 @@ export default function LeClubPage(): React.ReactElement {
                     {/* Right Column: Bento Grid Images */}
                     <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                         {/* Top Right Large Image */}
-                        <div className="col-span-2 relative h-64 sm:h-80 lg:h-96 rounded-2xl overflow-hidden">
+                        <div className="col-span-2 relative h-64 sm:h-80 lg:h-96 rounded-md overflow-hidden">
                             <Image
                                 src="/images/home-hero.jpg"
                                 alt="Groupe Cycliste"
@@ -102,7 +102,7 @@ export default function LeClubPage(): React.ReactElement {
                         </div>
 
                         {/* Bottom Row Images */}
-                        <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
+                        <div className="relative h-48 sm:h-64 rounded-md overflow-hidden">
                             <Image
                                 src="/images/IMG_8019.JPG"
                                 alt="VTT"
@@ -111,7 +111,7 @@ export default function LeClubPage(): React.ReactElement {
                                 sizes="(max-width: 1024px) 50vw, 25vw"
                             />
                         </div>
-                        <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
+                        <div className="relative h-48 sm:h-64 rounded-md overflow-hidden">
                             <Image
                                 src="/images/IMG_5777.JPG"
                                 alt="Groupe Route"
@@ -120,7 +120,7 @@ export default function LeClubPage(): React.ReactElement {
                                 sizes="(max-width: 1024px) 50vw, 25vw"
                             />
                         </div>
-                        <div className="col-span-2 relative h-48 sm:h-64 rounded-2xl overflow-hidden">
+                        <div className="col-span-2 relative h-48 sm:h-64 rounded-md overflow-hidden">
                             <Image
                                 src="/images/6efc2d5e-2326-446d-98d8-47889f881454.jpg"
                                 alt="Ambiance Club"

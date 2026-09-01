@@ -31,9 +31,9 @@ export default function FeedbackForm({ traceId, feedbackList, onSubmit }: Feedba
 
   if (!isAuthenticated) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center space-y-3">
-        <h4 className="text-sm font-bold text-slate-900">Connexion Requise</h4>
-        <p className="text-xs text-slate-500">
+      <div className="rounded-md border border-[#e4e0d8] bg-white p-6 text-center space-y-3">
+        <h4 className="text-sm font-bold text-[#101216]">Connexion Requise</h4>
+        <p className="text-xs text-[#5c6370]">
           Veuillez vous connecter pour laisser votre avis sur ce parcours.
         </p>
         <Link
@@ -53,14 +53,14 @@ export default function FeedbackForm({ traceId, feedbackList, onSubmit }: Feedba
       {existingFeedback && <input type="hidden" name="feedbackId" value={existingFeedback.id} />}
       <input type="hidden" name="rating" value={rating} />
 
-      <div className="flex items-center gap-1.5 text-xs text-slate-600">
+      <div className="flex items-center gap-1.5 text-xs text-[#3a3f4a]">
         <span>Publié en tant que :</span>
-        <strong className="text-slate-900">{user?.name}</strong>
+        <strong className="text-[#101216]">{user?.name}</strong>
       </div>
 
       {/* Star Rating Selector */}
       <div className="space-y-1">
-        <label className="block text-xs font-semibold text-slate-700">Votre note</label>
+        <label className="block text-xs font-semibold text-[#3a3f4a]">Votre note</label>
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -77,13 +77,13 @@ export default function FeedbackForm({ traceId, feedbackList, onSubmit }: Feedba
               />
             </button>
           ))}
-          <span className="ml-2 text-xs font-bold text-slate-700">{rating} / 5</span>
+          <span className="ml-2 text-xs font-bold text-[#3a3f4a]">{rating} / 5</span>
         </div>
       </div>
 
       {/* Comment Input */}
       <div className="space-y-1">
-        <label htmlFor="comment" className="block text-xs font-semibold text-slate-700">
+        <label htmlFor="comment" className="block text-xs font-semibold text-[#3a3f4a]">
           Commentaire
         </label>
         <textarea
@@ -94,7 +94,7 @@ export default function FeedbackForm({ traceId, feedbackList, onSubmit }: Feedba
           key={existingFeedback ? existingFeedback.id : 'new'}
           required
           placeholder="Qualité de la route, points d'eau, paysages, difficulté..."
-          className="w-full rounded-xl border border-slate-200 p-3 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#e03e3e] focus:ring-1 focus:ring-[#e03e3e] focus:outline-hidden"
+          className="w-full rounded-xl border border-[#e4e0d8] p-3 text-xs text-[#101216] placeholder:text-slate-400 focus:border-[#e03e3e] focus:ring-1 focus:ring-[#e03e3e] focus:outline-hidden"
         />
       </div>
 

@@ -152,7 +152,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                 <div className="p-4 bg-red-50 text-red-700 rounded-md border border-red-200">
                     {error}
                 </div>
-                <Link href="/traces" className="mt-4 inline-flex items-center text-sm text-gray-600 hover:text-gray-900">
+                <Link href="/traces" className="mt-4 inline-flex items-center text-sm text-[#3a3f4a] hover:text-[#101216]">
                     <ArrowLeftIcon className="h-4 w-4 mr-1" />
                     Retour aux parcours
                 </Link>
@@ -164,12 +164,12 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
         <div className="max-w-2xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="mb-8">
-                <Link href={`/traces/${trace?.id}`} className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4">
+                <Link href={`/traces/${trace?.id}`} className="inline-flex items-center text-sm text-[#3a3f4a] hover:text-[#101216] mb-4">
                     <ArrowLeftIcon className="h-4 w-4 mr-1" />
                     Retour au parcours
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-900">Modifier le parcours</h1>
-                <p className="mt-1 text-sm text-gray-500">
+                <h1 className="text-2xl font-bold text-[#101216]">Modifier le parcours</h1>
+                <p className="mt-1 text-sm text-[#5c6370]">
                     Modifiez les informations du parcours ci-dessous.
                 </p>
             </div>
@@ -194,12 +194,12 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
             <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-sm border">
                 {/* Name */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Nom du parcours</label>
+                    <label className="block text-sm font-medium text-[#3a3f4a]">Nom du parcours</label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                         required
                     />
                 </div>
@@ -207,22 +207,22 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                 {/* Distance & Elevation */}
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Distance (km)</label>
+                        <label className="block text-sm font-medium text-[#3a3f4a]">Distance (km)</label>
                         <input
                             type="number"
                             step="0.1"
                             value={distance}
                             onChange={(e) => setDistance(parseFloat(e.target.value) || 0)}
-                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Dénivelé (m)</label>
+                        <label className="block text-sm font-medium text-[#3a3f4a]">Dénivelé (m)</label>
                         <input
                             type="number"
                             value={elevation}
                             onChange={(e) => setElevation(parseInt(e.target.value) || 0)}
-                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -230,11 +230,11 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                 {/* Direction & Surface */}
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Direction</label>
+                        <label className="block text-sm font-medium text-[#3a3f4a]">Direction</label>
                         <select
                             value={direction}
                             onChange={(e) => setDirection(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                         >
                             <option value="">Sélectionner...</option>
                             <option value="North">↑ Nord</option>
@@ -248,11 +248,11 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Type de vélo</label>
+                        <label className="block text-sm font-medium text-[#3a3f4a]">Type de vélo</label>
                         <select
                             value={surface}
                             onChange={(e) => setSurface(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                            className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                         >
                             <option value="">Sélectionner...</option>
                             <option value="Road">Route</option>
@@ -266,11 +266,11 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
 
                 {/* Rating */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Note</label>
+                    <label className="block text-sm font-medium text-[#3a3f4a]">Note</label>
                     <select
                         value={rating}
                         onChange={(e) => setRating(e.target.value)}
-                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                     >
                         <option value="">Sélectionner...</option>
                         <option value="⭐">⭐</option>
@@ -283,24 +283,24 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
 
                 {/* Map URL */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Lien Komoot / Carte</label>
+                    <label className="block text-sm font-medium text-[#3a3f4a]">Lien Komoot / Carte</label>
                     <input
                         type="url"
                         value={mapUrl}
                         onChange={(e) => setMapUrl(e.target.value)}
                         placeholder="https://www.komoot.com/tour/..."
-                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                     />
                 </div>
 
                 {/* Description */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Description / Note</label>
+                    <label className="block text-sm font-medium text-[#3a3f4a]">Description / Note</label>
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         rows={4}
-                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                        className="mt-1 block w-full rounded-md border-0 py-1.5 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                     />
                 </div>
 
@@ -321,7 +321,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                     <div className="flex gap-3">
                         <Link
                             href={`/traces/${trace?.id}`}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                            className="px-4 py-2 text-sm font-medium text-[#3a3f4a] bg-white border border-gray-300 rounded-md hover:bg-[#f2efe9]"
                         >
                             Annuler
                         </Link>
@@ -362,29 +362,29 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                                     <div className="flex items-center gap-4">
                                         <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-red-100">
                                             <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
                                         </div>
                                         <div>
-                                            <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900">
+                                            <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-[#101216]">
                                                 Supprimer le parcours
                                             </Dialog.Title>
-                                            <p className="mt-1 text-sm text-gray-500">
+                                            <p className="mt-1 text-sm text-[#5c6370]">
                                                 Cette action est irréversible.
                                             </p>
                                         </div>
                                     </div>
 
-                                    <p className="mt-4 text-sm text-gray-600">
+                                    <p className="mt-4 text-sm text-[#3a3f4a]">
                                         Êtes-vous sûr de vouloir supprimer <strong>{trace?.name}</strong> ? Toutes les données associées seront perdues.
                                     </p>
 
                                     <div className="mt-6 flex justify-end gap-3">
                                         <button
                                             type="button"
-                                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                                            className="px-4 py-2 text-sm font-medium text-[#3a3f4a] bg-white border border-gray-300 rounded-md hover:bg-[#f2efe9]"
                                             onClick={() => setShowDeleteModal(false)}
                                         >
                                             Annuler
