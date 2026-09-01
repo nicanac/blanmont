@@ -22,28 +22,51 @@ export default function LeClubPage(): React.ReactElement {
                     {/* Left Column: Text Content */}
                     <div>
                         <div className="space-y-8">
-                            <div>
-                                <h3 className="text-xl font-semibold text-gray-900">Le groupe des A</h3>
-                                <p className="mt-2 text-base leading-7 text-gray-600">
-                                    Groupe assez sportif, allure rarement en dessous des 30 km/h de moyenne... Ils nous représentent lors des randos organisées par d&apos;autres clubs. Ils suivent généralement une trace GPS envoyée via whatsapp par les capitaines (Lucien et Laurent), mais un autre membre peut lui aussi en proposer une.
+                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des A</h3>
+                                    <span className="rounded-full bg-red-50 text-red-700 border border-red-200/70 px-2.5 py-0.5 text-xs font-semibold tabular-nums">
+                                        &gt;&nbsp;30&nbsp;km/h
+                                    </span>
+                                </div>
+                                <p className="text-sm leading-relaxed text-slate-600">
+                                    Groupe assez sportif, allure rarement en dessous des 30&nbsp;km/h de moyenne... Ils nous représentent lors des randos organisées par d&apos;autres clubs. Ils suivent généralement une trace GPS envoyée via WhatsApp par les capitaines (Lucien et Laurent), mais un autre membre peut lui aussi en proposer une.
                                 </p>
                             </div>
-                            <div>
-                                <h3 className="text-xl font-semibold text-gray-900">Le groupe des B</h3>
-                                <p className="mt-2 text-base leading-7 text-gray-600">
-                                    Groupe roulant à une allure entre 25 et 28 km/h de moyenne... Ici, rarement de trace GPS, ils partent vent de face pour pour un retour plus facile. Les circuits évitent généralement les nationales, et sont assez variés. Nous essayons de rentrer groupé, les capitaines (Dany, Philippe et René) y veillent particulièrement...
+
+                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des B</h3>
+                                    <span className="rounded-full bg-blue-50 text-blue-700 border border-blue-200/70 px-2.5 py-0.5 text-xs font-semibold tabular-nums">
+                                        25 - 28&nbsp;km/h
+                                    </span>
+                                </div>
+                                <p className="text-sm leading-relaxed text-slate-600">
+                                    Groupe roulant à une allure entre 25 et 28&nbsp;km/h de moyenne... Ici, rarement de trace GPS, ils partent vent de face pour un retour plus facile. Les circuits évitent généralement les nationales, et sont assez variés. Nous essayons de rentrer groupés, les capitaines (Dany, Philippe et René) y veillent particulièrement...
                                 </p>
                             </div>
-                            <div>
-                                <h3 className="text-xl font-semibold text-gray-900">Le groupe des C</h3>
-                                <p className="mt-2 text-base leading-7 text-gray-600">
-                                    Groupe roulant à une allure inférieure à 25 km/h, en espérant toutefois y arriver avant la fin de saison, de même que de réaliser un éventuel 100 km... On y retrouve, des personnes de tout âge, jeunes débutants ou moins entraînés, où moins jeunes, encadré par les capitaines (Les 2 Joël et Notre Président Michel).
+
+                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des C</h3>
+                                    <span className="rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/70 px-2.5 py-0.5 text-xs font-semibold tabular-nums">
+                                        &lt;&nbsp;25&nbsp;km/h
+                                    </span>
+                                </div>
+                                <p className="text-sm leading-relaxed text-slate-600">
+                                    Groupe roulant à une allure inférieure à 25&nbsp;km/h, en espérant toutefois y arriver avant la fin de saison, de même que de réaliser un éventuel 100&nbsp;km... On y retrouve des personnes de tout âge, jeunes débutants ou moins entraînés, ou moins jeunes, encadrés par les capitaines (les 2 Joël et notre Président Michel).
                                 </p>
                             </div>
-                            <div>
-                                <h3 className="text-xl font-semibold text-gray-900">Le groupe des VTT</h3>
-                                <p className="mt-2 text-base leading-7 text-gray-600">
-                                    Groupe où tout le monde sera attendu au sommet des bosses et passages délicats, le plus souvent l&apos;un où l&apos;autre envoi une trace GPX, ou propose un lieu de départ afin de diversifier les circuits. Ils participent aussi souvent à des randos organisées par d&apos;autres clubs, où chacun choisi sa distance en fonction de sa forme... Encadrement par Nicolas, Pascal et Jean.
+
+                            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-bold text-slate-900">Le groupe des VTT</h3>
+                                    <span className="rounded-full bg-amber-50 text-amber-700 border border-amber-200/70 px-2.5 py-0.5 text-xs font-semibold">
+                                        Sentiers &amp; Bois
+                                    </span>
+                                </div>
+                                <p className="text-sm leading-relaxed text-slate-600">
+                                    Groupe où tout le monde sera attendu au sommet des bosses et passages délicats. Le plus souvent l&apos;un ou l&apos;autre envoie une trace GPX ou propose un lieu de départ afin de diversifier les circuits. Ils participent aussi souvent à des randos organisées par d&apos;autres clubs, où chacun choisit sa distance en fonction de sa forme... Encadrement par Nicolas, Pascal et Jean.
                                 </p>
                             </div>
                         </div>

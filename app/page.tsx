@@ -32,7 +32,7 @@ export default async function Home() {
           </div>
 
           {/* Main Title */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 leading-tight text-balance">
             Rouler ensemble, partager l&apos;effort &amp; la passion du peloton
           </h1>
 
@@ -51,7 +51,7 @@ export default async function Home() {
               <ChatBubbleLeftRightIcon className="h-4 w-4" />
               <span>Sondage du Weekend</span>
               {activePoll && (
-                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold uppercase text-white">
+                <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white leading-none">
                   Ouvert
                 </span>
               )}
@@ -88,26 +88,26 @@ export default async function Home() {
           {/* 4-Pillar Metric Strip (Calm & Clean) */}
           <div className="mt-5 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-2xs grid grid-cols-2 lg:grid-cols-4 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
             <div className="pt-2 sm:pt-0">
-              <p className="text-lg sm:text-xl font-bold text-slate-900">3 Groupes</p>
-              <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+              <p className="text-lg sm:text-xl font-bold text-slate-900 tabular-nums">3 Groupes</p>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Allures A, B, C &amp; VTT
               </p>
             </div>
             <div className="pt-2 sm:pt-0">
               <p className="text-lg sm:text-xl font-bold text-slate-900">Hebdo</p>
-              <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Samedi &amp; Dimanche
               </p>
             </div>
             <div className="pt-2 sm:pt-0">
-              <p className="text-lg sm:text-xl font-bold text-slate-900">+150</p>
-              <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+              <p className="text-lg sm:text-xl font-bold text-slate-900 tabular-nums">+150</p>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Traces GPX en accès libre
               </p>
             </div>
             <div className="pt-2 sm:pt-0">
               <p className="text-lg sm:text-xl font-bold text-emerald-700">Carré Vert</p>
-              <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Challenge de fidélité club
               </p>
             </div>
@@ -120,7 +120,7 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
           {/* Section Heading */}
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+            <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
               Organisation &amp; Convivialité
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
@@ -140,7 +140,7 @@ export default async function Home() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <CalendarDaysIcon className="h-5 w-5" />
                   </div>
-                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
+                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
                     Samedi &amp; Dimanche
                   </span>
                 </div>
@@ -172,7 +172,7 @@ export default async function Home() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <ChatBubbleLeftRightIcon className="h-5 w-5" />
                   </div>
-                  <span className="rounded-full bg-emerald-50 text-emerald-800 px-2.5 py-0.5 text-[11px] font-medium border border-emerald-200/60">
+                  <span className="rounded-full bg-emerald-50 text-emerald-800 px-2.5 py-0.5 text-xs font-medium border border-emerald-200/60">
                     QCM Interactif
                   </span>
                 </div>
@@ -204,7 +204,7 @@ export default async function Home() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <GlobeAltIcon className="h-5 w-5" />
                   </div>
-                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
+                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600 tabular-nums">
                     +150 Circuits
                   </span>
                 </div>
@@ -236,7 +236,7 @@ export default async function Home() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <UserGroupIcon className="h-5 w-5" />
                   </div>
-                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
+                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
                     3 Allures &amp; VTT
                   </span>
                 </div>
@@ -245,26 +245,26 @@ export default async function Home() {
                     Groupes de niveau encadrés
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed mt-1.5">
-                    Du groupe A sportif (&gt; 30 km/h) aux groupes B (25-28 km/h) et C (&lt; 25 km/h), chaque peloton est encadré par des capitaines de route bienveillants.
+                    Du groupe A sportif (&gt;&nbsp;30&nbsp;km/h) aux groupes B (25-28&nbsp;km/h) et C (&lt;&nbsp;25&nbsp;km/h), chaque peloton est encadré par des capitaines de route bienveillants.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
                   <div className="rounded-xl bg-slate-50 p-2 text-center border border-slate-100">
                     <div className="font-semibold text-xs text-slate-900">Groupe A</div>
-                    <div className="text-[10px] text-slate-500">&gt; 30 km/h</div>
+                    <div className="text-xs text-slate-500 tabular-nums">&gt;&nbsp;30&nbsp;km/h</div>
                   </div>
                   <div className="rounded-xl bg-slate-50 p-2 text-center border border-slate-100">
                     <div className="font-semibold text-xs text-slate-900">Groupe B</div>
-                    <div className="text-[10px] text-slate-500">25 - 28 km/h</div>
+                    <div className="text-xs text-slate-500 tabular-nums">25 - 28&nbsp;km/h</div>
                   </div>
                   <div className="rounded-xl bg-slate-50 p-2 text-center border border-slate-100">
                     <div className="font-semibold text-xs text-slate-900">Groupe C</div>
-                    <div className="text-[10px] text-slate-500">&lt; 25 km/h</div>
+                    <div className="text-xs text-slate-500 tabular-nums">&lt;&nbsp;25&nbsp;km/h</div>
                   </div>
                   <div className="rounded-xl bg-slate-50 p-2 text-center border border-slate-100">
                     <div className="font-semibold text-xs text-slate-900">VTT</div>
-                    <div className="text-[10px] text-slate-500">Sentiers &amp; Bois</div>
+                    <div className="text-xs text-slate-500">Sentiers &amp; Bois</div>
                   </div>
                 </div>
               </div>
@@ -287,7 +287,7 @@ export default async function Home() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <TrophyIcon className="h-5 w-5" />
                   </div>
-                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
+                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
                     Fidélité Club
                   </span>
                 </div>

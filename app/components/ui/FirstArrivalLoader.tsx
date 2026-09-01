@@ -120,7 +120,7 @@ export default function FirstArrivalLoader() {
 
         {/* Brand Wordmark & Typography */}
         <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/10 text-[#e03e3e] text-[11px] font-bold uppercase tracking-widest border border-white/10">
+          <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/10 text-[#e03e3e] text-xs font-bold uppercase tracking-widest border border-white/10">
             CC Saint-Martin
           </div>
 
@@ -141,9 +141,9 @@ export default function FirstArrivalLoader() {
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="flex items-center justify-between text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+          <div className="flex items-center justify-between text-xs font-medium text-slate-400 uppercase tracking-wider tabular-nums">
             <span>Mise en route</span>
-            <span>{progress}%</span>
+            <span className="font-semibold text-slate-300">{progress}%</span>
           </div>
         </div>
       </div>

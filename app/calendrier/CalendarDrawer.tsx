@@ -110,7 +110,7 @@ export default function CalendarDrawer({
                       Trace GPS du parcours
                     </span>
                   </div>
-                  <span className="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-[#e03e3e]">
+                  <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-bold text-[#e03e3e]">
                     {event.gpxUrl.includes('strava.com')
                       ? 'Strava'
                       : event.gpxUrl.includes('garmin.com')
@@ -121,7 +121,7 @@ export default function CalendarDrawer({
                   </span>
                 </div>
 
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   {event.gpxUrl.includes('strava.com')
                     ? 'Consulter l’itinéraire et télécharger la trace sur Strava.'
                     : event.gpxUrl.includes('garmin.com')
@@ -172,20 +172,20 @@ export default function CalendarDrawer({
               <div className="flex items-center gap-3">
                 <ClockIcon className="h-4 w-4 text-slate-400 shrink-0" />
                 <div>
-                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                     Heure de départ
                   </span>
-                  <span className="font-bold text-slate-900">{event.departure}</span>
+                  <span className="font-bold text-slate-900 tabular-nums">{event.departure}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
                 <MapIcon className="h-4 w-4 text-slate-400 shrink-0" />
                 <div>
-                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                     Distances
                   </span>
-                  <span className="font-bold text-slate-900">
+                  <span className="font-bold text-slate-900 tabular-nums">
                     {event.distances ? `${event.distances} km` : 'Non spécifié'}
                   </span>
                 </div>
@@ -195,7 +195,7 @@ export default function CalendarDrawer({
                 <div className="flex items-center gap-3">
                   <UserGroupIcon className="h-4 w-4 text-slate-400 shrink-0" />
                   <div>
-                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
+                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                       Groupe
                     </span>
                     <span className="font-bold text-slate-900">{event.group}</span>
@@ -207,7 +207,7 @@ export default function CalendarDrawer({
                 <div className="flex items-start gap-3">
                   <MapPinIcon className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider block">
+                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                       Adresse de rassemblement
                     </span>
                     <span className="font-medium text-slate-800">{event.address}</span>

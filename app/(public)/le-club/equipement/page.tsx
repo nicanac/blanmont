@@ -89,7 +89,7 @@ export default function EquipementPage() {
             <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
                 {isLoading ? (
                     <div className="flex justify-center items-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-2 border-[#e03e3e] border-t-transparent"></div>
                     </div>
                 ) : (
                     <>
@@ -97,15 +97,15 @@ export default function EquipementPage() {
                         <div className="mb-10">
                             <div className="flex flex-wrap items-center justify-between gap-4">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-sm font-medium text-gray-500">Filtrer par:</span>
+                                    <span className="text-sm font-medium text-slate-500">Filtrer par :</span>
                                     <div className="flex flex-wrap gap-2">
                                         {EQUIPMENT_CATEGORIES.map((category) => (
                                             <button
                                                 key={category}
                                                 onClick={() => setSelectedCategory(category)}
-                                                className={`rounded-full px-5 py-2 text-sm font-medium transition-all duration-300 ${selectedCategory === category
-                                                    ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25 scale-105'
-                                                    : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-red-600 border border-gray-200 hover:border-red-200'
+                                                className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300 ${selectedCategory === category
+                                                    ? 'bg-gradient-to-r from-red-600 to-[#e03e3e] text-white shadow-md shadow-red-500/25 scale-105'
+                                                    : 'bg-white text-slate-700 hover:bg-slate-50 hover:text-[#e03e3e] border border-slate-200 hover:border-red-200'
                                                     }`}
                                             >
                                                 {category}
@@ -113,7 +113,7 @@ export default function EquipementPage() {
                                         ))}
                                     </div>
                                 </div>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-slate-500 tabular-nums">
                                     {filteredEquipment.length} article{filteredEquipment.length !== 1 ? 's' : ''}
                                 </p>
                             </div>
@@ -124,20 +124,20 @@ export default function EquipementPage() {
                             {filteredEquipment.map((item, index) => (
                                 <article
                                     key={item.id}
-                                    className="group relative overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-1"
+                                    className="group relative overflow-hidden rounded-2xl bg-white shadow-xs border border-slate-200/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-1"
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
                                     {/* Product Image */}
-                                    <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                                    <div className="relative aspect-4/5 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
                                         <div className="absolute inset-0 flex items-center justify-center">
-                                            <ShoppingBagIcon className="h-20 w-20 text-gray-300" />
+                                            <ShoppingBagIcon className="h-20 w-20 text-slate-300" />
                                         </div>
                                         {item.imageUrl && (
                                             <Image
                                                 src={item.imageUrl}
                                                 alt={item.name}
                                                 fill
-                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                                className="object-cover transition-transform duration-700 group-hover:scale-105"
                                             />
                                         )}
 
@@ -147,14 +147,14 @@ export default function EquipementPage() {
                                         {/* Quick View Button */}
                                         <button
                                             onClick={() => openProductDetail(item)}
-                                            className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 rounded-full bg-white px-6 py-2.5 text-sm font-medium text-gray-900 shadow-lg hover:bg-red-600 hover:text-white"
+                                            className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 rounded-full bg-white px-6 py-2.5 text-xs font-bold text-slate-900 shadow-lg hover:bg-[#e03e3e] hover:text-white"
                                         >
                                             Voir les détails
                                         </button>
 
                                         {/* Category Badge */}
                                         <div className="absolute top-4 left-4">
-                                            <span className="inline-flex rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-medium text-gray-700 shadow-sm">
+                                            <span className="inline-flex rounded-full bg-white/90 backdrop-blur-xs px-3 py-1 text-xs font-semibold text-slate-800 shadow-xs">
                                                 {item.category}
                                             </span>
                                         </div>
@@ -162,7 +162,7 @@ export default function EquipementPage() {
                                         {/* Availability Badge */}
                                         {!item.isAvailable && (
                                             <div className="absolute top-4 right-4">
-                                                <span className="inline-flex rounded-full bg-red-500 px-3 py-1 text-xs font-medium text-white">
+                                                <span className="inline-flex rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
                                                     Épuisé
                                                 </span>
                                             </div>
@@ -171,25 +171,26 @@ export default function EquipementPage() {
 
                                     {/* Product Info */}
                                     <div className="p-6">
-                                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors">
+                                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#e03e3e] transition-colors leading-snug">
                                             {item.name}
                                         </h3>
-                                        <p className="mt-2 text-sm text-gray-500 line-clamp-2">
+                                        <p className="mt-2 text-sm text-slate-600 line-clamp-2 leading-relaxed">
                                             {item.description}
                                         </p>
 
-                                        <div className="mt-4 flex items-end justify-between">
+                                        <div className="mt-4 flex items-end justify-between pt-2 border-t border-slate-100">
                                             <div>
-                                                <p className="text-2xl font-bold text-gray-900">
-                                                    {item.price.toFixed(2)} €
+                                                <p className="text-2xl font-extrabold text-slate-900 tabular-nums">
+                                                    {item.price.toFixed(2)}&nbsp;€
                                                 </p>
-                                                <p className="text-xs text-gray-400 mt-0.5">
-                                                    Tailles: {item.sizes.join(', ')}
+                                                <p className="text-xs text-slate-500 mt-0.5">
+                                                    Tailles : {item.sizes.join(', ')}
                                                 </p>
                                             </div>
                                             <button
                                                 onClick={() => openProductDetail(item)}
-                                                className="rounded-lg bg-red-600 p-2.5 text-white transition-all hover:bg-red-700 hover:scale-105 active:scale-95"
+                                                className="rounded-full bg-[#e03e3e] p-2.5 text-white transition-all hover:bg-[#c93434] hover:scale-105 active:scale-95 shadow-xs"
+                                                aria-label={`Acheter ${item.name}`}
                                             >
                                                 <ShoppingBagIcon className="h-5 w-5" />
                                             </button>

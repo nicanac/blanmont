@@ -31,7 +31,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
     <Link
       href={`/blog/${post.slug}`}
       className={cn(
-        'group block overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-lg',
+        'group block overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xs transition-all hover:shadow-lg hover:border-slate-300',
         featured ? 'lg:col-span-2' : ''
       )}
     >
@@ -47,32 +47,32 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
           alt={post.title}
           fill
           sizes={featured ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-cover transition-transform duration-500 group-hover:scale-103"
         />
         {/* Category Badge */}
         <div className="absolute top-4 left-4">
-          <span className="inline-block rounded bg-red-600 px-3 py-1 text-xs font-medium text-white">
+          <span className="inline-block rounded-full bg-[#e03e3e] px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-white shadow-2xs">
             {post.category}
           </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-5">
+      <div className="p-6 space-y-3">
         <h3
           className={cn(
-            'font-semibold text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2',
-            featured ? 'text-2xl mb-3' : 'text-lg mb-2'
+            'font-bold text-slate-900 group-hover:text-[#e03e3e] transition-colors leading-snug line-clamp-2',
+            featured ? 'text-2xl' : 'text-lg'
           )}
         >
           {post.title}
         </h3>
 
-        <p className="text-gray-600 text-sm line-clamp-3 mb-4">{post.excerpt}</p>
+        <p className="text-slate-600 text-sm line-clamp-3 leading-relaxed">{post.excerpt}</p>
 
         {/* Meta Info */}
-        <div className="flex items-center gap-3">
-          <div className="relative h-8 w-8 overflow-hidden rounded-full bg-gray-200">
+        <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
+          <div className="relative h-8 w-8 overflow-hidden rounded-full bg-slate-100 ring-1 ring-slate-200">
             {post.authorAvatar && (
               <Image
                 src={post.authorAvatar}
@@ -83,8 +83,8 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
             )}
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-900">{post.author}</span>
-            <span className="text-xs text-gray-500">{formatDate(post.publishedAt)}</span>
+            <span className="text-xs font-semibold text-slate-800">{post.author}</span>
+            <span className="text-xs text-slate-500">{formatDate(post.publishedAt)}</span>
           </div>
         </div>
       </div>

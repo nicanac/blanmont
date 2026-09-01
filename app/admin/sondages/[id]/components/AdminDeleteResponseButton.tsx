@@ -37,7 +37,7 @@ export default function AdminDeleteResponseButton({
       type="button"
       onClick={handleDelete}
       disabled={isPending}
-      className="p-1 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+      className="p-1 rounded-lg text-slate-400 hover:text-red-600 hover:bg-slate-100 transition-colors disabled:opacity-50"
       title="Supprimer cette réponse"
     >
       <TrashIcon className="h-4 w-4" />
