@@ -97,13 +97,13 @@ export default function FilterPanel({
                         >
                             <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                                 <div className="flex items-center justify-between px-4">
-                                    <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                                    <h2 className="text-lg font-medium text-gray-900">Filtres</h2>
                                     <button
                                         type="button"
                                         className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
                                         onClick={() => setMobileFiltersOpen(false)}
                                     >
-                                        <span className="sr-only">Close menu</span>
+                                        <span className="sr-only">Fermer le menu</span>
                                         <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                                     </button>
                                 </div>
@@ -127,7 +127,7 @@ export default function FilterPanel({
 
                                     {/* Elevation Mobile */}
                                     <div className="px-4 py-6 border-b border-gray-200">
-                                        <h3 className="text-sm font-medium text-gray-900 mb-4">Elevation (Max {filters.maxElev} m)</h3>
+                                        <h3 className="text-sm font-medium text-gray-900 mb-4">Dénivelé (Max {filters.maxElev} m)</h3>
                                         <input
                                             type="range"
                                             min={minElev}
@@ -219,7 +219,7 @@ export default function FilterPanel({
 
                     {/* Elevation Desktop */}
                     <div className="pt-6">
-                        <h3 className="text-sm font-medium text-gray-900 mb-4">Max Elevation</h3>
+                        <h3 className="text-sm font-medium text-gray-900 mb-4">Dénivelé maximum</h3>
                         <div className="px-1">
                             <div className="flex justify-between text-xs text-gray-500 mb-2">
                                 <span>0 m</span>

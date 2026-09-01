@@ -46,6 +46,7 @@ export default function Navbar() {
       description: 'Qui roule ce weekend ?',
       href: '/sondage',
       icon: ChatBubbleLeftRightIcon,
+      isLive: true,
     },
   ];
 
@@ -55,19 +56,28 @@ export default function Navbar() {
       description: 'Qui sommes-nous ?',
       href: '/le-club',
       icon: InformationCircleIcon,
+      iconBg: 'bg-slate-100 text-slate-700',
     },
     {
       name: 'Équipement',
       description: 'Collection 2026',
       href: '/le-club/equipement',
       icon: ShoppingBagIcon,
+      iconBg: 'bg-amber-50 text-amber-700',
     },
-    { name: 'Carré Vert', description: 'Classement', href: '/leaderboard', icon: TrophyIcon },
+    {
+      name: 'Carré Vert',
+      description: 'Classement & Assiduité',
+      href: '/leaderboard',
+      icon: TrophyIcon,
+      iconBg: 'bg-emerald-50 text-emerald-700',
+    },
     {
       name: 'Sondage du Weekend',
       description: 'Qui roule ce weekend ?',
       href: '/sondage',
       icon: ChatBubbleLeftRightIcon,
+      iconBg: 'bg-red-50 text-[#e03e3e]',
     },
   ];
 
@@ -121,14 +131,20 @@ export default function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={cn(
-                          'text-sm font-medium transition-colors',
+                          'text-sm font-medium transition-colors inline-flex items-center gap-1.5',
                           isCurrent
                             ? 'text-[#e03e3e] font-semibold'
                             : 'text-gray-900 hover:text-[#e03e3e]'
                         )}
                         aria-current={isCurrent ? 'page' : undefined}
                       >
-                        {item.name}
+                        <span>{item.name}</span>
+                        {item.isLive && (
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                          </span>
+                        )}
                       </Link>
                     );
                   })}
@@ -169,17 +185,19 @@ export default function Navbar() {
                                     key={item.name}
                                     as={Link}
                                     href={item.href}
-                                    className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 transition ease-in-out duration-150"
+                                    className="-m-3 flex items-start rounded-xl p-3 hover:bg-slate-50 transition ease-in-out duration-150 group"
                                   >
-                                    <item.icon
-                                      className="h-6 w-6 flex-shrink-0 text-brand-primary"
-                                      aria-hidden="true"
-                                    />
+                                    <div className={cn('p-2 rounded-lg flex-shrink-0 transition-transform group-hover:scale-105', item.iconBg || 'bg-slate-100 text-slate-700')}>
+                                      <item.icon
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                      />
+                                    </div>
                                     <div className="ml-4 text-left">
-                                      <p className="text-base font-medium text-gray-900">
+                                      <p className="text-sm font-semibold text-gray-900 group-hover:text-[#e03e3e] transition-colors">
                                         {item.name}
                                       </p>
-                                      <p className="mt-1 text-sm text-gray-500">
+                                      <p className="mt-0.5 text-xs text-gray-500">
                                         {item.description}
                                       </p>
                                     </div>
@@ -349,11 +367,17 @@ export default function Navbar() {
                         isCurrent
                           ? 'bg-red-50 text-[#e03e3e] font-semibold'
                           : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900',
-                        'block py-2.5 px-4 rounded-xl text-base font-medium transition-colors'
+                        'flex items-center justify-between py-2.5 px-4 rounded-xl text-base font-medium transition-colors'
                       )}
                       aria-current={isCurrent ? 'page' : undefined}
                     >
-                      {item.name}
+                      <span>{item.name}</span>
+                      {item.isLive && (
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                      )}
                     </PopoverButton>
                   );
                 })}

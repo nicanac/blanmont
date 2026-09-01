@@ -8,49 +8,57 @@ interface PageHeroProps {
     description?: string | React.ReactNode;
     badge?: string;
     badgeIcon?: React.ReactNode;
-    variant?: 'red' | 'green' | 'gray' | 'dark' | 'light';
+    variant?: 'red' | 'green' | 'blue' | 'gray' | 'dark' | 'light';
     size?: 'sm' | 'md' | 'lg';
     children?: React.ReactNode;
 }
 
 const variantStyles = {
     light: {
-        bg: 'bg-gradient-to-b from-slate-50 via-white to-slate-50/60 border-b border-slate-200/70',
-        accent: 'from-red-500/5',
-        secondary: 'from-slate-200/30',
-        badge: 'bg-red-50 text-[#e03e3e] border border-red-200/70 font-semibold',
+        bg: 'bg-gradient-to-b from-slate-50/90 via-white to-slate-50/50 border-b border-slate-200/70',
+        accent: 'from-red-500/8',
+        secondary: 'from-slate-200/40',
+        badge: 'bg-red-50/80 text-[#e03e3e] border border-red-200/70 font-semibold shadow-2xs',
         title: 'text-slate-900',
         description: 'text-slate-600',
     },
     red: {
-        bg: 'bg-gradient-to-b from-red-50/40 via-white to-slate-50/60 border-b border-red-100/60',
-        accent: 'from-red-500/5',
+        bg: 'bg-gradient-to-b from-red-50/50 via-white to-slate-50/50 border-b border-red-100/70',
+        accent: 'from-red-500/10',
         secondary: 'from-red-900/5',
-        badge: 'bg-red-50 text-[#e03e3e] border border-red-200/70 font-semibold',
+        badge: 'bg-red-50 text-[#e03e3e] border border-red-200 font-semibold shadow-2xs',
         title: 'text-slate-900',
         description: 'text-slate-600',
     },
     green: {
-        bg: 'bg-gradient-to-b from-emerald-50/40 via-white to-slate-50/60 border-b border-emerald-100/60',
-        accent: 'from-emerald-400/10',
+        bg: 'bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/50 border-b border-emerald-100/70',
+        accent: 'from-emerald-400/12',
         secondary: 'from-green-900/5',
-        badge: 'bg-emerald-50 text-emerald-800 border border-emerald-200/70 font-semibold',
+        badge: 'bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold shadow-2xs',
+        title: 'text-slate-900',
+        description: 'text-slate-600',
+    },
+    blue: {
+        bg: 'bg-gradient-to-b from-sky-50/50 via-white to-slate-50/50 border-b border-sky-100/70',
+        accent: 'from-sky-400/12',
+        secondary: 'from-blue-900/5',
+        badge: 'bg-sky-50 text-sky-800 border border-sky-200 font-semibold shadow-2xs',
         title: 'text-slate-900',
         description: 'text-slate-600',
     },
     gray: {
-        bg: 'bg-gradient-to-b from-slate-100/60 via-white to-slate-50 border-b border-slate-200/70',
+        bg: 'bg-gradient-to-b from-slate-100/70 via-white to-slate-50 border-b border-slate-200/70',
         accent: 'from-slate-400/10',
         secondary: 'from-slate-300/20',
-        badge: 'bg-slate-100 text-slate-700 border border-slate-200 font-semibold',
+        badge: 'bg-slate-100 text-slate-700 border border-slate-200 font-semibold shadow-2xs',
         title: 'text-slate-900',
         description: 'text-slate-600',
     },
     dark: {
-        bg: 'bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 text-white',
-        accent: 'from-red-500/10',
-        secondary: 'from-slate-800/30',
-        badge: 'bg-white/10 text-white/90 border border-white/10 font-semibold',
+        bg: 'bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-b border-slate-800 text-white',
+        accent: 'from-red-500/15',
+        secondary: 'from-slate-800/40',
+        badge: 'bg-white/10 text-white/95 border border-white/15 font-semibold shadow-2xs',
         title: 'text-white',
         description: 'text-slate-300',
     },
