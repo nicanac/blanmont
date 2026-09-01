@@ -56,7 +56,7 @@ export default function DownloadGPXButton({ polyline, traceName }: Props) {
     <button
       type="button"
       onClick={handleDownload}
-      className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-xs hover:bg-slate-50 hover:border-slate-400 transition-all active:scale-95"
+      className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-[#3a3f4a] shadow-xs hover:bg-[#f2efe9] hover:border-slate-400 transition-all active:scale-95"
     >
       <ArrowDownTrayIcon className="h-4 w-4 text-[#e03e3e]" />
       <span>Télécharger GPX</span>

@@ -32,13 +32,13 @@ export default function LoginPage() {
         <div className="flex min-h-[80vh] flex-col justify-center px-6 py-12 lg:px-8 bg-white">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 {/* Optional: Add Logo or Heading here if needed, but design implies minimal look */}
-                <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 mb-10">
+                <h2 className="text-center text-3xl font-bold tracking-tight text-[#101216] mb-10">
                     Se connecter
                 </h2>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     {error && (
-                        <div className="rounded-2xl bg-red-50 p-4">
+                        <div className="rounded-md bg-red-50 p-4">
                             <div className="flex">
                                 <div className="ml-3">
                                     <h3 className="text-sm font-medium text-red-800">{error}</h3>
@@ -48,7 +48,7 @@ export default function LoginPage() {
                     )}
 
                     <div>
-                        <label htmlFor="email" className="block text-sm font-bold leading-6 text-gray-900 ml-1">
+                        <label htmlFor="email" className="block text-sm font-bold leading-6 text-[#101216] ml-1">
                             Email
                         </label>
                         <div className="mt-2">
@@ -61,7 +61,7 @@ export default function LoginPage() {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="example@example.com"
-                                className="block w-full rounded-lg border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                                className="block w-full rounded-lg border-0 px-4 py-3 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -69,7 +69,7 @@ export default function LoginPage() {
                     <div>
                         <div className="mt-2">
                             <div className="flex items-center justify-between mb-2">
-                                <label htmlFor="password" className="block text-sm font-bold leading-6 text-gray-900 ml-1">
+                                <label htmlFor="password" className="block text-sm font-bold leading-6 text-[#101216] ml-1">
                                     Mot de passe
                                 </label>
                                 <div className="text-sm">
@@ -86,7 +86,7 @@ export default function LoginPage() {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="block w-full rounded-lg border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                                className="block w-full rounded-lg border-0 px-4 py-3 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -101,7 +101,7 @@ export default function LoginPage() {
                     </div>
                 </form>
 
-                <p className="mt-8 text-center text-sm text-gray-500">
+                <p className="mt-8 text-center text-sm text-[#5c6370]">
                     Nouveau membre ?{' '}
                     <a href="/register" className="font-medium text-brand-primary hover:text-red-700 underline decoration-1 underline-offset-2">
                         Créer un compte

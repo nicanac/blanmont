@@ -24,7 +24,7 @@ export default async function CalendarPage() {
     });
 
     return (
-        <main className="min-h-screen bg-gray-50">
+        <main className="min-h-screen bg-[#faf8f5]">
             <PageHero
                 title="Calendrier"
                 description="Planning des sorties et événements du club."

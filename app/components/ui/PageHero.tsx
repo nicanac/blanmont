@@ -13,71 +13,76 @@ interface PageHeroProps {
     children?: React.ReactNode;
 }
 
+/**
+ * Editorial Peloton page covers — every page opens on an ink cover with an
+ * oversized uppercase headline. Variants only tune the accent glow and the
+ * status chip, never the ground.
+ */
 const variantStyles = {
     light: {
-        bg: 'bg-gradient-to-b from-slate-50/90 via-white to-slate-50/50 border-b border-slate-200/70',
-        accent: 'from-red-500/8',
-        secondary: 'from-slate-200/40',
-        badge: 'bg-red-50/80 text-[#e03e3e] border border-red-200/70 font-semibold shadow-2xs',
-        title: 'text-slate-900',
-        description: 'text-slate-600',
+        bg: 'bg-[#0a0c10] border-b border-white/10',
+        accent: 'bg-[#e03e3e]/15',
+        secondary: 'bg-white/5',
+        badge: 'bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30',
+        title: 'text-white',
+        description: 'text-[#a7adbb]',
     },
     red: {
-        bg: 'bg-gradient-to-b from-red-50/50 via-white to-slate-50/50 border-b border-red-100/70',
-        accent: 'from-red-500/10',
-        secondary: 'from-red-900/5',
-        badge: 'bg-red-50 text-[#e03e3e] border border-red-200 font-semibold shadow-2xs',
-        title: 'text-slate-900',
-        description: 'text-slate-600',
+        bg: 'bg-[#0a0c10] border-b border-white/10',
+        accent: 'bg-[#e03e3e]/20',
+        secondary: 'bg-white/5',
+        badge: 'bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30',
+        title: 'text-white',
+        description: 'text-[#a7adbb]',
     },
     green: {
-        bg: 'bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/50 border-b border-emerald-100/70',
-        accent: 'from-emerald-400/12',
-        secondary: 'from-green-900/5',
-        badge: 'bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold shadow-2xs',
-        title: 'text-slate-900',
-        description: 'text-slate-600',
+        bg: 'bg-[#0a0c10] border-b border-white/10',
+        accent: 'bg-emerald-500/15',
+        secondary: 'bg-white/5',
+        badge: 'bg-emerald-400/10 text-emerald-400 border border-emerald-400/25',
+        title: 'text-white',
+        description: 'text-[#a7adbb]',
     },
     blue: {
-        bg: 'bg-gradient-to-b from-sky-50/50 via-white to-slate-50/50 border-b border-sky-100/70',
-        accent: 'from-sky-400/12',
-        secondary: 'from-blue-900/5',
-        badge: 'bg-sky-50 text-sky-800 border border-sky-200 font-semibold shadow-2xs',
-        title: 'text-slate-900',
-        description: 'text-slate-600',
+        bg: 'bg-[#0a0c10] border-b border-white/10',
+        accent: 'bg-sky-500/15',
+        secondary: 'bg-white/5',
+        badge: 'bg-sky-400/10 text-sky-400 border border-sky-400/25',
+        title: 'text-white',
+        description: 'text-[#a7adbb]',
     },
     gray: {
-        bg: 'bg-gradient-to-b from-slate-100/70 via-white to-slate-50 border-b border-slate-200/70',
-        accent: 'from-slate-400/10',
-        secondary: 'from-slate-300/20',
-        badge: 'bg-slate-100 text-slate-700 border border-slate-200 font-semibold shadow-2xs',
-        title: 'text-slate-900',
-        description: 'text-slate-600',
+        bg: 'bg-[#0a0c10] border-b border-white/10',
+        accent: 'bg-white/10',
+        secondary: 'bg-white/5',
+        badge: 'bg-white/10 text-[#f5f6f8] border border-white/15',
+        title: 'text-white',
+        description: 'text-[#a7adbb]',
     },
     dark: {
-        bg: 'bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-b border-slate-800 text-white',
-        accent: 'from-red-500/15',
-        secondary: 'from-slate-800/40',
-        badge: 'bg-white/10 text-white/95 border border-white/15 font-semibold shadow-2xs',
+        bg: 'bg-[#0a0c10] border-b border-white/10',
+        accent: 'bg-[#e03e3e]/25',
+        secondary: 'bg-white/5',
+        badge: 'bg-white/10 text-white border border-white/15',
         title: 'text-white',
-        description: 'text-slate-300',
+        description: 'text-[#a7adbb]',
     },
 };
 
 const sizeStyles = {
     sm: {
-        padding: 'py-10 sm:py-12',
-        title: 'text-2xl sm:text-3xl font-bold leading-tight',
+        padding: 'py-12 sm:py-14',
+        title: 'text-[clamp(1.75rem,4vw,2.5rem)] font-bold uppercase tracking-[-0.02em] leading-[1.02]',
         description: 'text-sm sm:text-base leading-relaxed',
     },
     md: {
-        padding: 'py-12 sm:py-16',
-        title: 'text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight',
+        padding: 'py-14 sm:py-20',
+        title: 'text-[clamp(2rem,5vw,3.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98]',
         description: 'text-base sm:text-lg leading-relaxed',
     },
     lg: {
-        padding: 'py-16 sm:py-20',
-        title: 'text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight',
+        padding: 'py-16 sm:py-24',
+        title: 'text-[clamp(2.5rem,7vw,5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98]',
         description: 'text-base sm:text-xl leading-relaxed',
     },
 };
@@ -96,29 +101,28 @@ export function PageHero({
 
     return (
         <section className={`relative overflow-hidden ${styles.bg} ${sizes.padding}`}>
-            {/* Decorative background elements */}
-            <div className="absolute inset-0 bg-[url('/images/pattern-dots.svg')] opacity-10"></div>
-            <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br ${styles.accent} to-transparent rounded-full blur-3xl`}></div>
-            <div className={`absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr ${styles.secondary} to-transparent rounded-full blur-2xl`}></div>
+            {/* Accent glow — the variant's only signature on the ink cover */}
+            <div className={`pointer-events-none absolute -top-24 right-0 w-96 h-96 ${styles.accent} rounded-full blur-[120px]`}></div>
+            <div className={`pointer-events-none absolute bottom-0 left-0 w-64 h-64 ${styles.secondary} rounded-full blur-[100px]`}></div>
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="text-center">
-                    {badge && (
-                        <div className={`inline-flex items-center gap-2 rounded-full backdrop-blur-xs px-3.5 py-1 text-xs uppercase tracking-wider mb-5 ${styles.badge}`}>
-                            {badgeIcon || <SparklesIcon className="h-3.5 w-3.5" />}
-                            {badge}
-                        </div>
-                    )}
-                    <h1 className={`tracking-tight text-balance ${styles.title} ${sizes.title}`}>
+                <div className="max-w-3xl">
+                    <h1 className={`text-balance ${styles.title} ${sizes.title}`}>
                         {title}
                     </h1>
                     {description && (
-                        <p className={`mx-auto mt-4 max-w-2xl ${styles.description} ${sizes.description}`}>
+                        <p className={`mt-5 max-w-[65ch] ${styles.description} ${sizes.description}`}>
                             {description}
                         </p>
                     )}
-                    {children && (
-                        <div className="mt-8">
+                    {(badge || children) && (
+                        <div className="mt-7 flex flex-wrap items-center gap-4">
+                            {badge && (
+                                <div className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] ${styles.badge}`}>
+                                    {badgeIcon || <SparklesIcon className="h-3.5 w-3.5" />}
+                                    {badge}
+                                </div>
+                            )}
                             {children}
                         </div>
                     )}

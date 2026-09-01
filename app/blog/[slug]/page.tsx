@@ -77,7 +77,7 @@ export default async function BlogPostPage({
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#faf8f5]">
       <PageHero
         title={post.title}
         description={post.excerpt}
@@ -106,14 +106,14 @@ export default async function BlogPostPage({
       <article className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-[#e03e3e] transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[#3a3f4a] hover:text-[#e03e3e] transition-colors mb-8"
         >
           <ArrowLeftIcon className="h-4 w-4" />
           <span>Retour au blog</span>
         </Link>
 
         {/* Cover Image */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-lg mb-12 border border-slate-200">
+        <div className="relative aspect-video w-full overflow-hidden rounded-md shadow-lg mb-12 border border-[#e4e0d8]">
           <Image
             src={post.coverImage}
             alt={post.title}
@@ -125,14 +125,14 @@ export default async function BlogPostPage({
         </div>
 
         {/* Content */}
-        <div className="prose prose-lg prose-slate max-w-none leading-relaxed prose-headings:font-bold prose-headings:tracking-tight prose-a:text-[#e03e3e] prose-a:font-semibold hover:prose-a:underline prose-img:rounded-2xl">
+        <div className="prose prose-lg prose-slate max-w-none leading-relaxed prose-headings:font-bold prose-headings:tracking-tight prose-a:text-[#e03e3e] prose-a:font-semibold hover:prose-a:underline prose-img:rounded-md">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {post.content}
           </ReactMarkdown>
         </div>
 
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-slate-200">
+        <footer className="mt-12 pt-8 border-t border-[#e4e0d8]">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm font-semibold text-[#e03e3e] hover:text-[#c93434] transition-colors"

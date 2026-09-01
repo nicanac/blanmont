@@ -17,7 +17,7 @@ export default function BlogList({ posts }: BlogListProps): React.ReactElement {
   if (posts.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 text-lg">Aucun article pour le moment.</p>
+        <p className="text-[#5c6370] text-lg">Aucun article pour le moment.</p>
       </div>
     );
   }

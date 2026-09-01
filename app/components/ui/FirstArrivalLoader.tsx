@@ -67,7 +67,7 @@ export default function FirstArrivalLoader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-slate-950 text-white select-none transition-all duration-500 ease-out ${
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0a0c10] text-white select-none transition-all duration-500 ease-out ${
         isExiting
           ? 'opacity-0 scale-105 pointer-events-none backdrop-blur-md'
           : 'opacity-100 scale-100 pointer-events-auto'

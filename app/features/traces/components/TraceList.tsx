@@ -89,7 +89,7 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
     }, [initialTraces, sort, filters]);
 
     return (
-        <main className="min-h-screen bg-gray-50">
+        <main className="min-h-screen bg-[#faf8f5]">
             <PageHero
                 title="Nos Parcours"
                 description="Découvrez nos traces GPX pour vos sorties vélo."
@@ -100,17 +100,17 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
             />
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
                 {/* Controls Bar */}
-                <div className="flex items-center justify-between border-b border-slate-200 pb-6">
-                    <h2 className="text-base font-bold text-slate-900 tabular-nums">
+                <div className="flex items-center justify-between border-b border-[#e4e0d8] pb-6">
+                    <h2 className="text-base font-bold text-[#101216] tabular-nums">
                         {filteredTraces.length} parcours disponibles
                     </h2>
                     <div className="flex items-center">
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
-                                <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                <Menu.Button className="group inline-flex justify-center text-sm font-medium text-[#3a3f4a] hover:text-[#101216]">
                                     Trier
                                     <ChevronDownIcon
-                                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-[#5c6370]"
                                         aria-hidden="true"
                                     />
                                 </Menu.Button>
@@ -133,8 +133,8 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                                     <button
                                                         onClick={() => setSort(option.value as SortOption)}
                                                         className={cn(
-                                                            option.value === sort ? 'font-medium text-gray-900' : 'text-gray-500',
-                                                            active ? 'bg-gray-100' : '',
+                                                            option.value === sort ? 'font-medium text-[#101216]' : 'text-[#5c6370]',
+                                                            active ? 'bg-[#f2efe9]' : '',
                                                             'block px-4 py-2 text-sm w-full text-left'
                                                         )}
                                                     >
@@ -148,13 +148,13 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                             </Transition>
                         </Menu>
 
-                        <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
+                        <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-[#5c6370] sm:ml-7">
                             <span className="sr-only">View grid</span>
                             <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
                         </button>
                         <button
                             type="button"
-                            className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                            className="-m-2 ml-4 p-2 text-gray-400 hover:text-[#5c6370] sm:ml-6 lg:hidden"
                             onClick={() => setMobileFiltersOpen(true)}
                         >
                             <span className="sr-only">Filters</span>
@@ -196,7 +196,7 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                 </div>
                             ) : (
                                 <div className="text-center py-20">
-                                    <p className="text-gray-500">Aucun parcours ne correspond à ces filtres.</p>
+                                    <p className="text-[#5c6370]">Aucun parcours ne correspond à ces filtres.</p>
                                     <button
                                         onClick={() => setFilters({
                                             minDist: ranges.minDist, maxDist: ranges.maxDist,

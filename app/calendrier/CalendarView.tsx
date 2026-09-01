@@ -108,8 +108,8 @@ export default function CalendarView({
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
       {/* Top Bar */}
-      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-200 px-6 py-4 lg:flex-none">
-        <h1 className="text-lg font-bold leading-6 text-gray-900">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#e4e0d8] px-6 py-4 lg:flex-none">
+        <h1 className="text-lg font-bold leading-6 text-[#101216]">
           <time dateTime={`${year}-${String(month + 1).padStart(2, '0')}`}>
             {MONTH_NAMES[month]} {year}
           </time>
@@ -120,7 +120,7 @@ export default function CalendarView({
             <button
               type="button"
               onClick={goToPreviousMonth}
-              className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
+              className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-[#5c6370] focus:relative md:w-9 md:pr-0 md:hover:bg-[#f2efe9]"
             >
               <span className="sr-only">Previous month</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -128,7 +128,7 @@ export default function CalendarView({
             <button
               type="button"
               onClick={goToToday}
-              className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block h-9 pt-1.5"
+              className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-[#101216] hover:bg-[#f2efe9] focus:relative md:block h-9 pt-1.5"
             >
               Ce mois-ci
             </button>
@@ -136,7 +136,7 @@ export default function CalendarView({
             <button
               type="button"
               onClick={goToNextMonth}
-              className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
+              className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-[#5c6370] focus:relative md:w-9 md:pl-0 md:hover:bg-[#f2efe9]"
             >
               <span className="sr-only">Next month</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
@@ -147,7 +147,7 @@ export default function CalendarView({
 
       {/* Calendar Grid */}
       <div className="shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
-        <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
+        <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-[#3a3f4a] lg:flex-none">
           <div className="bg-white py-2">Lun</div>
           <div className="bg-white py-2">Mar</div>
           <div className="bg-white py-2">Mer</div>
@@ -156,7 +156,7 @@ export default function CalendarView({
           <div className="bg-white py-2 text-brand-primary">Sam</div>
           <div className="bg-white py-2 text-brand-primary">Dim</div>
         </div>
-        <div className="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
+        <div className="flex bg-gray-200 text-xs leading-6 text-[#3a3f4a] lg:flex-auto">
           <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
             {allDays.map((cell, idx) => {
               const dayEvents = cell.currentMonth
@@ -167,7 +167,7 @@ export default function CalendarView({
                 <div
                   key={idx}
                   className={cn(
-                    cell.currentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500',
+                    cell.currentMonth ? 'bg-white' : 'bg-[#f2efe9] text-[#5c6370]',
                     'relative px-3 py-2 min-h-[120px]'
                   )}
                 >
@@ -177,7 +177,7 @@ export default function CalendarView({
                       // Highlight "today" if we wanted, for now just basic text
                       cell.currentMonth ? 'font-semibold' : '',
                       // Weekend highlight on current month (Black/Visible)
-                      cell.currentMonth && idx % 7 >= 5 ? 'text-gray-900' : '',
+                      cell.currentMonth && idx % 7 >= 5 ? 'text-[#101216]' : '',
                       // Weekday highlight (Red/Primary) if current month and not weekend
                       cell.currentMonth && idx % 7 < 5 ? 'text-brand-primary' : '',
                       'block mb-1'
@@ -197,17 +197,17 @@ export default function CalendarView({
                                 // Weekday events (Mon-Fri) get alternate background
                                 idx % 7 < 5
                                   ? 'bg-red-50 hover:bg-red-100 hover:border-red-300'
-                                  : 'hover:bg-gray-100 hover:border-gray-300'
+                                  : 'hover:bg-[#f2efe9] hover:border-gray-300'
                               )}
                               title="Modifier l'événement (Admin)"
                             >
                               <div className="flex items-center justify-between gap-1">
-                                <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
+                                <p className="flex-auto truncate font-medium text-[#101216] group-hover:text-brand-primary">
                                   {event.location}
                                 </p>
                                 <PencilSquareIcon className="h-3.5 w-3.5 text-gray-400 group-hover:text-brand-primary shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
                               </div>
-                              <div className="flex justify-between items-center text-xs text-slate-500 tabular-nums">
+                              <div className="flex justify-between items-center text-xs text-[#5c6370] tabular-nums">
                                 <span>{event.departure}</span>
                                 <div className="flex items-center gap-1">
                                   {event.distances && <span>{event.distances} km</span>}
@@ -241,13 +241,13 @@ export default function CalendarView({
                                 // Weekday events (Mon-Fri) get alternate background
                                 idx % 7 < 5
                                   ? 'bg-red-50 hover:bg-red-100 hover:border-red-200'
-                                  : 'hover:bg-gray-100 hover:border-gray-200'
+                                  : 'hover:bg-[#f2efe9] hover:border-[#e4e0d8]'
                               )}
                             >
-                              <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
+                              <p className="flex-auto truncate font-medium text-[#101216] group-hover:text-brand-primary">
                                 {event.location}
                               </p>
-                              <div className="flex justify-between items-center text-xs text-slate-500 tabular-nums">
+                              <div className="flex justify-between items-center text-xs text-[#5c6370] tabular-nums">
                                 <span>{event.departure}</span>
                                 <div className="flex items-center gap-1">
                                   {event.distances && <span>{event.distances} km</span>}
@@ -290,15 +290,15 @@ export default function CalendarView({
                   const dateObj = new Date(y, m - 1, d);
                   const cardContent = (
                     <>
-                      <div className="flex-none bg-gray-50 rounded-lg p-2 text-center w-14 h-14 flex flex-col justify-center items-center border border-gray-200">
-                        <span className="text-xs text-gray-500 font-bold uppercase">
+                      <div className="flex-none bg-[#f2efe9] rounded-lg p-2 text-center w-14 h-14 flex flex-col justify-center items-center border border-[#e4e0d8]">
+                        <span className="text-xs text-[#5c6370] font-bold uppercase">
                           {dateObj.toLocaleDateString('fr-FR', { weekday: 'short' })}
                         </span>
-                        <span className="text-lg font-bold text-gray-900">{dateObj.getDate()}</span>
+                        <span className="text-lg font-bold text-[#101216]">{dateObj.getDate()}</span>
                       </div>
                       <div className="flex-auto">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-semibold text-gray-900 group-hover:text-brand-primary">
+                          <h3 className="text-sm font-semibold text-[#101216] group-hover:text-brand-primary">
                             {event.location}
                           </h3>
                           {isAdmin && (
@@ -308,7 +308,7 @@ export default function CalendarView({
                             </span>
                           )}
                         </div>
-                        <div className="mt-1 flex flex-wrap gap-2 text-xs text-gray-500">
+                        <div className="mt-1 flex flex-wrap gap-2 text-xs text-[#5c6370]">
                           <span>🕒 {event.departure}</span>
                           {event.distances && <span>🚲 {event.distances} km</span>}
                           {(attendanceMap[event.id]?.length ?? 0) > 0 && (
@@ -330,7 +330,7 @@ export default function CalendarView({
                     <Link
                       key={event.id}
                       href={`/admin/events/${event.id}/edit`}
-                      className="group p-4 border-b border-gray-100 flex gap-4 cursor-pointer hover:bg-gray-50 transition-colors"
+                      className="group p-4 border-b border-[#efece5] flex gap-4 cursor-pointer hover:bg-[#f2efe9] transition-colors"
                       title="Modifier l'événement (Admin)"
                     >
                       {cardContent}
@@ -338,7 +338,7 @@ export default function CalendarView({
                   ) : (
                     <div
                       key={event.id}
-                      className="p-4 border-b border-gray-100 flex gap-4 cursor-pointer hover:bg-gray-50"
+                      className="p-4 border-b border-[#efece5] flex gap-4 cursor-pointer hover:bg-[#f2efe9]"
                       onClick={() => setSelectedEvent(event)}
                     >
                       {cardContent}
@@ -346,7 +346,7 @@ export default function CalendarView({
                   );
                 })
               ) : (
-                <div className="p-8 text-center text-gray-500 italic">
+                <div className="p-8 text-center text-[#5c6370] italic">
                   Aucun événement pour ce mois.
                 </div>
               )}

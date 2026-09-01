@@ -112,7 +112,7 @@ export default function ImportForm() {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://www.strava.com/activities/123456789"
-                    className="flex-1 rounded-xl border border-slate-300 px-4 py-2 text-slate-900 shadow-xs placeholder:text-slate-400 focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm"
+                    className="flex-1 rounded-xl border border-slate-300 px-4 py-2 text-[#101216] shadow-xs placeholder:text-slate-400 focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm"
                 />
                 <button
                     onClick={handlePreview}
@@ -124,13 +124,13 @@ export default function ImportForm() {
             </div>
 
             {error && (
-                <div className="p-4 bg-red-50 text-red-700 rounded-2xl border border-red-200 text-sm">
+                <div className="p-4 bg-red-50 text-red-700 rounded-md border border-red-200 text-sm">
                     {error}
                 </div>
             )}
 
             {successMessage && (
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 shadow-xs">
+                <div className="rounded-md border border-emerald-200 bg-emerald-50 p-4 shadow-xs">
                     <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
                             <CheckCircleIcon className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
