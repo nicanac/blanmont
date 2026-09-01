@@ -1,194 +1,167 @@
 import Link from 'next/link';
 import {
-  GlobeAltIcon,
   ChatBubbleLeftRightIcon,
   CalendarDaysIcon,
   UserGroupIcon,
   TrophyIcon,
   ArrowRightIcon,
-  SparklesIcon,
   MapPinIcon,
   ArrowDownTrayIcon,
   ShieldCheckIcon,
   HeartIcon,
   BoltIcon,
-  ClockIcon,
   CheckBadgeIcon,
-  StarIcon,
 } from '@heroicons/react/24/outline';
 import HomeBlogSection from './components/shared/HomeBlogSection';
-import { getBlogPosts, getActiveWeekendPoll, getCalendarEvents, getTraces } from './lib/firebase';
+import { getBlogPosts, getActiveWeekendPoll, getCalendarEvents } from './lib/firebase';
 import { getNextScheduledRide } from './lib/firebase/calendar';
 import RideWeatherBadge from './components/ui/RideWeatherBadge';
-import { stripSuffix } from './utils/string.utils';
 
 /**
- * Landing page – Modern, refined, athletic home page for CC Saint-Martin Blanmont.
+ * Landing page — Editorial Peloton: magazine-cover hero on ink,
+ * paper spreads, hairline structure, asymmetric bento.
  */
 export default async function Home() {
-  const [posts, activePoll, events, traces] = await Promise.all([
+  const [posts, activePoll, events] = await Promise.all([
     getBlogPosts(),
     getActiveWeekendPoll(),
     getCalendarEvents(),
-    getTraces(),
   ]);
 
   const nextRide = getNextScheduledRide(events);
-  // Pick up to 3 high-quality / scenic traces for the preview section
-  const featuredTraces = traces.slice(0, 3);
 
   return (
-    <div className="bg-white">
-      {/* ──── Hero Section (Luminous & Athletic) ──── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50/90 via-white to-slate-50/40 pt-12 pb-16 sm:pt-16 sm:pb-24 border-b border-slate-100">
-        {/* Subtle Ambient Background Glows */}
-        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-gradient-to-tr from-red-500/8 via-rose-500/5 to-transparent rounded-full blur-3xl" />
-        <div className="pointer-events-none absolute top-1/3 -right-32 w-80 h-80 bg-sky-500/5 rounded-full blur-3xl" />
+    <div className="bg-[#faf8f5]">
+      {/* ──── Cover Hero (Ink) ──── */}
+      <section className="relative overflow-hidden bg-[#0a0c10] text-white">
+        <div className="pointer-events-none absolute -top-40 -right-24 w-[560px] h-[560px] bg-[#e03e3e]/15 rounded-full blur-[140px]" />
 
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full bg-slate-100/90 hover:bg-slate-200/70 border border-slate-200/80 px-4 py-1.5 text-xs font-semibold text-slate-800 transition-colors shadow-2xs">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e03e3e]"></span>
-            </span>
-            <span>CC Saint-Martin Blanmont • Fondé en 1978 • Saison 2026</span>
-          </div>
-
-          {/* Main Display Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.12] text-balance">
-            Rouler ensemble, partager l&apos;effort &amp; la passion du peloton
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12">
+          <h1 className="max-w-5xl text-[clamp(2.5rem,7.5vw,5.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
+            <span className="cover-line"><span>Rouler ensemble,</span></span>
+            <span className="cover-line"><span>partager l&apos;effort,</span></span>
+            <span className="cover-line"><span className="text-[#e03e3e] italic">la passion du peloton.</span></span>
           </h1>
 
-          {/* Subtitle / Value Proposition */}
-          <p className="mx-auto max-w-2xl text-base sm:text-lg text-slate-600 leading-relaxed">
+          <p className="cover-rise cover-rise-1 mt-6 max-w-2xl text-base sm:text-lg text-[#a7adbb] leading-relaxed">
             Dames, Hommes, Jeunes, Vététistes et vélos électriques :{' '}
-            <strong className="font-semibold text-slate-900">3 groupes de niveau encadrés</strong> au départ de Blanmont chaque weekend dans une ambiance conviviale et sportive.
+            <strong className="font-semibold text-[#f5f6f8]">3 groupes de niveau encadrés</strong>{' '}
+            au départ de Blanmont chaque weekend dans une ambiance conviviale et sportive.
           </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+          <div className="cover-rise cover-rise-2 mt-8 flex flex-wrap items-center gap-4">
             <Link
               href="/sondage"
-              className="inline-flex items-center gap-2.5 rounded-full bg-[#e03e3e] hover:bg-[#c93434] text-white px-7 py-3.5 text-sm font-semibold shadow-md shadow-red-500/20 hover:shadow-lg hover:shadow-red-500/30 transition-all active:scale-98"
+              className="inline-flex items-center gap-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98]"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4" />
               <span>Sondage du Weekend</span>
               {activePoll && (
-                <span className="rounded-full bg-white/25 px-2 py-0.5 text-2xs font-bold uppercase tracking-wider text-white leading-none">
+                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-white leading-none">
                   {activePoll.status === 'active' ? 'Ouvert' : 'Clôturé'}
                 </span>
               )}
             </Link>
 
             <Link
-              href="/traces"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 px-6 py-3.5 text-sm font-semibold shadow-2xs hover:border-slate-300 transition-all active:scale-98"
-            >
-              <GlobeAltIcon className="h-4 w-4 text-sky-600" />
-              <span>Parcours GPS (+150)</span>
-            </Link>
-
-            <Link
               href="/le-club"
-              className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-700 px-5 py-3.5 text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-2 rounded-md border border-white/25 text-[#f5f6f8] hover:border-white/50 hover:bg-white/5 px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
             >
-              <span>Le Club</span>
-              <ArrowRightIcon className="h-3.5 w-3.5 text-slate-400" />
+              <span>Découvrir le Club</span>
+              <ArrowRightIcon className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>
 
-        {/* Hero Photo with Overlaid Glass Badges */}
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-12 sm:mt-14">
-          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/80 bg-slate-900 group">
+        {/* Cover photo & Floating Departure HUD */}
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
+          {/* Photo container */}
+          <div className="relative overflow-hidden rounded-lg border border-white/15 shadow-2xl bg-[#101216]">
             <img
-              className="aspect-[16/9] sm:aspect-[2/1] lg:aspect-[21/9] w-full object-cover transition-transform duration-700 group-hover:scale-101"
+              className="aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] w-full object-cover"
               src="/images/home-hero.jpg"
               alt="Club de Blanmont – peloton cycliste sur route dans le Brabant wallon"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c10]/80 via-transparent to-black/20 pointer-events-none" />
 
-            {/* Overlaid Badges */}
-            <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex flex-wrap items-center justify-between gap-3 text-white">
-              <div className="inline-flex items-center gap-2 rounded-full bg-slate-950/70 backdrop-blur-md border border-white/15 px-3.5 py-1.5 text-xs font-medium shadow-sm">
-                <MapPinIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
-                <span>Départs : Place de Blanmont • Samedi 8h30 &amp; Dimanche 9h00</span>
-              </div>
-              <div className="hidden sm:inline-flex items-center gap-2 rounded-full bg-slate-950/70 backdrop-blur-md border border-white/15 px-3.5 py-1.5 text-xs font-medium shadow-sm">
-                <UserGroupIcon className="h-3.5 w-3.5 text-emerald-400" />
-                <span>3 allures encadrées • +150 circuits GPX</span>
-              </div>
+            {/* Live overlay tag */}
+            <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#0a0c10]/80 backdrop-blur-md px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#f5f6f8] border border-white/15 shadow-lg">
+                <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
+                Peloton CC Blanmont · Saison 2026
+              </span>
             </div>
           </div>
 
-          {/* 4-Pillar Metric Strip (Role-Colored & Crisp) */}
-          <div className="mt-6 rounded-2xl sm:rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
-            <div className="pt-2 sm:pt-0 flex flex-col items-center justify-center">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-[#e03e3e] mb-2">
-                <UserGroupIcon className="h-5 w-5" />
+          {/* Floating HUD Stat Strip */}
+          <div className="relative -translate-y-6 sm:-translate-y-8 -mb-4 sm:-mb-6 px-3 sm:px-6 z-10">
+            <dl className="grid grid-cols-2 lg:grid-cols-4 rounded-lg border border-white/15 bg-[#161922]/95 backdrop-blur-md shadow-2xl divide-y divide-white/10 sm:divide-y-0 sm:divide-x sm:divide-white/10">
+              <div className="p-4 sm:p-5 flex items-start gap-3.5">
+                <div className="rounded-md bg-[#e03e3e]/10 border border-[#e03e3e]/25 p-2 text-[#e03e3e] shrink-0 mt-0.5">
+                  <MapPinIcon className="h-4 w-4" />
+                </div>
+                <div>
+                  <dt className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Départ</dt>
+                  <dd className="mt-0.5 text-sm font-bold text-white leading-tight">Place de Blanmont</dd>
+                </div>
               </div>
-              <p className="text-xl font-bold text-slate-900 tabular-nums">3 Allures</p>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
-                Groupes A, B, C &amp; VTT
-              </p>
-            </div>
 
-            <div className="pt-2 sm:pt-0 flex flex-col items-center justify-center">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-700 mb-2">
-                <CalendarDaysIcon className="h-5 w-5" />
+              <div className="p-4 sm:p-5 flex items-start gap-3.5">
+                <div className="rounded-md bg-white/5 border border-white/10 p-2 text-[#f5f6f8] shrink-0 mt-0.5">
+                  <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
+                </div>
+                <div>
+                  <dt className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Samedi</dt>
+                  <dd className="mt-0.5 text-sm font-bold text-white tabular-nums leading-tight">8h30 <span className="text-xs font-normal text-[#a7adbb]">· Route</span></dd>
+                </div>
               </div>
-              <p className="text-xl font-bold text-slate-900">Sorties Hebdo</p>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
-                Samedi &amp; Dimanche
-              </p>
-            </div>
 
-            <div className="pt-2 sm:pt-0 flex flex-col items-center justify-center">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-700 mb-2">
-                <GlobeAltIcon className="h-5 w-5" />
+              <div className="p-4 sm:p-5 flex items-start gap-3.5">
+                <div className="rounded-md bg-white/5 border border-white/10 p-2 text-[#f5f6f8] shrink-0 mt-0.5">
+                  <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
+                </div>
+                <div>
+                  <dt className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Dimanche</dt>
+                  <dd className="mt-0.5 text-sm font-bold text-white tabular-nums leading-tight">9h00 <span className="text-xs font-normal text-[#a7adbb]">· Route &amp; VTT</span></dd>
+                </div>
               </div>
-              <p className="text-xl font-bold text-slate-900 tabular-nums">+150 Circuits</p>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
-                Traces GPX en accès libre
-              </p>
-            </div>
 
-            <div className="pt-2 sm:pt-0 flex flex-col items-center justify-center">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 mb-2">
-                <TrophyIcon className="h-5 w-5" />
+              <div className="p-4 sm:p-5 flex items-start gap-3.5">
+                <div className="rounded-md bg-white/5 border border-white/10 p-2 text-[#f5f6f8] shrink-0 mt-0.5">
+                  <UserGroupIcon className="h-4 w-4 text-[#e03e3e]" />
+                </div>
+                <div>
+                  <dt className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Groupes d&apos;allure</dt>
+                  <dd className="mt-0.5 text-sm font-bold text-white leading-tight">A, B, C &amp; VTT</dd>
+                </div>
               </div>
-              <p className="text-xl font-bold text-emerald-700">Le Carré Vert</p>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
-                Challenge fidélité du club
-              </p>
-            </div>
+            </dl>
           </div>
         </div>
       </section>
 
-      {/* ──── Next Ride & Live Poll Spotlight ──── */}
-      <section className="py-12 bg-slate-50/60 border-b border-slate-200/60">
+      {/* ──── Next Ride & Live Poll (Paper spread) ──── */}
+      <section className="py-16 sm:py-24 bg-[#faf8f5] border-b border-[#e4e0d8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            {/* Left: Next Scheduled Ride Card */}
-            <div className="lg:col-span-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-7 shadow-2xs flex flex-col justify-between space-y-4">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-red-50 text-[#e03e3e] border border-red-200/70 px-3 py-1 text-xs font-semibold">
+            {/* Left: Next Scheduled Ride */}
+            <div className="lg:col-span-7 rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-5">
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.08em]">
                     <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
-                    <span>Prochain Rendez-vous Club</span>
+                    <span>Prochain rendez-vous</span>
                   </div>
-                  <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                  <span className="text-xs font-semibold text-[#5c6370] bg-[#f2efe9] px-3 py-1 rounded-full">
                     {nextRide.dateFormatted}
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">
-                    Départ à {nextRide.departure} • {nextRide.location}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] leading-[1.1] text-[#101216]">
+                    Départ à {nextRide.departure} — {nextRide.location}
+                  </h2>
+                  <p className="text-sm sm:text-base text-[#3a3f4a] leading-relaxed mt-2 max-w-[65ch]">
                     {nextRide.remarks || 'Rendez-vous sur la Place de Blanmont pour le briefing et la formation des groupes d\'allure.'}
                   </p>
                 </div>
@@ -199,18 +172,18 @@ export default async function Home() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
-                <div className="text-slate-600 font-medium">
-                  Groupes : <strong className="text-slate-900">{nextRide.distances || 'Allures A, B, C & VTT'}</strong>
+              <div className="pt-5 border-t border-[#e4e0d8] flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div className="text-[#3a3f4a] font-medium">
+                  Groupes : <strong className="text-[#101216]">{nextRide.distances || 'Allures A, B, C & VTT'}</strong>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   {nextRide.gpxUrl && (
                     <a
                       href={nextRide.gpxUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 font-semibold transition-colors"
+                      className="inline-flex items-center gap-1.5 rounded-md bg-[#f2efe9] hover:bg-[#e4e0d8] text-[#101216] px-3 py-1.5 font-semibold transition-colors"
                     >
                       <ArrowDownTrayIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                       <span>Trace GPX</span>
@@ -227,40 +200,40 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Right: Weekend Poll Quick Callout */}
-            <div className="lg:col-span-5 rounded-2xl sm:rounded-3xl border border-red-200/80 bg-gradient-to-br from-red-50/70 via-white to-red-50/30 p-6 sm:p-7 shadow-2xs flex flex-col justify-between space-y-4">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/70 px-3 py-1 text-xs font-semibold">
-                    <ChatBubbleLeftRightIcon className="h-3.5 w-3.5 text-emerald-600" />
+            {/* Right: Weekend Poll — dark tonal counterpoint */}
+            <div className="lg:col-span-5 rounded-lg border border-[#262b38] bg-[#101216] text-white p-6 sm:p-8 flex flex-col justify-between space-y-5">
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20 px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.08em]">
+                    <ChatBubbleLeftRightIcon className="h-3.5 w-3.5" />
                     <span>Sondage de présence</span>
                   </span>
-                  <span className="text-2xs uppercase tracking-wider font-bold text-red-700 bg-red-100/80 px-2.5 py-0.5 rounded-full">
+                  <span className="text-[0.625rem] uppercase tracking-[0.08em] font-bold text-white bg-[#e03e3e] px-2.5 py-0.5 rounded-full">
                     {activePoll?.status === 'closed' ? 'Clôturé' : 'En cours'}
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900">
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] leading-[1.1] text-white">
                     {activePoll?.title || 'Qui roule avec le club ce weekend ?'}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
+                  </h2>
+                  <p className="text-sm text-[#a7adbb] leading-relaxed mt-2">
                     Indiquez votre jour et votre groupe pour aider les capitaines de route à organiser les pelotons.
                   </p>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-red-100/80 flex items-center justify-between">
+              <div className="pt-5 border-t border-[#262b38] flex flex-wrap items-center justify-between gap-3">
                 <Link
                   href="/sondage"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-semibold shadow-xs transition-all active:scale-98"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98]"
                 >
                   <span>Participer au sondage</span>
                   <ArrowRightIcon className="h-3.5 w-3.5" />
                 </Link>
                 <Link
                   href="/saturday-ride"
-                  className="text-xs font-medium text-slate-500 hover:text-slate-800 transition-colors"
+                  className="text-xs font-medium text-[#7d8493] hover:text-white transition-colors"
                 >
                   Vote du Samedi →
                 </Link>
@@ -270,79 +243,75 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ──── Bento Showcase : La Vie du Club & Nos Activités ──── */}
-      <section className="py-16 sm:py-24 bg-white">
+      {/* ──── Asymmetric Bento : La Vie du Club ──── */}
+      <section className="py-16 sm:py-24 bg-[#faf8f5]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* Section Heading */}
-          <div className="text-center max-w-2xl mx-auto space-y-2.5">
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#e03e3e]">
-              Organisation &amp; Convivialité
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 text-balance">
+          {/* Section Heading — no eyebrow, the heading speaks */}
+          <div className="max-w-2xl space-y-3">
+            <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.025em] leading-[1.02] text-[#101216] text-balance">
               La vie du Club de Blanmont
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
               Une structure sportive et conviviale pensée pour que chaque cycliste prenne du plaisir à son propre rythme.
             </p>
           </div>
 
-          {/* Bento Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Card 1: Les 3 Groupes de Niveau (Span 2 Cols) */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-2xs hover:border-slate-300 transition-all flex flex-col justify-between lg:col-span-2">
-              <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Les groupes de niveau — wide paper card */}
+            <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between lg:col-span-7">
+              <div className="space-y-5">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50 text-[#e03e3e]">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e]">
                     <UserGroupIcon className="h-6 w-6" />
                   </div>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  <span className="rounded-full bg-[#f2efe9] px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#5c6370]">
                     3 Allures &amp; VTT
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216]">
                     Groupes de niveau encadrés
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1.5 max-w-2xl">
+                  <p className="text-sm text-[#3a3f4a] leading-relaxed mt-2 max-w-[65ch]">
                     Chaque sortie est encadrée par des capitaines de route bénévoles veillant au respect du rythme, à la sécurité et à la cohésion du groupe.
                   </p>
                 </div>
 
-                {/* 4 Distinct Speed Badges */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                  <div className="rounded-2xl bg-red-50/70 p-3 text-center border border-red-200/70">
-                    <div className="font-bold text-xs text-red-950">Groupe A</div>
+                {/* 4 Speed badges */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                  <div className="rounded-md bg-[#e03e3e]/5 p-3 text-center border border-[#e03e3e]/20">
+                    <div className="font-bold text-xs text-[#101216]">Groupe A</div>
                     <div className="text-sm font-bold text-[#e03e3e] tabular-nums mt-0.5">&gt; 30 km/h</div>
-                    <div className="text-2xs text-red-700/80 mt-0.5 font-medium">Sportif &amp; Rythmé</div>
+                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Sportif &amp; Rythmé</div>
                   </div>
 
-                  <div className="rounded-2xl bg-sky-50/70 p-3 text-center border border-sky-200/70">
-                    <div className="font-bold text-xs text-sky-950">Groupe B</div>
+                  <div className="rounded-md bg-sky-500/5 p-3 text-center border border-sky-500/20">
+                    <div className="font-bold text-xs text-[#101216]">Groupe B</div>
                     <div className="text-sm font-bold text-sky-700 tabular-nums mt-0.5">25 - 28 km/h</div>
-                    <div className="text-2xs text-sky-700/80 mt-0.5 font-medium">Équilibré &amp; Peloton</div>
+                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Équilibré &amp; Peloton</div>
                   </div>
 
-                  <div className="rounded-2xl bg-emerald-50/70 p-3 text-center border border-emerald-200/70">
-                    <div className="font-bold text-xs text-emerald-950">Groupe C</div>
+                  <div className="rounded-md bg-emerald-500/5 p-3 text-center border border-emerald-500/20">
+                    <div className="font-bold text-xs text-[#101216]">Groupe C</div>
                     <div className="text-sm font-bold text-emerald-700 tabular-nums mt-0.5">&lt; 25 km/h</div>
-                    <div className="text-2xs text-emerald-700/80 mt-0.5 font-medium">Convivial &amp; Découverte</div>
+                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Convivial &amp; Découverte</div>
                   </div>
 
-                  <div className="rounded-2xl bg-amber-50/70 p-3 text-center border border-amber-200/70">
-                    <div className="font-bold text-xs text-amber-950">Groupe VTT</div>
+                  <div className="rounded-md bg-amber-500/5 p-3 text-center border border-amber-500/20">
+                    <div className="font-bold text-xs text-[#101216]">Groupe VTT</div>
                     <div className="text-sm font-bold text-amber-700 mt-0.5">Sentiers</div>
-                    <div className="text-2xs text-amber-700/80 mt-0.5 font-medium">Bois &amp; Campagne</div>
+                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Bois &amp; Campagne</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 pt-1 text-xs text-slate-500 font-medium">
+                <div className="flex items-center gap-2 pt-1 text-xs text-[#5c6370] font-medium">
                   <ShieldCheckIcon className="h-4 w-4 text-emerald-600 shrink-0" />
                   <span>Devise du club : &laquo; On part ensemble, on rentre ensemble &raquo;</span>
                 </div>
               </div>
 
-              <div className="pt-5 border-t border-slate-100 mt-6 flex items-center justify-between">
+              <div className="pt-5 border-t border-[#e4e0d8] mt-6 flex flex-wrap items-center justify-between gap-2">
                 <Link
                   href="/le-club"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -352,73 +321,35 @@ export default async function Home() {
                 </Link>
                 <Link
                   href="/members"
-                  className="text-xs text-slate-500 hover:text-slate-800 font-medium"
+                  className="text-xs text-[#5c6370] hover:text-[#101216] font-medium"
                 >
                   Voir les membres du club →
                 </Link>
               </div>
             </div>
 
-            {/* Card 2: Traces & Circuits GPS */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-7 shadow-2xs hover:border-slate-300 transition-all flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Le Carré Vert — dark tonal card */}
+            <div className="rounded-lg border border-[#262b38] bg-[#101216] text-white p-6 sm:p-8 flex flex-col justify-between lg:col-span-5">
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
-                    <GlobeAltIcon className="h-6 w-6" />
-                  </div>
-                  <span className="rounded-full bg-sky-50 text-sky-800 px-3 py-1 text-xs font-semibold border border-sky-200/70 tabular-nums">
-                    +150 GPX
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900">
-                    Traces &amp; Parcours GPS
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1.5">
-                    Cartographie complète, profils de dénivelé et téléchargement direct pour Garmin, Wahoo, Strava et Komoot.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-2xs font-semibold text-slate-600">Garmin</span>
-                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-2xs font-semibold text-slate-600">Strava</span>
-                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-2xs font-semibold text-slate-600">Wahoo</span>
-                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-2xs font-semibold text-slate-600">Komoot</span>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 mt-5">
-                <Link
-                  href="/traces"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
-                >
-                  <span>Explorer le catalogue de traces</span>
-                  <ArrowRightIcon className="h-3 w-3" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Card 3: Le Carré Vert Challenge */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-7 shadow-2xs hover:border-slate-300 transition-all flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-md bg-emerald-400/10 text-emerald-400">
                     <TrophyIcon className="h-6 w-6" />
                   </div>
-                  <span className="rounded-full bg-emerald-50 text-emerald-800 px-3 py-1 text-xs font-semibold border border-emerald-200/70">
+                  <span className="rounded-full bg-emerald-400/10 text-emerald-400 px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.08em] border border-emerald-400/20">
                     Challenge Club
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.015em] text-white">
                     Le Carré Vert
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1.5">
+                  <p className="text-sm text-[#a7adbb] leading-relaxed mt-2">
                     Pointage automatique des présences à chaque sortie du club et calcul du palmarès d&apos;assiduité récompensé à l&apos;Assemblée Générale.
                   </p>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 mt-5">
+              <div className="pt-5 border-t border-[#262b38] mt-6">
                 <Link
                   href="/leaderboard"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -429,28 +360,28 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Card 4: Calendrier & Agenda */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-7 shadow-2xs hover:border-slate-300 transition-all flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Calendrier — paper card */}
+            <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between lg:col-span-5">
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-700">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-md bg-amber-500/10 text-amber-700">
                     <CalendarDaysIcon className="h-6 w-6" />
                   </div>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  <span className="rounded-full bg-[#f2efe9] px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#5c6370]">
                     Toute la saison
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216]">
                     Calendrier &amp; Événements
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1.5">
+                  <p className="text-sm text-[#3a3f4a] leading-relaxed mt-2">
                     Sorties locales, brevets extérieurs et randos cyclotouristes. Synchronisation iCal pour vos agendas Apple, Google et Outlook.
                   </p>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 mt-5">
+              <div className="pt-5 border-t border-[#e4e0d8] mt-6">
                 <Link
                   href="/calendrier"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -461,28 +392,28 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Card 5: Équipements du Club */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-7 shadow-2xs hover:border-slate-300 transition-all flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Équipements — wide paper card with red icon */}
+            <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between lg:col-span-7">
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-[#e03e3e]">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e]">
                     <CheckBadgeIcon className="h-6 w-6" />
                   </div>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  <span className="rounded-full bg-[#f2efe9] px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#5c6370]">
                     Collection 2026
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216]">
                     Tenues &amp; Équipements
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1.5">
+                  <p className="text-sm text-[#3a3f4a] leading-relaxed mt-2 max-w-[65ch]">
                     Maillots, cuissards, vestes thermiques et accessoires aux couleurs officielles du Club de Blanmont.
                   </p>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 mt-5">
+              <div className="pt-5 border-t border-[#e4e0d8] mt-6">
                 <Link
                   href="/le-club/equipement"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -496,151 +427,40 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ──── Featured Traces Section ──── */}
-      {featuredTraces.length > 0 && (
-        <section className="py-16 sm:py-20 bg-slate-50/70 border-t border-slate-200/70">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#e03e3e]">
-                  Traces GPS Recommandées
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 text-balance">
-                  Parcours populaires du club
-                </h2>
-              </div>
-              <Link
-                href="/traces"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-300"
-              >
-                <span>Voir les 150+ parcours</span>
-                <ArrowRightIcon className="h-3 w-3 text-[#e03e3e]" />
-              </Link>
-            </div>
+      {/* ──── Club Spirit — typographic manifesto ──── */}
+      <section className="py-16 sm:py-24 bg-[#f2efe9] border-y border-[#e4e0d8]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
+          <h2 className="max-w-3xl text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.025em] leading-[1.02] text-[#101216] text-balance">
+            L&apos;esprit du CC Saint-Martin
+          </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredTraces.map((trace) => (
-                <div
-                  key={trace.id}
-                  className="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-2xs hover:shadow-lg hover:border-slate-300 transition-all duration-300"
-                >
-                  <div className="relative aspect-[16/9] bg-slate-100 overflow-hidden">
-                    {trace.photoUrl ? (
-                      <img
-                        src={trace.photoUrl}
-                        alt={trace.name}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-103"
-                      />
-                    ) : (
-                      <div className="h-full w-full flex items-center justify-center bg-slate-100 text-slate-400">
-                        <MapPinIcon className="h-10 w-10" />
-                      </div>
-                    )}
-                    {/* Top direction & rating badges */}
-                    <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                      {trace.direction && (
-                        <span className="rounded-full bg-slate-950/70 backdrop-blur-xs px-2.5 py-0.5 text-2xs font-medium text-white border border-white/10">
-                          {trace.direction}
-                        </span>
-                      )}
-                      <span className="rounded-full bg-slate-950/70 backdrop-blur-xs px-2.5 py-0.5 text-2xs font-semibold text-white border border-white/10 inline-flex items-center gap-1">
-                        <StarIcon className="h-3 w-3 text-amber-400 fill-amber-400" />
-                        <span>{trace.quality}</span>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-1 flex-col p-5 space-y-2">
-                    <h3 className="text-base font-bold text-slate-900 group-hover:text-[#e03e3e] transition-colors line-clamp-1">
-                      <Link href={`/traces/${trace.id}`}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {stripSuffix(trace.name, '#')}
-                      </Link>
-                    </h3>
-                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                      {trace.description || "Circuit vélo vallonné dans le Brabant wallon et environs."}
-                    </p>
-
-                    <div className="flex flex-1 flex-col justify-end pt-3">
-                      <div className="flex items-center justify-between text-xs text-slate-600 pt-2 border-t border-slate-100">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-base font-bold text-slate-900 tabular-nums">{trace.distance}</span>
-                          <span className="font-semibold text-slate-500">km</span>
-                        </div>
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-base font-bold text-slate-800 tabular-nums">{trace.elevation}</span>
-                          <span className="font-semibold text-slate-500">m D+</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-3 flex items-center justify-between text-xs">
-                        <span className="inline-flex items-center rounded-full bg-slate-50 border border-slate-200/80 px-2.5 py-0.5 font-medium text-slate-600">
-                          {trace.surface || 'Route'}
-                        </span>
-                        {trace.gpxUrl && (
-                          <span className="inline-flex items-center gap-1 text-2xs font-semibold text-[#e03e3e]">
-                            <ArrowDownTrayIcon className="h-3 w-3" />
-                            <span>GPX disponible</span>
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ──── Club Spirit & Pillars ──── */}
-      <section className="py-16 sm:py-24 bg-white border-t border-slate-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-2.5">
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#e03e3e]">
-              Nos Valeurs
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 text-balance">
-              L&apos;esprit du CC Saint-Martin
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Plus qu&apos;un simple club, une communauté de passionnés réunis par le plaisir de pédaler ensemble.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-3xl border border-slate-200/80 bg-slate-50/50 p-6 sm:p-7 space-y-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50 text-[#e03e3e]">
-                <ShieldCheckIcon className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">
+          <div className="border-t border-[#e4e0d8]">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">
+              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] inline-flex items-center gap-3">
+                <ShieldCheckIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
                 Sécurité &amp; Encadrement
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
                 Des allures respectées, des capitaines attentifs et une entraide systématique en cas de coup dur ou de crevaison.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200/80 bg-slate-50/50 p-6 sm:p-7 space-y-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-700">
-                <HeartIcon className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">
+              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] inline-flex items-center gap-3">
+                <HeartIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
                 Convivialité &amp; Troisième Mi-temps
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
                 Le plaisir de se retrouver sur la Place de Blanmont ou à la brasserie locale après la sortie pour débriefer dans la bonne humeur.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200/80 bg-slate-50/50 p-6 sm:p-7 space-y-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
-                <BoltIcon className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">
+              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] inline-flex items-center gap-3">
+                <BoltIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
                 Ouvert à Tous les Profils
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
                 Cyclistes occasionnels ou compétiteurs réguliers, vélos traditionnels ou électriques : chacun trouve son peloton.
               </p>
             </div>
@@ -648,29 +468,28 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ──── Call-To-Action Banner: Join the Club ──── */}
-      <section className="py-12 sm:py-16 bg-slate-900 text-white relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-20 -top-20 w-80 h-80 bg-red-500/20 rounded-full blur-3xl" />
-        <div className="pointer-events-none absolute -left-20 -bottom-20 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl" />
+      {/* ──── Call-To-Action Cover (Ink) ──── */}
+      <section className="py-20 sm:py-28 bg-[#0a0c10] text-white relative overflow-hidden">
+        <div className="pointer-events-none absolute -right-24 -top-24 w-96 h-96 bg-[#e03e3e]/20 rounded-full blur-[120px]" />
 
-        <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-4 py-1.5 text-xs font-semibold text-white/90 shadow-2xs">
-            <SparklesIcon className="h-3.5 w-3.5 text-red-400" />
-            <span>Essai gratuit &amp; sans engagement</span>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="max-w-4xl space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+              Rejoindre le club
+            </div>
+            <h2 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-white">
+              Envie de rouler avec le <span className="text-[#e03e3e] italic">peloton</span> de Blanmont ?
+            </h2>
+            <p className="max-w-2xl text-base sm:text-lg text-[#a7adbb] leading-relaxed">
+              Rejoignez-nous un samedi ou un dimanche matin sur la Place de Blanmont. Essai libre et sans engagement : venez tester une ou deux sorties avant de vous inscrire.
+            </p>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white leading-tight text-balance">
-            Envie de rouler avec le peloton de Blanmont ?
-          </h2>
-
-          <p className="mx-auto max-w-2xl text-sm sm:text-base text-slate-300 leading-relaxed">
-            Rejoignez-nous un samedi ou un dimanche matin sur la Place de Blanmont. Venez tester une ou deux sorties librement avant de vous inscrire.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <Link
               href="/le-club"
-              className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] hover:bg-[#c93434] text-white px-7 py-3.5 text-sm font-semibold shadow-lg shadow-red-900/40 transition-all active:scale-98"
+              className="inline-flex items-center gap-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98]"
             >
               <span>Découvrir le Club &amp; Horaires</span>
               <ArrowRightIcon className="h-4 w-4" />
@@ -678,7 +497,7 @@ export default async function Home() {
 
             <Link
               href="/sondage"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/15 text-white px-6 py-3.5 text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-2.5 rounded-md border border-white/25 text-[#f5f6f8] hover:border-white/50 hover:bg-white/5 px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4" />
               <span>Sondage du Weekend</span>

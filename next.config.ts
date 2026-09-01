@@ -1,5 +1,9 @@
 import type { NextConfig } from 'next';
 
+// Dev-only allowance so impeccable live mode can load.
+const __impeccableLiveDev =
+  process.env.NODE_ENV === 'development' ? ' http://localhost:8400' : '';
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -45,7 +49,7 @@ const nextConfig: NextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https:; frame-src 'self' https://www.komoot.com https://www.komoot.fr https://account.komoot.com;",
+              `default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'${__impeccableLiveDev}; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https:${__impeccableLiveDev}; frame-src 'self' https://www.komoot.com https://www.komoot.fr https://account.komoot.com;`,
           },
         ],
       },

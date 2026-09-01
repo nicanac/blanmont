@@ -48,7 +48,7 @@ export default function MapPreview({ summaryPolyline }: MapPreviewProps) {
         }
     }, [summaryPolyline]);
 
-    if (!positions.length) return <div className="h-48 bg-gray-100 flex items-center justify-center">Loading Map...</div>;
+    if (!positions.length) return <div className="h-48 bg-[#f2efe9] flex items-center justify-center">Loading Map...</div>;
 
     return (
         <MapContainer

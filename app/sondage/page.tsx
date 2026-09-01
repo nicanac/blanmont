@@ -21,7 +21,7 @@ export default async function SondagePage(): Promise<React.ReactElement> {
   const responses = activePoll ? await getPollResponses(activePoll.id) : [];
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-16">
+    <div className="min-h-screen bg-[#faf8f5] pb-16">
       <PageHero
         title={activePoll ? activePoll.title : 'Sondage du Weekend'}
         description={

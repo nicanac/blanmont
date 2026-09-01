@@ -63,7 +63,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
       {/* Hero Section */}
-      <div className="relative mb-8 h-[300px] sm:h-[400px] overflow-hidden rounded-3xl bg-slate-900 flex flex-col justify-end shadow-xl">
+      <div className="relative mb-8 h-[300px] sm:h-[400px] overflow-hidden rounded-lg bg-slate-900 flex flex-col justify-end shadow-xl">
         {trace.photoUrl && (
           <div className="absolute inset-0 opacity-60">
             <Image
@@ -120,8 +120,8 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
         {/* Main Content */}
         <div className="lg:col-span-8 space-y-8">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-            <div className="text-base text-slate-700 leading-relaxed whitespace-pre-line">
+          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="text-base text-[#3a3f4a] leading-relaxed whitespace-pre-line">
               {trace.description || 'Aucune description fournie.'}
             </div>
 
@@ -155,14 +155,14 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
 
             {/* Photo Previews */}
             {trace.photoPreviews && trace.photoPreviews.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-4 border-t border-slate-100">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-4 border-t border-[#efece5]">
                 {trace.photoPreviews.map((url, i) => (
                   <a
                     key={i}
                     href={trace.photoAlbumUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100 hover:opacity-90 transition-opacity"
+                    className="relative aspect-square overflow-hidden rounded-md bg-[#f2efe9] hover:opacity-90 transition-opacity"
                   >
                     <Image
                       src={url}
@@ -180,7 +180,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
 
           {/* Feedback Section */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-slate-900">
+            <h3 className="text-xl font-bold text-[#101216]">
               Commentaires de la communauté
             </h3>
             <FeedbackList feedbackList={feedbackList} members={members} />
@@ -190,10 +190,10 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
         {/* Sidebar */}
         <div className="lg:col-span-4 space-y-6">
           {/* Feedback Form Card */}
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
+          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-4">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Donnez votre avis</h3>
-              <p className="text-xs text-slate-500 mt-1">
+              <h3 className="text-lg font-bold text-[#101216]">Donnez votre avis</h3>
+              <p className="text-xs text-[#5c6370] mt-1">
                 Vous avez roulé ce parcours ? Partagez votre expérience avec le club.
               </p>
             </div>
@@ -208,8 +208,8 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
           </div>
 
           {/* Admin Tools Card */}
-          <div className="rounded-3xl border border-slate-200 bg-slate-50/70 p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+          <div className="rounded-lg border border-[#e4e0d8] bg-[#f2efe9]/70 p-6 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#3a3f4a]">
               Outils Administrateur
             </h3>
 
@@ -222,8 +222,8 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
               <span>Modifier le parcours</span>
             </Link>
 
-            <div className="border-t border-slate-200 pt-3 space-y-3">
-              <p className="text-xs text-slate-500">
+            <div className="border-t border-[#e4e0d8] pt-3 space-y-3">
+              <p className="text-xs text-[#5c6370]">
                 Mettre à jour l&apos;aperçu de la carte (URL de l&apos;image)
               </p>
 
@@ -234,27 +234,27 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
                   name="imageUrl"
                   placeholder="https://example.com/map.jpg"
                   required
-                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
+                  className="w-full rounded-xl border border-[#e4e0d8] bg-white px-3 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
                 />
                 <button
                   type="submit"
-                  className="w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+                  className="w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
                 >
                   Mettre à jour l&apos;image
                 </button>
               </form>
 
               <div className="relative flex py-1 items-center">
-                <div className="flex-grow border-t border-slate-200" />
+                <div className="flex-grow border-t border-[#e4e0d8]" />
                 <span className="shrink mx-2 text-xs text-slate-400 font-semibold uppercase tracking-wider">ou</span>
-                <div className="flex-grow border-t border-slate-200" />
+                <div className="flex-grow border-t border-[#e4e0d8]" />
               </div>
 
               <form action={generateMapPreview}>
                 <input type="hidden" name="traceId" value={trace.id} />
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
                 >
                   <SparklesIcon className="h-3.5 w-3.5 text-amber-500" />
                   <span>Générer depuis Komoot</span>

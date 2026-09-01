@@ -47,7 +47,7 @@ const GROUP_OPTIONS: { id: CyclingGroupChoice; label: string; speed: string; col
   { id: 'Groupe B', label: 'Groupe B', speed: '25 - 28 km/h', color: 'border-blue-200 bg-blue-50 text-blue-800' },
   { id: 'Groupe C', label: 'Groupe C', speed: '< 25 km/h', color: 'border-green-200 bg-green-50 text-green-800' },
   { id: 'Groupe VTT', label: 'Groupe VTT', speed: 'Sentiers & Bois', color: 'border-amber-200 bg-amber-50 text-amber-800' },
-  { id: 'Autre', label: 'Autre / Libre', speed: 'Horaires décalés', color: 'border-slate-200 bg-slate-50 text-slate-700' },
+  { id: 'Autre', label: 'Autre / Libre', speed: 'Horaires décalés', color: 'border-[#e4e0d8] bg-[#f2efe9] text-[#3a3f4a]' },
 ];
 
 export default function WeekendPollView({ poll, responses, members }: WeekendPollViewProps) {
@@ -70,12 +70,12 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
   if (!poll) {
     return (
-      <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-xs max-w-2xl mx-auto space-y-4">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-[#e03e3e]">
+      <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center shadow-xs max-w-2xl mx-auto space-y-4">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-md bg-red-50 text-[#e03e3e]">
           <CalendarDaysIcon className="h-8 w-8" />
         </div>
-        <h2 className="text-xl font-bold text-slate-900">Aucun sondage actif pour le moment</h2>
-        <p className="text-xs text-slate-500 leading-relaxed max-w-md mx-auto">
+        <h2 className="text-xl font-bold text-[#101216]">Aucun sondage actif pour le moment</h2>
+        <p className="text-xs text-[#5c6370] leading-relaxed max-w-md mx-auto">
           Le prochain sondage pour les sorties du weekend sera ouvert prochainement par les capitaines de route.
         </p>
         <Link
@@ -191,12 +191,12 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
         {/* Left Column: Member QCM Form */}
         <div className="lg:col-span-5 space-y-6">
           {!isAuthenticated ? (
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-xs space-y-4">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-[#e03e3e]">
+            <div className="rounded-lg border border-[#e4e0d8] bg-white p-8 text-center shadow-xs space-y-4">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-md bg-red-50 text-[#e03e3e]">
                 <LockClosedIcon className="h-7 w-7" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Connexion requise</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <h3 className="text-lg font-bold text-[#101216]">Connexion requise</h3>
+              <p className="text-xs text-[#5c6370] leading-relaxed">
                 Connectez-vous avec votre compte membre pour voter et indiquer vos préférences de sortie.
               </p>
               <Link
@@ -207,16 +207,16 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
               </Link>
             </div>
           ) : isClosed ? (
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-xs space-y-3">
+            <div className="rounded-lg border border-[#e4e0d8] bg-white p-8 text-center shadow-xs space-y-3">
               <InformationCircleIcon className="mx-auto h-8 w-8 text-slate-400" />
-              <h3 className="text-base font-bold text-slate-900">Les votes sont clôturés</h3>
-              <p className="text-xs text-slate-500">
+              <h3 className="text-base font-bold text-[#101216]">Les votes sont clôturés</h3>
+              <p className="text-xs text-[#5c6370]">
                 Ce sondage est désormais fermé. Rendez-vous au départ selon les groupes ci-contre !
               </p>
             </div>
           ) : myResponse && !isEditing ? (
             /* Already voted summary card */
-            <div className="rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50/60 via-white to-emerald-50/30 p-6 sm:p-8 shadow-xs space-y-5">
+            <div className="rounded-lg border border-emerald-200 bg-gradient-to-br from-emerald-50/60 via-white to-emerald-50/30 p-6 sm:p-8 shadow-xs space-y-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CheckCircleIcon className="h-6 w-6 text-emerald-600" />
@@ -226,7 +226,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 </div>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="inline-flex items-center gap-1 rounded-full border border-[#e4e0d8] bg-white px-3 py-1 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
                 >
                   <PencilSquareIcon className="h-3.5 w-3.5" />
                   <span>Modifier</span>
@@ -235,23 +235,23 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between py-2 border-b border-emerald-100">
-                  <span className="text-slate-500">Membre :</span>
-                  <strong className="text-slate-900">{user?.name}</strong>
+                  <span className="text-[#5c6370]">Membre :</span>
+                  <strong className="text-[#101216]">{user?.name}</strong>
                 </div>
                 <div className="flex justify-between py-2 border-b border-emerald-100">
-                  <span className="text-slate-500">Jour(s) :</span>
-                  <span className="font-bold text-slate-900 capitalize">
+                  <span className="text-[#5c6370]">Jour(s) :</span>
+                  <span className="font-bold text-[#101216] capitalize">
                     {DAY_OPTIONS.find((d) => d.id === myResponse.dayChoice)?.label}
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-emerald-100">
-                  <span className="text-slate-500">Groupe :</span>
-                  <span className="font-bold text-slate-900">{myResponse.groupChoice}</span>
+                  <span className="text-[#5c6370]">Groupe :</span>
+                  <span className="font-bold text-[#101216]">{myResponse.groupChoice}</span>
                 </div>
                 {myResponse.comment && (
                   <div className="py-2 border-b border-emerald-100">
-                    <span className="text-slate-500 block mb-1">Remarque :</span>
-                    <p className="italic text-slate-700 bg-white/80 p-2.5 rounded-xl border border-emerald-100">
+                    <span className="text-[#5c6370] block mb-1">Remarque :</span>
+                    <p className="italic text-[#3a3f4a] bg-white/80 p-2.5 rounded-xl border border-emerald-100">
                       &laquo; {myResponse.comment} &raquo;
                     </p>
                   </div>
@@ -280,22 +280,22 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
             /* Interactive QCM Voting Form */
             <form
               onSubmit={handleSubmitResponse}
-              className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6"
+              className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs space-y-6"
             >
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div className="flex items-center justify-between border-b border-[#efece5] pb-4">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900">
+                  <h3 className="text-lg font-bold text-[#101216]">
                     {myResponse ? 'Modifier votre réponse' : 'Votre réponse au sondage'}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    Connecté en tant que <strong className="text-slate-800">{user?.name}</strong>
+                  <p className="text-xs text-[#5c6370] mt-0.5">
+                    Connecté en tant que <strong className="text-[#101216]">{user?.name}</strong>
                   </p>
                 </div>
                 {myResponse && (
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="text-xs text-slate-400 hover:text-slate-600"
+                    className="text-xs text-slate-400 hover:text-[#3a3f4a]"
                   >
                     Fermer
                   </button>
@@ -304,7 +304,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
               {/* Question 1: Jours */}
               <div className="space-y-3">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a]">
                   1. Quel(s) jour(s) roulez-vous ce weekend ? *
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -313,16 +313,16 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                       key={opt.id}
                       type="button"
                       onClick={() => setSelectedDay(opt.id)}
-                      className={`flex items-start gap-3 p-3.5 rounded-2xl border text-left transition-all ${
+                      className={`flex items-start gap-3 p-3.5 rounded-md border text-left transition-all ${
                         selectedDay === opt.id
                           ? 'border-[#e03e3e] bg-red-50/50 ring-2 ring-[#e03e3e]/20'
-                          : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/60'
+                          : 'border-[#e4e0d8] hover:border-slate-300 hover:bg-[#f2efe9]/60'
                       }`}
                     >
                       <span className="text-2xl">{opt.icon}</span>
                       <div>
-                        <div className="text-xs font-bold text-slate-900">{opt.label}</div>
-                        <div className="text-xs text-slate-500">{opt.subtitle}</div>
+                        <div className="text-xs font-bold text-[#101216]">{opt.label}</div>
+                        <div className="text-xs text-[#5c6370]">{opt.subtitle}</div>
                       </div>
                     </button>
                   ))}
@@ -331,8 +331,8 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
               {/* Question 2: Groupe (if attending) */}
               {selectedDay !== 'absent' && (
-                <div className="space-y-3 pt-2 border-t border-slate-100">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                <div className="space-y-3 pt-2 border-t border-[#efece5]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a]">
                     2. Dans quel groupe souhaitez-vous rouler ? *
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -344,11 +344,11 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                         className={`flex items-center justify-between p-3 rounded-xl border text-left transition-all ${
                           selectedGroup === grp.id
                             ? 'border-[#e03e3e] bg-red-50/50 ring-2 ring-[#e03e3e]/20 font-bold'
-                            : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/60'
+                            : 'border-[#e4e0d8] hover:border-slate-300 hover:bg-[#f2efe9]/60'
                         }`}
                       >
-                        <span className="text-xs text-slate-900">{grp.label}</span>
-                        <span className="text-xs text-slate-500 font-medium">{grp.speed}</span>
+                        <span className="text-xs text-[#101216]">{grp.label}</span>
+                        <span className="text-xs text-[#5c6370] font-medium">{grp.speed}</span>
                       </button>
                     ))}
                   </div>
@@ -357,10 +357,10 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
               {/* Custom Admin Questions (if any) */}
               {poll.customQuestions && poll.customQuestions.length > 0 && selectedDay !== 'absent' && (
-                <div className="space-y-4 pt-2 border-t border-slate-100">
+                <div className="space-y-4 pt-2 border-t border-[#efece5]">
                   {poll.customQuestions.map((q, idx) => (
                     <div key={q.id} className="space-y-2">
-                      <label className="block text-xs font-bold text-slate-800">
+                      <label className="block text-xs font-bold text-[#101216]">
                         {idx + 3}. {q.title}
                       </label>
                       <div className="space-y-1.5">
@@ -382,7 +382,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                               className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs text-left transition-all ${
                                 isSelected
                                   ? 'border-[#e03e3e] bg-red-50/50 text-red-950 font-bold'
-                                  : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                                  : 'border-[#e4e0d8] text-[#3a3f4a] hover:bg-[#f2efe9]'
                               }`}
                             >
                               <span>{opt}</span>
@@ -405,10 +405,10 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
               )}
 
               {/* Question 4: Commentaire */}
-              <div className="space-y-1.5 pt-2 border-t border-slate-100">
+              <div className="space-y-1.5 pt-2 border-t border-[#efece5]">
                 <label
                   htmlFor="poll-comment"
-                  className="block text-xs font-bold uppercase tracking-wider text-slate-700"
+                  className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a]"
                 >
                   Commentaire / Remarque (facultatif)
                 </label>
@@ -418,7 +418,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Ex: Je rejoins le groupe au carrefour de Corroy..."
-                  className="w-full rounded-2xl border border-slate-200 p-3 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
+                  className="w-full rounded-md border border-[#e4e0d8] p-3 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
                 />
               </div>
 
@@ -442,27 +442,27 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
         <div className="lg:col-span-7 space-y-6">
           {/* Summary Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-bold text-slate-900 tabular-nums">{saturdayCount}</div>
-              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
+            <div className="rounded-md border border-[#e4e0d8] bg-white p-4 text-center shadow-xs">
+              <div className="text-2xl font-bold text-[#101216] tabular-nums">{saturdayCount}</div>
+              <div className="text-xs font-medium text-[#5c6370] uppercase tracking-wider mt-0.5">
                 Samedi matin
               </div>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-bold text-slate-900 tabular-nums">{sundayCount}</div>
-              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
+            <div className="rounded-md border border-[#e4e0d8] bg-white p-4 text-center shadow-xs">
+              <div className="text-2xl font-bold text-[#101216] tabular-nums">{sundayCount}</div>
+              <div className="text-xs font-medium text-[#5c6370] uppercase tracking-wider mt-0.5">
                 Dimanche matin
               </div>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
+            <div className="rounded-md border border-[#e4e0d8] bg-white p-4 text-center shadow-xs">
               <div className="text-2xl font-bold text-emerald-600 tabular-nums">
                 {responses.filter((r) => r.dayChoice === 'les-deux').length}
               </div>
-              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-xs font-medium text-[#5c6370] uppercase tracking-wider mt-0.5">
                 Les 2 jours
               </div>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
+            <div className="rounded-md border border-[#e4e0d8] bg-white p-4 text-center shadow-xs">
               <div className="text-2xl font-bold text-slate-400 tabular-nums">{absentCount}</div>
               <div className="text-xs font-medium text-slate-400 uppercase tracking-wider mt-0.5">
                 Absents
@@ -471,8 +471,8 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
           </div>
 
           {/* Group Breakdown Cards */}
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#3a3f4a]">
               Répartition par Groupe de niveau
             </h3>
 
@@ -482,10 +482,10 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 const percentage = activeAttendees.length > 0 ? (count / activeAttendees.length) * 100 : 0;
 
                 return (
-                  <div key={grp.id} className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4 space-y-2">
+                  <div key={grp.id} className="rounded-md border border-[#efece5] bg-[#f2efe9]/70 p-4 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-900">{grp.label}</span>
-                      <span className="text-sm font-extrabold text-slate-900">{count} coureur{count > 1 ? 's' : ''}</span>
+                      <span className="text-xs font-bold text-[#101216]">{grp.label}</span>
+                      <span className="text-sm font-extrabold text-[#101216]">{count} coureur{count > 1 ? 's' : ''}</span>
                     </div>
 
                     <div className="h-1.5 w-full rounded-full bg-slate-200 overflow-hidden">
@@ -501,10 +501,10 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
           </div>
 
           {/* Participants Directory */}
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#efece5] pb-4">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-[#101216]">
                   Liste des participants ({filteredResponses.length})
                 </h3>
               </div>
@@ -514,7 +514,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 <select
                   value={filterDay}
                   onChange={(e) => setFilterDay(e.target.value)}
-                  className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 focus:outline-hidden"
+                  className="rounded-xl border border-[#e4e0d8] bg-[#f2efe9] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] focus:outline-hidden"
                 >
                   <option value="all">Tous les jours</option>
                   <option value="samedi">Samedi</option>
@@ -525,7 +525,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 <select
                   value={filterGroup}
                   onChange={(e) => setFilterGroup(e.target.value)}
-                  className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 focus:outline-hidden"
+                  className="rounded-xl border border-[#e4e0d8] bg-[#f2efe9] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] focus:outline-hidden"
                 >
                   <option value="all">Tous les groupes</option>
                   <option value="Groupe A">Groupe A</option>
@@ -549,14 +549,14 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                   return (
                     <div
                       key={res.id}
-                      className={`flex items-start justify-between p-3 rounded-2xl border transition-all ${
+                      className={`flex items-start justify-between p-3 rounded-md border transition-all ${
                         isAbsent
-                          ? 'border-slate-100 bg-slate-50/40 opacity-60'
-                          : 'border-slate-100 bg-slate-50/70 hover:bg-white hover:border-slate-300'
+                          ? 'border-[#efece5] bg-[#f2efe9]/40 opacity-60'
+                          : 'border-[#efece5] bg-[#f2efe9]/70 hover:bg-white hover:border-slate-300'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-slate-200 flex items-center justify-center font-bold text-xs text-slate-700">
+                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-slate-200 flex items-center justify-center font-bold text-xs text-[#3a3f4a]">
                           {res.memberPhotoUrl ? (
                             <Image
                               src={res.memberPhotoUrl}
@@ -570,20 +570,20 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                         </div>
 
                         <div className="space-y-0.5">
-                          <div className="text-xs font-bold text-slate-900">
+                          <div className="text-xs font-bold text-[#101216]">
                             {res.memberName}
                           </div>
-                          <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                          <div className="flex items-center gap-1.5 text-xs text-[#5c6370]">
                             <span>{dayBadge?.icon} {dayBadge?.label}</span>
                             {!isAbsent && (
                               <>
                                 <span>•</span>
-                                <span className="font-semibold text-slate-700">{res.groupChoice}</span>
+                                <span className="font-semibold text-[#3a3f4a]">{res.groupChoice}</span>
                               </>
                             )}
                           </div>
                           {res.comment && (
-                            <p className="text-xs text-slate-600 italic line-clamp-2 mt-1">
+                            <p className="text-xs text-[#3a3f4a] italic line-clamp-2 mt-1">
                               &laquo; {res.comment} &raquo;
                             </p>
                           )}

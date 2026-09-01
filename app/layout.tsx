@@ -9,7 +9,7 @@ import { Toaster } from 'sonner';
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700', '800'],
   variable: '--font-poppins',
 });
 
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`h-full bg-white ${poppins.variable} font-sans`}>
+      <body className={`h-full bg-[#faf8f5] ${poppins.variable} font-sans`}>
         <FirstArrivalLoader />
         <AuthProvider>
           <Navbar />

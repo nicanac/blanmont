@@ -34,28 +34,28 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
 
   return (
     <div className="w-full">
-      <div className="group block rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-red-300 hover:shadow-md transition-all overflow-hidden">
+      <div className="group block rounded-lg bg-[#161922] border border-[#262b38] hover:border-[#e03e3e]/50 transition-colors overflow-hidden">
         {/* Header (Clickable toggle) */}
         <button
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-3 hover:bg-slate-50/60 transition-colors cursor-pointer"
+          className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-3 hover:bg-white/5 transition-colors cursor-pointer"
           aria-expanded={isExpanded}
         >
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse shrink-0" />
-            <span className="font-bold text-xs uppercase tracking-wider text-slate-800">
+            <span className="font-semibold text-[0.8125rem] uppercase tracking-[0.08em] text-white">
               Prochain Rendez-vous
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full whitespace-nowrap">
+            <span className="text-xs font-medium text-[#a7adbb] bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full whitespace-nowrap">
               {nextRide.dateFormatted}
             </span>
             <div
-              className={`rounded-full p-1 text-slate-400 group-hover:text-[#e03e3e] group-hover:bg-slate-100 transition-all ${
-                isExpanded ? 'rotate-180 text-[#e03e3e] bg-slate-100' : ''
+              className={`rounded-full p-1 text-[#7d8493] group-hover:text-[#e03e3e] transition-all ${
+                isExpanded ? 'rotate-180 text-[#e03e3e]' : ''
               }`}
               title={isExpanded ? 'Réduire' : 'Déplier les détails'}
             >
@@ -66,31 +66,31 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
 
         {/* Compact Summary (Always visible) */}
         <div className="px-4 sm:px-5 pb-3.5 -mt-1 flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-1.5 font-bold text-slate-900 truncate">
+          <div className="flex items-center gap-1.5 font-bold text-white truncate">
             <MapPinIcon className="h-4 w-4 text-[#e03e3e] shrink-0" />
             <span className="truncate">{nextRide.location}</span>
           </div>
 
-          <div className="text-slate-600 flex items-center gap-1.5">
-            <span>Départ <strong className="text-slate-800">{nextRide.departure}</strong></span>
+          <div className="text-[#a7adbb] flex items-center gap-1.5">
+            <span>Départ <strong className="text-[#f5f6f8]">{nextRide.departure}</strong></span>
             {nextRide.distances && <span>• {nextRide.distances}</span>}
           </div>
         </div>
 
         {/* Expandable Details Section */}
         {isExpanded && (
-          <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-slate-100 space-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
+          <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-[#262b38] space-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
             {/* Address & Remarks */}
             {(nextRide.address || nextRide.remarks) && (
-              <div className="space-y-1 text-xs text-slate-600">
+              <div className="space-y-1 text-xs text-[#a7adbb]">
                 {nextRide.address && (
-                  <p className="text-xs text-slate-500">
-                    <span className="font-semibold text-slate-700">Lieu de RDV :</span> {nextRide.address}
+                  <p className="text-xs text-[#7d8493]">
+                    <span className="font-semibold text-[#f5f6f8]">Lieu de RDV :</span> {nextRide.address}
                   </p>
                 )}
                 {nextRide.remarks && (
-                  <p className="text-xs text-slate-600">
-                    <span className="font-semibold text-slate-700">Remarques :</span> {nextRide.remarks}
+                  <p className="text-xs text-[#a7adbb]">
+                    <span className="font-semibold text-[#f5f6f8]">Remarques :</span> {nextRide.remarks}
                   </p>
                 )}
               </div>
@@ -108,7 +108,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
                   href={nextRide.gpxUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-lg bg-red-50 hover:bg-red-100 text-[#e03e3e] px-3 py-1.5 text-xs font-semibold border border-red-200 transition-colors"
+                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-md bg-[#e03e3e]/10 hover:bg-[#e03e3e]/20 text-[#e03e3e] px-3 py-1.5 text-xs font-semibold border border-[#e03e3e]/30 transition-colors"
                 >
                   <ArrowDownTrayIcon className="h-3.5 w-3.5" />
                   <span>
@@ -125,7 +125,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
             )}
 
             {/* Calendar redirect link */}
-            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#e03e3e]">
+            <div className="pt-2 border-t border-[#262b38] flex items-center justify-between text-xs font-semibold text-[#e03e3e]">
               <Link
                 href="/calendrier"
                 className="inline-flex items-center justify-between w-full hover:underline"

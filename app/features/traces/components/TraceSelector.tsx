@@ -18,8 +18,8 @@ interface Props {
  */
 export default function TraceSelector({ traces, selectedIds, onToggle }: Props) {
     return (
-        <div className="max-h-96 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50/50 p-4 space-y-3">
-            <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 tabular-nums">
+        <div className="max-h-96 overflow-y-auto rounded-md border border-[#e4e0d8] bg-[#f2efe9]/50 p-4 space-y-3">
+            <div className="text-xs font-semibold uppercase tracking-wider text-[#5c6370] tabular-nums">
                 {traces.length} parcours disponibles
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -31,15 +31,15 @@ export default function TraceSelector({ traces, selectedIds, onToggle }: Props) 
                             className={`rounded-xl border p-4 transition-all cursor-pointer ${
                                 isSelected
                                     ? 'border-[#e03e3e] bg-red-50/60 ring-2 ring-[#e03e3e]/20 shadow-xs'
-                                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+                                    : 'border-[#e4e0d8] bg-white hover:border-slate-300 hover:bg-[#f2efe9]'
                             }`}
                             onClick={() => onToggle(trace.id)}
                         >
                             <div className="flex items-center justify-between gap-2 mb-2">
-                                <span className="text-sm font-bold text-slate-900 truncate">{trace.name}</span>
+                                <span className="text-sm font-bold text-[#101216] truncate">{trace.name}</span>
                                 {isSelected && <span className="text-[#e03e3e] font-bold text-xs">✓</span>}
                             </div>
-                            <div className="flex items-center gap-3 text-xs text-slate-500 tabular-nums">
+                            <div className="flex items-center gap-3 text-xs text-[#5c6370] tabular-nums">
                                 <span>{trace.distance}&nbsp;km</span>
                                 <span>{trace.elevation}&nbsp;m D+</span>
                                 {trace.surface && <span>{trace.surface}</span>}

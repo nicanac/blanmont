@@ -21,7 +21,7 @@ export default async function BlogPage(): Promise<React.ReactElement> {
   const posts = await getBlogPosts();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-[#faf8f5]">
       <PageHero
         title="Les News"
         description="Articles, conseils et actualités du Club de Blanmont"

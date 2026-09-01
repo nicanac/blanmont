@@ -88,7 +88,7 @@ export default function ProfilePage() {
   const lastName = nameParts.slice(1).join(' ');
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-[#faf8f5]">
       <PageHero
         title="Mon Profil"
         description="Gérez vos informations personnelles et votre compte membre."
@@ -100,7 +100,7 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
         {/* Product Image / User Avatar */}
         <div className="lg:max-w-lg lg:self-end">
-          <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200 relative group">
+          <div className="aspect-square overflow-hidden rounded-lg bg-[#f2efe9] ring-1 ring-gray-200 relative group">
             <img
               src={user.avatarUrl || '/images/default-avatar.svg'}
               alt={user.name}
@@ -147,7 +147,7 @@ export default function ProfilePage() {
                 <div className="flex justify-end gap-2">
                   <button
                     onClick={handleCancel}
-                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+                    className="px-4 py-2 text-[#3a3f4a] hover:bg-[#f2efe9] rounded-md"
                   >
                     Cancel
                   </button>
@@ -165,8 +165,8 @@ export default function ProfilePage() {
 
         {/* Product Info / User Details */}
         <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">{firstName}</h1>
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">{lastName}</h2>
+          <h1 className="text-3xl font-bold tracking-tight text-[#101216]">{firstName}</h1>
+          <h2 className="text-3xl font-bold tracking-tight text-[#101216]">{lastName}</h2>
 
           <div className="mt-3">
             <h3 className="sr-only">Type de compte</h3>
@@ -175,7 +175,7 @@ export default function ProfilePage() {
 
           <div className="mt-6">
             <h3 className="sr-only">Description</h3>
-            <div className="space-y-6 text-base text-gray-700">
+            <div className="space-y-6 text-base text-[#3a3f4a]">
               <p>
                 Bienvenue sur votre profil membre du Club de Blanmont. Ici, vous pouvez retrouver
                 les informations liées à votre adhésion.
@@ -183,15 +183,15 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="mt-6 border-t border-gray-100 pt-6">
+          <div className="mt-6 border-t border-[#efece5] pt-6">
             <div className="flex items-center justify-between py-2 border-b border-gray-50">
-              <h4 className="text-sm font-medium text-gray-900">Email</h4>
-              <span className="ml-2 text-sm text-gray-500">{user.email}</span>
+              <h4 className="text-sm font-medium text-[#101216]">Email</h4>
+              <span className="ml-2 text-sm text-[#5c6370]">{user.email}</span>
             </div>
             {user.phone && (
               <div className="flex items-center justify-between py-2 border-b border-gray-50">
-                <h4 className="text-sm font-medium text-gray-900">Mobile</h4>
-                <span className="ml-2 text-sm text-gray-500">{user.phone}</span>
+                <h4 className="text-sm font-medium text-[#101216]">Mobile</h4>
+                <span className="ml-2 text-sm text-[#5c6370]">{user.phone}</span>
               </div>
             )}
           </div>
