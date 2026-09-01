@@ -40,10 +40,10 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
         {/* Section header */}
         <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
           <div className="space-y-1">
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Actualités &amp; Vie du Club
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 text-balance">
               Les dernières nouvelles du peloton
             </h2>
           </div>

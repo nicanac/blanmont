@@ -66,7 +66,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
           <div>
             <div className="flex items-center gap-2">
               <span
-                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                   poll.status === 'active'
                     ? 'bg-emerald-100 text-emerald-800'
                     : poll.status === 'draft'
@@ -118,26 +118,26 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
         <div className="lg:col-span-8 space-y-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-slate-900">{saturdayCount}</div>
-              <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-slate-900 tabular-nums">{saturdayCount}</div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
                 Samedi
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-slate-900">{sundayCount}</div>
-              <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-slate-900 tabular-nums">{sundayCount}</div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
                 Dimanche
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-emerald-600">{activeAttendees.length}</div>
-              <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-emerald-600 tabular-nums">{activeAttendees.length}</div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
                 Total Présents
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-slate-400">{absentCount}</div>
-              <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-slate-400 tabular-nums">{absentCount}</div>
+              <div className="text-xs font-medium text-slate-400 uppercase tracking-wider mt-0.5">
                 Absents
               </div>
             </div>
@@ -200,7 +200,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                     </td>
                     <td className="px-4 py-3.5">
                       <span
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                           r.dayChoice === 'absent'
                             ? 'bg-slate-100 text-slate-500'
                             : 'bg-emerald-50 text-emerald-800'
@@ -221,7 +221,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                     <td className="px-4 py-3.5 text-slate-600 max-w-xs truncate">
                       {r.comment ? `« ${r.comment} »` : '—'}
                     </td>
-                    <td className="px-4 py-3.5 text-slate-400 font-mono text-[11px]">
+                    <td className="px-4 py-3.5 text-slate-400 font-mono text-xs tabular-nums">
                       {r.updatedAt ? new Date(r.updatedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '—'}
                     </td>
                     <td className="px-4 py-3.5 text-center">

@@ -90,7 +90,7 @@ export default function CalendarSubscribeButton() {
                 className="flex items-center justify-between p-3.5 rounded-2xl border border-slate-200 hover:border-red-300 hover:bg-red-50/40 transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 group-hover:bg-red-100 text-slate-800 group-hover:text-[#e03e3e] font-bold text-lg transition-colors">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 group-hover:bg-slate-200 text-slate-800 group-hover:text-slate-900 font-bold text-lg transition-colors">
                     
                   </div>
                   <div>

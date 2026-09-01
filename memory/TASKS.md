@@ -4,6 +4,15 @@
 This file tracks the history of tasks performed in this session and planned future work.
 
 ## ✅ Completed Tasks
+- **Application-Wide Typographic Harmonization & Impeccable Polish (Typeset)**:
+  - Standardized the typographic system and role hierarchy across the entire application in alignment with `DESIGN.md` (Display, Headline, Title, Lead, Body, Label/Badge, Tabular Data).
+  - Added custom brand text selection styling, caret color, smooth scrolling, and custom sleek scrollbars in `app/globals.css`.
+  - Replaced non-standard micro-text (`text-[9px]`, `text-[10px]`, `text-[11px]`) across Calendar, Traces, Blog, Admin, Le Club, Leaderboard, and Loaders with accessible, readable `text-xs font-semibold` / `text-xs font-medium`.
+  - Integrated `text-balance` across hero titles and section headers for optimal editorial wrapping.
+  - Formatted numerical stats (distances in `km`, elevation in `m D+`, prices in `€`, speeds in `km/h`, time stamps, attendee counts) with `tabular-nums` and French typographic non-breaking spacing.
+  - Removed legacy unused `.module.css` files (`page.module.css`, `members/page.module.css`, `layout.module.css`, `SaturdayRideView.module.css`, `TraceSelector.module.css`) and migrated `TraceSelector.tsx` to Tailwind CSS.
+  - Validated with Impeccable design detector (0 issues), TypeScript compiler (0 errors), and Next.js production build (27 routes).
+  - *Status*: Verified with Next.js build.
 - **Weekend Poll QCM System & Admin Management Suite**:
   - Implemented Firebase data layer (`app/lib/firebase/polls.ts`) for managing weekend poll sessions (`weekend-polls`) and member responses (`weekend-poll-responses`).
   - Created dedicated member-facing QCM page (`app/sondage/page.tsx` & `WeekendPollView.tsx`) with day choices (Samedi, Dimanche, Les deux, Absent), group selector (Groupe A/B/C/VTT), custom QCM questions, and real-time live attendance tallies with rider directory.

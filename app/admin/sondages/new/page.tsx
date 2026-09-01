@@ -259,7 +259,7 @@ export default function NewWeekendPollPage() {
 
                   {/* Options */}
                   <div className="space-y-2 pl-2">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                       Options de réponse :
                     </span>
                     {q.options.map((opt, optIdx) => (

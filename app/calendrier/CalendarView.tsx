@@ -207,27 +207,27 @@ export default function CalendarView({
                                 </p>
                                 <PencilSquareIcon className="h-3.5 w-3.5 text-gray-400 group-hover:text-brand-primary shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
                               </div>
-                              <div className="flex justify-between items-center text-[10px] text-gray-500">
+                              <div className="flex justify-between items-center text-xs text-slate-500 tabular-nums">
                                 <span>{event.departure}</span>
                                 <div className="flex items-center gap-1">
-                                  {event.distances && <span>{event.distances}km</span>}
+                                  {event.distances && <span>{event.distances} km</span>}
                                   {event.gpxUrl && (
                                     <span
-                                      className="inline-flex items-center rounded-full bg-blue-50 text-blue-700 px-1.5 py-0.2 text-[9px] font-bold"
+                                      className="inline-flex items-center rounded-full bg-blue-50 text-blue-700 px-1.5 py-0.5 text-xs font-bold"
                                       title="Trace GPX disponible"
                                     >
                                       GPX
                                     </span>
                                   )}
                                   {(attendanceMap[event.id]?.length ?? 0) > 0 && (
-                                    <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
+                                    <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-xs font-bold">
                                       👥 {attendanceMap[event.id].length}
                                     </span>
                                   )}
                                 </div>
                               </div>
                               {event.alternative && (
-                                <p className="text-[9px] text-orange-600 truncate mt-0.5">
+                                <p className="text-xs text-orange-600 truncate mt-0.5">
                                   Alt: {event.alternative}
                                 </p>
                               )}
@@ -247,27 +247,27 @@ export default function CalendarView({
                               <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-brand-primary">
                                 {event.location}
                               </p>
-                              <div className="flex justify-between items-center text-[10px] text-gray-500">
+                              <div className="flex justify-between items-center text-xs text-slate-500 tabular-nums">
                                 <span>{event.departure}</span>
                                 <div className="flex items-center gap-1">
-                                  {event.distances && <span>{event.distances}km</span>}
+                                  {event.distances && <span>{event.distances} km</span>}
                                   {event.gpxUrl && (
                                     <span
-                                      className="inline-flex items-center rounded-full bg-blue-50 text-blue-700 px-1.5 py-0.2 text-[9px] font-bold"
+                                      className="inline-flex items-center rounded-full bg-blue-50 text-blue-700 px-1.5 py-0.5 text-xs font-bold"
                                       title="Trace GPX disponible"
                                     >
                                       GPX
                                     </span>
                                   )}
                                   {(attendanceMap[event.id]?.length ?? 0) > 0 && (
-                                    <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
+                                    <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-xs font-bold">
                                       👥 {attendanceMap[event.id].length}
                                     </span>
                                   )}
                                 </div>
                               </div>
                               {event.alternative && (
-                                <p className="text-[9px] text-orange-600 truncate mt-0.5">
+                                <p className="text-xs text-orange-600 truncate mt-0.5">
                                   Alt: {event.alternative}
                                 </p>
                               )}
@@ -312,7 +312,7 @@ export default function CalendarView({
                           <span>🕒 {event.departure}</span>
                           {event.distances && <span>🚲 {event.distances} km</span>}
                           {(attendanceMap[event.id]?.length ?? 0) > 0 && (
-                            <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-1.5 py-0.5 text-[9px] font-bold">
+                            <span className="inline-flex items-center rounded-full bg-green-100 text-green-700 px-2 py-0.5 text-xs font-bold">
                               👥 {attendanceMap[event.id].length}
                             </span>
                           )}

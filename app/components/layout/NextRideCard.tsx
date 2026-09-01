@@ -50,12 +50,12 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full whitespace-nowrap">
+            <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full whitespace-nowrap">
               {nextRide.dateFormatted}
             </span>
             <div
-              className={`rounded-full p-1 text-slate-400 group-hover:text-[#e03e3e] group-hover:bg-red-50 transition-all ${
-                isExpanded ? 'rotate-180 text-[#e03e3e] bg-red-50' : ''
+              className={`rounded-full p-1 text-slate-400 group-hover:text-[#e03e3e] group-hover:bg-slate-100 transition-all ${
+                isExpanded ? 'rotate-180 text-[#e03e3e] bg-slate-100' : ''
               }`}
               title={isExpanded ? 'Réduire' : 'Déplier les détails'}
             >
@@ -84,12 +84,12 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
             {(nextRide.address || nextRide.remarks) && (
               <div className="space-y-1 text-xs text-slate-600">
                 {nextRide.address && (
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-xs text-slate-500">
                     <span className="font-semibold text-slate-700">Lieu de RDV :</span> {nextRide.address}
                   </p>
                 )}
                 {nextRide.remarks && (
-                  <p className="text-[11px] text-slate-600">
+                  <p className="text-xs text-slate-600">
                     <span className="font-semibold text-slate-700">Remarques :</span> {nextRide.remarks}
                   </p>
                 )}

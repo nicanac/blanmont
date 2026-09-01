@@ -322,7 +322,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                       <span className="text-2xl">{opt.icon}</span>
                       <div>
                         <div className="text-xs font-bold text-slate-900">{opt.label}</div>
-                        <div className="text-[11px] text-slate-500">{opt.subtitle}</div>
+                        <div className="text-xs text-slate-500">{opt.subtitle}</div>
                       </div>
                     </button>
                   ))}
@@ -348,7 +348,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                         }`}
                       >
                         <span className="text-xs text-slate-900">{grp.label}</span>
-                        <span className="text-[11px] font-medium text-slate-500">{grp.speed}</span>
+                        <span className="text-xs text-slate-500 font-medium">{grp.speed}</span>
                       </button>
                     ))}
                   </div>
@@ -381,13 +381,13 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                               }
                               className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs text-left transition-all ${
                                 isSelected
-                                  ? 'border-[#e03e3e] bg-red-50/40 text-slate-900 font-bold'
+                                  ? 'border-[#e03e3e] bg-red-50/50 text-red-950 font-bold'
                                   : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                               }`}
                             >
                               <span>{opt}</span>
                               <span
-                                className={`h-4 w-4 rounded-full border flex items-center justify-center text-[10px] ${
+                                className={`h-4 w-4 rounded-full border flex items-center justify-center text-xs ${
                                   isSelected
                                     ? 'bg-[#e03e3e] border-[#e03e3e] text-white'
                                     : 'border-slate-300'
@@ -443,28 +443,28 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
           {/* Summary Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-slate-900">{saturdayCount}</div>
-              <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-slate-900 tabular-nums">{saturdayCount}</div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
                 Samedi matin
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-slate-900">{sundayCount}</div>
-              <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-slate-900 tabular-nums">{sundayCount}</div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
                 Dimanche matin
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-emerald-600">
+              <div className="text-2xl font-bold text-emerald-600 tabular-nums">
                 {responses.filter((r) => r.dayChoice === 'les-deux').length}
               </div>
-              <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">
                 Les 2 jours
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-xs">
-              <div className="text-2xl font-black text-slate-400">{absentCount}</div>
-              <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-slate-400 tabular-nums">{absentCount}</div>
+              <div className="text-xs font-medium text-slate-400 uppercase tracking-wider mt-0.5">
                 Absents
               </div>
             </div>
@@ -573,7 +573,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                           <div className="text-xs font-bold text-slate-900">
                             {res.memberName}
                           </div>
-                          <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                          <div className="flex items-center gap-1.5 text-xs text-slate-500">
                             <span>{dayBadge?.icon} {dayBadge?.label}</span>
                             {!isAbsent && (
                               <>
@@ -583,7 +583,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                             )}
                           </div>
                           {res.comment && (
-                            <p className="text-[11px] text-slate-600 italic line-clamp-2 mt-1">
+                            <p className="text-xs text-slate-600 italic line-clamp-2 mt-1">
                               &laquo; {res.comment} &raquo;
                             </p>
                           )}

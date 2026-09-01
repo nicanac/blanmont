@@ -39,7 +39,7 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
     return (
       <div className="inline-flex items-center gap-1.5 rounded-xl bg-slate-100 px-2.5 py-1 text-xs text-slate-500 animate-pulse">
         <span>🌤️</span>
-        <span className="text-[11px]">Météo...</span>
+        <span className="text-xs">Météo...</span>
       </div>
     );
   }
@@ -47,7 +47,7 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
   if (!weather || !weather.isAvailable) {
     if (compact) return null;
     return (
-      <div className="inline-flex items-center gap-1 rounded-xl bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-500 border border-slate-200/60">
+      <div className="inline-flex items-center gap-1 rounded-xl bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500 border border-slate-200/60">
         <span>📅</span>
         <span>Météo disponible J-14</span>
       </div>
@@ -92,17 +92,17 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
             <div className="text-xs font-bold text-slate-900">
               {weather.condition}
             </div>
-            <div className="text-[11px] text-slate-500">
+            <div className="text-xs text-slate-500">
               Prévisions pour le départ {departure ? `(${departure})` : ''}
             </div>
           </div>
         </div>
         <div className="text-right">
-          <span className="text-lg font-extrabold text-slate-900">
+          <span className="text-lg font-bold text-slate-900 tabular-nums">
             {weather.temperature}°C
           </span>
           {weather.precipitationProb > 10 && (
-            <div className="text-[10px] font-semibold text-sky-700">
+            <div className="text-xs font-semibold text-sky-700">
               💧 {weather.precipitationProb}% pluie
             </div>
           )}
@@ -125,7 +125,7 @@ export default function RideWeatherBadge({ isoDate, departure, compact = false }
           </span>
         </div>
 
-        <span className="text-[11px] font-semibold text-slate-500 bg-white px-2 py-0.5 rounded-full border border-sky-200/60">
+        <span className="text-xs font-medium text-slate-600 bg-white px-2 py-0.5 rounded-full border border-sky-200/60">
           {weather.windSpeed < 15 ? 'Vent faible' : weather.windSpeed < 30 ? 'Vent modéré' : 'Vent soutenu ⚠️'}
         </span>
       </div>

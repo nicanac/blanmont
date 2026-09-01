@@ -453,7 +453,7 @@ export default function ImportEventsPage() {
                         <button
                           type="button"
                           onClick={() => handleDeleteRow(event.id)}
-                          className="rounded-lg p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                          className="rounded-lg p-1.5 text-slate-400 hover:text-red-600 hover:bg-slate-100 transition-colors"
                           title="Supprimer cette ligne"
                         >
                           <TrashIcon className="h-4 w-4" />
