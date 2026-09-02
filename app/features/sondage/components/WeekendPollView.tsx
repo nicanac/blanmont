@@ -556,16 +556,18 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-slate-200 flex items-center justify-center font-bold text-xs text-[#3a3f4a]">
-                          {res.memberPhotoUrl ? (
-                            <Image
+                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center font-bold text-xs text-white">
+                          {res.memberPhotoUrl && !res.memberPhotoUrl.includes('placehold') && !res.memberPhotoUrl.includes('default-avatar') ? (
+                            <img
                               src={res.memberPhotoUrl}
                               alt={res.memberName}
-                              fill
-                              className="object-cover"
+                              className="h-full w-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLElement).style.display = 'none';
+                              }}
                             />
                           ) : (
-                            <span>{res.memberName.charAt(0)}</span>
+                            <span>{res.memberName.substring(0, 2).toUpperCase()}</span>
                           )}
                         </div>
 

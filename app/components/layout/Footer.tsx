@@ -42,7 +42,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
               <span className="text-3xl font-extrabold uppercase tracking-[-0.02em] text-white font-sans">
                 Blan<span className="text-[#e03e3e]">mont</span>
               </span>
-              <span className="text-[0.625rem] font-semibold tracking-[0.14em] uppercase text-[#7d8493]">
+              <span className="text-xs font-semibold tracking-[0.14em] uppercase text-[#7d8493]">
                 CC St-Martin
               </span>
             </Link>
@@ -50,7 +50,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
               Cyclo Club Saint-Martin Blanmont. Convivialité, passion du cyclisme sur route et
               esprit d&apos;équipe au cœur du Brabant wallon.
             </p>
-            <p className="text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
               Fondé en 1978 &bull; Brabant wallon, Belgique
             </p>
           </div>
@@ -62,7 +62,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
         {/* Navigation Columns in 3 parts */}
         <div className="pt-10 grid grid-cols-2 gap-8 sm:grid-cols-3">
           <div>
-            <h3 className="text-[0.8125rem] font-semibold text-white uppercase tracking-[0.08em]">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-[0.08em]">
               Le Club
             </h3>
             <ul role="list" className="mt-4 space-y-3">
@@ -80,7 +80,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
           </div>
 
           <div>
-            <h3 className="text-[0.8125rem] font-semibold text-white uppercase tracking-[0.08em]">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-[0.08em]">
               Parcours &amp; Sorties
             </h3>
             <ul role="list" className="mt-4 space-y-3">
@@ -98,7 +98,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
           </div>
 
           <div className="col-span-2 sm:col-span-1">
-            <h3 className="text-[0.8125rem] font-semibold text-white uppercase tracking-[0.08em]">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-[0.08em]">
               Vie du Club
             </h3>
             <ul role="list" className="mt-4 space-y-3">

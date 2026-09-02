@@ -1,384 +1,421 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import {
-    ShoppingBagIcon,
-    FunnelIcon,
-    XMarkIcon,
-    ChevronDownIcon,
-    SparklesIcon,
+  ShoppingBagIcon,
+  XMarkIcon,
+  SparklesIcon,
+  ShieldCheckIcon,
+  TruckIcon,
+  ArrowRightIcon,
+  CheckBadgeIcon,
 } from '@heroicons/react/24/outline';
 import { Equipment } from '../../../types/equipment';
-import { EQUIPMENT_CATEGORIES } from '../../../data/equipment';
+import { EQUIPMENT_CATEGORIES, EQUIPMENT_DATA } from '../../../data/equipment';
+import EquipmentIllustration from './EquipmentIllustration';
 
 export default function EquipementPage() {
-    const [equipment, setEquipment] = useState<Equipment[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState('Tous');
-    const [selectedProduct, setSelectedProduct] = useState<Equipment | null>(null);
-    const [selectedSize, setSelectedSize] = useState<string>('');
-    const [showFilters, setShowFilters] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+  const [equipment, setEquipment] = useState<Equipment[]>(EQUIPMENT_DATA);
+  const [selectedCategory, setSelectedCategory] = useState('Tous');
+  const [selectedProduct, setSelectedProduct] = useState<Equipment | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+  const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        const fetchEquipment = async () => {
-            try {
-                const response = await fetch('/api/equipements');
-                if (response.ok) {
-                    const data = await response.json();
-                    setEquipment(data);
-                }
-            } catch (error) {
-                console.error('Failed to fetch equipment', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchEquipment();
-    }, []);
-
-    // Filter equipment by category
-    const filteredEquipment = equipment.filter(
-        (item) => selectedCategory === 'Tous' || item.category === selectedCategory
-    );
-
-    // Check if size is in stock
-    const isInStock = (item: Equipment, size: string) => {
-        return (item.stock[size] || 0) > 0;
+  useEffect(() => {
+    const fetchEquipment = async () => {
+      try {
+        const response = await fetch('/api/equipements');
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setEquipment(data);
+          }
+        }
+      } catch (error) {
+        console.warn('Using default equipment data fallback', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    fetchEquipment();
+  }, []);
 
-    // Open product detail modal
-    const openProductDetail = (product: Equipment) => {
-        setSelectedProduct(product);
-        setSelectedSize('');
-    };
+  const filteredEquipment = equipment.filter((item) => {
+    if (selectedCategory === 'Tous') return true;
+    if (selectedCategory === 'Short') return item.category === 'Short' || item.category === 'Collant';
+    return item.category === selectedCategory;
+  });
 
-    // Close modal
-    const closeModal = () => {
-        setSelectedProduct(null);
-        setSelectedSize('');
-    };
+  const handleImageError = (id: string) => {
+    setImgErrors((prev) => ({ ...prev, [id]: true }));
+  };
 
-    return (
-        <div className="min-h-screen bg-[#faf8f5]">
-            {/* Hero Section */}
-            <section className="relative overflow-hidden bg-[#0a0c10] border-b border-white/10 py-14 sm:py-20">
-                <div className="pointer-events-none absolute -top-24 right-0 w-96 h-96 bg-[#e03e3e]/20 rounded-full blur-[120px]"></div>
-                <div className="pointer-events-none absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[100px]"></div>
+  const openProductDetail = (product: Equipment) => {
+    setSelectedProduct(product);
+    setSelectedSize(product.sizes[2] || product.sizes[0] || 'M');
+  };
 
-                <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-3xl">
-                        <h1 className="text-balance text-white text-[clamp(2rem,5vw,3.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98]">
-                            Équipement Club
-                        </h1>
-                        <p className="mt-5 max-w-[65ch] text-[#a7adbb] text-base sm:text-lg leading-relaxed">
-                            Portez les couleurs de Blanmont avec fierté. Découvrez notre collection d&apos;équipements cyclistes conçus pour la performance et le confort.
-                        </p>
-                        <div className="mt-7 flex flex-wrap items-center gap-4">
-                            <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30">
-                                <SparklesIcon className="h-3.5 w-3.5" />
-                                Collection 2026
-                            </div>
-                            <span className="text-xs text-[#a7adbb]/70 flex items-center gap-1.5">
-                                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#10b981]"></span>
-                                Commandes par email · Retrait aux sorties du samedi
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+  const closeModal = () => {
+    setSelectedProduct(null);
+    setSelectedSize('');
+  };
 
-            {/* Main Content */}
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-                {isLoading ? (
-                    <div className="flex justify-center items-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-2 border-[#e03e3e] border-t-transparent"></div>
-                    </div>
-                ) : (
-                    <>
-                        {/* Category Filters */}
-                        <div className="mb-10">
-                            <div className="flex flex-wrap items-center justify-between gap-4">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-sm font-medium text-[#5c6370]">Filtrer par :</span>
-                                    <div className="flex flex-wrap gap-2">
-                                        {EQUIPMENT_CATEGORIES.map((category) => (
-                                            <button
-                                                key={category}
-                                                onClick={() => setSelectedCategory(category)}
-                                                className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300 ${selectedCategory === category
-                                                    ? 'bg-gradient-to-r from-red-600 to-[#e03e3e] text-white shadow-md shadow-red-500/25 scale-105'
-                                                    : 'bg-white text-[#3a3f4a] hover:bg-[#f2efe9] hover:text-[#e03e3e] border border-[#e4e0d8] hover:border-red-200'
-                                                    }`}
-                                            >
-                                                {category}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                                <p className="text-sm text-[#5c6370] tabular-nums">
-                                    {filteredEquipment.length} article{filteredEquipment.length !== 1 ? 's' : ''}
-                                </p>
-                            </div>
-                        </div>
+  const totalPieces = equipment.length;
+  const categoriesCount = EQUIPMENT_CATEGORIES.length - 1;
 
-                        {/* Products Grid */}
-                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                            {filteredEquipment.map((item, index) => (
-                                <article
-                                    key={item.id}
-                                    className="group relative overflow-hidden rounded-md bg-white shadow-xs border border-[#e4e0d8] transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/10 hover:-translate-y-1"
-                                    style={{ animationDelay: `${index * 100}ms` }}
-                                >
-                                    {/* Product Image */}
-                                    <div className="relative aspect-4/5 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <ShoppingBagIcon className="h-20 w-20 text-slate-300" />
-                                        </div>
-                                        {item.imageUrl && (
-                                            <Image
-                                                src={item.imageUrl}
-                                                alt={item.name}
-                                                fill
-                                                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                            />
-                                        )}
+  return (
+    <main className="min-h-screen bg-[#faf8f5]">
+      {/* ──── Editorial Cover Hero (Ink) ──── */}
+      <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
+        {/* Ambient red glow */}
+        <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
 
-                                        {/* Overlay on hover */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-                                        {/* Quick View Button */}
-                                        <button
-                                            onClick={() => openProductDetail(item)}
-                                            className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 rounded-full bg-white px-6 py-2.5 text-xs font-bold text-[#101216] shadow-lg hover:bg-[#e03e3e] hover:text-white"
-                                        >
-                                            Voir les détails
-                                        </button>
-
-                                        {/* Category Badge */}
-                                        <div className="absolute top-4 left-4">
-                                            <span className="inline-flex rounded-full bg-white/90 backdrop-blur-xs px-3 py-1 text-xs font-semibold text-[#101216] shadow-xs">
-                                                {item.category}
-                                            </span>
-                                        </div>
-
-                                        {/* Availability Badge */}
-                                        {!item.isAvailable && (
-                                            <div className="absolute top-4 right-4">
-                                                <span className="inline-flex rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
-                                                    Épuisé
-                                                </span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Product Info */}
-                                    <div className="p-6">
-                                        <h3 className="text-lg font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug">
-                                            {item.name}
-                                        </h3>
-                                        <p className="mt-2 text-sm text-[#3a3f4a] line-clamp-2 leading-relaxed">
-                                            {item.description}
-                                        </p>
-
-                                        <div className="mt-4 flex items-end justify-between pt-2 border-t border-[#efece5]">
-                                            <div>
-                                                <p className="text-2xl font-extrabold text-[#101216] tabular-nums">
-                                                    {item.price.toFixed(2)}&nbsp;€
-                                                </p>
-                                                <p className="text-xs text-[#5c6370] mt-0.5">
-                                                    Tailles : {item.sizes.join(', ')}
-                                                </p>
-                                            </div>
-                                            <button
-                                                onClick={() => openProductDetail(item)}
-                                                className="rounded-full bg-[#e03e3e] p-2.5 text-white transition-all hover:bg-[#c93434] hover:scale-105 active:scale-95 shadow-xs"
-                                                aria-label={`Acheter ${item.name}`}
-                                            >
-                                                <ShoppingBagIcon className="h-5 w-5" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-
-                        {/* Empty State */}
-                        {filteredEquipment.length === 0 && (
-                            <div className="rounded-md bg-white p-16 text-center shadow-sm border border-[#efece5]">
-                                <ShoppingBagIcon className="mx-auto h-16 w-16 text-gray-300" />
-                                <h3 className="mt-4 text-lg font-semibold text-[#101216]">
-                                    Aucun équipement disponible
-                                </h3>
-                                <p className="mt-2 text-[#5c6370]">
-                                    Aucun article ne correspond à cette catégorie pour le moment.
-                                </p>
-                                <button
-                                    onClick={() => setSelectedCategory('Tous')}
-                                    className="mt-6 inline-flex items-center rounded-full bg-red-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-red-700 transition-colors"
-                                >
-                                    Voir tous les articles
-                                </button>
-                            </div>
-                        )}
-
-                        {/* Info Section */}
-                        <section className="mt-16 rounded-md bg-gradient-to-br from-gray-900 to-gray-800 p-8 md:p-12 text-white">
-                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 rounded-xl bg-red-600/20 p-3">
-                                        <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold">Qualité Premium</h3>
-                                        <p className="mt-1 text-sm text-gray-400">
-                                            Tissus techniques haute performance pour un confort optimal.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 rounded-xl bg-red-600/20 p-3">
-                                        <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold">Retrait au Club</h3>
-                                        <p className="mt-1 text-sm text-gray-400">
-                                            Récupérez vos commandes lors des sorties du samedi.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 rounded-xl bg-red-600/20 p-3">
-                                        <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold">Support</h3>
-                                        <p className="mt-1 text-sm text-gray-400">
-                                            Contactez-nous pour toute question sur les tailles.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </>
-                )}
+        <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
+          {/* Top row: Title */}
+          <div className="space-y-4 max-w-3xl pb-10 border-b border-white/10">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
+              <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
+              Collection 2026 · GOBIK Custom Wear
             </div>
 
-            {/* Product Detail Modal */}
-            {selectedProduct && (
-                <div className="fixed inset-0 z-50 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4">
-                        {/* Backdrop */}
-                        <div
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-                            onClick={closeModal}
-                        ></div>
+            <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
+              Tenues &amp; <span className="text-[#e03e3e] italic">Équipements</span>
+            </h1>
 
-                        {/* Modal Content */}
-                        <div className="relative w-full max-w-4xl overflow-hidden rounded-md bg-white shadow-2xl">
-                            <button
-                                onClick={closeModal}
-                                className="absolute right-4 top-4 z-10 rounded-full bg-white/90 p-2 text-[#5c6370] shadow-lg hover:bg-white hover:text-[#101216] transition-colors"
-                            >
-                                <XMarkIcon className="h-6 w-6" />
-                            </button>
+            <p className="max-w-2xl text-base text-[#a7adbb] leading-relaxed">
+              Portez les couleurs officielles du CC Saint-Martin Blanmont. Vêtements cyclistes haute performance développés par Gobik pour le confort et la vitesse en peloton.
+            </p>
+          </div>
 
-                            <div className="grid md:grid-cols-2">
-                                {/* Image Section */}
-                                <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200">
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <ShoppingBagIcon className="h-24 w-24 text-gray-300" />
-                                    </div>
-                                    {selectedProduct.imageUrl && (
-                                        <Image
-                                            src={selectedProduct.imageUrl}
-                                            alt={selectedProduct.name}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    )}
-                                </div>
-
-                                {/* Details Section */}
-                                <div className="flex flex-col p-8">
-                                    <div className="flex-1">
-                                        <span className="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
-                                            {selectedProduct.category}
-                                        </span>
-                                        <h2 className="mt-4 text-2xl font-bold text-[#101216]">
-                                            {selectedProduct.name}
-                                        </h2>
-                                        <p className="mt-4 text-[#3a3f4a] leading-relaxed">
-                                            {selectedProduct.description}
-                                        </p>
-
-                                        <div className="mt-6">
-                                            <p className="text-3xl font-bold text-[#101216]">
-                                                {selectedProduct.price.toFixed(2)} €
-                                            </p>
-                                        </div>
-
-                                        {/* Size Selection */}
-                                        <div className="mt-6">
-                                            <h4 className="text-sm font-medium text-[#101216]">Taille</h4>
-                                            <div className="mt-3 flex flex-wrap gap-2">
-                                                {selectedProduct.sizes.map((size) => {
-                                                    const inStock = isInStock(selectedProduct, size);
-                                                    return (
-                                                        <button
-                                                            key={size}
-                                                            onClick={() => inStock && setSelectedSize(size)}
-                                                            disabled={!inStock}
-                                                            className={`min-w-[3rem] rounded-lg border-2 px-4 py-2.5 text-sm font-medium transition-all ${selectedSize === size
-                                                                ? 'border-red-600 bg-red-600 text-white'
-                                                                : inStock
-                                                                    ? 'border-[#e4e0d8] bg-white text-[#101216] hover:border-red-300'
-                                                                    : 'border-[#efece5] bg-[#f2efe9] text-gray-300 cursor-not-allowed line-through'
-                                                                }`}
-                                                        >
-                                                            {size}
-                                                        </button>
-                                                    );
-                                                })}
-                                            </div>
-                                            {selectedSize && (
-                                                <p className="mt-2 text-sm text-green-600">
-                                                    ✓ {selectedProduct.stock[selectedSize]} en stock
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Action Buttons */}
-                                    <div className="mt-8 space-y-3">
-                                        <Link
-                                            href={`mailto:info@blanmont.be?subject=Commande équipement: ${selectedProduct.name}&body=Bonjour,%0A%0AJe souhaite commander:%0A- ${selectedProduct.name}%0A- Taille: ${selectedSize || '[À préciser]'}%0A- Prix: ${selectedProduct.price.toFixed(2)} €%0A%0AMerci!`}
-                                            className={`flex w-full items-center justify-center gap-2 rounded-xl px-6 py-4 text-base font-semibold transition-all duration-300 ${selectedSize
-                                                ? 'bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-500/25 hover:shadow-xl hover:shadow-red-500/30'
-                                                : 'bg-[#f2efe9] text-gray-400 cursor-not-allowed'
-                                                }`}
-                                            onClick={(e) => !selectedSize && e.preventDefault()}
-                                        >
-                                            <ShoppingBagIcon className="h-5 w-5" />
-                                            {selectedSize ? 'Commander par email' : 'Sélectionnez une taille'}
-                                        </Link>
-                                        <p className="text-center text-xs text-[#5c6370]">
-                                            Les commandes sont traitées par email. Paiement et retrait lors des sorties club.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          {/* Telemetry ribbon on Ink */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+            {/* Pieces in collection */}
+            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
+              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0 mt-0.5">
+                <SparklesIcon className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#e03e3e]">
+                  Catalogue Officiel
+                </span>
+                <div className="mt-1 text-sm font-bold text-white tabular-nums">
+                  {totalPieces} articles disponibles
                 </div>
-            )}
+                <p className="mt-1 text-xs text-[#a7adbb]">
+                  Maillots, cuissards, vestes &amp; collants
+                </p>
+              </div>
+            </div>
+
+            {/* Technical partner */}
+            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
+                <ShieldCheckIcon className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+                  Partenaire Technique
+                </span>
+                <div className="mt-1 text-sm font-bold text-white">
+                  GOBIK Spain Custom
+                </div>
+                <p className="mt-1 text-xs text-[#a7adbb]">
+                  Peaux de chamois K10/K9 &amp; textiles italiens
+                </p>
+              </div>
+            </div>
+
+            {/* Pickup & orders */}
+            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
+                <TruckIcon className="h-5 w-5 text-sky-400" />
+              </div>
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+                  Commandes &amp; Retrait
+                </span>
+                <div className="mt-1 text-sm font-bold text-white">
+                  Distribution au Club
+                </div>
+                <p className="mt-1 text-xs text-[#a7adbb]">
+                  Paiement &amp; remise lors des sorties du samedi
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* ──── Main Content Spread (Paper) ──── */}
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 space-y-10">
+        {/* Category Filter Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+            <CheckBadgeIcon className="h-4 w-4 text-[#e03e3e]" />
+            <span>Catégories :</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {EQUIPMENT_CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+                  selectedCategory === category
+                    ? 'bg-[#101216] text-white'
+                    : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                }`}
+              >
+                <span>{category}</span>
+              </button>
+            ))}
+          </div>
+
+          <span className="text-xs font-semibold text-[#7d8493] tabular-nums">
+            {filteredEquipment.length} article{filteredEquipment.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+
+        {/* Equipment Grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredEquipment.map((item) => {
+            const hasPhoto = Boolean(item.imageUrl) && !imgErrors[item.id];
+
+            return (
+              <article
+                key={item.id}
+                onClick={() => openProductDetail(item)}
+                className="group cursor-pointer flex flex-col rounded-lg border border-[#e4e0d8] bg-white overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1"
+              >
+                {/* Product Apparel Image / Fallback Container */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922]">
+                  {hasPhoto ? (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      onError={() => handleImageError(item.id)}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <EquipmentIllustration
+                      category={item.category}
+                      name={item.name}
+                      productCode={item.productCode}
+                    />
+                  )}
+
+                  {/* Category Pill Tag */}
+                  <div className="absolute top-3 left-3 z-10">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#101216]/85 backdrop-blur-md px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/20">
+                      {item.category}
+                    </span>
+                  </div>
+
+                  {/* Availability Badge */}
+                  {!item.isAvailable && (
+                    <div className="absolute top-3 right-3 z-10">
+                      <span className="inline-flex rounded-full bg-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
+                        Épuisé
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Card Body */}
+                <div className="p-5 flex flex-col flex-grow justify-between space-y-4 bg-white">
+                  <div className="space-y-1">
+                    <h3 className="text-base font-bold tracking-tight text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug">
+                      {item.name}
+                    </h3>
+                    <p className="text-xs text-[#5c6370] line-clamp-2 leading-relaxed">
+                      {item.gobikReference || item.description}
+                    </p>
+                  </div>
+
+                  {/* Price & Sizes Strip */}
+                  <div className="pt-3 border-t border-[#e4e0d8] flex items-end justify-between">
+                    <div>
+                      <div className="text-2xl font-extrabold text-[#101216] tabular-nums tracking-tight">
+                        {item.price.toFixed(2)}&nbsp;€
+                      </div>
+                      <div className="text-xs font-medium text-[#7d8493] mt-0.5">
+                        Tailles : {item.sizes.join(' · ')}
+                      </div>
+                    </div>
+
+                    <span className="inline-flex items-center gap-1 text-xs font-bold text-[#e03e3e] group-hover:underline">
+                      <span>Détails</span>
+                      <ArrowRightIcon className="h-3 w-3" />
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        {/* ──── Technical & Quality Club Manifesto ──── */}
+        <section className="rounded-lg border border-[#262b38] bg-[#101216] text-white p-8 sm:p-10 mt-16">
+          <div className="max-w-3xl space-y-2 mb-8">
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
+              Qualité &amp; Engagement
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] text-white">
+              Une tenue club pensée pour durer
+            </h2>
+            <p className="text-sm text-[#a7adbb] leading-relaxed">
+              Le Club Cyclo Saint-Martin de Blanmont a sélectionné le fabriquant GOBIK pour équiper ses membres avec des matériaux professionnels.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#262b38]">
+            <div className="space-y-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#e03e3e]/15 text-[#e03e3e]">
+                <ShieldCheckIcon className="h-5 w-5" />
+              </div>
+              <h3 className="text-base font-bold text-white">Peaux de Chamois K10 &amp; K9</h3>
+              <p className="text-xs text-[#a7adbb] leading-relaxed">
+                Inserts ergonomiques conçus pour plus de 8 heures en selle, éliminant les frottements lors des longues sorties d&apos;endurance.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-500/15 text-sky-400">
+                <TruckIcon className="h-5 w-5" />
+              </div>
+              <h3 className="text-base font-bold text-white">Distribution Locale Gratuite</h3>
+              <p className="text-xs text-[#a7adbb] leading-relaxed">
+                Toutes les commandes sont remises en mains propres sur la Place de Blanmont au départ des sorties du club, sans frais de port.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/15 text-emerald-400">
+                <CheckBadgeIcon className="h-5 w-5" />
+              </div>
+              <h3 className="text-base font-bold text-white">Essayage &amp; Échantillons</h3>
+              <p className="text-xs text-[#a7adbb] leading-relaxed">
+                Des tenues témoins sont disponibles auprès des membres du comité pour essayer votre taille avant de passer commande.
+              </p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      {/* ──── Product Detail & Order Modal ──── */}
+      {selectedProduct && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
+              onClick={closeModal}
+            />
+
+            {/* Modal Box */}
+            <div className="relative w-full max-w-3xl overflow-hidden rounded-lg bg-white border border-[#e4e0d8] shadow-2xl z-10">
+              {/* Close button */}
+              <button
+                onClick={closeModal}
+                className="absolute right-4 top-4 z-20 rounded-full bg-[#101216]/80 p-2 text-white hover:bg-[#e03e3e] transition-colors"
+                aria-label="Fermer"
+              >
+                <XMarkIcon className="h-5 w-5" />
+              </button>
+
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {/* Left: Product Visual */}
+                <div className="relative aspect-square md:aspect-auto min-h-[300px] bg-[#161922]">
+                  {Boolean(selectedProduct.imageUrl) && !imgErrors[selectedProduct.id] ? (
+                    <img
+                      src={selectedProduct.imageUrl}
+                      alt={selectedProduct.name}
+                      onError={() => handleImageError(selectedProduct.id)}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <EquipmentIllustration
+                      category={selectedProduct.category}
+                      name={selectedProduct.name}
+                      productCode={selectedProduct.productCode}
+                    />
+                  )}
+                </div>
+
+                {/* Right: Technical Details & Size Selector */}
+                <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <span className="inline-flex rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
+                        {selectedProduct.category}
+                      </span>
+                      <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] mt-2">
+                        {selectedProduct.name}
+                      </h2>
+                      {selectedProduct.gobikReference && (
+                        <p className="text-xs font-mono text-[#7d8493] mt-1 uppercase">
+                          Ref: {selectedProduct.gobikReference}
+                        </p>
+                      )}
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
+                      {selectedProduct.description}
+                    </p>
+
+                    <div className="text-3xl font-extrabold text-[#101216] tabular-nums tracking-tight">
+                      {selectedProduct.price.toFixed(2)}&nbsp;€
+                    </div>
+
+                    {/* Size Selector */}
+                    <div className="space-y-2 pt-2 border-t border-[#e4e0d8]">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[#101216]">
+                        Sélectionner une taille :
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProduct.sizes.map((size) => (
+                          <button
+                            key={size}
+                            onClick={() => setSelectedSize(size)}
+                            className={`min-w-[2.75rem] rounded-md px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors border ${
+                              selectedSize === size
+                                ? 'bg-[#101216] text-white border-[#101216]'
+                                : 'bg-[#f2efe9] text-[#101216] border-[#e4e0d8] hover:border-[#101216]/40'
+                            }`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Order Button CTA */}
+                  <div className="space-y-2 pt-4 border-t border-[#e4e0d8]">
+                    <a
+                      href={`mailto:info@blanmont.be?subject=${encodeURIComponent(
+                        `Commande équipement: ${selectedProduct.name} (${selectedSize || 'Taille à préciser'})`
+                      )}&body=${encodeURIComponent(
+                        `Bonjour,\n\nJe souhaite commander la tenue suivante :\n- Article : ${selectedProduct.name}\n- Référence : ${selectedProduct.productCode || selectedProduct.id}\n- Taille : ${selectedSize || 'À préciser'}\n- Prix : ${selectedProduct.price.toFixed(2)} €\n\nNom et prénom :\nTéléphone :\n\nMerci !`
+                      )}`}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] shadow-md"
+                    >
+                      <ShoppingBagIcon className="h-4 w-4" />
+                      <span>Commander par email ({selectedSize || 'Taille'})</span>
+                    </a>
+                    <p className="text-center text-xs text-[#7d8493]">
+                      Paiement &amp; retrait sur la Place de Blanmont lors des sorties.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
+  );
 }
