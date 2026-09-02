@@ -6,7 +6,6 @@ import {
   PencilIcon,
   KeyIcon,
   MagnifyingGlassIcon,
-  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import DeleteMemberButton from './DeleteMemberButton';
 import { Member } from '@/app/types';
@@ -92,7 +91,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
   return (
     <div className="space-y-4">
       {/* Search Input Bar */}
-      <div className="relative max-w-md">
+      <div id="members-search-bar" className="relative max-w-md">
         <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
         <input
           type="text"
@@ -104,7 +103,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
       </div>
 
       {/* Table Container */}
-      <div className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+      <div id="members-table-section" className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
         <table className="min-w-full divide-y divide-[#e4e0d8]">
           <thead className="bg-[#f2efe9]">
             <tr>

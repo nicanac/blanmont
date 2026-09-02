@@ -16,9 +16,11 @@ import {
   XMarkIcon,
   ShoppingBagIcon,
   ChatBubbleLeftRightIcon,
+  AcademicCapIcon,
 } from '@heroicons/react/24/outline';
 import { cn } from '../utils/cn';
 import AdminGuard from './components/AdminGuard';
+import AdminHelpModal from './components/AdminHelpModal';
 
 const navigation = [
   { name: 'Tableau de bord', href: '/admin', icon: HomeIcon },
@@ -39,8 +41,13 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps): React.ReactElement {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
+
+  const handleResetOnboarding = (): void => {
+    window.dispatchEvent(new CustomEvent('cc_admin_reset_onboarding'));
+  };
 
   const sidebarContent = (
     <div className="flex h-full flex-col bg-[#0a0c10] text-white border-r border-[#262b38]">
@@ -89,8 +96,20 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         })}
       </nav>
 
-      {/* Back to Site */}
-      <div className="border-t border-[#262b38] p-4">
+      {/* Quick Help & Back to Site */}
+      <div className="border-t border-[#262b38] p-3 space-y-1">
+        <button
+          type="button"
+          onClick={() => {
+            closeSidebar();
+            setHelpOpen(true);
+          }}
+          className="w-full flex items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[#a7adbb] hover:bg-white/5 hover:text-white transition-colors text-left"
+        >
+          <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
+          <span>Guide &amp; Raccourcis</span>
+        </button>
+
         <Link
           href="/"
           onClick={closeSidebar}
@@ -117,14 +136,24 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
             </span>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setSidebarOpen(true)}
-            className="rounded-md p-1.5 text-[#a7adbb] hover:bg-white/10 hover:text-white"
-          >
-            <span className="sr-only">Ouvrir le menu</span>
-            <Bars3Icon className="h-6 w-6" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setHelpOpen(true)}
+              className="rounded-md p-1.5 text-[#a7adbb] hover:bg-white/10 hover:text-white"
+              title="Guide & Raccourcis"
+            >
+              <AcademicCapIcon className="h-5 w-5 text-[#e03e3e]" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="rounded-md p-1.5 text-[#a7adbb] hover:bg-white/10 hover:text-white"
+            >
+              <span className="sr-only">Ouvrir le menu</span>
+              <Bars3Icon className="h-6 w-6" />
+            </button>
+          </div>
         </div>
 
         {/* Mobile sidebar overlay */}
@@ -158,6 +187,13 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         <main className="md:pl-64">
           <div className="p-4 sm:p-6 md:p-10 max-w-7xl mx-auto">{children}</div>
         </main>
+
+        {/* Global Admin Help & Shortcuts Modal */}
+        <AdminHelpModal
+          isOpen={helpOpen}
+          onClose={() => setHelpOpen(false)}
+          onResetOnboarding={handleResetOnboarding}
+        />
       </div>
     </AdminGuard>
   );

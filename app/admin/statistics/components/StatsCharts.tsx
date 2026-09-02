@@ -210,13 +210,6 @@ export default function StatsCharts({
     };
   }, [entries, events, allAttendance, selectedYear]);
 
-  const getGroupColor = (group: string): string => {
-    if (group.startsWith('A')) return 'bg-red-500';
-    if (group.startsWith('B')) return 'bg-blue-500';
-    if (group.startsWith('C')) return 'bg-green-500';
-    return 'bg-gray-500';
-  };
-
   const getGroupColorHex = (group: string): string => {
     if (group.startsWith('A')) return '#ef4444'; // red-500
     if (group.startsWith('B')) return '#3b82f6'; // blue-500
@@ -321,7 +314,7 @@ export default function StatsCharts({
       </div>
 
       {/* Quick Stats Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div id="stats-cards-section" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
@@ -387,7 +380,7 @@ export default function StatsCharts({
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div id="stats-charts-section" className="grid gap-6 lg:grid-cols-2">
         {/* Rides Distribution Chart */}
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <h3 className="mb-4 font-semibold text-gray-900">Distribution des Sorties</h3>

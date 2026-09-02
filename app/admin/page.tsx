@@ -8,12 +8,12 @@ import {
   ChatBubbleLeftRightIcon,
   ArrowRightIcon,
   ShoppingBagIcon,
-  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { getBlogPosts } from '../lib/firebase/blog';
 import { getMembers } from '../lib/firebase/members';
 import { getCalendarEvents } from '../lib/firebase/calendar';
 import { getActiveWeekendPoll, getPollResponses } from '../lib/firebase/polls';
+import AdminOnboardingChecklist from './components/AdminOnboardingChecklist';
 
 export const dynamic = 'force-dynamic';
 
@@ -122,6 +122,18 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           </Link>
         </div>
       </div>
+
+      {/* Admin Onboarding & Quickstart Checklist */}
+      <AdminOnboardingChecklist
+        hasActivePoll={Boolean(activePoll)}
+        activePollTitle={activePoll?.title}
+        hasUpcomingEvents={events.some((e) => e.isoDate >= new Date().toISOString().split('T')[0])}
+        upcomingEventsCount={events.filter((e) => e.isoDate >= new Date().toISOString().split('T')[0]).length}
+        hasMembers={totalMembers > 0}
+        totalMembers={totalMembers}
+        hasBlogPosts={totalBlogPosts > 0}
+        totalBlogPosts={totalBlogPosts}
+      />
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">

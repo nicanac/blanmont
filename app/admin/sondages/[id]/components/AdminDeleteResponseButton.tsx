@@ -26,7 +26,7 @@ export default function AdminDeleteResponseButton({
         await deleteWeekendPollResponseAction(pollId, memberId);
         toast.success('Réponse supprimée.');
         router.refresh();
-      } catch (err: unknown) {
+      } catch {
         toast.error('Erreur lors de la suppression.');
       }
     });
