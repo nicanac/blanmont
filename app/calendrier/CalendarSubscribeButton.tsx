@@ -47,7 +47,7 @@ export default function CalendarSubscribeButton() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] hover:bg-[#c93434] text-white font-medium text-sm px-5 py-2.5 shadow-sm hover:shadow-md transition-all active:scale-95"
+        className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white font-semibold uppercase tracking-[0.06em] text-[0.8125rem] px-6 py-3 transition-colors shadow-md active:scale-98"
       >
         <CalendarDaysIcon className="h-4 w-4" />
         <span>S&apos;abonner au calendrier</span>
