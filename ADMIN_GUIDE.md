@@ -107,10 +107,9 @@ Une fois connecté, le nouvel administrateur a accès à tous les modules de ges
 | **Sondages Weekend** | `/admin/sondages` | Création des sondages hebdomadaires, suivi des allures et présences. |
 | **Membres** | `/admin/members` | Gestion des adhérents, attribution des rôles, réinitialisation de mots de passe, import CSV. |
 | **Articles & Blog** | `/admin/blog` | Rédaction et publication d'articles avec photos et mise en avant. |
-| **Calendrier & Sorties** | `/admin/events` | Programmation des sorties du weekend, brevets, parcours et traces GPX. |
-| **Traces GPS** | `/admin/traces` | Gestion de la bibliothèque GPX, profils altimétriques et liens Komoot. |
 | **Boutique Équipements** | `/admin/equipements` | Gestion des maillots, cuissards et équipements officiels. |
 | **Challenge Carré Vert** | `/admin/carre-vert` | Pointage des présences et synchronisation du classement annuel. |
+| **Traces GPS** *(interne)* | `/admin/traces` | Gestion de la bibliothèque GPX, profils altimétriques et liens Komoot. |
 
 ---
 
