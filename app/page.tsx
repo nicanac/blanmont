@@ -73,7 +73,7 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Cover photo & Floating Departure HUD */}
+
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
           {/* Photo container */}
           <div className="relative overflow-hidden rounded-lg border border-white/15 shadow-2xl bg-[#101216]">
@@ -138,6 +138,7 @@ export default async function Home() {
             </dl>
           </div>
         </div>
+
       </section>
 
       {/* ──── Next Ride & Live Poll (Paper spread) ──── */}
@@ -278,30 +279,37 @@ export default async function Home() {
                   </p>
                 </div>
 
-                {/* 4 Speed badges */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-                  <div className="rounded-md bg-[#e03e3e]/5 p-3 text-center border border-[#e03e3e]/20">
-                    <div className="font-bold text-xs text-[#101216]">Groupe A</div>
-                    <div className="text-sm font-bold text-[#e03e3e] tabular-nums mt-0.5">&gt; 30 km/h</div>
-                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Sportif &amp; Rythmé</div>
+                  <div className="group rounded-lg bg-white border border-[#e4e0d8] p-3 flex flex-col items-center text-center transition-all duration-300 ease-out hover:border-[#e03e3e] hover:-translate-y-0.5 hover:shadow-md hover:shadow-[#e03e3e]/10">
+                    <span className="rounded-full bg-[#101216] px-2.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:bg-[#e03e3e]">
+                      Groupe A
+                    </span>
+                    <div className="mt-1.5 text-sm font-bold tabular-nums text-[#101216]">&gt; 30 km/h</div>
+                    <div className="mt-0.5 text-[0.6875rem] font-medium text-[#5c6370]">Sportif &amp; Rythmé</div>
                   </div>
 
-                  <div className="rounded-md bg-sky-500/5 p-3 text-center border border-sky-500/20">
-                    <div className="font-bold text-xs text-[#101216]">Groupe B</div>
-                    <div className="text-sm font-bold text-sky-700 tabular-nums mt-0.5">25 - 28 km/h</div>
-                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Équilibré &amp; Peloton</div>
+                  <div className="group rounded-lg bg-white border border-[#e4e0d8] p-3 flex flex-col items-center text-center transition-all duration-300 ease-out hover:border-[#e03e3e] hover:-translate-y-0.5 hover:shadow-md hover:shadow-[#e03e3e]/10">
+                    <span className="rounded-full bg-[#101216] px-2.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:bg-[#e03e3e]">
+                      Groupe B
+                    </span>
+                    <div className="mt-1.5 text-sm font-bold tabular-nums text-[#101216]">25 - 28 km/h</div>
+                    <div className="mt-0.5 text-[0.6875rem] font-medium text-[#5c6370]">Équilibré &amp; Peloton</div>
                   </div>
 
-                  <div className="rounded-md bg-emerald-500/5 p-3 text-center border border-emerald-500/20">
-                    <div className="font-bold text-xs text-[#101216]">Groupe C</div>
-                    <div className="text-sm font-bold text-emerald-700 tabular-nums mt-0.5">&lt; 25 km/h</div>
-                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Convivial &amp; Découverte</div>
+                  <div className="group rounded-lg bg-white border border-[#e4e0d8] p-3 flex flex-col items-center text-center transition-all duration-300 ease-out hover:border-[#e03e3e] hover:-translate-y-0.5 hover:shadow-md hover:shadow-[#e03e3e]/10">
+                    <span className="rounded-full bg-[#101216] px-2.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:bg-[#e03e3e]">
+                      Groupe C
+                    </span>
+                    <div className="mt-1.5 text-sm font-bold tabular-nums text-[#101216]">&lt; 25 km/h</div>
+                    <div className="mt-0.5 text-[0.6875rem] font-medium text-[#5c6370]">Convivial &amp; Découverte</div>
                   </div>
 
-                  <div className="rounded-md bg-amber-500/5 p-3 text-center border border-amber-500/20">
-                    <div className="font-bold text-xs text-[#101216]">Groupe VTT</div>
-                    <div className="text-sm font-bold text-amber-700 mt-0.5">Sentiers</div>
-                    <div className="text-[0.6875rem] text-[#5c6370] mt-0.5 font-medium">Bois &amp; Campagne</div>
+                  <div className="group rounded-lg bg-white border border-[#e4e0d8] p-3 flex flex-col items-center text-center transition-all duration-300 ease-out hover:border-[#e03e3e] hover:-translate-y-0.5 hover:shadow-md hover:shadow-[#e03e3e]/10">
+                    <span className="rounded-full bg-[#101216] px-2.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:bg-[#e03e3e]">
+                      Groupe VTT
+                    </span>
+                    <div className="mt-1.5 text-sm font-bold text-[#101216]">Sentiers</div>
+                    <div className="mt-0.5 text-[0.6875rem] font-medium text-[#5c6370]">Bois &amp; Campagne</div>
                   </div>
                 </div>
 
