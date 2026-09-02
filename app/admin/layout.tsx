@@ -31,7 +31,6 @@ const navigation = [
   { name: 'Équipements Club', href: '/admin/equipements', icon: ShoppingBagIcon },
   { name: 'Carré Vert', href: '/admin/carre-vert', icon: CheckBadgeIcon },
   { name: 'Statistiques', href: '/admin/statistics', icon: ChartBarIcon },
-  { name: 'Traces GPS', href: '/admin/traces', icon: MapIcon },
 ];
 
 interface AdminLayoutProps {
