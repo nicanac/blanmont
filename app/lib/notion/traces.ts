@@ -68,7 +68,9 @@ const mapPageToTrace = async (page: NotionPage, komootImageUrl?: string): Promis
   const props = page.properties;
   
   const kmFormula = props.km?.formula;
-  const dist = props.Distance?.number || parseFloat(kmFormula?.string || kmFormula?.number || '0');
+  const dist =
+    props.Distance?.number ||
+    (kmFormula?.number ?? (kmFormula?.string ? parseFloat(kmFormula.string) : 0));
   
   const ratingSelect = props.Rating?.select;
   const ratingStr = ratingSelect?.name || '';

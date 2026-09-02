@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { getActiveWeekendPoll, getPollResponses, getMembers } from '../lib/firebase';
 import WeekendPollView from '../features/sondage/components/WeekendPollView';
 import {
-  ChatBubbleLeftRightIcon,
   CalendarDaysIcon,
   UserGroupIcon,
   ClockIcon,

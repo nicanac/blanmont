@@ -148,28 +148,29 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                             </Transition>
                         </Menu>
 
-                        <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-[#5c6370] sm:ml-7">
-                            <span className="sr-only">View grid</span>
+                        <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-[#5c6370] sm:ml-7" aria-label="Affichage en grille">
+                            <span className="sr-only">Affichage en grille</span>
                             <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
                         </button>
                         <button
                             type="button"
                             className="-m-2 ml-4 p-2 text-gray-400 hover:text-[#5c6370] sm:ml-6 lg:hidden"
                             onClick={() => setMobileFiltersOpen(true)}
+                            aria-label="Filtres de recherche"
                         >
-                            <span className="sr-only">Filters</span>
+                            <span className="sr-only">Filtres</span>
                             <FunnelIcon className="h-5 w-5" aria-hidden="true" />
                         </button>
                     </div>
                 </div>
 
-                <section aria-labelledby="products-heading" className="pb-24 pt-6">
-                    <h2 id="products-heading" className="sr-only">
-                        Products
+                <section aria-labelledby="traces-heading" className="pb-24 pt-6">
+                    <h2 id="traces-heading" className="sr-only">
+                        Liste des parcours
                     </h2>
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-                        {/* Deskstop Filters */}
+                        {/* Desktop Filters */}
                         <div className="hidden lg:block">
                             <FilterPanel
                                 minDist={ranges.minDist}
@@ -195,15 +196,16 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-20">
-                                    <p className="text-[#5c6370]">Aucun parcours ne correspond à ces filtres.</p>
+                                <div className="text-center py-16 bg-white rounded-lg border border-[#e4e0d8] p-8 space-y-4">
+                                    <p className="text-sm text-[#5c6370]">Aucun parcours ne correspond aux filtres sélectionnés.</p>
                                     <button
+                                        type="button"
                                         onClick={() => setFilters({
                                             minDist: ranges.minDist, maxDist: ranges.maxDist,
                                             minElev: ranges.minElev, maxElev: ranges.maxElev,
                                             selectedStarts: [], selectedSurfaces: [], selectedDirections: [], minQuality: 0
                                         })}
-                                        className="mt-4 text-brand-primary font-semibold"
+                                        className="inline-flex items-center justify-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors min-h-[44px]"
                                     >
                                         Effacer tous les filtres
                                     </button>

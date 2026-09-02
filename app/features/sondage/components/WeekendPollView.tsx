@@ -2,7 +2,6 @@
 
 import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
 import {
   WeekendPoll,
@@ -17,15 +16,11 @@ import {
 } from '@/app/actions';
 import {
   CheckCircleIcon,
-  UserGroupIcon,
-  CalendarDaysIcon,
-  ChatBubbleBottomCenterTextIcon,
   PencilSquareIcon,
-  TrashIcon,
-  XMarkIcon,
   LockClosedIcon,
   ArrowRightIcon,
   InformationCircleIcon,
+  CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 
@@ -50,7 +45,14 @@ const GROUP_OPTIONS: { id: CyclingGroupChoice; label: string; speed: string; col
   { id: 'Autre', label: 'Autre / Libre', speed: 'Horaires décalés', color: 'border-[#e4e0d8] bg-[#f2efe9] text-[#3a3f4a]' },
 ];
 
-export default function WeekendPollView({ poll, responses, members }: WeekendPollViewProps) {
+function getInitials(name: string): string {
+  if (!name) return 'CC';
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+export default function WeekendPollView({ poll, responses, members: _members }: WeekendPollViewProps): React.ReactElement {
   const { user, isAuthenticated } = useAuth();
   const [isPending, startTransition] = useTransition();
 
@@ -80,7 +82,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
         </p>
         <Link
           href="/calendrier"
-          className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] px-6 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-[#c93434] transition-colors"
+          className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] px-6 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-[#c93434] transition-colors min-h-[44px]"
         >
           <span>Consulter le calendrier des sorties</span>
           <ArrowRightIcon className="h-4 w-4" />
@@ -91,11 +93,11 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
   const isClosed = poll.status === 'closed';
 
-  const handleCustomRadioChange = (questionId: string, option: string) => {
+  const handleCustomRadioChange = (questionId: string, option: string): void => {
     setCustomAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
-  const handleCustomCheckboxChange = (questionId: string, option: string) => {
+  const handleCustomCheckboxChange = (questionId: string, option: string): void => {
     setCustomAnswers((prev) => {
       const current = Array.isArray(prev[questionId]) ? (prev[questionId] as string[]) : [];
       const updated = current.includes(option)
@@ -105,7 +107,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
     });
   };
 
-  const handleSubmitResponse = (e: React.FormEvent) => {
+  const handleSubmitResponse = (e: React.FormEvent): void => {
     e.preventDefault();
     if (!user) {
       toast.error('Veuillez vous connecter pour répondre au sondage.');
@@ -138,7 +140,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
     });
   };
 
-  const handleDeleteResponse = () => {
+  const handleDeleteResponse = (): void => {
     if (!user || !myResponse) return;
     if (!confirm('Voulez-vous retirer votre réponse à ce sondage ?')) return;
 
@@ -147,7 +149,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
         await deleteWeekendPollResponseAction(poll.id, user.id);
         toast.success('Votre réponse a été retirée.');
         setIsEditing(true);
-      } catch (err: unknown) {
+      } catch (_err: unknown) {
         toast.error('Erreur lors du retrait de la réponse.');
       }
     });
@@ -201,7 +203,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
               </p>
               <Link
                 href="/login?redirect=/sondage"
-                className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] px-6 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-[#c93434] transition-colors"
+                className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] px-6 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-[#c93434] transition-colors min-h-[44px]"
               >
                 Se connecter pour répondre
               </Link>
@@ -219,14 +221,15 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
             <div className="rounded-lg border border-emerald-200 bg-gradient-to-br from-emerald-50/60 via-white to-emerald-50/30 p-6 sm:p-8 shadow-xs space-y-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <CheckCircleIcon className="h-6 w-6 text-emerald-600" />
+                  <CheckCircleIcon className="h-6 w-6 text-emerald-600 shrink-0" />
                   <h3 className="text-base font-bold text-emerald-950">
                     Votre participation est confirmée
                   </h3>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-1 rounded-full border border-[#e4e0d8] bg-white px-3 py-1 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
+                  className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] bg-white px-3 py-1 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors min-h-[36px]"
                 >
                   <PencilSquareIcon className="h-3.5 w-3.5" />
                   <span>Modifier</span>
@@ -236,7 +239,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between py-2 border-b border-emerald-100">
                   <span className="text-[#5c6370]">Membre :</span>
-                  <strong className="text-[#101216]">{user?.name}</strong>
+                  <strong className="text-[#101216] truncate max-w-[200px]">{user?.name}</strong>
                 </div>
                 <div className="flex justify-between py-2 border-b border-emerald-100">
                   <span className="text-[#5c6370]">Jour(s) :</span>
@@ -251,7 +254,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 {myResponse.comment && (
                   <div className="py-2 border-b border-emerald-100">
                     <span className="text-[#5c6370] block mb-1">Remarque :</span>
-                    <p className="italic text-[#3a3f4a] bg-white/80 p-2.5 rounded-xl border border-emerald-100">
+                    <p className="italic text-[#3a3f4a] bg-white/80 p-2.5 rounded-md border border-emerald-100 break-words">
                       &laquo; {myResponse.comment} &raquo;
                     </p>
                   </div>
@@ -263,14 +266,14 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                   type="button"
                   onClick={handleDeleteResponse}
                   disabled={isPending}
-                  className="text-xs font-medium text-red-600 hover:text-red-800 transition-colors"
+                  className="text-xs font-medium text-red-600 hover:text-red-800 transition-colors py-2"
                 >
                   Annuler ma participation
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="rounded-full bg-slate-900 px-5 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition-colors"
+                  className="rounded-md bg-slate-900 px-5 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition-colors min-h-[36px]"
                 >
                   Modifier mon choix
                 </button>
@@ -295,7 +298,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="text-xs text-slate-400 hover:text-[#3a3f4a]"
+                    className="text-xs text-slate-400 hover:text-[#3a3f4a] p-1"
                   >
                     Fermer
                   </button>
@@ -313,7 +316,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                       key={opt.id}
                       type="button"
                       onClick={() => setSelectedDay(opt.id)}
-                      className={`flex items-start gap-3 p-3.5 rounded-md border text-left transition-all ${
+                      className={`flex items-start gap-3 p-3.5 rounded-md border text-left transition-all min-h-[54px] ${
                         selectedDay === opt.id
                           ? 'border-[#e03e3e] bg-red-50/50 ring-2 ring-[#e03e3e]/20'
                           : 'border-[#e4e0d8] hover:border-slate-300 hover:bg-[#f2efe9]/60'
@@ -341,14 +344,14 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                         key={grp.id}
                         type="button"
                         onClick={() => setSelectedGroup(grp.id)}
-                        className={`flex items-center justify-between p-3 rounded-xl border text-left transition-all ${
+                        className={`flex items-center justify-between p-3 rounded-md border text-left transition-all min-h-[44px] ${
                           selectedGroup === grp.id
                             ? 'border-[#e03e3e] bg-red-50/50 ring-2 ring-[#e03e3e]/20 font-bold'
                             : 'border-[#e4e0d8] hover:border-slate-300 hover:bg-[#f2efe9]/60'
                         }`}
                       >
                         <span className="text-xs text-[#101216]">{grp.label}</span>
-                        <span className="text-xs text-[#5c6370] font-medium">{grp.speed}</span>
+                        <span className="text-xs text-[#5c6370] font-medium tabular-nums">{grp.speed}</span>
                       </button>
                     ))}
                   </div>
@@ -379,7 +382,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                                   ? handleCustomCheckboxChange(q.id, opt)
                                   : handleCustomRadioChange(q.id, opt)
                               }
-                              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs text-left transition-all ${
+                              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-md border text-xs text-left transition-all min-h-[44px] ${
                                 isSelected
                                   ? 'border-[#e03e3e] bg-red-50/50 text-red-950 font-bold'
                                   : 'border-[#e4e0d8] text-[#3a3f4a] hover:bg-[#f2efe9]'
@@ -387,7 +390,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                             >
                               <span>{opt}</span>
                               <span
-                                className={`h-4 w-4 rounded-full border flex items-center justify-center text-xs ${
+                                className={`h-4 w-4 rounded-full border flex items-center justify-center text-xs shrink-0 ml-2 ${
                                   isSelected
                                     ? 'bg-[#e03e3e] border-[#e03e3e] text-white'
                                     : 'border-slate-300'
@@ -406,15 +409,21 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
 
               {/* Question 4: Commentaire */}
               <div className="space-y-1.5 pt-2 border-t border-[#efece5]">
-                <label
-                  htmlFor="poll-comment"
-                  className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a]"
-                >
-                  Commentaire / Remarque (facultatif)
-                </label>
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="poll-comment"
+                    className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a]"
+                  >
+                    Commentaire / Remarque (facultatif)
+                  </label>
+                  <span className="text-[10px] text-[#7d8493] tabular-nums">
+                    {comment.length}/500
+                  </span>
+                </div>
                 <textarea
                   id="poll-comment"
                   rows={2}
+                  maxLength={500}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Ex: Je rejoins le groupe au carrefour de Corroy..."
@@ -426,7 +435,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full rounded-full bg-[#e03e3e] py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#c93434] transition-all disabled:opacity-50 active:scale-98"
+                className="w-full inline-flex items-center justify-center rounded-md bg-[#e03e3e] py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#c93434] transition-all disabled:opacity-50 active:scale-[0.98] min-h-[44px]"
               >
                 {isPending
                   ? 'Enregistrement en cours...'
@@ -485,7 +494,9 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                   <div key={grp.id} className="rounded-md border border-[#efece5] bg-[#f2efe9]/70 p-4 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-[#101216]">{grp.label}</span>
-                      <span className="text-sm font-extrabold text-[#101216]">{count} coureur{count > 1 ? 's' : ''}</span>
+                      <span className="text-sm font-extrabold text-[#101216] tabular-nums">
+                        {count} coureur{count > 1 ? 's' : ''}
+                      </span>
                     </div>
 
                     <div className="h-1.5 w-full rounded-full bg-slate-200 overflow-hidden">
@@ -504,7 +515,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
           <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#efece5] pb-4">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-[#101216]">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-[#101216] tabular-nums">
                   Liste des participants ({filteredResponses.length})
                 </h3>
               </div>
@@ -514,7 +525,8 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 <select
                   value={filterDay}
                   onChange={(e) => setFilterDay(e.target.value)}
-                  className="rounded-xl border border-[#e4e0d8] bg-[#f2efe9] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] focus:outline-hidden"
+                  className="rounded-md border border-[#e4e0d8] bg-[#f2efe9] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] focus:outline-hidden min-h-[36px]"
+                  aria-label="Filtrer par jour"
                 >
                   <option value="all">Tous les jours</option>
                   <option value="samedi">Samedi</option>
@@ -525,7 +537,8 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 <select
                   value={filterGroup}
                   onChange={(e) => setFilterGroup(e.target.value)}
-                  className="rounded-xl border border-[#e4e0d8] bg-[#f2efe9] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] focus:outline-hidden"
+                  className="rounded-md border border-[#e4e0d8] bg-[#f2efe9] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] focus:outline-hidden min-h-[36px]"
+                  aria-label="Filtrer par groupe"
                 >
                   <option value="all">Tous les groupes</option>
                   <option value="Groupe A">Groupe A</option>
@@ -545,6 +558,7 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                 {filteredResponses.map((res) => {
                   const dayBadge = DAY_OPTIONS.find((d) => d.id === res.dayChoice);
                   const isAbsent = res.dayChoice === 'absent';
+                  const initials = getInitials(res.memberName);
 
                   return (
                     <div
@@ -555,37 +569,39 @@ export default function WeekendPollView({ poll, responses, members }: WeekendPol
                           : 'border-[#efece5] bg-[#f2efe9]/70 hover:bg-white hover:border-slate-300'
                       }`}
                     >
-                      <div className="flex items-start gap-3">
-                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center font-bold text-xs text-white">
-                          {res.memberPhotoUrl && !res.memberPhotoUrl.includes('placehold') && !res.memberPhotoUrl.includes('default-avatar') ? (
-                            <img
-                              src={res.memberPhotoUrl}
-                              alt={res.memberName}
-                              className="h-full w-full object-cover"
-                              onError={(e) => {
-                                (e.target as HTMLElement).style.display = 'none';
-                              }}
-                            />
-                          ) : (
-                            <span>{res.memberName.substring(0, 2).toUpperCase()}</span>
-                          )}
+                      <div className="flex items-start gap-3 min-w-0">
+                        {/* Layered Avatar Container for 100% resilient fallback */}
+                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center font-bold text-xs text-white select-none">
+                          <span>{initials}</span>
+                          {res.memberPhotoUrl &&
+                            !res.memberPhotoUrl.includes('placehold') &&
+                            !res.memberPhotoUrl.includes('default-avatar') && (
+                              <img
+                                src={res.memberPhotoUrl}
+                                alt={res.memberName}
+                                className="absolute inset-0 h-full w-full object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLElement).style.display = 'none';
+                                }}
+                              />
+                            )}
                         </div>
 
-                        <div className="space-y-0.5">
-                          <div className="text-xs font-bold text-[#101216]">
+                        <div className="space-y-0.5 min-w-0 flex-1">
+                          <div className="text-xs font-bold text-[#101216] truncate">
                             {res.memberName}
                           </div>
                           <div className="flex items-center gap-1.5 text-xs text-[#5c6370]">
-                            <span>{dayBadge?.icon} {dayBadge?.label}</span>
+                            <span className="truncate">{dayBadge?.icon} {dayBadge?.label}</span>
                             {!isAbsent && (
                               <>
                                 <span>•</span>
-                                <span className="font-semibold text-[#3a3f4a]">{res.groupChoice}</span>
+                                <span className="font-semibold text-[#3a3f4a] shrink-0">{res.groupChoice}</span>
                               </>
                             )}
                           </div>
                           {res.comment && (
-                            <p className="text-xs text-[#3a3f4a] italic line-clamp-2 mt-1">
+                            <p className="text-xs text-[#3a3f4a] italic line-clamp-2 mt-1 break-words">
                               &laquo; {res.comment} &raquo;
                             </p>
                           )}
