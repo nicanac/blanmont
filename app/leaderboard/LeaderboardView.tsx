@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PageHero } from '../components/ui/PageHero';
 import { TrophyIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 type LeaderboardEntry = {
@@ -138,32 +137,107 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
     return (
         <>
             <main className="min-h-screen bg-[#faf8f5]">
-                <PageHero
-                    title="Carré Vert"
-                    description="Le peloton de tête et le classement complet de la saison."
-                    badge="Challenge Fidélité"
-                    badgeIcon={<TrophyIcon className="h-4 w-4" />}
-                    variant="dark"
-                    size="md"
-                />
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
-                    {/* Year Selector */}
-                    <div className="flex justify-center">
-                        <div className="inline-flex rounded-lg bg-[#f2efe9] p-1">
-                            {availableYears.map(year => (
-                                <button
-                                    key={year}
-                                    onClick={() => router.push(`/leaderboard?year=${year}`)}
-                                    className={`rounded-md px-5 py-2 text-sm font-semibold tabular-nums transition-all duration-200 ${year === selectedYear
-                                        ? 'bg-emerald-600 text-white shadow-xs'
-                                        : 'text-[#3a3f4a] hover:text-[#101216] hover:bg-gray-200'
+                {/* ──── Editorial Cover Hero (Ink) ──── */}
+                <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
+                    {/* Ambient emerald glow */}
+                    <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-emerald-500/15 blur-[140px]" />
+
+                    <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
+                        {/* Title row */}
+                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-white/10">
+                            <div className="space-y-4 max-w-3xl">
+                                <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
+                                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                                    Saison {selectedYear} · Challenge d&apos;Assiduité
+                                </div>
+
+                                <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
+                                    Le Carré <span className="text-emerald-400 italic">Vert</span>
+                                </h1>
+
+                                <p className="max-w-2xl text-base text-[#a7adbb] leading-relaxed">
+                                    Le classement officiel d&apos;assiduité récompensant la régularité et l&apos;engagement des cyclistes de Blanmont tout au long de la saison.
+                                </p>
+                            </div>
+
+                            {/* Year Selector in Hero */}
+                            <div className="inline-flex rounded-lg bg-[#161922] p-1 border border-[#262b38] shrink-0">
+                                {availableYears.map(year => (
+                                    <button
+                                        key={year}
+                                        onClick={() => router.push(`/leaderboard?year=${year}`)}
+                                        className={`rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider tabular-nums transition-colors ${
+                                            year === selectedYear
+                                                ? 'bg-emerald-600 text-white shadow-sm'
+                                                : 'text-[#a7adbb] hover:text-white hover:bg-white/5'
                                         }`}
-                                >
-                                    {year}
-                                </button>
-                            ))}
+                                    >
+                                        {year}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Telemetry ribbon on Ink */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+                            {/* Leader */}
+                            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
+                                <div className="rounded-md bg-emerald-500/15 border border-emerald-500/30 p-2.5 text-emerald-400 shrink-0 mt-0.5">
+                                    <TrophyIcon className="h-5 w-5" />
+                                </div>
+                                <div className="min-w-0">
+                                    <span className="text-xs font-semibold uppercase tracking-[0.08em] text-emerald-400">
+                                        Maillot Vert Actuel
+                                    </span>
+                                    <div className="mt-1 text-sm font-bold text-white truncate">
+                                        {top3[0]?.name || 'En cours de saison'}
+                                    </div>
+                                    <p className="mt-1 text-xs text-[#a7adbb] tabular-nums">
+                                        {top3[0] ? `${top3[0].rides} sorties comptabilisées` : 'Aucune sortie'}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Pelotons Ranked */}
+                            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
+                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
+                                    <span className="text-lg">🚴‍♂️</span>
+                                </div>
+                                <div>
+                                    <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+                                        Peloton Classé
+                                    </span>
+                                    <div className="mt-1 text-sm font-bold text-white tabular-nums">
+                                        {sortedEntries.length} membres actifs
+                                    </div>
+                                    <p className="mt-1 text-xs text-[#a7adbb]">
+                                        Groupes A, B, C &amp; VTT
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Total Rides */}
+                            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
+                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
+                                    <span className="text-lg">🏁</span>
+                                </div>
+                                <div>
+                                    <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+                                        Sorties Officielles
+                                    </span>
+                                    <div className="mt-1 text-sm font-bold text-white tabular-nums">
+                                        {totalPossibleRides} sorties éligibles
+                                    </div>
+                                    <p className="mt-1 text-xs text-[#a7adbb]">
+                                        Planning officiel saison {selectedYear}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </section>
+
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
 
                     {/* Podium Section */}
                     {top3.length > 0 && (

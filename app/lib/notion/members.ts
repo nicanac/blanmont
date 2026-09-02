@@ -29,7 +29,7 @@ export const getMembers = async (): Promise<Member[]> => {
         name: props.Name?.title?.[0]?.plain_text || 'Unknown',
         role: props.Role?.multi_select?.map((r: any) => r.name) || [],
         bio: props.Bio?.rich_text?.[0]?.plain_text || '',
-        photoUrl: photoUrl || 'https://placehold.co/400x400',
+        photoUrl: photoUrl || '',
         phone: props.Phone?.phone_number || props.Mobile?.phone_number || '',
       };
     });
