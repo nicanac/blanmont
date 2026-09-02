@@ -51,24 +51,28 @@ export default async function Home() {
 
           <div className="cover-rise cover-rise-2 mt-8 flex flex-wrap items-center gap-4">
             <Link
-              href="/sondage"
-              className="inline-flex items-center gap-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98]"
+              href="/le-club"
+              className="inline-flex items-center gap-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] shadow-lg shadow-[#e03e3e]/20"
             >
-              <ChatBubbleLeftRightIcon className="h-4 w-4" />
-              <span>Sondage du Weekend</span>
-              {activePoll && (
-                <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white leading-none">
-                  {activePoll.status === 'active' ? 'Ouvert' : 'Clôturé'}
-                </span>
-              )}
+              <span>Découvrir le Club &amp; Horaires</span>
+              <ArrowRightIcon className="h-4 w-4" />
             </Link>
 
             <Link
-              href="/le-club"
-              className="inline-flex items-center gap-2 rounded-md border border-white/25 text-[#f5f6f8] hover:border-white/50 hover:bg-white/5 px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
+              href="/sondage"
+              className="inline-flex items-center gap-2.5 rounded-md border border-white/20 bg-white/5 text-[#f5f6f8] hover:border-white/40 hover:bg-white/10 px-6 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
             >
-              <span>Découvrir le Club</span>
-              <ArrowRightIcon className="h-3.5 w-3.5" />
+              <ChatBubbleLeftRightIcon className="h-4 w-4 text-[#e03e3e]" />
+              <span>Sondage du Weekend</span>
+              {activePoll && (
+                <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider leading-none ${
+                  activePoll.status === 'active'
+                    ? 'bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40'
+                    : 'bg-white/10 text-[#a7adbb] border border-white/10'
+                }`}>
+                  {activePoll.status === 'active' ? 'Ouvert' : 'Clôturé'}
+                </span>
+              )}
             </Link>
           </div>
         </div>
@@ -514,10 +518,6 @@ export default async function Home() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="max-w-4xl space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-              Rejoindre le club
-            </div>
             <h2 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-white">
               Envie de rouler avec le <span className="text-[#e03e3e] italic">peloton</span> de Blanmont ?
             </h2>

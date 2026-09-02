@@ -34,10 +34,10 @@ export default async function Footer(): Promise<React.JSX.Element> {
         Pied de page
       </h2>
       <div className="mx-auto max-w-7xl px-6 pb-12 pt-16 sm:pt-20 lg:px-8">
-        {/* Top Section: Brand/Info on the left, Next ride card on the right (50/50 split on desktop) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start pb-12 border-b border-white/10">
+        {/* Top Section: Brand/Info on the left, Next ride card on the right */}
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12 pb-12 border-b border-white/10">
           {/* Brand & Club identity */}
-          <div className="space-y-5">
+          <div className="space-y-5 max-w-lg">
             <Link href="/" className="inline-flex items-baseline gap-2.5">
               <span className="text-3xl font-extrabold uppercase tracking-[-0.02em] text-white font-sans">
                 Blan<span className="text-[#e03e3e]">mont</span>
@@ -46,7 +46,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
                 CC St-Martin
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-[#a7adbb] max-w-md">
+            <p className="text-sm leading-relaxed text-[#a7adbb]">
               Cyclo Club Saint-Martin Blanmont. Convivialité, passion du cyclisme sur route et
               esprit d&apos;équipe au cœur du Brabant wallon.
             </p>
@@ -55,8 +55,10 @@ export default async function Footer(): Promise<React.JSX.Element> {
             </p>
           </div>
 
-          {/* Dynamic Next Rendez-vous card linked to Calendar (Expandable) */}
-          <NextRideCard nextRide={nextRide} />
+          {/* Dynamic Next Rendez-vous card linked to Calendar (Expandable, hidden on homepage) */}
+          <div className="w-full lg:max-w-md">
+            <NextRideCard nextRide={nextRide} />
+          </div>
         </div>
 
         {/* Navigation Columns in 3 parts */}
