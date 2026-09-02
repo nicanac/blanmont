@@ -132,9 +132,9 @@ export default async function TraceDetailPage(props: {
                   href={trace.mapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#c93434] transition-colors"
+                  className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-[#e03e3e] px-6 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:bg-[#c93434] transition-colors"
                 >
-                  <MapIcon className="h-4 w-4" />
+                  <MapIcon className="h-4 w-4" aria-hidden="true" />
                   <span>Voir la carte interactive</span>
                 </a>
               )}
@@ -146,9 +146,9 @@ export default async function TraceDetailPage(props: {
                   href={trace.photoAlbumUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                  className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:bg-blue-700 transition-colors"
                 >
-                  <PhotoIcon className="h-4 w-4" />
+                  <PhotoIcon className="h-4 w-4" aria-hidden="true" />
                   <span>Voir l&apos;album photo</span>
                 </a>
               )}
@@ -198,7 +198,7 @@ export default async function TraceDetailPage(props: {
                 Vous avez roulé ce parcours ? Partagez votre expérience avec le club.
               </p>
             </div>
-            <Suspense fallback={<div className="text-xs text-slate-400">Chargement...</div>}>
+            <Suspense fallback={<div className="text-xs text-[#5c6370]">Chargement...</div>}>
               <FeedbackForm
                 traceId={trace.id}
                 members={members}
@@ -217,9 +217,9 @@ export default async function TraceDetailPage(props: {
             {/* Edit Trace Button */}
             <Link
               href={`/traces/${trace.id}/edit`}
-              className="inline-flex items-center justify-center gap-2 w-full rounded-full bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white hover:bg-slate-800 transition-colors"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 w-full rounded-md bg-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#262b38] transition-colors"
             >
-              <PencilSquareIcon className="h-4 w-4" />
+              <PencilSquareIcon className="h-4 w-4" aria-hidden="true" />
               <span>Modifier le parcours</span>
             </Link>
 
@@ -235,11 +235,11 @@ export default async function TraceDetailPage(props: {
                   name="imageUrl"
                   placeholder="https://example.com/map.jpg"
                   required
-                  className="w-full rounded-xl border border-[#e4e0d8] bg-white px-3 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
+                  className="w-full min-h-[44px] rounded-md border border-[#e4e0d8] bg-white px-3 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
                 />
                 <button
                   type="submit"
-                  className="w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
+                  className="min-h-[44px] w-full rounded-md border border-[#e4e0d8] bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
                 >
                   Mettre à jour l&apos;image
                 </button>
@@ -247,7 +247,7 @@ export default async function TraceDetailPage(props: {
 
               <div className="relative flex py-1 items-center">
                 <div className="flex-grow border-t border-[#e4e0d8]" />
-                <span className="shrink mx-2 text-xs text-slate-400 font-semibold uppercase tracking-wider">ou</span>
+                <span className="shrink mx-2 text-xs text-[#5c6370] font-semibold uppercase tracking-wider">ou</span>
                 <div className="flex-grow border-t border-[#e4e0d8]" />
               </div>
 
@@ -255,9 +255,9 @@ export default async function TraceDetailPage(props: {
                 <input type="hidden" name="traceId" value={trace.id} />
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
+                  className="min-h-[44px] inline-flex items-center justify-center gap-1.5 w-full rounded-md border border-[#e4e0d8] bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
                 >
-                  <SparklesIcon className="h-3.5 w-3.5 text-amber-500" />
+                  <SparklesIcon className="h-3.5 w-3.5 text-amber-500" aria-hidden="true" />
                   <span>Générer depuis Komoot</span>
                 </button>
               </form>

@@ -22,16 +22,24 @@ export default function BlogList({ posts }: BlogListProps): React.ReactElement {
     return ['Tous', ...Array.from(set)];
   }, [posts]);
 
+  // Normalize string for diacritic and case-insensitive search
+  const normalizeText = (text: string) =>
+    text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+
   // Filtered posts
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
-      const searchLower = search.toLowerCase().trim();
+      const searchNormalized = normalizeText(search);
       const matchesSearch =
-        !searchLower ||
-        post.title.toLowerCase().includes(searchLower) ||
-        post.excerpt.toLowerCase().includes(searchLower) ||
-        post.author.toLowerCase().includes(searchLower) ||
-        (post.category && post.category.toLowerCase().includes(searchLower));
+        !searchNormalized ||
+        normalizeText(post.title).includes(searchNormalized) ||
+        normalizeText(post.excerpt).includes(searchNormalized) ||
+        normalizeText(post.author).includes(searchNormalized) ||
+        (post.category && normalizeText(post.category).includes(searchNormalized));
 
       if (!matchesSearch) return false;
 
@@ -45,8 +53,8 @@ export default function BlogList({ posts }: BlogListProps): React.ReactElement {
 
   if (posts.length === 0) {
     return (
-      <div className="rounded-lg border border-[#e4e0d8] bg-white p-16 text-center space-y-3">
-        <NewspaperIcon className="mx-auto h-12 w-12 text-[#7d8493]" />
+      <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 sm:p-16 text-center space-y-3">
+        <NewspaperIcon className="mx-auto h-12 w-12 text-[#5c6370]" aria-hidden="true" />
         <h3 className="text-base font-bold text-[#101216]">Aucun article publié</h3>
         <p className="text-xs sm:text-sm text-[#5c6370]">
           Les prochaines actualités et récits du club seront publiés ici prochainement.
@@ -62,34 +70,39 @@ export default function BlogList({ posts }: BlogListProps): React.ReactElement {
   return (
     <div className="space-y-8">
       {/* ──── Filter & Search Bar ──── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
         {/* Search input */}
         <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" aria-hidden="true" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un article, un auteur..."
-            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+            aria-label="Rechercher un article ou un auteur"
+            className="w-full min-h-[44px] rounded-md border border-[#e4e0d8] bg-[#faf8f5] pl-10 pr-12 py-2.5 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] transition-colors"
           />
           {search && (
             <button
+              type="button"
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#7d8493] hover:text-[#101216]"
+              aria-label="Effacer la recherche"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[40px] min-w-[40px] flex items-center justify-center text-xs font-semibold text-[#5c6370] hover:text-[#101216] rounded-md transition-colors"
             >
               Effacer
             </button>
           )}
         </div>
 
-        {/* Category Pills */}
+        {/* Category Pills (Touch Target >= 44px) */}
         <div className="flex flex-wrap items-center gap-2">
           {categories.map((category) => (
             <button
               key={category}
+              type="button"
+              aria-pressed={selectedCategory === category}
               onClick={() => setSelectedCategory(category)}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+              className={`min-h-[44px] inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors focus-visible:ring-2 focus-visible:ring-[#e03e3e] focus:outline-hidden ${
                 selectedCategory === category
                   ? 'bg-[#101216] text-white'
                   : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
@@ -122,21 +135,24 @@ export default function BlogList({ posts }: BlogListProps): React.ReactElement {
         </div>
       ) : (
         /* Empty State */
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center space-y-3">
-          <NewspaperIcon className="mx-auto h-12 w-12 text-[#7d8493]" />
+        <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center space-y-4">
+          <NewspaperIcon className="mx-auto h-12 w-12 text-[#5c6370]" aria-hidden="true" />
           <h3 className="text-base font-bold text-[#101216]">Aucun article trouvé</h3>
           <p className="text-xs sm:text-sm text-[#5c6370] max-w-sm mx-auto">
             Aucun article ne correspond à votre recherche « {search} ».
           </p>
-          <button
-            onClick={() => {
-              setSearch('');
-              setSelectedCategory('Tous');
-            }}
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#c93434] transition-colors"
-          >
-            Réinitialiser la recherche
-          </button>
+          <div>
+            <button
+              type="button"
+              onClick={() => {
+                setSearch('');
+                setSelectedCategory('Tous');
+              }}
+              className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-[#e03e3e] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-[#c93434] transition-colors shadow-xs"
+            >
+              Réinitialiser la recherche
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -69,17 +69,9 @@ export default function EquipementPage() {
     <main className="min-h-screen bg-[#faf8f5]">
       {/* ──── Editorial Cover Hero (Ink) ──── */}
       <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-        {/* Ambient red glow */}
-        <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
-
         <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
           {/* Top row: Title */}
-          <div className="space-y-4 max-w-3xl pb-10 border-b border-white/10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
-              <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
-              Collection 2026 · GOBIK Custom Wear
-            </div>
-
+          <div className="space-y-3 max-w-3xl pb-8 border-b border-white/10">
             <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
               Tenues &amp; <span className="text-[#e03e3e] italic">Équipements</span>
             </h1>
@@ -89,59 +81,50 @@ export default function EquipementPage() {
             </p>
           </div>
 
-          {/* Telemetry ribbon on Ink */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+          {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6">
             {/* Pieces in collection */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0 mt-0.5">
-                <SparklesIcon className="h-5 w-5" />
+            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
+              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
+                <SparklesIcon className="h-5 w-5" aria-hidden="true" />
               </div>
               <div className="min-w-0">
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#e03e3e]">
-                  Catalogue Officiel
-                </span>
-                <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                  {totalPieces} articles disponibles
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {totalPieces} articles
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Maillots, cuissards, vestes &amp; collants
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Catalogue officiel
+                </div>
               </div>
             </div>
 
             {/* Technical partner */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <ShieldCheckIcon className="h-5 w-5 text-white" />
+            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <ShieldCheckIcon className="h-5 w-5 text-white" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Partenaire Technique
-                </span>
-                <div className="mt-1 text-sm font-bold text-white">
-                  GOBIK Spain Custom
+                <div className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                  GOBIK Spain
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Peaux de chamois K10/K9 &amp; textiles italiens
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Partenaire technique
+                </div>
               </div>
             </div>
 
             {/* Pickup & orders */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <TruckIcon className="h-5 w-5 text-sky-400" />
+            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <TruckIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Commandes &amp; Retrait
-                </span>
-                <div className="mt-1 text-sm font-bold text-white">
-                  Distribution au Club
+                <div className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                  Distribution club
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Paiement &amp; remise lors des sorties du samedi
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Remise le samedi
+                </div>
               </div>
             </div>
           </div>

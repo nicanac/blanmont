@@ -35,21 +35,9 @@ export default async function SondagePage(): Promise<React.ReactElement> {
     <main className="min-h-screen bg-[#faf8f5]">
       {/* ──── Editorial Cover Hero (Ink) ──── */}
       <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-        {/* Ambient red glow */}
-        <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
-
         <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
           {/* Title row */}
-          <div className="space-y-4 max-w-3xl pb-10 border-b border-white/10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
-              <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'active' ? 'bg-[#10b981] animate-pulse' : 'bg-[#e03e3e]'}`} />
-              {activePoll
-                ? activePoll.status === 'closed'
-                  ? 'Sondage Clôturé'
-                  : `Sondage Actif · Weekend du ${activePoll.weekendIsoDate}`
-                : 'Saison 2026 · Sorties Weekend'}
-            </div>
-
+          <div className="space-y-3 max-w-3xl pb-8 border-b border-white/10">
             <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
               Sondage du <span className="text-[#e03e3e] italic">Weekend</span>
             </h1>
@@ -60,59 +48,50 @@ export default async function SondagePage(): Promise<React.ReactElement> {
             </p>
           </div>
 
-          {/* Telemetry ribbon on Ink */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+          {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6">
             {/* Total Votes */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0 mt-0.5">
-                <UserGroupIcon className="h-5 w-5" />
+            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
+              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
+                <UserGroupIcon className="h-5 w-5" aria-hidden="true" />
               </div>
               <div className="min-w-0">
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#e03e3e]">
-                  Participations
-                </span>
-                <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                  {responses.length} réponses enregistrées
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {responses.length}
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Membres déclarés pour ce weekend
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Membres inscrits
+                </div>
               </div>
             </div>
 
             {/* Saturday Pelotons */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <CalendarDaysIcon className="h-5 w-5 text-white" />
+            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <CalendarDaysIcon className="h-5 w-5 text-white" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Samedi Matin
-                </span>
-                <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                  {saturdayCount} cyclistes
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {saturdayCount}
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Départ officiel 8h30 · Place de Blanmont
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Samedi · 8h30
+                </div>
               </div>
             </div>
 
             {/* Sunday Pelotons */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <ClockIcon className="h-5 w-5 text-sky-400" />
+            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <ClockIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Dimanche Matin
-                </span>
-                <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                  {sundayCount} cyclistes
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {sundayCount}
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Départ dominical 9h00 · Place de Blanmont
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Dimanche · 9h00
+                </div>
               </div>
             </div>
           </div>

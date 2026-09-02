@@ -92,27 +92,30 @@ export default async function BlogPostPage({
   const hasAvatar = isValidImageUrl(post.authorAvatar);
   const initials = getInitials(post.author);
 
+  // Compute estimated reading time (~200 words per minute)
+  const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
+  const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+
+  const encodedShareUrl = encodeURIComponent(`https://blanmont.be/blog/${post.slug}`);
+  const encodedShareText = encodeURIComponent(
+    `🚴‍♂️ ${post.title} — Club Cyclo Saint-Martin de Blanmont : https://blanmont.be/blog/${post.slug}`
+  );
+
   return (
     <main className="min-h-screen bg-[#faf8f5]">
       {/* ──── Editorial Article Header (Ink) ──── */}
       <header className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-        {/* Ambient red glow */}
-        <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
-
-        <div className="relative mx-auto max-w-4xl px-4 pt-10 pb-12 sm:px-6 sm:pt-14 sm:pb-16 lg:px-8 space-y-6">
-          {/* Back Navigation */}
-          <div>
+        <div className="relative mx-auto max-w-4xl px-4 pt-8 pb-10 sm:px-6 sm:pt-12 sm:pb-14 lg:px-8 space-y-6">
+          {/* Back Navigation & Category row */}
+          <div className="flex items-center justify-between gap-4">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#a7adbb] hover:text-white transition-colors"
+              className="min-h-[44px] inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a7adbb] hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-[#e03e3e] focus:outline-hidden rounded-md"
             >
-              <ArrowLeftIcon className="h-3.5 w-3.5" />
+              <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
               <span>Retour aux actualités</span>
             </Link>
-          </div>
 
-          {/* Category Pill */}
-          <div>
             <span className="inline-flex items-center rounded-full bg-[#e03e3e]/15 border border-[#e03e3e]/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
               {post.category || 'Actualité'}
             </span>
@@ -133,11 +136,11 @@ export default async function BlogPostPage({
           {/* Author & Meta Strip */}
           <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
             <div className="flex items-center gap-3">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-white/15 flex items-center justify-center font-bold text-xs text-white shadow-sm">
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-white/15 flex items-center justify-center font-bold text-xs text-white shadow-xs">
                 {hasAvatar ? (
                   <img
                     src={post.authorAvatar}
-                    alt={post.author}
+                    alt=""
                     className="h-full w-full object-cover"
                   />
                 ) : (
@@ -150,9 +153,16 @@ export default async function BlogPostPage({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-[#a7adbb] tabular-nums bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              <CalendarDaysIcon className="h-4 w-4 text-[#7d8493]" />
-              <span>Publié le {formatDate(post.publishedAt)}</span>
+            <div className="flex flex-wrap items-center gap-3 text-[#a7adbb]">
+              <div className="flex items-center gap-1.5 tabular-nums bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                <CalendarDaysIcon className="h-4 w-4 text-[#a7adbb]" aria-hidden="true" />
+                <span>Publié le {formatDate(post.publishedAt)}</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 tabular-nums bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                <span>⏱️</span>
+                <span>{readingTimeMinutes} min de lecture</span>
+              </div>
             </div>
           </div>
         </div>
@@ -162,7 +172,7 @@ export default async function BlogPostPage({
       <article className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
         {/* Cover Photo if present */}
         {hasCoverImage && (
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg shadow-xl mb-12 border border-[#e4e0d8] bg-[#161922]">
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg shadow-md mb-12 border border-[#e4e0d8] bg-[#161922]">
             <img
               src={post.coverImage}
               alt={post.title}
@@ -178,22 +188,41 @@ export default async function BlogPostPage({
           </ReactMarkdown>
         </div>
 
-        {/* Article Footer */}
-        <footer className="mt-14 pt-8 border-t border-[#e4e0d8] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors"
-          >
-            <ArrowLeftIcon className="h-4 w-4" />
-            <span>Tous les articles</span>
-          </Link>
+        {/* Share & Footer Strip */}
+        <footer className="mt-14 pt-8 border-t border-[#e4e0d8] space-y-6">
+          {/* Social Share Bar */}
+          <div className="rounded-lg border border-[#e4e0d8] bg-white p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h3 className="text-sm font-bold text-[#101216]">Partager cette chronique</h3>
+              <p className="text-xs text-[#5c6370]">Partagez le récit avec le groupe et vos amis cyclistes.</p>
+            </div>
+            <a
+              href={`https://api.whatsapp.com/send?text=${encodedShareText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
+            >
+              <span>💬 Partager sur WhatsApp</span>
+            </a>
+          </div>
 
-          <Link
-            href="/calendrier"
-            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors"
-          >
-            <span>Consulter le calendrier des sorties</span>
-          </Link>
+          {/* Navigation CTAs */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <Link
+              href="/blog"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+            >
+              <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
+              <span>Tous les articles</span>
+            </Link>
+
+            <Link
+              href="/calendrier"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+            >
+              <span>Consulter le calendrier des sorties</span>
+            </Link>
+          </div>
         </footer>
       </article>
     </main>

@@ -56,7 +56,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group flex flex-col rounded-lg border border-[#e4e0d8] bg-white overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1 ${
+      className={`group flex flex-col rounded-lg border border-[#e4e0d8] bg-white overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] ${
         featured ? 'lg:col-span-2' : ''
       }`}
     >
@@ -89,19 +89,16 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
             </svg>
 
             <div className="relative z-10 flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#7d8493]">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#a7adbb]">
                 CC SAINT-MARTIN
               </span>
-              <NewspaperIcon className="h-6 w-6 text-[#e03e3e]/40" />
+              <NewspaperIcon className="h-6 w-6 text-[#e03e3e]/50" aria-hidden="true" />
             </div>
 
             <div className="relative z-10 space-y-1">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#a7adbb]">
-                Chronique du club
-              </span>
-              <h4 className="text-base sm:text-lg font-bold text-white line-clamp-2 leading-snug">
+              <p className="text-base sm:text-lg font-bold text-white line-clamp-2 leading-snug">
                 {post.title}
-              </h4>
+              </p>
             </div>
           </div>
         )}
@@ -131,14 +128,14 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
         </div>
 
         {/* Author & Date Footer */}
-        <div className="pt-3 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#7d8493]">
+        <div className="pt-3 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#5c6370]">
           <div className="flex items-center gap-2.5 min-w-0">
             {/* Author Avatar with initials fallback */}
             <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center text-xs font-bold text-white">
               {hasAvatar ? (
                 <img
                   src={post.authorAvatar}
-                  alt={post.author}
+                  alt=""
                   onError={() => setAvatarError(true)}
                   className="h-full w-full object-cover"
                 />
@@ -151,8 +148,8 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 tabular-nums">
-            <CalendarDaysIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+          <div className="flex items-center gap-1.5 shrink-0 tabular-nums text-[#5c6370]">
+            <CalendarDaysIcon className="h-3.5 w-3.5 text-[#5c6370]" aria-hidden="true" />
             <span>{formatDate(post.publishedAt)}</span>
           </div>
         </div>

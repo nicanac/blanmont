@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { CalendarEvent } from '../types';
 import CalendarDrawer from './CalendarDrawer';
@@ -58,6 +58,15 @@ function getFirstDayOfMonth(year: number, month: number) {
   return day === 0 ? 6 : day - 1;
 }
 
+const normalizeText = (str: string) =>
+  str
+    ? str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim()
+    : '';
+
 type AttendeeInfo = { name: string; group: string };
 type ViewMode = 'grid' | 'agenda';
 type FilterType = 'all' | 'saturday' | 'sunday' | 'gpx';
@@ -84,10 +93,10 @@ export default function CalendarView({
 
   const isSearching = Boolean(searchQuery.trim());
 
-  // Global search across ALL months and years (past & future)
+  // Global search across ALL months and years (past & future) with diacritic normalization
   const searchedEvents = useMemo(() => {
     if (!isSearching) return [];
-    const query = searchQuery.toLowerCase().trim();
+    const query = normalizeText(searchQuery);
 
     return events
       .filter((e) => {
@@ -105,14 +114,14 @@ export default function CalendarView({
           if (!e.gpxUrl) return false;
         }
 
-        const matchesLocation = e.location?.toLowerCase().includes(query);
-        const matchesAddress = e.address?.toLowerCase().includes(query);
-        const matchesRemarks = e.remarks?.toLowerCase().includes(query);
-        const matchesDistances = e.distances?.toLowerCase().includes(query);
-        const matchesAlternative = e.alternative?.toLowerCase().includes(query);
-        const matchesGroup = e.group?.toLowerCase().includes(query);
-        const matchesDate = e.isoDate.toLowerCase().includes(query);
-        const monthName = MONTH_NAMES[m - 1]?.toLowerCase() || '';
+        const matchesLocation = normalizeText(e.location || '').includes(query);
+        const matchesAddress = normalizeText(e.address || '').includes(query);
+        const matchesRemarks = normalizeText(e.remarks || '').includes(query);
+        const matchesDistances = normalizeText(e.distances || '').includes(query);
+        const matchesAlternative = normalizeText(e.alternative || '').includes(query);
+        const matchesGroup = normalizeText(e.group || '').includes(query);
+        const matchesDate = (e.isoDate || '').toLowerCase().includes(query);
+        const monthName = normalizeText(MONTH_NAMES[m - 1] || '');
         const matchesMonthName = monthName.includes(query);
 
         return (
@@ -186,15 +195,31 @@ export default function CalendarView({
   }, [events, year, month, filterType]);
 
   // Navigation handlers
-  const goToPreviousMonth = () => setCurrentDate(new Date(year, month - 1, 1));
-  const goToNextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
-  const goToToday = () => setCurrentDate(new Date());
+  const goToPreviousMonth = useCallback(() => setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1)), []);
+  const goToNextMonth = useCallback(() => setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1)), []);
+  const goToToday = useCallback(() => setCurrentDate(new Date()), []);
 
   const handleJumpToMonth = (isoDate: string) => {
     const [y, m] = isoDate.split('-').map(Number);
     setCurrentDate(new Date(y, m - 1, 1));
     setSearchQuery('');
   };
+
+  // Keyboard navigation for previous/next months when not typing in inputs
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName.toLowerCase();
+      if (activeTag === 'input' || activeTag === 'textarea') return;
+
+      if (e.key === 'ArrowLeft') {
+        goToPreviousMonth();
+      } else if (e.key === 'ArrowRight') {
+        goToNextMonth();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [goToPreviousMonth, goToNextMonth]);
 
   return (
     <div className="space-y-6">
@@ -204,30 +229,32 @@ export default function CalendarView({
           {/* Month Title & Nav */}
           <div className="flex items-center gap-3">
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] min-w-[200px]">
-              {MONTH_NAMES[month]} <span className="text-[#7d8493] font-normal tabular-nums">{year}</span>
+              {MONTH_NAMES[month]} <span className="text-[#5c6370] font-normal tabular-nums">{year}</span>
             </h2>
 
             <div className="inline-flex items-center rounded-md border border-[#e4e0d8] bg-[#f2efe9]/60 p-0.5">
               <button
                 type="button"
                 onClick={goToPreviousMonth}
-                className="p-1.5 rounded text-[#5c6370] hover:text-[#101216] hover:bg-white transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-[#5c6370] hover:text-[#101216] hover:bg-white transition-colors"
                 title="Mois précédent"
+                aria-label="Mois précédent"
               >
                 <ChevronLeftIcon className="h-4 w-4" />
               </button>
               <button
                 type="button"
                 onClick={goToToday}
-                className="px-2.5 py-1 text-xs font-semibold text-[#101216] hover:bg-white rounded transition-colors"
+                className="min-h-[44px] px-3.5 py-2 text-xs font-semibold text-[#101216] hover:bg-white rounded transition-colors flex items-center justify-center"
               >
                 Aujourd&apos;hui
               </button>
               <button
                 type="button"
                 onClick={goToNextMonth}
-                className="p-1.5 rounded text-[#5c6370] hover:text-[#101216] hover:bg-white transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-[#5c6370] hover:text-[#101216] hover:bg-white transition-colors"
                 title="Mois suivant"
+                aria-label="Mois suivant"
               >
                 <ChevronRightIcon className="h-4 w-4" />
               </button>
@@ -238,22 +265,24 @@ export default function CalendarView({
           <div className="flex flex-wrap items-center gap-3">
             {/* Search input across all months */}
             <div className="relative flex-1 sm:w-72 sm:flex-none">
-              <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+              <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Rechercher (tous les mois & passés)..."
-                className="w-full pl-9 pr-8 py-2 text-xs rounded-md border border-[#e4e0d8] bg-[#faf8f5] focus:bg-white focus:outline-none focus:border-[#e03e3e] transition-colors"
+                placeholder="Rechercher (tous les mois)..."
+                aria-label="Rechercher une sortie, un lieu ou un mois"
+                className="w-full min-h-[44px] pl-10 pr-10 py-2 text-xs rounded-md border border-[#e4e0d8] bg-[#faf8f5] focus:bg-white focus:outline-none focus:border-[#e03e3e] transition-colors text-[#101216] placeholder:text-[#5c6370]"
               />
               {isSearching && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#7d8493] hover:text-[#101216] p-0.5 rounded-full"
+                  className="min-h-[44px] min-w-[44px] absolute right-0 top-0 flex items-center justify-center text-[#5c6370] hover:text-[#101216]"
                   title="Effacer la recherche"
+                  aria-label="Effacer la recherche"
                 >
-                  <XMarkIcon className="h-3.5 w-3.5" />
+                  <XMarkIcon className="h-4 w-4" />
                 </button>
               )}
             </div>
@@ -264,26 +293,26 @@ export default function CalendarView({
                 type="button"
                 onClick={() => setViewMode('agenda')}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-all',
+                  'min-h-[44px] flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold transition-all',
                   viewMode === 'agenda' || isSearching
                     ? 'bg-white text-[#101216] shadow-xs'
                     : 'text-[#5c6370] hover:text-[#101216]'
                 )}
               >
-                <ListBulletIcon className="h-3.5 w-3.5" />
+                <ListBulletIcon className="h-4 w-4" />
                 <span className="hidden sm:inline">Agenda</span>
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-all',
+                  'min-h-[44px] flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold transition-all',
                   viewMode === 'grid' && !isSearching
                     ? 'bg-white text-[#101216] shadow-xs'
                     : 'text-[#5c6370] hover:text-[#101216]'
                 )}
               >
-                <Squares2X2Icon className="h-3.5 w-3.5" />
+                <Squares2X2Icon className="h-4 w-4" />
                 <span className="hidden sm:inline">Grille</span>
               </button>
             </div>
@@ -292,7 +321,7 @@ export default function CalendarView({
 
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-[#e4e0d8]">
-          <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493] mr-1">
+          <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370] mr-1">
             Filtrer :
           </span>
 
@@ -300,7 +329,7 @@ export default function CalendarView({
             type="button"
             onClick={() => setFilterType('all')}
             className={cn(
-              'px-3 py-1 rounded-md text-xs font-semibold transition-colors',
+              'min-h-[44px] px-4 py-2 rounded-md text-xs font-semibold transition-colors flex items-center justify-center',
               filterType === 'all'
                 ? 'bg-[#101216] text-white'
                 : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
@@ -313,7 +342,7 @@ export default function CalendarView({
             type="button"
             onClick={() => setFilterType('saturday')}
             className={cn(
-              'px-3 py-1 rounded-md text-xs font-semibold transition-colors',
+              'min-h-[44px] px-4 py-2 rounded-md text-xs font-semibold transition-colors flex items-center justify-center',
               filterType === 'saturday'
                 ? 'bg-[#e03e3e] text-white'
                 : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
@@ -326,7 +355,7 @@ export default function CalendarView({
             type="button"
             onClick={() => setFilterType('sunday')}
             className={cn(
-              'px-3 py-1 rounded-md text-xs font-semibold transition-colors',
+              'min-h-[44px] px-4 py-2 rounded-md text-xs font-semibold transition-colors flex items-center justify-center',
               filterType === 'sunday'
                 ? 'bg-[#e03e3e] text-white'
                 : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
@@ -339,14 +368,14 @@ export default function CalendarView({
             type="button"
             onClick={() => setFilterType('gpx')}
             className={cn(
-              'inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-semibold transition-colors',
+              'min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-colors',
               filterType === 'gpx'
                 ? 'bg-sky-600 text-white'
                 : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
             )}
           >
-            <MapIcon className="h-3 w-3" />
-            <span>Avec Trace GPX</span>
+            <MapIcon className="h-3.5 w-3.5" />
+            <span>Avec Parcours GPX</span>
           </button>
         </div>
       </div>
@@ -362,13 +391,13 @@ export default function CalendarView({
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493] tabular-nums">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] tabular-nums">
                 {searchedEvents.length} résultat{searchedEvents.length !== 1 ? 's' : ''} trouvé{searchedEvents.length !== 1 ? 's' : ''}
               </span>
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline"
+                className="min-h-[44px] inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline"
               >
                 <span>Effacer</span>
                 <XMarkIcon className="h-3.5 w-3.5" />
@@ -377,159 +406,161 @@ export default function CalendarView({
           </div>
 
           {searchedEvents.length > 0 ? (
-            searchedEvents.map((event) => {
-              const [y, m, d] = event.isoDate.split('-').map(Number);
-              const dateObj = new Date(y, m - 1, d);
-              const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
-              const weekdayStr = dateObj.toLocaleDateString('fr-FR', { weekday: 'long' });
-              const monthStr = dateObj.toLocaleDateString('fr-FR', { month: 'short' });
-              const fullDateStr = dateObj.toLocaleDateString('fr-FR', {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              });
-              const attendees = attendanceMap[event.id] || [];
+            <ul className="space-y-4" role="list">
+              {searchedEvents.map((event) => {
+                const [y, m, d] = event.isoDate.split('-').map(Number);
+                const dateObj = new Date(y, m - 1, d);
+                const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
+                const weekdayStr = dateObj.toLocaleDateString('fr-FR', { weekday: 'long' });
+                const monthStr = dateObj.toLocaleDateString('fr-FR', { month: 'short' });
+                const fullDateStr = dateObj.toLocaleDateString('fr-FR', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                });
+                const attendees = attendanceMap[event.id] || [];
 
-              return (
-                <div
-                  key={event.id}
-                  onClick={() => setSelectedEvent(event)}
-                  className="group rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs hover:shadow-md hover:border-[#e03e3e]/40 transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6"
-                >
-                  {/* Left: Date Block & Main Details */}
-                  <div className="flex items-start gap-4 sm:gap-5 flex-1 min-w-0">
-                    {/* Date Block */}
-                    <div
-                      className={cn(
-                        'flex-none rounded-lg p-3 text-center w-16 sm:w-20 flex flex-col justify-center items-center border',
-                        isWeekend
-                          ? 'bg-[#161922] text-white border-[#161922]'
-                          : 'bg-[#f2efe9] text-[#101216] border-[#e4e0d8]'
-                      )}
+                return (
+                  <li
+                    key={event.id}
+                    className="group rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs hover:shadow-md hover:border-[#e03e3e]/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
+                  >
+                    {/* Primary Click Target: Focusable accessible button for event details */}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedEvent(event)}
+                      aria-label={`Détails de la sortie ${event.location} le ${fullDateStr}`}
+                      className="flex items-start gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] -m-1.5 p-1.5"
                     >
-                      <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
-                        {weekdayStr.slice(0, 3)}
-                      </span>
-                      <span className="text-xl sm:text-2xl font-extrabold tabular-nums leading-tight">
-                        {dateObj.getDate()}
-                      </span>
-                      <span className="text-xs font-semibold uppercase text-[#7d8493]">
-                        {monthStr}
-                      </span>
-                    </div>
-
-                    {/* Middle Info */}
-                    <div className="space-y-2 flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                          {isWeekend ? 'Sortie Club' : 'Événement'}
-                        </span>
-
-                        <span className="text-xs font-semibold text-[#7d8493] bg-[#f2efe9] px-2.5 py-0.5 rounded-full tabular-nums">
-                          {fullDateStr}
-                        </span>
-
-                        {event.group && (
-                          <span className="text-xs font-medium text-[#5c6370] bg-[#f2efe9] px-2.5 py-0.5 rounded-full">
-                            {event.group}
-                          </span>
+                      {/* Date Block */}
+                      <div
+                        className={cn(
+                          'flex-none rounded-lg p-3 text-center w-16 sm:w-20 flex flex-col justify-center items-center border',
+                          isWeekend
+                            ? 'bg-[#161922] text-white border-[#161922]'
+                            : 'bg-[#f2efe9] text-[#101216] border-[#e4e0d8]'
                         )}
-                      </div>
-
-                      <h3 className="text-lg font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors truncate">
-                        {event.location}
-                      </h3>
-
-                      {/* Meta list */}
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5c6370]">
-                        <span className="flex items-center gap-1">
-                          <ClockIcon className="h-3.5 w-3.5 text-[#7d8493]" />
-                          <strong className="text-[#101216]">{event.departure}</strong>
-                        </span>
-
-                        {event.distances && (
-                          <span className="flex items-center gap-1 tabular-nums">
-                            <span>🚲</span>
-                            <strong className="text-[#101216]">{event.distances} km</strong>
-                          </span>
-                        )}
-
-                        {event.address && (
-                          <span className="flex items-center gap-1 truncate max-w-xs">
-                            <MapPinIcon className="h-3.5 w-3.5 text-[#7d8493]" />
-                            <span>{event.address}</span>
-                          </span>
-                        )}
-                      </div>
-
-                      {event.alternative && (
-                        <p className="text-xs text-amber-700 bg-amber-50 px-2.5 py-1 rounded border border-amber-200 inline-block">
-                          Alternative : {event.alternative}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Right: Weather & Actions */}
-                  <div className="flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#e4e0d8]">
-                    <div onClick={(e) => e.stopPropagation()}>
-                      <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleJumpToMonth(event.isoDate);
-                        }}
-                        className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-2.5 py-1.5 text-xs font-semibold transition-colors"
-                        title="Afficher ce mois dans le calendrier"
                       >
-                        <CalendarDaysIcon className="h-3.5 w-3.5 text-[#7d8493]" />
-                        <span>Aller au mois</span>
-                      </button>
-
-                      {event.gpxUrl && (
-                        <a
-                          href={event.gpxUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 rounded-md border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-700 px-3 py-1.5 text-xs font-bold transition-colors"
-                        >
-                          <ArrowDownTrayIcon className="h-3.5 w-3.5" />
-                          <span>Trace GPX</span>
-                        </a>
-                      )}
-
-                      {attendees.length > 0 && (
-                        <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1.5 text-xs font-bold">
-                          <UserGroupIcon className="h-3.5 w-3.5" />
-                          <span>{attendees.length}</span>
+                        <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
+                          {weekdayStr.slice(0, 3)}
                         </span>
-                      )}
+                        <span className="text-xl sm:text-2xl font-extrabold tabular-nums leading-tight">
+                          {dateObj.getDate()}
+                        </span>
+                        <span className={cn('text-xs font-semibold uppercase', isWeekend ? 'text-[#a7adbb]' : 'text-[#5c6370]')}>
+                          {monthStr}
+                        </span>
+                      </div>
 
-                      {isAdmin && (
-                        <Link
-                          href={`/admin/events/${event.id}/edit`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="p-1.5 rounded-md border border-[#e4e0d8] hover:bg-[#f2efe9] text-[#7d8493] hover:text-[#101216] transition-colors"
-                          title="Modifier l'événement"
+                      {/* Middle Info */}
+                      <div className="space-y-2 flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+                            {isWeekend ? 'Sortie Club' : 'Événement'}
+                          </span>
+
+                          <span className="text-xs font-semibold text-[#5c6370] bg-[#f2efe9] px-2.5 py-0.5 rounded-full tabular-nums">
+                            {fullDateStr}
+                          </span>
+
+                          {event.group && (
+                            <span className="text-xs font-medium text-[#3a3f4a] bg-[#f2efe9] px-2.5 py-0.5 rounded-full">
+                              {event.group}
+                            </span>
+                          )}
+                        </div>
+
+                        <h3 className="text-lg font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors truncate">
+                          {event.location}
+                        </h3>
+
+                        {/* Meta list */}
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5c6370]">
+                          <span className="flex items-center gap-1">
+                            <ClockIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+                            <strong className="text-[#101216] font-semibold tabular-nums">{event.departure}</strong>
+                          </span>
+
+                          {event.distances && (
+                            <span className="flex items-center gap-1 tabular-nums">
+                              <span>🚲</span>
+                              <strong className="text-[#101216] font-semibold">{event.distances} km</strong>
+                            </span>
+                          )}
+
+                          {event.address && (
+                            <span className="flex items-center gap-1 truncate max-w-xs">
+                              <MapPinIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+                              <span>{event.address}</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {event.alternative && (
+                          <p className="text-xs text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200 inline-block">
+                            Alternative : {event.alternative}
+                          </p>
+                        )}
+                      </div>
+                    </button>
+
+                    {/* Right: Weather & Independent Actions */}
+                    <div className="flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#e4e0d8]">
+                      <div>
+                        <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} compact={true} />
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleJumpToMonth(event.isoDate)}
+                          className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-3.5 py-2 text-xs font-semibold transition-colors"
+                          title="Afficher ce mois dans le calendrier"
                         >
-                          <PencilSquareIcon className="h-4 w-4" />
-                        </Link>
-                      )}
+                          <CalendarDaysIcon className="h-4 w-4 text-[#5c6370]" />
+                          <span>Aller au mois</span>
+                        </button>
+
+                        {event.gpxUrl && (
+                          <a
+                            href={event.gpxUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-700 px-3.5 py-2 text-xs font-bold transition-colors"
+                          >
+                            <ArrowDownTrayIcon className="h-4 w-4" />
+                            <span>Parcours GPX</span>
+                          </a>
+                        )}
+
+                        {attendees.length > 0 && (
+                          <span className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-2 text-xs font-bold">
+                            <UserGroupIcon className="h-4 w-4" />
+                            <span className="tabular-nums">{attendees.length}</span>
+                          </span>
+                        )}
+
+                        {isAdmin && (
+                          <Link
+                            href={`/admin/events/${event.id}/edit`}
+                            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] hover:bg-[#f2efe9] text-[#5c6370] hover:text-[#101216] transition-colors"
+                            title="Modifier l'événement"
+                            aria-label="Modifier l'événement"
+                          >
+                            <PencilSquareIcon className="h-4 w-4" />
+                          </Link>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })
+                  </li>
+                );
+              })}
+            </ul>
           ) : (
             <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center space-y-3">
-              <CalendarDaysIcon className="mx-auto h-10 w-10 text-[#7d8493]" />
+              <CalendarDaysIcon className="mx-auto h-10 w-10 text-[#5c6370]" />
               <h3 className="text-base font-bold text-[#101216]">Aucune sortie trouvée</h3>
               <p className="text-xs sm:text-sm text-[#5c6370] max-w-sm mx-auto">
                 Aucune sortie ne correspond à « {searchQuery} » sur l&apos;ensemble de la saison.
@@ -537,7 +568,7 @@ export default function CalendarView({
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#c93434] transition-colors"
+                className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-[#e03e3e] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-[#c93434] transition-colors"
               >
                 Réinitialiser la recherche
               </button>
@@ -594,7 +625,7 @@ export default function CalendarView({
                               ? 'h-6 w-6 rounded-full bg-[#e03e3e] text-white shadow-xs'
                               : cell.isWeekend
                               ? 'text-[#101216]'
-                              : 'text-[#7d8493]'
+                              : 'text-[#5c6370]'
                           )}
                         >
                           {cell.day}
@@ -614,21 +645,22 @@ export default function CalendarView({
                               key={event.id}
                               type="button"
                               onClick={() => setSelectedEvent(event)}
-                              className="w-full text-left rounded p-1.5 bg-[#161922] text-white hover:bg-[#e03e3e] transition-colors group/ev block shadow-2xs"
+                              aria-label={`Détails de la sortie ${event.location} à ${event.departure}`}
+                              className="w-full text-left rounded p-1.5 bg-[#161922] text-white hover:bg-[#e03e3e] transition-colors group/ev block shadow-2xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e]"
                             >
                               <div className="flex items-center justify-between gap-1">
                                 <span className="font-bold text-xs truncate leading-tight">
                                   {event.location}
                                 </span>
                                 {event.departure && (
-                                  <span className="text-xs font-mono opacity-80 shrink-0">
+                                  <span className="text-xs font-semibold tabular-nums opacity-90 shrink-0">
                                     {event.departure}
                                   </span>
                                 )}
                               </div>
 
                               {event.distances && (
-                                <p className="text-xs opacity-75 truncate mt-0.5 tabular-nums">
+                                <p className="text-xs opacity-80 truncate mt-0.5 tabular-nums">
                                   {event.distances} km
                                 </p>
                               )}
@@ -651,138 +683,149 @@ export default function CalendarView({
           )}
 
           {viewMode === 'agenda' && (
-            <div className="space-y-4">
+            <div>
               {monthEvents.length > 0 ? (
-                monthEvents.map((event) => {
-                  const [y, m, d] = event.isoDate.split('-').map(Number);
-                  const dateObj = new Date(y, m - 1, d);
-                  const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
-                  const weekdayStr = dateObj.toLocaleDateString('fr-FR', { weekday: 'long' });
-                  const monthStr = dateObj.toLocaleDateString('fr-FR', { month: 'short' });
-                  const attendees = attendanceMap[event.id] || [];
+                <ul className="space-y-4" role="list">
+                  {monthEvents.map((event) => {
+                    const [y, m, d] = event.isoDate.split('-').map(Number);
+                    const dateObj = new Date(y, m - 1, d);
+                    const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
+                    const weekdayStr = dateObj.toLocaleDateString('fr-FR', { weekday: 'long' });
+                    const monthStr = dateObj.toLocaleDateString('fr-FR', { month: 'short' });
+                    const fullDateStr = dateObj.toLocaleDateString('fr-FR', {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    });
+                    const attendees = attendanceMap[event.id] || [];
 
-                  return (
-                    <div
-                      key={event.id}
-                      onClick={() => setSelectedEvent(event)}
-                      className="group rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs hover:shadow-md hover:border-[#e03e3e]/40 transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6"
-                    >
-                      {/* Left: Date Block & Main Details */}
-                      <div className="flex items-start gap-4 sm:gap-5 flex-1 min-w-0">
-                        {/* Date Block */}
-                        <div
-                          className={cn(
-                            'flex-none rounded-lg p-3 text-center w-16 sm:w-20 flex flex-col justify-center items-center border',
-                            isWeekend
-                              ? 'bg-[#161922] text-white border-[#161922]'
-                              : 'bg-[#f2efe9] text-[#101216] border-[#e4e0d8]'
-                          )}
+                    return (
+                      <li
+                        key={event.id}
+                        className="group rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs hover:shadow-md hover:border-[#e03e3e]/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
+                      >
+                        {/* Primary Focusable Trigger for Event Details */}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEvent(event)}
+                          aria-label={`Détails de la sortie ${event.location} le ${fullDateStr}`}
+                          className="flex items-start gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] -m-1.5 p-1.5"
                         >
-                          <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
-                            {weekdayStr.slice(0, 3)}
-                          </span>
-                          <span className="text-xl sm:text-2xl font-extrabold tabular-nums leading-tight">
-                            {dateObj.getDate()}
-                          </span>
-                          <span className="text-xs font-semibold uppercase text-[#7d8493]">
-                            {monthStr}
-                          </span>
-                        </div>
-
-                        {/* Middle Info */}
-                        <div className="space-y-2 flex-1 min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
-                              <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                              {isWeekend ? 'Sortie Club' : 'Événement'}
-                            </span>
-
-                            {event.group && (
-                              <span className="text-xs font-medium text-[#5c6370] bg-[#f2efe9] px-2.5 py-0.5 rounded-full">
-                                {event.group}
-                              </span>
+                          {/* Date Block */}
+                          <div
+                            className={cn(
+                              'flex-none rounded-lg p-3 text-center w-16 sm:w-20 flex flex-col justify-center items-center border',
+                              isWeekend
+                                ? 'bg-[#161922] text-white border-[#161922]'
+                                : 'bg-[#f2efe9] text-[#101216] border-[#e4e0d8]'
                             )}
+                          >
+                            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
+                              {weekdayStr.slice(0, 3)}
+                            </span>
+                            <span className="text-xl sm:text-2xl font-extrabold tabular-nums leading-tight">
+                              {dateObj.getDate()}
+                            </span>
+                            <span className={cn('text-xs font-semibold uppercase', isWeekend ? 'text-[#a7adbb]' : 'text-[#5c6370]')}>
+                              {monthStr}
+                            </span>
                           </div>
 
-                          <h3 className="text-lg font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors truncate">
-                            {event.location}
-                          </h3>
-
-                          {/* Meta list */}
-                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5c6370]">
-                            <span className="flex items-center gap-1">
-                              <ClockIcon className="h-3.5 w-3.5 text-[#7d8493]" />
-                              <strong className="text-[#101216]">{event.departure}</strong>
-                            </span>
-
-                            {event.distances && (
-                              <span className="flex items-center gap-1 tabular-nums">
-                                <span>🚲</span>
-                                <strong className="text-[#101216]">{event.distances} km</strong>
+                          {/* Middle Info */}
+                          <div className="space-y-2 flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+                                {isWeekend ? 'Sortie Club' : 'Événement'}
                               </span>
-                            )}
 
-                            {event.address && (
-                              <span className="flex items-center gap-1 truncate max-w-xs">
-                                <MapPinIcon className="h-3.5 w-3.5 text-[#7d8493]" />
-                                <span>{event.address}</span>
+                              {event.group && (
+                                <span className="text-xs font-medium text-[#3a3f4a] bg-[#f2efe9] px-2.5 py-0.5 rounded-full">
+                                  {event.group}
+                                </span>
+                              )}
+                            </div>
+
+                            <h3 className="text-lg font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors truncate">
+                              {event.location}
+                            </h3>
+
+                            {/* Meta list */}
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5c6370]">
+                              <span className="flex items-center gap-1">
+                                <ClockIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+                                <strong className="text-[#101216] font-semibold tabular-nums">{event.departure}</strong>
                               </span>
+
+                              {event.distances && (
+                                <span className="flex items-center gap-1 tabular-nums">
+                                  <span>🚲</span>
+                                  <strong className="text-[#101216] font-semibold">{event.distances} km</strong>
+                                </span>
+                              )}
+
+                              {event.address && (
+                                <span className="flex items-center gap-1 truncate max-w-xs">
+                                  <MapPinIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+                                  <span>{event.address}</span>
+                                </span>
+                              )}
+                            </div>
+
+                            {event.alternative && (
+                              <p className="text-xs text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200 inline-block">
+                                Alternative : {event.alternative}
+                              </p>
                             )}
                           </div>
+                        </button>
 
-                          {event.alternative && (
-                            <p className="text-xs text-amber-700 bg-amber-50 px-2.5 py-1 rounded border border-amber-200 inline-block">
-                              Alternative : {event.alternative}
-                            </p>
-                          )}
+                        {/* Right: Weather & Actions */}
+                        <div className="flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#e4e0d8]">
+                          <div>
+                            <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} compact={true} />
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            {event.gpxUrl && (
+                              <a
+                                href={event.gpxUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-700 px-3.5 py-2 text-xs font-bold transition-colors"
+                              >
+                                <ArrowDownTrayIcon className="h-4 w-4" />
+                                <span>Parcours GPX</span>
+                              </a>
+                            )}
+
+                            {attendees.length > 0 && (
+                              <span className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-2 text-xs font-bold">
+                                <UserGroupIcon className="h-4 w-4" />
+                                <span className="tabular-nums">{attendees.length} inscrits</span>
+                              </span>
+                            )}
+
+                            {isAdmin && (
+                              <Link
+                                href={`/admin/events/${event.id}/edit`}
+                                className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] hover:bg-[#f2efe9] text-[#5c6370] hover:text-[#101216] transition-colors"
+                                title="Modifier l'événement"
+                                aria-label="Modifier l'événement"
+                              >
+                                <PencilSquareIcon className="h-4 w-4" />
+                              </Link>
+                            )}
+                          </div>
                         </div>
-                      </div>
-
-                      {/* Right: Weather & Actions */}
-                      <div className="flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#e4e0d8]">
-                        <div onClick={(e) => e.stopPropagation()}>
-                          <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} />
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          {event.gpxUrl && (
-                            <a
-                              href={event.gpxUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center gap-1 rounded-md border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-700 px-3 py-1.5 text-xs font-bold transition-colors"
-                            >
-                              <ArrowDownTrayIcon className="h-3.5 w-3.5" />
-                              <span>Trace GPX</span>
-                            </a>
-                          )}
-
-                          {attendees.length > 0 && (
-                            <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1.5 text-xs font-bold">
-                              <UserGroupIcon className="h-3.5 w-3.5" />
-                              <span>{attendees.length} inscrits</span>
-                            </span>
-                          )}
-
-                          {isAdmin && (
-                            <Link
-                              href={`/admin/events/${event.id}/edit`}
-                              onClick={(e) => e.stopPropagation()}
-                              className="p-1.5 rounded-md border border-[#e4e0d8] hover:bg-[#f2efe9] text-[#7d8493] hover:text-[#101216] transition-colors"
-                              title="Modifier l'événement"
-                            >
-                              <PencilSquareIcon className="h-4 w-4" />
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
+                      </li>
+                    );
+                  })}
+                </ul>
               ) : (
                 <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center">
-                  <CalendarDaysIcon className="mx-auto h-10 w-10 text-[#7d8493]" />
+                  <CalendarDaysIcon className="mx-auto h-10 w-10 text-[#5c6370]" />
                   <h3 className="mt-3 text-base font-bold text-[#101216]">Aucune sortie trouvée</h3>
                   <p className="mt-1 text-xs text-[#5c6370]">
                     Aucun événement ne correspond à vos critères pour ce mois.
@@ -804,3 +847,4 @@ export default function CalendarView({
     </div>
   );
 }
+

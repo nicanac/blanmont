@@ -109,7 +109,7 @@ export default function FeedbackForm({
           >
             Commentaire
           </label>
-          <span className="text-[10px] text-[#7d8493] tabular-nums">
+          <span className="text-xs text-[#5c6370] tabular-nums">
             {commentText.length}/1000
           </span>
         </div>

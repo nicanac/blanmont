@@ -37,24 +37,16 @@ export default async function CalendarPage() {
     <main className="min-h-screen bg-[#faf8f5]">
       {/* ──── Editorial Cover Hero (Ink) ──── */}
       <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-        {/* Ambient red glow */}
-        <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
-
         <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
           {/* Top row: Title + Subscribe CTA */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-white/10">
-            <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
-                <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
-                Saison 2026 · Planning Officiel
-              </div>
-
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-8 border-b border-white/10">
+            <div className="space-y-3 max-w-3xl">
               <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
                 Calendrier des <span className="text-[#e03e3e] italic">Sorties</span>
               </h1>
 
               <p className="max-w-2xl text-base text-[#a7adbb] leading-relaxed">
-                Toutes les sorties du samedi et dimanche, rendez-vous du peloton, traces GPS et rassemblements officiels du club.
+                Toutes les sorties du samedi et dimanche, rendez-vous du peloton, traces GPS et rassemblements officiels du club pour la saison 2026.
               </p>
             </div>
 
@@ -63,67 +55,53 @@ export default async function CalendarPage() {
             </div>
           </div>
 
-          {/* Telemetry ribbon on Ink */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+          {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6">
             {/* Next ride highlight */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0 mt-0.5">
-                <CalendarDaysIcon className="h-5 w-5" />
+            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
+              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
+                <CalendarDaysIcon className="h-5 w-5" aria-hidden="true" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#e03e3e]">
-                    Prochain départ
-                  </span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e] animate-pulse" />
+                  <div className="text-xl sm:text-2xl font-extrabold text-white tracking-tight truncate">
+                    {nextRide.dateFormatted}
+                  </div>
+                  <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse shrink-0" />
                 </div>
-                <div className="mt-1 text-sm font-bold text-white truncate">
-                  {nextRide.dateFormatted}
-                </div>
-                <div className="mt-1 text-xs text-[#a7adbb] flex items-center gap-2">
-                  <span className="flex items-center gap-1">
-                    <ClockIcon className="h-3.5 w-3.5 text-[#7d8493]" />
-                    <strong className="text-white font-medium">{nextRide.departure}</strong>
-                  </span>
-                  <span>·</span>
-                  <span className="truncate">{nextRide.location}</span>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold truncate tabular-nums">
+                  Départ {nextRide.departure} · {nextRide.location}
                 </div>
               </div>
             </div>
 
             {/* Total rides count */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <SparklesIcon className="h-5 w-5 text-[#e03e3e]" />
+            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <SparklesIcon className="h-5 w-5 text-[#e03e3e]" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Programme annuel
-                </span>
-                <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                  {totalEvents} sorties répertoriées
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {totalEvents}
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Sorties route (groupes A, B, C) &amp; VTT
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Sorties au programme
+                </div>
               </div>
             </div>
 
             {/* GPX availability */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <MapIcon className="h-5 w-5 text-sky-400" />
+            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <MapIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Traces GPS &amp; GPX
-                </span>
-                <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                  {eventsWithGpx} parcours téléchargeables
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {eventsWithGpx}
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Compatibles Garmin, Wahoo, Strava &amp; Komoot
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Parcours GPX téléchargeables
+                </div>
               </div>
             </div>
           </div>

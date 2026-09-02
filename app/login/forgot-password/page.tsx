@@ -49,18 +49,10 @@ export default function ForgotPasswordPage(): React.ReactElement {
 
   return (
     <main className="min-h-[85vh] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-[#0a0c10] text-white relative overflow-hidden">
-      {/* Ambient red glow */}
-      <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
-      <div className="pointer-events-none absolute -bottom-40 -left-24 h-[400px] w-[400px] rounded-full bg-white/5 blur-[120px]" />
-
       <div className="w-full max-w-md relative z-10 space-y-6">
         {/* Card */}
         <div className="rounded-lg border border-[#262b38] bg-[#161922] p-8 sm:p-10 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8] mx-auto">
-              <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
-              Récupération de compte
-            </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
               Mot de passe <span className="text-[#e03e3e] italic">oublié</span>
             </h1>
@@ -133,9 +125,9 @@ export default function ForgotPasswordPage(): React.ReactElement {
           <div className="pt-4 border-t border-[#262b38] text-center">
             <Link
               href="/login"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white transition-colors"
+              className="min-h-[44px] inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white transition-colors"
             >
-              <ArrowLeftIcon className="h-3.5 w-3.5" />
+              <ArrowLeftIcon className="h-4 w-4" />
               <span>Retour à la page de connexion</span>
             </Link>
           </div>

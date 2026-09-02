@@ -18,21 +18,16 @@ export const metadata: Metadata = {
 export default async function BlogPage(): Promise<React.ReactElement> {
   const posts = await getBlogPosts();
 
+  // Extract unique categories count
+  const categoriesCount = new Set(posts.map((p) => p.category).filter(Boolean)).size || 4;
+
   return (
     <main className="min-h-screen bg-[#faf8f5]">
       {/* ──── Editorial Cover Hero (Ink) ──── */}
       <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-        {/* Ambient red glow */}
-        <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
-
         <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
           {/* Title row */}
-          <div className="space-y-4 max-w-3xl pb-10 border-b border-white/10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
-              <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
-              Saison 2026 · Chroniques &amp; Actualités
-            </div>
-
+          <div className="space-y-3 max-w-3xl pb-8 border-b border-white/10">
             <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
               Les News du <span className="text-[#e03e3e] italic">Peloton</span>
             </h1>
@@ -42,59 +37,50 @@ export default async function BlogPage(): Promise<React.ReactElement> {
             </p>
           </div>
 
-          {/* Telemetry ribbon on Ink */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+          {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6">
             {/* Total Articles */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0 mt-0.5">
-                <NewspaperIcon className="h-5 w-5" />
+            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
+              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
+                <NewspaperIcon className="h-5 w-5" aria-hidden="true" />
               </div>
-              <div className="min-w-0">
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#e03e3e]">
-                  Publications
-                </span>
-                <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                  {posts.length} articles en ligne
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {posts.length}
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Chroniques, bilans &amp; vie du club
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Articles publiés
+                </div>
               </div>
             </div>
 
             {/* Rubriques */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <BookOpenIcon className="h-5 w-5 text-white" />
+            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <BookOpenIcon className="h-5 w-5" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Thématiques
-                </span>
-                <div className="mt-1 text-sm font-bold text-white">
-                  Sorties, Matériel &amp; Conseils
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                  {categoriesCount}
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Écrits par les membres et capitaines
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Thématiques &amp; rubriques
+                </div>
               </div>
             </div>
 
             {/* Club spirit */}
-            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
-                <SparklesIcon className="h-5 w-5 text-sky-400" />
+            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
+              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                <SparklesIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                  Rédacteurs
-                </span>
-                <div className="mt-1 text-sm font-bold text-white">
+                <div className="text-base sm:text-lg font-bold text-white tracking-tight">
                   Le Peloton de Blanmont
                 </div>
-                <p className="mt-1 text-xs text-[#a7adbb]">
-                  Partage d&apos;expériences &amp; récits de route
-                </p>
+                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                  Récits &amp; vie du club
+                </div>
               </div>
             </div>
           </div>
