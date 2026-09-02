@@ -13,14 +13,13 @@ import {
   PhotoIcon,
   PencilSquareIcon,
   SparklesIcon,
-  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 
 // Revalidate every minute
 export const revalidate = 60;
 
 // Enable static generation for known paths (optional, but good for performance)
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ id: string }[]> {
   const traces = await getTraces();
   return traces.map((trace) => ({
     id: trace.id,
@@ -34,7 +33,9 @@ export async function generateStaticParams() {
  *
  * @param props.params - Route parameters containing the trace `id`.
  */
-export default async function TraceDetailPage(props: { params: Promise<{ id: string }> }) {
+export default async function TraceDetailPage(props: {
+  params: Promise<{ id: string }>;
+}): Promise<React.ReactElement> {
   const params = await props.params;
   const trace = await getTrace(params.id);
 
@@ -46,7 +47,7 @@ export default async function TraceDetailPage(props: { params: Promise<{ id: str
   const members = await getMembers();
   const feedbackList = await getFeedbackForTrace(trace.id);
 
-  async function addFeedback(formData: FormData) {
+  async function addFeedback(formData: FormData): Promise<void> {
     'use server';
 
     const rating = Number(formData.get('rating'));

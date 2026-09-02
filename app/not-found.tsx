@@ -1,32 +1,99 @@
 import Link from 'next/link';
+import {
+  MapIcon,
+  HomeIcon,
+  CalendarDaysIcon,
+  ChatBubbleLeftRightIcon,
+  QuestionMarkCircleIcon,
+} from '@heroicons/react/24/outline';
 
 /**
- * Global 404 Not Found page.
- * Rendered when a route is not matched by any page.
+ * Global 404 Not Found page for CC Saint-Martin Blanmont.
+ * Designed in the Editorial Peloton magazine aesthetic.
  */
 export default function NotFound() {
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-24 sm:py-32 lg:px-8">
-      <div className="text-center">
-        <p className="text-base font-semibold text-brand-primary">404</p>
-        <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-[#101216] sm:text-7xl">
-          Page introuvable
-        </h1>
-        <p className="mt-6 text-lg font-medium text-pretty text-[#5c6370] sm:text-xl/8">
-          Désolé, la page que vous recherchez n&apos;existe pas ou a été déplacée.
-        </p>
-        <div className="mt-10 flex items-center justify-center gap-x-6">
+    <main className="flex min-h-[80vh] flex-col items-center justify-center px-4 py-16 sm:px-6 lg:px-8 bg-[#faf8f5]">
+      <div className="w-full max-w-xl text-center space-y-6">
+        {/* Status Chip */}
+        <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-white shadow-xs">
+          <QuestionMarkCircleIcon className="h-4 w-4 text-[#e03e3e]" />
+          <span>Erreur 404 · Hors Parcours</span>
+        </div>
+
+        {/* Display Headline */}
+        <div className="space-y-3">
+          <h1 className="text-4xl sm:text-6xl font-extrabold uppercase tracking-tight text-[#101216] leading-none">
+            Page <span className="text-[#e03e3e] italic">Introuvable</span>
+          </h1>
+          <p className="text-sm sm:text-base text-[#5c6370] max-w-md mx-auto leading-relaxed">
+            Vous avez quitté l&apos;itinéraire balisé. La page demandée n&apos;existe pas ou a été déplacée.
+          </p>
+        </div>
+
+        {/* Navigation Quick Links Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 text-left max-w-md mx-auto">
           <Link
             href="/"
-            className="rounded-md bg-brand-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+            className="group flex items-center gap-3 rounded-lg border border-[#e4e0d8] bg-white p-4 hover:border-[#e03e3e]/40 hover:shadow-md transition-all"
           >
-            Retour à l&apos;accueil
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-red-50 text-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white transition-colors">
+              <HomeIcon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
+                Accueil
+              </div>
+              <div className="text-xs text-[#7d8493]">Retour au club</div>
+            </div>
           </Link>
-          <Link href="/traces" className="text-sm font-semibold text-[#101216]">
-            Voir les parcours <span aria-hidden="true">&rarr;</span>
+
+          <Link
+            href="/traces"
+            className="group flex items-center gap-3 rounded-lg border border-[#e4e0d8] bg-white p-4 hover:border-[#e03e3e]/40 hover:shadow-md transition-all"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-[#101216] group-hover:bg-[#101216] group-hover:text-white transition-colors">
+              <MapIcon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
+                Parcours
+              </div>
+              <div className="text-xs text-[#7d8493]">Catalogue GPX</div>
+            </div>
+          </Link>
+
+          <Link
+            href="/calendrier"
+            className="group flex items-center gap-3 rounded-lg border border-[#e4e0d8] bg-white p-4 hover:border-[#e03e3e]/40 hover:shadow-md transition-all"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-[#101216] group-hover:bg-[#101216] group-hover:text-white transition-colors">
+              <CalendarDaysIcon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
+                Calendrier
+              </div>
+              <div className="text-xs text-[#7d8493]">Sorties 2026</div>
+            </div>
+          </Link>
+
+          <Link
+            href="/sondage"
+            className="group flex items-center gap-3 rounded-lg border border-[#e4e0d8] bg-white p-4 hover:border-[#e03e3e]/40 hover:shadow-md transition-all"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-[#101216] group-hover:bg-[#101216] group-hover:text-white transition-colors">
+              <ChatBubbleLeftRightIcon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
+                Sondage
+              </div>
+              <div className="text-xs text-[#7d8493]">Sortie weekend</div>
+            </div>
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

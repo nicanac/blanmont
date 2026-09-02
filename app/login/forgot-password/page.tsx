@@ -3,105 +3,144 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { getFirebaseAuth, sendPasswordResetEmail } from '../../lib/firebase/client';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, EnvelopeIcon, ExclamationCircleIcon, CheckCircleIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import { FirebaseError } from 'firebase/app';
 
 export default function ForgotPasswordPage(): React.ReactElement {
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-        e.preventDefault();
-        setMessage(null);
-        setIsSubmitting(true);
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    setMessage(null);
+    setIsSubmitting(true);
 
-        try {
-            const auth = getFirebaseAuth();
-            await sendPasswordResetEmail(auth, email);
-            setMessage({
-                type: 'success',
-                text: 'Un email de réinitialisation vous a été envoyé. Vérifiez votre boîte de réception.'
-            });
-            setEmail('');
-        } catch (error: unknown) {
-            console.error(error);
-            let errorMsg = 'Une erreur est survenue.';
-            
-            if (error instanceof FirebaseError || (typeof error === 'object' && error !== null && 'code' in error)) {
-                const errorCode = (error as { code: string }).code;
-                if (errorCode === 'auth/user-not-found') {
-                    errorMsg = 'Aucun compte associé à cet email.';
-                } else if (errorCode === 'auth/invalid-email') {
-                    errorMsg = 'Email invalide.';
-                }
-            }
-            setMessage({
-                type: 'error',
-                text: errorMsg
-            });
-        } finally {
-            setIsSubmitting(false);
+    try {
+      const auth = getFirebaseAuth();
+      await sendPasswordResetEmail(auth, email.trim());
+      setMessage({
+        type: 'success',
+        text: 'Un email de réinitialisation vous a été envoyé. Veuillez vérifier votre boîte de réception (et vos spams).',
+      });
+      setEmail('');
+    } catch (error: unknown) {
+      console.error(error);
+      let errorMsg = 'Une erreur est survenue lors de l’envoi du lien.';
+
+      if (error instanceof FirebaseError || (typeof error === 'object' && error !== null && 'code' in error)) {
+        const errorCode = (error as { code: string }).code;
+        if (errorCode === 'auth/user-not-found') {
+          errorMsg = 'Aucun compte membre n’est associé à cette adresse email.';
+        } else if (errorCode === 'auth/invalid-email') {
+          errorMsg = 'Format d’adresse email invalide.';
+        } else if (errorCode === 'auth/too-many-requests') {
+          errorMsg = 'Trop de tentatives rapprochées. Veuillez patienter quelques instants.';
         }
-    };
+      }
+      setMessage({
+        type: 'error',
+        text: errorMsg,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
+  return (
+    <main className="min-h-[85vh] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-[#0a0c10] text-white relative overflow-hidden">
+      {/* Ambient red glow */}
+      <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-[#e03e3e]/15 blur-[140px]" />
+      <div className="pointer-events-none absolute -bottom-40 -left-24 h-[400px] w-[400px] rounded-full bg-white/5 blur-[120px]" />
 
-    return (
-        <div className="flex min-h-[80vh] flex-col justify-center px-6 py-12 lg:px-8 bg-white">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <Link href="/login" className="flex items-center text-sm text-[#5c6370] hover:text-[#101216] mb-6">
-                    <ArrowLeftIcon className="h-4 w-4 mr-1" />
-                    Retour à la connexion
-                </Link>
-
-                <h2 className="text-center text-3xl font-bold tracking-tight text-[#101216] mb-4">
-                    Récupération de compte
-                </h2>
-                <p className="text-center text-[#3a3f4a] mb-8">
-                    Entrez votre adresse email pour recevoir un lien de réinitialisation.
-                </p>
-
-                <form className="space-y-6" onSubmit={handleSubmit}>
-                    {message && (
-                        <div className={`rounded-md p-4 ${message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
-                            <div className="flex">
-                                <div className="ml-3">
-                                    <h3 className="text-sm font-medium">{message.text}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-bold leading-6 text-[#101216] ml-1">
-                            Email
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="example@example.com"
-                                className="block w-full rounded-lg border-0 px-4 py-3 text-[#101216] shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="flex w-full justify-center rounded-lg bg-brand-primary px-3 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
-                            {isSubmitting ? 'Envoi en cours...' : 'Envoyer le lien'}
-                        </button>
-                    </div>
-                </form>
+      <div className="w-full max-w-md relative z-10 space-y-6">
+        {/* Card */}
+        <div className="rounded-lg border border-[#262b38] bg-[#161922] p-8 sm:p-10 shadow-2xl space-y-6">
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8] mx-auto">
+              <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
+              Récupération de compte
             </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
+              Mot de passe <span className="text-[#e03e3e] italic">oublié</span>
+            </h1>
+            <p className="text-xs sm:text-sm text-[#a7adbb] leading-relaxed">
+              Entrez votre adresse email pour recevoir un lien sécurisé de réinitialisation.
+            </p>
+          </div>
+
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            {message && (
+              <div
+                role="alert"
+                className={`rounded-md p-3.5 flex items-start gap-3 text-xs border ${
+                  message.type === 'success'
+                    ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200'
+                    : 'border-[#e03e3e]/40 bg-[#e03e3e]/10 text-red-200'
+                }`}
+              >
+                {message.type === 'success' ? (
+                  <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                ) : (
+                  <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+                )}
+                <span>{message.text}</span>
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label
+                htmlFor="reset-email"
+                className="block text-xs font-bold uppercase tracking-wider text-[#a7adbb]"
+              >
+                Adresse Email
+              </label>
+              <div className="relative">
+                <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                <input
+                  id="reset-email"
+                  name="email"
+                  type="email"
+                  maxLength={254}
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="nom@exemple.be"
+                  className="w-full rounded-md border border-[#262b38] bg-[#101216] pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting || !email.trim()}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3.5 text-xs font-semibold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-lg disabled:opacity-50 min-h-[44px]"
+              >
+                {isSubmitting ? (
+                  <>
+                    <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                    <span>Envoi en cours...</span>
+                  </>
+                ) : (
+                  <span>Envoyer le lien de réinitialisation</span>
+                )}
+              </button>
+            </div>
+          </form>
+
+          <div className="pt-4 border-t border-[#262b38] text-center">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white transition-colors"
+            >
+              <ArrowLeftIcon className="h-3.5 w-3.5" />
+              <span>Retour à la page de connexion</span>
+            </Link>
+          </div>
         </div>
-    );
+      </div>
+    </main>
+  );
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Member } from '../types';
 import MemberCard from '../features/members/components/MemberCard';
-import { MagnifyingGlassIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/outline';
 
 interface MembersViewProps {
   members: Member[];
@@ -11,7 +11,7 @@ interface MembersViewProps {
 
 type RoleFilter = 'all' | 'bureau' | 'capitaines';
 
-export default function MembersView({ members }: MembersViewProps) {
+export default function MembersView({ members }: MembersViewProps): React.ReactElement {
   const [search, setSearch] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<RoleFilter>('all');
 

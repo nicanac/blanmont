@@ -158,7 +158,20 @@ export interface NotionProperty {
   email?: string;
   phone_number?: string;
   relation?: { id: string }[];
-  [key: string]: any; // Fallback for other property types
+  date?: { start: string; end?: string | null; time_zone?: string | null };
+  checkbox?: boolean;
+  status?: { name: string; color?: string };
+  people?: { id: string; name?: string; avatar_url?: string }[];
+  formula?: {
+    type?: string;
+    string?: string | null;
+    number?: number | null;
+    boolean?: boolean | null;
+    date?: { start: string } | null;
+  };
+  created_time?: string;
+  last_edited_time?: string;
+  [key: string]: unknown; // Fallback for other property types
 }
 
 export interface NotionPage {
