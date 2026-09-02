@@ -34,8 +34,6 @@ export default async function Home() {
     <div className="bg-[#faf8f5]">
       {/* ──── Cover Hero (Ink) ──── */}
       <section className="relative overflow-hidden bg-[#0a0c10] text-white">
-        <div className="pointer-events-none absolute -top-40 -right-24 w-[560px] h-[560px] bg-[#e03e3e]/15 rounded-full blur-[140px]" />
-
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12">
           <h1 className="max-w-5xl text-[clamp(2.5rem,7.5vw,5.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
             <span className="cover-line"><span>Rouler ensemble,</span></span>
@@ -514,8 +512,6 @@ export default async function Home() {
 
       {/* ──── Call-To-Action Cover (Ink) ──── */}
       <section className="py-20 sm:py-28 bg-[#0a0c10] text-white relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-24 -top-24 w-96 h-96 bg-[#e03e3e]/20 rounded-full blur-[120px]" />
-
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="max-w-4xl space-y-6">
             <h2 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-white">

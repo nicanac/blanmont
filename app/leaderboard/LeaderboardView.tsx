@@ -139,24 +139,16 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
             <main className="min-h-screen bg-[#faf8f5]">
                 {/* ──── Editorial Cover Hero (Ink) ──── */}
                 <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-                    {/* Ambient emerald glow */}
-                    <div className="pointer-events-none absolute -top-40 -right-24 h-[500px] w-[500px] rounded-full bg-emerald-500/15 blur-[140px]" />
-
                     <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
                         {/* Title row */}
-                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-white/10">
-                            <div className="space-y-4 max-w-3xl">
-                                <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
-                                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                                    Saison {selectedYear} · Challenge d&apos;Assiduité
-                                </div>
-
+                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-8 border-b border-white/10">
+                            <div className="space-y-3 max-w-3xl">
                                 <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
                                     Le Carré <span className="text-emerald-400 italic">Vert</span>
                                 </h1>
 
                                 <p className="max-w-2xl text-base text-[#a7adbb] leading-relaxed">
-                                    Le classement officiel d&apos;assiduité récompensant la régularité et l&apos;engagement des cyclistes de Blanmont tout au long de la saison.
+                                    Le classement officiel d&apos;assiduité récompensant la régularité et l&apos;engagement des cyclistes de Blanmont tout au long de la saison {selectedYear}.
                                 </p>
                             </div>
 
@@ -165,8 +157,9 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                                 {availableYears.map(year => (
                                     <button
                                         key={year}
+                                        type="button"
                                         onClick={() => router.push(`/leaderboard?year=${year}`)}
-                                        className={`rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider tabular-nums transition-colors ${
+                                        className={`min-h-[40px] rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider tabular-nums transition-colors ${
                                             year === selectedYear
                                                 ? 'bg-emerald-600 text-white shadow-sm'
                                                 : 'text-[#a7adbb] hover:text-white hover:bg-white/5'
@@ -178,59 +171,50 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                             </div>
                         </div>
 
-                        {/* Telemetry ribbon on Ink */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
+                        {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6">
                             {/* Leader */}
-                            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-                                <div className="rounded-md bg-emerald-500/15 border border-emerald-500/30 p-2.5 text-emerald-400 shrink-0 mt-0.5">
-                                    <TrophyIcon className="h-5 w-5" />
+                            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
+                                <div className="rounded-md bg-emerald-500/15 border border-emerald-500/30 p-2.5 text-emerald-400 shrink-0">
+                                    <TrophyIcon className="h-5 w-5" aria-hidden="true" />
                                 </div>
                                 <div className="min-w-0">
-                                    <span className="text-xs font-semibold uppercase tracking-[0.08em] text-emerald-400">
-                                        Maillot Vert Actuel
-                                    </span>
-                                    <div className="mt-1 text-sm font-bold text-white truncate">
-                                        {top3[0]?.name || 'En cours de saison'}
+                                    <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight truncate">
+                                        {top3[0]?.name || 'En cours'}
                                     </div>
-                                    <p className="mt-1 text-xs text-[#a7adbb] tabular-nums">
-                                        {top3[0] ? `${top3[0].rides} sorties comptabilisées` : 'Aucune sortie'}
-                                    </p>
+                                    <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold tabular-nums">
+                                        Leader ({top3[0] ? `${top3[0].rides} sorties` : '0 sortie'})
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Pelotons Ranked */}
-                            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
+                            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
+                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
                                     <span className="text-lg">🚴‍♂️</span>
                                 </div>
                                 <div>
-                                    <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                                        Peloton Classé
-                                    </span>
-                                    <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                                        {sortedEntries.length} membres actifs
+                                    <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                                        {sortedEntries.length}
                                     </div>
-                                    <p className="mt-1 text-xs text-[#a7adbb]">
-                                        Groupes A, B, C &amp; VTT
-                                    </p>
+                                    <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                                        Membres classés
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Total Rides */}
-                            <div className="rounded-lg border border-white/15 bg-[#161922]/90 backdrop-blur-md p-5 flex items-start gap-4 shadow-xl">
-                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0 mt-0.5">
+                            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
+                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
                                     <span className="text-lg">🏁</span>
                                 </div>
                                 <div>
-                                    <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
-                                        Sorties Officielles
-                                    </span>
-                                    <div className="mt-1 text-sm font-bold text-white tabular-nums">
-                                        {totalPossibleRides} sorties éligibles
+                                    <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                                        {totalPossibleRides}
                                     </div>
-                                    <p className="mt-1 text-xs text-[#a7adbb]">
-                                        Planning officiel saison {selectedYear}
-                                    </p>
+                                    <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                                        Sorties éligibles
+                                    </div>
                                 </div>
                             </div>
                         </div>
