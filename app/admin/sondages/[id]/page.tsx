@@ -1,13 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getWeekendPollById, getPollResponses, getMembers } from '@/app/lib/firebase';
+import { getWeekendPollById, getPollResponses } from '@/app/lib/firebase';
 import {
   ArrowLeftIcon,
   PencilSquareIcon,
   EyeIcon,
-  ShareIcon,
-  TrashIcon,
 } from '@heroicons/react/24/outline';
 import PollWhatsAppExport from './components/PollWhatsAppExport';
 import AdminDeletePollButton from './components/AdminDeletePollButton';
@@ -21,10 +19,9 @@ interface AdminPollDetailPageProps {
 
 export default async function AdminPollDetailPage({ params }: AdminPollDetailPageProps): Promise<React.ReactElement> {
   const { id } = await params;
-  const [poll, responses, members] = await Promise.all([
+  const [poll, responses] = await Promise.all([
     getWeekendPollById(id),
     getPollResponses(id),
-    getMembers(),
   ]);
 
   if (!poll) {

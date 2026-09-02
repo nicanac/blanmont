@@ -1,7 +1,7 @@
 import { getCalendarEvents, getLeaderboardEntries } from '@/app/lib/firebase';
 import { getAllAttendance } from '@/app/lib/firebase/attendance';
 import CarreVertView from './components/CarreVertView';
-import SyncCarreVertButton from './components/SyncCarreVertButton';
+import CarreVertHeader from './components/CarreVertHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,19 +34,9 @@ export default async function CarreVertPage(): Promise<React.ReactElement> {
   const sortedEvents = [...events].sort((a, b) => b.isoDate.localeCompare(a.isoDate));
 
   return (
-    <div>
-      <div className="sm:flex sm:items-center sm:justify-between mb-8 gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Carré Vert</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Gestion des présences aux sorties du club. Sélectionnez un événement pour marquer les
-            membres présents.
-          </p>
-        </div>
-        <div className="mt-4 sm:mt-0 shrink-0">
-          <SyncCarreVertButton />
-        </div>
-      </div>
+    <div className="space-y-6">
+      {/* Header with Tutorial & Sync Button */}
+      <CarreVertHeader />
 
       <CarreVertView
         events={sortedEvents}

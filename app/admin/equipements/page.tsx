@@ -9,16 +9,21 @@ import {
   EyeIcon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
+  AcademicCapIcon,
 } from '@heroicons/react/24/outline';
 import { Equipment } from '../../types/equipment';
 import { EQUIPMENT_CATEGORIES } from '../../data/equipment';
 import { toast } from 'sonner';
+import EquipementsTutorialModal from './components/EquipementsTutorialModal';
+import { useAdminTours } from '../components/tours/adminTours';
 
 export default function AdminEquipementsPage() {
   const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [isLoading, setIsLoading] = useState(true);
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const { startEquipementsTour } = useAdminTours();
 
   useEffect(() => {
     const fetchEquipment = async () => {
@@ -73,8 +78,18 @@ export default function AdminEquipementsPage() {
 
   return (
     <div className="space-y-8">
+      <EquipementsTutorialModal
+        isOpen={tutorialOpen}
+        onClose={() => setTutorialOpen(false)}
+        onStartTour={() => {
+          setTimeout(() => {
+            startEquipementsTour();
+          }, 200);
+        }}
+      />
+      
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
+      <div id="equipements-header-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
             <ShoppingBagIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
@@ -87,17 +102,31 @@ export default function AdminEquipementsPage() {
             Gérez le stock, les tailles et les articles officiels du club.
           </p>
         </div>
-        <Link
-          href="/admin/equipements/new"
-          className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs shrink-0"
-        >
-          <PlusIcon className="h-4 w-4" />
-          <span>Ajouter un équipement</span>
-        </Link>
+        
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <button
+            type="button"
+            onClick={() => setTutorialOpen(true)}
+            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            title="Ouvrir le guide des équipements"
+          >
+            <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
+            <span>Tutoriel &amp; Guide</span>
+          </button>
+
+          <Link
+            id="equipements-new-btn"
+            href="/admin/equipements/new"
+            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
+          >
+            <PlusIcon className="h-4 w-4" />
+            <span>Ajouter un équipement</span>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+      <div id="equipements-search-filter" className="flex flex-col sm:flex-row sm:items-center gap-4">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
           <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
@@ -165,7 +194,7 @@ export default function AdminEquipementsPage() {
       </div>
 
       {/* Equipment Table */}
-      <div className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+      <div id="equipements-grid-section" className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-[#e4e0d8]">
             <thead className="bg-[#f2efe9]">
