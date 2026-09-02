@@ -2,45 +2,49 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { getFirebaseAuth, sendPasswordResetEmail } from '../../lib/firebase/client';
-import { ArrowLeftIcon, EnvelopeIcon, ExclamationCircleIcon, CheckCircleIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
-import { FirebaseError } from 'firebase/app';
+import { requestAccountActivationAction } from '../../actions';
+import {
+  ArrowLeftIcon,
+  EnvelopeIcon,
+  ExclamationCircleIcon,
+  CheckCircleIcon,
+  ArrowPathIcon,
+  ArrowRightIcon,
+} from '@heroicons/react/24/outline';
 
 export default function ForgotPasswordPage(): React.ReactElement {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [directLink, setDirectLink] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setMessage(null);
+    setDirectLink(null);
     setIsSubmitting(true);
 
     try {
-      const auth = getFirebaseAuth();
-      await sendPasswordResetEmail(auth, email.trim());
-      setMessage({
-        type: 'success',
-        text: 'Un email de réinitialisation vous a été envoyé. Veuillez vérifier votre boîte de réception (et vos spams).',
-      });
-      setEmail('');
+      const result = await requestAccountActivationAction(email.trim());
+      if (result.success) {
+        setMessage({
+          type: 'success',
+          text: result.message,
+        });
+        if (result.directLink) {
+          setDirectLink(result.directLink);
+        }
+      } else {
+        setMessage({
+          type: 'error',
+          text: result.message || 'Impossible de générer le lien.',
+        });
+      }
     } catch (error: unknown) {
       console.error(error);
-      let errorMsg = 'Une erreur est survenue lors de l’envoi du lien.';
-
-      if (error instanceof FirebaseError || (typeof error === 'object' && error !== null && 'code' in error)) {
-        const errorCode = (error as { code: string }).code;
-        if (errorCode === 'auth/user-not-found') {
-          errorMsg = 'Aucun compte membre n’est associé à cette adresse email.';
-        } else if (errorCode === 'auth/invalid-email') {
-          errorMsg = 'Format d’adresse email invalide.';
-        } else if (errorCode === 'auth/too-many-requests') {
-          errorMsg = 'Trop de tentatives rapprochées. Veuillez patienter quelques instants.';
-        }
-      }
       setMessage({
         type: 'error',
-        text: errorMsg,
+        text: 'Une erreur est survenue lors de la création du lien.',
       });
     } finally {
       setIsSubmitting(false);
@@ -49,34 +53,53 @@ export default function ForgotPasswordPage(): React.ReactElement {
 
   return (
     <main className="min-h-[85vh] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-[#0a0c10] text-white relative overflow-hidden">
+      {/* Background Watermark */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
+        <span className="text-[clamp(8rem,24vw,28rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+          BLANMONT
+        </span>
+      </div>
+
       <div className="w-full max-w-md relative z-10 space-y-6">
         {/* Card */}
         <div className="rounded-lg border border-[#262b38] bg-[#161922] p-8 sm:p-10 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
-              Mot de passe <span className="text-[#e03e3e] italic">oublié</span>
+              Activer ou Réinitialiser <span className="text-[#e03e3e] italic">votre mot de passe</span>
             </h1>
             <p className="text-xs sm:text-sm text-[#a7adbb] leading-relaxed">
-              Entrez votre adresse email pour recevoir un lien sécurisé de réinitialisation.
+              Pour une <strong className="text-white font-semibold">première connexion</strong> ou un <strong className="text-white font-semibold">mot de passe oublié</strong> : entrez l&apos;adresse email enregistrée auprès du club pour recevoir votre lien d&apos;activation sécurisé.
             </p>
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             {message && (
-              <div
-                role="alert"
-                className={`rounded-md p-3.5 flex items-start gap-3 text-xs border ${
-                  message.type === 'success'
-                    ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200'
-                    : 'border-[#e03e3e]/40 bg-[#e03e3e]/10 text-red-200'
-                }`}
-              >
-                {message.type === 'success' ? (
-                  <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                ) : (
-                  <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+              <div className="space-y-3">
+                <div
+                  role="alert"
+                  className={`rounded-md p-3.5 flex items-start gap-3 text-xs border ${
+                    message.type === 'success'
+                      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200'
+                      : 'border-[#e03e3e]/40 bg-[#e03e3e]/10 text-red-200'
+                  }`}
+                >
+                  {message.type === 'success' ? (
+                    <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                  ) : (
+                    <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+                  )}
+                  <span>{message.text}</span>
+                </div>
+
+                {directLink && (
+                  <a
+                    href={directLink}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98]"
+                  >
+                    <span>👉 Définir mon mot de passe maintenant</span>
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </a>
                 )}
-                <span>{message.text}</span>
               </div>
             )}
 
@@ -113,10 +136,10 @@ export default function ForgotPasswordPage(): React.ReactElement {
                 {isSubmitting ? (
                   <>
                     <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                    <span>Envoi en cours...</span>
+                    <span>Création du lien en cours...</span>
                   </>
                 ) : (
-                  <span>Envoyer le lien de réinitialisation</span>
+                  <span>Générer mon lien d&apos;accès</span>
                 )}
               </button>
             </div>

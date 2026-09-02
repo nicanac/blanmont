@@ -144,3 +144,108 @@ input, textarea, select, [contenteditable] {
     opacity: 1;
   }
 }
+
+/* ── Surreal Editorial Animations & Luxury Utilities ── */
+@keyframes slow-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slow-rotate-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+}
+
+@keyframes float-subtle-alt {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(8px) rotate(-0.5deg);
+  }
+}
+
+@keyframes pulse-crimson {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ticker-slide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slow-rotate {
+  animation: slow-rotate 45s linear infinite;
+}
+
+.animate-slow-rotate-reverse {
+  animation: slow-rotate-reverse 60s linear infinite;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 7s ease-in-out infinite;
+}
+
+.animate-float-subtle-alt {
+  animation: float-subtle-alt 8.5s ease-in-out infinite;
+}
+
+.animate-pulse-crimson {
+  animation: pulse-crimson 3.5s ease-in-out infinite;
+}
+
+.animate-ticker {
+  animation: ticker-slide 32s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Luxury hairline borders and glow */
+.hairline-lux-ink {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hairline-lux-paper {
+  border: 1px solid rgba(16, 18, 22, 0.08);
+}
+
+.glow-crimson {
+  box-shadow: 0 0 40px -10px rgba(224, 62, 62, 0.35);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

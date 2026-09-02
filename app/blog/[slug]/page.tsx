@@ -105,7 +105,14 @@ export default async function BlogPostPage({
     <main className="min-h-screen bg-[#faf8f5]">
       {/* ──── Editorial Article Header (Ink) ──── */}
       <header className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-        <div className="relative mx-auto max-w-4xl px-4 pt-8 pb-10 sm:px-6 sm:pt-12 sm:pb-14 lg:px-8 space-y-6">
+        {/* Atmospheric Background Watermark */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+            BLANMONT
+          </span>
+        </div>
+
+        <div className="relative mx-auto max-w-4xl px-4 pt-8 pb-10 sm:px-6 sm:pt-12 sm:pb-14 lg:px-8 space-y-6 z-10">
           {/* Back Navigation & Category row */}
           <div className="flex items-center justify-between gap-4">
             <Link

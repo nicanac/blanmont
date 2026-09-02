@@ -60,11 +60,15 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
     return (
         <main className="min-h-screen bg-[#faf8f5]">
             <PageHero
-                title="Choix de la Sortie Samedi"
-                description="Votez pour le parcours de la prochaine sortie du samedi."
+                title={
+                    <>
+                        La Sortie du <span className="text-[#e03e3e] italic">Samedi</span>
+                    </>
+                }
+                description="Votez pour le parcours de la prochaine sortie club et consultez les propositions en direct."
                 badge="Sortie Samedi"
                 badgeIcon={<CalendarDaysIcon className="h-4 w-4" />}
-                variant="green"
+                variant="red"
                 size="md"
             />
             <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
