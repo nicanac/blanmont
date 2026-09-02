@@ -20,7 +20,13 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  verifyPasswordResetCode,
+  confirmPasswordReset,
+  applyActionCode,
+  checkActionCode,
 } from 'firebase/auth';
+
+
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -89,6 +95,10 @@ export {
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  verifyPasswordResetCode,
+  confirmPasswordReset,
+  applyActionCode,
+  checkActionCode,
 };
 
 // Helper to generate a clean ID (removes dashes from UUID-style IDs)

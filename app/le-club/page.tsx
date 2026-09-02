@@ -15,7 +15,14 @@ export default function LeClubPage(): React.ReactElement {
     <main className="min-h-screen bg-[#faf8f5]">
       {/* ──── Editorial Cover Hero (Ink) ──── */}
       <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
-        <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8">
+        {/* Atmospheric Background Watermark */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+            BLANMONT
+          </span>
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8 z-10">
           {/* Title row */}
           <div className="space-y-3 max-w-3xl pb-8 border-b border-white/10">
             <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">

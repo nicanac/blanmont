@@ -123,12 +123,17 @@ export default function ProfilePage(): React.ReactElement | null {
   return (
     <main className="min-h-screen bg-[#faf8f5]">
       <PageHero
-        title="Mon Profil"
-        description="Gérez vos informations personnelles et votre compte membre."
-        badge="Espace Membre"
+        title={
+          <>
+            Mon Profil <span className="text-[#e03e3e] italic">Membre</span>
+          </>
+        }
+        description="Gérez vos coordonnées personnelles, votre photo de profil et vos accès au Club."
+        badge="Espace Peloton"
         badgeIcon={<UserCircleIcon className="h-4 w-4" />}
         variant="red"
         size="md"
+        watermark="MEMBRE"
       />
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-12 lg:px-8">
         {/* User Avatar Card */}

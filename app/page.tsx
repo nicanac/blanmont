@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 import {
   ChatBubbleLeftRightIcon,
@@ -11,17 +12,19 @@ import {
   HeartIcon,
   BoltIcon,
   CheckBadgeIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import HomeBlogSection from './components/shared/HomeBlogSection';
 import { getBlogPosts, getActiveWeekendPoll, getCalendarEvents } from './lib/firebase';
 import { getNextScheduledRide } from './lib/firebase/calendar';
 import RideWeatherBadge from './components/ui/RideWeatherBadge';
+import EditorialPhotographicMosaic from './components/v2/EditorialPhotographicMosaic';
 
 /**
  * Landing page — Editorial Peloton: magazine-cover hero on ink,
- * paper spreads, hairline structure, asymmetric bento.
+ * paper spreads, hairline structure, asymmetric bento, and visual chronicle spread.
  */
-export default async function Home() {
+export default async function Home(): Promise<React.ReactElement> {
   const [posts, activePoll, events] = await Promise.all([
     getBlogPosts(),
     getActiveWeekendPoll(),
@@ -34,7 +37,14 @@ export default async function Home() {
     <div className="bg-[#faf8f5]">
       {/* ──── Cover Hero (Ink) ──── */}
       <section className="relative overflow-hidden bg-[#0a0c10] text-white">
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12">
+        {/* Atmospheric Background Watermark */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(8rem,26vw,32rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+            BLANMONT
+          </span>
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12 z-10">
           <h1 className="max-w-5xl text-[clamp(2.5rem,7.5vw,5.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
             <span className="cover-line"><span>Rouler ensemble,</span></span>
             <span className="cover-line"><span>partager l&apos;effort,</span></span>
@@ -74,7 +84,6 @@ export default async function Home() {
             </Link>
           </div>
         </div>
-
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
           {/* Photo & Telemetry Unified Frame */}
@@ -262,20 +271,32 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ──── Section : La Vie du Club (Distilled Editorial Spread) ──── */}
-      <section className="py-16 sm:py-24 bg-[#faf8f5]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-[#e4e0d8] pb-6">
-            <div className="max-w-2xl space-y-2">
-              <h2 className="text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.025em] leading-[1.02] text-[#101216] text-balance">
-                La vie du Club de Blanmont
+      {/* ──── Section : La Vie du Club (Distilled Editorial Spread with Giant Watermark) ──── */}
+      <section className="py-20 sm:py-28 bg-[#faf8f5] relative overflow-hidden">
+        {/* Editorial Giant Background Typography Layer */}
+        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-center">
+          <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] whitespace-nowrap">
+            BLANMONT
+          </span>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 relative z-10">
+          {/* Section Header with exact style */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
+                <SparklesIcon className="h-4 w-4" />
+                Structure &amp; Allures
+              </div>
+              <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
+                La Vie du Club de Blanmont
               </h2>
-              <p className="text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
+              <p className="text-base text-[#3a3f4a] leading-relaxed">
                 Une structure sportive et conviviale pensée pour que chaque cycliste prenne du plaisir à son propre rythme.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-[#5c6370] shrink-0">
+
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               <ShieldCheckIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>&laquo; On part ensemble, on rentre ensemble &raquo;</span>
             </div>
@@ -469,12 +490,37 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ──── Club Spirit — typographic manifesto ──── */}
-      <section className="py-16 sm:py-24 bg-[#f2efe9] border-y border-[#e4e0d8]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
-          <h2 className="max-w-3xl text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.025em] leading-[1.02] text-[#101216] text-balance">
-            L&apos;esprit du CC Saint-Martin
-          </h2>
+      {/* ──── Section : La Traversée des Éléments (Chronique Visuelle & Grand PELOTON Backdrop) ──── */}
+      <EditorialPhotographicMosaic />
+
+      {/* ──── Club Spirit — typographic manifesto with Giant Watermark ──── */}
+      <section className="py-20 sm:py-28 bg-[#f2efe9] border-y border-[#e4e0d8] relative overflow-hidden">
+        {/* Editorial Giant Background Typography Layer */}
+        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-center">
+          <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] whitespace-nowrap">
+            ESPRIT
+          </span>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
+                <HeartIcon className="h-4 w-4" />
+                Manifeste &amp; Valeurs
+              </div>
+              <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
+                L&apos;Esprit du CC Saint-Martin
+              </h2>
+              <p className="text-base text-[#3a3f4a] leading-relaxed">
+                La philosophie fondatrice qui guide chaque sortie, chaque relais et chaque rassemblement depuis 1978.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+              <span>Pacte de Solidarité · 1978–2026</span>
+            </div>
+          </div>
 
           <div className="border-t border-[#e4e0d8]">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">

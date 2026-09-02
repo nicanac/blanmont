@@ -91,11 +91,15 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
     return (
         <main className="min-h-screen bg-[#faf8f5]">
             <PageHero
-                title="Nos Parcours"
-                description="Découvrez nos traces GPX pour vos sorties vélo."
-                badge="Traces"
+                title={
+                    <>
+                        Les Parcours du <span className="text-[#e03e3e] italic">Peloton</span>
+                    </>
+                }
+                description="Explorez notre sélection de traces GPX officielles, des routes vallonnées du Brabant aux sentiers VTT."
+                badge="Traces &amp; GPX"
                 badgeIcon={<MapIcon className="h-4 w-4" />}
-                variant="green"
+                variant="red"
                 size="md"
             />
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">

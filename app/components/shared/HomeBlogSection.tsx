@@ -6,6 +6,7 @@ import {
   ArrowRightIcon,
   CalendarDaysIcon,
   UserPlusIcon,
+  BookOpenIcon,
 } from '@heroicons/react/24/outline';
 
 interface HomeBlogSectionProps {
@@ -25,7 +26,7 @@ function formatDate(dateString: string): string {
 }
 
 /**
- * HomeBlogSection – Editorial cover story with hairline news index.
+ * HomeBlogSection – Editorial cover story with hairline news index and giant watermark.
  */
 export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.ReactElement | null {
   if (!posts || posts.length === 0) return null;
@@ -34,16 +35,33 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
   const secondaryPosts = posts.slice(1, 4);
 
   return (
-    <section className="bg-[#faf8f5] py-16 sm:py-24 border-t border-[#e4e0d8]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section header — no eyebrow, the heading speaks */}
-        <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
-          <h2 className="max-w-xl text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.025em] leading-[1.02] text-[#101216] text-balance">
-            Les dernières nouvelles du peloton
-          </h2>
+    <section className="bg-[#faf8f5] py-20 sm:py-28 border-t border-[#e4e0d8] relative overflow-hidden">
+      {/* Editorial Giant Background Typography Layer */}
+      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-center">
+        <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] whitespace-nowrap">
+          GAZETTE
+        </span>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+        {/* Section header with exact editorial title style */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
+              <BookOpenIcon className="h-4 w-4" />
+              Édition &amp; Chroniques
+            </div>
+            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
+              Les Dernières Nouvelles du Peloton
+            </h2>
+            <p className="text-base text-[#3a3f4a] leading-relaxed">
+              Récits d&apos;échappées, présentations des tenues officielles et actualités du club de Blanmont.
+            </p>
+          </div>
+
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-5 py-2.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] text-[#101216] transition-colors hover:border-[#101216]/30"
+            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-5 py-3 text-xs font-bold uppercase tracking-wider text-[#101216] transition-colors hover:border-[#101216]/40 shadow-xs"
           >
             <span>Toutes les actualités</span>
             <ArrowRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />

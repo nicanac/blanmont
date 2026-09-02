@@ -72,13 +72,6 @@ export default function Navbar() {
       icon: TrophyIcon,
       iconBg: 'bg-emerald-400/10 text-emerald-400',
     },
-    {
-      name: 'Sondage du Weekend',
-      description: 'Qui roule ce weekend ?',
-      href: '/sondage',
-      icon: ChatBubbleLeftRightIcon,
-      iconBg: 'bg-[#e03e3e]/15 text-[#e03e3e]',
-    },
   ];
 
   // Simple user menu - only essential items

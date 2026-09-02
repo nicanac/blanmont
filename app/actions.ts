@@ -279,6 +279,97 @@ export async function getCurrentSessionUserAction(): Promise<SessionUser | null>
   return await getSessionUser();
 }
 
+import { getAdminAuth, getAdminDatabase } from './lib/firebase/admin';
+
+/**
+ * Server Action to generate or send an account activation / password reset link.
+ * Automatically provisions the user in Firebase Auth if they don't exist yet,
+ * and links authUid with the Realtime Database member record.
+ */
+export async function requestAccountActivationAction(email: string): Promise<{
+  success: boolean;
+  message: string;
+  directLink?: string;
+}> {
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail || !normalizedEmail.includes('@')) {
+    return { success: false, message: 'Veuillez renseigner une adresse email valide.' };
+  }
+
+  try {
+    const adminAuth = getAdminAuth();
+    const adminDb = getAdminDatabase();
+
+    // 1. Check if member exists in Realtime Database
+    const membersSnap = await adminDb.ref('members').once('value');
+    let memberKey: string | null = null;
+    let memberData: any = null;
+
+    if (membersSnap.exists()) {
+      membersSnap.forEach((child: any) => {
+        const val = child.val();
+        if (val.email && String(val.email).trim().toLowerCase() === normalizedEmail) {
+          memberKey = child.key;
+          memberData = val;
+        }
+      });
+    }
+
+    // 2. Check if user already exists in Firebase Auth, if not create them
+    let userRecord: any;
+    try {
+      userRecord = await adminAuth.getUserByEmail(normalizedEmail);
+    } catch (err: any) {
+      if (err.code === 'auth/user-not-found' || err.message?.includes('user-not-found')) {
+        // Create user in Firebase Auth
+        userRecord = await adminAuth.createUser({
+          email: normalizedEmail,
+          displayName: memberData?.name || normalizedEmail.split('@')[0],
+          emailVerified: true,
+        });
+      } else {
+        throw err;
+      }
+    }
+
+    // 3. Link authUid to member record if found in DB
+    if (memberKey && userRecord?.uid && memberData?.authUid !== userRecord.uid) {
+      await adminDb.ref(`members/${memberKey}`).update({
+        authUid: userRecord.uid,
+      });
+    }
+
+    // 4. Generate the password reset / activation link via Firebase Admin SDK
+    const rawFirebaseLink = await adminAuth.generatePasswordResetLink(normalizedEmail);
+    let inAppLink = rawFirebaseLink;
+
+    try {
+      const parsedUrl = new URL(rawFirebaseLink);
+      const oobCode = parsedUrl.searchParams.get('oobCode');
+      const mode = parsedUrl.searchParams.get('mode') || 'resetPassword';
+      if (oobCode) {
+        inAppLink = `/auth/action?mode=${mode}&oobCode=${encodeURIComponent(oobCode)}`;
+      }
+    } catch {
+      // fallback to rawFirebaseLink if URL parse fails
+    }
+
+    console.log(`[Account Activation] Generated link for ${normalizedEmail}: ${inAppLink}`);
+
+    return {
+      success: true,
+      message: 'Lien d\'activation généré avec succès !',
+      directLink: inAppLink,
+    };
+  } catch (error: any) {
+    console.error('Failed to process account activation:', error);
+    return {
+      success: false,
+      message: error?.message || 'Erreur lors de la génération du lien d\'activation.',
+    };
+  }
+}
+
 import { updateMemberPhoto } from './lib/firebase';
 import { v2 as cloudinary } from 'cloudinary';
 
