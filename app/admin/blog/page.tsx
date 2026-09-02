@@ -1,157 +1,134 @@
 import React from 'react';
 import Link from 'next/link';
-import { PlusIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilIcon, DocumentTextIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { getBlogPosts } from '../../lib/firebase/blog';
 import DeleteBlogButton from './components/DeleteBlogButton';
 
 export const dynamic = 'force-dynamic';
 
-/**
- * Formats a date string to a readable format
- */
 function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('fr-FR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-BE', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  } catch {
+    return dateString;
+  }
 }
 
-/**
- * Blog Admin Page - List all blog posts with management actions
- */
 export default async function BlogAdminPage(): Promise<React.ReactElement> {
   const posts = await getBlogPosts();
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Les News</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Gérez vos articles de blog et publications
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
+            <DocumentTextIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+            <span>Gestion des Articles</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
+            Les News du Club
+          </h1>
+          <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
+            {posts.length} article{posts.length !== 1 ? 's' : ''} au total dans la base de données.
           </p>
         </div>
         <Link
           href="/admin/blog/new"
-          className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 transition-colors"
+          className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs shrink-0"
         >
-          <PlusIcon className="h-5 w-5" />
-          Nouvel article
+          <PlusIcon className="h-4 w-4" />
+          <span>Nouvel Article</span>
         </Link>
       </div>
 
       {/* Posts Table */}
-      <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200 overflow-hidden">
+      <div className="rounded-lg border border-[#e4e0d8] bg-white shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[#e4e0d8]">
+            <thead className="bg-[#f2efe9]">
               <tr>
-                <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
                   Article
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
                   Auteur
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
                   Catégorie
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
                   Date
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
                   Statut
                 </th>
-                <th className="px-6 py-3.5 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
+            <tbody className="divide-y divide-[#efece5] bg-white text-xs">
               {posts.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center">
-                    <div className="flex flex-col items-center">
-                      <div className="rounded-full bg-gray-100 p-3">
-                        <PlusIcon className="h-6 w-6 text-gray-400" />
-                      </div>
-                      <p className="mt-4 text-sm font-medium text-gray-900">Aucun article de blog</p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Commencez par créer un nouvel article.
-                      </p>
-                      <Link
-                        href="/admin/blog/new"
-                        className="mt-4 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
-                      >
-                        <PlusIcon className="h-4 w-4" />
-                        Créer un article
-                      </Link>
-                    </div>
+                  <td colSpan={6} className="px-6 py-12 text-center text-[#7d8493]">
+                    Aucun article pour le moment.{' '}
+                    <Link href="/admin/blog/new" className="text-[#e03e3e] font-semibold hover:underline">
+                      Créer un article
+                    </Link>
                   </td>
                 </tr>
               ) : (
                 posts.map((post) => (
-                  <tr key={post.id} className="hover:bg-gray-50">
+                  <tr key={post.id} className="hover:bg-[#faf8f5] transition-colors">
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-4">
-                        <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                          {post.coverImage && (
-                            <img
-                              src={post.coverImage}
-                              alt=""
-                              className="h-full w-full object-cover"
-                            />
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-medium text-gray-900 truncate max-w-xs">
-                            {post.title}
-                          </p>
-                          <p className="text-sm text-gray-500 truncate max-w-xs">
-                            {post.excerpt}
-                          </p>
-                        </div>
+                      <div>
+                        <p className="font-bold text-[#101216] truncate max-w-xs">
+                          {post.title}
+                        </p>
+                        <p className="text-xs text-[#7d8493] truncate max-w-xs">{post.excerpt}</p>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-700">
+                    <td className="whitespace-nowrap px-6 py-4 text-[#3a3f4a] font-medium">
                       {post.author}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      <span className="inline-flex rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                        {post.category}
+                      <span className="inline-flex rounded-full bg-[#f2efe9] border border-[#e4e0d8] px-2.5 py-0.5 text-xs font-semibold text-[#5c6370]">
+                        {post.category || 'Actualité'}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-6 py-4 text-[#7d8493] tabular-nums">
                       {formatDate(post.publishedAt)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <span
-                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider border ${
                           post.isPublished
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-yellow-100 text-yellow-800'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            : 'bg-amber-50 text-amber-700 border-amber-200'
                         }`}
                       >
                         {post.isPublished ? 'Publié' : 'Brouillon'}
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1">
                         <Link
                           href={`/blog/${post.slug}`}
                           target="_blank"
-                          className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                          title="Voir"
+                          className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                          title="Voir sur le site"
                         >
-                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
+                          <ArrowTopRightOnSquareIcon className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/admin/blog/${post.id}/edit`}
-                          className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-blue-600"
+                          className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
                           title="Modifier"
                         >
                           <PencilIcon className="h-4 w-4" />

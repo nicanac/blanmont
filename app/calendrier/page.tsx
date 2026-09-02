@@ -44,7 +44,7 @@ export default async function CalendarPage() {
           {/* Top row: Title + Subscribe CTA */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-white/10">
             <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#f5f6f8]">
                 <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
                 Saison 2026 · Planning Officiel
               </div>
@@ -72,7 +72,7 @@ export default async function CalendarPage() {
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#e03e3e]">
+                  <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#e03e3e]">
                     Prochain départ
                   </span>
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e] animate-pulse" />
@@ -97,7 +97,7 @@ export default async function CalendarPage() {
                 <SparklesIcon className="h-5 w-5 text-[#e03e3e]" />
               </div>
               <div>
-                <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
                   Programme annuel
                 </span>
                 <div className="mt-1 text-sm font-bold text-white tabular-nums">
@@ -115,7 +115,7 @@ export default async function CalendarPage() {
                 <MapIcon className="h-5 w-5 text-sky-400" />
               </div>
               <div>
-                <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
                   Traces GPS &amp; GPX
                 </span>
                 <div className="mt-1 text-sm font-bold text-white tabular-nums">
