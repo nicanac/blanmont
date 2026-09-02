@@ -101,10 +101,6 @@ export function PageHero({
 
     return (
         <section className={`relative overflow-hidden ${styles.bg} ${sizes.padding}`}>
-            {/* Accent glow — the variant's only signature on the ink cover */}
-            <div className={`pointer-events-none absolute -top-24 right-0 w-96 h-96 ${styles.accent} rounded-full blur-[120px]`}></div>
-            <div className={`pointer-events-none absolute bottom-0 left-0 w-64 h-64 ${styles.secondary} rounded-full blur-[100px]`}></div>
-
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl">
                     <h1 className={`text-balance ${styles.title} ${sizes.title}`}>
