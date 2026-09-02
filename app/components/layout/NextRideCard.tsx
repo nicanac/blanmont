@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   MapPinIcon,
   ArrowRightIcon,
@@ -31,6 +32,12 @@ interface NextRideCardProps {
 
 export default function NextRideCard({ nextRide, defaultExpanded = false }: NextRideCardProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const pathname = usePathname();
+
+  // Deduplicate: On homepage (/), next ride is already featured in the main body spread
+  if (pathname === '/') {
+    return null;
+  }
 
   return (
     <div className="w-full">

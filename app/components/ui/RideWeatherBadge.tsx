@@ -101,20 +101,20 @@ export default function RideWeatherBadge({
 
     return (
       <div
-        className="inline-flex items-center gap-2 rounded-lg bg-sky-50 px-2 py-0.5 text-xs text-sky-900 border border-sky-100 font-medium"
+        className="inline-flex items-center gap-2 rounded-md bg-[#faf8f5] px-2.5 py-1 text-xs text-[#101216] border border-[#e4e0d8] font-medium"
         title={`${weather.condition} • ${weather.temperature}°C • ${weather.windDescription} à ${weather.windSpeed} km/h • Pluie: ${weather.precipitationProb}%`}
       >
         <span>{weather.icon}</span>
-        <span className="font-bold tabular-nums">{weather.temperature}°C</span>
-        <span className="text-slate-300">•</span>
-        <span className="flex items-center gap-0.5 text-[#3a3f4a]">
+        <span className="font-bold tabular-nums text-[#101216]">{weather.temperature}°C</span>
+        <span className="text-[#e4e0d8]">•</span>
+        <span className="flex items-center gap-1 text-[#3a3f4a]">
           <span
-            className="inline-block transition-transform text-sky-600 font-black text-xs"
+            className="inline-block transition-transform text-[#3b82f6] font-black text-xs"
             style={{ transform: `rotate(${arrowAngle}deg)` }}
           >
             ↑
           </span>
-          <span className="tabular-nums">{weather.windSpeed} km/h {weather.windCardinal}</span>
+          <span className="tabular-nums font-semibold">{weather.windSpeed} km/h {weather.windCardinal}</span>
         </span>
       </div>
     );
@@ -172,9 +172,9 @@ export default function RideWeatherBadge({
   }
 
   return (
-    <div className="rounded-md bg-gradient-to-br from-sky-50 via-white to-sky-50/60 p-3.5 border border-sky-200/80 shadow-xs space-y-2">
+    <div className="rounded-lg bg-white p-3.5 border border-[#e4e0d8] space-y-2.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <span className="text-xl">{weather.icon}</span>
           <div>
             <div className="text-xs font-bold text-[#101216]">
@@ -190,7 +190,7 @@ export default function RideWeatherBadge({
             {weather.temperature}°C
           </span>
           {weather.precipitationProb > 10 && (
-            <div className="text-xs font-semibold text-sky-700">
+            <div className="text-xs font-semibold text-[#3b82f6]">
               💧 {weather.precipitationProb}% pluie
             </div>
           )}
@@ -198,14 +198,14 @@ export default function RideWeatherBadge({
       </div>
 
       {/* Wind & Riding Strategy */}
-      <div className="flex items-center justify-between pt-2 border-t border-sky-100/80 text-xs">
+      <div className="flex items-center justify-between pt-2 border-t border-[#e4e0d8] text-xs">
         <div className="flex items-center gap-1.5 font-medium text-[#3a3f4a]">
           <span className="text-sm">💨</span>
           <span>
             Vent : <strong className="text-[#101216] tabular-nums">{weather.windSpeed} km/h</strong> ({weather.windCardinal})
           </span>
           <span
-            className="inline-block text-sky-600 font-bold text-xs"
+            className="inline-block text-[#3b82f6] font-bold text-xs"
             style={{ transform: `rotate(${arrowAngle}deg)` }}
             title={`Direction du vent: ${weather.windDirection}° (${weather.windCardinal})`}
           >
@@ -213,7 +213,7 @@ export default function RideWeatherBadge({
           </span>
         </div>
 
-        <span className="text-xs font-medium text-[#3a3f4a] bg-white px-2 py-0.5 rounded-full border border-sky-200/60">
+        <span className="text-xs font-semibold text-[#3a3f4a] bg-[#faf8f5] px-2 py-0.5 rounded-full border border-[#e4e0d8]">
           {weather.windSpeed < 15 ? 'Vent faible' : weather.windSpeed < 30 ? 'Vent modéré' : 'Vent soutenu ⚠️'}
         </span>
       </div>
