@@ -9,6 +9,8 @@ import {
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline';
 import PollStatusToggle from './components/PollStatusToggle';
+import AdminEmptyState from '../components/AdminEmptyState';
+import SondagesHeader from './components/SondagesHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,32 +32,11 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
 
   return (
     <div className="space-y-8">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <ChatBubbleLeftRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
-            <span>Gestion Sondages</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
-            Sondages du Weekend
-          </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
-            Organisation hebdomadaire des présences et des groupes de niveau.
-          </p>
-        </div>
-
-        <Link
-          href="/admin/sondages/new"
-          className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs shrink-0"
-        >
-          <PlusIcon className="h-4 w-4" />
-          <span>Nouveau Sondage</span>
-        </Link>
-      </div>
+      {/* Page Header with Tutorial & New Poll Actions */}
+      <SondagesHeader sessionCount={polls.length} />
 
       {/* Overview Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div id="sondages-overview-cards" className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs space-y-2">
           <div className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
             Sondage en cours
@@ -101,7 +82,7 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
       </div>
 
       {/* Polls List */}
-      <div className="rounded-lg border border-[#e4e0d8] bg-white shadow-xs overflow-hidden">
+      <div id="sondages-list-section" className="rounded-lg border border-[#e4e0d8] bg-white shadow-xs overflow-hidden">
         <div className="px-6 py-4 border-b border-[#e4e0d8] bg-[#f2efe9] flex items-center justify-between">
           <h2 className="text-xs font-bold uppercase tracking-wider text-[#101216]">
             Historique des sondages
@@ -112,8 +93,23 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
         </div>
 
         {pollsWithCounts.length === 0 ? (
-          <div className="p-12 text-center text-[#7d8493] text-xs">
-            Aucun sondage créé pour le moment. Cliquez sur &laquo; Nouveau Sondage &raquo;.
+          <div className="p-6">
+            <AdminEmptyState
+              icon={ChatBubbleLeftRightIcon}
+              title="Aucun sondage de weekend enregistré"
+              description="Les sondages permettent aux membres d'indiquer leur présence (Samedi / Dimanche) et de constituer les groupes de niveau (A, B, C, VTT)."
+              primaryAction={{
+                label: 'Créer le premier sondage',
+                href: '/admin/sondages/new',
+                icon: PlusIcon,
+              }}
+              secondaryAction={{
+                label: 'Voir la page publique',
+                href: '/sondage',
+                icon: ArrowTopRightOnSquareIcon,
+              }}
+              tip="Le sondage hebdomadaire est généralement publié le mardi afin de laisser le temps aux membres de voter avant le vendredi soir."
+            />
           </div>
         ) : (
           <div className="divide-y divide-[#efece5]">

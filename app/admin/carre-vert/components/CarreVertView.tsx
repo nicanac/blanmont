@@ -125,7 +125,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left panel: Event list */}
-        <div className="lg:col-span-1">
+        <div id="carre-vert-events-list" className="lg:col-span-1">
           <div className="bg-white shadow rounded-lg overflow-hidden">
             {/* Filters */}
             <div className="p-4 border-b border-gray-200 space-y-3">
@@ -220,7 +220,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
         </div>
 
         {/* Right panel: Attendance management */}
-        <div className="lg:col-span-2">
+        <div id="carre-vert-attendance-panel" className="lg:col-span-2">
           {selectedEvent ? (
             <EventAttendancePanel
               key={selectedEvent.id}
