@@ -10,27 +10,14 @@ import {
 } from '@heroicons/react/24/outline';
 import { getCalendarEvents } from '@/app/lib/firebase/calendar';
 import DeleteEventButton from './components/DeleteEventButton';
+import { formatFrenchDate, getTodayIso } from '@/app/utils/date';
 
 export const dynamic = 'force-dynamic';
-
-function formatDate(isoDate: string): string {
-  try {
-    const date = new Date(isoDate);
-    return date.toLocaleDateString('fr-BE', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    });
-  } catch {
-    return isoDate;
-  }
-}
 
 export default async function AdminEventsPage(): Promise<React.ReactElement> {
   const events = await getCalendarEvents();
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = getTodayIso();
   const upcomingEvents = events.filter((e) => e.isoDate >= today);
   const pastEvents = events
     .filter((e) => e.isoDate < today)
@@ -101,7 +88,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-bold text-sm text-[#101216]">
-                        {formatDate(event.isoDate)}
+                        {formatFrenchDate(event.isoDate)}
                       </span>
                       <span className="rounded-full bg-white border border-[#e4e0d8] px-2.5 py-0.5 text-xs font-semibold text-[#5c6370] tabular-nums">
                         {event.isoDate}
@@ -179,7 +166,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
               >
                 <div className="flex items-center gap-3">
                   <span className="text-xs font-semibold text-[#101216]">
-                    {formatDate(event.isoDate)}
+                    {formatFrenchDate(event.isoDate)}
                   </span>
                   <span className="text-xs text-[#7d8493]">• {event.location}</span>
                 </div>

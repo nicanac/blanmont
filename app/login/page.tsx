@@ -8,11 +8,11 @@ import {
   LockClosedIcon,
   EnvelopeIcon,
   KeyIcon,
-  ArrowRightIcon,
   ExclamationCircleIcon,
+  ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 
-export default function LoginPage() {
+export default function LoginPage(): React.ReactElement {
   const router = useRouter();
   const { login } = useAuth();
   const [username, setUsername] = useState('');
@@ -20,14 +20,14 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      if (username.length > 0 && password.length > 0) {
-        const success = await login(username, password);
+      if (username.trim().length > 0 && password.length > 0) {
+        const success = await login(username.trim(), password);
         if (success) {
           router.push('/');
         } else {
@@ -69,7 +69,10 @@ export default function LoginPage() {
           {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit}>
             {error && (
-              <div className="rounded-md border border-[#e03e3e]/40 bg-[#e03e3e]/10 p-3.5 flex items-start gap-3 text-xs text-red-200">
+              <div
+                role="alert"
+                className="rounded-md border border-[#e03e3e]/40 bg-[#e03e3e]/10 p-3.5 flex items-start gap-3 text-xs text-red-200"
+              >
                 <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
@@ -89,6 +92,7 @@ export default function LoginPage() {
                   id="email"
                   name="email"
                   type="email"
+                  maxLength={254}
                   autoComplete="email"
                   required
                   value={username}
@@ -121,6 +125,7 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   type="password"
+                  maxLength={128}
                   autoComplete="current-password"
                   required
                   value={password}
@@ -136,10 +141,19 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3.5 text-xs font-semibold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-lg disabled:opacity-50"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3.5 text-xs font-semibold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-lg disabled:opacity-50 min-h-[44px]"
               >
-                <LockClosedIcon className="h-4 w-4" />
-                <span>{isLoading ? 'Connexion...' : 'Se connecter'}</span>
+                {isLoading ? (
+                  <>
+                    <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                    <span>Connexion en cours...</span>
+                  </>
+                ) : (
+                  <>
+                    <LockClosedIcon className="h-4 w-4" />
+                    <span>Se connecter</span>
+                  </>
+                )}
               </button>
             </div>
           </form>
