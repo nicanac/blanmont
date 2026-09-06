@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
 
-    // Initialize session from server HttpOnly cookie with fallback
+    // Initialize session from server HttpOnly cookie strictly
     React.useEffect(() => {
         let isMounted = true;
 
@@ -36,21 +36,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                         role: sessionUser.role,
                     };
                     setUser(authenticatedUser);
-                    localStorage.setItem('user', JSON.stringify(authenticatedUser));
-                    return;
                 }
             } catch (e) {
                 console.warn('Could not verify server session cookie:', e);
-            }
-
-            // Fallback to localStorage if offline/initial load
-            const storedUser = localStorage.getItem('user');
-            if (storedUser && isMounted) {
-                try {
-                    setUser(JSON.parse(storedUser));
-                } catch {
-                    console.error('Failed to parse user from storage');
-                }
             }
         }
 
@@ -75,9 +63,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     role: member.role
                 };
                 setUser(newUser);
-                localStorage.setItem('user', JSON.stringify(newUser));
-                // Redundant but helpful if other parts of the app rely on memberData
-                localStorage.setItem('memberData', JSON.stringify(member)); 
                 return true;
             }
             return false;
@@ -94,8 +79,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             console.error('Logout error on server:', err);
         } finally {
             setUser(null);
-            localStorage.removeItem('user');
-            localStorage.removeItem('memberData');
         }
     };
 
@@ -103,7 +86,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser((prev) => {
             if (!prev) return null;
             const updated = { ...prev, ...updates };
-            localStorage.setItem('user', JSON.stringify(updated));
             return updated;
         });
     };

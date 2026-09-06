@@ -9,9 +9,11 @@ import {
   CreateRideSchema,
   SubmitVoteSchema,
   LoginSchema,
+  AccountActivationSchema,
   UpdateMemberPhotoSchema,
   safeValidate,
   validateFormData,
+  validateImageFile,
   type ValidationResult,
 } from './lib/validation';
 import { requireAdminSession, getSessionUser } from './lib/auth/session';
@@ -291,10 +293,13 @@ export async function requestAccountActivationAction(email: string): Promise<{
   message: string;
   directLink?: string;
 }> {
-  const normalizedEmail = email.trim().toLowerCase();
-  if (!normalizedEmail || !normalizedEmail.includes('@')) {
-    return { success: false, message: 'Veuillez renseigner une adresse email valide.' };
+  const validation = safeValidate(AccountActivationSchema, { email });
+
+  if (!validation.success) {
+    return { success: false, message: validation.errors.map(e => e.message).join(', ') };
   }
+
+  const normalizedEmail = validation.data.email.trim().toLowerCase();
 
   try {
     const adminAuth = getAdminAuth();
@@ -397,6 +402,11 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
 
     if (!file || !targetMemberId) throw new Error('Invalid input');
 
+    const imageValidation = validateImageFile(file);
+    if (!imageValidation.success) {
+      throw new Error(imageValidation.error.issues.map(e => e.message).join(', '));
+    }
+
     const session = await getSessionUser();
     if (session && session.id !== targetMemberId && !session.isAdmin) {
       throw new Error('Action non autorisée pour ce profil.');
@@ -430,8 +440,13 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
   }
   // Handle string URL (Legacy/Direct URL)
   else if (typeof input === 'string') {
-    finalPhotoUrl = input;
-    if (!targetMemberId) throw new Error('Member ID required for URL update');
+    const stringValidation = safeValidate(UpdateMemberPhotoSchema, { memberId: targetMemberId, photoUrl: input });
+    if (!stringValidation.success) {
+      throw new Error('Invalid input: ' + stringValidation.errors.map(e => e.message).join(', '));
+    }
+
+    targetMemberId = stringValidation.data.memberId;
+    finalPhotoUrl = stringValidation.data.photoUrl;
   }
 
   // Validate the final result
