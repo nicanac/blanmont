@@ -118,10 +118,10 @@ export default function Navbar(): React.ReactElement {
                 </div>
 
                 {/* Divider */}
-                <div className="hidden sm:block h-6 w-px bg-white/15 mx-6"></div>
+                <div className="hidden lg:block h-6 w-px bg-white/15 mx-4 xl:mx-6"></div>
 
                 {/* Navigation Links */}
-                <div className="hidden sm:flex sm:space-x-7 items-center">
+                <div className="hidden lg:flex lg:space-x-5 xl:space-x-7 items-center">
                   {mainNavigation.map((item) => {
                     const isCurrent = pathname === item.href;
                     return (
@@ -212,7 +212,7 @@ export default function Navbar(): React.ReactElement {
               </div>
 
               {/* Right Side: Icons */}
-              <div className="hidden sm:flex items-center space-x-6">
+              <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
                 {/* User Menu / Login */}
                 {isAuthenticated ? (
                   <Popover className="relative">
@@ -327,7 +327,7 @@ export default function Navbar(): React.ReactElement {
               </div>
 
               {/* Mobile menu button */}
-              <div className="-mr-2 flex items-center sm:hidden">
+              <div className="-mr-2 flex items-center lg:hidden">
                 <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Ouvrir le menu principal</span>
@@ -351,7 +351,7 @@ export default function Navbar(): React.ReactElement {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <PopoverBackdrop className="fixed inset-0 bg-black/50 z-40 sm:hidden" />
+            <PopoverBackdrop className="fixed inset-0 bg-black/50 z-40 lg:hidden" />
           </Transition>
 
           <Transition
@@ -363,7 +363,7 @@ export default function Navbar(): React.ReactElement {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl sm:hidden bg-[#0a0c10] border-b border-white/10">
+            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl lg:hidden bg-[#0a0c10] border-b border-white/10">
               <div className="space-y-1 pb-3 pt-2 px-2">
                 {mainNavigation.map((item) => {
                   const isCurrent = pathname === item.href;
