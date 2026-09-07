@@ -28,7 +28,7 @@ import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../utils/cn';
 
-export default function Navbar() {
+export default function Navbar(): React.ReactElement {
   const pathname = usePathname();
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
@@ -97,7 +97,7 @@ export default function Navbar() {
       as="nav"
       className="sticky top-0 z-50 w-full bg-[#0a0c10]/95 backdrop-blur-md border-b border-white/10"
     >
-      {({ open, close }) => (
+      {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 justify-between items-center">
@@ -218,11 +218,11 @@ export default function Navbar() {
                   <Popover className="relative">
                     {({ open }) => (
                       <>
-                        <PopoverButton className="flex items-center text-white hover:text-[#a7adbb] focus:outline-none">
+                        <PopoverButton className="group inline-flex items-center gap-2.5 rounded-full py-1 pl-1 pr-3.5 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/40">
                           <span className="sr-only">Ouvrir le menu utilisateur</span>
                           {user?.avatarUrl ? (
                             <Image
-                              className="h-8 w-8 rounded-full object-cover ring-2 ring-white/20"
+                              className="h-8 w-8 rounded-full object-cover ring-1 ring-white/20 group-hover:ring-[#e03e3e]/50 transition-colors"
                               src={user.avatarUrl}
                               alt={user.name || 'User avatar'}
                               width={32}
@@ -230,8 +230,20 @@ export default function Navbar() {
                               unoptimized={!user.avatarUrl.includes('cloudinary.com')}
                             />
                           ) : (
-                            <UserIcon className="h-6 w-6" aria-hidden="true" />
+                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20">
+                              <UserIcon className="h-4 w-4" aria-hidden="true" />
+                            </span>
                           )}
+                          <span className="text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#d5d9e2] group-hover:text-white transition-colors select-none">
+                            Mon Compte
+                          </span>
+                          <ChevronDownIcon
+                            className={cn(
+                              open ? 'text-[#e03e3e] rotate-180' : 'text-[#7d8493]',
+                              'h-3.5 w-3.5 transition-transform duration-200 ease-in-out group-hover:text-white'
+                            )}
+                            aria-hidden="true"
+                          />
                         </PopoverButton>
                         <Transition
                           as={Fragment}
@@ -427,6 +439,9 @@ export default function Navbar() {
                         />
                       </div>
                       <div className="ml-3">
+                        <div className="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-[#e03e3e]">
+                          Mon Compte
+                        </div>
                         <div className="text-base font-medium text-white">{user?.name}</div>
                         <div className="text-sm font-medium text-[#7d8493]">{user?.email}</div>
                       </div>
