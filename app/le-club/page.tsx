@@ -4,7 +4,6 @@ import {
   UserGroupIcon,
   MapPinIcon,
   SparklesIcon,
-  ShieldCheckIcon,
   ArrowRightIcon,
   HeartIcon,
   EnvelopeIcon,
@@ -103,18 +102,28 @@ export default function LeClubPage(): React.ReactElement {
         {/* 4 Groups Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Groupe A */}
-          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e] font-extrabold text-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     A
                   </span>
-                  <h3 className="text-xl font-bold text-[#101216]">Le groupe des A</h3>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des A</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                      Sportif &amp; Rythmé
+                    </span>
+                  </div>
                 </div>
-                <span className="rounded-full bg-red-50 text-red-700 border border-red-200 px-3 py-1 text-xs font-bold tabular-nums">
-                  &gt; 30 km/h
-                </span>
+                <div className="text-right shrink-0">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                    Allure
+                  </span>
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tabular-nums tracking-tight">
+                    &gt; 30 <span className="text-xs font-semibold text-[#7d8493]">km/h</span>
+                  </span>
+                </div>
               </div>
               <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
                 Groupe dynamique et sportif. Allure soutenue, sorties rythmées et participation fréquente aux randos et classiques extérieures. Traces GPS envoyées à l&apos;avance via le groupe WhatsApp.
@@ -127,18 +136,28 @@ export default function LeClubPage(): React.ReactElement {
           </div>
 
           {/* Groupe B */}
-          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-sky-400/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-md bg-sky-500/10 text-sky-600 font-extrabold text-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     B
                   </span>
-                  <h3 className="text-xl font-bold text-[#101216]">Le groupe des B</h3>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des B</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                      Cœur du Peloton
+                    </span>
+                  </div>
                 </div>
-                <span className="rounded-full bg-sky-50 text-sky-700 border border-sky-200 px-3 py-1 text-xs font-bold tabular-nums">
-                  25 – 28 km/h
-                </span>
+                <div className="text-right shrink-0">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                    Allure
+                  </span>
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tabular-nums tracking-tight">
+                    25 – 28 <span className="text-xs font-semibold text-[#7d8493]">km/h</span>
+                  </span>
+                </div>
               </div>
               <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
                 Le cœur du peloton de Blanmont. Circuits équilibrés et variés évitant les grands axes, départs vent de face pour un retour fluide et groupé. Esprit d&apos;équipe garanti.
@@ -151,18 +170,28 @@ export default function LeClubPage(): React.ReactElement {
           </div>
 
           {/* Groupe C */}
-          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-emerald-400/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-600 font-extrabold text-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     C
                   </span>
-                  <h3 className="text-xl font-bold text-[#101216]">Le groupe des C</h3>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des C</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                      Rando &amp; Progression
+                    </span>
+                  </div>
                 </div>
-                <span className="rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 text-xs font-bold tabular-nums">
-                  &lt; 25 km/h
-                </span>
+                <div className="text-right shrink-0">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                    Allure
+                  </span>
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tabular-nums tracking-tight">
+                    &lt; 25 <span className="text-xs font-semibold text-[#7d8493]">km/h</span>
+                  </span>
+                </div>
               </div>
               <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
                 Allure modérée idéale pour progresser, reprendre le vélo ou rouler sans pression de chrono. Tout le monde s&apos;attend, avec l&apos;objectif de franchir le cap des 100 km en cours de saison.
@@ -175,18 +204,28 @@ export default function LeClubPage(): React.ReactElement {
           </div>
 
           {/* Groupe VTT */}
-          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-amber-400/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-md bg-amber-500/10 text-amber-600 font-extrabold text-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-xs tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     VTT
                   </span>
-                  <h3 className="text-xl font-bold text-[#101216]">Le groupe des VTT</h3>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des VTT</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                      Chemins &amp; Forêt
+                    </span>
+                  </div>
                 </div>
-                <span className="rounded-full bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 text-xs font-bold">
-                  Sentiers &amp; Bois
-                </span>
+                <div className="text-right shrink-0">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                    Terrain
+                  </span>
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tracking-tight">
+                    Sentiers &amp; Bois
+                  </span>
+                </div>
               </div>
               <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
                 Exploration des chemins de terre, sous-bois et bosses de la région. Regroupement systématique au sommet des côtes et entraide technique sur les passages délicats.
