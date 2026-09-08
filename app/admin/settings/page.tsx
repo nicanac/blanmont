@@ -56,7 +56,7 @@ export default function AdminSettingsPage(): React.ReactElement {
                 Apparence &amp; Thème Visuel
               </h2>
               <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
-                Basculez instantanément l&apos;ensemble du site entre la version claire et la version sombre.
+                Basculez l&apos;apparence du site public entre la version claire et sombre. L&apos;administration reste quant à elle en mode clair.
               </p>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function AdminSettingsPage(): React.ReactElement {
               Sélectionnez votre mode d&apos;affichage
             </h3>
             <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
-              Le choix est mémorisé sur votre navigateur et appliqué en temps réel à chaque page du site (accueil, parcours, membres, footer et espace d&apos;administration).
+              Le choix est mémorisé sur votre navigateur et appliqué au site public (accueil, parcours, membres, footer). L&apos;espace d&apos;administration reste quant à lui exclusivement en mode clair pour un confort de gestion optimal.
             </p>
           </div>
 
@@ -108,54 +108,56 @@ export default function AdminSettingsPage(): React.ReactElement {
               </span>
             </div>
 
-            {/* Mockup Preview Card */}
-            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden shadow-sm">
-              {/* Mini Navbar Mockup */}
-              <div className="flex items-center justify-between px-4 py-3 bg-white/95 dark:bg-[#0a0c10]/95 border-b border-[#e4e0d8] dark:border-white/10 transition-colors duration-200">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
-                    Blan<span className="text-[#e03e3e]">mont</span>
-                  </span>
-                  <span className="text-[10px] uppercase tracking-wider text-[#5c6370] dark:text-[#7d8493] border-l border-[#e4e0d8] dark:border-white/15 pl-2">
-                    CC St-Martin
-                  </span>
+            {/* Mockup Preview Card with isolated theme container */}
+            <div className={resolvedTheme === 'dark' ? 'dark' : ''}>
+              <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden shadow-sm">
+                {/* Mini Navbar Mockup */}
+                <div className="flex items-center justify-between px-4 py-3 bg-white/95 dark:bg-[#0a0c10]/95 border-b border-[#e4e0d8] dark:border-white/10 transition-colors duration-200">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
+                      Blan<span className="text-[#e03e3e]">mont</span>
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider text-[#5c6370] dark:text-[#7d8493] border-l border-[#e4e0d8] dark:border-white/15 pl-2">
+                      CC St-Martin
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="text-[#101216] dark:text-white">Les News</span>
+                    <span>Membres</span>
+                    <span>Calendrier</span>
+                    <span className="bg-[#e03e3e] text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">
+                      Espace Membre
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb]">
-                  <span className="text-[#101216] dark:text-white">Les News</span>
-                  <span>Membres</span>
-                  <span>Calendrier</span>
-                  <span className="bg-[#e03e3e] text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">
-                    Espace Membre
-                  </span>
-                </div>
-              </div>
 
-              {/* Mini Hero Mockup */}
-              <div className="p-6 bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-white transition-colors duration-200">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider mb-2">
-                  <SparklesIcon className="h-3 w-3" />
-                  <span>Peloton 2026</span>
-                </div>
-                <h3 className="text-lg font-extrabold uppercase tracking-tight">
-                  Rouler ensemble, <span className="text-[#e03e3e] italic">la passion du peloton</span>
-                </h3>
-                <p className="mt-1 text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-md">
-                  Aperçu des typographies, des contrastes et des boutons en mode {resolvedTheme === 'dark' ? 'sombre' : 'clair'}.
-                </p>
+                {/* Mini Hero Mockup */}
+                <div className="p-6 bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-white transition-colors duration-200">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider mb-2">
+                    <SparklesIcon className="h-3 w-3" />
+                    <span>Peloton 2026</span>
+                  </div>
+                  <h3 className="text-lg font-extrabold uppercase tracking-tight">
+                    Rouler ensemble, <span className="text-[#e03e3e] italic">la passion du peloton</span>
+                  </h3>
+                  <p className="mt-1 text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-md">
+                    Aperçu des typographies, des contrastes et des boutons en mode {resolvedTheme === 'dark' ? 'sombre' : 'clair'}.
+                  </p>
 
-                <div className="mt-4 flex items-center gap-2.5">
-                  <button
-                    type="button"
-                    className="rounded bg-[#e03e3e] text-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Bouton Primaire
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded border border-[#e4e0d8] dark:border-white/25 bg-white dark:bg-transparent text-[#101216] dark:text-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Bouton Secondaire
-                  </button>
+                  <div className="mt-4 flex items-center gap-2.5">
+                    <button
+                      type="button"
+                      className="rounded bg-[#e03e3e] text-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Bouton Primaire
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded border border-[#e4e0d8] dark:border-white/25 bg-white dark:bg-transparent text-[#101216] dark:text-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Bouton Secondaire
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
