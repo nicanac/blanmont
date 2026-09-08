@@ -56,7 +56,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group flex flex-col rounded-lg border border-[#e4e0d8] bg-white overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] ${
+      className={`group flex flex-col rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] ${
         featured ? 'lg:col-span-2' : ''
       }`}
     >
@@ -112,26 +112,26 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
       </div>
 
       {/* ──── Card Content ──── */}
-      <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between space-y-4 bg-white">
+      <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between space-y-4 bg-white dark:bg-[#161922]">
         <div className="space-y-2">
           <h3
-            className={`font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug line-clamp-2 ${
+            className={`font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors leading-snug line-clamp-2 ${
               featured ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'
             }`}
           >
             {post.title}
           </h3>
 
-          <p className="text-xs sm:text-sm text-[#5c6370] line-clamp-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
             {post.excerpt}
           </p>
         </div>
 
         {/* Author & Date Footer */}
-        <div className="pt-3 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#5c6370]">
+        <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
           <div className="flex items-center gap-2.5 min-w-0">
             {/* Author Avatar with initials fallback */}
-            <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center text-xs font-bold text-white">
+            <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-white/10 flex items-center justify-center text-xs font-bold text-white">
               {hasAvatar ? (
                 <img
                   src={post.authorAvatar}
@@ -143,13 +143,13 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
                 <span>{getInitials(post.author)}</span>
               )}
             </div>
-            <span className="font-semibold text-[#101216] truncate max-w-[120px]">
+            <span className="font-semibold text-[#101216] dark:text-white truncate max-w-[120px]">
               {post.author}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 tabular-nums text-[#5c6370]">
-            <CalendarDaysIcon className="h-3.5 w-3.5 text-[#5c6370]" aria-hidden="true" />
+          <div className="flex items-center gap-1.5 shrink-0 tabular-nums text-[#5c6370] dark:text-[#a7adbb]">
+            <CalendarDaysIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
             <span>{formatDate(post.publishedAt)}</span>
           </div>
         </div>

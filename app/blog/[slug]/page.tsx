@@ -102,12 +102,12 @@ export default async function BlogPostPage({
   );
 
   return (
-    <main className="min-h-screen bg-[#faf8f5]">
-      {/* ──── Editorial Article Header (Ink) ──── */}
-      <header className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
+    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10]">
+      {/* ──── Editorial Article Header ──── */}
+      <header className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]">
         {/* Atmospheric Background Watermark */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
-          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03] dark:opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>
         </div>
@@ -117,33 +117,33 @@ export default async function BlogPostPage({
           <div className="flex items-center justify-between gap-4">
             <Link
               href="/blog"
-              className="min-h-[44px] inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a7adbb] hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-[#e03e3e] focus:outline-hidden rounded-md"
+              className="min-h-[44px] inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-[#e03e3e] focus:outline-hidden rounded-md"
             >
               <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
               <span>Retour aux actualités</span>
             </Link>
 
-            <span className="inline-flex items-center rounded-full bg-[#e03e3e]/15 border border-[#e03e3e]/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
+            <span className="inline-flex items-center rounded-full bg-[#e03e3e]/10 dark:bg-[#e03e3e]/15 border border-[#e03e3e]/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
               {post.category || 'Actualité'}
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-[clamp(2.25rem,5.5vw,3.75rem)] font-extrabold uppercase tracking-tight leading-[1.02] text-balance text-white">
+          <h1 className="text-[clamp(2.25rem,5.5vw,3.75rem)] font-extrabold uppercase tracking-tight leading-[1.02] text-balance text-[#101216] dark:text-white">
             {post.title}
           </h1>
 
           {/* Excerpt */}
           {post.excerpt && (
-            <p className="text-base sm:text-lg text-[#a7adbb] leading-relaxed">
+            <p className="text-base sm:text-lg text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               {post.excerpt}
             </p>
           )}
 
           {/* Author & Meta Strip */}
-          <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div className="pt-6 border-t border-[#e4e0d8] dark:border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
             <div className="flex items-center gap-3">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-white/15 flex items-center justify-center font-bold text-xs text-white shadow-xs">
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] dark:border-white/15 flex items-center justify-center font-bold text-xs text-white shadow-xs">
                 {hasAvatar ? (
                   <img
                     src={post.authorAvatar}
@@ -155,18 +155,18 @@ export default async function BlogPostPage({
                 )}
               </div>
               <div>
-                <p className="font-bold text-white">{post.author}</p>
-                <p className="text-xs text-[#a7adbb]">Membre du Club de Blanmont</p>
+                <p className="font-bold text-[#101216] dark:text-white">{post.author}</p>
+                <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Membre du Club de Blanmont</p>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 text-[#a7adbb]">
-              <div className="flex items-center gap-1.5 tabular-nums bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-                <CalendarDaysIcon className="h-4 w-4 text-[#a7adbb]" aria-hidden="true" />
+            <div className="flex flex-wrap items-center gap-3 text-[#5c6370] dark:text-[#a7adbb]">
+              <div className="flex items-center gap-1.5 tabular-nums bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 px-3 py-1.5 rounded-full">
+                <CalendarDaysIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
                 <span>Publié le {formatDate(post.publishedAt)}</span>
               </div>
 
-              <div className="flex items-center gap-1.5 tabular-nums bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+              <div className="flex items-center gap-1.5 tabular-nums bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 px-3 py-1.5 rounded-full">
                 <span>⏱️</span>
                 <span>{readingTimeMinutes} min de lecture</span>
               </div>
@@ -179,7 +179,7 @@ export default async function BlogPostPage({
       <article className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
         {/* Cover Photo if present */}
         {hasCoverImage && (
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg shadow-md mb-12 border border-[#e4e0d8] bg-[#161922]">
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg shadow-md mb-12 border border-[#e4e0d8] dark:border-[#262b38] bg-[#161922]">
             <img
               src={post.coverImage}
               alt={post.title}
@@ -189,19 +189,19 @@ export default async function BlogPostPage({
         )}
 
         {/* Markdown Content */}
-        <div className="prose prose-lg prose-slate max-w-none leading-relaxed prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-[#101216] prose-p:text-[#3a3f4a] prose-a:text-[#e03e3e] prose-a:font-semibold hover:prose-a:underline prose-blockquote:border-l-[#e03e3e] prose-blockquote:bg-white prose-blockquote:p-4 prose-blockquote:rounded-r-md prose-img:rounded-lg prose-img:border prose-img:border-[#e4e0d8]">
+        <div className="prose prose-lg max-w-none leading-relaxed dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-[#101216] dark:prose-headings:text-white prose-p:text-[#3a3f4a] dark:prose-p:text-[#d1d5db] prose-a:text-[#e03e3e] prose-a:font-semibold hover:prose-a:underline prose-blockquote:border-l-[#e03e3e] prose-blockquote:bg-white dark:prose-blockquote:bg-[#161922] prose-blockquote:p-4 prose-blockquote:rounded-r-md prose-img:rounded-lg prose-img:border prose-img:border-[#e4e0d8] dark:prose-img:border-[#262b38]">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {post.content}
           </ReactMarkdown>
         </div>
 
         {/* Share & Footer Strip */}
-        <footer className="mt-14 pt-8 border-t border-[#e4e0d8] space-y-6">
+        <footer className="mt-14 pt-8 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-6">
           {/* Social Share Bar */}
-          <div className="rounded-lg border border-[#e4e0d8] bg-white p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h3 className="text-sm font-bold text-[#101216]">Partager cette chronique</h3>
-              <p className="text-xs text-[#5c6370]">Partagez le récit avec le groupe et vos amis cyclistes.</p>
+              <h3 className="text-sm font-bold text-[#101216] dark:text-white">Partager cette chronique</h3>
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Partagez le récit avec le groupe et vos amis cyclistes.</p>
             </div>
             <a
               href={`https://api.whatsapp.com/send?text=${encodedShareText}`}
@@ -225,7 +225,7 @@ export default async function BlogPostPage({
 
             <Link
               href="/calendrier"
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] text-[#101216] dark:text-white px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
             >
               <span>Consulter le calendrier des sorties</span>
             </Link>

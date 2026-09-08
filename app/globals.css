@@ -53,6 +53,33 @@ html.dark body {
   color: #f5f6f8;
 }
 
+/* Editorial adaptive hero surfaces (guarantees zero background-image leak in dark mode) */
+.editorial-hero-surface {
+  background-color: #faf8f5;
+  background-image: linear-gradient(to bottom, #f5f2eb 0%, #faf8f5 60%, #faf8f5 100%);
+  color: #101216;
+}
+
+html.dark .editorial-hero-surface,
+.dark .editorial-hero-surface {
+  background-color: #0a0c10 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+.editorial-hero-surface-red {
+  background-color: #faf8f5;
+  background-image: linear-gradient(to bottom, #fdf2f2 0%, #faf8f5 60%, #faf8f5 100%);
+  color: #101216;
+}
+
+html.dark .editorial-hero-surface-red,
+.dark .editorial-hero-surface-red {
+  background-color: #0a0c10 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
 /* Editorial text selection: brand red ink on paper */
 ::selection {
   background-color: #e03e3e;
