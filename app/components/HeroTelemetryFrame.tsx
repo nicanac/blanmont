@@ -98,7 +98,8 @@ export default function HeroTelemetryFrame({
               <img
                 src={slide.url}
                 alt={slide.alt || 'Club de Blanmont – peloton cycliste'}
-                className="h-full w-full object-cover object-center"
+                style={{ objectPosition: slide.position || 'center center' }}
+                className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             </div>

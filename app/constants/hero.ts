@@ -7,6 +7,7 @@ export const DEFAULT_HERO_SETTINGS: HeroSettings = {
       id: 'default-1',
       url: '/images/home-hero.jpg',
       alt: 'Club de Blanmont – peloton cycliste sur route dans le Brabant wallon',
+      position: 'center center',
     },
   ],
   cards: [

@@ -21,6 +21,7 @@ export function normalizeHeroSettings(data: any): HeroSettings {
       id: s.id || `slide-${idx + 1}`,
       url: s.url.trim(),
       alt: typeof s.alt === 'string' ? s.alt : 'Photo du club de Blanmont',
+      position: typeof s.position === 'string' && s.position.trim() ? s.position.trim() : 'center center',
     }));
 
   if (slides.length === 0) {

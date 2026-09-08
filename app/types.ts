@@ -250,6 +250,7 @@ export interface HeroSlide {
   id: string;
   url: string;
   alt?: string;
+  position?: string;
 }
 
 export interface HeroTelemetryCard {
