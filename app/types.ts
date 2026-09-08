@@ -31,6 +31,8 @@ export interface Member {
   phone?: string;
   /** Strava athlete ID. */
   stravaId?: string;
+  /** Firebase Auth UID. */
+  authUid?: string;
 }
 
 /**

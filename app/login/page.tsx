@@ -158,7 +158,7 @@ function LoginForm(): React.ReactElement {
             className="rounded-md border border-[#e03e3e]/40 bg-[#e03e3e]/10 p-3.5 flex items-start gap-2.5 text-xs text-red-200"
           >
             <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
-            <span>{error}</span>
+            <span className="leading-relaxed">{error}</span>
           </div>
         )}
 
@@ -169,13 +169,13 @@ function LoginForm(): React.ReactElement {
               className="rounded-md border border-emerald-500/30 bg-emerald-500/10 p-3.5 flex items-start gap-2.5 text-xs text-emerald-200"
             >
               <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>{successMessage}</span>
+              <span className="leading-relaxed">{successMessage}</span>
             </div>
 
             {directActivationLink && (
               <a
                 href={directActivationLink}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98]"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
               >
                 <span>Définir mon mot de passe maintenant</span>
                 <ArrowRightIcon className="h-4 w-4" />
@@ -271,9 +271,14 @@ function LoginForm(): React.ReactElement {
         ) : (
           /* ──── Tab 2 : First-Time Activation / Reset ──── */
           <form className="space-y-4" onSubmit={handleActivation}>
-            <p className="text-xs text-[#d5d9e2] leading-relaxed">
-              Entrez l&apos;adresse email enregistrée auprès du club pour recevoir un lien d&apos;activation et choisir votre mot de passe.
-            </p>
+            <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 text-xs text-amber-200/90 leading-relaxed space-y-1">
+              <p className="font-semibold text-amber-300">
+                Réservé aux membres inscrits au club
+              </p>
+              <p className="text-[0.75rem] text-amber-200/80">
+                Entrez l&apos;adresse email enregistrée par l&apos;administration du club. Seuls les membres déjà répertoriés dans la base de données peuvent activer leur compte et définir leur mot de passe.
+              </p>
+            </div>
 
             <div className="space-y-1.5">
               <label
@@ -308,12 +313,12 @@ function LoginForm(): React.ReactElement {
                 {isLoading ? (
                   <>
                     <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                    <span>Envoi du lien en cours...</span>
+                    <span>Vérification du membre...</span>
                   </>
                 ) : (
                   <>
                     <SparklesIcon className="h-4 w-4" />
-                    <span>Recevoir mon lien d&apos;accès</span>
+                    <span>Activer mon compte membre</span>
                   </>
                 )}
               </button>
