@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { getCalendarEvents, getNextScheduledRide } from '../lib/firebase/calendar';
 import { getAllAttendance } from '../lib/firebase/attendance';
 import CalendarView from './CalendarView';
@@ -117,7 +118,15 @@ export default async function CalendarPage() {
 
       {/* ──── Calendar Grid & Agenda Spread (Paper) ──── */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-        <CalendarView events={events} attendanceMap={attendanceMap} />
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center py-20 text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e03e3e]" />
+            </div>
+          }
+        >
+          <CalendarView events={events} attendanceMap={attendanceMap} />
+        </Suspense>
       </section>
     </main>
   );
