@@ -1,8 +1,9 @@
 import { HeroSettings } from '@/app/types';
 import { DEFAULT_HERO_SETTINGS } from '@/app/constants/hero';
+import { sanitizeUrl } from '../urlUtils';
 import { isMockMode } from './client';
 
-export { DEFAULT_HERO_SETTINGS };
+export { DEFAULT_HERO_SETTINGS, sanitizeUrl };
 
 /**
  * Normalizes raw data from Firebase to guarantee full conformity with HeroSettings.
@@ -19,10 +20,11 @@ export function normalizeHeroSettings(data: any): HeroSettings {
     .filter((s: any) => s && typeof s.url === 'string' && s.url.trim())
     .map((s: any, idx: number) => ({
       id: s.id || `slide-${idx + 1}`,
-      url: s.url.trim(),
+      url: sanitizeUrl(s.url),
       alt: typeof s.alt === 'string' ? s.alt : 'Photo du club de Blanmont',
       position: typeof s.position === 'string' && s.position.trim() ? s.position.trim() : 'center center',
-    }));
+    }))
+    .filter((s: any) => Boolean(s.url));
 
   if (slides.length === 0) {
     slides = DEFAULT_HERO_SETTINGS.slides;
