@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { TrophyIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { TrophyIcon, XMarkIcon, ArrowTopRightOnSquareIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+import { CalendarEvent } from '../types';
+import { parseDateInfo } from '../lib/carreVert';
 
 type LeaderboardEntry = {
     id: string;
@@ -14,9 +17,11 @@ type LeaderboardEntry = {
 
 type Props = {
     entries: LeaderboardEntry[];
+    events?: CalendarEvent[];
     totalPossibleRides: number;
     selectedYear: number;
     availableYears: number[];
+    initialMemberId?: string;
 };
 
 // Reusable Badge Component
@@ -78,10 +83,35 @@ const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: Lead
     );
 };
 
-export default function LeaderboardView({ entries, totalPossibleRides, selectedYear, availableYears }: Props): React.ReactElement {
+export default function LeaderboardView({
+    entries,
+    events = [],
+    totalPossibleRides,
+    selectedYear,
+    availableYears,
+    initialMemberId,
+}: Props): React.ReactElement {
     const router = useRouter();
-    const [selectedMember, setSelectedMember] = useState<LeaderboardEntry | null>(null);
-    const [open, setOpen] = useState(false);
+    const [selectedMember, setSelectedMember] = useState<LeaderboardEntry | null>(() => {
+        if (!initialMemberId) return null;
+        return entries.find((e) => e.id === initialMemberId) || null;
+    });
+    const [open, setOpen] = useState(() => Boolean(initialMemberId && entries.some((e) => e.id === initialMemberId)));
+    const [hoveredDateInfo, setHoveredDateInfo] = useState<{
+        dateStr: string;
+        event?: CalendarEvent;
+    } | null>(null);
+
+    // Build lookup map for events by isoDate
+    const eventsByIsoDate = useMemo(() => {
+        const map = new Map<string, CalendarEvent>();
+        events.forEach((evt) => {
+            if (evt.isoDate) {
+                map.set(evt.isoDate, evt);
+            }
+        });
+        return map;
+    }, [events]);
 
     // Derived state for the selected member's rank
     const selectedRank = selectedMember ? entries.findIndex(e => e.id === selectedMember.id) + 1 : 0;
@@ -89,10 +119,21 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
     const handleSelectMember = (member: LeaderboardEntry) => {
         setSelectedMember(member);
         setOpen(true);
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.set('member', member.id);
+            window.history.replaceState({}, '', url.toString());
+        }
     };
 
     const handleClose = () => {
         setOpen(false);
+        setHoveredDateInfo(null);
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('member');
+            window.history.replaceState({}, '', url.toString());
+        }
     };
 
 
@@ -367,20 +408,72 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                                     </div>
                                 </div>
 
-                                <div className="border-t border-[#efece5] dark:border-[#262b38] pt-6 space-y-3">
-                                    <h3 className="text-sm font-bold text-[#101216] dark:text-white">
-                                        Historique des présences ({selectedMember.dates.length})
-                                    </h3>
+                                <div className="border-t border-[#efece5] dark:border-[#262b38] pt-6 space-y-3.5">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-sm font-bold text-[#101216] dark:text-white">
+                                            Historique des présences ({selectedMember.dates.length})
+                                        </h3>
+                                        <span className="text-[11px] font-medium text-[#5c6370] dark:text-[#a7adbb]">
+                                            Cliquer pour voir la sortie
+                                        </span>
+                                    </div>
+
+                                    {/* Contextual preview box on hover/focus */}
+                                    <div className="min-h-[40px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3 py-2 flex items-center text-xs transition-colors">
+                                        {hoveredDateInfo ? (
+                                            hoveredDateInfo.event ? (
+                                                <div className="flex items-center gap-2 truncate text-[#101216] dark:text-white">
+                                                    <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                                                    <span className="font-bold tabular-nums">{hoveredDateInfo.dateStr}</span>
+                                                    <span className="text-[#5c6370] dark:text-[#a7adbb]">·</span>
+                                                    <span className="font-semibold truncate">📍 {hoveredDateInfo.event.location}</span>
+                                                    {hoveredDateInfo.event.distances && (
+                                                        <>
+                                                            <span className="text-[#5c6370] dark:text-[#a7adbb]">·</span>
+                                                            <span className="tabular-nums font-medium text-[#5c6370] dark:text-[#a7adbb]">
+                                                                {hoveredDateInfo.event.distances} km
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center gap-2 text-[#5c6370] dark:text-[#a7adbb]">
+                                                    <span className="h-2 w-2 rounded-full bg-slate-400 shrink-0" />
+                                                    <span className="font-bold tabular-nums text-[#101216] dark:text-white">{hoveredDateInfo.dateStr}</span>
+                                                    <span>· Voir dans le calendrier</span>
+                                                </div>
+                                            )
+                                        ) : (
+                                            <p className="text-[11px] text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1.5 truncate">
+                                                <CalendarDaysIcon className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                                                <span>Cliquez sur une date pour ouvrir la sortie dans le calendrier.</span>
+                                            </p>
+                                        )}
+                                    </div>
 
                                     <div className="flex flex-wrap gap-1.5">
-                                        {selectedMember.dates.map((date) => (
-                                            <span
-                                                key={date}
-                                                className="inline-flex items-center rounded-lg bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 text-xs font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50"
-                                            >
-                                                {date}
-                                            </span>
-                                        ))}
+                                        {selectedMember.dates.map((date) => {
+                                            const parsed = parseDateInfo(date, selectedYear);
+                                            const isoDate = parsed ? parsed.isoDate : date;
+                                            const event = eventsByIsoDate.get(isoDate);
+                                            const targetUrl = `/calendrier?date=${isoDate}${event ? `&event=${event.id}` : ''}`;
+
+                                            return (
+                                                <Link
+                                                    key={date}
+                                                    href={targetUrl}
+                                                    onMouseEnter={() => setHoveredDateInfo({ dateStr: date, event })}
+                                                    onMouseLeave={() => setHoveredDateInfo(null)}
+                                                    onFocus={() => setHoveredDateInfo({ dateStr: date, event })}
+                                                    onBlur={() => setHoveredDateInfo(null)}
+                                                    title={event ? `${date} - ${event.location} (cliquer pour voir dans le calendrier)` : `${date} (cliquer pour voir dans le calendrier)`}
+                                                    className="group inline-flex items-center gap-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 text-xs font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 dark:hover:bg-emerald-500 dark:hover:text-[#0a0c10] dark:hover:border-emerald-500 transition-all duration-150 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95"
+                                                >
+                                                    <span className="tabular-nums">{date}</span>
+                                                    <ArrowTopRightOnSquareIcon className="h-3 w-3 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+                                                </Link>
+                                            );
+                                        })}
                                         {selectedMember.dates.length === 0 && (
                                             <p className="text-xs italic text-[#7d8493] dark:text-[#a7adbb]">
                                                 Aucune sortie enregistrée pour cette saison.

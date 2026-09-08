@@ -7,7 +7,7 @@ import LeaderboardView from './LeaderboardView';
 export const dynamic = 'force-dynamic';
 
 export default async function LeaderboardPage(
-    { searchParams }: { searchParams: Promise<{ year?: string }> }
+    { searchParams }: { searchParams: Promise<{ year?: string; member?: string }> }
 ): Promise<React.ReactElement> {
     const params = await searchParams;
     const currentYear = new Date().getFullYear();
@@ -32,9 +32,11 @@ export default async function LeaderboardPage(
     return (
         <LeaderboardView
             entries={entries}
+            events={events}
             totalPossibleRides={totalPossibleRides}
             selectedYear={selectedYear}
             availableYears={availableYears}
+            initialMemberId={params.member}
         />
     );
 }
