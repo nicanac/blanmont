@@ -27,6 +27,7 @@ import getCroppedImg from '@/app/lib/canvasUtils';
 import { toast } from 'sonner';
 import { HeroSettings, HeroSlide, HeroTelemetryCard, HeroIconType } from '@/app/types';
 import { DEFAULT_HERO_SETTINGS } from '@/app/constants/hero';
+import { sanitizeUrl } from '@/app/lib/urlUtils';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
 import HeroTelemetryFrame from '@/app/components/HeroTelemetryFrame';
 
@@ -63,6 +64,7 @@ export default function AdminHeroPage(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [failedThumbnails, setFailedThumbnails] = useState<Record<string, boolean>>({});
 
   // Upload Hook & file input
   const { uploadImage, isUploading, progress } = useImageUpload();
@@ -169,13 +171,14 @@ export default function AdminHeroPage(): React.ReactElement {
 
   // Add slide by URL
   const handleAddSlideByUrl = () => {
-    if (!newSlideUrl.trim()) {
+    const cleanUrl = sanitizeUrl(newSlideUrl);
+    if (!cleanUrl) {
       toast.error('Veuillez saisir une URL valide.');
       return;
     }
     const newSlide: HeroSlide = {
       id: `slide_${Date.now()}`,
-      url: newSlideUrl.trim(),
+      url: cleanUrl,
       alt: newSlideAlt.trim() || 'Club de Blanmont – peloton cycliste',
       position: 'center center',
     };
@@ -469,9 +472,13 @@ export default function AdminHeroPage(): React.ReactElement {
                       <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-md border border-[#262b38] bg-[#101216]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={slide.url}
+                          src={failedThumbnails[slide.id || index] ? '/images/home-hero.jpg' : slide.url}
                           alt={slide.alt || 'Slide miniature'}
                           style={{ objectPosition: slide.position || 'center center' }}
+                          referrerPolicy="no-referrer"
+                          onError={() => {
+                            setFailedThumbnails((prev) => ({ ...prev, [slide.id || index]: true }));
+                          }}
                           className="h-full w-full object-cover"
                         />
                         <span className="absolute bottom-1 left-1 rounded bg-black/80 px-1.5 py-0.5 text-[9px] font-bold text-white">

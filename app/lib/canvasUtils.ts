@@ -4,6 +4,7 @@ export const createImage = (url: string): Promise<HTMLImageElement> =>
     image.addEventListener('load', () => resolve(image))
     image.addEventListener('error', (error) => reject(error))
     image.setAttribute('crossOrigin', 'anonymous') // needed for external images
+    image.setAttribute('referrerPolicy', 'no-referrer')
     image.src = url
   })
 
