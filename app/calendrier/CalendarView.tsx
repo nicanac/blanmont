@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { CalendarEvent } from '../types';
 import CalendarDrawer from './CalendarDrawer';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
+import { parseDateInfo } from '../lib/carreVert';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -79,11 +81,47 @@ export default function CalendarView({
   attendanceMap?: Record<string, AttendeeInfo[]>;
 }) {
   const { isAdmin } = useAuth();
+  const searchParams = useSearchParams();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<ViewMode>('agenda');
   const [filterType, setFilterType] = useState<FilterType>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+
+  const paramDate = searchParams?.get('date');
+  const paramEventId = searchParams?.get('event') || searchParams?.get('eventId');
+  const handledParamRef = useRef<string | null>(null);
+
+  // Deep-link handling: if date or event param is present, jump to that month and open the drawer
+  useEffect(() => {
+    if (!paramDate && !paramEventId) return;
+    const paramKey = `${paramDate || ''}:${paramEventId || ''}`;
+    if (handledParamRef.current === paramKey) return;
+    handledParamRef.current = paramKey;
+
+    let targetEvent: CalendarEvent | undefined;
+    if (paramEventId) {
+      targetEvent = events.find((e) => e.id === paramEventId);
+    }
+    if (!targetEvent && paramDate) {
+      const dateInfo = parseDateInfo(paramDate);
+      const targetIso = dateInfo ? dateInfo.isoDate : paramDate;
+      targetEvent = events.find((e) => e.isoDate === targetIso);
+    }
+
+    if (targetEvent) {
+      const [y, m, d] = targetEvent.isoDate.split('-').map(Number);
+      if (!isNaN(y) && !isNaN(m)) {
+        setCurrentDate(new Date(y, m - 1, d || 1));
+      }
+      setSelectedEvent(targetEvent);
+    } else if (paramDate) {
+      const dateInfo = parseDateInfo(paramDate);
+      if (dateInfo) {
+        setCurrentDate(new Date(dateInfo.year, dateInfo.month - 1, dateInfo.day));
+      }
+    }
+  }, [paramDate, paramEventId, events]);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
