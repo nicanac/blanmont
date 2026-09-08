@@ -82,6 +82,12 @@ export const LoginSchema = z.object({
 
 export type LoginInput = z.infer<typeof LoginSchema>;
 
+export const AccountActivationSchema = z.object({
+  email: emailSchema,
+});
+
+export type AccountActivationInput = z.infer<typeof AccountActivationSchema>;
+
 export const UpdateMemberPhotoSchema = z.object({
   memberId: notionIdSchema,
   photoUrl: z.string().min(1, 'Photo URL is required'),

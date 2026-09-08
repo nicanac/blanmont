@@ -16,29 +16,28 @@ interface AdminGuardProps {
  * Only users with 'Admin' or 'President' roles can access admin pages.
  */
 export default function AdminGuard({ children }: AdminGuardProps): React.ReactElement {
-  const { user, isAuthenticated, isAdmin } = useAuth();
+  const { user, isAuthenticated, isAdmin, isLoading } = useAuth();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
   const [hasAccess, setHasAccess] = useState(false);
 
   useEffect(() => {
-    // Give a moment for auth state to hydrate from localStorage
-    const timer = setTimeout(() => {
-      if (!isAuthenticated) {
-        router.push('/login?redirect=/admin');
-        return;
-      }
+    if (isLoading) {
+      return;
+    }
 
-      const hasAdminAccess = isAdmin || checkIsAdmin(user);
-      setHasAccess(hasAdminAccess);
-      setIsChecking(false);
-    }, 100);
+    if (!isAuthenticated) {
+      router.push('/login?redirect=/admin');
+      return;
+    }
 
-    return () => clearTimeout(timer);
-  }, [isAuthenticated, user, isAdmin, router]);
+    const hasAdminAccess = isAdmin || checkIsAdmin(user);
+    setHasAccess(hasAdminAccess);
+    setIsChecking(false);
+  }, [isAuthenticated, user, isAdmin, isLoading, router]);
 
   // Loading state
-  if (isChecking) {
+  if (isLoading || isChecking) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
