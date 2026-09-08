@@ -22,6 +22,13 @@ export const metadata: Metadata = {
 const themeInitScript = `
   (function() {
     try {
+      if (window.location.pathname.indexOf('/admin') === 0) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.documentElement.style.colorScheme = 'light';
+        return;
+      }
       var stored = localStorage.getItem('cc_blanmont_theme');
       var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       var isDark = stored === 'dark' || (stored === 'system' && prefersDark);

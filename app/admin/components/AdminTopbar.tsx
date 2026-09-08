@@ -10,8 +10,6 @@ import {
   PlusIcon,
   ArrowTopRightOnSquareIcon,
   AcademicCapIcon,
-  SunIcon,
-  MoonIcon,
   ChevronDownIcon,
   CalendarDaysIcon,
   ChatBubbleLeftRightIcon,
@@ -21,7 +19,6 @@ import {
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline';
-import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 
 interface AdminTopbarProps {
@@ -45,7 +42,6 @@ export default function AdminTopbar({
   onOpenHelpModal,
 }: AdminTopbarProps): React.ReactElement {
   const pathname = usePathname();
-  const { resolvedTheme, toggleTheme } = useTheme();
   const { user } = useAuth();
   const [isNewMenuOpen, setIsNewMenuOpen] = useState(false);
   const newMenuRef = useRef<HTMLDivElement>(null);
@@ -147,12 +143,13 @@ export default function AdminTopbar({
       href: '/admin/blog/new',
       icon: DocumentTextIcon,
     },
-    {
-      name: 'Ajouter une Trace',
-      desc: 'Créer ou importer un parcours GPX',
-      href: '/admin/add-trace',
-      icon: MapIcon,
-    },
+    // Masqué temporairement / Hidden for now
+    // {
+    //   name: 'Ajouter une Trace',
+    //   desc: 'Créer ou importer un parcours GPX',
+    //   href: '/admin/add-trace',
+    //   icon: MapIcon,
+    // },
     {
       name: 'Inscrire un Membre',
       desc: 'Ajouter un cycliste à l’annuaire',
@@ -296,20 +293,6 @@ export default function AdminTopbar({
           title="Guide & Raccourcis d'administration"
         >
           <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
-        </button>
-
-        {/* Theme Toggle */}
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className="p-1.5 rounded-lg text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
-          title={resolvedTheme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
-        >
-          {resolvedTheme === 'dark' ? (
-            <SunIcon className="h-4 w-4 text-amber-400" />
-          ) : (
-            <MoonIcon className="h-4 w-4 text-[#5c6370]" />
-          )}
         </button>
 
         {/* Public Site Link */}
