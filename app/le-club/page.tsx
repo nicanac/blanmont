@@ -83,7 +83,7 @@ export default function LeClubPage(): React.ReactElement {
         </div>
       </section>
 
-      {/* ──── Main Content Spread (Paper) ──── */}
+      {/* ──── Main Content Spread (Adaptive Surface) ──── */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8 space-y-16">
         {/* Section Header */}
         <div className="max-w-2xl space-y-2">
@@ -91,10 +91,10 @@ export default function LeClubPage(): React.ReactElement {
             <SparklesIcon className="h-4 w-4" />
             <span>Nos 4 Groupes de Niveau</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-[-0.02em] text-[#101216]">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-[-0.02em] text-[#101216] dark:text-white">
             Trouvez le peloton qui correspond à votre rythme
           </h2>
-          <p className="text-sm text-[#5c6370] leading-relaxed">
+          <p className="text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
             Chaque groupe est encadré par des capitaines de route expérimentés qui veillent à la sécurité, à l&apos;allure et à la bonne humeur générale.
           </p>
         </div>
@@ -102,138 +102,138 @@ export default function LeClubPage(): React.ReactElement {
         {/* 4 Groups Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Groupe A */}
-          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/50 hover:shadow-md transition-all">
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     A
                   </span>
                   <div>
-                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des A</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                    <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des A</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
                       Sportif &amp; Rythmé
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
                     Allure
                   </span>
-                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tabular-nums tracking-tight">
-                    &gt; 30 <span className="text-xs font-semibold text-[#7d8493]">km/h</span>
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                    &gt; 30 <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
                   </span>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#c4cad4] leading-relaxed">
                 Groupe dynamique et sportif. Allure soutenue, sorties rythmées et participation fréquente aux randos et classiques extérieures. Traces GPS envoyées à l&apos;avance via le groupe WhatsApp.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#7d8493]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
               <span>Capitaines : Lucien &amp; Laurent</span>
-              <span className="font-semibold text-[#101216]">Traces GPS</span>
+              <span className="font-semibold text-[#101216] dark:text-white">Traces GPS</span>
             </div>
           </div>
 
           {/* Groupe B */}
-          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/50 hover:shadow-md transition-all">
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     B
                   </span>
                   <div>
-                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des B</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                    <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des B</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
                       Cœur du Peloton
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
                     Allure
                   </span>
-                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tabular-nums tracking-tight">
-                    25 – 28 <span className="text-xs font-semibold text-[#7d8493]">km/h</span>
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                    25 – 28 <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
                   </span>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#c4cad4] leading-relaxed">
                 Le cœur du peloton de Blanmont. Circuits équilibrés et variés évitant les grands axes, départs vent de face pour un retour fluide et groupé. Esprit d&apos;équipe garanti.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#7d8493]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
               <span>Capitaines : Dany, Philippe &amp; René</span>
-              <span className="font-semibold text-[#101216]">Circuits variés</span>
+              <span className="font-semibold text-[#101216] dark:text-white">Circuits variés</span>
             </div>
           </div>
 
           {/* Groupe C */}
-          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/50 hover:shadow-md transition-all">
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white font-extrabold text-sm tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     C
                   </span>
                   <div>
-                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des C</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                    <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des C</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
                       Rando &amp; Progression
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
                     Allure
                   </span>
-                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tabular-nums tracking-tight">
-                    &lt; 25 <span className="text-xs font-semibold text-[#7d8493]">km/h</span>
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                    &lt; 25 <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
                   </span>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#c4cad4] leading-relaxed">
                 Allure modérée idéale pour progresser, reprendre le vélo ou rouler sans pression de chrono. Tout le monde s&apos;attend, avec l&apos;objectif de franchir le cap des 100 km en cours de saison.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#7d8493]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
               <span>Capitaines : Les 2 Joël &amp; Michel</span>
-              <span className="font-semibold text-[#101216]">Accessible à tous</span>
+              <span className="font-semibold text-[#101216] dark:text-white">Accessible à tous</span>
             </div>
           </div>
 
           {/* Groupe VTT */}
-          <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md transition-all">
+          <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/50 hover:shadow-md transition-all">
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] border border-[#e4e0d8] text-[#101216] font-extrabold text-xs tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white font-extrabold text-xs tracking-tight group-hover:border-[#e03e3e]/40 group-hover:text-[#e03e3e] transition-colors">
                     VTT
                   </span>
                   <div>
-                    <h3 className="text-xl font-bold text-[#101216] leading-tight">Le groupe des VTT</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493]">
+                    <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des VTT</h3>
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
                       Chemins &amp; Forêt
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
                     Terrain
                   </span>
-                  <span className="text-sm sm:text-base font-extrabold text-[#101216] tracking-tight">
+                  <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tracking-tight">
                     Sentiers &amp; Bois
                   </span>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#c4cad4] leading-relaxed">
                 Exploration des chemins de terre, sous-bois et bosses de la région. Regroupement systématique au sommet des côtes et entraide technique sur les passages délicats.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#7d8493]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
               <span>Capitaines : Nicolas, Pascal &amp; Jean</span>
-              <span className="font-semibold text-[#101216]">Chemins &amp; Nature</span>
+              <span className="font-semibold text-[#101216] dark:text-white">Chemins &amp; Nature</span>
             </div>
           </div>
         </div>
@@ -241,12 +241,12 @@ export default function LeClubPage(): React.ReactElement {
         {/* ──── Photo Bento Grid ──── */}
         <div className="space-y-4 pt-8">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-[#101216]">La Vie du Club en Images</h3>
-            <span className="text-xs font-semibold text-[#7d8493]">Sorties &amp; Convivialité</span>
+            <h3 className="text-xl font-bold text-[#101216] dark:text-white">La Vie du Club en Images</h3>
+            <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">Sorties &amp; Convivialité</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] bg-[#161922]">
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] dark:border-[#262b38] bg-[#161922]">
               <Image
                 src="/images/home-hero.jpg"
                 alt="Peloton sur la route"
@@ -254,7 +254,7 @@ export default function LeClubPage(): React.ReactElement {
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] bg-[#161922]">
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] dark:border-[#262b38] bg-[#161922]">
               <Image
                 src="/images/IMG_8019.JPG"
                 alt="Sortie VTT"
@@ -262,7 +262,7 @@ export default function LeClubPage(): React.ReactElement {
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] bg-[#161922]">
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] dark:border-[#262b38] bg-[#161922]">
               <Image
                 src="/images/IMG_5777.JPG"
                 alt="Groupe de cyclistes"
@@ -270,7 +270,7 @@ export default function LeClubPage(): React.ReactElement {
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] bg-[#161922]">
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-[#e4e0d8] dark:border-[#262b38] bg-[#161922]">
               <Image
                 src="/images/6efc2d5e-2326-446d-98d8-47889f881454.jpg"
                 alt="Ambiance club"
@@ -282,12 +282,12 @@ export default function LeClubPage(): React.ReactElement {
         </div>
 
         {/* ──── Join Club CTA Cover ──── */}
-        <div className="rounded-lg border border-[#262b38] bg-[#101216] text-white p-8 sm:p-12 relative overflow-hidden flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+        <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] text-[#101216] dark:text-white p-8 sm:p-12 relative overflow-hidden flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 shadow-xs">
           <div className="space-y-3 max-w-2xl relative z-10">
-            <h3 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
+            <h3 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
               Prêt à rouler avec nous ?
             </h3>
-            <p className="text-sm text-[#a7adbb] leading-relaxed">
+            <p className="text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               Venez nous rejoindre un samedi ou un dimanche matin sur la Place de Blanmont. Vous pouvez tester 1 ou 2 sorties librement avant toute décision d&apos;adhésion.
             </p>
           </div>
@@ -295,14 +295,14 @@ export default function LeClubPage(): React.ReactElement {
           <div className="flex flex-wrap items-center gap-3 relative z-10 shrink-0">
             <a
               href="mailto:info@blanmont.be?subject=Demande%20d'adh%C3%A9sion%20au%20Club%20de%20Blanmont&body=Bonjour,%0A%0AJe%20souhaite%20rejoindre%20le%20club%20ou%20faire%20une%20sortie%20d'essai.%0A%0ANom%20et%20pr%C3%A9nom%20:%0AT%C3%A9l%C3%A9phone%20:%0AGroupe%20souhait%C3%A9%20(A,%20B,%20C,%20VTT)%20:%0A%0AMerci%20!"
-              className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-xs"
             >
               <EnvelopeIcon className="h-4 w-4" />
               <span>Contacter le club</span>
             </a>
             <Link
               href="/calendrier"
-              className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/5 hover:bg-white/10 text-white px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors"
+              className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] dark:border-white/20 bg-[#faf8f5] dark:bg-white/5 hover:bg-[#f2efe9] dark:hover:bg-white/10 text-[#101216] dark:text-white px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors"
             >
               <span>Voir le calendrier</span>
               <ArrowRightIcon className="h-4 w-4" />
