@@ -57,21 +57,21 @@ export default function Navbar(): React.ReactElement {
       description: 'Qui sommes-nous ?',
       href: '/le-club',
       icon: InformationCircleIcon,
-      iconBg: 'bg-white/10 text-white',
+      iconBg: 'bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#e03e3e]',
     },
     {
       name: 'Équipement',
       description: 'Collection 2026',
       href: '/le-club/equipement',
       icon: ShoppingBagIcon,
-      iconBg: 'bg-amber-400/10 text-amber-400',
+      iconBg: 'bg-amber-500/10 text-amber-600 dark:bg-amber-400/20 dark:text-amber-400',
     },
     {
       name: 'Carré Vert',
       description: 'Classement & Assiduité',
       href: '/leaderboard',
       icon: TrophyIcon,
-      iconBg: 'bg-emerald-400/10 text-emerald-400',
+      iconBg: 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/20 dark:text-emerald-400',
     },
   ];
 
