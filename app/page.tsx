@@ -3,7 +3,6 @@ import Link from 'next/link';
 import {
   ChatBubbleLeftRightIcon,
   CalendarDaysIcon,
-  UserGroupIcon,
   TrophyIcon,
   ArrowRightIcon,
   MapPinIcon,
@@ -15,31 +14,33 @@ import {
   SparklesIcon,
 } from '@heroicons/react/24/outline';
 import HomeBlogSection from './components/shared/HomeBlogSection';
-import { getBlogPosts, getActiveWeekendPoll, getCalendarEvents } from './lib/firebase';
+import { getBlogPosts, getActiveWeekendPoll, getCalendarEvents, getHeroSettings } from './lib/firebase';
 import { getNextScheduledRide } from './lib/firebase/calendar';
 import RideWeatherBadge from './components/ui/RideWeatherBadge';
 import EditorialPhotographicMosaic from './components/v2/EditorialPhotographicMosaic';
+import HeroTelemetryFrame from './components/HeroTelemetryFrame';
 
 /**
  * Landing page — Editorial Peloton: magazine-cover hero on ink,
  * paper spreads, hairline structure, asymmetric bento, and visual chronicle spread.
  */
 export default async function Home(): Promise<React.ReactElement> {
-  const [posts, activePoll, events] = await Promise.all([
+  const [posts, activePoll, events, heroSettings] = await Promise.all([
     getBlogPosts(),
     getActiveWeekendPoll(),
     getCalendarEvents(),
+    getHeroSettings(),
   ]);
 
   const nextRide = getNextScheduledRide(events);
 
   return (
-    <div className="bg-[#faf8f5]">
-      {/* ──── Cover Hero (Ink) ──── */}
-      <section className="relative overflow-hidden bg-[#0a0c10] text-white">
+    <div className="bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
+      {/* ──── Cover Hero (Adaptive Light / Dark) ──── */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] text-[#101216] dark:bg-[#0a0c10] dark:border-[#262b38] dark:text-white transition-colors duration-200">
         {/* Atmospheric Background Watermark */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
-          <span className="text-[clamp(8rem,26vw,32rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(8rem,26vw,32rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>
         </div>
@@ -51,9 +52,9 @@ export default async function Home(): Promise<React.ReactElement> {
             <span className="cover-line"><span className="text-[#e03e3e] italic">la passion du peloton.</span></span>
           </h1>
 
-          <p className="cover-rise cover-rise-1 mt-6 max-w-2xl text-base sm:text-lg text-[#a7adbb] leading-relaxed">
+          <p className="cover-rise cover-rise-1 mt-6 max-w-2xl text-base sm:text-lg text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
             Dames, Hommes, Jeunes, Vététistes et vélos électriques :{' '}
-            <strong className="font-semibold text-[#f5f6f8]">3 groupes de niveau encadrés</strong>{' '}
+            <strong className="font-semibold text-[#101216] dark:text-[#f5f6f8]">3 groupes de niveau encadrés</strong>{' '}
             au départ de Blanmont chaque weekend dans une ambiance conviviale et sportive.
           </p>
 
@@ -68,7 +69,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
             <Link
               href="/sondage"
-              className="inline-flex items-center gap-2.5 rounded-md border border-white/20 bg-white/5 text-[#f5f6f8] hover:border-white/40 hover:bg-white/10 px-6 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
+              className="inline-flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-white/20 bg-white dark:bg-white/5 text-[#101216] dark:text-[#f5f6f8] hover:border-[#101216]/30 dark:hover:border-white/40 hover:bg-[#f2efe9] dark:hover:bg-white/10 px-6 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-xs"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>Sondage du Weekend</span>
@@ -76,7 +77,7 @@ export default async function Home(): Promise<React.ReactElement> {
                 <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider leading-none ${
                   activePoll.status === 'active'
                     ? 'bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40'
-                    : 'bg-white/10 text-[#a7adbb] border border-white/10'
+                    : 'bg-black/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb] border border-[#e4e0d8] dark:border-white/10'
                 }`}>
                   {activePoll.status === 'active' ? 'Ouvert' : 'Clôturé'}
                 </span>
@@ -86,69 +87,7 @@ export default async function Home(): Promise<React.ReactElement> {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
-          {/* Photo & Telemetry Unified Frame */}
-          <div className="overflow-hidden rounded-lg border border-[#262b38] bg-[#101216] shadow-2xl">
-            {/* Hard-cropped photo */}
-            <div className="relative">
-              <img
-                className="aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] w-full object-cover"
-                src="/images/home-hero.jpg"
-                alt="Club de Blanmont – peloton cycliste sur route dans le Brabant wallon"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#101216] via-transparent to-transparent opacity-60 pointer-events-none" />
-
-              {/* Photo Caption Badge */}
-              <div className="absolute top-4 left-4 sm:top-5 sm:left-5">
-                <span className="inline-flex items-center gap-2 rounded-full bg-[#0a0c10]/85 backdrop-blur-md px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-[#f5f6f8] border border-white/10 shadow-lg">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                  Peloton CC Saint-Martin · Blanmont
-                </span>
-              </div>
-            </div>
-
-            {/* Seamless Telemetry Bar */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/10 border-t border-white/10 bg-[#161922]">
-              <div className="p-4 sm:p-5 flex items-center gap-3.5">
-                <div className="rounded-md bg-[#e03e3e]/10 border border-[#e03e3e]/25 p-2 text-[#e03e3e] shrink-0">
-                  <MapPinIcon className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Rassemblement</div>
-                  <div className="mt-0.5 text-sm font-bold text-white leading-tight">Place de Blanmont</div>
-                </div>
-              </div>
-
-              <div className="p-4 sm:p-5 flex items-center gap-3.5">
-                <div className="rounded-md bg-white/5 border border-white/10 p-2 text-[#f5f6f8] shrink-0">
-                  <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Samedi</div>
-                  <div className="mt-0.5 text-sm font-bold text-white tabular-nums leading-tight">8h30 <span className="text-xs font-normal text-[#a7adbb]">· Route</span></div>
-                </div>
-              </div>
-
-              <div className="p-4 sm:p-5 flex items-center gap-3.5">
-                <div className="rounded-md bg-white/5 border border-white/10 p-2 text-[#f5f6f8] shrink-0">
-                  <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Dimanche</div>
-                  <div className="mt-0.5 text-sm font-bold text-white tabular-nums leading-tight">9h00 <span className="text-xs font-normal text-[#a7adbb]">· Route &amp; VTT</span></div>
-                </div>
-              </div>
-
-              <div className="p-4 sm:p-5 flex items-center gap-3.5">
-                <div className="rounded-md bg-white/5 border border-white/10 p-2 text-[#f5f6f8] shrink-0">
-                  <UserGroupIcon className="h-4 w-4 text-[#e03e3e]" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">Allures</div>
-                  <div className="mt-0.5 text-sm font-bold text-white leading-tight">Groupes A, B, C &amp; VTT</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <HeroTelemetryFrame settings={heroSettings} />
         </div>
       </section>
 
@@ -522,7 +461,7 @@ export default async function Home(): Promise<React.ReactElement> {
             </div>
           </div>
 
-          <div className="border-t border-[#e4e0d8]">
+          <div>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">
               <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] inline-flex items-center gap-3">
                 <ShieldCheckIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
@@ -556,14 +495,14 @@ export default async function Home(): Promise<React.ReactElement> {
         </div>
       </section>
 
-      {/* ──── Call-To-Action Cover (Ink) ──── */}
-      <section className="py-20 sm:py-28 bg-[#0a0c10] text-white relative overflow-hidden">
+      {/* ──── Call-To-Action Cover (Adaptive Light / Dark) ──── */}
+      <section className="py-20 sm:py-28 bg-[#f2efe9] dark:bg-[#0a0c10] text-[#101216] dark:text-white dark:border-none relative overflow-hidden transition-colors duration-200">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="max-w-4xl space-y-6">
-            <h2 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-white">
+            <h2 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-[#101216] dark:text-white">
               Envie de rouler avec le <span className="text-[#e03e3e] italic">peloton</span> de Blanmont ?
             </h2>
-            <p className="max-w-2xl text-base sm:text-lg text-[#a7adbb] leading-relaxed">
+            <p className="max-w-2xl text-base sm:text-lg text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               Rejoignez-nous un samedi ou un dimanche matin sur la Place de Blanmont. Essai libre et sans engagement : venez tester une ou deux sorties avant de vous inscrire.
             </p>
           </div>
@@ -579,7 +518,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
             <Link
               href="/sondage"
-              className="inline-flex items-center gap-2.5 rounded-md border border-white/25 text-[#f5f6f8] hover:border-white/50 hover:bg-white/5 px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
+              className="inline-flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-white/25 text-[#101216] dark:text-[#f5f6f8] bg-white dark:bg-transparent hover:border-[#101216]/40 dark:hover:border-white/50 hover:bg-[#faf8f5] dark:hover:bg-white/5 px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-xs"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4" />
               <span>Sondage du Weekend</span>

@@ -95,7 +95,7 @@ export default function Navbar(): React.ReactElement {
   return (
     <Popover
       as="nav"
-      className="sticky top-0 z-50 w-full bg-[#0a0c10]/95 backdrop-blur-md border-b border-white/10"
+      className="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#0a0c10]/95 backdrop-blur-md border-b border-[#e4e0d8] dark:border-white/10 transition-colors duration-200"
     >
       {({ open }) => (
         <>
@@ -106,10 +106,10 @@ export default function Navbar(): React.ReactElement {
                 {/* Logo */}
                 <div className="flex-shrink-0 flex items-center">
                   <Link href="/" className="flex items-center gap-2.5">
-                    <span className="text-xl font-extrabold uppercase tracking-[-0.02em] text-white font-sans">
+                    <span className="text-xl font-extrabold uppercase tracking-[-0.02em] text-[#101216] dark:text-white font-sans">
                       Blan<span className="text-[#e03e3e]">mont</span>
                     </span>
-                    <span className="hidden md:inline-block text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-[#7d8493] border-l border-white/15 pl-2.5 leading-tight">
+                    <span className="hidden md:inline-block text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#7d8493] border-l border-[#e4e0d8] dark:border-white/15 pl-2.5 leading-tight">
                       Cyclo Club
                       <br />
                       Saint-Martin
@@ -118,7 +118,7 @@ export default function Navbar(): React.ReactElement {
                 </div>
 
                 {/* Divider */}
-                <div className="hidden lg:block h-6 w-px bg-white/15 mx-4 xl:mx-6"></div>
+                <div className="hidden lg:block h-6 w-px bg-[#e4e0d8] dark:bg-white/15 mx-4 xl:mx-6"></div>
 
                 {/* Navigation Links */}
                 <div className="hidden lg:flex lg:space-x-5 xl:space-x-7 items-center">
@@ -131,8 +131,8 @@ export default function Navbar(): React.ReactElement {
                         className={cn(
                           'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 py-1',
                           isCurrent
-                            ? 'text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
-                            : 'text-[#a7adbb] hover:text-white'
+                            ? 'text-[#101216] dark:text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
+                            : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
                         )}
                         aria-current={isCurrent ? 'page' : undefined}
                       >
@@ -153,14 +153,14 @@ export default function Navbar(): React.ReactElement {
                       <>
                         <PopoverButton
                           className={cn(
-                            'group inline-flex items-center text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#a7adbb] hover:text-white transition-colors focus:outline-none'
+                            'group inline-flex items-center text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors focus:outline-none'
                           )}
                         >
                           <span>Le Club</span>
                           <ChevronDownIcon
                             className={cn(
-                              open ? 'text-[#e03e3e] rotate-180' : 'text-[#5c6370]',
-                              'ml-1.5 h-4 w-4 transition duration-150 ease-in-out group-hover:text-white'
+                              open ? 'text-[#e03e3e] rotate-180' : 'text-[#7d8493]',
+                              'ml-1.5 h-4 w-4 transition duration-150 ease-in-out group-hover:text-[#101216] dark:group-hover:text-white'
                             )}
                             aria-hidden="true"
                           />
@@ -176,26 +176,26 @@ export default function Navbar(): React.ReactElement {
                           leaveTo="opacity-0 translate-y-1"
                         >
                           <PopoverPanel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-2 sm:px-0">
-                            <div className="overflow-hidden rounded-md shadow-2xl border border-[#262b38] bg-[#161922]">
+                            <div className="overflow-hidden rounded-md shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922]">
                               <div className="relative grid gap-2 px-3 py-3 sm:p-4">
                                 {clubNavigation.map((item) => (
                                   <PopoverButton
                                     key={item.name}
                                     as={Link}
                                     href={item.href}
-                                    className="flex items-start rounded-md p-3 hover:bg-white/5 transition ease-in-out duration-150 group"
+                                    className="flex items-start rounded-md p-3 hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150 group"
                                   >
-                                    <div className={cn('p-2 rounded-md flex-shrink-0 transition-transform group-hover:scale-105', item.iconBg || 'bg-white/10 text-white')}>
+                                    <div className={cn('p-2 rounded-md flex-shrink-0 transition-transform group-hover:scale-105', item.iconBg || 'bg-[#101216]/10 dark:bg-white/10 text-[#101216] dark:text-white')}>
                                       <item.icon
                                         className="h-5 w-5"
                                         aria-hidden="true"
                                       />
                                     </div>
                                     <div className="ml-4 text-left">
-                                      <p className="text-sm font-semibold text-white group-hover:text-[#e03e3e] transition-colors">
+                                      <p className="text-sm font-semibold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
                                         {item.name}
                                       </p>
-                                      <p className="mt-0.5 text-xs text-[#7d8493]">
+                                      <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493]">
                                         {item.description}
                                       </p>
                                     </div>
@@ -218,11 +218,11 @@ export default function Navbar(): React.ReactElement {
                   <Popover className="relative">
                     {({ open }) => (
                       <>
-                        <PopoverButton className="group inline-flex items-center gap-2.5 rounded-full py-1 pl-1 pr-3.5 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/40">
+                        <PopoverButton className="group inline-flex items-center gap-2.5 rounded-full py-1 pl-1 pr-3.5 bg-black/5 dark:bg-white/[0.04] hover:bg-black/10 dark:hover:bg-white/[0.08] border border-[#e4e0d8] dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 text-[#101216] dark:text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/40">
                           <span className="sr-only">Ouvrir le menu utilisateur</span>
                           {user?.avatarUrl ? (
                             <Image
-                              className="h-8 w-8 rounded-full object-cover ring-1 ring-white/20 group-hover:ring-[#e03e3e]/50 transition-colors"
+                              className="h-8 w-8 rounded-full object-cover ring-1 ring-black/10 dark:ring-white/20 group-hover:ring-[#e03e3e]/50 transition-colors"
                               src={user.avatarUrl}
                               alt={user.name || 'User avatar'}
                               width={32}
@@ -230,17 +230,17 @@ export default function Navbar(): React.ReactElement {
                               unoptimized={!user.avatarUrl.includes('cloudinary.com')}
                             />
                           ) : (
-                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20">
+                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/10 dark:bg-white/10 text-[#101216] dark:text-white ring-1 ring-black/10 dark:ring-white/20">
                               <UserIcon className="h-4 w-4" aria-hidden="true" />
                             </span>
                           )}
-                          <span className="text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#d5d9e2] group-hover:text-white transition-colors select-none">
+                          <span className="text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#3a3f4a] dark:text-[#d5d9e2] group-hover:text-[#101216] dark:group-hover:text-white transition-colors select-none">
                             Mon Compte
                           </span>
                           <ChevronDownIcon
                             className={cn(
                               open ? 'text-[#e03e3e] rotate-180' : 'text-[#7d8493]',
-                              'h-3.5 w-3.5 transition-transform duration-200 ease-in-out group-hover:text-white'
+                              'h-3.5 w-3.5 transition-transform duration-200 ease-in-out group-hover:text-[#101216] dark:group-hover:text-white'
                             )}
                             aria-hidden="true"
                           />
@@ -255,11 +255,11 @@ export default function Navbar(): React.ReactElement {
                           leaveTo="opacity-0 translate-y-1"
                         >
                           <PopoverPanel className="absolute right-0 z-10 mt-3 w-screen max-w-xs transform px-2 sm:px-0">
-                            <div className="overflow-hidden rounded-md shadow-2xl border border-[#262b38] bg-[#161922]">
+                            <div className="overflow-hidden rounded-md shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922]">
                               <div className="relative grid gap-2 px-3 py-3 sm:p-4">
-                                <div className="p-3 border-b border-[#262b38] pb-4 mb-1">
-                                  <p className="text-xs text-[#7d8493]">Connecté en tant que</p>
-                                  <p className="text-sm font-semibold text-white truncate">
+                                <div className="p-3 border-b border-[#e4e0d8] dark:border-[#262b38] pb-4 mb-1">
+                                  <p className="text-xs text-[#5c6370] dark:text-[#7d8493]">Connecté en tant que</p>
+                                  <p className="text-sm font-semibold text-[#101216] dark:text-white truncate">
                                     {user?.name}
                                   </p>
                                 </div>
@@ -269,17 +269,17 @@ export default function Navbar(): React.ReactElement {
                                     key={item.name}
                                     as={Link}
                                     href={item.href}
-                                    className="flex items-start rounded-md p-3 hover:bg-white/5 transition ease-in-out duration-150"
+                                    className="flex items-start rounded-md p-3 hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150"
                                   >
                                     <item.icon
                                       className="h-6 w-6 flex-shrink-0 text-[#e03e3e]"
                                       aria-hidden="true"
                                     />
                                     <div className="ml-4 text-left">
-                                      <p className="text-sm font-semibold text-white">
+                                      <p className="text-sm font-semibold text-[#101216] dark:text-white">
                                         {item.name}
                                       </p>
-                                      <p className="mt-0.5 text-xs text-[#7d8493]">
+                                      <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493]">
                                         {item.description}
                                       </p>
                                     </div>
@@ -288,7 +288,7 @@ export default function Navbar(): React.ReactElement {
 
                                 <button
                                   onClick={() => logout()}
-                                  className="flex w-full items-start rounded-md p-3 hover:bg-white/5 transition ease-in-out duration-150"
+                                  className="flex w-full items-start rounded-md p-3 hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150"
                                 >
                                   <ArrowRightOnRectangleIcon
                                     className="h-6 w-6 flex-shrink-0 text-[#e03e3e]"
@@ -298,7 +298,7 @@ export default function Navbar(): React.ReactElement {
                                     <p className="text-sm font-semibold text-[#e03e3e]">
                                       Se déconnecter
                                     </p>
-                                    <p className="mt-0.5 text-xs text-[#7d8493]">Fermer la session</p>
+                                    <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493]">Fermer la session</p>
                                   </div>
                                 </button>
                               </div>
@@ -312,7 +312,7 @@ export default function Navbar(): React.ReactElement {
                   <div className="flex items-center space-x-4">
                     <Link
                       href="/login"
-                      className="text-[#a7adbb] hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors"
+                      className="text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors"
                     >
                       Se connecter
                     </Link>
@@ -328,7 +328,7 @@ export default function Navbar(): React.ReactElement {
 
               {/* Mobile menu button */}
               <div className="-mr-2 flex items-center lg:hidden">
-                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
+                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#101216] dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Ouvrir le menu principal</span>
                   {open ? (
@@ -363,7 +363,7 @@ export default function Navbar(): React.ReactElement {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl lg:hidden bg-[#0a0c10] border-b border-white/10">
+            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl lg:hidden bg-white dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-white/10">
               <div className="space-y-1 pb-3 pt-2 px-2">
                 {mainNavigation.map((item) => {
                   const isCurrent = pathname === item.href;
@@ -374,8 +374,8 @@ export default function Navbar(): React.ReactElement {
                       href={item.href}
                       className={cn(
                         isCurrent
-                          ? 'bg-white/10 text-white font-semibold'
-                          : 'text-[#a7adbb] hover:bg-white/5 hover:text-white',
+                          ? 'bg-black/5 dark:bg-white/10 text-[#101216] dark:text-white font-semibold'
+                          : 'text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white',
                         'flex items-center justify-between py-2.5 px-4 rounded-md text-sm font-semibold uppercase tracking-[0.08em] transition-colors'
                       )}
                       aria-current={isCurrent ? 'page' : undefined}
@@ -399,7 +399,7 @@ export default function Navbar(): React.ReactElement {
                     <>
                       <Disclosure.Button
                         className={cn(
-                          'flex w-full items-center justify-between py-2.5 px-3 rounded-md text-sm font-semibold uppercase tracking-[0.08em] text-[#a7adbb] hover:bg-white/5 hover:text-white'
+                          'flex w-full items-center justify-between py-2.5 px-3 rounded-md text-sm font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white'
                         )}
                       >
                         <span className="flex-1 text-left">Le Club</span>
@@ -414,7 +414,7 @@ export default function Navbar(): React.ReactElement {
                             key={item.name}
                             as={Link}
                             href={item.href}
-                            className="block py-2 px-3 rounded-md text-sm font-medium text-[#a7adbb] hover:bg-white/5 hover:text-white"
+                            className="block py-2 px-3 rounded-md text-sm font-medium text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white"
                           >
                             {item.name}
                           </PopoverButton>
@@ -424,7 +424,7 @@ export default function Navbar(): React.ReactElement {
                   )}
                 </Disclosure>
               </div>
-              <div className="border-t border-white/10 pb-3 pt-4">
+              <div className="border-t border-[#e4e0d8] dark:border-white/10 pb-3 pt-4">
                 {isAuthenticated ? (
                   <div className="space-y-1">
                     <div className="flex items-center px-4">
@@ -442,8 +442,8 @@ export default function Navbar(): React.ReactElement {
                         <div className="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-[#e03e3e]">
                           Mon Compte
                         </div>
-                        <div className="text-base font-medium text-white">{user?.name}</div>
-                        <div className="text-sm font-medium text-[#7d8493]">{user?.email}</div>
+                        <div className="text-base font-medium text-[#101216] dark:text-white">{user?.name}</div>
+                        <div className="text-sm font-medium text-[#5c6370] dark:text-[#7d8493]">{user?.email}</div>
                       </div>
                     </div>
                     <div className="mt-3 space-y-1">
@@ -452,7 +452,7 @@ export default function Navbar(): React.ReactElement {
                           key={item.name}
                           as={Link}
                           href={item.href}
-                          className="block px-4 py-2 text-sm font-medium text-[#a7adbb] hover:bg-white/5 hover:text-white rounded-md"
+                          className="block px-4 py-2 text-sm font-medium text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white rounded-md"
                         >
                           {item.name}
                         </PopoverButton>
@@ -460,7 +460,7 @@ export default function Navbar(): React.ReactElement {
                       <PopoverButton
                         as="button"
                         onClick={() => logout()}
-                        className="block w-full text-left px-4 py-2 text-sm font-medium text-[#e03e3e] hover:bg-white/5 rounded-md"
+                        className="block w-full text-left px-4 py-2 text-sm font-medium text-[#e03e3e] hover:bg-black/5 dark:hover:bg-white/5 rounded-md"
                       >
                         Se déconnecter
                       </PopoverButton>
@@ -471,7 +471,7 @@ export default function Navbar(): React.ReactElement {
                     <PopoverButton
                       as={Link}
                       href="/login"
-                      className="block text-sm font-semibold uppercase tracking-[0.08em] text-[#a7adbb] hover:text-white"
+                      className="block text-sm font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white"
                     >
                       Se connecter
                     </PopoverButton>
