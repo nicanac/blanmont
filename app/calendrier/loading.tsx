@@ -2,39 +2,39 @@ import React from 'react';
 
 export default function CalendarLoading(): React.ReactElement {
   return (
-    <main className="min-h-screen bg-[#faf8f5]">
+    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
       {/* Editorial Cover Skeleton */}
-      <section className="bg-[#0a0c10] border-b border-[#262b38] pt-14 pb-10 sm:pt-20 sm:pb-12 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] dark:bg-[#0a0c10] dark:border-[#262b38] pt-14 pb-10 sm:pt-20 sm:pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-white/10 animate-pulse">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-[#e4e0d8] dark:border-white/10 animate-pulse">
             <div className="space-y-4 max-w-3xl">
-              <div className="h-12 w-96 max-w-full rounded-md bg-white/10" />
-              <div className="h-4 w-128 max-w-full rounded-md bg-white/5" />
+              <div className="h-12 w-96 max-w-full rounded-md bg-black/10 dark:bg-white/10" />
+              <div className="h-4 w-128 max-w-full rounded-md bg-black/5 dark:bg-white/5" />
             </div>
-            <div className="h-11 w-56 rounded-md bg-white/10 shrink-0" />
+            <div className="h-11 w-56 rounded-md bg-black/10 dark:bg-white/10 shrink-0" />
           </div>
 
           {/* Telemetry Stat Strip Skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6 animate-pulse">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6 animate-pulse">
             <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-md bg-white/10 shrink-0" />
+              <div className="h-10 w-10 rounded-md bg-black/10 dark:bg-white/10 shrink-0" />
               <div className="space-y-1.5 flex-1 min-w-0">
-                <div className="h-6 w-32 rounded bg-white/10" />
-                <div className="h-3 w-40 rounded bg-white/5" />
+                <div className="h-6 w-32 rounded bg-black/10 dark:bg-white/10" />
+                <div className="h-3 w-40 rounded bg-black/5 dark:bg-white/5" />
               </div>
             </div>
             <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-md bg-white/10 shrink-0" />
+              <div className="h-10 w-10 rounded-md bg-black/10 dark:bg-white/10 shrink-0" />
               <div className="space-y-1.5 flex-1 min-w-0">
-                <div className="h-6 w-20 rounded bg-white/10" />
-                <div className="h-3 w-36 rounded bg-white/5" />
+                <div className="h-6 w-20 rounded bg-black/10 dark:bg-white/10" />
+                <div className="h-3 w-36 rounded bg-black/5 dark:bg-white/5" />
               </div>
             </div>
             <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-md bg-white/10 shrink-0" />
+              <div className="h-10 w-10 rounded-md bg-black/10 dark:bg-white/10 shrink-0" />
               <div className="space-y-1.5 flex-1 min-w-0">
-                <div className="h-6 w-20 rounded bg-white/10" />
-                <div className="h-3 w-44 rounded bg-white/5" />
+                <div className="h-6 w-20 rounded bg-black/10 dark:bg-white/10" />
+                <div className="h-3 w-44 rounded bg-black/5 dark:bg-white/5" />
               </div>
             </div>
           </div>

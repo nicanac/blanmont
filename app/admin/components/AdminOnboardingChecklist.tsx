@@ -225,9 +225,9 @@ export default function AdminOnboardingChecklist({
   }
 
   return (
-    <section aria-labelledby="onboarding-guide-heading" className="rounded-xl border border-[#e4e0d8] bg-white shadow-xs overflow-hidden transition-all">
+    <section aria-labelledby="onboarding-guide-heading" className="rounded-xl border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] shadow-xs overflow-hidden transition-all">
       {/* Header Band */}
-      <div className="bg-[#101216] text-white p-5 sm:p-6">
+      <div className="bg-[#101216] dark:bg-[#0d0f14] text-white p-5 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
@@ -315,7 +315,7 @@ export default function AdminOnboardingChecklist({
 
       {/* Checklist Items (Collapsible) */}
       {!isCollapsed && (
-        <div className="divide-y divide-[#e4e0d8] bg-[#faf8f5]">
+        <div className="divide-y divide-[#e4e0d8] dark:divide-[#222730] bg-[#faf8f5] dark:bg-[#16191f]">
           {steps.map((step, index) => {
             const completed = isTaskCompleted(step);
 
@@ -323,7 +323,7 @@ export default function AdminOnboardingChecklist({
               <div
                 key={step.id}
                 className={`p-4 sm:p-5 transition-colors flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${
-                  completed ? 'bg-white/80' : 'bg-white hover:bg-[#faf8f5]'
+                  completed ? 'bg-white/80 dark:bg-[#16191f]/80' : 'bg-white dark:bg-[#16191f] hover:bg-[#faf8f5] dark:hover:bg-[#1d2128]'
                 }`}
               >
                 <div className="flex items-start gap-3.5">
@@ -335,9 +335,9 @@ export default function AdminOnboardingChecklist({
                     title={completed ? 'Marquer comme non fait' : 'Marquer comme complété'}
                   >
                     {completed ? (
-                      <CheckCircleSolidIcon className="h-6 w-6 text-emerald-600" />
+                      <CheckCircleSolidIcon className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#e4e0d8] hover:border-[#e03e3e] text-xs font-bold text-[#7d8493]">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#e4e0d8] dark:border-[#2e3542] hover:border-[#e03e3e] text-xs font-bold text-[#7d8493] dark:text-[#9ba3af]">
                         {index + 1}
                       </div>
                     )}
@@ -347,30 +347,30 @@ export default function AdminOnboardingChecklist({
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
                         className={`text-sm font-bold ${
-                          completed ? 'text-[#3a3f4a] line-through decoration-[#7d8493]' : 'text-[#101216]'
+                          completed ? 'text-[#3a3f4a] dark:text-[#7d8493] line-through decoration-[#7d8493]' : 'text-[#101216] dark:text-white'
                         }`}
                       >
                         {step.title}
                       </span>
-                      <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-sm bg-[#f2efe9] text-[#5c6370] px-2 py-0.5 border border-[#e4e0d8]">
+                      <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-sm bg-[#f2efe9] dark:bg-[#222730] text-[#5c6370] dark:text-[#9ba3af] px-2 py-0.5 border border-[#e4e0d8] dark:border-[#2e3542]">
                         {step.category}
                       </span>
                       <span
                         className={`text-[0.6875rem] font-semibold px-2 py-0.5 rounded-full border ${
                           completed
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : 'bg-amber-50 text-amber-700 border-amber-200'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/40'
+                            : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/40'
                         }`}
                       >
                         {step.statusBadge}
                       </span>
                     </div>
 
-                    <p className="text-xs text-[#5c6370] max-w-2xl leading-relaxed">
+                    <p className="text-xs text-[#5c6370] dark:text-[#9ba3af] max-w-2xl leading-relaxed">
                       {step.description}
                     </p>
 
-                    <p className="text-[0.6875rem] text-[#7d8493] italic">
+                    <p className="text-[0.6875rem] text-[#7d8493] dark:text-[#7d8493] italic">
                       💡 {step.tip}
                     </p>
                   </div>
@@ -381,7 +381,7 @@ export default function AdminOnboardingChecklist({
                     href={step.href}
                     className={`inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs ${
                       completed
-                        ? 'border border-[#e4e0d8] bg-white text-[#101216] hover:bg-[#f2efe9]'
+                        ? 'border border-[#e4e0d8] dark:border-[#2e3542] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#262b38]'
                         : 'bg-[#e03e3e] hover:bg-[#c93434] text-white'
                     }`}
                   >
@@ -394,7 +394,7 @@ export default function AdminOnboardingChecklist({
           })}
 
           {/* Footer note */}
-          <div className="p-4 bg-[#f2efe9]/70 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#5c6370]">
+          <div className="p-4 bg-[#f2efe9]/70 dark:bg-[#111318]/70 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#5c6370] dark:text-[#9ba3af]">
             <div className="flex items-center gap-2">
               <CheckCircleIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>
@@ -405,7 +405,7 @@ export default function AdminOnboardingChecklist({
             <button
               type="button"
               onClick={handleDismiss}
-              className="text-xs font-semibold text-[#7d8493] hover:text-[#101216] hover:underline"
+              className="text-xs font-semibold text-[#7d8493] dark:text-[#9ba3af] hover:text-[#101216] dark:hover:text-white hover:underline"
             >
               Masquer pour l&apos;instant
             </button>
