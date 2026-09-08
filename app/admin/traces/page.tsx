@@ -15,7 +15,12 @@ import {
 import TracesTutorialModal from './components/TracesTutorialModal';
 import { useAdminTours } from '../components/tours/adminTours';
 
+import { redirect } from 'next/navigation';
+
 export default function AdminTracesPage(): React.ReactElement {
+  // Masqué temporairement / Hidden for now
+  redirect('/admin');
+
   const [modalOpen, setModalOpen] = useState(false);
   const { startTracesTour } = useAdminTours();
 

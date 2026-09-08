@@ -13,9 +13,10 @@ const navigation = {
   routes: [
     { name: 'Sondage du Weekend', href: '/sondage' },
     { name: 'Sortie du Samedi (Vote)', href: '/saturday-ride' },
-    { name: 'Tous les Parcours GPS', href: '/traces' },
+    // Masqué temporairement / Hidden for now:
+    // { name: 'Tous les Parcours GPS', href: '/traces' },
     { name: 'Calendrier des Sorties', href: '/calendrier' },
-    { name: 'Importer un parcours', href: '/import/strava' },
+    // { name: 'Importer un parcours', href: '/import/strava' },
   ],
   newsAndAccount: [
     { name: 'Les News du Club', href: '/blog' },

@@ -69,15 +69,16 @@ const COMMAND_ITEMS: CommandItem[] = [
     icon: CalendarDaysIcon,
     keywords: ['evenements', 'sorties', 'calendrier', 'agenda', 'pdf'],
   },
-  {
-    id: 'page-traces',
-    name: 'Traces & Parcours GPS',
-    category: 'Pages',
-    description: 'Bibliothèque des parcours, imports GPX et Strava',
-    href: '/admin/traces',
-    icon: MapIcon,
-    keywords: ['traces', 'parcours', 'gpx', 'strava', 'garmin', 'gps'],
-  },
+  // Masqué temporairement / Hidden for now
+  // {
+  //   id: 'page-traces',
+  //   name: 'Traces & Parcours GPS',
+  //   category: 'Pages',
+  //   description: 'Bibliothèque des parcours, imports GPX et Strava',
+  //   href: '/admin/traces',
+  //   icon: MapIcon,
+  //   keywords: ['traces', 'parcours', 'gpx', 'strava', 'garmin', 'gps'],
+  // },
   {
     id: 'page-carre-vert',
     name: 'Pointage Carré Vert',
@@ -169,15 +170,16 @@ const COMMAND_ITEMS: CommandItem[] = [
     icon: PlusCircleIcon,
     keywords: ['rediger', 'ecrire', 'article', 'news', 'blog', 'publier'],
   },
-  {
-    id: 'action-add-trace',
-    name: 'Ajouter une Trace GPX',
-    category: 'Actions Rapides',
-    description: 'Enregistrer manuellement un itinéraire GPS pour le club',
-    href: '/admin/add-trace',
-    icon: PlusCircleIcon,
-    keywords: ['ajouter', 'trace', 'gpx', 'parcours', 'gps', 'creer'],
-  },
+  // Masqué temporairement / Hidden for now
+  // {
+  //   id: 'action-add-trace',
+  //   name: 'Ajouter une Trace GPX',
+  //   category: 'Actions Rapides',
+  //   description: 'Enregistrer manuellement un itinéraire GPS pour le club',
+  //   href: '/admin/add-trace',
+  //   icon: PlusCircleIcon,
+  //   keywords: ['ajouter', 'trace', 'gpx', 'parcours', 'gps', 'creer'],
+  // },
   {
     id: 'action-new-member',
     name: 'Inscrire un Nouveau Membre',

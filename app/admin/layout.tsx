@@ -60,13 +60,14 @@ const navigationGroups: NavigationGroup[] = [
         icon: CalendarIcon,
         matchExtra: ['/admin/events/import', '/admin/events/new'],
       },
-      {
-        name: 'Traces & Parcours GPS',
-        href: '/admin/traces',
-        icon: MapIcon,
-        badge: 'GPX',
-        matchExtra: ['/admin/add-trace'],
-      },
+      // Masqué temporairement / Hidden for now
+      // {
+      //   name: 'Traces & Parcours GPS',
+      //   href: '/admin/traces',
+      //   icon: MapIcon,
+      //   badge: 'GPX',
+      //   matchExtra: ['/admin/add-trace'],
+      // },
       {
         name: 'Pointage Carré Vert',
         href: '/admin/carre-vert',
