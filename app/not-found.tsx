@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {
-  MapIcon,
+  UsersIcon,
   HomeIcon,
   CalendarDaysIcon,
   ChatBubbleLeftRightIcon,
@@ -49,17 +49,17 @@ export default function NotFound() {
           </Link>
 
           <Link
-            href="/traces"
+            href="/members"
             className="group flex items-center gap-3 rounded-lg border border-[#e4e0d8] bg-white p-4 hover:border-[#e03e3e]/40 hover:shadow-md transition-all"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100 text-[#101216] group-hover:bg-[#101216] group-hover:text-white transition-colors">
-              <MapIcon className="h-5 w-5" />
+              <UsersIcon className="h-5 w-5" />
             </div>
             <div>
               <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
-                Parcours
+                Membres
               </div>
-              <div className="text-xs text-[#7d8493]">Catalogue GPX</div>
+              <div className="text-xs text-[#7d8493]">L’annuaire du club</div>
             </div>
           </Link>
 

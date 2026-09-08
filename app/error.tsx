@@ -6,7 +6,7 @@ import {
   ExclamationTriangleIcon,
   ArrowPathIcon,
   HomeIcon,
-  MapIcon,
+  CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
 
 /**
@@ -87,11 +87,11 @@ export default function Error({
           </Link>
 
           <Link
-            href="/traces"
+            href="/calendrier"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-6 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors min-h-[44px]"
           >
-            <MapIcon className="h-4 w-4 text-[#7d8493]" />
-            <span>Parcours</span>
+            <CalendarDaysIcon className="h-4 w-4 text-[#7d8493]" />
+            <span>Calendrier</span>
           </Link>
         </div>
       </div>
