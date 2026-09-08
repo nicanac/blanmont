@@ -17,6 +17,8 @@ import {
   ShoppingBagIcon,
   ChatBubbleLeftRightIcon,
   AcademicCapIcon,
+  PhotoIcon,
+  Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import { cn } from '../utils/cn';
 import AdminGuard from './components/AdminGuard';
@@ -24,6 +26,7 @@ import AdminHelpModal from './components/AdminHelpModal';
 
 const navigation = [
   { name: 'Tableau de bord', href: '/admin', icon: HomeIcon },
+  { name: 'Bannière Accueil', href: '/admin/hero', icon: PhotoIcon },
   { name: 'Sondages Weekend', href: '/admin/sondages', icon: ChatBubbleLeftRightIcon },
   { name: 'Les News / Blog', href: '/admin/blog', icon: DocumentTextIcon },
   { name: 'Membres', href: '/admin/members', icon: UsersIcon },
@@ -31,6 +34,7 @@ const navigation = [
   { name: 'Équipements Club', href: '/admin/equipements', icon: ShoppingBagIcon },
   { name: 'Carré Vert', href: '/admin/carre-vert', icon: CheckBadgeIcon },
   { name: 'Statistiques', href: '/admin/statistics', icon: ChartBarIcon },
+  { name: 'Paramètres', href: '/admin/settings', icon: Cog6ToothIcon },
 ];
 
 interface AdminLayoutProps {
@@ -49,17 +53,17 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
   };
 
   const sidebarContent = (
-    <div className="flex h-full flex-col bg-[#0a0c10] text-white border-r border-[#262b38]">
+    <div className="flex h-full flex-col bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-white border-r border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
       {/* Logo / Brand Header */}
-      <div className="flex h-16 items-center gap-3 px-6 border-b border-[#262b38]">
+      <div className="flex h-16 items-center gap-3 px-6 border-b border-[#e4e0d8] dark:border-[#262b38]">
         <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#e03e3e]">
           <span className="text-white font-extrabold text-xs">CC</span>
         </div>
         <div className="min-w-0">
-          <p className="text-sm font-extrabold uppercase tracking-tight text-white truncate">
+          <p className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white truncate">
             Blan<span className="text-[#e03e3e]">mont</span>
           </p>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#7d8493]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#5c6370] dark:text-[#7d8493]">
             Administration
           </p>
         </div>
@@ -80,13 +84,13 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 'group flex items-center gap-3 rounded-md px-3.5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors',
                 isActive
                   ? 'bg-[#e03e3e] text-white shadow-xs'
-                  : 'text-[#a7adbb] hover:bg-white/5 hover:text-white'
+                  : 'text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white'
               )}
             >
               <item.icon
                 className={cn(
                   'h-4 w-4 shrink-0',
-                  isActive ? 'text-white' : 'text-[#7d8493] group-hover:text-white'
+                  isActive ? 'text-white' : 'text-[#7d8493] group-hover:text-[#101216] dark:group-hover:text-white'
                 )}
               />
               <span className="truncate">{item.name}</span>
@@ -96,14 +100,14 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
       </nav>
 
       {/* Quick Help & Back to Site */}
-      <div className="border-t border-[#262b38] p-3 space-y-1">
+      <div className="border-t border-[#e4e0d8] dark:border-[#262b38] p-3 space-y-1">
         <button
           type="button"
           onClick={() => {
             closeSidebar();
             setHelpOpen(true);
           }}
-          className="w-full flex items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[#a7adbb] hover:bg-white/5 hover:text-white transition-colors text-left"
+          className="w-full flex items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors text-left"
         >
           <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
           <span>Guide &amp; Raccourcis</span>
@@ -112,7 +116,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         <Link
           href="/"
           onClick={closeSidebar}
-          className="flex items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[#7d8493] hover:bg-white/5 hover:text-white transition-colors"
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[#7d8493] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
         >
           <ArrowLeftIcon className="h-3.5 w-3.5" />
           <span>Retour au site</span>
@@ -123,14 +127,14 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
 
   return (
     <AdminGuard>
-      <div className="min-h-screen bg-[#faf8f5]">
+      <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
         {/* Mobile top bar */}
-        <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[#262b38] bg-[#0a0c10] px-4 md:hidden">
+        <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-4 md:hidden">
           <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded bg-[#e03e3e]">
               <span className="text-white font-bold text-xs">CC</span>
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-white">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
               Admin Blanmont
             </span>
           </div>
@@ -139,7 +143,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
             <button
               type="button"
               onClick={() => setHelpOpen(true)}
-              className="rounded-md p-1.5 text-[#a7adbb] hover:bg-white/10 hover:text-white"
+              className="rounded-md p-1.5 text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#101216] dark:hover:text-white"
               title="Guide & Raccourcis"
             >
               <AcademicCapIcon className="h-5 w-5 text-[#e03e3e]" />
@@ -147,7 +151,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="rounded-md p-1.5 text-[#a7adbb] hover:bg-white/10 hover:text-white"
+              className="rounded-md p-1.5 text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#101216] dark:hover:text-white"
             >
               <span className="sr-only">Ouvrir le menu</span>
               <Bars3Icon className="h-6 w-6" />
@@ -161,12 +165,12 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
             {/* Backdrop */}
             <div className="fixed inset-0 bg-black/60 backdrop-blur-xs" onClick={closeSidebar} aria-hidden="true" />
             {/* Drawer */}
-            <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-[#0a0c10]">
+            <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#0a0c10]">
               <div className="absolute right-2 top-3">
                 <button
                   type="button"
                   onClick={closeSidebar}
-                  className="rounded-md p-1.5 text-[#7d8493] hover:text-white"
+                  className="rounded-md p-1.5 text-[#7d8493] hover:text-[#101216] dark:hover:text-white"
                 >
                   <span className="sr-only">Fermer</span>
                   <XMarkIcon className="h-5 w-5" />

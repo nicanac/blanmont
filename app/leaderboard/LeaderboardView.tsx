@@ -136,40 +136,40 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
 
     return (
         <>
-            <main className="min-h-screen bg-[#faf8f5]">
-                {/* ──── Editorial Cover Hero (Ink) ──── */}
-                <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
+            <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
+                {/* ──── Editorial Cover Hero (Adaptive Light / Dark) ──── */}
+                <section className="relative overflow-hidden bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] text-[#101216] dark:bg-[#0a0c10] dark:border-[#262b38] dark:text-white transition-colors duration-200">
                     {/* Atmospheric Background Watermark */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
-                        <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+                        <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
                             BLANMONT
                         </span>
                     </div>
 
                     <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8 z-10">
                         {/* Title row */}
-                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-8 border-b border-white/10">
+                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-8 border-b border-[#e4e0d8] dark:border-white/10">
                             <div className="space-y-3 max-w-3xl">
                                 <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
-                                    Le Carré <span className="text-emerald-400 italic">Vert</span>
+                                    Le Carré <span className="text-emerald-500 dark:text-emerald-400 italic">Vert</span>
                                 </h1>
 
-                                <p className="max-w-2xl text-base text-[#a7adbb] leading-relaxed">
+                                <p className="max-w-2xl text-base text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                                     Le classement officiel d&apos;assiduité récompensant la régularité et l&apos;engagement des cyclistes de Blanmont tout au long de la saison {selectedYear}.
                                 </p>
                             </div>
 
                             {/* Year Selector in Hero */}
-                            <div className="inline-flex rounded-lg bg-[#161922] p-1 border border-[#262b38] shrink-0">
+                            <div className="inline-flex rounded-lg bg-white dark:bg-[#161922] p-1 border border-[#e4e0d8] dark:border-[#262b38] shrink-0 shadow-xs">
                                 {availableYears.map(year => (
                                     <button
                                         key={year}
                                         type="button"
                                         onClick={() => router.push(`/leaderboard?year=${year}`)}
-                                        className={`min-h-[40px] rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider tabular-nums transition-colors ${
+                                        className={`min-h-[40px] rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider tabular-nums transition-colors cursor-pointer ${
                                             year === selectedYear
                                                 ? 'bg-emerald-600 text-white shadow-sm'
-                                                : 'text-[#a7adbb] hover:text-white hover:bg-white/5'
+                                                : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                                         }`}
                                     >
                                         {year}
@@ -178,18 +178,18 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
                             </div>
                         </div>
 
-                        {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6">
+                        {/* Stat Strip on Hero (Horizontal Hairline Structure) */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6">
                             {/* Leader */}
                             <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-                                <div className="rounded-md bg-emerald-500/15 border border-emerald-500/30 p-2.5 text-emerald-400 shrink-0">
+                                <div className="rounded-md bg-emerald-500/15 border border-emerald-500/30 p-2.5 text-emerald-600 dark:text-emerald-400 shrink-0">
                                     <TrophyIcon className="h-5 w-5" aria-hidden="true" />
                                 </div>
                                 <div className="min-w-0">
-                                    <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight truncate">
+                                    <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tracking-tight truncate">
                                         {top3[0]?.name || 'En cours'}
                                     </div>
-                                    <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold tabular-nums">
+                                    <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold tabular-nums">
                                         Leader ({top3[0] ? `${top3[0].rides} sorties` : '0 sortie'})
                                     </div>
                                 </div>
@@ -197,14 +197,14 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
 
                             {/* Pelotons Ranked */}
                             <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                                <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
                                     <span className="text-lg">🚴‍♂️</span>
                                 </div>
                                 <div>
-                                    <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                                    <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
                                         {sortedEntries.length}
                                     </div>
-                                    <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                                    <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
                                         Membres classés
                                     </div>
                                 </div>
@@ -212,14 +212,14 @@ export default function LeaderboardView({ entries, totalPossibleRides, selectedY
 
                             {/* Total Rides */}
                             <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-                                <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+                                <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
                                     <span className="text-lg">🏁</span>
                                 </div>
                                 <div>
-                                    <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                                    <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
                                         {totalPossibleRides}
                                     </div>
-                                    <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                                    <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
                                         Sorties éligibles
                                     </div>
                                 </div>

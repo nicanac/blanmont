@@ -243,3 +243,27 @@ export interface PollResponse {
   comment?: string;
   updatedAt: string;
 }
+
+export type HeroIconType = 'pin' | 'calendar' | 'group' | 'clock' | 'trophy' | 'sparkles';
+
+export interface HeroSlide {
+  id: string;
+  url: string;
+  alt?: string;
+}
+
+export interface HeroTelemetryCard {
+  id: string;
+  icon: HeroIconType;
+  label: string;
+  value: string;
+  detail?: string;
+}
+
+export interface HeroSettings {
+  badge: string;
+  slides: HeroSlide[];
+  cards: HeroTelemetryCard[];
+  updatedAt?: string;
+}
+

@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-brand-primary: #e03e3e;
   --color-brand-primary-hover: #c93434;
@@ -43,6 +45,12 @@ html {
 
 body {
   background-color: #faf8f5;
+  color: #101216;
+}
+
+html.dark body {
+  background-color: #0a0c10;
+  color: #f5f6f8;
 }
 
 /* Editorial text selection: brand red ink on paper */
