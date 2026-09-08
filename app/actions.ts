@@ -320,16 +320,25 @@ export async function requestAccountActivationAction(email: string): Promise<{
       });
     }
 
-    // 2. Check if user already exists in Firebase Auth, if not create them
+    // If the email is not registered in the club database, reject activation immediately
+    if (!memberKey || !memberData) {
+      return {
+        success: false,
+        message:
+          "Cette adresse email n'est pas enregistrée dans l'annuaire du club. Seuls les membres préalablement ajoutés par un administrateur peuvent activer leur compte. Veuillez contacter un responsable du club si vous êtes membre.",
+      };
+    }
+
+    // 2. Member exists in club database. Check if user already exists in Firebase Auth, if not create them
     let userRecord: any;
     try {
       userRecord = await adminAuth.getUserByEmail(normalizedEmail);
     } catch (err: any) {
       if (err.code === 'auth/user-not-found' || err.message?.includes('user-not-found')) {
-        // Create user in Firebase Auth
+        // Create user in Firebase Auth for this verified club member
         userRecord = await adminAuth.createUser({
           email: normalizedEmail,
-          displayName: memberData?.name || normalizedEmail.split('@')[0],
+          displayName: memberData.name || normalizedEmail.split('@')[0],
           emailVerified: true,
         });
       } else {
@@ -337,8 +346,8 @@ export async function requestAccountActivationAction(email: string): Promise<{
       }
     }
 
-    // 3. Link authUid to member record if found in DB
-    if (memberKey && userRecord?.uid && memberData?.authUid !== userRecord.uid) {
+    // 3. Link authUid to member record if missing or updated
+    if (memberKey && userRecord?.uid && memberData.authUid !== userRecord.uid) {
       await adminDb.ref(`members/${memberKey}`).update({
         authUid: userRecord.uid,
       });
@@ -359,11 +368,11 @@ export async function requestAccountActivationAction(email: string): Promise<{
       // fallback to rawFirebaseLink if URL parse fails
     }
 
-    console.log(`[Account Activation] Generated link for ${normalizedEmail}: ${inAppLink}`);
+    console.log(`[Account Activation] Generated link for member ${memberData.name} (${normalizedEmail}): ${inAppLink}`);
 
     return {
       success: true,
-      message: 'Lien d\'activation généré avec succès !',
+      message: 'Compte membre vérifié ! Un lien d\'activation a été généré avec succès.',
       directLink: inAppLink,
     };
   } catch (error: any) {

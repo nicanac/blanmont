@@ -68,7 +68,7 @@ export default function ForgotPasswordPage(): React.ReactElement {
               Activer ou Réinitialiser <span className="text-[#e03e3e] italic">votre mot de passe</span>
             </h1>
             <p className="text-xs sm:text-sm text-[#a7adbb] leading-relaxed">
-              Pour une <strong className="text-white font-semibold">première connexion</strong> ou un <strong className="text-white font-semibold">mot de passe oublié</strong> : entrez l&apos;adresse email enregistrée auprès du club pour recevoir votre lien d&apos;activation sécurisé.
+              Pour une <strong className="text-white font-semibold">première connexion</strong> ou un <strong className="text-white font-semibold">mot de passe oublié</strong> : entrez l&apos;adresse email enregistrée auprès du club. Seuls les membres préalablement inscrits par les administrateurs peuvent activer leur compte.
             </p>
           </div>
 
@@ -88,15 +88,15 @@ export default function ForgotPasswordPage(): React.ReactElement {
                   ) : (
                     <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
                   )}
-                  <span>{message.text}</span>
+                  <span className="leading-relaxed">{message.text}</span>
                 </div>
 
                 {directLink && (
                   <a
                     href={directLink}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98]"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
                   >
-                    <span>👉 Définir mon mot de passe maintenant</span>
+                    <span>Définir mon mot de passe maintenant</span>
                     <ArrowRightIcon className="h-4 w-4" />
                   </a>
                 )}
