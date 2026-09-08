@@ -66,40 +66,40 @@ export default function EquipementPage() {
   const categoriesCount = EQUIPMENT_CATEGORIES.length - 1;
 
   return (
-    <main className="min-h-screen bg-[#faf8f5]">
-      {/* ──── Editorial Cover Hero (Ink) ──── */}
-      <section className="relative overflow-hidden bg-[#0a0c10] text-white border-b border-[#262b38]">
+    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
+      {/* ──── Editorial Cover Hero (Adaptive Light / Dark) ──── */}
+      <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
         {/* Atmospheric Background Watermark */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.025] leading-none text-center">
-          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-white whitespace-nowrap">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8 z-10">
           {/* Top row: Title */}
-          <div className="space-y-3 max-w-3xl pb-8 border-b border-white/10">
-            <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
+          <div className="space-y-3 max-w-3xl pb-8 border-b border-[#e4e0d8] dark:border-white/10">
+            <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
               Tenues &amp; <span className="text-[#e03e3e] italic">Équipements</span>
             </h1>
 
-            <p className="max-w-2xl text-base text-[#a7adbb] leading-relaxed">
+            <p className="max-w-2xl text-base text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               Portez les couleurs officielles du CC Saint-Martin Blanmont. Vêtements cyclistes haute performance développés par Gobik pour le confort et la vitesse en peloton.
             </p>
           </div>
 
-          {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6">
+          {/* Stat Strip on Hero (Horizontal Hairline Structure) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6">
             {/* Pieces in collection */}
             <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
               <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
                 <SparklesIcon className="h-5 w-5" aria-hidden="true" />
               </div>
               <div className="min-w-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-white tabular-nums tracking-tight">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
                   {totalPieces} articles
                 </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
                   Catalogue officiel
                 </div>
               </div>
@@ -107,14 +107,14 @@ export default function EquipementPage() {
 
             {/* Technical partner */}
             <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
-                <ShieldCheckIcon className="h-5 w-5 text-white" aria-hidden="true" />
+              <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
+                <ShieldCheckIcon className="h-5 w-5 text-[#101216] dark:text-white" aria-hidden="true" />
               </div>
               <div>
-                <div className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                <div className="text-lg sm:text-xl font-bold text-[#101216] dark:text-white tracking-tight">
                   GOBIK Spain
                 </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
                   Partenaire technique
                 </div>
               </div>
@@ -122,14 +122,14 @@ export default function EquipementPage() {
 
             {/* Pickup & orders */}
             <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-              <div className="rounded-md bg-white/5 border border-white/10 p-2.5 text-[#f5f6f8] shrink-0">
+              <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
                 <TruckIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
               </div>
               <div>
-                <div className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                <div className="text-lg sm:text-xl font-bold text-[#101216] dark:text-white tracking-tight">
                   Distribution club
                 </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#a7adbb] font-semibold">
+                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
                   Remise le samedi
                 </div>
               </div>
@@ -138,11 +138,11 @@ export default function EquipementPage() {
         </div>
       </section>
 
-      {/* ──── Main Content Spread (Paper) ──── */}
+      {/* ──── Main Content Spread (Adaptive Surface) ──── */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 space-y-10">
         {/* Category Filter Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xs transition-colors">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7d8493] dark:text-[#a7adbb]">
             <CheckBadgeIcon className="h-4 w-4 text-[#e03e3e]" />
             <span>Catégories :</span>
           </div>
@@ -154,8 +154,8 @@ export default function EquipementPage() {
                 onClick={() => setSelectedCategory(category)}
                 className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
                   selectedCategory === category
-                    ? 'bg-[#101216] text-white'
-                    : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                    ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216]'
+                    : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#5c6370] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38] hover:text-[#101216] dark:hover:text-white'
                 }`}
               >
                 <span>{category}</span>
@@ -163,7 +163,7 @@ export default function EquipementPage() {
             ))}
           </div>
 
-          <span className="text-xs font-semibold text-[#7d8493] tabular-nums">
+          <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb] tabular-nums">
             {filteredEquipment.length} article{filteredEquipment.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -177,10 +177,10 @@ export default function EquipementPage() {
               <article
                 key={item.id}
                 onClick={() => openProductDetail(item)}
-                className="group cursor-pointer flex flex-col rounded-lg border border-[#e4e0d8] bg-white overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1"
+                className="group cursor-pointer flex flex-col rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1"
               >
                 {/* Product Apparel Image / Fallback Container */}
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922]">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922] dark:bg-[#1c202a]">
                   {hasPhoto ? (
                     <img
                       src={item.imageUrl}
@@ -199,7 +199,7 @@ export default function EquipementPage() {
 
                   {/* Category Pill Tag */}
                   <div className="absolute top-3 left-3 z-10">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#101216]/85 backdrop-blur-md px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/20">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#101216]/85 dark:bg-black/85 backdrop-blur-md px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/20">
                       {item.category}
                     </span>
                   </div>
@@ -215,23 +215,23 @@ export default function EquipementPage() {
                 </div>
 
                 {/* Card Body */}
-                <div className="p-5 flex flex-col flex-grow justify-between space-y-4 bg-white">
+                <div className="p-5 flex flex-col flex-grow justify-between space-y-4 bg-white dark:bg-[#101216]">
                   <div className="space-y-1">
-                    <h3 className="text-base font-bold tracking-tight text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug">
+                    <h3 className="text-base font-bold tracking-tight text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors leading-snug">
                       {item.name}
                     </h3>
-                    <p className="text-xs text-[#5c6370] line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
                       {item.gobikReference || item.description}
                     </p>
                   </div>
 
                   {/* Price & Sizes Strip */}
-                  <div className="pt-3 border-t border-[#e4e0d8] flex items-end justify-between">
+                  <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-end justify-between">
                     <div>
-                      <div className="text-2xl font-extrabold text-[#101216] tabular-nums tracking-tight">
+                      <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
                         {item.price.toFixed(2)}&nbsp;€
                       </div>
-                      <div className="text-xs font-medium text-[#7d8493] mt-0.5">
+                      <div className="text-xs font-medium text-[#7d8493] dark:text-[#a7adbb] mt-0.5">
                         Tailles : {item.sizes.join(' · ')}
                       </div>
                     </div>
@@ -248,46 +248,46 @@ export default function EquipementPage() {
         </div>
 
         {/* ──── Technical & Quality Club Manifesto ──── */}
-        <section className="rounded-lg border border-[#262b38] bg-[#101216] text-white p-8 sm:p-10 mt-16">
+        <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] text-[#101216] dark:text-white p-8 sm:p-10 mt-16 shadow-xs transition-colors">
           <div className="max-w-3xl space-y-2 mb-8">
             <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
               Qualité &amp; Engagement
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white">
               Une tenue club pensée pour durer
             </h2>
-            <p className="text-sm text-[#a7adbb] leading-relaxed">
+            <p className="text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               Le Club Cyclo Saint-Martin de Blanmont a sélectionné le fabriquant GOBIK pour équiper ses membres avec des matériaux professionnels.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#262b38]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#e4e0d8] dark:border-[#262b38]">
             <div className="space-y-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#e03e3e]/15 text-[#e03e3e]">
                 <ShieldCheckIcon className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Peaux de Chamois K10 &amp; K9</h3>
-              <p className="text-xs text-[#a7adbb] leading-relaxed">
+              <h3 className="text-base font-bold text-[#101216] dark:text-white">Peaux de Chamois K10 &amp; K9</h3>
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                 Inserts ergonomiques conçus pour plus de 8 heures en selle, éliminant les frottements lors des longues sorties d&apos;endurance.
               </p>
             </div>
 
             <div className="space-y-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-500/15 text-sky-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-500/15 text-sky-600 dark:text-sky-400">
                 <TruckIcon className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Distribution Locale Gratuite</h3>
-              <p className="text-xs text-[#a7adbb] leading-relaxed">
+              <h3 className="text-base font-bold text-[#101216] dark:text-white">Distribution Locale Gratuite</h3>
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                 Toutes les commandes sont remises en mains propres sur la Place de Blanmont au départ des sorties du club, sans frais de port.
               </p>
             </div>
 
             <div className="space-y-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/15 text-emerald-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
                 <CheckBadgeIcon className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Essayage &amp; Échantillons</h3>
-              <p className="text-xs text-[#a7adbb] leading-relaxed">
+              <h3 className="text-base font-bold text-[#101216] dark:text-white">Essayage &amp; Échantillons</h3>
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                 Des tenues témoins sont disponibles auprès des membres du comité pour essayer votre taille avant de passer commande.
               </p>
             </div>
@@ -306,11 +306,11 @@ export default function EquipementPage() {
             />
 
             {/* Modal Box */}
-            <div className="relative w-full max-w-3xl overflow-hidden rounded-lg bg-white border border-[#e4e0d8] shadow-2xl z-10">
+            <div className="relative w-full max-w-3xl overflow-hidden rounded-lg bg-white dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] shadow-2xl z-10 transition-colors">
               {/* Close button */}
               <button
                 onClick={closeModal}
-                className="absolute right-4 top-4 z-20 rounded-full bg-[#101216]/80 p-2 text-white hover:bg-[#e03e3e] transition-colors"
+                className="absolute right-4 top-4 z-20 rounded-full bg-black/60 dark:bg-white/10 p-2 text-white hover:bg-[#e03e3e] transition-colors"
                 aria-label="Fermer"
               >
                 <XMarkIcon className="h-5 w-5" />
@@ -318,7 +318,7 @@ export default function EquipementPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2">
                 {/* Left: Product Visual */}
-                <div className="relative aspect-square md:aspect-auto min-h-[300px] bg-[#161922]">
+                <div className="relative aspect-square md:aspect-auto min-h-[300px] bg-[#161922] dark:bg-[#1c202a]">
                   {Boolean(selectedProduct.imageUrl) && !imgErrors[selectedProduct.id] ? (
                     <img
                       src={selectedProduct.imageUrl}
@@ -336,33 +336,33 @@ export default function EquipementPage() {
                 </div>
 
                 {/* Right: Technical Details & Size Selector */}
-                <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-white dark:bg-[#101216]">
                   <div className="space-y-4">
                     <div>
                       <span className="inline-flex rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
                         {selectedProduct.category}
                       </span>
-                      <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] mt-2">
+                      <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] dark:text-white mt-2">
                         {selectedProduct.name}
                       </h2>
                       {selectedProduct.gobikReference && (
-                        <p className="text-xs font-mono text-[#7d8493] mt-1 uppercase">
+                        <p className="text-xs font-mono text-[#7d8493] dark:text-[#a7adbb] mt-1 uppercase">
                           Ref: {selectedProduct.gobikReference}
                         </p>
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#c4cad4] leading-relaxed">
                       {selectedProduct.description}
                     </p>
 
-                    <div className="text-3xl font-extrabold text-[#101216] tabular-nums tracking-tight">
+                    <div className="text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
                       {selectedProduct.price.toFixed(2)}&nbsp;€
                     </div>
 
                     {/* Size Selector */}
-                    <div className="space-y-2 pt-2 border-t border-[#e4e0d8]">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#101216]">
+                    <div className="space-y-2 pt-2 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
                         Sélectionner une taille :
                       </span>
                       <div className="flex flex-wrap gap-2">
@@ -372,8 +372,8 @@ export default function EquipementPage() {
                             onClick={() => setSelectedSize(size)}
                             className={`min-w-[2.75rem] rounded-md px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors border ${
                               selectedSize === size
-                                ? 'bg-[#101216] text-white border-[#101216]'
-                                : 'bg-[#f2efe9] text-[#101216] border-[#e4e0d8] hover:border-[#101216]/40'
+                                ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
+                                : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
                             }`}
                           >
                             {size}
@@ -384,7 +384,7 @@ export default function EquipementPage() {
                   </div>
 
                   {/* Order Button CTA */}
-                  <div className="space-y-2 pt-4 border-t border-[#e4e0d8]">
+                  <div className="space-y-2 pt-4 border-t border-[#e4e0d8] dark:border-[#262b38]">
                     <a
                       href={`mailto:info@blanmont.be?subject=${encodeURIComponent(
                         `Commande équipement: ${selectedProduct.name} (${selectedSize || 'Taille à préciser'})`
@@ -396,7 +396,7 @@ export default function EquipementPage() {
                       <ShoppingBagIcon className="h-4 w-4" />
                       <span>Commander par email ({selectedSize || 'Taille'})</span>
                     </a>
-                    <p className="text-center text-xs text-[#7d8493]">
+                    <p className="text-center text-xs text-[#7d8493] dark:text-[#a7adbb]">
                       Paiement &amp; retrait sur la Place de Blanmont lors des sorties.
                     </p>
                   </div>
