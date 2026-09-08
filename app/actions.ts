@@ -440,13 +440,10 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
   }
   // Handle string URL (Legacy/Direct URL)
   else if (typeof input === 'string') {
-    const stringValidation = safeValidate(UpdateMemberPhotoSchema, { memberId: targetMemberId, photoUrl: input });
-    if (!stringValidation.success) {
-      throw new Error('Invalid input: ' + stringValidation.errors.map(e => e.message).join(', '));
+    if (!targetMemberId) {
+      throw new Error('Member ID required for URL update');
     }
-
-    targetMemberId = stringValidation.data.memberId;
-    finalPhotoUrl = stringValidation.data.photoUrl;
+    finalPhotoUrl = input;
   }
 
   // Validate the final result

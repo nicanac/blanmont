@@ -12,12 +12,14 @@ interface AuthContextType {
     updateUser: (updates: Partial<User>) => void;
     isAuthenticated: boolean;
     isAdmin: boolean;
+    isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Initialize session from server HttpOnly cookie strictly
     React.useEffect(() => {
@@ -39,6 +41,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 }
             } catch (e) {
                 console.warn('Could not verify server session cookie:', e);
+            } finally {
+                if (isMounted) {
+                    setIsLoading(false);
+                }
             }
         }
 
@@ -99,7 +105,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             logout,
             updateUser,
             isAuthenticated: !!user,
-            isAdmin
+            isAdmin,
+            isLoading
         }}>
             {children}
         </AuthContext.Provider>

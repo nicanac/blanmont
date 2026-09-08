@@ -41,8 +41,11 @@ const CATEGORIES = [
   'Annonces',
 ];
 
+import { useAuth } from '@/app/context/AuthContext';
+
 export default function NewBlogPostPage(): React.ReactElement {
   const router = useRouter();
+  const { user } = useAuth();
   const { uploadImage, isUploading: isImageUploading, progress: uploadProgress } = useImageUpload();
   const { startEditorTour } = useBlogTour();
   const [tutorialOpen, setTutorialOpen] = useState(false);
@@ -80,17 +83,13 @@ export default function NewBlogPostPage(): React.ReactElement {
     setIsSubmitting(true);
 
     try {
-      // Get author from localStorage
-      const memberData = localStorage.getItem('memberData');
-      const member = memberData ? JSON.parse(memberData) : null;
-
       const response = await fetch('/api/admin/blog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          author: member?.name || 'Administrateur',
-          authorAvatar: member?.photo || '/images/default-avatar.png',
+          author: user?.name || 'Administrateur',
+          authorAvatar: user?.avatarUrl || '/images/default-avatar.png',
         }),
       });
 
