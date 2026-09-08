@@ -50,6 +50,7 @@ export default function HeroTelemetryFrame({
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   // Auto-cycle through slides if there are multiple
   useEffect(() => {
@@ -96,9 +97,13 @@ export default function HeroTelemetryFrame({
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={slide.url}
+                src={failedImages[slide.id || index] ? '/images/home-hero.jpg' : slide.url}
                 alt={slide.alt || 'Club de Blanmont – peloton cycliste'}
                 style={{ objectPosition: slide.position || 'center center' }}
+                referrerPolicy="no-referrer"
+                onError={() => {
+                  setFailedImages((prev) => ({ ...prev, [slide.id || index]: true }));
+                }}
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
