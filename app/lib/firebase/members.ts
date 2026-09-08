@@ -151,7 +151,7 @@ export const validateUser = async (email: string, password: string): Promise<Mem
     console.log(`[validateUser] Members snapshot exists: ${snapshot.exists()}`);
 
     if (snapshot.exists()) {
-      let foundMember: Member | null = null;
+      let foundMember: any = null;
       snapshot.forEach((child: any) => {
         const memberData = child.val();
         // Loose check matching
@@ -165,21 +165,21 @@ export const validateUser = async (email: string, password: string): Promise<Mem
       });
 
       if (foundMember) {
+        // Sync authUid to member record if missing
+        if (!foundMember.authUid && typeof window === 'undefined') {
+          try {
+            const db = getAdminDatabase();
+            await db.ref(`members/${foundMember.id}`).update({ authUid: user.uid });
+          } catch (syncErr) {
+            console.warn('[validateUser] Failed to sync authUid:', syncErr);
+          }
+        }
         return foundMember;
       }
     }
 
-    console.log('[validateUser] No DB match found, returning basic auth user.');
-
-    // If no member found, return basic user info
-    return {
-      id: user.uid,
-      name: user.displayName || email.split('@')[0],
-      role: ['Member'],
-      bio: '',
-      photoUrl: user.photoURL || 'https://placehold.co/400x400',
-      email: email,
-    };
+    console.warn(`[validateUser] No member record found in DB for email "${email}" (uid: ${user.uid}). Authentication rejected.`);
+    return null;
   } catch (error) {
     console.error('Failed to validate user:', error);
     return null;
