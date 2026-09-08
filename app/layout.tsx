@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import ConditionalFooter from './components/layout/ConditionalFooter';
 import { Toaster } from 'sonner';
 
 const poppins = Poppins({
@@ -61,9 +62,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {children}
             </main>
 
-            <div className="mt-auto">
+            <ConditionalFooter>
               <Footer />
-            </div>
+            </ConditionalFooter>
 
             <Toaster position="top-right" richColors closeButton />
           </AuthProvider>

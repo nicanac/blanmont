@@ -35,9 +35,9 @@ export default async function Home(): Promise<React.ReactElement> {
   const nextRide = getNextScheduledRide(events);
 
   return (
-    <div className="bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
+    <div className="bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
       {/* ──── Cover Hero (Adaptive Light / Dark) ──── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] text-[#101216] dark:bg-[#0a0c10] dark:border-[#262b38] dark:text-white transition-colors duration-200">
+      <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
         {/* Atmospheric Background Watermark */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
           <span className="text-[clamp(8rem,26vw,32rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
@@ -46,7 +46,7 @@ export default async function Home(): Promise<React.ReactElement> {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12 z-10">
-          <h1 className="max-w-5xl text-[clamp(2.5rem,7.5vw,5.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance">
+          <h1 className="max-w-5xl text-[clamp(2.5rem,7.5vw,5.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-[#101216] dark:text-white">
             <span className="cover-line"><span>Rouler ensemble,</span></span>
             <span className="cover-line"><span>partager l&apos;effort,</span></span>
             <span className="cover-line"><span className="text-[#e03e3e] italic">la passion du peloton.</span></span>
@@ -54,7 +54,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
           <p className="cover-rise cover-rise-1 mt-6 max-w-2xl text-base sm:text-lg text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
             Dames, Hommes, Jeunes, Vététistes et vélos électriques :{' '}
-            <strong className="font-semibold text-[#101216] dark:text-[#f5f6f8]">3 groupes de niveau encadrés</strong>{' '}
+            <strong className="font-semibold text-[#101216] dark:text-white">3 groupes de niveau encadrés</strong>{' '}
             au départ de Blanmont chaque weekend dans une ambiance conviviale et sportive.
           </p>
 
@@ -69,7 +69,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
             <Link
               href="/sondage"
-              className="inline-flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-white/20 bg-white dark:bg-white/5 text-[#101216] dark:text-[#f5f6f8] hover:border-[#101216]/30 dark:hover:border-white/40 hover:bg-[#f2efe9] dark:hover:bg-white/10 px-6 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-xs"
+              className="inline-flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-white/20 bg-white dark:bg-[#161922] text-[#101216] dark:text-white hover:border-[#101216]/30 dark:hover:border-white/40 hover:bg-[#f2efe9] dark:hover:bg-[#1f242d] px-6 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-xs"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>Sondage du Weekend</span>
@@ -92,17 +92,17 @@ export default async function Home(): Promise<React.ReactElement> {
       </section>
 
       {/* ──── Section : Prochain Rendez-vous & Sondage (Distilled Editorial Spread) ──── */}
-      <section className="py-16 sm:py-20 bg-[#faf8f5] border-b border-[#e4e0d8]">
+      <section className="py-16 sm:py-20 bg-[#faf8f5] dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             {/* Left: Next Scheduled Ride */}
-            <div className="lg:col-span-7 rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div className="lg:col-span-7 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-8 flex flex-col justify-between space-y-6 transition-colors">
               <div className="space-y-4">
                 {/* Header row: Date + Weather badge */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#e4e0d8]">
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#e4e0d8] dark:border-white/10">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
-                    <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#101216]">
+                    <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#101216] dark:text-white">
                       Prochain départ · {nextRide.dateFormatted}
                     </span>
                   </div>
@@ -110,42 +110,42 @@ export default async function Home(): Promise<React.ReactElement> {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] leading-[1.1] text-[#101216]">
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] leading-[1.1] text-[#101216] dark:text-white">
                     Départ {nextRide.departure} — {nextRide.location}
                   </h2>
-                  <p className="text-sm text-[#3a3f4a] leading-relaxed mt-2 max-w-[60ch]">
+                  <p className="text-sm text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed mt-2 max-w-[60ch]">
                     {nextRide.remarks || 'Briefing sur la Place de Blanmont, rassemblement et constitution des pelotons d\'allure.'}
                   </p>
                 </div>
 
                 {/* Inline metadata chip row */}
-                <div className="flex flex-wrap items-center gap-4 text-xs text-[#5c6370] pt-1">
+                <div className="flex flex-wrap items-center gap-4 text-xs text-[#5c6370] dark:text-[#a7adbb] pt-1">
                   <span className="flex items-center gap-1.5 font-medium">
                     <span className="text-sm">🚲</span>
-                    <span>Groupes : <strong className="text-[#101216]">{nextRide.distances || 'Allures A, B, C & VTT'}</strong></span>
+                    <span>Groupes : <strong className="text-[#101216] dark:text-white">{nextRide.distances || 'Allures A, B, C & VTT'}</strong></span>
                   </span>
-                  <span className="text-[#e4e0d8]">•</span>
+                  <span className="text-[#e4e0d8] dark:text-white/20">•</span>
                   <span className="flex items-center gap-1.5 font-medium">
-                    <MapPinIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+                    <MapPinIcon className="h-3.5 w-3.5 text-[#7d8493] dark:text-[#a7adbb]" />
                     <span>{nextRide.location}</span>
                   </span>
                 </div>
               </div>
 
               {/* Action Footer */}
-              <div className="pt-4 border-t border-[#e4e0d8] flex flex-wrap items-center justify-between gap-3">
+              <div className="pt-4 border-t border-[#e4e0d8] dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
                 {nextRide.gpxUrl ? (
                   <a
                     href={nextRide.gpxUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-md bg-[#f2efe9] hover:bg-[#e4e0d8] text-[#101216] px-3.5 py-2 text-xs font-semibold transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-md bg-[#f2efe9] dark:bg-white/10 hover:bg-[#e4e0d8] dark:hover:bg-white/20 text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold transition-colors"
                   >
                     <ArrowDownTrayIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                     <span>Télécharger la trace GPX</span>
                   </a>
                 ) : (
-                  <span className="text-xs text-[#7d8493] italic">Trace disponible avant le départ</span>
+                  <span className="text-xs text-[#7d8493] dark:text-[#a7adbb] italic">Trace disponible avant le départ</span>
                 )}
 
                 <Link
@@ -211,31 +211,31 @@ export default async function Home(): Promise<React.ReactElement> {
       </section>
 
       {/* ──── Section : La Vie du Club (Distilled Editorial Spread with Giant Watermark) ──── */}
-      <section className="py-20 sm:py-28 bg-[#faf8f5] relative overflow-hidden">
+      <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#0a0c10] relative overflow-hidden transition-colors duration-200">
         {/* Editorial Giant Background Typography Layer */}
-        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-center">
-          <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] whitespace-nowrap">
+        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>
         </div>
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 relative z-10">
           {/* Section Header with exact style */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] dark:border-white/10 pb-8">
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
                 <SparklesIcon className="h-4 w-4" />
                 Structure &amp; Allures
               </div>
-              <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
+              <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
                 La Vie du Club de Blanmont
               </h2>
-              <p className="text-base text-[#3a3f4a] leading-relaxed">
+              <p className="text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
                 Une structure sportive et conviviale pensée pour que chaque cycliste prenne du plaisir à son propre rythme.
               </p>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
               <ShieldCheckIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>&laquo; On part ensemble, on rentre ensemble &raquo;</span>
             </div>
@@ -244,7 +244,7 @@ export default async function Home(): Promise<React.ReactElement> {
           {/* Speed & Pace Groups Strip — Distilled, No Nested Cards */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#7d8493]">
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#7d8493] dark:text-[#a7adbb]">
                 Groupes de niveau &amp; allures
               </span>
               <Link
@@ -258,72 +258,72 @@ export default async function Home(): Promise<React.ReactElement> {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Groupe A */}
-              <div className="group rounded-lg border border-[#e4e0d8] bg-white p-5 flex flex-col justify-between transition-all duration-300 hover:border-[#e03e3e] hover:-translate-y-0.5 hover:shadow-md">
+              <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-5 flex flex-col justify-between transition-all duration-300 hover:border-[#e03e3e] hover:-translate-y-0.5 hover:shadow-md">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] group-hover:text-[#e03e3e] transition-colors">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
                       Groupe A
                     </span>
                     <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
                   </div>
-                  <div className="text-2xl font-extrabold text-[#101216] tabular-nums tracking-tight">
-                    &gt; 30 <span className="text-xs font-normal text-[#7d8493]">km/h</span>
+                  <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                    &gt; 30 <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
                   </div>
-                  <p className="text-xs text-[#5c6370] leading-relaxed">
+                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Sportif, rythmé et soutenu. Pour les cyclistes aguerris habitués aux relais dynamiques.
                   </p>
                 </div>
               </div>
 
               {/* Groupe B */}
-              <div className="group rounded-lg border border-[#e4e0d8] bg-white p-5 flex flex-col justify-between transition-all duration-300 hover:border-sky-500 hover:-translate-y-0.5 hover:shadow-md">
+              <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-5 flex flex-col justify-between transition-all duration-300 hover:border-sky-500 hover:-translate-y-0.5 hover:shadow-md">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] group-hover:text-sky-600 transition-colors">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white group-hover:text-sky-400 transition-colors">
                       Groupe B
                     </span>
                     <span className="h-2 w-2 rounded-full bg-sky-500" />
                   </div>
-                  <div className="text-2xl font-extrabold text-[#101216] tabular-nums tracking-tight">
-                    25 – 28 <span className="text-xs font-normal text-[#7d8493]">km/h</span>
+                  <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                    25 – 28 <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
                   </div>
-                  <p className="text-xs text-[#5c6370] leading-relaxed">
+                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Équilibré, fluide et convivial en peloton régulier. Idéal pour progresser et rouler groupé.
                   </p>
                 </div>
               </div>
 
               {/* Groupe C */}
-              <div className="group rounded-lg border border-[#e4e0d8] bg-white p-5 flex flex-col justify-between transition-all duration-300 hover:border-emerald-500 hover:-translate-y-0.5 hover:shadow-md">
+              <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-5 flex flex-col justify-between transition-all duration-300 hover:border-emerald-500 hover:-translate-y-0.5 hover:shadow-md">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] group-hover:text-emerald-600 transition-colors">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white group-hover:text-emerald-400 transition-colors">
                       Groupe C
                     </span>
                     <span className="h-2 w-2 rounded-full bg-emerald-500" />
                   </div>
-                  <div className="text-2xl font-extrabold text-[#101216] tabular-nums tracking-tight">
-                    &lt; 25 <span className="text-xs font-normal text-[#7d8493]">km/h</span>
+                  <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                    &lt; 25 <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
                   </div>
-                  <p className="text-xs text-[#5c6370] leading-relaxed">
+                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Découverte, reprise et plaisir sans pression. Adapté aux vélos traditionnels et VAE.
                   </p>
                 </div>
               </div>
 
               {/* Groupe VTT */}
-              <div className="group rounded-lg border border-[#e4e0d8] bg-white p-5 flex flex-col justify-between transition-all duration-300 hover:border-amber-500 hover:-translate-y-0.5 hover:shadow-md">
+              <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-5 flex flex-col justify-between transition-all duration-300 hover:border-amber-500 hover:-translate-y-0.5 hover:shadow-md">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] group-hover:text-amber-600 transition-colors">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white group-hover:text-amber-400 transition-colors">
                       Groupe VTT
                     </span>
                     <span className="h-2 w-2 rounded-full bg-amber-500" />
                   </div>
-                  <div className="text-2xl font-extrabold text-[#101216] tracking-tight">
-                    Sentiers <span className="text-xs font-normal text-[#7d8493]">Bois &amp; Campagne</span>
+                  <div className="text-2xl font-extrabold text-[#101216] dark:text-white tracking-tight">
+                    Sentiers <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">Bois &amp; Campagne</span>
                   </div>
-                  <p className="text-xs text-[#5c6370] leading-relaxed">
+                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Chemins de terre, sous-bois et sentiers vallonnés du Brabant wallon.
                   </p>
                 </div>
@@ -334,26 +334,26 @@ export default async function Home(): Promise<React.ReactElement> {
           {/* 3 Core Pillars — Perfectly balanced, no dead space */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 1. Le Carré Vert */}
-            <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 hover:shadow-md">
+            <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 dark:hover:border-white/40 hover:shadow-md">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-50 text-emerald-600 border border-emerald-200/60">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/40">
                     <TrophyIcon className="h-5 w-5" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800/40">
                     Challenge
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] group-hover:text-[#e03e3e] transition-colors">
+                  <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
                     Le Carré Vert
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#5c6370] leading-relaxed mt-1.5">
+                  <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed mt-1.5">
                     Pointage automatique des présences à chaque sortie et palmarès annuel d&apos;assiduité récompensé à l&apos;Assemblée Générale.
                   </p>
                 </div>
               </div>
-              <div className="pt-4 mt-6 border-t border-[#e4e0d8]">
+              <div className="pt-4 mt-6 border-t border-[#e4e0d8] dark:border-white/10">
                 <Link
                   href="/leaderboard"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -365,26 +365,26 @@ export default async function Home(): Promise<React.ReactElement> {
             </div>
 
             {/* 2. Calendrier */}
-            <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 hover:shadow-md">
+            <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 dark:hover:border-white/40 hover:shadow-md">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-50 text-sky-600 border border-sky-200/60">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200/60 dark:border-sky-800/40">
                     <CalendarDaysIcon className="h-5 w-5" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">
+                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/40 px-2.5 py-1 rounded-full border border-sky-200 dark:border-sky-800/40">
                     Planning
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] group-hover:text-[#e03e3e] transition-colors">
+                  <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
                     Calendrier &amp; Traces GPS
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#5c6370] leading-relaxed mt-1.5">
+                  <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed mt-1.5">
                     Sorties locales, brevets extérieurs et randos cyclotouristes avec synchronisation iCal (Apple, Google, Outlook) et traces GPX.
                   </p>
                 </div>
               </div>
-              <div className="pt-4 mt-6 border-t border-[#e4e0d8]">
+              <div className="pt-4 mt-6 border-t border-[#e4e0d8] dark:border-white/10">
                 <Link
                   href="/calendrier"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -396,26 +396,26 @@ export default async function Home(): Promise<React.ReactElement> {
             </div>
 
             {/* 3. Équipements */}
-            <div className="group rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 hover:shadow-md">
+            <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 dark:hover:border-white/40 hover:shadow-md">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-amber-50 text-amber-600 border border-amber-200/60">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/40">
                     <CheckBadgeIcon className="h-5 w-5" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800/40">
                     Boutique
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] group-hover:text-[#e03e3e] transition-colors">
+                  <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
                     Tenues &amp; Équipements
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#5c6370] leading-relaxed mt-1.5">
+                  <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed mt-1.5">
                     Maillots, cuissards, vestes thermiques et accessoires officiels aux couleurs du Club de Blanmont.
                   </p>
                 </div>
               </div>
-              <div className="pt-4 mt-6 border-t border-[#e4e0d8]">
+              <div className="pt-4 mt-6 border-t border-[#e4e0d8] dark:border-white/10">
                 <Link
                   href="/le-club/equipement"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -433,61 +433,61 @@ export default async function Home(): Promise<React.ReactElement> {
       <EditorialPhotographicMosaic />
 
       {/* ──── Club Spirit — typographic manifesto with Giant Watermark ──── */}
-      <section className="py-20 sm:py-28 bg-[#f2efe9] border-y border-[#e4e0d8] relative overflow-hidden">
+      <section className="py-20 sm:py-28 bg-[#f2efe9] dark:bg-[#0d0f14] border-y border-[#e4e0d8] dark:border-[#262b38] relative overflow-hidden transition-colors duration-200">
         {/* Editorial Giant Background Typography Layer */}
-        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-center">
-          <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] whitespace-nowrap">
+        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+          <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             ESPRIT
           </span>
         </div>
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] dark:border-white/10 pb-8">
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
                 <HeartIcon className="h-4 w-4" />
                 Manifeste &amp; Valeurs
               </div>
-              <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
+              <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
                 L&apos;Esprit du CC Saint-Martin
               </h2>
-              <p className="text-base text-[#3a3f4a] leading-relaxed">
+              <p className="text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
                 La philosophie fondatrice qui guide chaque sortie, chaque relais et chaque rassemblement depuis 1978.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+            <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
               <span>Pacte de Solidarité · 1978–2026</span>
             </div>
           </div>
 
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">
-              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] inline-flex items-center gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] dark:border-white/10 items-baseline">
+              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white inline-flex items-center gap-3">
                 <ShieldCheckIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
                 Sécurité &amp; Encadrement
               </h3>
-              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
+              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed max-w-[65ch]">
                 Des allures respectées, des capitaines attentifs et une entraide systématique en cas de coup dur ou de crevaison.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">
-              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] inline-flex items-center gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] dark:border-white/10 items-baseline">
+              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white inline-flex items-center gap-3">
                 <HeartIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
                 Convivialité &amp; Troisième Mi-temps
               </h3>
-              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
+              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed max-w-[65ch]">
                 Le plaisir de se retrouver sur la Place de Blanmont ou à la brasserie locale après la sortie pour débriefer dans la bonne humeur.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] items-baseline">
-              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] inline-flex items-center gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] dark:border-white/10 items-baseline">
+              <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white inline-flex items-center gap-3">
                 <BoltIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
                 Ouvert à Tous les Profils
               </h3>
-              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] leading-relaxed max-w-[65ch]">
+              <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed max-w-[65ch]">
                 Cyclistes occasionnels ou compétiteurs réguliers, vélos traditionnels ou électriques : chacun trouve son peloton.
               </p>
             </div>
@@ -496,7 +496,7 @@ export default async function Home(): Promise<React.ReactElement> {
       </section>
 
       {/* ──── Call-To-Action Cover (Adaptive Light / Dark) ──── */}
-      <section className="py-20 sm:py-28 bg-[#f2efe9] dark:bg-[#0a0c10] text-[#101216] dark:text-white dark:border-none relative overflow-hidden transition-colors duration-200">
+      <section className="py-20 sm:py-28 bg-[#f2efe9] dark:bg-[#0a0c10] text-[#101216] dark:text-white border-t border-[#e4e0d8] dark:border-[#262b38] relative overflow-hidden transition-colors duration-200">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="max-w-4xl space-y-6">
             <h2 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-[#101216] dark:text-white">
@@ -518,7 +518,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
             <Link
               href="/sondage"
-              className="inline-flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-white/25 text-[#101216] dark:text-[#f5f6f8] bg-white dark:bg-transparent hover:border-[#101216]/40 dark:hover:border-white/50 hover:bg-[#faf8f5] dark:hover:bg-white/5 px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-xs"
+              className="inline-flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-white/20 text-[#101216] dark:text-white bg-white dark:bg-[#161922] hover:border-[#101216]/40 dark:hover:border-white/40 hover:bg-[#faf8f5] dark:hover:bg-[#1f242d] px-7 py-3.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-xs"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4" />
               <span>Sondage du Weekend</span>

@@ -20,7 +20,7 @@ interface PageHeroProps {
  */
 const variantStyles = {
     light: {
-        bg: 'bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] dark:bg-[#0a0c10] dark:border-[#262b38]',
+        bg: 'editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]',
         accent: 'bg-[#e03e3e]/15',
         secondary: 'bg-black/5 dark:bg-white/5',
         badge: 'bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30',
@@ -28,7 +28,7 @@ const variantStyles = {
         description: 'text-[#5c6370] dark:text-[#a7adbb]',
     },
     red: {
-        bg: 'bg-gradient-to-b from-[#fdf2f2] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] dark:bg-[#0a0c10] dark:border-[#262b38]',
+        bg: 'editorial-hero-surface-red border-b border-[#e4e0d8] dark:border-[#262b38]',
         accent: 'bg-[#e03e3e]/20',
         secondary: 'bg-black/5 dark:bg-white/5',
         badge: 'bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30',
@@ -36,7 +36,7 @@ const variantStyles = {
         description: 'text-[#5c6370] dark:text-[#a7adbb]',
     },
     green: {
-        bg: 'bg-gradient-to-b from-[#f0fdf4] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] dark:bg-[#0a0c10] dark:border-[#262b38]',
+        bg: 'editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]',
         accent: 'bg-emerald-500/15',
         secondary: 'bg-black/5 dark:bg-white/5',
         badge: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400 border border-emerald-600/25',
@@ -44,7 +44,7 @@ const variantStyles = {
         description: 'text-[#5c6370] dark:text-[#a7adbb]',
     },
     blue: {
-        bg: 'bg-gradient-to-b from-[#f0f9ff] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] dark:bg-[#0a0c10] dark:border-[#262b38]',
+        bg: 'editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]',
         accent: 'bg-sky-500/15',
         secondary: 'bg-black/5 dark:bg-white/5',
         badge: 'bg-sky-600/10 text-sky-700 dark:text-sky-400 border border-sky-600/25',
@@ -52,7 +52,7 @@ const variantStyles = {
         description: 'text-[#5c6370] dark:text-[#a7adbb]',
     },
     gray: {
-        bg: 'bg-gradient-to-b from-[#f2efe9] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] dark:bg-[#0a0c10] dark:border-[#262b38]',
+        bg: 'editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]',
         accent: 'bg-black/10 dark:bg-white/10',
         secondary: 'bg-black/5 dark:bg-white/5',
         badge: 'bg-black/10 dark:bg-white/10 text-[#101216] dark:text-[#f5f6f8] border border-[#e4e0d8] dark:border-white/15',
@@ -60,12 +60,12 @@ const variantStyles = {
         description: 'text-[#5c6370] dark:text-[#a7adbb]',
     },
     dark: {
-        bg: 'bg-[#0a0c10] border-b border-[#262b38]',
+        bg: 'editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]',
         accent: 'bg-[#e03e3e]/25',
-        secondary: 'bg-white/5',
-        badge: 'bg-white/10 text-white border border-white/15',
-        title: 'text-white',
-        description: 'text-[#a7adbb]',
+        secondary: 'bg-black/5 dark:bg-white/5',
+        badge: 'bg-black/10 dark:bg-white/10 text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-white/15',
+        title: 'text-[#101216] dark:text-white',
+        description: 'text-[#5c6370] dark:text-[#a7adbb]',
     },
 };
 

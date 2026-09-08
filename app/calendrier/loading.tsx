@@ -4,7 +4,7 @@ export default function CalendarLoading(): React.ReactElement {
   return (
     <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
       {/* Editorial Cover Skeleton */}
-      <section className="bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] dark:bg-[#0a0c10] dark:border-[#262b38] pt-14 pb-10 sm:pt-20 sm:pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+      <section className="editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] pt-14 pb-10 sm:pt-20 sm:pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-[#e4e0d8] dark:border-white/10 animate-pulse">
             <div className="space-y-4 max-w-3xl">

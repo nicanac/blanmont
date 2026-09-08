@@ -100,12 +100,12 @@ export default function CalendarDrawer({
       />
 
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 border-l border-[#e4e0d8]">
+        <div className="w-screen max-w-md bg-white dark:bg-[#161922] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 border-l border-[#e4e0d8] dark:border-[#262b38]">
           {/* Header */}
-          <div className="bg-[#f2efe9] border-b border-[#e4e0d8] p-6">
+          <div className="bg-[#f2efe9] dark:bg-[#101216] border-b border-[#e4e0d8] dark:border-[#262b38] p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <h2 id="drawer-title" className="text-xl font-extrabold text-[#101216] tracking-tight">
+                <h2 id="drawer-title" className="text-xl font-extrabold text-[#101216] dark:text-white tracking-tight">
                   {event.location}
                 </h2>
                 <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -113,7 +113,7 @@ export default function CalendarDrawer({
                     <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
                     {isWeekend ? 'Sortie Club' : 'Événement'}
                   </span>
-                  <span className="text-xs font-semibold text-[#5c6370] capitalize">
+                  <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] capitalize">
                     {dateStr}
                   </span>
                 </div>
@@ -122,7 +122,7 @@ export default function CalendarDrawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#5c6370] hover:text-[#101216] hover:bg-[#e4e0d8]/60 transition-colors shrink-0"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-[#e4e0d8]/60 dark:hover:bg-[#1d2128] transition-colors shrink-0"
                 aria-label="Fermer le panneau"
               >
                 <XMarkIcon className="h-5 w-5" />
@@ -139,11 +139,11 @@ export default function CalendarDrawer({
 
             {/* GPX / Garmin / Strava Trace Section */}
             {event.gpxUrl && (
-              <div className="rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-4 space-y-3">
+              <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <MapIcon className="h-4 w-4 text-[#e03e3e]" />
-                    <span className="text-xs font-bold text-[#101216]">
+                    <span className="text-xs font-bold text-[#101216] dark:text-white">
                       Parcours GPS de la sortie
                     </span>
                   </div>
@@ -158,7 +158,7 @@ export default function CalendarDrawer({
                   </span>
                 </div>
 
-                <p className="text-xs text-[#3a3f4a] leading-relaxed">
+                <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
                   {event.gpxUrl.includes('strava.com')
                     ? 'Consulter l’itinéraire et télécharger la trace sur Strava.'
                     : event.gpxUrl.includes('garmin.com')
@@ -193,36 +193,36 @@ export default function CalendarDrawer({
               href={mapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block relative w-full rounded-md overflow-hidden border border-[#e4e0d8] bg-[#f2efe9] p-4 hover:border-[#101216]/30 transition-all text-center flex flex-col items-center justify-center gap-2 min-h-[44px]"
+              className="group block relative w-full rounded-md overflow-hidden border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] hover:border-[#101216]/30 dark:hover:border-white/30 transition-all text-center flex flex-col items-center justify-center gap-2 min-h-[44px]"
             >
-              <div className="rounded-full bg-white p-2 text-[#e03e3e] shadow-xs group-hover:scale-105 transition-transform">
+              <div className="rounded-full bg-white dark:bg-[#161922] p-2 text-[#e03e3e] shadow-xs group-hover:scale-105 transition-transform">
                 <MapPinIcon className="h-5 w-5" />
               </div>
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-white px-3 py-1.5 text-xs font-semibold text-[#101216] shadow-xs border border-[#e4e0d8]">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-white dark:bg-[#161922] px-3 py-1.5 text-xs font-semibold text-[#101216] dark:text-white shadow-xs border border-[#e4e0d8] dark:border-[#262b38]">
                 <span>Voir le point de rassemblement sur Google Maps</span>
-                <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+                <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
               </span>
             </a>
 
             {/* Details Grid */}
-            <div className="rounded-md border border-[#e4e0d8] bg-[#f2efe9]/70 p-4 space-y-3 text-xs">
+            <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128]/70 p-4 space-y-3 text-xs">
               <div className="flex items-center gap-3">
-                <ClockIcon className="h-4 w-4 text-[#5c6370] shrink-0" />
+                <ClockIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
                 <div>
-                  <span className="text-xs font-semibold text-[#5c6370] uppercase tracking-wider block">
+                  <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] uppercase tracking-wider block">
                     Heure de départ
                   </span>
-                  <span className="font-bold text-[#101216] tabular-nums">{event.departure}</span>
+                  <span className="font-bold text-[#101216] dark:text-white tabular-nums">{event.departure}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <MapIcon className="h-4 w-4 text-[#5c6370] shrink-0" />
+                <MapIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
                 <div>
-                  <span className="text-xs font-semibold text-[#5c6370] uppercase tracking-wider block">
+                  <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] uppercase tracking-wider block">
                     Distances
                   </span>
-                  <span className="font-bold text-[#101216] tabular-nums">
+                  <span className="font-bold text-[#101216] dark:text-white tabular-nums">
                     {event.distances ? `${event.distances} km` : 'Non spécifié'}
                   </span>
                 </div>
@@ -230,24 +230,24 @@ export default function CalendarDrawer({
 
               {event.group && (
                 <div className="flex items-center gap-3">
-                  <UserGroupIcon className="h-4 w-4 text-[#5c6370] shrink-0" />
+                  <UserGroupIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
                   <div>
-                    <span className="text-xs font-semibold text-[#5c6370] uppercase tracking-wider block">
+                    <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] uppercase tracking-wider block">
                       Groupe
                     </span>
-                    <span className="font-bold text-[#101216]">{event.group}</span>
+                    <span className="font-bold text-[#101216] dark:text-white">{event.group}</span>
                   </div>
                 </div>
               )}
 
               {event.address && (
                 <div className="flex items-start gap-3">
-                  <MapPinIcon className="h-4 w-4 text-[#5c6370] shrink-0 mt-0.5" />
+                  <MapPinIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-xs font-semibold text-[#5c6370] uppercase tracking-wider block">
+                    <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] uppercase tracking-wider block">
                       Adresse de rassemblement
                     </span>
-                    <span className="font-medium text-[#101216]">{event.address}</span>
+                    <span className="font-medium text-[#101216] dark:text-white">{event.address}</span>
                   </div>
                 </div>
               )}
@@ -257,19 +257,19 @@ export default function CalendarDrawer({
             {(event.remarks || event.alternative) && (
               <div className="space-y-3">
                 {event.remarks && (
-                  <div className="rounded-md border border-[#e4e0d8] bg-white p-4 space-y-1">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-[#101216]">
+                  <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-4 space-y-1">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-[#101216] dark:text-white">
                       <InformationCircleIcon className="h-4 w-4 text-[#3b82f6]" />
                       <span>Remarques</span>
                     </div>
-                    <p className="text-xs text-[#3a3f4a] leading-relaxed">{event.remarks}</p>
+                    <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">{event.remarks}</p>
                   </div>
                 )}
 
                 {event.alternative && (
-                  <div className="rounded-md border border-amber-200 bg-amber-50 p-4 space-y-1">
-                    <div className="text-xs font-bold text-amber-900">Alternative</div>
-                    <p className="text-xs text-amber-800 leading-relaxed">
+                  <div className="rounded-md border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-950/40 p-4 space-y-1">
+                    <div className="text-xs font-bold text-amber-900 dark:text-amber-200">Alternative</div>
+                    <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
                       {event.alternative}
                     </p>
                   </div>
@@ -278,10 +278,10 @@ export default function CalendarDrawer({
             )}
 
             {/* Attendance / Participation Section */}
-            <div className="border-t border-[#e4e0d8] pt-4 space-y-3">
+            <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-4 space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#101216]">
-                  <UserGroupIcon className="h-4 w-4 text-emerald-600" />
+                <div className="flex items-center gap-1.5 text-xs font-bold text-[#101216] dark:text-white">
+                  <UserGroupIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                   <span>Présents enregistrés ({attendees.length})</span>
                 </div>
 
@@ -303,12 +303,12 @@ export default function CalendarDrawer({
                       return (
                         <div
                           key={idx}
-                          className="inline-flex items-center gap-2 rounded-lg border border-[#e4e0d8] bg-[#faf8f5] px-2.5 py-1.5 text-xs text-[#101216] shadow-2xs hover:border-[#101216]/30 transition-colors"
+                          className="inline-flex items-center gap-2 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] px-2.5 py-1.5 text-xs text-[#101216] dark:text-white shadow-2xs hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors"
                         >
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#161922] text-xs font-bold text-white shrink-0 select-none">
+                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
                             {initials}
                           </span>
-                          <span className="font-semibold text-[#101216]">{att.name}</span>
+                          <span className="font-semibold text-[#101216] dark:text-white">{att.name}</span>
                           {att.group && (
                             <span
                               className={`rounded px-1.5 py-0.5 text-xs font-bold border uppercase tracking-wider ${getGroupBadgeClass(
@@ -323,7 +323,7 @@ export default function CalendarDrawer({
                     })}
                 </div>
               ) : (
-                <p className="text-xs text-[#5c6370]">
+                <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                   Aucun membre n&apos;a encore enregistré sa présence pour cette date.
                 </p>
               )}
@@ -331,11 +331,11 @@ export default function CalendarDrawer({
           </div>
 
           {/* Footer */}
-          <div className="p-4 border-t border-[#e4e0d8] flex justify-between items-center bg-[#f2efe9]">
+          <div className="p-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex justify-between items-center bg-[#f2efe9] dark:bg-[#101216]">
             {isAdmin ? (
               <Link
                 href={`/admin/events/${event.id}/edit`}
-                className="min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#101216] px-4 py-2 text-xs font-semibold text-white hover:bg-[#161922] transition-colors"
+                className="min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#101216] dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-[#101216] hover:bg-[#161922] dark:hover:bg-slate-200 transition-colors"
               >
                 <PencilSquareIcon className="h-4 w-4 mr-1.5" />
                 <span>Modifier dans l&apos;admin</span>
@@ -346,7 +346,7 @@ export default function CalendarDrawer({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] bg-white px-6 py-2 text-xs font-semibold text-[#101216] hover:bg-[#faf8f5] hover:border-[#101216]/30 transition-colors"
+              className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-6 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-[#faf8f5] dark:hover:bg-[#262b38] hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors"
             >
               Fermer
             </button>

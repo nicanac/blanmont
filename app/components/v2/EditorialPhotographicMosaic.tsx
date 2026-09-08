@@ -63,31 +63,31 @@ export default function EditorialPhotographicMosaic() {
   ];
 
   return (
-    <section className="py-24 sm:py-32 bg-[#faf8f5] text-[#101216] border-b border-[#e4e0d8] relative overflow-hidden">
+    <section className="py-24 sm:py-32 bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] border-b border-[#e4e0d8] dark:border-[#262b38] relative overflow-hidden transition-colors duration-200">
       {/* Editorial Giant Background Typography Layer */}
-      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-center">
-        <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] whitespace-nowrap">
+      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+        <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
           PELOTON
         </span>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] dark:border-white/10 pb-8">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
               <SparklesIcon className="h-4 w-4" />
               Chronique Visuelle
             </div>
-            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
+            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
               La Traversée des Éléments
             </h2>
-            <p className="text-base text-[#3a3f4a] leading-relaxed">
+            <p className="text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
               Le vélo à Blanmont n&apos;est pas une collection d&apos;images : c&apos;est une symphonie de briques rouges, de ciels mouvants, d&apos;asphalte rugueux et de sourires complices.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
             <span>Archives Vivantes · 1978–2026</span>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function EditorialPhotographicMosaic() {
               key={item.id}
               onMouseEnter={() => setActiveImage(item.id)}
               onMouseLeave={() => setActiveImage(null)}
-              className={`group relative overflow-hidden rounded-xl border border-[#e4e0d8] bg-[#0a0c10] shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-[#e03e3e]/60 ${item.span}`}
+              className={`group relative overflow-hidden rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-[#0a0c10] shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-[#e03e3e]/60 ${item.span}`}
             >
               {/* Image with zoom and soft color grade */}
               <div className={`relative w-full ${item.aspect}`}>

@@ -6,7 +6,7 @@ import { useTheme, Theme } from '../../context/ThemeContext';
 import { cn } from '../../utils/cn';
 
 interface ThemeToggleProps {
-  variant?: 'pill' | 'switch' | 'cards';
+  variant?: 'pill' | 'switch' | 'cards' | 'icon';
   className?: string;
 }
 
@@ -15,6 +15,17 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
 
   if (!isMounted) {
     // Avoid hydration mismatch by rendering static placeholder
+    if (variant === 'icon') {
+      return (
+        <div
+          className={cn(
+            'inline-flex h-9 w-9 min-h-[44px] min-w-[44px] sm:min-h-[36px] sm:min-w-[36px] items-center justify-center rounded-full border border-[#e4e0d8] dark:border-white/10 bg-black/5 dark:bg-white/5 opacity-50',
+            className
+          )}
+          aria-hidden="true"
+        />
+      );
+    }
     if (variant === 'pill') {
       return (
         <div className={cn('inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/15 px-3 py-1.5 text-xs text-muted-foreground', className)}>
@@ -24,6 +35,33 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
       );
     }
     return null;
+  }
+
+  // Refined Circular Icon Toggle (Designed for Header Navbar Desktop & Mobile)
+  if (variant === 'icon') {
+    const isDark = resolvedTheme === 'dark';
+
+    return (
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className={cn(
+          'group relative inline-flex h-9 w-9 min-h-[44px] min-w-[44px] sm:min-h-[36px] sm:min-w-[36px] items-center justify-center rounded-full border border-[#e4e0d8] dark:border-white/10 bg-black/5 dark:bg-white/[0.04] hover:bg-black/10 dark:hover:bg-white/[0.08] text-[#101216] dark:text-white transition-all duration-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-95 cursor-pointer',
+          className
+        )}
+        title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+        aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+      >
+        <span className="sr-only">
+          {isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+        </span>
+        {isDark ? (
+          <SunIcon className="h-4.5 w-4.5 text-amber-400 group-hover:text-amber-300 group-hover:rotate-45 transition-transform duration-300" />
+        ) : (
+          <MoonIcon className="h-4.5 w-4.5 text-[#5c6370] group-hover:text-[#101216] group-hover:-rotate-12 transition-transform duration-300" />
+        )}
+      </button>
+    );
   }
 
   // Large visual cards selector (for Admin Settings page)

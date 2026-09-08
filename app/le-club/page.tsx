@@ -13,7 +13,7 @@ export default function LeClubPage(): React.ReactElement {
   return (
     <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
       {/* ──── Editorial Cover Hero (Adaptive Light / Dark) ──── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] border-b border-[#e4e0d8] text-[#101216] dark:bg-[#0a0c10] dark:border-[#262b38] dark:text-white transition-colors duration-200">
+      <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
         {/* Atmospheric Background Watermark */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
           <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">

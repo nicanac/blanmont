@@ -27,6 +27,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../utils/cn';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar(): React.ReactElement {
   const pathname = usePathname();
@@ -91,6 +92,10 @@ export default function Navbar(): React.ReactElement {
         },
       ]
     : [];
+
+  if (pathname?.startsWith('/admin')) {
+    return <></>;
+  }
 
   return (
     <Popover
@@ -211,8 +216,14 @@ export default function Navbar(): React.ReactElement {
                 </div>
               </div>
 
-              {/* Right Side: Icons */}
-              <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
+              {/* Right Side: Theme Toggle & User Menu */}
+              <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
+                {/* Quick Theme Switcher */}
+                <ThemeToggle variant="icon" />
+
+                {/* Subtle vertical hairline divider */}
+                <div className="h-5 w-px bg-[#e4e0d8] dark:bg-white/10" aria-hidden="true" />
+
                 {/* User Menu / Login */}
                 {isAuthenticated ? (
                   <Popover className="relative">
@@ -309,7 +320,7 @@ export default function Navbar(): React.ReactElement {
                     )}
                   </Popover>
                 ) : (
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-3 sm:space-x-4">
                     <Link
                       href="/login"
                       className="text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors"
@@ -326,9 +337,11 @@ export default function Navbar(): React.ReactElement {
                 )}
               </div>
 
-              {/* Mobile menu button */}
-              <div className="-mr-2 flex items-center lg:hidden">
-                <PopoverButton className="relative inline-flex items-center justify-center rounded-md p-2 text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#101216] dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
+              {/* Mobile controls: Theme Toggle + Menu button */}
+              <div className="-mr-2 flex items-center gap-1 sm:gap-2 lg:hidden">
+                <ThemeToggle variant="icon" />
+
+                <PopoverButton className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md p-2 text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#101216] dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e03e3e]">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Ouvrir le menu principal</span>
                   {open ? (
@@ -424,7 +437,15 @@ export default function Navbar(): React.ReactElement {
                   )}
                 </Disclosure>
               </div>
-              <div className="border-t border-[#e4e0d8] dark:border-white/10 pb-3 pt-4">
+              <div className="border-t border-[#e4e0d8] dark:border-white/10 pb-3 pt-3">
+                {/* Mobile Theme Switcher Row */}
+                <div className="flex items-center justify-between px-4 py-2.5 mb-2 border-b border-[#e4e0d8]/60 dark:border-white/5">
+                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb]">
+                    Thème d&apos;affichage
+                  </span>
+                  <ThemeToggle variant="pill" />
+                </div>
+
                 {isAuthenticated ? (
                   <div className="space-y-1">
                     <div className="flex items-center px-4">

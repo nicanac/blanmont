@@ -35,33 +35,33 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
   const secondaryPosts = posts.slice(1, 4);
 
   return (
-    <section className="bg-[#faf8f5] py-20 sm:py-28 border-t border-[#e4e0d8] relative overflow-hidden">
+    <section className="bg-[#faf8f5] dark:bg-[#0a0c10] py-20 sm:py-28 border-t border-[#e4e0d8] dark:border-[#262b38] relative overflow-hidden transition-colors duration-200">
       {/* Editorial Giant Background Typography Layer */}
-      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-center">
-        <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] whitespace-nowrap">
+      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+        <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
           GAZETTE
         </span>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
         {/* Section header with exact editorial title style */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] dark:border-white/10 pb-8">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
               <BookOpenIcon className="h-4 w-4" />
               Édition &amp; Chroniques
             </div>
-            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
+            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
               Les Dernières Nouvelles du Peloton
             </h2>
-            <p className="text-base text-[#3a3f4a] leading-relaxed">
+            <p className="text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
               Récits d&apos;échappées, présentations des tenues officielles et actualités du club de Blanmont.
             </p>
           </div>
 
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-5 py-3 text-xs font-bold uppercase tracking-wider text-[#101216] transition-colors hover:border-[#101216]/40 shadow-xs"
+            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] dark:border-white/20 bg-white dark:bg-[#161922] px-5 py-3 text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white transition-colors hover:border-[#101216]/40 dark:hover:border-white/40 shadow-xs"
           >
             <span>Toutes les actualités</span>
             <ArrowRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
@@ -109,23 +109,23 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
           {/* Sidebar — hairline news index, not cards */}
           <div className="lg:col-span-5 flex flex-col">
             {secondaryPosts.length > 0 ? (
-              <div className="flex-1 border-t border-[#e4e0d8]">
+              <div className="flex-1 border-t border-[#e4e0d8] dark:border-white/10">
                 {secondaryPosts.map((post) => (
                   <Link
                     key={post.id}
                     href={`/blog/${post.slug}`}
-                    className="group block py-5 border-b border-[#e4e0d8] hover:bg-white/60 transition-colors px-1 -mx-1"
+                    className="group block py-5 border-b border-[#e4e0d8] dark:border-white/10 hover:bg-white/60 dark:hover:bg-white/5 transition-colors px-1 -mx-1"
                   >
-                    <div className="flex items-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#5c6370]">
+                    <div className="flex items-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb]">
                       <span className="text-[#e03e3e]">{post.category}</span>
-                      <span aria-hidden="true" className="h-px w-4 bg-[#e4e0d8]" />
+                      <span aria-hidden="true" className="h-px w-4 bg-[#e4e0d8] dark:bg-white/20" />
                       <span className="normal-case tracking-normal font-medium">{formatDate(post.publishedAt)}</span>
                     </div>
 
-                    <h4 className="mt-2 text-lg font-bold tracking-[-0.015em] leading-snug text-[#101216] group-hover:text-[#e03e3e] transition-colors line-clamp-2">
+                    <h4 className="mt-2 text-lg font-bold tracking-[-0.015em] leading-snug text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors line-clamp-2">
                       {post.title}
                     </h4>
-                    <p className="mt-1 text-xs text-[#3a3f4a] line-clamp-2 leading-relaxed max-w-[65ch]">
+                    <p className="mt-1 text-xs text-[#3a3f4a] dark:text-[#a7adbb] line-clamp-2 leading-relaxed max-w-[65ch]">
                       {post.excerpt}
                     </p>
 
@@ -139,19 +139,19 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
             ) : (
               <div className="flex-1 flex flex-col gap-6">
                 {/* Événements & Agenda */}
-                <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 flex-1 flex flex-col justify-between">
+                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 flex-1 flex flex-col justify-between">
                   <div className="space-y-2.5">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-md bg-amber-500/10 text-amber-700">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400">
                       <CalendarDaysIcon className="h-5 w-5" />
                     </div>
-                    <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216]">
+                    <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] dark:text-white">
                       Agenda des sorties
                     </h3>
-                    <p className="text-xs text-[#3a3f4a] leading-relaxed">
+                    <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
                       Consultez les prochaines sorties du club, les horaires de départ et les randos extérieures prévues.
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-[#e4e0d8]">
+                  <div className="pt-4 mt-4 border-t border-[#e4e0d8] dark:border-white/10">
                     <Link
                       href="/calendrier"
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
@@ -163,19 +163,19 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
                 </div>
 
                 {/* Rejoindre le club */}
-                <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 flex-1 flex flex-col justify-between">
+                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 flex-1 flex flex-col justify-between">
                   <div className="space-y-2.5">
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e]">
                       <UserPlusIcon className="h-5 w-5" />
                     </div>
-                    <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216]">
+                    <h3 className="text-lg font-bold tracking-[-0.015em] text-[#101216] dark:text-white">
                       Envie de nous rejoindre ?
                     </h3>
-                    <p className="text-xs text-[#3a3f4a] leading-relaxed">
+                    <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
                       Venez tester une sortie sans engagement. Découvrez notre esprit club et trouvez le groupe qui vous correspond.
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-[#e4e0d8]">
+                  <div className="pt-4 mt-4 border-t border-[#e4e0d8] dark:border-white/10">
                     <Link
                       href="/le-club"
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
