@@ -1,22 +1,19 @@
 import { Suspense } from 'react';
 import { getCalendarEvents, getNextScheduledRide } from '../lib/firebase/calendar';
 import { getAllAttendance } from '../lib/firebase/attendance';
+import { getAllEventReviews } from '../lib/firebase/event-reviews';
 import CalendarView from './CalendarView';
 import CalendarSubscribeButton from './CalendarSubscribeButton';
-import {
-  CalendarDaysIcon,
-  MapPinIcon,
-  ClockIcon,
-  MapIcon,
-} from '@heroicons/react/24/outline';
+import { MapPinIcon } from '@heroicons/react/24/outline';
 import { RouteCalendarIcon, BicycleIcon } from '../components/ui/CyclingIcons';
 
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function CalendarPage() {
-  const [events, allAttendance] = await Promise.all([
+  const [events, allAttendance, allReviews] = await Promise.all([
     getCalendarEvents(),
     getAllAttendance(),
+    getAllEventReviews(),
   ]);
 
   // Build attendance map: eventId -> { name, group }[]
@@ -125,7 +122,11 @@ export default async function CalendarPage() {
             </div>
           }
         >
-          <CalendarView events={events} attendanceMap={attendanceMap} />
+          <CalendarView
+            events={events}
+            attendanceMap={attendanceMap}
+            initialReviewsMap={allReviews}
+          />
         </Suspense>
       </section>
     </main>
