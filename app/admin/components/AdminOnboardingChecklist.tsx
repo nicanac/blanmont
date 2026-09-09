@@ -8,14 +8,13 @@ import {
   CalendarDaysIcon,
   UsersIcon,
   DocumentTextIcon,
-  ShoppingBagIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   XMarkIcon,
   ArrowRightIcon,
-  SparklesIcon,
   AcademicCapIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { CheckCircleIcon as CheckCircleSolidIcon } from '@heroicons/react/24/solid';
 
 export interface AdminOnboardingChecklistProps {
@@ -131,7 +130,7 @@ export default function AdminOnboardingChecklist({
       tip: 'Consultez les équipements disponibles pour équiper le peloton.',
       href: '/admin/equipements',
       actionLabel: 'Gérer les équipements',
-      icon: ShoppingBagIcon,
+      icon: JerseyIcon,
       autoCompleted: false,
       statusBadge: 'Prêt à l’emploi',
     },
@@ -231,8 +230,8 @@ export default function AdminOnboardingChecklist({
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider">
-                <SparklesIcon className="h-3.5 w-3.5" />
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
                 <span>Guide de Prise en Main</span>
               </span>
               <span className="text-xs text-[#7d8493] font-semibold uppercase tracking-wider">
@@ -355,13 +354,8 @@ export default function AdminOnboardingChecklist({
                       <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-sm bg-[#f2efe9] dark:bg-[#222730] text-[#5c6370] dark:text-[#9ba3af] px-2 py-0.5 border border-[#e4e0d8] dark:border-[#2e3542]">
                         {step.category}
                       </span>
-                      <span
-                        className={`text-[0.6875rem] font-semibold px-2 py-0.5 rounded-full border ${
-                          completed
-                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/40'
-                            : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/40'
-                        }`}
-                      >
+                      <span className="inline-flex items-center gap-1.5 text-[0.6875rem] font-semibold px-2 py-0.5 rounded-xs border border-[#e4e0d8] dark:border-[#2e3542] bg-[#faf8f5] dark:bg-[#16191f] text-[#101216] dark:text-[#f5f6f8]">
+                        <span className={`h-1.5 w-1.5 rounded-full ${completed ? 'bg-emerald-500' : 'bg-[#e03e3e]'}`} />
                         {step.statusBadge}
                       </span>
                     </div>
@@ -371,7 +365,7 @@ export default function AdminOnboardingChecklist({
                     </p>
 
                     <p className="text-[0.6875rem] text-[#7d8493] dark:text-[#7d8493] italic">
-                      💡 {step.tip}
+                      <span className="font-semibold text-[#5c6370] dark:text-[#9ba3af] not-italic">Conseil :</span> {step.tip}
                     </p>
                   </div>
                 </div>

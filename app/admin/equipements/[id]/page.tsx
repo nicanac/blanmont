@@ -7,10 +7,10 @@ import Image from 'next/image';
 import {
     ArrowLeftIcon,
     PencilIcon,
-    ShoppingBagIcon,
     CheckCircleIcon,
     XCircleIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '../../../types/equipment';
 import { EQUIPMENT_DATA } from '../../../data/equipment';
 
@@ -67,7 +67,7 @@ export default function ViewEquipmentPage() {
     if (!equipment) {
         return (
             <div className="rounded-xl bg-white p-12 text-center shadow-sm">
-                <ShoppingBagIcon className="mx-auto h-16 w-16 text-gray-300" />
+                <JerseyIcon className="mx-auto h-16 w-16 text-gray-300" />
                 <h2 className="mt-4 text-lg font-semibold text-gray-900">Équipement non trouvé</h2>
                 <p className="mt-2 text-gray-500">L&apos;équipement demandé n&apos;existe pas.</p>
                 <Link
@@ -122,7 +122,7 @@ export default function ViewEquipmentPage() {
                                 />
                             ) : (
                                 <div className="flex h-full w-full items-center justify-center">
-                                    <ShoppingBagIcon className="h-24 w-24 text-gray-300" />
+                                    <JerseyIcon className="h-24 w-24 text-gray-300" />
                                 </div>
                             )}
                         </div>

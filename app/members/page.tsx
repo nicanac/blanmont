@@ -1,10 +1,7 @@
 import { getMembers } from '../lib/firebase';
 import MembersView from './MembersView';
-import {
-  UsersIcon,
-  ShieldCheckIcon,
-  SparklesIcon,
-} from '@heroicons/react/24/outline';
+import { UsersIcon } from '@heroicons/react/24/outline';
+import { ClubCrestIcon, BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import { Member } from '../types';
 
 export const revalidate = 60; // ISR every 60 seconds
@@ -55,9 +52,9 @@ export default async function MembersPage() {
           {/* Stat Strip on Ink (Horizontal Hairline Structure) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6">
             {/* Total Active Team */}
-            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
-                <UsersIcon className="h-5 w-5" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <UsersIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div className="min-w-0">
                 <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -70,9 +67,9 @@ export default async function MembersPage() {
             </div>
 
             {/* Bureau & Comité */}
-            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-              <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
-                <ShieldCheckIcon className="h-5 w-5 text-amber-500" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <ClubCrestIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -85,9 +82,9 @@ export default async function MembersPage() {
             </div>
 
             {/* Capitaines de Route */}
-            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-              <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
-                <SparklesIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <BicycleIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">

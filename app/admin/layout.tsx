@@ -10,15 +10,13 @@ import {
   CalendarIcon,
   ChartBarIcon,
   ArrowLeftIcon,
-  MapIcon,
-  CheckBadgeIcon,
   XMarkIcon,
-  ShoppingBagIcon,
   ChatBubbleLeftRightIcon,
   AcademicCapIcon,
   PhotoIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
 import AdminGuard from './components/AdminGuard';
 import AdminHelpModal from './components/AdminHelpModal';
@@ -71,7 +69,7 @@ const navigationGroups: NavigationGroup[] = [
       {
         name: 'Pointage Carré Vert',
         href: '/admin/carre-vert',
-        icon: CheckBadgeIcon,
+        icon: TrophySquareIcon,
       },
     ],
   },
@@ -80,7 +78,7 @@ const navigationGroups: NavigationGroup[] = [
     items: [
       { name: 'Bannière Accueil', href: '/admin/hero', icon: PhotoIcon },
       { name: 'Articles & Blog', href: '/admin/blog', icon: DocumentTextIcon },
-      { name: 'Équipements Club', href: '/admin/equipements', icon: ShoppingBagIcon },
+      { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
     ],
   },
   {
@@ -233,7 +231,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
 
                   {/* Floating tooltip when sidebar is collapsed */}
                   {isCollapsed && !isDrawer && (
-                    <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold rounded-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 pointer-events-none">
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2.5 py-1 bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold rounded-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 pointer-events-none">
                       {item.name}
                       {item.badge && (
                         <span className="ml-1.5 px-1 py-0.2 rounded-xs bg-[#e03e3e] text-white text-[0.625rem]">
@@ -376,22 +374,22 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 <button
                   type="button"
                   onClick={() => setHelpOpen(true)}
-                  className="relative group p-2 rounded-lg text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
-                  title="Guide & Raccourcis"
+                  className="relative group flex items-center justify-center h-10 w-10 rounded-lg text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+                  aria-label="Guide & Raccourcis"
                 >
                   <AcademicCapIcon className="h-5 w-5 text-[#e03e3e]" />
-                  <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold rounded-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
+                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2.5 py-1 bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold rounded-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 pointer-events-none">
                     Guide &amp; Raccourcis
                   </div>
                 </button>
 
                 <Link
                   href="/"
-                  className="relative group p-2 rounded-lg text-[#7d8493] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
-                  title="Retour au site public"
+                  className="relative group flex items-center justify-center h-10 w-10 rounded-lg text-[#7d8493] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+                  aria-label="Retour au site public"
                 >
                   <ArrowLeftIcon className="h-4 w-4" />
-                  <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold rounded-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
+                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2.5 py-1 bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold rounded-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 pointer-events-none">
                     Retour au site
                   </div>
                 </Link>
@@ -417,7 +415,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
           />
 
           {/* Main workspace */}
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+          <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
             {children}
           </main>
         </div>

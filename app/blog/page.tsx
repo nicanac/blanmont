@@ -5,8 +5,8 @@ import { BlogList } from '../features/blog/components';
 import {
   NewspaperIcon,
   BookOpenIcon,
-  SparklesIcon,
 } from '@heroicons/react/24/outline';
+import { ClubCrestIcon } from '@/app/components/ui/CyclingIcons';
 
 export const revalidate = 60;
 
@@ -47,9 +47,9 @@ export default async function BlogPage(): Promise<React.ReactElement> {
           {/* Stat Strip (Horizontal Hairline Structure) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6">
             {/* Total Articles */}
-            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-              <div className="rounded-md bg-[#e03e3e]/10 dark:bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
-                <NewspaperIcon className="h-5 w-5" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <NewspaperIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -62,9 +62,9 @@ export default async function BlogPage(): Promise<React.ReactElement> {
             </div>
 
             {/* Rubriques */}
-            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-              <div className="rounded-md bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
-                <BookOpenIcon className="h-5 w-5" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <BookOpenIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -77,9 +77,9 @@ export default async function BlogPage(): Promise<React.ReactElement> {
             </div>
 
             {/* Club spirit */}
-            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-              <div className="rounded-md bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#3b82f6] shrink-0">
-                <SparklesIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <ClubCrestIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div>
                 <div className="text-base sm:text-lg font-bold text-[#101216] dark:text-white tracking-tight">

@@ -130,16 +130,16 @@ export default function MemberCard({ member }: MemberCardProps) {
               return (
                 <span
                   key={idx}
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-sm border ${
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-xs border ${
                     isBureau
                       ? 'bg-[#e03e3e]/90 text-white border-[#e03e3e]'
                       : isCaptain
-                      ? 'bg-[#101216]/85 text-sky-300 border-sky-400/30'
-                      : 'bg-[#101216]/80 text-[#f5f6f8] border-white/20'
+                      ? 'bg-[#101216]/90 text-white border-white/20'
+                      : 'bg-[#101216]/80 text-[#f5f6f8] border-white/15'
                   }`}
                 >
-                  {isBureau && <ShieldCheckIcon className="h-3 w-3 shrink-0" />}
-                  {isCaptain && <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shrink-0" />}
+                  {isBureau && <ShieldCheckIcon className="h-3 w-3 shrink-0 text-white" />}
+                  {isCaptain && <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e] shrink-0" />}
                   <span className="truncate max-w-[140px]">{role}</span>
                 </span>
               );
