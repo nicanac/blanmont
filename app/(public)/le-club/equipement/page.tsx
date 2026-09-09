@@ -8,19 +8,35 @@ import {
   TruckIcon,
   ArrowRightIcon,
   CheckBadgeIcon,
+  MinusIcon,
+  PlusIcon,
+  ClipboardDocumentIcon,
+  ClipboardDocumentCheckIcon,
+  QuestionMarkCircleIcon,
+  ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '../../../types/equipment';
 import { EQUIPMENT_CATEGORIES, EQUIPMENT_DATA } from '../../../data/equipment';
 import EquipmentIllustration from './EquipmentIllustration';
+import GobikSizeGuide from '@/app/components/equipment/GobikSizeGuide';
+import { useAuth } from '@/app/context/AuthContext';
+import { toast } from 'sonner';
 
 export default function EquipementPage() {
+  const { user } = useAuth();
   const [equipment, setEquipment] = useState<Equipment[]>(EQUIPMENT_DATA);
   const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [selectedProduct, setSelectedProduct] = useState<Equipment | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [quantity, setQuantity] = useState<number>(1);
+  const [memberName, setMemberName] = useState<string>('');
+  const [memberEmail, setMemberEmail] = useState<string>('');
+  const [memberPhone, setMemberPhone] = useState<string>('');
+  const [orderNotes, setOrderNotes] = useState<string>('');
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchEquipment = async () => {
@@ -34,8 +50,6 @@ export default function EquipementPage() {
         }
       } catch (error) {
         console.warn('Using default equipment data fallback', error);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchEquipment();
@@ -54,15 +68,52 @@ export default function EquipementPage() {
   const openProductDetail = (product: Equipment) => {
     setSelectedProduct(product);
     setSelectedSize(product.sizes[2] || product.sizes[0] || 'M');
+    setQuantity(1);
+    setCopied(false);
   };
 
   const closeModal = () => {
     setSelectedProduct(null);
     setSelectedSize('');
+    setQuantity(1);
+    setCopied(false);
+  };
+
+  const effectiveMemberName = memberName !== '' ? memberName : (user?.name || '');
+  const effectiveMemberEmail = memberEmail !== '' ? memberEmail : (user?.email || '');
+
+  const getOrderSummaryText = (product: Equipment, size: string, qty: number) => {
+    const total = (product.price * qty).toFixed(2);
+    return `COMMANDE ÉQUIPEMENT · CC SAINT-MARTIN BLANMONT
+==================================================
+Article : ${product.name}
+Référence Gobik : ${product.gobikReference || product.productCode || product.id}
+Taille choisie : ${size || 'À préciser'}
+Quantité : ${qty}
+Prix unitaire : ${product.price.toFixed(2)} €
+Total à régler : ${total} €
+
+COORDONNÉES DU MEMBRE :
+Nom : ${effectiveMemberName || 'Non renseigné'}
+Email : ${effectiveMemberEmail || 'Non renseigné'}
+Téléphone : ${memberPhone || 'Non renseigné'}
+Remarques / Essayage : ${orderNotes || 'Aucune'}
+
+MODALITÉS CLUB :
+- Retrait : Gratuit, Place de Blanmont lors des sorties club
+- Paiement : Virement sur le compte du club ou remise en main propre`;
+  };
+
+  const handleCopyOrder = () => {
+    if (!selectedProduct) return;
+    const text = getOrderSummaryText(selectedProduct, selectedSize, quantity);
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast.success('Récapitulatif de commande copié dans le presse-papiers !');
+    setTimeout(() => setCopied(false), 2500);
   };
 
   const totalPieces = equipment.length;
-  const categoriesCount = EQUIPMENT_CATEGORIES.length - 1;
 
   return (
     <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
@@ -139,6 +190,30 @@ export default function EquipementPage() {
 
       {/* ──── Main Content Spread (Adaptive Surface) ──── */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 space-y-10">
+        {/* Direct Checkout Hub Banner */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shrink-0">
+              <ShoppingBagIcon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="text-sm font-bold text-[#101216] dark:text-white">
+                Bon de commande direct &amp; Checkout Club
+              </div>
+              <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                Générez votre récapitulatif de commande, vérifiez les mensurations Gobik et réservez votre équipement officiel.
+              </div>
+            </div>
+          </div>
+          <Link
+            href="/checkout"
+            className="inline-flex items-center gap-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap"
+          >
+            <span>Accéder au Checkout</span>
+            <ArrowRightIcon className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
         {/* Category Filter Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xs transition-colors">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7d8493] dark:text-[#a7adbb]">
@@ -236,7 +311,7 @@ export default function EquipementPage() {
                     </div>
 
                     <span className="inline-flex items-center gap-1 text-xs font-bold text-[#e03e3e] group-hover:underline">
-                      <span>Détails</span>
+                      <span>Commander</span>
                       <ArrowRightIcon className="h-3 w-3" />
                     </span>
                   </div>
@@ -294,109 +369,290 @@ export default function EquipementPage() {
         </section>
       </section>
 
-      {/* ──── Product Detail & Order Modal ──── */}
+      {/* ──── Product Detail & Club Checkout Sheet Modal ──── */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
+          <div className="flex min-h-full items-center justify-center p-3 sm:p-6">
             {/* Backdrop */}
             <div
-              className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
+              className="fixed inset-0 bg-black/75 backdrop-blur-xs transition-opacity"
               onClick={closeModal}
             />
 
             {/* Modal Box */}
-            <div className="relative w-full max-w-3xl overflow-hidden rounded-lg bg-white dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] shadow-2xl z-10 transition-colors">
-              {/* Close button */}
-              <button
-                onClick={closeModal}
-                className="absolute right-4 top-4 z-20 rounded-full bg-black/60 dark:bg-white/10 p-2 text-white hover:bg-[#e03e3e] transition-colors"
-                aria-label="Fermer"
-              >
-                <XMarkIcon className="h-5 w-5" />
-              </button>
-
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                {/* Left: Product Visual */}
-                <div className="relative aspect-square md:aspect-auto min-h-[300px] bg-[#161922] dark:bg-[#1c202a]">
-                  {Boolean(selectedProduct.imageUrl) && !imgErrors[selectedProduct.id] ? (
-                    <img
-                      src={selectedProduct.imageUrl}
-                      alt={selectedProduct.name}
-                      onError={() => handleImageError(selectedProduct.id)}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <EquipmentIllustration
-                      category={selectedProduct.category}
-                      name={selectedProduct.name}
-                      productCode={selectedProduct.productCode}
-                    />
-                  )}
+            <div className="relative w-full max-w-4xl overflow-hidden rounded-xl bg-white dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] shadow-2xl z-10 transition-colors">
+              {/* Header Bar */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#14171f]">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded bg-[#e03e3e]/10 text-[#e03e3e]">
+                    <ShoppingBagIcon className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#101216] dark:text-white uppercase tracking-wider">
+                      Bon de Commande &amp; Réservation Équipement
+                    </h2>
+                    <p className="text-[11px] text-[#7d8493] dark:text-[#a7adbb]">
+                      CC Saint-Martin Blanmont · Partenaire GOBIK Custom
+                    </p>
+                  </div>
                 </div>
 
-                {/* Right: Technical Details & Size Selector */}
-                <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-white dark:bg-[#101216]">
-                  <div className="space-y-4">
-                    <div>
-                      <span className="inline-flex rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
+                <button
+                  onClick={closeModal}
+                  className="rounded-full p-2 text-[#7d8493] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                  aria-label="Fermer"
+                >
+                  <XMarkIcon className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Body Spread */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 sm:p-8">
+                {/* Left Column: Product Spec & Selection */}
+                <div className="lg:col-span-6 space-y-6">
+                  <div className="flex gap-4 items-start">
+                    {/* Visual thumbnail */}
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-[#161922] dark:bg-[#1c202a] border border-[#e4e0d8] dark:border-[#262b38]">
+                      {Boolean(selectedProduct.imageUrl) && !imgErrors[selectedProduct.id] ? (
+                        <img
+                          src={selectedProduct.imageUrl}
+                          alt={selectedProduct.name}
+                          onError={() => handleImageError(selectedProduct.id)}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <EquipmentIllustration
+                          category={selectedProduct.category}
+                          name={selectedProduct.name}
+                          productCode={selectedProduct.productCode}
+                          className="scale-90"
+                        />
+                      )}
+                    </div>
+
+                    <div className="space-y-1 min-w-0">
+                      <span className="inline-flex rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider">
                         {selectedProduct.category}
                       </span>
-                      <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] dark:text-white mt-2">
+                      <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] dark:text-white leading-snug">
                         {selectedProduct.name}
-                      </h2>
+                      </h3>
                       {selectedProduct.gobikReference && (
-                        <p className="text-xs font-mono text-[#7d8493] dark:text-[#a7adbb] mt-1 uppercase">
+                        <p className="text-[11px] font-mono text-[#7d8493] dark:text-[#a7adbb] uppercase truncate">
                           Ref: {selectedProduct.gobikReference}
                         </p>
                       )}
                     </div>
+                  </div>
 
-                    <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#c4cad4] leading-relaxed">
-                      {selectedProduct.description}
-                    </p>
+                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+                    {selectedProduct.description}
+                  </p>
 
-                    <div className="text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                      {selectedProduct.price.toFixed(2)}&nbsp;€
+                  {/* Size Selector + Size Guide Link */}
+                  <div className="space-y-3 pt-3 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                        Taille ({selectedSize || 'À choisir'}) :
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setIsSizeGuideOpen(true)}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline cursor-pointer"
+                      >
+                        <QuestionMarkCircleIcon className="h-4 w-4" />
+                        <span>Guide des tailles Gobik</span>
+                      </button>
                     </div>
 
-                    {/* Size Selector */}
-                    <div className="space-y-2 pt-2 border-t border-[#e4e0d8] dark:border-[#262b38]">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
-                        Sélectionner une taille :
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProduct.sizes.map((size) => (
-                          <button
-                            key={size}
-                            onClick={() => setSelectedSize(size)}
-                            className={`min-w-[2.75rem] rounded-md px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors border ${
-                              selectedSize === size
-                                ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
-                                : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
-                            }`}
-                          >
-                            {size}
-                          </button>
-                        ))}
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProduct.sizes.map((size) => (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => setSelectedSize(size)}
+                          className={`min-w-[2.75rem] min-h-[2.5rem] rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer ${
+                            selectedSize === size
+                              ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
+                              : 'bg-[#faf8f5] dark:bg-[#161922] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Quantity Stepper & Price Breakdown */}
+                  <div className="flex items-center justify-between pt-3 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                    <div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white mb-1.5">
+                        Quantité :
+                      </div>
+                      <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922]">
+                        <button
+                          type="button"
+                          onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                          className="p-2 text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                          aria-label="Diminuer la quantité"
+                        >
+                          <MinusIcon className="h-3.5 w-3.5" />
+                        </button>
+                        <span className="w-9 text-center text-xs font-bold tabular-nums text-[#101216] dark:text-white">
+                          {quantity}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setQuantity((q) => Math.min(10, q + 1))}
+                          className="p-2 text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                          aria-label="Augmenter la quantité"
+                        >
+                          <PlusIcon className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="text-right">
+                      <div className="text-xs text-[#7d8493] dark:text-[#a7adbb]">
+                        Prix unitaire : {selectedProduct.price.toFixed(2)}&nbsp;€
+                      </div>
+                      <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                        {(selectedProduct.price * quantity).toFixed(2)}&nbsp;€
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Member Details & Order Receipt Ticket */}
+                <div className="lg:col-span-6 flex flex-col justify-between space-y-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#14171f] p-5">
+                  <div className="space-y-4">
+                    <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white border-b border-[#e4e0d8] dark:border-[#262b38] pb-2">
+                      Coordonnées de commande
+                    </div>
+
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                          Nom &amp; Prénom
+                        </label>
+                        <input
+                          type="text"
+                          value={effectiveMemberName}
+                          onChange={(e) => setMemberName(e.target.value)}
+                          placeholder="Ex: Laurent Martin"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div>
+                          <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            value={effectiveMemberEmail}
+                            onChange={(e) => setMemberEmail(e.target.value)}
+                            placeholder="nom@example.be"
+                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                            Téléphone (optionnel)
+                          </label>
+                          <input
+                            type="tel"
+                            value={memberPhone}
+                            onChange={(e) => setMemberPhone(e.target.value)}
+                            placeholder="0470 12 34 56"
+                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                          Remarque ou demande d&apos;essayage
+                        </label>
+                        <input
+                          type="text"
+                          value={orderNotes}
+                          onChange={(e) => setOrderNotes(e.target.value)}
+                          placeholder="Ex: souhait d'essayer avant validation..."
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Receipt Summary Card */}
+                    <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-3.5 space-y-2 text-xs">
+                      <div className="flex justify-between items-center text-[#5c6370] dark:text-[#a7adbb]">
+                        <span>
+                          {quantity}&times; {selectedProduct.name} ({selectedSize || 'Taille ?'})
+                        </span>
+                        <span className="font-semibold text-[#101216] dark:text-white tabular-nums">
+                          {(selectedProduct.price * quantity).toFixed(2)}&nbsp;€
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-[#5c6370] dark:text-[#a7adbb]">
+                        <span>Retrait Place de Blanmont</span>
+                        <span className="font-semibold text-[#101216] dark:text-white">Gratuit (0,00 €)</span>
+                      </div>
+                      <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-2 flex justify-between items-baseline">
+                        <span className="font-bold text-[#101216] dark:text-white uppercase tracking-wider text-[11px]">
+                          Total TTC :
+                        </span>
+                        <span className="text-xl font-extrabold text-[#e03e3e] tabular-nums tracking-tight">
+                          {(selectedProduct.price * quantity).toFixed(2)}&nbsp;€
+                        </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Order Button CTA */}
-                  <div className="space-y-2 pt-4 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                  {/* Actions Deck */}
+                  <div className="space-y-2.5 pt-2">
                     <a
                       href={`mailto:info@blanmont.be?subject=${encodeURIComponent(
-                        `Commande équipement: ${selectedProduct.name} (${selectedSize || 'Taille à préciser'})`
-                      )}&body=${encodeURIComponent(
-                        `Bonjour,\n\nJe souhaite commander la tenue suivante :\n- Article : ${selectedProduct.name}\n- Référence : ${selectedProduct.productCode || selectedProduct.id}\n- Taille : ${selectedSize || 'À préciser'}\n- Prix : ${selectedProduct.price.toFixed(2)} €\n\nNom et prénom :\nTéléphone :\n\nMerci !`
-                      )}`}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] shadow-md"
+                        `[Commande Équipement] ${selectedProduct.name} (${selectedSize || 'Taille à préciser'}) - ${effectiveMemberName || 'Membre'}`
+                      )}&body=${encodeURIComponent(getOrderSummaryText(selectedProduct, selectedSize, quantity))}`}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] shadow-xs cursor-pointer"
                     >
                       <JerseyIcon className="h-4 w-4" />
-                      <span>Commander par email ({selectedSize || 'Taille'})</span>
+                      <span>Confirmer la commande par email</span>
                     </a>
-                    <p className="text-center text-xs text-[#7d8493] dark:text-[#a7adbb]">
-                      Paiement &amp; retrait sur la Place de Blanmont lors des sorties.
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={handleCopyOrder}
+                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#101216] dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+                      >
+                        {copied ? (
+                          <>
+                            <ClipboardDocumentCheckIcon className="h-4 w-4 text-[#e03e3e]" />
+                            <span className="text-[#e03e3e]">Copié !</span>
+                          </>
+                        ) : (
+                          <>
+                            <ClipboardDocumentIcon className="h-4 w-4 text-[#7d8493]" />
+                            <span>Copier le bon</span>
+                          </>
+                        )}
+                      </button>
+
+                      <Link
+                        href={`/checkout?product=${encodeURIComponent(selectedProduct.id)}&size=${encodeURIComponent(selectedSize)}&qty=${quantity}`}
+                        className="inline-flex items-center justify-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#5c6370] dark:text-[#a7adbb] px-3.5 py-2.5 text-xs font-semibold transition-colors whitespace-nowrap"
+                        title="Ouvrir la page de commande dédiée"
+                      >
+                        <span>Page checkout</span>
+                        <ArrowRightIcon className="h-3 w-3" />
+                      </Link>
+                    </div>
+
+                    <p className="text-center text-[11px] text-[#7d8493] dark:text-[#a7adbb]">
+                      Paiement par virement ou à la remise en main propre le samedi.
                     </p>
                   </div>
                 </div>
@@ -404,6 +660,17 @@ export default function EquipementPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* ──── Gobik Sizing Guide Modal ──── */}
+      {selectedProduct && (
+        <GobikSizeGuide
+          isOpen={isSizeGuideOpen}
+          onClose={() => setIsSizeGuideOpen(false)}
+          defaultGender={/femme|women/i.test(selectedProduct.name) ? 'women' : 'men'}
+          currentSize={selectedSize}
+          onSelectSize={(sz) => setSelectedSize(sz)}
+        />
       )}
     </main>
   );

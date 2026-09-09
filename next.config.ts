@@ -30,6 +30,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: '**.komoot.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'www.komoot.fr',
       },
       {
@@ -39,6 +43,14 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'photos.komoot.de',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.komoot.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'tourpic-vector.maps.komoot.net',
       },
     ],
   },

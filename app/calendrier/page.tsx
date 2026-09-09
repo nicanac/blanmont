@@ -51,7 +51,7 @@ export default async function CalendarPage() {
               </h1>
 
               <p className="max-w-2xl text-base text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-                Toutes les sorties du samedi et dimanche, rendez-vous du peloton, traces GPS et rassemblements officiels du club pour la saison 2026.
+                Programme officiel des sorties route et VTT du club pour la saison 2026. Consultez les horaires de départ, téléchargez les traces GPX et retrouvez les débriefings du peloton.
               </p>
             </div>
 
@@ -68,14 +68,17 @@ export default async function CalendarPage() {
                 <RouteCalendarIcon className="h-5 w-5 text-[#e03e3e]" />
               </div>
               <div className="min-w-0">
+                <div className="text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#e03e3e]">
+                  Prochaine sortie officielle
+                </div>
                 <div className="flex items-center gap-2">
                   <div className="text-xl sm:text-2xl font-extrabold text-[#101216] dark:text-white tracking-tight truncate">
                     {nextRide.dateFormatted}
                   </div>
-                  <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse shrink-0" />
+                  <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse shrink-0" title="Prochain départ confirmé" />
                 </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold truncate tabular-nums">
-                  Départ {nextRide.departure} · {nextRide.location}
+                <div className="text-xs uppercase tracking-[0.06em] text-[#5c6370] dark:text-[#a7adbb] font-semibold truncate tabular-nums">
+                  Départ à {nextRide.departure} · {nextRide.location}
                 </div>
               </div>
             </div>
@@ -90,7 +93,7 @@ export default async function CalendarPage() {
                   {totalEvents}
                 </div>
                 <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Sorties au programme
+                  Sorties inscrites en 2026
                 </div>
               </div>
             </div>
@@ -105,7 +108,7 @@ export default async function CalendarPage() {
                   {eventsWithGpx}
                 </div>
                 <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Parcours GPX téléchargeables
+                  Traces GPX disponibles
                 </div>
               </div>
             </div>
