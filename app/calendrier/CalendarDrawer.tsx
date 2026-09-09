@@ -54,7 +54,7 @@ function getInitials(name: string): string {
 /**
  * Checks if a calendar ride has completed
  */
-function isEventDone(isoDate: string, departure: string): boolean {
+export function isEventDone(isoDate: string, departure: string): boolean {
   if (!isoDate) return false;
   const [yr, mo, dy] = isoDate.split('-').map(Number);
   const now = new Date();
@@ -184,7 +184,7 @@ function EventReviewForm({
       <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
         <div>
           <h4 className="text-sm font-bold text-[#101216] dark:text-white">
-            {existingReview ? 'Modifier votre débrief' : 'Partager votre débrief'}
+            {existingReview ? 'Modifier votre débrief de sortie' : 'Partager votre débrief de sortie'}
           </h4>
           <span className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
             Publié au nom de <strong className="text-[#101216] dark:text-white">{userName}</strong>
@@ -196,7 +196,7 @@ function EventReviewForm({
             type="button"
             onClick={() => onDelete(existingReview.memberId)}
             className="min-h-[44px] inline-flex items-center gap-1 text-xs text-rose-500 hover:text-rose-600 font-semibold"
-            title="Supprimer mon débrief"
+            title="Supprimer définitivement mon débrief"
           >
             <TrashIcon className="h-4 w-4" />
             <span>Supprimer</span>
@@ -218,7 +218,7 @@ function EventReviewForm({
               onMouseEnter={() => setHoverRating(star)}
               onMouseLeave={() => setHoverRating(null)}
               className="min-h-[44px] min-w-[44px] flex items-center justify-center p-1 hover:scale-110 transition-transform focus:outline-hidden"
-              aria-label={`${star} étoile${star > 1 ? 's' : ''}`}
+              aria-label={`${star} étoile${star > 1 ? 's' : ''} sur 5`}
             >
               <StarIcon
                 className={`h-7 w-7 transition-colors ${
@@ -241,7 +241,7 @@ function EventReviewForm({
       {/* 2. Effort Ressenti (RPE) */}
       <div className="space-y-2">
         <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
-          Effort ressenti
+          Effort physique ressenti (RPE)
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
           {EFFORT_OPTIONS.map((opt) => (
@@ -288,7 +288,7 @@ function EventReviewForm({
       {/* 4. Routes & Revêtement */}
       <div className="space-y-2">
         <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
-          Qualité du tracé & de la route
+          Qualité du tracé & de la chaussée
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {ROAD_OPTIONS.map((opt) => (
@@ -338,7 +338,7 @@ function EventReviewForm({
           htmlFor="debrief-comment"
           className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white"
         >
-          Votre commentaire & anecdotes
+          Récit de la sortie, anecdotes & ambiance
         </label>
         <textarea
           id="debrief-comment"
@@ -346,7 +346,7 @@ function EventReviewForm({
           required
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="Racontez vos sensations, l’ambiance dans le peloton, les faits marquants ou les difficultés du parcours..."
+          placeholder="Racontez vos sensations sur le vélo, l’ambiance dans le peloton, les faits marquants ou difficultés du parcours..."
           className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-3 text-xs text-[#101216] dark:text-white placeholder-[#a7adbb] focus:outline-hidden focus:ring-2 focus:ring-[#e03e3e] focus:border-transparent caret-[#e03e3e]"
         />
       </div>
@@ -357,14 +357,14 @@ function EventReviewForm({
           htmlFor="strava-url"
           className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white"
         >
-          Lien activité Strava ou Garmin (optionnel)
+          Lien activité Strava ou Garmin Connect (optionnel)
         </label>
         <input
           id="strava-url"
           type="url"
           value={stravaUrl}
           onChange={(e) => setStravaUrl(e.target.value)}
-          placeholder="https://www.strava.com/activities/..."
+          placeholder="https://www.strava.com/activities/... ou https://connect.garmin.com/..."
           className="w-full min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#a7adbb] focus:outline-hidden focus:ring-2 focus:ring-[#e03e3e] focus:border-transparent caret-[#e03e3e]"
         />
       </div>
@@ -374,7 +374,7 @@ function EventReviewForm({
         <button
           type="button"
           onClick={onCancel}
-          className="min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] px-4 py-2 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-[#faf8f5] dark:hover:bg-[#262b38]"
+          className="min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] px-4 py-2 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-[#faf8f5] dark:hover:bg-[#262b38] cursor-pointer"
         >
           Annuler
         </button>
@@ -382,10 +382,10 @@ function EventReviewForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors disabled:opacity-50"
+          className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
         >
           {isSubmitting
-            ? 'Enregistrement...'
+            ? 'Enregistrement en cours...'
             : existingReview
               ? 'Mettre à jour mon débrief'
               : 'Publier mon débrief'}
@@ -512,18 +512,18 @@ export default function CalendarDrawer({
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/20 text-[#ff6b6b] border border-[#e03e3e]/30 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                    {isWeekend ? 'Sortie Club' : 'Événement'}
+                    {isWeekend ? 'Sortie Club officielle' : 'Événement officiel'}
                   </span>
 
                   {eventDone ? (
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-semibold">
                       <CheckCircleIcon className="h-3.5 w-3.5" />
-                      Sortie terminée
+                      Sortie terminée · Débriefings ouverts
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 rounded-full bg-white/10 text-white/80 border border-white/10 px-2.5 py-0.5 text-xs font-medium">
                       <ClockIcon className="h-3.5 w-3.5" />
-                      À venir
+                      Sortie à venir
                     </span>
                   )}
                 </div>
@@ -547,8 +547,9 @@ export default function CalendarDrawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors shrink-0"
-                aria-label="Fermer le panneau"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors shrink-0 cursor-pointer"
+                aria-label="Fermer la fiche de la sortie"
+                title="Fermer la fiche"
               >
                 <XMarkIcon className="h-6 w-6" />
               </button>
@@ -559,7 +560,7 @@ export default function CalendarDrawer({
           <div className="bg-[#faf8f5] dark:bg-[#101216] border-b border-[#e4e0d8] dark:border-[#262b38] grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-[#e4e0d8] dark:divide-[#262b38] shrink-0 text-center">
             <div className="p-3 sm:py-3.5">
               <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Départ
+                Heure de départ
               </span>
               <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums">
                 {event.departure}
@@ -568,7 +569,7 @@ export default function CalendarDrawer({
 
             <div className="p-3 sm:py-3.5">
               <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Distance
+                Distance prévue
               </span>
               <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums">
                 {event.distances ? `${event.distances} km` : '—'}
@@ -577,7 +578,7 @@ export default function CalendarDrawer({
 
             <div className="p-3 sm:py-3.5">
               <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Groupe
+                Groupe / Peloton
               </span>
               <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white truncate block">
                 {event.group || 'Club'}
@@ -586,10 +587,10 @@ export default function CalendarDrawer({
 
             <div className="p-3 sm:py-3.5">
               <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Peloton
+                Inscrits au départ
               </span>
               <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums">
-                {attendees.length} {attendees.length === 1 ? 'inscrit' : 'inscrits'}
+                {attendees.length} {attendees.length === 1 ? 'cycliste' : 'cyclistes'}
               </span>
             </div>
           </div>
@@ -599,7 +600,7 @@ export default function CalendarDrawer({
             <button
               type="button"
               onClick={() => setActiveTab('details')}
-              className={`min-h-[46px] flex items-center gap-2 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
+              className={`min-h-[46px] flex items-center gap-2 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
                 activeTab === 'details'
                   ? 'border-[#e03e3e] text-[#e03e3e]'
                   : 'border-transparent text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
@@ -612,7 +613,7 @@ export default function CalendarDrawer({
             <button
               type="button"
               onClick={() => setActiveTab('debrief')}
-              className={`min-h-[46px] flex items-center gap-2 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
+              className={`min-h-[46px] flex items-center gap-2 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
                 activeTab === 'debrief'
                   ? 'border-[#e03e3e] text-[#e03e3e]'
                   : 'border-transparent text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
@@ -646,16 +647,17 @@ export default function CalendarDrawer({
                       target="_blank"
                       rel="noopener noreferrer"
                       className="min-h-[44px] flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors"
+                      title="Télécharger ou ouvrir l'itinéraire officiel"
                     >
                       <ArrowDownTrayIcon className="h-4 w-4" />
                       <span>
                         {event.gpxUrl.includes('strava.com')
-                          ? 'Ouvrir sur Strava'
+                          ? 'Ouvrir l\'itinéraire sur Strava'
                           : event.gpxUrl.includes('garmin.com')
-                            ? 'Ouvrir sur Garmin'
+                            ? 'Ouvrir le parcours Garmin Connect'
                             : event.gpxUrl.includes('komoot')
-                              ? 'Ouvrir sur Komoot'
-                              : 'Télécharger le tracé GPX'}
+                              ? 'Ouvrir le circuit Komoot'
+                              : 'Télécharger la trace GPX (GPS)'}
                       </span>
                     </a>
                   ) : null}
@@ -665,6 +667,7 @@ export default function CalendarDrawer({
                     target="_blank"
                     rel="noopener noreferrer"
                     className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] hover:border-[#101216]/30 dark:hover:border-white/30 text-[#101216] dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-colors"
+                    title="Localiser le point de départ dans Google Maps"
                   >
                     <MapPinIcon className="h-4 w-4 text-[#e03e3e]" />
                     <span>Point GPS Maps</span>
@@ -680,7 +683,7 @@ export default function CalendarDrawer({
                         <MapPinIcon className="h-4 w-4" />
                       </div>
                       <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
-                        Lieu de Rassemblement
+                        Point de Rassemblement & Départ
                       </span>
                     </div>
                   </div>
@@ -695,7 +698,7 @@ export default function CalendarDrawer({
                       </div>
                     ) : (
                       <div className="text-[#5c6370] dark:text-[#a7adbb] italic">
-                        Adresse détaillée non précisée.
+                        Rendez-vous habituel sur la Place de Blanmont ou selon les consignes du capitaine de route.
                       </div>
                     )}
                   </div>
@@ -708,7 +711,7 @@ export default function CalendarDrawer({
                       <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-5 space-y-2">
                         <div className="flex items-center gap-2 text-xs font-bold text-[#101216] dark:text-white uppercase tracking-wider">
                           <InformationCircleIcon className="h-4 w-4 text-[#e03e3e]" />
-                          <span>Consignes & Remarques</span>
+                          <span>Consignes & Remarques du club</span>
                         </div>
                         <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed pl-6">
                           {event.remarks}
@@ -720,7 +723,7 @@ export default function CalendarDrawer({
                       <div className="rounded-lg border border-amber-200 dark:border-amber-900/40 bg-amber-50/50 dark:bg-amber-950/20 p-5 space-y-2">
                         <div className="text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-2">
                           <span className="h-2 w-2 rounded-full bg-amber-500" />
-                          <span>Option Alternative</span>
+                          <span>Option Alternative / Raccourci proposé</span>
                         </div>
                         <p className="text-xs text-[#3a3f4a] dark:text-amber-200/80 leading-relaxed pl-4">
                           {event.alternative}
@@ -736,7 +739,7 @@ export default function CalendarDrawer({
                     <div className="flex items-center gap-2">
                       <UserGroupIcon className="h-4 w-4 text-[#101216] dark:text-white" />
                       <h3 className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
-                        Peloton Engagé ({attendees.length})
+                        Peloton au Départ ({attendees.length})
                       </h3>
                     </div>
 
@@ -745,7 +748,7 @@ export default function CalendarDrawer({
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
                     >
                       <CheckCircleIcon className="h-4 w-4" />
-                      <span>{eventDone ? 'Voir le sondage' : 'Voter / S’inscrire sur le sondage'}</span>
+                      <span>{eventDone ? 'Consulter le sondage' : 'Gérer ma présence / Répondre au sondage'}</span>
                     </Link>
                   </div>
 
@@ -780,7 +783,7 @@ export default function CalendarDrawer({
                     </div>
                   ) : (
                     <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] italic py-2">
-                      Aucun coureur n&apos;a encore enregistré sa participation pour cette sortie.
+                      Aucun membre n&apos;a encore confirmé sa participation pour cette sortie. Rendez-vous sur le sondage hebdomadaire pour vous inscrire !
                     </p>
                   )}
                 </div>
@@ -795,7 +798,7 @@ export default function CalendarDrawer({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="space-y-1">
                       <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-                        Évaluation Globale
+                        Évaluation Générale du Peloton
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -817,7 +820,7 @@ export default function CalendarDrawer({
                         )}
                       </div>
                       <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
-                        Basé sur {reviews.length} {reviews.length === 1 ? 'avis de coureur' : 'avis de coureurs'}.
+                        Basé sur {reviews.length} {reviews.length === 1 ? 'débriefing de membre' : 'débriefings de membres'}.
                       </p>
                     </div>
 
@@ -826,10 +829,10 @@ export default function CalendarDrawer({
                       <button
                         type="button"
                         onClick={() => setShowForm(!showForm)}
-                        className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] hover:bg-[#161922] dark:hover:bg-slate-200 px-4 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors shrink-0"
+                        className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] hover:bg-[#161922] dark:hover:bg-slate-200 px-4 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors shrink-0 cursor-pointer"
                       >
                         <PencilSquareIcon className="h-4 w-4" />
-                        <span>{existingReview ? 'Modifier mon débrief' : 'Donner mon avis'}</span>
+                        <span>{existingReview ? 'Modifier mon débrief' : 'Partager mon débrief de sortie'}</span>
                       </button>
                     )}
                   </div>
@@ -840,10 +843,10 @@ export default function CalendarDrawer({
                   <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-6 text-center space-y-2">
                     <ClockIcon className="mx-auto h-8 w-8 text-[#5c6370] dark:text-[#a7adbb]" />
                     <h4 className="text-sm font-bold text-[#101216] dark:text-white">
-                      Sortie à venir
+                      Sortie non encore effectuée
                     </h4>
                     <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto leading-relaxed">
-                      Le formulaire d&apos;évaluation et les débriefings de sortie s&apos;ouvriront automatiquement dès la fin de cette sortie.
+                      Le formulaire d&apos;évaluation et les débriefings du peloton s&apos;ouvriront automatiquement dès le départ de cette sortie.
                     </p>
                   </div>
                 )}
@@ -853,16 +856,16 @@ export default function CalendarDrawer({
                   <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-6 text-center space-y-3">
                     <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 text-[#e03e3e]" />
                     <h4 className="text-sm font-bold text-[#101216] dark:text-white">
-                      Vous avez roulé sur cette sortie ?
+                      Vous avez roulé dans le peloton ?
                     </h4>
                     <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto leading-relaxed">
-                      Connectez-vous avec votre compte membre du club pour partager vos sensations, noter l&apos;allure du peloton et lier votre activité Strava.
+                      Connectez-vous avec votre compte membre du club pour raconter votre sortie, noter l&apos;allure et associer votre activité Strava ou Garmin.
                     </p>
                     <Link
                       href="/login"
                       className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors"
                     >
-                      <span>Se connecter</span>
+                      <span>Se connecter pour débriefer</span>
                       <ArrowRightIcon className="h-3.5 w-3.5" />
                     </Link>
                   </div>
@@ -893,7 +896,7 @@ export default function CalendarDrawer({
                 <div className="space-y-4">
                   <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-2">
                     <h3 className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
-                      Récits des Coureurs ({reviews.length})
+                      Récits &amp; Débriefings des Coureurs ({reviews.length})
                     </h3>
                   </div>
 
@@ -1036,10 +1039,10 @@ export default function CalendarDrawer({
                     <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-8 text-center space-y-2">
                       <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 text-[#5c6370] dark:text-[#a7adbb]" />
                       <h4 className="text-xs font-bold text-[#101216] dark:text-white uppercase tracking-wider">
-                        Aucun débrief pour le moment
+                        Aucun débriefing enregistré pour le moment
                       </h4>
-                      <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-xs mx-auto">
-                        Soyez le premier membre du club à partager vos impressions et évaluer cette sortie !
+                      <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto leading-relaxed">
+                        Soyez le premier membre du club à raconter la sortie, partager vos sensations et évaluer le rythme du peloton !
                       </p>
                     </div>
                   )}

@@ -89,7 +89,7 @@ export default function CalendarSubscribeButton() {
                   Ajouter les sorties à votre agenda
                 </h3>
                 <p className="text-xs text-[#5c6370] leading-relaxed">
-                  Synchronisez en continu le calendrier officiel du club avec votre application d&apos;agenda préférée (mises à jour automatiques).
+                  Synchronisez automatiquement les sorties officielles du CC Saint-Martin Blanmont avec votre agenda (Apple, Google, Outlook). Les horaires et lieux sont mis à jour en continu.
                 </p>
               </div>
               <button
@@ -120,7 +120,7 @@ export default function CalendarSubscribeButton() {
                       Calendrier Apple (iPhone, iPad, Mac)
                     </div>
                     <div className="text-xs text-[#5c6370]">
-                      Ouvre l&apos;application Calendrier en 1 clic
+                      Abonnement direct dans l&apos;application Calendrier
                     </div>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ export default function CalendarSubscribeButton() {
                       Google Agenda (Android, Web)
                     </div>
                     <div className="text-xs text-[#5c6370]">
-                      Ajout direct via Google Calendar Web
+                      Ajout automatique dans votre agenda Google
                     </div>
                   </div>
                 </div>
@@ -163,10 +163,10 @@ export default function CalendarSubscribeButton() {
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-[#101216] group-hover:text-sky-600 transition-colors">
-                      Microsoft Outlook (Web &amp; App)
+                      Microsoft Outlook (Web &amp; Application)
                     </div>
                     <div className="text-xs text-[#5c6370]">
-                      Abonnement via Outlook en ligne
+                      Abonnement en ligne au calendrier internet
                     </div>
                   </div>
                 </div>
@@ -184,6 +184,7 @@ export default function CalendarSubscribeButton() {
                   href="/api/calendar/subscribe.ics"
                   download="calendrier-cc-blanmont.ics"
                   className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline"
+                  title="Télécharger le fichier .ics pour import manuel"
                 >
                   <ArrowDownTrayIcon className="h-3.5 w-3.5" />
                   <span>Télécharger .ics</span>
@@ -195,12 +196,13 @@ export default function CalendarSubscribeButton() {
                   type="text"
                   readOnly
                   value={httpsUrl}
-                  aria-label="URL du flux calendrier iCal"
+                  aria-label="URL du flux calendrier iCal à copier"
                   className="flex-1 rounded-md border border-[#e4e0d8] bg-[#f2efe9] px-3 py-2.5 text-xs text-[#3a3f4a] font-mono focus:outline-hidden"
                 />
                 <button
                   type="button"
                   onClick={handleCopy}
+                  aria-label="Copier l'URL du flux dans le presse-papier"
                   className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md bg-[#101216] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#161922] transition-colors shrink-0"
                 >
                   {copied ? (
