@@ -213,8 +213,10 @@ export default function AddTraceForm() {
                     </h3>
                 </div>
                 <button type="button" className="text-gray-400"
+                    onClick={() => setIsMapOpen(!isMapOpen)}
                     aria-label={isMapOpen ? "Masquer la carte" : "Afficher la carte"}
                     aria-expanded={isMapOpen}
+                    aria-controls="map-preview-container"
                 >
                     {isMapOpen ? (
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -230,7 +232,7 @@ export default function AddTraceForm() {
 
             {/* MAP SECTION (CONDITIONAL) */}
             {isMapOpen && (
-                <div className="w-full h-64 sm:h-80 lg:h-96 bg-gray-50 border-b border-gray-200 relative animate-in slide-in-from-top-4 duration-300">
+                <div id="map-preview-container" className="w-full h-64 sm:h-80 lg:h-96 bg-gray-50 border-b border-gray-200 relative animate-in slide-in-from-top-4 duration-300">
                     {gpxGeoJson ? (
                         <MapPreview key={mapKey} geoJson={gpxGeoJson} />
                     ) : mapEmbedUrl ? (
