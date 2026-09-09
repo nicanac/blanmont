@@ -43,12 +43,14 @@ export default function DeleteMemberButton({ memberId, memberName: _memberName }
         <button
           onClick={handleDelete}
           disabled={isDeleting}
+          aria-label="Confirmer la suppression"
           className="rounded-lg px-2 py-1 text-xs font-medium text-white bg-red-600 hover:bg-red-700 disabled:opacity-50"
         >
           {isDeleting ? '...' : 'Oui'}
         </button>
         <button
           onClick={() => setShowConfirm(false)}
+          aria-label="Annuler la suppression"
           className="rounded-lg px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200"
         >
           Non
@@ -62,6 +64,7 @@ export default function DeleteMemberButton({ memberId, memberName: _memberName }
       onClick={() => setShowConfirm(true)}
       className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-red-600"
       title="Supprimer"
+      aria-label="Supprimer le membre"
     >
       <TrashIcon className="h-4 w-4" />
     </button>
