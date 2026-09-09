@@ -13,6 +13,12 @@ import {
   CheckBadgeIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
+import {
+  JerseyIcon,
+  TrophySquareIcon,
+  RouteCalendarIcon,
+  BicycleIcon,
+} from './components/ui/CyclingIcons';
 import HomeBlogSection from './components/shared/HomeBlogSection';
 import { getBlogPosts, getActiveWeekendPoll, getCalendarEvents, getHeroSettings } from './lib/firebase';
 import { getNextScheduledRide } from './lib/firebase/calendar';
@@ -121,7 +127,7 @@ export default async function Home(): Promise<React.ReactElement> {
                 {/* Inline metadata chip row */}
                 <div className="flex flex-wrap items-center gap-4 text-xs text-[#5c6370] dark:text-[#a7adbb] pt-1">
                   <span className="flex items-center gap-1.5 font-medium">
-                    <span className="text-sm">🚲</span>
+                    <BicycleIcon className="h-4 w-4 text-[#7d8493] dark:text-[#a7adbb] shrink-0" />
                     <span>Groupes : <strong className="text-[#101216] dark:text-white">{nextRide.distances || 'Allures A, B, C & VTT'}</strong></span>
                   </span>
                   <span className="text-[#e4e0d8] dark:text-white/20">•</span>
@@ -331,17 +337,18 @@ export default async function Home(): Promise<React.ReactElement> {
             </div>
           </div>
 
-          {/* 3 Core Pillars — Perfectly balanced, no dead space */}
+          {/* 3 Core Pillars — Clean editorial cards with architectural iconography */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 1. Le Carré Vert */}
             <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 dark:hover:border-white/40 hover:shadow-md">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/40">
-                    <TrophyIcon className="h-5 w-5" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-all duration-300 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
+                    <TrophySquareIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800/40">
-                    Challenge
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[0.6875rem] font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+                    <span>Challenge</span>
                   </span>
                 </div>
                 <div>
@@ -356,10 +363,10 @@ export default async function Home(): Promise<React.ReactElement> {
               <div className="pt-4 mt-6 border-t border-[#e4e0d8] dark:border-white/10">
                 <Link
                   href="/leaderboard"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors"
                 >
                   <span>Consulter le classement</span>
-                  <ArrowRightIcon className="h-3 w-3" />
+                  <ArrowRightIcon className="h-3 w-3 text-[#e03e3e] transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -368,11 +375,12 @@ export default async function Home(): Promise<React.ReactElement> {
             <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 dark:hover:border-white/40 hover:shadow-md">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200/60 dark:border-sky-800/40">
-                    <CalendarDaysIcon className="h-5 w-5" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-all duration-300 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
+                    <RouteCalendarIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/40 px-2.5 py-1 rounded-full border border-sky-200 dark:border-sky-800/40">
-                    Planning
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[0.6875rem] font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
+                    <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shrink-0" />
+                    <span>Planning</span>
                   </span>
                 </div>
                 <div>
@@ -387,10 +395,10 @@ export default async function Home(): Promise<React.ReactElement> {
               <div className="pt-4 mt-6 border-t border-[#e4e0d8] dark:border-white/10">
                 <Link
                   href="/calendrier"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors"
                 >
                   <span>Voir le calendrier complet</span>
-                  <ArrowRightIcon className="h-3 w-3" />
+                  <ArrowRightIcon className="h-3 w-3 text-[#e03e3e] transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -399,11 +407,12 @@ export default async function Home(): Promise<React.ReactElement> {
             <div className="group rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-[#101216]/40 dark:hover:border-white/40 hover:shadow-md">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/40">
-                    <CheckBadgeIcon className="h-5 w-5" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-all duration-300 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
+                    <JerseyIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800/40">
-                    Boutique
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[0.6875rem] font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-500 shrink-0" />
+                    <span>Boutique</span>
                   </span>
                 </div>
                 <div>
@@ -418,10 +427,10 @@ export default async function Home(): Promise<React.ReactElement> {
               <div className="pt-4 mt-6 border-t border-[#e4e0d8] dark:border-white/10">
                 <Link
                   href="/le-club/equipement"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors"
                 >
                   <span>Découvrir la boutique</span>
-                  <ArrowRightIcon className="h-3 w-3" />
+                  <ArrowRightIcon className="h-3 w-3 text-[#e03e3e] transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
