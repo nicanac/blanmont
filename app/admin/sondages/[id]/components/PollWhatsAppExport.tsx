@@ -50,6 +50,30 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
       msg += `\n`;
     }
 
+    if (poll.customQuestions && poll.customQuestions.length > 0) {
+      poll.customQuestions.forEach((q) => {
+        const counts: Record<string, number> = {};
+        q.options.forEach((opt) => (counts[opt] = 0));
+        active.forEach((r) => {
+          const ans = r.customAnswers?.[q.id];
+          if (!ans) return;
+          if (Array.isArray(ans)) {
+            ans.forEach((a) => {
+              counts[a] = (counts[a] || 0) + 1;
+            });
+          } else {
+            counts[ans] = (counts[ans] || 0) + 1;
+          }
+        });
+
+        msg += `📏 *${q.title.toUpperCase()}* :\n`;
+        q.options.forEach((opt) => {
+          msg += `• ${opt} : ${counts[opt] || 0}\n`;
+        });
+        msg += `\n`;
+      });
+    }
+
     msg += `📲 Sondage en direct : https://blanmont.be/sondage`;
     return msg;
   };

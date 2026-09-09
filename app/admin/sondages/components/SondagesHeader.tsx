@@ -6,6 +6,7 @@ import {
   ChatBubbleLeftRightIcon,
   PlusIcon,
   AcademicCapIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import SondagesTutorialModal from './SondagesTutorialModal';
 import { useAdminTours } from '../../components/tours/adminTours';
@@ -48,6 +49,16 @@ export default function SondagesHeader({
             <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
             <span>Tutoriel &amp; Guide</span>
           </button>
+
+          <Link
+            id="sondages-new-saturday-btn"
+            href="/admin/sondages/new?prefill=1"
+            className="inline-flex items-center gap-2 rounded-md border border-[#e03e3e]/30 bg-[#e03e3e]/5 hover:bg-[#e03e3e]/10 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#e03e3e] transition-colors shadow-xs shrink-0"
+            title="Créer directement un sondage pré-rempli avec la sortie du samedi"
+          >
+            <SparklesIcon className="h-4 w-4" />
+            <span>Sondage Sortie Samedi</span>
+          </Link>
 
           <Link
             id="sondages-new-btn"
