@@ -3,7 +3,8 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { TrophyIcon, XMarkIcon, ArrowTopRightOnSquareIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+import { TrophyIcon, XMarkIcon, ArrowTopRightOnSquareIcon, CalendarDaysIcon, FlagIcon } from '@heroicons/react/24/outline';
+import { TrophySquareIcon, BicycleIcon } from '../components/ui/CyclingIcons';
 import { CalendarEvent } from '../types';
 import { parseDateInfo } from '../lib/carreVert';
 
@@ -224,8 +225,8 @@ export default function LeaderboardView({
                         <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6">
                             {/* Leader */}
                             <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-                                <div className="rounded-md bg-emerald-500/15 border border-emerald-500/30 p-2.5 text-emerald-600 dark:text-emerald-400 shrink-0">
-                                    <TrophyIcon className="h-5 w-5" aria-hidden="true" />
+                                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
+                                    <TrophySquareIcon className="h-5 w-5 text-[#e03e3e]" aria-hidden="true" />
                                 </div>
                                 <div className="min-w-0">
                                     <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tracking-tight truncate">
@@ -239,8 +240,8 @@ export default function LeaderboardView({
 
                             {/* Pelotons Ranked */}
                             <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-                                <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
-                                    <span className="text-lg">🚴‍♂️</span>
+                                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
+                                    <BicycleIcon className="h-5 w-5 text-[#101216] dark:text-white" aria-hidden="true" />
                                 </div>
                                 <div>
                                     <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -254,8 +255,8 @@ export default function LeaderboardView({
 
                             {/* Total Rides */}
                             <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-                                <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
-                                    <span className="text-lg">🏁</span>
+                                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
+                                    <FlagIcon className="h-5 w-5 text-[#101216] dark:text-white" aria-hidden="true" />
                                 </div>
                                 <div>
                                     <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
