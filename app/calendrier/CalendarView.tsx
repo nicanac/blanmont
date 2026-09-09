@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { CalendarEvent } from '../types';
+import { CalendarEvent, EventReview } from '../types';
 import CalendarDrawer from './CalendarDrawer';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 import { parseDateInfo } from '../lib/carreVert';
@@ -21,10 +21,12 @@ import {
   ArrowDownTrayIcon,
   CalendarDaysIcon,
   XMarkIcon,
+  ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline';
 import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
 import { useAuth } from '../context/AuthContext';
+import { useIsMounted } from '../utils/useIsMounted';
 
 const MONTH_NAMES = [
   'Janvier',
@@ -77,52 +79,73 @@ type FilterType = 'all' | 'saturday' | 'sunday' | 'gpx';
 export default function CalendarView({
   events,
   attendanceMap = {},
+  initialReviewsMap = {},
 }: {
   events: CalendarEvent[];
   attendanceMap?: Record<string, AttendeeInfo[]>;
+  initialReviewsMap?: Record<string, EventReview[]>;
 }) {
   const { isAdmin } = useAuth();
+  const mounted = useIsMounted();
   const searchParams = useSearchParams();
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState<ViewMode>('agenda');
-  const [filterType, setFilterType] = useState<FilterType>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
   const paramDate = searchParams?.get('date');
   const paramEventId = searchParams?.get('event') || searchParams?.get('eventId');
-  const handledParamRef = useRef<string | null>(null);
 
-  // Deep-link handling: if date or event param is present, jump to that month and open the drawer
-  useEffect(() => {
-    if (!paramDate && !paramEventId) return;
-    const paramKey = `${paramDate || ''}:${paramEventId || ''}`;
-    if (handledParamRef.current === paramKey) return;
-    handledParamRef.current = paramKey;
+  const initialSelection = useMemo(() => {
+    let targetEvent: CalendarEvent | null = null;
+    let initialDate = new Date();
 
-    let targetEvent: CalendarEvent | undefined;
     if (paramEventId) {
-      targetEvent = events.find((e) => e.id === paramEventId);
+      targetEvent = events.find((e) => e.id === paramEventId) || null;
     }
     if (!targetEvent && paramDate) {
       const dateInfo = parseDateInfo(paramDate);
       const targetIso = dateInfo ? dateInfo.isoDate : paramDate;
-      targetEvent = events.find((e) => e.isoDate === targetIso);
+      targetEvent = events.find((e) => e.isoDate === targetIso) || null;
     }
 
     if (targetEvent) {
       const [y, m, d] = targetEvent.isoDate.split('-').map(Number);
       if (!isNaN(y) && !isNaN(m)) {
-        setCurrentDate(new Date(y, m - 1, d || 1));
+        initialDate = new Date(y, m - 1, d || 1);
       }
-      setSelectedEvent(targetEvent);
     } else if (paramDate) {
       const dateInfo = parseDateInfo(paramDate);
       if (dateInfo) {
-        setCurrentDate(new Date(dateInfo.year, dateInfo.month - 1, dateInfo.day));
+        initialDate = new Date(dateInfo.year, dateInfo.month - 1, dateInfo.day);
       }
     }
+
+    return { initialDate, targetEvent };
   }, [paramDate, paramEventId, events]);
+
+  const [currentDate, setCurrentDate] = useState<Date>(() => initialSelection.initialDate);
+  const [viewMode, setViewMode] = useState<ViewMode>('agenda');
+  const [filterType, setFilterType] = useState<FilterType>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(() => initialSelection.targetEvent);
+  const [reviewsMap, setReviewsMap] = useState<Record<string, EventReview[]>>(initialReviewsMap);
+
+  const [prevParamKey, setPrevParamKey] = useState(`${paramDate || ''}:${paramEventId || ''}`);
+  const currentParamKey = `${paramDate || ''}:${paramEventId || ''}`;
+
+  if (currentParamKey !== prevParamKey) {
+    setPrevParamKey(currentParamKey);
+    if (initialSelection.targetEvent) {
+      setSelectedEvent(initialSelection.targetEvent);
+      setCurrentDate(initialSelection.initialDate);
+    } else if (paramDate) {
+      setCurrentDate(initialSelection.initialDate);
+    }
+  }
+
+  const handleReviewsUpdated = useCallback((eventId: string, newReviews: EventReview[]) => {
+    setReviewsMap((prev) => ({
+      ...prev,
+      [eventId]: newReviews,
+    }));
+  }, []);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -582,7 +605,7 @@ export default function CalendarView({
                           </span>
                         )}
 
-                        {isAdmin && (
+                        {mounted && isAdmin && (
                           <Link
                             href={`/admin/events/${event.id}/edit`}
                             className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors"
@@ -848,7 +871,23 @@ export default function CalendarView({
                               </span>
                             )}
 
-                            {isAdmin && (
+                            {reviewsMap[event.id]?.length > 0 && (
+                              <span className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-white/5 px-3 py-2 text-xs font-bold text-[#101216] dark:text-white shadow-2xs">
+                                <ChatBubbleLeftRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                                <span className="tabular-nums">
+                                  {(
+                                    reviewsMap[event.id].reduce((sum, r) => sum + r.rating, 0) /
+                                    reviewsMap[event.id].length
+                                  ).toFixed(1)}
+                                  /5
+                                </span>
+                                <span className="text-[#5c6370] dark:text-[#a7adbb] font-normal">
+                                  ({reviewsMap[event.id].length} avis)
+                                </span>
+                              </span>
+                            )}
+
+                            {mounted && isAdmin && (
                               <Link
                                 href={`/admin/events/${event.id}/edit`}
                                 className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors"
@@ -884,6 +923,12 @@ export default function CalendarView({
         open={!!selectedEvent}
         onClose={() => setSelectedEvent(null)}
         attendees={selectedEvent ? attendanceMap[selectedEvent.id] || [] : []}
+        reviews={selectedEvent ? reviewsMap[selectedEvent.id] || [] : []}
+        onReviewsUpdated={(newReviews) => {
+          if (selectedEvent) {
+            handleReviewsUpdated(selectedEvent.id, newReviews);
+          }
+        }}
       />
     </div>
   );

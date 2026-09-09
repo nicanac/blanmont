@@ -144,6 +144,47 @@ export interface CalendarEvent {
 }
 
 /**
+ * Ride evaluation metric types for post-event debrief
+ */
+export type RideEffortLevel = 'tranquille' | 'modere' | 'soutenu' | 'intense' | 'epique';
+export type RidePaceLevel = 'trop-lent' | 'parfait' | 'trop-rapide' | 'irregulier';
+export type RoadCondition = 'impeccable' | 'bonne' | 'degradee' | 'piegeuse';
+export type RideWeatherFeedback = 'soleil' | 'vent' | 'pluvieux' | 'froid' | 'ideal';
+
+export interface EventReview {
+  /** Unique ID of the review (typically memberId) */
+  id: string;
+  /** Calendar event ID */
+  eventId: string;
+  /** Member ID */
+  memberId: string;
+  /** Member display name */
+  memberName: string;
+  /** Member avatar photo URL */
+  memberPhotoUrl?: string;
+  /** Member cycling group (e.g. Groupe A, Groupe B) */
+  memberGroup?: string;
+  /** Star rating (1-5) */
+  rating: number;
+  /** Written member feedback / debrief */
+  comment: string;
+  /** Perceived physical effort */
+  effort?: RideEffortLevel;
+  /** Pacing and peloton rhythm */
+  pace?: RidePaceLevel;
+  /** Road surface quality and hazards */
+  roadCondition?: RoadCondition;
+  /** Real weather experienced */
+  weatherEncountered?: RideWeatherFeedback;
+  /** Optional link to Strava or Garmin activity */
+  stravaActivityUrl?: string;
+  /** ISO creation timestamp */
+  createdAt: string;
+  /** ISO update timestamp */
+  updatedAt?: string;
+}
+
+/**
  * Represents a raw Page object from the Notion API.
  * This helps strict typing when mapping properties.
  */

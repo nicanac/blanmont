@@ -206,6 +206,21 @@ export const validateImageFile = (file: File) => {
   return schema.safeParse({ size: file.size, type: file.type });
 };
 
+// === Calendar Event Review Validation ===
+
+export const SubmitEventReviewSchema = z.object({
+  eventId: z.string().min(1, 'L’identifiant de la sortie est requis'),
+  rating: z.number().int().min(1, 'La note doit être comprise entre 1 et 5').max(5, 'La note doit être comprise entre 1 et 5'),
+  comment: z.string().min(1, 'Veuillez écrire un commentaire ou votre ressenti').max(2000, 'Le commentaire ne peut pas dépasser 2000 caractères'),
+  effort: z.enum(['tranquille', 'modere', 'soutenu', 'intense', 'epique']).optional(),
+  pace: z.enum(['trop-lent', 'parfait', 'trop-rapide', 'irregulier']).optional(),
+  roadCondition: z.enum(['impeccable', 'bonne', 'degradee', 'piegeuse']).optional(),
+  weatherEncountered: z.enum(['soleil', 'vent', 'pluvieux', 'froid', 'ideal']).optional(),
+  stravaActivityUrl: urlSchema,
+});
+
+export type SubmitEventReviewInput = z.infer<typeof SubmitEventReviewSchema>;
+
 // === Utility function for safe parsing with error formatting ===
 
 export type ValidationResult<T> = 

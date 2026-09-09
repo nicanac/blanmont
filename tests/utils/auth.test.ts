@@ -62,7 +62,7 @@ describe('auth utils - checkIsAdmin', () => {
     expect(checkIsAdmin(user)).toBe(false);
   });
 
-  it('returns false when user is null (in Node environment without window/localStorage)', () => {
+  it('returns false when user is null', () => {
     expect(checkIsAdmin(null)).toBe(false);
   });
 });
