@@ -6,12 +6,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
     ArrowLeftIcon,
-    ShoppingBagIcon,
     CheckIcon,
     CloudArrowUpIcon,
     PhotoIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '../../../../types/equipment';
 import { EQUIPMENT_DATA, EQUIPMENT_CATEGORIES } from '../../../../data/equipment';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
@@ -237,7 +237,7 @@ export default function EditEquipmentPage() {
     if (!formData.name && !isLoading) {
         return (
             <div className="rounded-xl bg-white p-12 text-center shadow-sm">
-                <ShoppingBagIcon className="mx-auto h-16 w-16 text-gray-300" />
+                <JerseyIcon className="mx-auto h-16 w-16 text-gray-300" />
                 <h2 className="mt-4 text-lg font-semibold text-gray-900">Équipement non trouvé</h2>
                 <p className="mt-2 text-gray-500">L&apos;équipement demandé n&apos;existe pas.</p>
                 <Link

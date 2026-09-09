@@ -8,9 +8,9 @@ import {
   TrashIcon,
   EyeIcon,
   MagnifyingGlassIcon,
-  ShoppingBagIcon,
   AcademicCapIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '../../types/equipment';
 import { EQUIPMENT_CATEGORIES } from '../../data/equipment';
 import { toast } from 'sonner';
@@ -92,7 +92,7 @@ export default function AdminEquipementsPage() {
       <div id="equipements-header-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <ShoppingBagIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+            <JerseyIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
             <span>Catalogue Officiel</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
@@ -232,7 +232,7 @@ export default function AdminEquipementsPage() {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <ShoppingBagIcon className="h-5 w-5 text-[#7d8493]" />
+                          <JerseyIcon className="h-5 w-5 text-[#7d8493]" />
                         )}
                       </div>
                       <div>

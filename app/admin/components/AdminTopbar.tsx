@@ -14,7 +14,6 @@ import {
   CalendarDaysIcon,
   ChatBubbleLeftRightIcon,
   DocumentTextIcon,
-  MapIcon,
   UsersIcon,
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
@@ -159,7 +158,7 @@ export default function AdminTopbar({
   ];
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] bg-white/95 dark:bg-[#0a0c10]/95 backdrop-blur-md px-4 sm:px-6 transition-colors duration-200">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] bg-white/95 dark:bg-[#0a0c10]/95 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       {/* Left: Mobile Toggle / Desktop Collapse & Breadcrumbs */}
       <div className="flex items-center gap-3 min-w-0">
         {/* Mobile menu trigger */}
