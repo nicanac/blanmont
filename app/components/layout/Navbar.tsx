@@ -17,12 +17,18 @@ import {
   XMarkIcon,
   PlusCircleIcon,
   ChevronDownIcon,
+  ChevronRightIcon,
   CalendarIcon,
   TrophyIcon,
   InformationCircleIcon,
   ShoppingBagIcon,
   ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline';
+import {
+  JerseyIcon,
+  TrophySquareIcon,
+  ClubCrestIcon,
+} from '../ui/CyclingIcons';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
@@ -56,22 +62,22 @@ export default function Navbar(): React.ReactElement {
       name: 'Présentation',
       description: 'Qui sommes-nous ?',
       href: '/le-club',
-      icon: InformationCircleIcon,
-      iconBg: 'bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#e03e3e]',
+      icon: ClubCrestIcon,
+      tag: 'Le Club',
     },
     {
       name: 'Équipement',
       description: 'Collection 2026',
       href: '/le-club/equipement',
-      icon: ShoppingBagIcon,
-      iconBg: 'bg-amber-500/10 text-amber-600 dark:bg-amber-400/20 dark:text-amber-400',
+      icon: JerseyIcon,
+      tag: 'Boutique',
     },
     {
       name: 'Carré Vert',
       description: 'Classement & Assiduité',
       href: '/leaderboard',
-      icon: TrophyIcon,
-      iconBg: 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/20 dark:text-emerald-400',
+      icon: TrophySquareIcon,
+      tag: 'Challenge',
     },
   ];
 
@@ -181,29 +187,35 @@ export default function Navbar(): React.ReactElement {
                           leaveTo="opacity-0 translate-y-1"
                         >
                           <PopoverPanel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-2 sm:px-0">
-                            <div className="overflow-hidden rounded-md shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922]">
-                              <div className="relative grid gap-2 px-3 py-3 sm:p-4">
+                            <div className="overflow-hidden rounded-lg shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922]">
+                              <div className="relative grid gap-1.5 p-3">
                                 {clubNavigation.map((item) => (
                                   <PopoverButton
                                     key={item.name}
                                     as={Link}
                                     href={item.href}
-                                    className="flex items-start rounded-md p-3 hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150 group"
+                                    className="flex items-center rounded-md p-3 hover:bg-[#faf8f5] dark:hover:bg-white/5 border border-transparent hover:border-[#e4e0d8] dark:hover:border-white/10 transition-all duration-200 group"
                                   >
-                                    <div className={cn('p-2 rounded-md flex-shrink-0 transition-transform group-hover:scale-105', item.iconBg || 'bg-[#101216]/10 dark:bg-white/10 text-[#101216] dark:text-white')}>
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] transition-all duration-200 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
                                       <item.icon
-                                        className="h-5 w-5"
+                                        className="h-5 w-5 transition-transform duration-200 group-hover:scale-110"
                                         aria-hidden="true"
                                       />
                                     </div>
-                                    <div className="ml-4 text-left">
-                                      <p className="text-sm font-semibold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
-                                        {item.name}
-                                      </p>
-                                      <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493]">
+                                    <div className="ml-3.5 text-left flex-1 min-w-0">
+                                      <div className="flex items-center justify-between gap-2">
+                                        <p className="text-sm font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
+                                          {item.name}
+                                        </p>
+                                        <span className="text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[#7d8493] dark:text-[#a7adbb] bg-[#f2efe9] dark:bg-white/5 px-2 py-0.5 rounded border border-[#e4e0d8] dark:border-white/10">
+                                          {item.tag}
+                                        </span>
+                                      </div>
+                                      <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493] truncate">
                                         {item.description}
                                       </p>
                                     </div>
+                                    <ChevronRightIcon className="ml-2 h-4 w-4 text-[#7d8493] dark:text-[#a7adbb] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0 self-center" />
                                   </PopoverButton>
                                 ))}
                               </div>
@@ -427,9 +439,15 @@ export default function Navbar(): React.ReactElement {
                             key={item.name}
                             as={Link}
                             href={item.href}
-                            className="block py-2 px-3 rounded-md text-sm font-medium text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white"
+                            className="flex items-center gap-3 py-2 px-3 rounded-md text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white group"
                           >
-                            {item.name}
+                            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white group-hover:border-[#e03e3e] group-hover:text-[#e03e3e] shrink-0">
+                              <item.icon className="h-4 w-4" />
+                            </div>
+                            <span className="flex-1 text-left">{item.name}</span>
+                            <span className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb] bg-[#f2efe9] dark:bg-white/5 px-2 py-0.5 rounded border border-[#e4e0d8] dark:border-white/10">
+                              {item.tag}
+                            </span>
                           </PopoverButton>
                         ))}
                       </Disclosure.Panel>
