@@ -214,9 +214,9 @@ export default function AddTraceForm() {
                 </div>
                 <button type="button" className="text-gray-400"
                     onClick={() => setIsMapOpen(!isMapOpen)}
+                    aria-controls="map-preview-container"
                     aria-label={isMapOpen ? "Masquer la carte" : "Afficher la carte"}
                     aria-expanded={isMapOpen}
-                    aria-controls="map-preview-container"
                 >
                     {isMapOpen ? (
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -231,6 +231,7 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
                       type="button"
                       onClick={() => handleDeleteQuestion(q.id)}
                       className="text-slate-400 hover:text-red-600 transition-colors"
+
                       title="Supprimer cette question"
                       aria-label="Supprimer cette question"
                     >
@@ -261,6 +262,7 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
                             type="button"
                             onClick={() => handleDeleteOption(q.id, optIdx)}
                             className="p-1 text-slate-300 hover:text-red-600"
+
                             title="Supprimer cette option"
                             aria-label="Supprimer cette option"
                           >
