@@ -243,6 +243,7 @@ export default function NewWeekendPollPage() {
                       onClick={() => handleDeleteQuestion(q.id)}
                       className="text-slate-400 hover:text-red-600 transition-colors"
                       title="Supprimer cette question"
+                      aria-label="Supprimer cette question"
                     >
                       <TrashIcon className="h-4 w-4" />
                     </button>
@@ -275,6 +276,8 @@ export default function NewWeekendPollPage() {
                             type="button"
                             onClick={() => handleDeleteOption(q.id, optIdx)}
                             className="p-1 text-slate-300 hover:text-red-600"
+                            title="Supprimer cette option"
+                            aria-label="Supprimer cette option"
                           >
                             <TrashIcon className="h-3.5 w-3.5" />
                           </button>
