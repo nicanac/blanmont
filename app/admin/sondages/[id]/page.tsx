@@ -156,6 +156,50 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
               ))}
             </div>
           </div>
+
+          {/* Custom Questions breakdown (e.g. Distances) */}
+          {poll.customQuestions && poll.customQuestions.length > 0 && (
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
+              {poll.customQuestions.map((q) => {
+                const counts: Record<string, number> = {};
+                q.options.forEach((opt) => (counts[opt] = 0));
+                responses.forEach((r) => {
+                  const ans = r.customAnswers?.[q.id];
+                  if (!ans) return;
+                  if (Array.isArray(ans)) {
+                    ans.forEach((a) => {
+                      counts[a] = (counts[a] || 0) + 1;
+                    });
+                  } else {
+                    counts[ans] = (counts[ans] || 0) + 1;
+                  }
+                });
+
+                return (
+                  <div key={q.id} className="space-y-2">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                      {q.title}
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                      {q.options.map((opt) => (
+                        <div
+                          key={opt}
+                          className="rounded-xl border border-slate-100 bg-slate-50 p-3 flex items-center justify-between"
+                        >
+                          <span className="text-xs font-semibold text-slate-800 truncate mr-2">
+                            {opt}
+                          </span>
+                          <span className="rounded-md bg-white border border-slate-200 px-2 py-0.5 text-xs font-bold text-[#e03e3e] tabular-nums">
+                            {counts[opt] || 0}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Right: WhatsApp Summary Card */}
@@ -215,8 +259,24 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                     <td className="px-4 py-3.5 font-semibold text-slate-800">
                       {r.dayChoice !== 'absent' ? r.groupChoice : '—'}
                     </td>
-                    <td className="px-4 py-3.5 text-slate-600 max-w-xs truncate">
-                      {r.comment ? `« ${r.comment} »` : '—'}
+                    <td className="px-4 py-3.5 text-slate-600 max-w-sm">
+                      {r.customAnswers && Object.keys(r.customAnswers).length > 0 && (
+                        <div className="flex flex-wrap gap-1 mb-1">
+                          {Object.values(r.customAnswers).map((ans, idx) => (
+                            <span
+                              key={idx}
+                              className="inline-flex items-center rounded-md bg-amber-50 border border-amber-200/80 px-2 py-0.5 text-[11px] font-semibold text-amber-900"
+                            >
+                              🚴 {Array.isArray(ans) ? ans.join(', ') : ans}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {r.comment ? (
+                        <span className="italic text-slate-700 block">« {r.comment} »</span>
+                      ) : (
+                        (!r.customAnswers || Object.keys(r.customAnswers).length === 0) && '—'
+                      )}
                     </td>
                     <td className="px-4 py-3.5 text-slate-400 font-mono text-xs tabular-nums">
                       {r.updatedAt ? new Date(r.updatedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '—'}

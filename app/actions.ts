@@ -243,6 +243,16 @@ export async function deleteWeekendPollAction(id: string) {
   return result;
 }
 
+import { getSaturdaySortieDetails, type SaturdaySortieInfo } from './lib/sondage-helpers';
+
+/**
+ * Server Action to fetch Saturday ride details and precalculated poll suggestions.
+ */
+export async function getSaturdaySortieInfoAction(isoDate?: string): Promise<SaturdaySortieInfo> {
+  await requireAdminSession();
+  return getSaturdaySortieDetails(isoDate);
+}
+
 import { validateUser } from './lib/firebase';
 import { setSessionCookie, clearSessionCookie, type SessionUser } from './lib/auth/session';
 
