@@ -3,14 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  ShoppingBagIcon,
   XMarkIcon,
-  SparklesIcon,
   ShieldCheckIcon,
   TruckIcon,
   ArrowRightIcon,
   CheckBadgeIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '../../../types/equipment';
 import { EQUIPMENT_CATEGORIES, EQUIPMENT_DATA } from '../../../data/equipment';
 import EquipmentIllustration from './EquipmentIllustration';
@@ -91,9 +90,9 @@ export default function EquipementPage() {
           {/* Stat Strip on Hero (Horizontal Hairline Structure) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6">
             {/* Pieces in collection */}
-            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-              <div className="rounded-md bg-[#e03e3e]/15 border border-[#e03e3e]/30 p-2.5 text-[#e03e3e] shrink-0">
-                <SparklesIcon className="h-5 w-5" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <JerseyIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div className="min-w-0">
                 <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -106,9 +105,9 @@ export default function EquipementPage() {
             </div>
 
             {/* Technical partner */}
-            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-              <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
-                <ShieldCheckIcon className="h-5 w-5 text-[#101216] dark:text-white" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <ShieldCheckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div>
                 <div className="text-lg sm:text-xl font-bold text-[#101216] dark:text-white tracking-tight">
@@ -121,9 +120,9 @@ export default function EquipementPage() {
             </div>
 
             {/* Pickup & orders */}
-            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-              <div className="rounded-md bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 p-2.5 text-[#101216] dark:text-[#f5f6f8] shrink-0">
-                <TruckIcon className="h-5 w-5 text-[#3b82f6]" aria-hidden="true" />
+            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4 group">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <TruckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
               </div>
               <div>
                 <div className="text-lg sm:text-xl font-bold text-[#101216] dark:text-white tracking-tight">
@@ -262,9 +261,9 @@ export default function EquipementPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#e4e0d8] dark:border-[#262b38]">
-            <div className="space-y-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#e03e3e]/15 text-[#e03e3e]">
-                <ShieldCheckIcon className="h-5 w-5" />
+            <div className="space-y-3 group">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#171a21] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <ShieldCheckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
               </div>
               <h3 className="text-base font-bold text-[#101216] dark:text-white">Peaux de Chamois K10 &amp; K9</h3>
               <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
@@ -272,9 +271,9 @@ export default function EquipementPage() {
               </p>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-500/15 text-sky-600 dark:text-sky-400">
-                <TruckIcon className="h-5 w-5" />
+            <div className="space-y-3 group">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#171a21] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <TruckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
               </div>
               <h3 className="text-base font-bold text-[#101216] dark:text-white">Distribution Locale Gratuite</h3>
               <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
@@ -282,9 +281,9 @@ export default function EquipementPage() {
               </p>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-                <CheckBadgeIcon className="h-5 w-5" />
+            <div className="space-y-3 group">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#171a21] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <CheckBadgeIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
               </div>
               <h3 className="text-base font-bold text-[#101216] dark:text-white">Essayage &amp; Échantillons</h3>
               <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
@@ -393,7 +392,7 @@ export default function EquipementPage() {
                       )}`}
                       className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] shadow-md"
                     >
-                      <ShoppingBagIcon className="h-4 w-4" />
+                      <JerseyIcon className="h-4 w-4" />
                       <span>Commander par email ({selectedSize || 'Taille'})</span>
                     </a>
                     <p className="text-center text-xs text-[#7d8493] dark:text-[#a7adbb]">

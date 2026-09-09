@@ -11,8 +11,6 @@ import {
   UsersIcon,
   CalendarDaysIcon,
   MapIcon,
-  ShoppingBagIcon,
-  CheckBadgeIcon,
   ChartBarIcon,
   Cog6ToothIcon,
   PlusCircleIcon,
@@ -20,6 +18,7 @@ import {
   XMarkIcon,
   DocumentArrowUpIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 
 export interface CommandItem {
   id: string;
@@ -85,7 +84,7 @@ const COMMAND_ITEMS: CommandItem[] = [
     category: 'Pages',
     description: 'Pointage des présences et challenge d’assiduité annuel',
     href: '/admin/carre-vert',
-    icon: CheckBadgeIcon,
+    icon: TrophySquareIcon,
     keywords: ['carre', 'vert', 'assiduite', 'presences', 'pointage', 'classement'],
   },
   {
@@ -103,7 +102,7 @@ const COMMAND_ITEMS: CommandItem[] = [
     category: 'Pages',
     description: 'Catalogue Gobik, gestion des tailles et commandes',
     href: '/admin/equipements',
-    icon: ShoppingBagIcon,
+    icon: JerseyIcon,
     keywords: ['equipements', 'tenues', 'gobik', 'maillots', 'cuissards', 'boutique'],
   },
   {

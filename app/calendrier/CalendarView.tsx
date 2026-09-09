@@ -22,6 +22,7 @@ import {
   CalendarDaysIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
 import { useAuth } from '../context/AuthContext';
 
@@ -522,8 +523,8 @@ export default function CalendarView({
                           </span>
 
                           {event.distances && (
-                            <span className="flex items-center gap-1 tabular-nums">
-                              <span>🚲</span>
+                            <span className="flex items-center gap-1.5 tabular-nums">
+                              <BicycleIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                               <strong className="text-[#101216] dark:text-white font-semibold">{event.distances} km</strong>
                             </span>
                           )}
@@ -566,16 +567,17 @@ export default function CalendarView({
                             href={event.gpxUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/40 hover:bg-sky-100 dark:hover:bg-sky-900/40 text-sky-700 dark:text-sky-300 px-3.5 py-2 text-xs font-bold transition-colors"
+                            className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:border-[#e03e3e]/40 hover:bg-[#faf8f5] dark:hover:bg-[#1f242d] text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.06em] transition-all shadow-2xs group"
                           >
-                            <ArrowDownTrayIcon className="h-4 w-4" />
+                            <ArrowDownTrayIcon className="h-4 w-4 text-[#e03e3e] transition-transform duration-200 group-hover:translate-y-0.5" />
                             <span>Parcours GPX</span>
                           </a>
                         )}
 
                         {attendees.length > 0 && (
-                          <span className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40 px-3 py-2 text-xs font-bold">
-                            <UserGroupIcon className="h-4 w-4" />
+                          <span className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-white/5 px-3 py-2 text-xs font-bold text-[#101216] dark:text-white shadow-2xs">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+                            <UserGroupIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
                             <span className="tabular-nums">{attendees.length}</span>
                           </span>
                         )}
@@ -797,8 +799,8 @@ export default function CalendarView({
                               </span>
 
                               {event.distances && (
-                                <span className="flex items-center gap-1 tabular-nums">
-                                  <span>🚲</span>
+                                <span className="flex items-center gap-1.5 tabular-nums">
+                                  <BicycleIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                                   <strong className="text-[#101216] dark:text-white font-semibold">{event.distances} km</strong>
                                 </span>
                               )}
@@ -831,16 +833,17 @@ export default function CalendarView({
                                 href={event.gpxUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/40 hover:bg-sky-100 dark:hover:bg-sky-900/40 text-sky-700 dark:text-sky-300 px-3.5 py-2 text-xs font-bold transition-colors"
+                                className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:border-[#e03e3e]/40 hover:bg-[#faf8f5] dark:hover:bg-[#1f242d] text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.06em] transition-all shadow-2xs group"
                               >
-                                <ArrowDownTrayIcon className="h-4 w-4" />
+                                <ArrowDownTrayIcon className="h-4 w-4 text-[#e03e3e] transition-transform duration-200 group-hover:translate-y-0.5" />
                                 <span>Parcours GPX</span>
                               </a>
                             )}
 
                             {attendees.length > 0 && (
-                              <span className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40 px-3 py-2 text-xs font-bold">
-                                <UserGroupIcon className="h-4 w-4" />
+                              <span className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-white/5 px-3 py-2 text-xs font-bold text-[#101216] dark:text-white shadow-2xs">
+                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+                                <UserGroupIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
                                 <span className="tabular-nums">{attendees.length} inscrits</span>
                               </span>
                             )}
