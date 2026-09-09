@@ -63,3 +63,7 @@ nul
 # Impeccable tool artifacts
 .impeccable/
 
+# Playwright artifacts
+test-results/
+playwright-report/
+
