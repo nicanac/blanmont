@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { toast } from 'sonner';
-
-const ROLES = ['Member', 'Admin', 'President', 'Treasurer', 'Secretary'];
+import MemberRoleSelector from '../components/MemberRoleSelector';
 
 export default function NewMemberPage(): React.ReactElement {
   const router = useRouter();
@@ -19,14 +18,6 @@ export default function NewMemberPage(): React.ReactElement {
     stravaId: '',
     role: ['Member'] as string[],
   });
-
-  const handleRoleChange = (role: string, checked: boolean): void => {
-    if (checked) {
-      setFormData({ ...formData, role: [...formData.role, role] });
-    } else {
-      setFormData({ ...formData, role: formData.role.filter((r) => r !== role) });
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -57,26 +48,27 @@ export default function NewMemberPage(): React.ReactElement {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 pb-4 border-b border-[#e4e0d8]">
         <Link
           href="/admin/members"
-          className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+          className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors shadow-xs"
+          title="Retour à l'annuaire des membres"
         >
-          <ArrowLeftIcon className="h-5 w-5" />
+          <ArrowLeftIcon className="h-4 w-4" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Nouveau Membre</h1>
-          <p className="text-sm text-gray-500">Ajouter un nouveau membre au club</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">Nouveau Membre</h1>
+          <p className="text-xs sm:text-sm text-[#5c6370]">Ajouter un nouveau cycliste ou encadrant au club</p>
         </div>
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs">
           <div className="grid gap-6 md:grid-cols-2">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
                 Nom complet *
               </label>
               <input
@@ -85,14 +77,14 @@ export default function NewMemberPage(): React.ReactElement {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                placeholder="Jean Dupont"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                placeholder="ex: Lucien Szustak"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
                 Email
               </label>
               <input
@@ -100,14 +92,14 @@ export default function NewMemberPage(): React.ReactElement {
                 id="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                placeholder="jean.dupont@email.com"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                placeholder="membre@blanmont.be"
               />
             </div>
 
             {/* Photo URL */}
             <div>
-              <label htmlFor="photoUrl" className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor="photoUrl" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
                 Photo URL
               </label>
               <input
@@ -115,75 +107,63 @@ export default function NewMemberPage(): React.ReactElement {
                 id="photoUrl"
                 value={formData.photoUrl}
                 onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
                 placeholder="https://..."
               />
             </div>
 
             {/* Strava ID */}
             <div>
-              <label htmlFor="stravaId" className="mb-2 block text-sm font-medium text-gray-700">
-                Strava ID
+              <label htmlFor="stravaId" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+                Strava Athlete ID
               </label>
               <input
                 type="text"
                 id="stravaId"
                 value={formData.stravaId}
                 onChange={(e) => setFormData({ ...formData, stravaId: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                placeholder="12345678"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                placeholder="ex: 12345678"
               />
             </div>
 
             {/* Bio */}
             <div className="md:col-span-2">
-              <label htmlFor="bio" className="mb-2 block text-sm font-medium text-gray-700">
-                Bio
+              <label htmlFor="bio" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+                Bio &amp; Présentation
               </label>
               <textarea
                 id="bio"
                 rows={3}
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                placeholder="Quelques mots sur le membre..."
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                placeholder="Quelques mots sur le cycliste, ses allures favorites..."
               />
             </div>
 
-            {/* Roles */}
-            <div className="md:col-span-2">
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                Rôle(s)
-              </label>
-              <div className="flex flex-wrap gap-4">
-                {ROLES.map((role) => (
-                  <label key={role} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={formData.role.includes(role)}
-                      onChange={(e) => handleRoleChange(role, e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
-                    />
-                    <span className="text-sm text-gray-700">{role}</span>
-                  </label>
-                ))}
-              </div>
+            {/* Roles Section */}
+            <div className="md:col-span-2 pt-4 border-t border-[#e4e0d8]">
+              <MemberRoleSelector
+                roles={formData.role}
+                onChange={(newRoles) => setFormData({ ...formData, role: newRoles })}
+              />
             </div>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex justify-end gap-3">
+        <div className="flex items-center justify-end gap-3 pt-2">
           <Link
             href="/admin/members"
-            className="rounded-lg border border-gray-300 bg-white px-6 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="rounded-md border border-[#e4e0d8] bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
           >
             Annuler
           </Link>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-lg bg-red-600 px-6 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+            className="rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-colors disabled:opacity-50"
           >
             {isSubmitting ? 'Création...' : 'Créer le membre'}
           </button>
