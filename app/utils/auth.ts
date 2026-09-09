@@ -1,6 +1,17 @@
 import { User } from '../types';
 
-export const ADMIN_ROLES = ['Admin', 'President', 'admin', 'president', 'WebMaster', 'webmaster'];
+export const ADMIN_ROLES = [
+  'Admin',
+  'admin',
+  'Administrateur',
+  'administrateur',
+  'President',
+  'president',
+  'Président',
+  'président',
+  'WebMaster',
+  'webmaster',
+];
 export const ADMIN_EMAILS = ['admin@blanmont.be', 'president@blanmont.be', 'bruyere.nicolas@gmail.com'];
 
 /**
