@@ -5,6 +5,9 @@ const IMPECCABLE_LIVE_DEV =
   process.env.NODE_ENV === 'development' ? ' http://localhost:8400' : '';
 
 const nextConfig: NextConfig = {
+  devIndicators: {
+    position: 'bottom-right',
+  },
   images: {
     remotePatterns: [
       {

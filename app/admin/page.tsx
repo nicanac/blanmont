@@ -7,10 +7,10 @@ import {
   PlusIcon,
   ChatBubbleLeftRightIcon,
   ArrowRightIcon,
-  ShoppingBagIcon,
   PhotoIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { getBlogPosts } from '../lib/firebase/blog';
 import { getMembers } from '../lib/firebase/members';
 import { getCalendarEvents } from '../lib/firebase/calendar';
@@ -61,7 +61,6 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       value: activePoll ? `${activeAttendees} inscrits` : 'Inactif',
       icon: ChatBubbleLeftRightIcon,
       href: activePoll ? `/admin/sondages/${activePoll.id}` : '/admin/sondages',
-      color: 'bg-[#e03e3e]/15 text-[#e03e3e] border-[#e03e3e]/30',
       description: activePoll ? activePoll.title : 'Créer un sondage',
     },
     {
@@ -69,7 +68,6 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       value: totalMembers,
       icon: UsersIcon,
       href: '/admin/members',
-      color: 'bg-sky-500/15 text-sky-600 border-sky-500/30',
       description: 'Membres actifs enregistrés',
     },
     {
@@ -77,7 +75,6 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       value: totalBlogPosts,
       icon: DocumentTextIcon,
       href: '/admin/blog',
-      color: 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30',
       description: 'Publications en ligne',
     },
     {
@@ -85,7 +82,6 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       value: upcomingEvents,
       icon: CalendarDaysIcon,
       href: '/admin/events',
-      color: 'bg-amber-500/15 text-amber-600 border-amber-500/30',
       description: 'Sorties & rendez-vous',
     },
   ];
@@ -95,13 +91,15 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8] dark:border-[#222730]">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] dark:bg-[#1d2128] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-            Espace Administration
+          <div className="flex items-center gap-3 flex-wrap">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216] dark:text-white">
+              Tableau de bord
+            </h1>
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#101216] dark:bg-[#1d2128] px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+              <span>Espace Administration</span>
+            </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216] dark:text-white">
-            Tableau de bord
-          </h1>
           <p className="mt-1 text-xs sm:text-sm text-[#5c6370] dark:text-[#9ba3af]">
             Gestion du club, des membres, des sondages hebdomadaires et des sorties.
           </p>
@@ -156,8 +154,8 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
               <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493] dark:text-[#9ba3af]">
                 {stat.name}
               </span>
-              <div className={`flex h-9 w-9 items-center justify-center rounded-md border ${stat.color}`}>
-                <stat.icon className="h-4 w-4" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+                <stat.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
               </div>
             </div>
 
@@ -268,10 +266,10 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Link
           href="/admin/events/new"
-          className="flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e]">
-            <CalendarDaysIcon className="h-5 w-5" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+            <CalendarDaysIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Nouvelle Sortie</p>
@@ -281,10 +279,10 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
 
         <Link
           href="/admin/members"
-          className="flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400">
-            <UsersIcon className="h-5 w-5" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+            <UsersIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Gestion Membres</p>
@@ -294,10 +292,10 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
 
         <Link
           href="/admin/equipements"
-          className="flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-            <ShoppingBagIcon className="h-5 w-5" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+            <JerseyIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Équipements Club</p>
@@ -307,10 +305,10 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
 
         <Link
           href="/admin/settings"
-          className="flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-purple-500/10 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400">
-            <Cog6ToothIcon className="h-5 w-5" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+            <Cog6ToothIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Paramètres & Thème</p>

@@ -34,13 +34,8 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-function getGroupBadgeClass(group: string): string {
-  const g = group.toUpperCase();
-  if (g.includes('A')) return 'bg-red-50 text-red-700 border-red-200';
-  if (g.includes('B')) return 'bg-blue-50 text-blue-700 border-blue-200';
-  if (g.includes('C')) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-  if (g.includes('VTT')) return 'bg-amber-50 text-amber-800 border-amber-200';
-  return 'bg-[#f2efe9] text-[#5c6370] border-[#e4e0d8]';
+function getGroupBadgeClass(): string {
+  return 'bg-white dark:bg-[#101216] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38]';
 }
 
 export default function CalendarDrawer({
@@ -259,7 +254,7 @@ export default function CalendarDrawer({
                 {event.remarks && (
                   <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-4 space-y-1">
                     <div className="flex items-center gap-1.5 text-xs font-bold text-[#101216] dark:text-white">
-                      <InformationCircleIcon className="h-4 w-4 text-[#3b82f6]" />
+                      <InformationCircleIcon className="h-4 w-4 text-[#e03e3e]" />
                       <span>Remarques</span>
                     </div>
                     <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">{event.remarks}</p>
@@ -267,9 +262,9 @@ export default function CalendarDrawer({
                 )}
 
                 {event.alternative && (
-                  <div className="rounded-md border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-950/40 p-4 space-y-1">
-                    <div className="text-xs font-bold text-amber-900 dark:text-amber-200">Alternative</div>
-                    <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
+                  <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-4 space-y-1">
+                    <div className="text-xs font-bold uppercase tracking-wider text-[#e03e3e]">Alternative</div>
+                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                       {event.alternative}
                     </p>
                   </div>
@@ -281,7 +276,7 @@ export default function CalendarDrawer({
             <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-4 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#101216] dark:text-white">
-                  <UserGroupIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  <UserGroupIcon className="h-4 w-4 text-[#101216] dark:text-white" />
                   <span>Présents enregistrés ({attendees.length})</span>
                 </div>
 
@@ -303,18 +298,15 @@ export default function CalendarDrawer({
                       return (
                         <div
                           key={idx}
-                          className="inline-flex items-center gap-2 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] px-2.5 py-1.5 text-xs text-[#101216] dark:text-white shadow-2xs hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors"
+                          className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] px-2.5 py-1.5 text-xs text-[#101216] dark:text-white shadow-2xs hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors"
                         >
                           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
                             {initials}
                           </span>
                           <span className="font-semibold text-[#101216] dark:text-white">{att.name}</span>
                           {att.group && (
-                            <span
-                              className={`rounded px-1.5 py-0.5 text-xs font-bold border uppercase tracking-wider ${getGroupBadgeClass(
-                                att.group
-                              )}`}
-                            >
+                            <span className="inline-flex items-center gap-1 rounded-xs border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-[#f5f6f8]">
+                              <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
                               {att.group}
                             </span>
                           )}

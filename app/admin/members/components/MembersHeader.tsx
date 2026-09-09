@@ -24,13 +24,15 @@ export default function MembersHeader({
     <>
       <div id="members-header-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <UsersIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
-            <span>Gestion Membres</span>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
+              Membres du Club
+            </h1>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#101216] px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
+              <UsersIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+              <span>Gestion Membres</span>
+            </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
-            Membres du Club
-          </h1>
           <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
             {memberCount} cyclistes actifs enregistrés dans le système.
           </p>

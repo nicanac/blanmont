@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   XMarkIcon,
-  ShoppingBagIcon,
   PlayIcon,
   PlusIcon,
   TagIcon,
   CubeIcon,
   LightBulbIcon,
 } from '@heroicons/react/24/outline';
+import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 
 interface EquipementsTutorialModalProps {
   isOpen: boolean;
@@ -51,16 +51,17 @@ export default function EquipementsTutorialModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#262b38] px-6 py-4 bg-[#161922]">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
-              <ShoppingBagIcon className="h-5 w-5" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#101216] text-white border border-[#262b38]">
+              <JerseyIcon className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide du Vestiaire Gobik &amp; Stocks
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5">
-                  Boutique Club
+                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-[#101216] border border-white/15 text-white px-2.5 py-0.5 inline-flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+                  Vestiaire Club
                 </span>
               </div>
               <p className="text-xs text-[#a7adbb]">
@@ -86,11 +87,11 @@ export default function EquipementsTutorialModal({
             onClick={() => setActiveTab('catalog')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'catalog'
-                ? 'border-emerald-400 text-white'
+                ? 'border-[#e03e3e] text-white'
                 : 'border-transparent text-[#7d8493] hover:text-white'
             }`}
           >
-            <ShoppingBagIcon className="h-4 w-4 text-emerald-400" />
+            <JerseyIcon className="h-4 w-4 text-[#e03e3e]" />
             <span>1. Catalogue Officiel</span>
           </button>
           <button

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Trace } from '../../../types';
 import { stripSuffix } from '../../../utils/string.utils';
-import { MapPinIcon, RocketLaunchIcon, ArrowDownTrayIcon, StarIcon } from '@heroicons/react/20/solid';
+import { MapPinIcon, ArrowDownTrayIcon, StarIcon } from '@heroicons/react/20/solid';
 
 interface TraceCardProps {
     trace: Trace;
@@ -26,12 +26,12 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
 
     const ratingColorClass = getRatingColorClass(trace.quality);
 
-    const getSurfaceBadgeClass = (surface?: string): string => {
-        if (!surface) return 'bg-[#f2efe9] text-[#3a3f4a] border-[#e4e0d8]';
+    const getSurfaceDotClass = (surface?: string): string => {
+        if (!surface) return 'bg-[#5c6370]';
         const s = surface.toLowerCase();
-        if (s.includes('route') || s.includes('asphalt')) return 'bg-emerald-50 text-emerald-800 border-emerald-200/70';
-        if (s.includes('vtt') || s.includes('gravel') || s.includes('chemins') || s.includes('pav')) return 'bg-amber-50 text-amber-800 border-amber-200/70';
-        return 'bg-[#f2efe9] text-[#3a3f4a] border-[#e4e0d8]';
+        if (s.includes('route') || s.includes('asphalt')) return 'bg-[#e03e3e]';
+        if (s.includes('vtt') || s.includes('gravel') || s.includes('chemins') || s.includes('pav')) return 'bg-[#7d8493]';
+        return 'bg-[#5c6370]';
     };
 
     return (
@@ -84,11 +84,14 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                         </div>
                     </div>
                     <div className="mt-3 flex items-center gap-2">
-                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold border ${getSurfaceBadgeClass(trace.surface)}`}>
-                            {trace.surface}
-                        </span>
+                        {trace.surface && (
+                            <span className="inline-flex items-center gap-1.5 rounded-xs border border-[#e4e0d8] bg-[#faf8f5] px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#101216]">
+                                <span className={`h-1.5 w-1.5 rounded-full ${getSurfaceDotClass(trace.surface)}`} />
+                                {trace.surface}
+                            </span>
+                        )}
                         {trace.start && (
-                            <span className="inline-flex items-center rounded-full bg-[#f2efe9] border border-[#e4e0d8] px-2.5 py-0.5 text-xs font-medium text-[#3a3f4a] truncate">
+                            <span className="inline-flex items-center rounded-xs bg-[#faf8f5] border border-[#e4e0d8] px-2 py-0.5 text-xs font-medium text-[#5c6370] truncate">
                                 {trace.start}
                             </span>
                         )}
