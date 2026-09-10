@@ -18,9 +18,6 @@ import { useAdminTours } from '../components/tours/adminTours';
 import { redirect } from 'next/navigation';
 
 export default function AdminTracesPage(): React.ReactElement {
-  // Masqué temporairement / Hidden for now
-  redirect('/admin');
-
   const [modalOpen, setModalOpen] = useState(false);
   const { startTracesTour } = useAdminTours();
 
@@ -51,6 +48,15 @@ export default function AdminTracesPage(): React.ReactElement {
       icon: CloudArrowUpIcon,
       accent: 'bg-amber-500/10 text-amber-600 border-amber-500/20',
       badge: 'Strava API',
+    },
+    {
+      name: 'Fusionner des Traces GPX',
+      category: 'Outil',
+      description: 'Combiner plusieurs fichiers GPX en un seul parcours unifié.',
+      href: '/admin/traces/merge',
+      icon: DocumentArrowUpIcon,
+      accent: 'bg-purple-500/10 text-purple-600 border-purple-500/20',
+      badge: 'Outil GPX',
     },
     {
       name: 'Catalogue Public des Traces',

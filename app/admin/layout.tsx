@@ -15,6 +15,7 @@ import {
   AcademicCapIcon,
   PhotoIcon,
   Cog6ToothIcon,
+  MapIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
@@ -58,14 +59,13 @@ const navigationGroups: NavigationGroup[] = [
         icon: CalendarIcon,
         matchExtra: ['/admin/events/import', '/admin/events/new'],
       },
-      // Masqué temporairement / Hidden for now
-      // {
-      //   name: 'Traces & Parcours GPS',
-      //   href: '/admin/traces',
-      //   icon: MapIcon,
-      //   badge: 'GPX',
-      //   matchExtra: ['/admin/add-trace'],
-      // },
+      {
+        name: 'Traces & Parcours GPS',
+        href: '/admin/traces',
+        icon: MapIcon,
+        badge: 'GPX',
+        matchExtra: ['/admin/add-trace', '/admin/traces/merge'],
+      },
       {
         name: 'Pointage Carré Vert',
         href: '/admin/carre-vert',

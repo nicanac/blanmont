@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     const gpxText = await res.text();
     const parser = new DOMParser();
     const gpxDoc = parser.parseFromString(gpxText, 'text/xml');
-    const geoJson = gpx(gpxDoc);
+    const geoJson = gpx(gpxDoc as unknown as Document);
 
     // Calculate Stats
     let totalDistance = 0; // meters
