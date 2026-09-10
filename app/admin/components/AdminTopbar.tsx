@@ -178,6 +178,8 @@ export default function AdminTopbar({
           onClick={onToggleSidebar}
           className="hidden md:flex items-center justify-center h-8 w-8 rounded-md text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
           title={isSidebarCollapsed ? 'Déplier la barre latérale (Ctrl+B)' : 'Replier la barre latérale (Ctrl+B)'}
+          aria-expanded={!isSidebarCollapsed}
+          aria-label={isSidebarCollapsed ? 'Déplier la barre latérale' : 'Replier la barre latérale'}
         >
           {isSidebarCollapsed ? (
             <ArrowsPointingOutIcon className="h-4 w-4" />
@@ -290,6 +292,7 @@ export default function AdminTopbar({
           onClick={onOpenHelpModal}
           className="p-1.5 rounded-lg text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
           title="Guide & Raccourcis d'administration"
+          aria-label="Guide et Raccourcis d'administration"
         >
           <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
         </button>
