@@ -9,15 +9,3 @@ declare module '@tmcw/togeojson' {
     export function gpx(doc: Document): any;
 }
 
-declare module 'firebase/storage' {
-    export interface FirebaseStorage {
-        [key: string]: any;
-    }
-    export function getStorage(app?: any, bucketUrl?: string): FirebaseStorage;
-    export function ref(storage: any, url?: string): any;
-    export function uploadBytes(ref: any, data: any, metadata?: any): Promise<any>;
-    export function getDownloadURL(ref: any): Promise<string>;
-    export function deleteObject(ref: any): Promise<void>;
-}
-
-
