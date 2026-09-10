@@ -44,6 +44,15 @@ export const getMembers = async (): Promise<Member[]> => {
 /**
  * Validates user credentials.
  */
+// Web Crypto fallback for bcrypt-like comparison
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 export const validateUser = async (email: string, password: string): Promise<Member | null> => {
   if (isMockMode || email === 'mock@test.com') {
      if (password === 'password') {
@@ -58,10 +67,8 @@ export const validateUser = async (email: string, password: string): Promise<Mem
     const dbId = cleanId(MEMBERS_DB_ID);
     const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
       filter: {
-        and: [
-          { property: 'Email', email: { equals: email } },
-          { property: 'Password', rich_text: { equals: password } },
-        ],
+        property: 'Email',
+        email: { equals: email }
       },
     });
 
@@ -69,6 +76,22 @@ export const validateUser = async (email: string, password: string): Promise<Mem
 
     const page = response.results[0];
     const props = page.properties;
+
+    const storedPassword = props.Password?.rich_text[0]?.plain_text;
+    if (!storedPassword) return null;
+
+    // First attempt a direct comparison for legacy plain-text passwords
+    // Note: For a real production app, all plain-text passwords should be migrated to hashes.
+    let isPasswordValid = storedPassword === password;
+
+    // If not plain-text match, check if it matches SHA-256 hash
+    if (!isPasswordValid) {
+      const hashedPassword = await hashPassword(password);
+      isPasswordValid = storedPassword === hashedPassword;
+    }
+
+    if (!isPasswordValid) return null;
+
     const photoFiles = props.Photo?.files || [];
     const photoUrl = photoFiles.length > 0 ? photoFiles[0].file?.url || photoFiles[0].external?.url : '';
 
