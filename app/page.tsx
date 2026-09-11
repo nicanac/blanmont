@@ -1,4 +1,5 @@
 import React from 'react';
+import GpxStatsDisplay from './components/ui/GpxStatsDisplay';
 import Link from 'next/link';
 import {
   ChatBubbleLeftRightIcon,
@@ -134,6 +135,13 @@ export default async function Home(): Promise<React.ReactElement> {
                   </span>
                 </div>
               </div>
+
+              {/* GPX Stats Display */}
+              {nextRide.gpxUrl && (
+                <div className="pt-2">
+                  <GpxStatsDisplay url={nextRide.gpxUrl} />
+                </div>
+              )}
 
               {/* Action Footer */}
               <div className="pt-4 border-t border-[#e4e0d8] dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
