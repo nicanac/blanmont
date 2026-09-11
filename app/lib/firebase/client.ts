@@ -1,5 +1,4 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
-import { getStorage, FirebaseStorage } from 'firebase/storage';
 import {
   getDatabase,
   Database,
@@ -49,7 +48,6 @@ export const useNotionFallback = isMockMode && !!process.env.NOTION_TOKEN;
 let app: FirebaseApp;
 let database: Database;
 let auth: Auth;
-let storage: FirebaseStorage;
 
 function getFirebaseApp(): FirebaseApp {
   if (!app) {
@@ -71,13 +69,6 @@ export function getFirebaseAuth(): Auth {
     auth = getAuth(getFirebaseApp());
   }
   return auth;
-}
-
-export function getFirebaseStorage(): FirebaseStorage {
-  if (!storage) {
-    storage = getStorage(getFirebaseApp());
-  }
-  return storage;
 }
 
 // Re-export Firebase utilities for convenience

@@ -262,7 +262,7 @@ The application isolates database access in `app/lib/firebase/`:
 
 | Module | Purpose | Key Exports |
 |---|---|---|
-| [`client.ts`](app/lib/firebase/client.ts) | Initializes Client SDK; provides helper utilities (`snapshotToArray`, `snapshotToObject`, `cleanId`, `isMockMode`) | `getFirebaseDatabase`, `getFirebaseAuth`, `getFirebaseStorage` |
+| [`client.ts`](app/lib/firebase/client.ts) | Initializes Client SDK; provides helper utilities (`snapshotToArray`, `snapshotToObject`, `cleanId`, `isMockMode`) | `getFirebaseDatabase`, `getFirebaseAuth` |
 | [`admin.ts`](app/lib/firebase/admin.ts) | Initializes Admin SDK with Service Account certificate; bypasses client rules on server side | `getAdminDatabase`, `getAdminAuth`, `isAdminConfigured` |
 | [`traces.ts`](app/lib/firebase/traces.ts) | Queries & mutations for routes; Komoot OpenGraph image fetching; cache revalidation | `getTraces`, `getTrace`, `createTrace`, `updateTrace`, `deleteTrace` |
 | [`members.ts`](app/lib/firebase/members.ts) | Member listings, profile updates, photo sync, role validation | `getMembers`, `getMemberById`, `updateMemberPhoto`, `validateUser` |
