@@ -62,6 +62,7 @@ export default function DeleteMemberButton({ memberId, memberName: _memberName }
       onClick={() => setShowConfirm(true)}
       className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-red-600"
       title="Supprimer"
+      aria-label="Supprimer"
     >
       <TrashIcon className="h-4 w-4" />
     </button>
