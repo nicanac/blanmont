@@ -8,6 +8,8 @@ import Footer from './components/layout/Footer';
 import ConditionalFooter from './components/layout/ConditionalFooter';
 import { Toaster } from 'sonner';
 
+import LocalClubJsonLd from './components/seo/LocalClubJsonLd';
+
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -15,8 +17,40 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Club de Blanmont',
-  description: 'Cyclo Club Saint-Martin Blanmont - Club de cyclisme sur route et VTT',
+  metadataBase: new URL('https://cc-blanmont.be'),
+  title: {
+    default: 'Cyclo Club Saint-Martin Blanmont | Cyclisme sur route & VTT en Brabant Wallon',
+    template: '%s | CC Saint-Martin Blanmont',
+  },
+  description:
+    'Club cycliste cyclo sur route et VTT à Blanmont (Chastre, Brabant Wallon). Sorties encadrées le samedi et dimanche matin en 3 groupes de niveau (A, B, C). Affilié FFBC.',
+  keywords: [
+    'club cycliste brabant wallon',
+    'cyclo club blanmont',
+    'cyclisme chastre',
+    'groupe velo ottignies',
+    'sortie cyclo brabant wallon',
+    'club velo gembloux',
+    'cyclo saint-martin blanmont',
+    'ffbc velo brabant wallon',
+  ],
+  authors: [{ name: 'CC Saint-Martin Blanmont' }],
+  creator: 'CC Saint-Martin Blanmont',
+  openGraph: {
+    type: 'website',
+    locale: 'fr_BE',
+    url: 'https://cc-blanmont.be',
+    siteName: 'CC Saint-Martin Blanmont',
+    title: 'Cyclo Club Saint-Martin Blanmont | Cyclisme en Brabant Wallon',
+    description:
+      'Club cycliste sur route et VTT à Blanmont (Chastre). Sorties encadrées le week-end en 3 groupes de niveau. 3 sorties d’essai gratuites offertes !',
+  },
+  other: {
+    'geo.region': 'BE-WBR',
+    'geo.placename': 'Blanmont, Chastre',
+    'geo.position': '50.6087;4.6738',
+    'ICBM': '50.6087, 4.6738',
+  },
 };
 
 const themeInitScript = `
@@ -59,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <LocalClubJsonLd />
       </head>
       <body className={`h-full bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200 ${poppins.variable} font-sans`}>
         <ThemeProvider>

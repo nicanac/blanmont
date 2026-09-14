@@ -67,6 +67,12 @@ const navigationGroups: NavigationGroup[] = [
       //   matchExtra: ['/admin/add-trace'],
       // },
       {
+        name: 'Pointage Express',
+        href: '/admin/pointage-express',
+        icon: TrophySquareIcon,
+        badge: 'Départ',
+      },
+      {
         name: 'Pointage Carré Vert',
         href: '/admin/carre-vert',
         icon: TrophySquareIcon,
@@ -78,6 +84,7 @@ const navigationGroups: NavigationGroup[] = [
     items: [
       { name: 'Bannière Accueil', href: '/admin/hero', icon: PhotoIcon },
       { name: 'Articles & Blog', href: '/admin/blog', icon: DocumentTextIcon },
+      { name: 'Galeries Photos', href: '/admin/galerie', icon: PhotoIcon },
       { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
     ],
   },

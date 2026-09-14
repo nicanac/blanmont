@@ -562,3 +562,42 @@ export async function deleteEventReviewAction(
   revalidatePath('/calendrier');
   return result;
 }
+
+/**
+ * Server Action to retrieve the current logged-in member's full profile details (ICE, Cotisation, Group).
+ */
+export async function getMemberProfileAction() {
+  const session = await getSessionUser();
+  if (!session) return null;
+  const { getAdminDatabase } = await import('./lib/firebase/admin');
+  const db = getAdminDatabase();
+  const snapshot = await db.ref(`members/${session.id}`).once('value');
+  if (!snapshot.exists()) return null;
+  return { id: session.id, ...snapshot.val() };
+}
+
+/**
+ * Server Action for a logged-in member to update their own emergency contact (ICE) and phone.
+ */
+export async function updateMemberEmergencyAction(payload: {
+  iceContactName?: string;
+  iceContactPhone?: string;
+  iceRelationship?: string;
+  preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
+  phone?: string;
+}) {
+  const session = await getSessionUser();
+  if (!session) {
+    throw new Error('Vous devez être connecté.');
+  }
+
+  const { getAdminDatabase } = await import('./lib/firebase/admin');
+  const db = getAdminDatabase();
+  await db.ref(`members/${session.id}`).update({
+    ...payload,
+    updatedAt: new Date().toISOString(),
+  });
+
+  revalidatePath('/profile');
+  return { success: true };
+}

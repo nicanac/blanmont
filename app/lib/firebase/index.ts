@@ -13,3 +13,5 @@ export * from './leaderboard';
 export * from './attendance';
 export * from './polls';
 export * from './hero';
+export * from './trial-requests';
+export * from './galleries';

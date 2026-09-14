@@ -22,6 +22,9 @@ import {
   TrophyIcon,
   InformationCircleIcon,
   ChatBubbleLeftRightIcon,
+  ShieldCheckIcon,
+  UserPlusIcon,
+  PhotoIcon,
 } from '@heroicons/react/24/outline';
 import {
   JerseyIcon,
@@ -58,11 +61,32 @@ export default function Navbar(): React.ReactElement {
 
   const clubNavigation = [
     {
+      name: 'Rejoindre le Club',
+      description: '3 sorties d’essai gratuites',
+      href: '/rejoindre',
+      icon: UserPlusIcon,
+      tag: 'Adhésion',
+    },
+    {
       name: 'Présentation',
-      description: 'Qui sommes-nous ?',
+      description: 'Qui sommes-nous & valeurs',
       href: '/le-club',
       icon: ClubCrestIcon,
       tag: 'Le Club',
+    },
+    {
+      name: 'Charte & Sécurité',
+      description: 'Code de la route & signaux peloton',
+      href: '/securite',
+      icon: ShieldCheckIcon,
+      tag: 'Peloton',
+    },
+    {
+      name: 'Galerie & Chroniques',
+      description: 'Photos & récits des saisons',
+      href: '/galerie',
+      icon: PhotoIcon,
+      tag: 'Photos',
     },
     {
       name: 'Équipement',
