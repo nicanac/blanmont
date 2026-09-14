@@ -60,8 +60,9 @@ export default function DeleteBlogButton({ postId, postTitle: _postTitle }: Dele
   return (
     <button
       onClick={() => setShowConfirm(true)}
-      className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-red-600"
+      className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
       title="Supprimer"
+      aria-label="Supprimer"
     >
       <TrashIcon className="h-4 w-4" />
     </button>
