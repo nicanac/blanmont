@@ -95,7 +95,9 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       {filteredAlbums.length === 0 ? (
         <div className="bg-white rounded-[10px] border border-[#e4e0d8] p-12 text-center space-y-3">
           <CameraIcon className="h-8 w-8 text-[#a7adbb] mx-auto" />
-          <p className="text-sm font-semibold text-[#101216]">Aucun album photo ne correspond aux critères.</p>
+          <p className="text-sm font-semibold text-[#101216]">
+            Aucun album photo ne correspond aux critères.
+          </p>
           <p className="text-xs text-[#7d8493]">
             Essayez de sélectionner une autre saison ou un autre thème.
           </p>
@@ -140,8 +142,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 {album.featured && (
                   <div className="absolute bottom-3 left-3">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs bg-[#e03e3e] text-white text-[10px] font-bold uppercase tracking-wider">
-                      <SparklesIcon className="h-3 w-3" />
-                      À la Une
+                      <SparklesIcon className="h-3 w-3" />À la Une
                     </span>
                   </div>
                 )}
@@ -195,8 +196,8 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
             Vous avez immortalisé une sortie du peloton ?
           </h3>
           <p className="text-xs text-[#5c6370] leading-relaxed max-w-2xl">
-            Partagez vos photos avec le club. Les clichés sélectionnés seront ajoutés aux chroniques de la saison
-            et mis à l&apos;honneur sur les réseaux du CC Saint-Martin Blanmont.
+            Partagez vos photos avec le club. Les clichés sélectionnés seront ajoutés aux chroniques
+            de la saison et mis à l&apos;honneur sur les réseaux du CC Saint-Martin Blanmont.
           </p>
         </div>
         <a
@@ -225,6 +226,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 type="button"
                 onClick={() => setActiveModalAlbum(null)}
                 className="absolute top-3 right-3 p-1.5 rounded-full bg-black/60 text-white hover:bg-black transition-colors"
+                aria-label="Fermer l'aperçu de l'album"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
