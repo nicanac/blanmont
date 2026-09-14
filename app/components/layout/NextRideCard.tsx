@@ -1,5 +1,5 @@
 'use client';
-import GpxStatsDisplay from '../ui/GpxStatsDisplay';
+import GpxStatsDisplay, { isWebUiLink } from '../ui/GpxStatsDisplay';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -121,7 +121,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
 
             {/* GPX Download Button & Stats */}
             {nextRide.gpxUrl && (
-              <div className="pt-1 space-y-3">
+              <div className={`pt-1 ${!isWebUiLink(nextRide.gpxUrl) ? 'space-y-3' : ''}`}>
                 <GpxStatsDisplay url={nextRide.gpxUrl} />
 
                 <a

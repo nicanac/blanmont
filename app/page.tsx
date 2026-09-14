@@ -1,5 +1,5 @@
 import React from 'react';
-import GpxStatsDisplay from './components/ui/GpxStatsDisplay';
+import GpxStatsDisplay, { isWebUiLink } from './components/ui/GpxStatsDisplay';
 import Link from 'next/link';
 import {
   ChatBubbleLeftRightIcon,
@@ -137,7 +137,7 @@ export default async function Home(): Promise<React.ReactElement> {
               </div>
 
               {/* GPX Stats Display */}
-              {nextRide.gpxUrl && (
+              {nextRide.gpxUrl && !isWebUiLink(nextRide.gpxUrl) && (
                 <div className="pt-2">
                   <GpxStatsDisplay url={nextRide.gpxUrl} />
                 </div>

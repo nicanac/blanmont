@@ -13,14 +13,18 @@ interface Stats {
   estimatedTime: string;
 }
 
+export const isWebUiLink = (url: string): boolean => {
+  if (!url) return false;
+  return /strava\.com|garmin\.com|komoot/i.test(url);
+};
+
 export default function GpxStatsDisplay({ url }: GpxStatsDisplayProps) {
   const [stats, setStats] = useState<Stats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(!isWebUiLink(url));
+  const [error, setError] = useState(isWebUiLink(url));
 
   useEffect(() => {
-    // If url is obviously not a GPX file (like strava web UI), don't try to fetch
-    if (url.includes('strava.com') || url.includes('garmin.com') || url.includes('komoot')) {
+    if (isWebUiLink(url)) {
       setLoading(false);
       setError(true);
       return;
@@ -53,6 +57,11 @@ export default function GpxStatsDisplay({ url }: GpxStatsDisplayProps) {
 
     fetchStats();
   }, [url]);
+
+  // Synchronously return null if it's a web UI link
+  if (isWebUiLink(url)) {
+    return null;
+  }
 
   if (loading) {
     return (
