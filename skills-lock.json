@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "content-gap-analysis": {
+      "source": "aaron-he-zhu/aaron-marketing-skills",
+      "sourceType": "github",
+      "skillPath": "seo-geo/survey/content-gap-analysis/SKILL.md",
+      "computedHash": "1d875ebe5e8622ca845a60747375f68a437c7edb936429029c490650d259d509"
+    },
     "improve-codebase-architecture": {
       "source": "mattpocock/skills",
       "sourceType": "github",

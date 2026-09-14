@@ -35,6 +35,20 @@ export interface Member {
   stravaId?: string;
   /** Firebase Auth UID. */
   authUid?: string;
+  /** Cotisation status for 2026 season. */
+  cotisation2026Status?: 'paid' | 'pending' | 'exempt';
+  /** Date when 2026 cotisation was recorded as paid. */
+  cotisation2026PaidAt?: string;
+  /** FFBC Belgian cycling federation license number. */
+  ffbcLicenseNumber?: string;
+  /** Name of the emergency contact person (ICE). */
+  iceContactName?: string;
+  /** Phone number of the emergency contact person (ICE). */
+  iceContactPhone?: string;
+  /** Relationship of emergency contact (e.g. Épouse, Parent, Enfant, Ami). */
+  iceRelationship?: string;
+  /** Preferred or habitual speed group. */
+  preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
 }
 
 /**
@@ -311,5 +325,32 @@ export interface HeroSettings {
   slides: HeroSlide[];
   cards: HeroTelemetryCard[];
   updatedAt?: string;
+}
+
+export interface TrialRideRequest {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  preferredGroup: 'A' | 'B' | 'C' | 'VTT';
+  bikeType: 'Route' | 'VTT' | 'Gravel' | 'VAE';
+  experienceLevel: 'Débutant' | 'Intermédiaire' | 'Confirmé' | 'Compétiteur';
+  firstRideDate?: string;
+  message?: string;
+  status: 'pending' | 'contacted' | 'completed' | 'archived';
+  createdAt: string;
+}
+
+export interface PhotoAlbum {
+  id: string;
+  title: string;
+  description: string;
+  year: number;
+  category: 'Sorties' | 'Ardennes & Stages' | 'Événements' | 'Équipements';
+  coverUrl: string;
+  externalAlbumUrl?: string;
+  photoCount: number;
+  featured?: boolean;
+  createdAt: string;
 }
 

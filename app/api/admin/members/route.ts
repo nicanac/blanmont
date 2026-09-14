@@ -23,6 +23,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       photoUrl: data.photoUrl || '/images/default-avatar.png',
       role: data.role || ['Member'],
       stravaId: data.stravaId || null,
+      cotisation2026Status: data.cotisation2026Status || 'pending',
+      cotisation2026PaidAt: data.cotisation2026PaidAt || null,
+      ffbcLicenseNumber: data.ffbcLicenseNumber || null,
+      iceContactName: data.iceContactName || null,
+      iceContactPhone: data.iceContactPhone || null,
+      iceRelationship: data.iceRelationship || null,
+      preferredGroup: data.preferredGroup || 'B',
       createdAt: new Date().toISOString(),
     };
 

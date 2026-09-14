@@ -29,6 +29,13 @@ export default function CarreVertHeader(): React.ReactElement {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <a
+            href="/admin/pointage-express"
+            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
+          >
+            <span>📱 Pointage Express Mobile</span>
+          </a>
+
           <button
             type="button"
             onClick={() => setModalOpen(true)}

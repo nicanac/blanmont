@@ -5,7 +5,10 @@ import ThemeToggle from './ThemeToggle';
 
 const navigation = {
   club: [
+    { name: 'Rejoindre le Club (3 essais gratuits)', href: '/rejoindre' },
     { name: 'Présentation & Groupes', href: '/le-club' },
+    { name: 'Charte de Sécurité Peloton', href: '/securite' },
+    { name: 'Galerie Photos & Chroniques', href: '/galerie' },
     { name: 'Les Membres', href: '/members' },
     { name: 'Équipements & Tenues', href: '/le-club/equipement' },
     { name: 'Classement Carré Vert', href: '/leaderboard' },
