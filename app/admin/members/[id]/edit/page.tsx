@@ -2,11 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ArrowsUpDownIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { use } from 'react';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
 import { toast } from 'sonner';
+import {
+  parseVerticalPosition,
+  formatVerticalPosition,
+  VERTICAL_PRESETS,
+} from '@/app/lib/imagePosition';
 
 import MemberRoleSelector from '../../components/MemberRoleSelector';
 
@@ -25,6 +30,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
     email: '',
     bio: '',
     photoUrl: '',
+    photoPosition: 'center center',
     stravaId: '',
     role: ['Member'] as string[],
   });
@@ -40,6 +46,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
             email: data.email || '',
             bio: data.bio || '',
             photoUrl: data.photoUrl || '',
+            photoPosition: data.photoPosition || 'center center',
             stravaId: data.stravaId || '',
             role: data.role || ['Member'],
           });
@@ -156,45 +163,124 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
               />
             </div>
 
-            {/* Photo URL */}
-            <div>
-              <label htmlFor="photoUrl" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
-                Photo de profil
-              </label>
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-4">
-                  {(formData.photoUrl) && (
-                    <img
-                      src={formData.photoUrl}
-                      alt="Avatar"
-                      className="h-16 w-16 rounded-full object-cover border border-[#e4e0d8] shadow-xs"
-                    />
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageSelect}
-                    disabled={isImageUploading}
-                    className="block w-full text-xs text-[#5c6370] file:mr-4 file:rounded-md file:border file:border-[#e4e0d8] file:bg-[#faf8f5] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#101216] hover:file:bg-[#f2efe9] cursor-pointer"
-                  />
+            {/* Photo URL & Placement */}
+            <div className="md:col-span-2 space-y-4 pt-2 border-t border-[#e4e0d8]">
+              <div className="flex items-center justify-between">
+                <label htmlFor="photoUrl" className="block text-xs sm:text-sm font-semibold text-[#101216]">
+                  Photo de profil &amp; Cadrage
+                </label>
+                <Link
+                  href="/admin/members/photos"
+                  className="text-xs font-semibold text-[#e03e3e] hover:underline"
+                >
+                  Ouvrir l&apos;atelier de cadrage global →
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start">
+                {/* 4:5 Portrait Live Preview */}
+                <div className="sm:col-span-1">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#7d8493] mb-1.5">
+                    Aperçu rendu /members (4:5)
+                  </p>
+                  <div className="relative aspect-[4/5] w-full max-w-[200px] mx-auto sm:mx-0 overflow-hidden rounded-lg border border-[#e4e0d8] bg-[#161922] shadow-xs">
+                    {formData.photoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={formData.photoUrl}
+                        alt="Aperçu photo"
+                        style={{ objectPosition: formData.photoPosition || 'center center' }}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-full w-full flex items-center justify-center text-xs font-semibold text-[#a7adbb]">
+                        Aucune photo
+                      </div>
+                    )}
+                    <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-[10px] font-mono font-bold text-white">
+                      {parseVerticalPosition(formData.photoPosition)}% Y
+                    </span>
+                  </div>
                 </div>
-                {isImageUploading && (
-                   <div className="h-1.5 w-full rounded-full bg-[#f2efe9] overflow-hidden">
-                     <div 
-                       className="h-full bg-[#e03e3e] transition-all duration-300" 
-                       style={{ width: `${uploadProgress}%` }} 
-                     />
-                   </div>
-                )}
-                <div className="relative">
-                  <input
-                    type="text"
-                    id="photoUrl"
-                    placeholder="Ou entrer une URL manuelle"
-                    value={formData.photoUrl}
-                    onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
-                    className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
-                  />
+
+                {/* Upload & Position Controls */}
+                <div className="sm:col-span-2 space-y-4">
+                  <div className="flex flex-col gap-3">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageSelect}
+                      disabled={isImageUploading}
+                      className="block w-full text-xs text-[#5c6370] file:mr-4 file:rounded-md file:border file:border-[#e4e0d8] file:bg-[#faf8f5] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#101216] hover:file:bg-[#f2efe9] cursor-pointer"
+                    />
+
+                    {isImageUploading && (
+                      <div className="h-1.5 w-full rounded-full bg-[#f2efe9] overflow-hidden">
+                        <div 
+                          className="h-full bg-[#e03e3e] transition-all duration-300" 
+                          style={{ width: `${uploadProgress}%` }} 
+                        />
+                      </div>
+                    )}
+
+                    <input
+                      type="text"
+                      id="photoUrl"
+                      placeholder="Ou entrer une URL manuelle (https://...)"
+                      value={formData.photoUrl}
+                      onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
+                      className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                    />
+                  </div>
+
+                  {/* Positioning slider and presets */}
+                  {formData.photoUrl && (
+                    <div className="rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-3.5 space-y-3">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-bold text-[#101216] flex items-center gap-1.5">
+                          <ArrowsUpDownIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                          <span>Alignement vertical</span>
+                        </span>
+                        <span className="font-mono font-bold text-[#e03e3e]">
+                          {parseVerticalPosition(formData.photoPosition)}%
+                        </span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {VERTICAL_PRESETS.map((preset) => (
+                          <button
+                            key={preset.id}
+                            type="button"
+                            onClick={() =>
+                              setFormData((prev) => ({ ...prev, photoPosition: preset.position }))
+                            }
+                            className={`rounded px-2.5 py-1 text-xs font-semibold uppercase tracking-wider border transition-colors ${
+                              Math.abs(parseVerticalPosition(formData.photoPosition) - preset.percent) <= 12
+                                ? 'bg-[#101216] text-white border-[#101216]'
+                                : 'bg-white text-[#101216] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                            }`}
+                          >
+                            {preset.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={1}
+                        value={parseVerticalPosition(formData.photoPosition)}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            photoPosition: formatVerticalPosition(Number(e.target.value)),
+                          }))
+                        }
+                        className="w-full accent-[#e03e3e] cursor-pointer"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

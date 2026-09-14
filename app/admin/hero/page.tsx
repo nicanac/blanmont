@@ -30,6 +30,7 @@ import { DEFAULT_HERO_SETTINGS } from '@/app/constants/hero';
 import { sanitizeUrl } from '@/app/lib/urlUtils';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
 import HeroTelemetryFrame from '@/app/components/HeroTelemetryFrame';
+import { parseVerticalPosition } from '@/app/lib/imagePosition';
 
 const AVAILABLE_ICONS: { type: HeroIconType; label: string; icon: React.ElementType }[] = [
   { type: 'pin', label: 'Lieu / Épingle', icon: MapPinIcon },
@@ -48,16 +49,6 @@ const readFile = (file: File): Promise<string> => {
     reader.readAsDataURL(file);
   });
 };
-
-function parseVerticalPosition(position?: string): number {
-  if (!position) return 50;
-  if (position.includes('top')) return 15;
-  if (position.includes('bottom')) return 85;
-  if (position === 'center' || position === 'center center') return 50;
-  const match = position.match(/(\d+)%/);
-  if (match) return parseInt(match[1], 10);
-  return 50;
-}
 
 export default function AdminHeroPage(): React.ReactElement {
   const [formData, setFormData] = useState<HeroSettings>(DEFAULT_HERO_SETTINGS);
