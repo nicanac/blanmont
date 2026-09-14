@@ -115,6 +115,15 @@ const COMMAND_ITEMS: CommandItem[] = [
     keywords: ['membres', 'cyclistes', 'utilisateurs', 'capitaines', 'annuaire'],
   },
   {
+    id: 'page-members-photos',
+    name: 'Cadrage Photos Membres',
+    category: 'Pages',
+    description: 'Alignement vertical, positionnement et recadrage des photos des membres',
+    href: '/admin/members/photos',
+    icon: PhotoIcon,
+    keywords: ['photos', 'cadrage', 'portraits', 'focal', 'visages', 'membres', 'alignement'],
+  },
+  {
     id: 'page-stats',
     name: 'Statistiques & Rapports',
     category: 'Pages',

@@ -8,6 +8,7 @@ import {
   MagnifyingGlassIcon,
   UsersIcon,
   ShieldCheckIcon,
+  PhotoIcon,
 } from '@heroicons/react/24/outline';
 import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import DeleteMemberButton from './DeleteMemberButton';
@@ -262,6 +263,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                           <img
                             src={member.photoUrl}
                             alt={member.name}
+                            style={{ objectPosition: member.photoPosition || 'center center' }}
                             onError={() => setImgErrors((prev) => ({ ...prev, [member.id]: true }))}
                             className="h-full w-full object-cover"
                           />
@@ -317,6 +319,13 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                   </td>
                   <td className="whitespace-nowrap px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-1">
+                      <Link
+                        href="/admin/members/photos"
+                        className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#e03e3e] transition-colors"
+                        title="Cadrage et positionnement photo"
+                      >
+                        <PhotoIcon className="h-4 w-4" />
+                      </Link>
                       <Link
                         href={`/admin/members/${member.id}/edit`}
                         className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"

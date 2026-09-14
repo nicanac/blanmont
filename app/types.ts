@@ -25,6 +25,8 @@ export interface Member {
   bio: string;
   /** URL to the member's profile photo. */
   photoUrl: string;
+  /** Vertical alignment / focal point position for the photo (e.g. 'center 20%', 'center center'). */
+  photoPosition?: string;
   /** Email address of the member. */
   email?: string;
   /** Phone number of the member. */

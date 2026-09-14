@@ -89,6 +89,7 @@ export default function MemberCard({ member }: MemberCardProps) {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             src={member.photoUrl}
             alt={member.name}
+            style={{ objectPosition: member.photoPosition || 'center center' }}
             onError={() => setImgError(true)}
             loading="lazy"
           />

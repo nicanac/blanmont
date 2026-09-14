@@ -85,6 +85,7 @@ const navigationGroups: NavigationGroup[] = [
     title: 'Organisation & Système',
     items: [
       { name: 'Membres du Club', href: '/admin/members', icon: UsersIcon },
+      { name: 'Cadrage Photos', href: '/admin/members/photos', icon: PhotoIcon },
       { name: 'Statistiques', href: '/admin/statistics', icon: ChartBarIcon },
       { name: 'Paramètres', href: '/admin/settings', icon: Cog6ToothIcon, matchExtra: ['/admin/parametres'] },
     ],
@@ -164,6 +165,12 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
     (item: NavigationItem) => {
       if (item.href === '/admin') {
         return pathname === '/admin';
+      }
+      if (item.href === '/admin/members') {
+        return (
+          pathname === '/admin/members' ||
+          (pathname.startsWith('/admin/members/') && !pathname.startsWith('/admin/members/photos'))
+        );
       }
       if (pathname === item.href || pathname.startsWith(item.href + '/')) {
         return true;
