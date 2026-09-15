@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { getCalendarEvents, getLeaderboardEntries, LeaderboardEntry } from '../lib/firebase';
-import { getAllAttendance, EventAttendance } from '../lib/firebase/attendance';
-import { CalendarEvent } from '../types';
+import { getCalendarEvents, getLeaderboardEntries } from '../lib/firebase';
+import { getAllAttendance } from '../lib/firebase/attendance';
 import { calculateLeaderboardFromAttendance, getPossibleCarresCount } from '../lib/carreVert';
 import LeaderboardView from './LeaderboardView';
 
