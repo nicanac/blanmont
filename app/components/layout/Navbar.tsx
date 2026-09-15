@@ -41,66 +41,86 @@ export default function Navbar(): React.ReactElement {
   const pathname = usePathname();
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
-  const mainNavigation = [
-    { name: 'Les News', href: '/blog' },
-    { name: 'Membres', href: '/members' },
+  // Active state for Le Club dropdown section
+  const isClubActive = [
+    '/le-club',
+    '/securite',
+    '/rejoindre',
+    '/leaderboard',
+    '/galerie',
+  ].some((path) => pathname === path || pathname?.startsWith(`${path}/`));
+
+  // Outings & Weekly activities
+  const outingsNavigation = [
     {
       name: 'Calendrier',
-      description: 'Agenda de la saison',
+      description: 'Agenda des sorties & saison',
       href: '/calendrier',
       icon: CalendarIcon,
     },
     {
       name: 'Sondage Weekend',
-      description: 'Qui roule ce weekend ?',
+      description: 'Qui roule ce weekend ? Groupes A, B, C',
       href: '/sondage',
       icon: ChatBubbleLeftRightIcon,
       isLive: true,
     },
   ];
 
-  const clubNavigation = [
+  // Community & Articles
+  const communityNavigation = [
     {
-      name: 'Rejoindre le Club',
-      description: '3 sorties d’essai gratuites',
-      href: '/rejoindre',
-      icon: UserPlusIcon,
-      tag: 'Adhésion',
+      name: 'Membres',
+      description: 'Trombinoscope & capitaines de route',
+      href: '/members',
+      icon: UserIcon,
     },
     {
-      name: 'Présentation',
-      description: 'Qui sommes-nous & valeurs',
+      name: 'Les News',
+      description: 'Actualités & chroniques du peloton',
+      href: '/blog',
+      icon: InformationCircleIcon,
+    },
+  ];
+
+  // Primary navigation for desktop
+  const primaryNavigation = [...outingsNavigation, ...communityNavigation];
+
+  // Le Club - Découvrir
+  const clubDiscover = [
+    {
+      name: 'Présentation & Esprit',
+      description: 'Histoire, valeurs & 3 groupes d’allure (A, B, C)',
       href: '/le-club',
       icon: ClubCrestIcon,
-      tag: 'Le Club',
     },
     {
       name: 'Charte & Sécurité',
-      description: 'Code de la route & signaux peloton',
+      description: 'Code de la route (Art. 43bis) & signaux en peloton',
       href: '/securite',
       icon: ShieldCheckIcon,
-      tag: 'Peloton',
     },
+  ];
+
+  // Le Club - Vie & Activités
+  const clubLife = [
     {
-      name: 'Galerie & Chroniques',
-      description: 'Photos & récits des saisons',
-      href: '/galerie',
-      icon: PhotoIcon,
-      tag: 'Photos',
-    },
-    {
-      name: 'Équipement',
-      description: 'Collection 2026',
+      name: 'Équipement Officiel',
+      description: 'Collection 2026, maillots & boutique club',
       href: '/le-club/equipement',
       icon: JerseyIcon,
-      tag: 'Boutique',
     },
     {
-      name: 'Carré Vert',
-      description: 'Classement & Assiduité',
+      name: 'Challenge Carré Vert',
+      description: 'Classement d’assiduité & présence annuelle',
       href: '/leaderboard',
       icon: TrophySquareIcon,
-      tag: 'Challenge',
+    },
+    {
+      name: 'Galerie & Souvenirs',
+      description: 'Photos & récits des sorties au fil des saisons',
+      href: '/galerie',
+      icon: PhotoIcon,
     },
   ];
 
@@ -155,46 +175,24 @@ export default function Navbar(): React.ReactElement {
                 <div className="hidden lg:block h-6 w-px bg-[#e4e0d8] dark:bg-white/15 mx-4 xl:mx-6"></div>
 
                 {/* Navigation Links */}
-                <div className="hidden lg:flex lg:space-x-5 xl:space-x-7 items-center">
-                  {mainNavigation.map((item) => {
-                    const isCurrent = pathname === item.href;
-                    return (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className={cn(
-                          'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 py-1',
-                          isCurrent
-                            ? 'text-[#101216] dark:text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
-                            : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
-                        )}
-                        aria-current={isCurrent ? 'page' : undefined}
-                      >
-                        <span>{item.name}</span>
-                        {item.isLive && (
-                          <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                          </span>
-                        )}
-                      </Link>
-                    );
-                  })}
-
+                <div className="hidden lg:flex lg:space-x-3.5 xl:space-x-5 items-center">
                   {/* Le Club Popover */}
                   <Popover className="relative self-center -mt-px">
-                    {({ open }) => (
+                    {({ open: clubOpen }) => (
                       <>
                         <PopoverButton
                           className={cn(
-                            'group inline-flex items-center text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors focus:outline-none'
+                            'group relative inline-flex items-center gap-1 text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors focus:outline-none py-1',
+                            clubOpen || isClubActive
+                              ? 'text-[#101216] dark:text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
+                              : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
                           )}
                         >
                           <span>Le Club</span>
                           <ChevronDownIcon
                             className={cn(
-                              open ? 'text-[#e03e3e] rotate-180' : 'text-[#7d8493]',
-                              'ml-1.5 h-4 w-4 transition duration-150 ease-in-out group-hover:text-[#101216] dark:group-hover:text-white'
+                              clubOpen ? 'text-[#e03e3e] rotate-180' : 'text-[#7d8493]',
+                              'h-3.5 w-3.5 transition duration-150 ease-in-out group-hover:text-[#101216] dark:group-hover:text-white'
                             )}
                             aria-hidden="true"
                           />
@@ -209,38 +207,143 @@ export default function Navbar(): React.ReactElement {
                           leaveFrom="opacity-100 translate-y-0"
                           leaveTo="opacity-0 translate-y-1"
                         >
-                          <PopoverPanel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-2 sm:px-0">
-                            <div className="overflow-hidden rounded-lg shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922]">
-                              <div className="relative grid gap-1.5 p-3">
-                                {clubNavigation.map((item) => (
-                                  <PopoverButton
-                                    key={item.name}
-                                    as={Link}
-                                    href={item.href}
-                                    className="flex items-center rounded-md p-3 hover:bg-[#faf8f5] dark:hover:bg-white/5 border border-transparent hover:border-[#e4e0d8] dark:hover:border-white/10 transition-all duration-200 group"
-                                  >
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] transition-all duration-200 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
-                                      <item.icon
-                                        className="h-5 w-5 transition-transform duration-200 group-hover:scale-110"
-                                        aria-hidden="true"
-                                      />
-                                    </div>
-                                    <div className="ml-3.5 text-left flex-1 min-w-0">
-                                      <div className="flex items-center justify-between gap-2">
-                                        <p className="text-sm font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors">
-                                          {item.name}
-                                        </p>
-                                        <span className="text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[#7d8493] dark:text-[#a7adbb] bg-[#f2efe9] dark:bg-white/5 px-2 py-0.5 rounded border border-[#e4e0d8] dark:border-white/10">
-                                          {item.tag}
-                                        </span>
-                                      </div>
-                                      <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493] truncate">
-                                        {item.description}
+                          <PopoverPanel className="absolute left-0 xl:left-1/2 z-50 mt-3 w-screen max-w-xl xl:-translate-x-1/2 transform px-3 sm:px-0">
+                            <div className="overflow-hidden rounded-xl shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] transition-colors">
+                              {/* 2 Columns: Découvrir & Vie du Club */}
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 sm:p-5">
+                                {/* Column 1: Découvrir le Club */}
+                                <div className="space-y-1">
+                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb] px-2.5 py-1">
+                                    Découvrir le Club
+                                  </p>
+                                  {clubDiscover.map((item) => {
+                                    const isItemCurrent = pathname === item.href;
+                                    return (
+                                      <PopoverButton
+                                        key={item.name}
+                                        as={Link}
+                                        href={item.href}
+                                        className={cn(
+                                          'flex items-start rounded-lg p-2.5 border transition-all duration-150 group',
+                                          isItemCurrent
+                                            ? 'bg-[#faf8f5] dark:bg-white/10 border-[#e4e0d8] dark:border-white/15'
+                                            : 'border-transparent hover:bg-[#faf8f5] dark:hover:bg-white/5 hover:border-[#e4e0d8] dark:hover:border-white/10'
+                                        )}
+                                      >
+                                        <div
+                                          className={cn(
+                                            'flex h-9 w-9 shrink-0 items-center justify-center rounded-md border transition-all duration-150',
+                                            isItemCurrent
+                                              ? 'border-[#e03e3e] bg-[#e03e3e] text-white shadow-xs'
+                                              : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#101216] dark:text-[#f5f6f8] group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs'
+                                          )}
+                                        >
+                                          <item.icon className="h-4 w-4 transition-transform duration-150 group-hover:scale-110" aria-hidden="true" />
+                                        </div>
+                                        <div className="ml-3 text-left flex-1 min-w-0">
+                                          <div className="flex items-center justify-between gap-1">
+                                            <p
+                                              className={cn(
+                                                'text-xs font-bold transition-colors',
+                                                isItemCurrent
+                                                  ? 'text-[#e03e3e]'
+                                                  : 'text-[#101216] dark:text-white group-hover:text-[#e03e3e]'
+                                              )}
+                                            >
+                                              {item.name}
+                                            </p>
+                                            <ChevronRightIcon className="h-3.5 w-3.5 text-[#7d8493] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
+                                          </div>
+                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493] leading-snug">
+                                            {item.description}
+                                          </p>
+                                        </div>
+                                      </PopoverButton>
+                                    );
+                                  })}
+                                </div>
+
+                                {/* Column 2: Vie du Club */}
+                                <div className="space-y-1">
+                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb] px-2.5 py-1">
+                                    Vie du Club &amp; Activités
+                                  </p>
+                                  {clubLife.map((item) => {
+                                    const isItemCurrent = pathname === item.href;
+                                    return (
+                                      <PopoverButton
+                                        key={item.name}
+                                        as={Link}
+                                        href={item.href}
+                                        className={cn(
+                                          'flex items-start rounded-lg p-2.5 border transition-all duration-150 group',
+                                          isItemCurrent
+                                            ? 'bg-[#faf8f5] dark:bg-white/10 border-[#e4e0d8] dark:border-white/15'
+                                            : 'border-transparent hover:bg-[#faf8f5] dark:hover:bg-white/5 hover:border-[#e4e0d8] dark:hover:border-white/10'
+                                        )}
+                                      >
+                                        <div
+                                          className={cn(
+                                            'flex h-9 w-9 shrink-0 items-center justify-center rounded-md border transition-all duration-150',
+                                            isItemCurrent
+                                              ? 'border-[#e03e3e] bg-[#e03e3e] text-white shadow-xs'
+                                              : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#101216] dark:text-[#f5f6f8] group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs'
+                                          )}
+                                        >
+                                          <item.icon className="h-4 w-4 transition-transform duration-150 group-hover:scale-110" aria-hidden="true" />
+                                        </div>
+                                        <div className="ml-3 text-left flex-1 min-w-0">
+                                          <div className="flex items-center justify-between gap-1">
+                                            <p
+                                              className={cn(
+                                                'text-xs font-bold transition-colors',
+                                                isItemCurrent
+                                                  ? 'text-[#e03e3e]'
+                                                  : 'text-[#101216] dark:text-white group-hover:text-[#e03e3e]'
+                                              )}
+                                            >
+                                              {item.name}
+                                            </p>
+                                            <ChevronRightIcon className="h-3.5 w-3.5 text-[#7d8493] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
+                                          </div>
+                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493] leading-snug">
+                                            {item.description}
+                                          </p>
+                                        </div>
+                                      </PopoverButton>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              {/* Bottom Warm Spotlight Banner: Rejoindre le Club */}
+                              <div className="border-t border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors">
+                                <div className="flex items-start gap-3 min-w-0">
+                                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#e03e3e]/10 dark:bg-[#e03e3e]/20 text-[#e03e3e]">
+                                    <UserPlusIcon className="h-4 w-4" aria-hidden="true" />
+                                  </div>
+                                  <div>
+                                    <div className="flex items-center gap-2">
+                                      <p className="text-xs font-bold text-[#101216] dark:text-white">
+                                        Nouveau cycliste ? 3 sorties d&apos;essai
                                       </p>
+                                      <span className="text-[0.625rem] font-bold uppercase tracking-wider text-[#e03e3e] bg-[#e03e3e]/10 dark:bg-[#e03e3e]/20 px-1.5 py-0.5 rounded">
+                                        Gratuit
+                                      </span>
                                     </div>
-                                    <ChevronRightIcon className="ml-2 h-4 w-4 text-[#7d8493] dark:text-[#a7adbb] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0 self-center" />
-                                  </PopoverButton>
-                                ))}
+                                    <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493] mt-0.5 leading-snug">
+                                      Venez rouler avec le peloton sans engagement avant d&apos;adhérer.
+                                    </p>
+                                  </div>
+                                </div>
+                                <PopoverButton
+                                  as={Link}
+                                  href="/rejoindre"
+                                  className="self-start sm:self-center shrink-0 inline-flex items-center gap-1.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.06em] transition-colors shadow-2xs"
+                                >
+                                  <span>Rejoindre</span>
+                                  <ChevronRightIcon className="h-3.5 w-3.5" />
+                                </PopoverButton>
                               </div>
                             </div>
                           </PopoverPanel>
@@ -248,6 +351,32 @@ export default function Navbar(): React.ReactElement {
                       </>
                     )}
                   </Popover>
+
+                  {/* Primary Navigation Links */}
+                  {primaryNavigation.map((item) => {
+                    const isCurrent = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={cn(
+                          'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 py-1',
+                          isCurrent
+                            ? 'text-[#101216] dark:text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
+                            : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
+                        )}
+                        aria-current={isCurrent ? 'page' : undefined}
+                      >
+                        <span>{item.name}</span>
+                        {'isLive' in item && Boolean((item as { isLive?: boolean }).isLive) && (
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                          </span>
+                        )}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -358,15 +487,16 @@ export default function Navbar(): React.ReactElement {
                   <div className="flex items-center space-x-3 sm:space-x-4">
                     <Link
                       href="/login"
-                      className="text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors"
+                      className="text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors py-1.5"
                     >
                       Se connecter
                     </Link>
                     <Link
-                      href="/login"
-                      className="inline-flex items-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-4 py-2 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
+                      href="/rejoindre"
+                      className="inline-flex items-center gap-1.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-3.5 py-1.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-2xs"
                     >
-                      Espace Membre
+                      <UserPlusIcon className="h-3.5 w-3.5" />
+                      <span>Rejoindre</span>
                     </Link>
                   </div>
                 )}
@@ -411,74 +541,147 @@ export default function Navbar(): React.ReactElement {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl lg:hidden bg-white dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-white/10">
-              <div className="space-y-1 pb-3 pt-2 px-2">
-                {mainNavigation.map((item) => {
-                  const isCurrent = pathname === item.href;
-                  return (
-                    <PopoverButton
-                      key={item.name}
-                      as={Link}
-                      href={item.href}
-                      className={cn(
-                        isCurrent
-                          ? 'bg-black/5 dark:bg-white/10 text-[#101216] dark:text-white font-semibold'
-                          : 'text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white',
-                        'flex items-center justify-between py-2.5 px-4 rounded-md text-sm font-semibold uppercase tracking-[0.08em] transition-colors'
-                      )}
-                      aria-current={isCurrent ? 'page' : undefined}
-                    >
-                      <span>{item.name}</span>
-                      {item.isLive && (
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                      )}
-                    </PopoverButton>
-                  );
-                })}
-
-                {/* Mobile Le Club Dropdown using nested Disclosure */}
-                <Disclosure as="div" className="px-1">
-                  {(
-                    { open: subOpen } // Renamed to avoid confusion with parent Popover open
-                  ) => (
-                    <>
-                      <Disclosure.Button
-                        className={cn(
-                          'flex w-full items-center justify-between py-2.5 px-3 rounded-md text-sm font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white'
-                        )}
-                      >
-                        <span className="flex-1 text-left">Le Club</span>
-                        <ChevronDownIcon
-                          className={cn(subOpen ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="mt-1 space-y-1 pl-3">
-                        {clubNavigation.map((item) => (
-                          <PopoverButton
-                            key={item.name}
-                            as={Link}
-                            href={item.href}
-                            className="flex items-center gap-3 py-2 px-3 rounded-md text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white group"
-                          >
-                            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white group-hover:border-[#e03e3e] group-hover:text-[#e03e3e] shrink-0">
+            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl lg:hidden bg-white dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-white/10 max-h-[calc(100vh-4rem)] overflow-y-auto">
+              <div className="p-3 space-y-4">
+                {/* 1. Sorties & Activités */}
+                <div>
+                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                    Sorties &amp; Activités
+                  </p>
+                  <div className="space-y-0.5 mt-1">
+                    {outingsNavigation.map((item) => {
+                      const isCurrent = pathname === item.href;
+                      return (
+                        <PopoverButton
+                          key={item.name}
+                          as={Link}
+                          href={item.href}
+                          className={cn(
+                            'flex items-center justify-between min-h-[44px] py-2 px-3 rounded-lg text-sm font-semibold transition-colors',
+                            isCurrent
+                              ? 'bg-black/5 dark:bg-white/10 text-[#e03e3e] dark:text-[#e03e3e]'
+                              : 'text-[#101216] dark:text-white hover:bg-black/5 dark:hover:bg-white/5'
+                          )}
+                          aria-current={isCurrent ? 'page' : undefined}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
                               <item.icon className="h-4 w-4" />
                             </div>
-                            <span className="flex-1 text-left">{item.name}</span>
-                            <span className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb] bg-[#f2efe9] dark:bg-white/5 px-2 py-0.5 rounded border border-[#e4e0d8] dark:border-white/10">
-                              {item.tag}
+                            <span className="uppercase tracking-[0.06em] text-xs font-bold">{item.name}</span>
+                          </div>
+                          {item.isLive ? (
+                            <span className="relative flex h-2 w-2 mr-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
-                          </PopoverButton>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                          ) : (
+                            <ChevronRightIcon className="h-4 w-4 text-[#7d8493]" />
+                          )}
+                        </PopoverButton>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 2. Le Club (Featured Card + Submenu Accordion) */}
+                <div>
+                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                    Le Club
+                  </p>
+
+                  {/* Spotlight Card: Rejoindre le Club */}
+                  <div className="mt-1 mb-2">
+                    <PopoverButton
+                      as={Link}
+                      href="/rejoindre"
+                      className="flex items-center justify-between p-3 rounded-lg bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 hover:border-[#e03e3e] transition-colors group w-full"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white shrink-0">
+                          <UserPlusIcon className="h-4 w-4" />
+                        </div>
+                        <div className="text-left">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-[#101216] dark:text-white">Rejoindre le Club</span>
+                            <span className="text-[0.5625rem] font-bold uppercase tracking-wider text-[#e03e3e] bg-[#e03e3e]/10 px-1.5 py-0.5 rounded">3 essais</span>
+                          </div>
+                          <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493]">Sorties d&apos;essai gratuites &amp; adhésion</p>
+                        </div>
+                      </div>
+                      <ChevronRightIcon className="h-4 w-4 text-[#7d8493] group-hover:text-[#e03e3e] group-hover:translate-x-0.5 transition-all shrink-0" />
+                    </PopoverButton>
+                  </div>
+
+                  {/* Submenu Accordion */}
+                  <Disclosure as="div" defaultOpen={isClubActive}>
+                    {({ open: subOpen }) => (
+                      <>
+                        <Disclosure.Button className="flex w-full items-center justify-between min-h-[40px] py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5">
+                          <span>Rubriques du Club</span>
+                          <ChevronDownIcon
+                            className={cn(subOpen ? 'rotate-180' : '', 'h-4 w-4 transition-transform duration-150')}
+                            aria-hidden="true"
+                          />
+                        </Disclosure.Button>
+                        <Disclosure.Panel className="mt-1 space-y-0.5 pl-2">
+                          {[...clubDiscover, ...clubLife].map((item) => (
+                            <PopoverButton
+                              key={item.name}
+                              as={Link}
+                              href={item.href}
+                              className="flex items-center gap-3 min-h-[44px] py-2 px-3 rounded-lg text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white group"
+                            >
+                              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white group-hover:border-[#e03e3e] group-hover:text-[#e03e3e] shrink-0">
+                                <item.icon className="h-3.5 w-3.5" />
+                              </div>
+                              <span className="flex-1 text-left">{item.name}</span>
+                              <ChevronRightIcon className="h-3.5 w-3.5 text-[#7d8493] opacity-50 group-hover:opacity-100 group-hover:text-[#e03e3e]" />
+                            </PopoverButton>
+                          ))}
+                        </Disclosure.Panel>
+                      </>
+                    )}
+                  </Disclosure>
+                </div>
+
+                {/* 3. Communauté */}
+                <div>
+                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                    Communauté
+                  </p>
+                  <div className="space-y-0.5 mt-1">
+                    {communityNavigation.map((item) => {
+                      const isCurrent = pathname === item.href;
+                      return (
+                        <PopoverButton
+                          key={item.name}
+                          as={Link}
+                          href={item.href}
+                          className={cn(
+                            'flex items-center justify-between min-h-[44px] py-2 px-3 rounded-lg text-sm font-semibold transition-colors',
+                            isCurrent
+                              ? 'bg-black/5 dark:bg-white/10 text-[#e03e3e] dark:text-[#e03e3e]'
+                              : 'text-[#101216] dark:text-white hover:bg-black/5 dark:hover:bg-white/5'
+                          )}
+                          aria-current={isCurrent ? 'page' : undefined}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
+                              <item.icon className="h-4 w-4" />
+                            </div>
+                            <span className="uppercase tracking-[0.06em] text-xs font-bold">{item.name}</span>
+                          </div>
+                          <ChevronRightIcon className="h-4 w-4 text-[#7d8493]" />
+                        </PopoverButton>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-              <div className="border-t border-[#e4e0d8] dark:border-white/10 pb-3 pt-3">
+
+              {/* Mobile Auth & Theme Controls */}
+              <div className="border-t border-[#e4e0d8] dark:border-white/10 pb-4 pt-3">
                 {/* Mobile Theme Switcher Row */}
                 <div className="flex items-center justify-between px-4 py-2.5 mb-2 border-b border-[#e4e0d8]/60 dark:border-white/5">
                   <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb]">
@@ -508,41 +711,43 @@ export default function Navbar(): React.ReactElement {
                         <div className="text-sm font-medium text-[#5c6370] dark:text-[#7d8493]">{user?.email}</div>
                       </div>
                     </div>
-                    <div className="mt-3 space-y-1">
+                    <div className="mt-3 space-y-1 px-2">
                       {[...userNavigation, ...adminNavigation].map((item) => (
                         <PopoverButton
                           key={item.name}
                           as={Link}
                           href={item.href}
-                          className="block px-4 py-2 text-sm font-medium text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white rounded-md"
+                          className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white rounded-md"
                         >
-                          {item.name}
+                          <item.icon className="h-5 w-5 text-[#e03e3e]" />
+                          <span>{item.name}</span>
                         </PopoverButton>
                       ))}
                       <PopoverButton
                         as="button"
                         onClick={() => logout()}
-                        className="block w-full text-left px-4 py-2 text-sm font-medium text-[#e03e3e] hover:bg-black/5 dark:hover:bg-white/5 rounded-md"
+                        className="flex items-center gap-3 w-full text-left px-3 py-2.5 text-sm font-semibold text-[#e03e3e] hover:bg-black/5 dark:hover:bg-white/5 rounded-md"
                       >
-                        Se déconnecter
+                        <ArrowRightOnRectangleIcon className="h-5 w-5 text-[#e03e3e]" />
+                        <span>Se déconnecter</span>
                       </PopoverButton>
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-2 px-4">
+                  <div className="grid grid-cols-2 gap-2 px-4 pt-1">
                     <PopoverButton
                       as={Link}
                       href="/login"
-                      className="block text-sm font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white"
+                      className="flex items-center justify-center min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-white/10 text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
                     >
-                      Se connecter
+                      Connexion
                     </PopoverButton>
                     <PopoverButton
                       as={Link}
-                      href="/login"
-                      className="inline-flex items-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-4 py-2 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors"
+                      href="/rejoindre"
+                      className="flex items-center justify-center min-h-[44px] rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-[0.06em] shadow-2xs"
                     >
-                      Espace Membre
+                      Rejoindre
                     </PopoverButton>
                   </div>
                 )}
