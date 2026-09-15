@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { TrophyIcon, XMarkIcon, ArrowTopRightOnSquareIcon, CalendarDaysIcon, FlagIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, ArrowTopRightOnSquareIcon, CalendarDaysIcon, FlagIcon } from '@heroicons/react/24/outline';
 import { TrophySquareIcon, BicycleIcon } from '../components/ui/CyclingIcons';
 import { CalendarEvent } from '../types';
 import { parseDateInfo } from '../lib/carreVert';
@@ -25,6 +24,19 @@ type Props = {
     initialMemberId?: string;
 };
 
+// Formats dates consistently in French (e.g., "12 avr. 2026") using UTC to prevent shifts
+function formatFrenchDate(dateStr: string, defaultYear?: number): string {
+    const info = parseDateInfo(dateStr, defaultYear);
+    if (!info) return dateStr;
+    const date = new Date(Date.UTC(info.year, info.month - 1, info.day));
+    return date.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        timeZone: 'UTC',
+    });
+}
+
 // Reusable Badge Component
 const GroupBadge = ({ group }: { group: string }): React.ReactElement => (
     <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
@@ -38,13 +50,25 @@ const GroupBadge = ({ group }: { group: string }): React.ReactElement => (
 );
 
 // Podium Card Component
-const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: LeaderboardEntry; rank: number; onSelect: (entry: LeaderboardEntry) => void; totalPossibleRides: number }): React.ReactElement => {
+const PodiumCard = ({
+    entry,
+    rank,
+    onSelect,
+    totalPossibleRides,
+    selectedYear,
+}: {
+    entry: LeaderboardEntry;
+    rank: number;
+    onSelect: (entry: LeaderboardEntry) => void;
+    totalPossibleRides: number;
+    selectedYear: number;
+}): React.ReactElement => {
     const medal = rank === 1 ? "🏆" : rank === 2 ? "🥈" : "🥉";
     const titleColor = rank === 1 ? "text-emerald-700 dark:text-emerald-400" : "text-[#101216] dark:text-white";
     const ringColor = rank === 1 ? "ring-emerald-500/80 dark:ring-emerald-400/80 ring-2" : "ring-[#e4e0d8] dark:ring-[#262b38] ring-1";
     const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
     const bg = rank === 1 ? "bg-white dark:bg-[#161922]" : "bg-[#f2efe9]/70 dark:bg-[#101216]";
-    const lastDate = entry.dates.length > 0 ? entry.dates[entry.dates.length - 1] : "N/A";
+    const lastDate = entry.dates.length > 0 ? formatFrenchDate(entry.dates[entry.dates.length - 1], selectedYear) : "Aucune";
 
     // Avoid division by zero
     const fidelity = totalPossibleRides > 0
@@ -53,8 +77,17 @@ const PodiumCard = ({ entry, rank, onSelect, totalPossibleRides }: { entry: Lead
 
     return (
         <div
+            tabIndex={0}
+            role="button"
+            aria-label={`Voir les présences de ${entry.name}, ${rank === 1 ? 'champion' : rank === 2 ? '2ème place' : '3ème place'}`}
             onClick={() => onSelect(entry)}
-            className={`rounded-lg p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-all duration-300 hover:shadow-xl cursor-pointer`}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelect(entry);
+                }
+            }}
+            className={`rounded-lg p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-[transform,box-shadow] duration-200 hover:shadow-xl cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-[0.98] motion-reduce:transition-none motion-reduce:transform-none`}
         >
             <div>
                 <div className="flex items-center justify-between">
@@ -92,7 +125,6 @@ export default function LeaderboardView({
     availableYears,
     initialMemberId,
 }: Props): React.ReactElement {
-    const router = useRouter();
     const [selectedMember, setSelectedMember] = useState<LeaderboardEntry | null>(() => {
         if (!initialMemberId) return null;
         return entries.find((e) => e.id === initialMemberId) || null;
@@ -102,6 +134,10 @@ export default function LeaderboardView({
         dateStr: string;
         event?: CalendarEvent;
     } | null>(null);
+
+    const drawerRef = useRef<HTMLDivElement>(null);
+    const closeButtonRef = useRef<HTMLButtonElement>(null);
+    const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
 
     // Build lookup map for events by isoDate
     const eventsByIsoDate = useMemo(() => {
@@ -117,7 +153,10 @@ export default function LeaderboardView({
     // Derived state for the selected member's rank
     const selectedRank = selectedMember ? entries.findIndex(e => e.id === selectedMember.id) + 1 : 0;
 
-    const handleSelectMember = (member: LeaderboardEntry) => {
+    const handleSelectMember = useCallback((member: LeaderboardEntry) => {
+        if (typeof document !== 'undefined') {
+            previouslyFocusedElementRef.current = document.activeElement as HTMLElement;
+        }
         setSelectedMember(member);
         setOpen(true);
         if (typeof window !== 'undefined') {
@@ -125,9 +164,9 @@ export default function LeaderboardView({
             url.searchParams.set('member', member.id);
             window.history.replaceState({}, '', url.toString());
         }
-    };
+    }, []);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpen(false);
         setHoveredDateInfo(null);
         if (typeof window !== 'undefined') {
@@ -135,7 +174,59 @@ export default function LeaderboardView({
             url.searchParams.delete('member');
             window.history.replaceState({}, '', url.toString());
         }
-    };
+        requestAnimationFrame(() => {
+            previouslyFocusedElementRef.current?.focus();
+        });
+    }, []);
+
+    // Focus trap, Escape key handling, and background scroll locking for drawer
+    useEffect(() => {
+        if (!open) return;
+
+        const timer = setTimeout(() => {
+            closeButtonRef.current?.focus();
+        }, 50);
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                handleClose();
+                return;
+            }
+
+            if (e.key === 'Tab' && drawerRef.current) {
+                const focusableElements = drawerRef.current.querySelectorAll<HTMLElement>(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                if (focusableElements.length === 0) return;
+
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            }
+        };
+
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            clearTimeout(timer);
+            document.body.style.overflow = originalOverflow;
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [open, handleClose]);
 
 
 
@@ -203,22 +294,26 @@ export default function LeaderboardView({
                             </div>
 
                             {/* Year Selector in Hero */}
-                            <div className="inline-flex rounded-lg bg-white dark:bg-[#161922] p-1 border border-[#e4e0d8] dark:border-[#262b38] shrink-0 shadow-xs">
-                                {availableYears.map(year => (
-                                    <button
-                                        key={year}
-                                        type="button"
-                                        onClick={() => router.push(`/leaderboard?year=${year}`)}
-                                        className={`min-h-[40px] rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider tabular-nums transition-colors cursor-pointer ${
-                                            year === selectedYear
-                                                ? 'bg-emerald-600 text-white shadow-sm'
-                                                : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
-                                        }`}
-                                    >
-                                        {year}
-                                    </button>
-                                ))}
-                            </div>
+                            <nav aria-label="Sélection de la saison" className="inline-flex rounded-lg bg-white dark:bg-[#161922] p-1 border border-[#e4e0d8] dark:border-[#262b38] shrink-0 shadow-2xs">
+                                {availableYears.map(year => {
+                                    const isSelected = year === selectedYear;
+                                    return (
+                                        <Link
+                                            key={year}
+                                            href={`/leaderboard?year=${year}`}
+                                            prefetch={true}
+                                            aria-current={isSelected ? 'page' : undefined}
+                                            className={`min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider tabular-nums cursor-pointer transition-[color,background-color,transform] duration-150 motion-reduce:transition-none ${
+                                                isSelected
+                                                    ? 'bg-emerald-600 text-white shadow-2xs'
+                                                    : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 active:scale-95'
+                                            }`}
+                                        >
+                                            {year}
+                                        </Link>
+                                    );
+                                })}
+                            </nav>
                         </div>
 
                         {/* Stat Strip on Hero (Horizontal Hairline Structure) */}
@@ -273,75 +368,142 @@ export default function LeaderboardView({
 
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
 
+                    {/* Empty State */}
+                    {sortedEntries.length === 0 && (
+                        <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-12 text-center shadow-2xs">
+                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-emerald-600 dark:text-emerald-400 mb-5">
+                                <TrophySquareIcon className="h-7 w-7" aria-hidden="true" />
+                            </div>
+                            <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight text-[#101216] dark:text-white">
+                                Aucun classement pour la saison {selectedYear}
+                            </h3>
+                            <p className="mt-2 text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-md mx-auto leading-relaxed">
+                                Les points du Carré Vert sont enregistrés à l&apos;issue de chaque sortie officielle du peloton. Consultez le calendrier pour découvrir les prochains rendez-vous.
+                            </p>
+                            <div className="mt-6 flex flex-wrap justify-center gap-3">
+                                <Link
+                                    href="/calendrier"
+                                    className="min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
+                                >
+                                    Voir le calendrier
+                                </Link>
+                                {availableYears.filter((y) => y !== selectedYear).length > 0 && (
+                                    <Link
+                                        href={`/leaderboard?year=${availableYears.filter((y) => y !== selectedYear)[0]}`}
+                                        className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white shadow-2xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
+                                    >
+                                        Consulter la saison {availableYears.filter((y) => y !== selectedYear)[0]}
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     {/* Podium Section */}
                     {top3.length > 0 && (
                         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-end gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                             {/* 2nd Place Slot (top3[1]) */}
                             <div className="order-2 lg:order-1">
-                                {top3[1] && <PodiumCard entry={top3[1]} rank={globalRanks[top3[1].id]} onSelect={handleSelectMember} totalPossibleRides={totalPossibleRides} />}
+                                {top3[1] && (
+                                    <PodiumCard
+                                        entry={top3[1]}
+                                        rank={globalRanks[top3[1].id]}
+                                        onSelect={handleSelectMember}
+                                        totalPossibleRides={totalPossibleRides}
+                                        selectedYear={selectedYear}
+                                    />
+                                )}
                             </div>
 
                             {/* 1st Place Slot (top3[0]) */}
                             <div className="order-1 lg:order-2">
-                                {top3[0] && <PodiumCard entry={top3[0]} rank={globalRanks[top3[0].id]} onSelect={handleSelectMember} totalPossibleRides={totalPossibleRides} />}
+                                {top3[0] && (
+                                    <PodiumCard
+                                        entry={top3[0]}
+                                        rank={globalRanks[top3[0].id]}
+                                        onSelect={handleSelectMember}
+                                        totalPossibleRides={totalPossibleRides}
+                                        selectedYear={selectedYear}
+                                    />
+                                )}
                             </div>
 
                             {/* 3rd Place Slot (top3[2]) */}
                             <div className="order-3 lg:order-3">
-                                {top3[2] && <PodiumCard entry={top3[2]} rank={globalRanks[top3[2].id]} onSelect={handleSelectMember} totalPossibleRides={totalPossibleRides} />}
+                                {top3[2] && (
+                                    <PodiumCard
+                                        entry={top3[2]}
+                                        rank={globalRanks[top3[2].id]}
+                                        onSelect={handleSelectMember}
+                                        totalPossibleRides={totalPossibleRides}
+                                        selectedYear={selectedYear}
+                                    />
+                                )}
                             </div>
                         </div>
                     )}
 
                     {/* Full Table (Others) */}
                     {others.length > 0 && (
-                        <div className="mt-16 sm:mt-20 overflow-hidden shadow-xs ring-1 ring-[#e4e0d8] dark:ring-[#262b38] sm:rounded-lg bg-white dark:bg-[#101216] transition-colors">
-                            <table className="min-w-full divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
-                                <thead className="bg-[#f2efe9] dark:bg-[#161922]">
-                                    <tr>
-                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] sm:pl-6">
-                                            Rang
-                                        </th>
-                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-                                            Nom
-                                        </th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-                                            Groupe
-                                        </th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-                                            Sorties
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-[#efece5] dark:divide-[#262b38] bg-white dark:bg-[#101216]">
-                                    {others.map((person) => {
-                                        const globalRank = globalRanks[person.id];
-                                        const groupRank = groupRanks[person.id];
-                                        const isGroupTop3 = groupRank <= 3;
+                        <div className="mt-16 sm:mt-20 overflow-hidden shadow-2xs ring-1 ring-[#e4e0d8] dark:ring-[#262b38] sm:rounded-lg bg-white dark:bg-[#101216] transition-colors">
+                            {/* Horizontal scrolling protection for narrow viewports */}
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
+                                    <thead className="bg-[#f2efe9] dark:bg-[#161922]">
+                                        <tr>
+                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] sm:pl-6">
+                                                Rang
+                                            </th>
+                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                Nom
+                                            </th>
+                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                Groupe
+                                            </th>
+                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                Sorties
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-[#e4e0d8] dark:divide-[#262b38] bg-white dark:bg-[#101216]">
+                                        {others.map((person) => {
+                                            const globalRank = globalRanks[person.id];
+                                            const groupRank = groupRanks[person.id];
+                                            const isGroupTop3 = groupRank <= 3;
 
-                                        return (
-                                            <tr
-                                                key={person.id}
-                                                onClick={() => handleSelectMember(person)}
-                                                className="hover:bg-[#f2efe9] dark:hover:bg-[#161922] transition-colors cursor-pointer"
-                                            >
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-[#101216] dark:text-white tabular-nums sm:pl-6">
-                                                    #{globalRank}
-                                                </td>
-                                                <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-[#101216] dark:text-white' : 'font-medium text-[#3a3f4a] dark:text-[#d1d5db]'}`}>
-                                                    {person.name}
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                                    <GroupBadge group={person.group} />
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                                    <div className={`font-bold tabular-nums ${isGroupTop3 ? 'text-[#101216] dark:text-white' : 'text-[#3a3f4a] dark:text-[#d1d5db]'}`}>{person.rides}</div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </table>
+                                            return (
+                                                <tr
+                                                    key={person.id}
+                                                    tabIndex={0}
+                                                    role="button"
+                                                    aria-label={`Voir les présences de ${person.name}, rang ${globalRank}`}
+                                                    onClick={() => handleSelectMember(person)}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter' || e.key === ' ') {
+                                                            e.preventDefault();
+                                                            handleSelectMember(person);
+                                                        }
+                                                    }}
+                                                    className="hover:bg-[#f2efe9] dark:hover:bg-[#161922] focus:outline-hidden focus-visible:bg-[#f2efe9] dark:focus-visible:bg-[#161922] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#e03e3e] transition-colors cursor-pointer"
+                                                >
+                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-[#101216] dark:text-white tabular-nums sm:pl-6">
+                                                        #{globalRank}
+                                                    </td>
+                                                    <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-[#101216] dark:text-white' : 'font-medium text-[#3a3f4a] dark:text-[#d1d5db]'}`}>
+                                                        {person.name}
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                        <GroupBadge group={person.group} />
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                        <div className={`font-bold tabular-nums ${isGroupTop3 ? 'text-[#101216] dark:text-white' : 'text-[#3a3f4a] dark:text-[#d1d5db]'}`}>{person.rides}</div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -349,72 +511,82 @@ export default function LeaderboardView({
 
             {/* Slide-over Drawer */}
             {open && selectedMember && (
-                <div className="fixed inset-0 z-50 overflow-hidden">
+                <div
+                    className="fixed inset-0 z-50 overflow-hidden"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="drawer-title"
+                >
                     {/* Backdrop */}
                     <div
-                        className="fixed inset-0 bg-slate-950/60 dark:bg-black/80 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+                        className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity animate-in fade-in duration-200 motion-reduce:transition-none motion-reduce:animate-none"
                         onClick={handleClose}
+                        aria-hidden="true"
                     />
 
                     <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
-                        <div className="w-screen max-w-md bg-white dark:bg-[#101216] border-l border-[#e4e0d8] dark:border-[#262b38] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 transition-colors">
-                            {/* Header */}
-                            <div className="bg-emerald-700 dark:bg-emerald-950 dark:border-b dark:border-emerald-800/40 text-white p-6">
+                        <div
+                            ref={drawerRef}
+                            className="w-screen max-w-md bg-white dark:bg-[#101216] border-l border-[#e4e0d8] dark:border-[#262b38] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 motion-reduce:animate-none transition-colors"
+                        >
+                            {/* Header: Editorial Dark Panel Ink */}
+                            <div className="bg-[#161922] border-b border-[#262b38] text-white p-6">
                                 <div className="flex items-center justify-between mb-4">
-                                    <span className="text-xs font-semibold uppercase tracking-wider text-emerald-200">
+                                    <span className="text-xs font-semibold uppercase tracking-wider text-[#a7adbb]">
                                         Détails du membre
                                     </span>
                                     <button
+                                        ref={closeButtonRef}
                                         onClick={handleClose}
-                                        className="rounded-full p-1.5 text-white/80 hover:text-white hover:bg-emerald-600 dark:hover:bg-emerald-900 transition-colors"
-                                        aria-label="Fermer"
+                                        className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                                        aria-label="Fermer le panneau de détails"
                                     >
                                         <XMarkIcon className="h-5 w-5" />
                                     </button>
                                 </div>
-                                <h2 className="text-2xl font-bold tracking-tight text-white">
+                                <h2 id="drawer-title" className="text-2xl font-bold tracking-tight text-white">
                                     {selectedMember.name}
                                 </h2>
-                                <p className="text-xs font-medium text-emerald-100 mt-1">
-                                    Rang actuel : #{selectedRank} au classement général
+                                <p className="text-xs font-medium text-[#a7adbb] mt-1">
+                                    Rang actuel : <span className="text-emerald-400 font-bold">#{selectedRank}</span> au classement général
                                 </p>
                             </div>
 
                             {/* Content */}
                             <div className="p-6 flex-1 overflow-y-auto space-y-6">
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="rounded-md border border-[#efece5] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
+                                    <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
                                         <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Groupe</div>
                                         <div className="mt-1">
                                             <GroupBadge group={selectedMember.group} />
                                         </div>
                                     </div>
-                                    <div className="rounded-md border border-[#efece5] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
+                                    <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
                                         <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Total Sorties</div>
                                         <div className="mt-1 text-xl font-extrabold text-[#101216] dark:text-white tabular-nums">
                                             {selectedMember.rides}
                                         </div>
                                     </div>
-                                    <div className="rounded-md border border-[#efece5] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
+                                    <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
                                         <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Taux de Fidélité</div>
                                         <div className="mt-1 text-xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums">
                                             {totalPossibleRides > 0 ? Math.round((selectedMember.rides / totalPossibleRides) * 100) : 0}%
                                         </div>
                                     </div>
-                                    <div className="rounded-md border border-[#efece5] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
+                                    <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
                                         <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Dernière sortie</div>
                                         <div className="mt-1 text-xs font-bold text-[#101216] dark:text-white">
-                                            {selectedMember.dates.length > 0 ? selectedMember.dates[selectedMember.dates.length - 1] : "Aucune"}
+                                            {selectedMember.dates.length > 0 ? formatFrenchDate(selectedMember.dates[selectedMember.dates.length - 1], selectedYear) : "Aucune"}
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="border-t border-[#efece5] dark:border-[#262b38] pt-6 space-y-3.5">
+                                <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-6 space-y-3.5">
                                     <div className="flex items-center justify-between">
                                         <h3 className="text-sm font-bold text-[#101216] dark:text-white">
                                             Historique des présences ({selectedMember.dates.length})
                                         </h3>
-                                        <span className="text-[11px] font-medium text-[#5c6370] dark:text-[#a7adbb]">
+                                        <span className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">
                                             Cliquer pour voir la sortie
                                         </span>
                                     </div>
@@ -425,7 +597,7 @@ export default function LeaderboardView({
                                             hoveredDateInfo.event ? (
                                                 <div className="flex items-center gap-2 truncate text-[#101216] dark:text-white">
                                                     <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                                                    <span className="font-bold tabular-nums">{hoveredDateInfo.dateStr}</span>
+                                                    <span className="font-bold tabular-nums">{formatFrenchDate(hoveredDateInfo.dateStr, selectedYear)}</span>
                                                     <span className="text-[#5c6370] dark:text-[#a7adbb]">·</span>
                                                     <span className="font-semibold truncate">📍 {hoveredDateInfo.event.location}</span>
                                                     {hoveredDateInfo.event.distances && (
@@ -440,22 +612,23 @@ export default function LeaderboardView({
                                             ) : (
                                                 <div className="flex items-center gap-2 text-[#5c6370] dark:text-[#a7adbb]">
                                                     <span className="h-2 w-2 rounded-full bg-slate-400 shrink-0" />
-                                                    <span className="font-bold tabular-nums text-[#101216] dark:text-white">{hoveredDateInfo.dateStr}</span>
+                                                    <span className="font-bold tabular-nums text-[#101216] dark:text-white">{formatFrenchDate(hoveredDateInfo.dateStr, selectedYear)}</span>
                                                     <span>· Voir dans le calendrier</span>
                                                 </div>
                                             )
                                         ) : (
-                                            <p className="text-[11px] text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1.5 truncate">
+                                            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1.5 truncate">
                                                 <CalendarDaysIcon className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                                                 <span>Cliquez sur une date pour ouvrir la sortie dans le calendrier.</span>
                                             </p>
                                         )}
                                     </div>
 
-                                    <div className="flex flex-wrap gap-1.5">
+                                    <div className="flex flex-wrap gap-2">
                                         {selectedMember.dates.map((date) => {
                                             const parsed = parseDateInfo(date, selectedYear);
                                             const isoDate = parsed ? parsed.isoDate : date;
+                                            const formattedDate = formatFrenchDate(date, selectedYear);
                                             const event = eventsByIsoDate.get(isoDate);
                                             const targetUrl = `/calendrier?date=${isoDate}${event ? `&event=${event.id}` : ''}`;
 
@@ -467,28 +640,31 @@ export default function LeaderboardView({
                                                     onMouseLeave={() => setHoveredDateInfo(null)}
                                                     onFocus={() => setHoveredDateInfo({ dateStr: date, event })}
                                                     onBlur={() => setHoveredDateInfo(null)}
-                                                    title={event ? `${date} - ${event.location} (cliquer pour voir dans le calendrier)` : `${date} (cliquer pour voir dans le calendrier)`}
-                                                    className="group inline-flex items-center gap-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 text-xs font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 dark:hover:bg-emerald-500 dark:hover:text-[#0a0c10] dark:hover:border-emerald-500 transition-all duration-150 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95"
+                                                    title={event ? `${formattedDate} - ${event.location} (cliquer pour voir dans le calendrier)` : `${formattedDate} (cliquer pour voir dans le calendrier)`}
+                                                    aria-label={`Sortie du ${formattedDate}${event ? ` : ${event.location}` : ''}`}
+                                                    className="group min-h-[44px] inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 px-3.5 py-2 text-xs font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 dark:hover:bg-emerald-500 dark:hover:text-[#0a0c10] dark:hover:border-emerald-500 transition-[color,background-color,border-color,transform] duration-150 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 motion-reduce:transition-none motion-reduce:transform-none"
                                                 >
-                                                    <span className="tabular-nums">{date}</span>
-                                                    <ArrowTopRightOnSquareIcon className="h-3 w-3 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+                                                    <span className="tabular-nums font-semibold">{formattedDate}</span>
+                                                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform motion-reduce:transition-none shrink-0" />
                                                 </Link>
                                             );
                                         })}
                                         {selectedMember.dates.length === 0 && (
-                                            <p className="text-xs italic text-[#7d8493] dark:text-[#a7adbb]">
-                                                Aucune sortie enregistrée pour cette saison.
-                                            </p>
+                                            <div className="w-full rounded-md border border-dashed border-[#e4e0d8] dark:border-[#262b38] p-4 text-center">
+                                                <p className="text-xs italic text-[#5c6370] dark:text-[#a7adbb]">
+                                                    Aucune sortie enregistrée pour cette saison.
+                                                </p>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                             </div>
 
                             {/* Footer */}
-                            <div className="p-4 border-t border-[#efece5] dark:border-[#262b38] flex justify-end">
+                            <div className="p-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex justify-end">
                                 <button
                                     onClick={handleClose}
-                                    className="rounded-full border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-5 py-2 text-xs font-semibold text-[#3a3f4a] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#202533] transition-colors cursor-pointer"
+                                    className="min-h-[44px] px-6 py-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] text-xs font-semibold text-[#3a3f4a] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#202533] transition-colors cursor-pointer motion-reduce:transition-none"
                                 >
                                     Fermer
                                 </button>
