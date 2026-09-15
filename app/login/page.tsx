@@ -116,15 +116,23 @@ function LoginForm(): React.ReactElement {
         </div>
 
         {/* Segmented Mode Switcher */}
-        <div className="grid grid-cols-2 gap-1 rounded-lg bg-[#0a0c10] p-1 border border-white/10">
+        <div
+          role="tablist"
+          aria-label="Mode d'authentification"
+          className="grid grid-cols-2 gap-1 rounded-lg bg-[#0a0c10] p-1 border border-white/10"
+        >
           <button
             type="button"
+            id="tab-login"
+            role="tab"
+            aria-selected={mode === 'login'}
+            aria-controls="login-panel"
             onClick={() => {
               setMode('login');
               setError('');
               setSuccessMessage('');
             }}
-            className={`rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+            className={`rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12151d] ${
               mode === 'login'
                 ? 'bg-[#1e232f] text-white shadow-sm border border-white/10'
                 : 'text-[#7d8493] hover:text-white'
@@ -135,12 +143,16 @@ function LoginForm(): React.ReactElement {
 
           <button
             type="button"
+            id="tab-activate"
+            role="tab"
+            aria-selected={mode === 'activate'}
+            aria-controls="activate-panel"
             onClick={() => {
               setMode('activate');
               setError('');
               setSuccessMessage('');
             }}
-            className={`inline-flex items-center justify-center gap-1.5 rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+            className={`inline-flex items-center justify-center gap-1.5 rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12151d] ${
               mode === 'activate'
                 ? 'bg-[#1e232f] text-amber-300 shadow-sm border border-amber-500/30'
                 : 'text-[#7d8493] hover:text-white'
@@ -186,7 +198,7 @@ function LoginForm(): React.ReactElement {
 
         {/* ──── Tab 1 : Standard Login ──── */}
         {mode === 'login' ? (
-          <form className="space-y-4" onSubmit={handleLogin}>
+          <form id="login-panel" role="tabpanel" aria-labelledby="tab-login" className="space-y-4" onSubmit={handleLogin}>
             <div className="space-y-1.5">
               <label
                 htmlFor="login-email"
@@ -270,7 +282,7 @@ function LoginForm(): React.ReactElement {
           </form>
         ) : (
           /* ──── Tab 2 : First-Time Activation / Reset ──── */
-          <form className="space-y-4" onSubmit={handleActivation}>
+          <form id="activate-panel" role="tabpanel" aria-labelledby="tab-activate" className="space-y-4" onSubmit={handleActivation}>
             <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 text-xs text-amber-200/90 leading-relaxed space-y-1">
               <p className="font-semibold text-amber-300">
                 Réservé aux membres inscrits au club
