@@ -187,7 +187,7 @@ export default function LeaderboardView({
             closeButtonRef.current?.focus();
         }, 50);
 
-        const handleKeyDown = (e: KeyboardEvent) => {
+        const handleKeyDown = (e: KeyboardEvent): void => {
             if (e.key === 'Escape') {
                 e.preventDefault();
                 handleClose();
