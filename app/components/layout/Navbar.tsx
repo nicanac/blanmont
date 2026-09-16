@@ -163,7 +163,7 @@ export default function Navbar(): React.ReactElement {
                     <span className="text-xl font-extrabold uppercase tracking-[-0.02em] text-[#101216] dark:text-white font-sans">
                       Blan<span className="text-[#e03e3e]">mont</span>
                     </span>
-                    <span className="hidden md:inline-block text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb] border-l border-[#e4e0d8] dark:border-white/15 pl-2.5 leading-tight">
+                    <span className="hidden md:inline-block text-xs font-semibold uppercase tracking-[0.12em] text-[#5c6370] dark:text-[#a7adbb] border-l border-[#e4e0d8] dark:border-white/15 pl-2.5 leading-tight">
                       Cyclo Club
                       <br />
                       Saint-Martin
@@ -213,7 +213,7 @@ export default function Navbar(): React.ReactElement {
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 sm:p-5">
                                 {/* Column 1: Découvrir le Club */}
                                 <div className="space-y-1">
-                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb] px-2.5 py-1">
+                                  <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb] px-2.5 py-1">
                                     Découvrir le Club
                                   </p>
                                   {clubDiscover.map((item) => {
@@ -254,7 +254,7 @@ export default function Navbar(): React.ReactElement {
                                             </p>
                                             <ChevronRightIcon className="h-3.5 w-3.5 text-[#5c6370] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
                                           </div>
-                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb] leading-snug">
+                                          <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#a7adbb] leading-snug">
                                             {item.description}
                                           </p>
                                         </div>
@@ -265,7 +265,7 @@ export default function Navbar(): React.ReactElement {
 
                                 {/* Column 2: Vie du Club */}
                                 <div className="space-y-1">
-                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb] px-2.5 py-1">
+                                  <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb] px-2.5 py-1">
                                     Vie du Club &amp; Activités
                                   </p>
                                   {clubLife.map((item) => {
@@ -306,7 +306,7 @@ export default function Navbar(): React.ReactElement {
                                             </p>
                                             <ChevronRightIcon className="h-3.5 w-3.5 text-[#5c6370] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
                                           </div>
-                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb] leading-snug">
+                                          <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#a7adbb] leading-snug">
                                             {item.description}
                                           </p>
                                         </div>
@@ -327,11 +327,11 @@ export default function Navbar(): React.ReactElement {
                                       <p className="text-xs font-bold text-[#101216] dark:text-white">
                                         Nouveau cycliste ? 3 sorties d&apos;essai
                                       </p>
-                                      <span className="text-[0.625rem] font-bold uppercase tracking-wider text-[#e03e3e] bg-[#e03e3e]/10 dark:bg-[#e03e3e]/20 px-1.5 py-0.5 rounded">
+                                      <span className="text-xs font-bold uppercase tracking-wider text-[#e03e3e] bg-[#e03e3e]/10 dark:bg-[#e03e3e]/20 px-1.5 py-0.5 rounded">
                                         Gratuit
                                       </span>
                                     </div>
-                                    <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb] mt-0.5 leading-snug">
+                                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] mt-0.5 leading-snug">
                                       Venez rouler avec le peloton sans engagement avant d&apos;adhérer.
                                     </p>
                                   </div>
@@ -541,14 +541,14 @@ export default function Navbar(): React.ReactElement {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl lg:hidden bg-white dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-white/10 max-h-[calc(100vh-4rem)] overflow-y-auto">
-              <div className="p-3 space-y-4">
+            <PopoverPanel className="absolute top-16 inset-x-0 z-50 origin-top shadow-2xl lg:hidden bg-white dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-white/10 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain [scrollbar-width:thin] [scrollbar-color:rgba(156,163,175,0.3)_transparent]">
+              <div className="p-3 sm:p-4 space-y-3.5">
                 {/* 1. Sorties & Activités */}
                 <div>
-                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
+                  <p className="px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                     Sorties &amp; Activités
                   </p>
-                  <div className="space-y-0.5 mt-1">
+                  <div className="space-y-1 mt-1">
                     {outingsNavigation.map((item) => {
                       const isCurrent = pathname === item.href;
                       return (
@@ -566,17 +566,27 @@ export default function Navbar(): React.ReactElement {
                         >
                           <div className="flex items-center gap-3">
                             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
-                              <item.icon className="h-4 w-4" />
+                              <item.icon className="h-4 w-4 text-[#e03e3e]" />
                             </div>
-                            <span className="uppercase tracking-[0.06em] text-xs font-bold">{item.name}</span>
+                            <div className="text-left">
+                              <span className="block text-xs font-bold uppercase tracking-[0.06em] leading-tight">
+                                {item.name}
+                              </span>
+                              <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-tight">
+                                {item.description}
+                              </span>
+                            </div>
                           </div>
                           {item.isLive ? (
-                            <span className="relative flex h-2 w-2 mr-2">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-bold uppercase tracking-wider shrink-0">
+                              <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                              </span>
+                              Live
                             </span>
                           ) : (
-                            <ChevronRightIcon className="h-4 w-4 text-[#5c6370]" />
+                            <ChevronRightIcon className="h-4 w-4 text-[#5c6370] shrink-0" />
                           )}
                         </PopoverButton>
                       );
@@ -584,73 +594,89 @@ export default function Navbar(): React.ReactElement {
                   </div>
                 </div>
 
-                {/* 2. Le Club (Featured Card + Submenu Accordion) */}
+                {/* 2. Le Club */}
                 <div>
-                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
+                  <p className="px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                     Le Club
                   </p>
 
-                  {/* Spotlight Card: Rejoindre le Club */}
-                  <div className="mt-1 mb-2">
-                    <PopoverButton
-                      as={Link}
-                      href="/rejoindre"
-                      className="flex items-center justify-between p-3 rounded-lg bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 hover:border-[#e03e3e] transition-colors group w-full"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white shrink-0">
-                          <UserPlusIcon className="h-4 w-4" />
-                        </div>
-                        <div className="text-left">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-[#101216] dark:text-white">Rejoindre le Club</span>
-                            <span className="text-[0.5625rem] font-bold uppercase tracking-wider text-[#e03e3e] bg-[#e03e3e]/10 px-1.5 py-0.5 rounded">3 essais</span>
+                  {/* Spotlight Card: Rejoindre le Club (Only for visitors who are NOT yet authenticated) */}
+                  {!isAuthenticated && (
+                    <div className="mt-1 mb-2">
+                      <PopoverButton
+                        as={Link}
+                        href="/rejoindre"
+                        className="flex items-center justify-between p-3 rounded-lg bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 hover:border-[#e03e3e] transition-colors group w-full"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white shrink-0 shadow-2xs">
+                            <UserPlusIcon className="h-4 w-4" />
                           </div>
-                          <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb]">Sorties d&apos;essai gratuites &amp; adhésion</p>
+                          <div className="text-left">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-bold text-[#101216] dark:text-white">Rejoindre le Club</span>
+                              <span className="text-xs font-bold uppercase tracking-wider text-[#e03e3e] bg-[#e03e3e]/10 px-1.5 py-0.5 rounded">3 essais</span>
+                            </div>
+                            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Sorties d&apos;essai gratuites &amp; adhésion</p>
+                          </div>
                         </div>
-                      </div>
-                      <ChevronRightIcon className="h-4 w-4 text-[#5c6370] group-hover:text-[#e03e3e] group-hover:translate-x-0.5 transition-all shrink-0" />
-                    </PopoverButton>
-                  </div>
+                        <ChevronRightIcon className="h-4 w-4 text-[#5c6370] group-hover:text-[#e03e3e] group-hover:translate-x-0.5 transition-all shrink-0" />
+                      </PopoverButton>
+                    </div>
+                  )}
 
                   {/* Submenu Accordion */}
                   <Disclosure as="div" defaultOpen={isClubActive}>
                     {({ open: subOpen }) => (
-                      <>
-                        <Disclosure.Button className="flex w-full items-center justify-between min-h-[40px] py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5">
-                          <span>Rubriques du Club</span>
+                      <div className="mt-1">
+                        <Disclosure.Button className="flex w-full items-center justify-between min-h-[44px] py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
+                              <ClubCrestIcon className="h-4 w-4 text-[#e03e3e]" />
+                            </div>
+                            <span>Rubriques du Club</span>
+                          </div>
                           <ChevronDownIcon
-                            className={cn(subOpen ? 'rotate-180' : '', 'h-4 w-4 transition-transform duration-150')}
+                            className={cn(subOpen ? 'rotate-180 text-[#e03e3e]' : '', 'h-4 w-4 transition-transform duration-150')}
                             aria-hidden="true"
                           />
                         </Disclosure.Button>
-                        <Disclosure.Panel className="mt-1 space-y-0.5 pl-2">
-                          {[...clubDiscover, ...clubLife].map((item) => (
-                            <PopoverButton
-                              key={item.name}
-                              as={Link}
-                              href={item.href}
-                              className="flex items-center gap-3 min-h-[44px] py-2 px-3 rounded-lg text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white group"
-                            >
-                              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white group-hover:border-[#e03e3e] group-hover:text-[#e03e3e] shrink-0">
-                                <item.icon className="h-3.5 w-3.5" />
-                              </div>
-                              <span className="flex-1 text-left">{item.name}</span>
-                              <ChevronRightIcon className="h-3.5 w-3.5 text-[#5c6370] opacity-50 group-hover:opacity-100 group-hover:text-[#e03e3e]" />
-                            </PopoverButton>
-                          ))}
+                        <Disclosure.Panel className="mt-1 space-y-0.5 pl-4 border-l-2 border-[#e03e3e]/30 ml-7 my-1">
+                          {[...clubDiscover, ...clubLife].map((item) => {
+                            const isCurrent = pathname === item.href;
+                            return (
+                              <PopoverButton
+                                key={item.name}
+                                as={Link}
+                                href={item.href}
+                                className={cn(
+                                  'flex items-center justify-between min-h-[44px] py-2 px-3 rounded-lg text-xs font-semibold transition-colors',
+                                  isCurrent
+                                    ? 'bg-black/5 dark:bg-white/10 text-[#e03e3e] font-bold'
+                                    : 'text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white'
+                                )}
+                                aria-current={isCurrent ? 'page' : undefined}
+                              >
+                                <div className="flex items-center gap-2.5">
+                                  <item.icon className="h-4 w-4 text-[#e03e3e] shrink-0" />
+                                  <span>{item.name}</span>
+                                </div>
+                                <ChevronRightIcon className="h-3.5 w-3.5 text-[#5c6370] opacity-50 group-hover:opacity-100 group-hover:text-[#e03e3e] shrink-0" />
+                              </PopoverButton>
+                            );
+                          })}
                         </Disclosure.Panel>
-                      </>
+                      </div>
                     )}
                   </Disclosure>
                 </div>
 
                 {/* 3. Communauté */}
                 <div>
-                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
+                  <p className="px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                     Communauté
                   </p>
-                  <div className="space-y-0.5 mt-1">
+                  <div className="space-y-1 mt-1">
                     {communityNavigation.map((item) => {
                       const isCurrent = pathname === item.href;
                       return (
@@ -668,11 +694,18 @@ export default function Navbar(): React.ReactElement {
                         >
                           <div className="flex items-center gap-3">
                             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
-                              <item.icon className="h-4 w-4" />
+                              <item.icon className="h-4 w-4 text-[#e03e3e]" />
                             </div>
-                            <span className="uppercase tracking-[0.06em] text-xs font-bold">{item.name}</span>
+                            <div className="text-left">
+                              <span className="block text-xs font-bold uppercase tracking-[0.06em] leading-tight">
+                                 {item.name}
+                              </span>
+                              <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-tight">
+                                 {item.description}
+                              </span>
+                            </div>
                           </div>
-                          <ChevronRightIcon className="h-4 w-4 text-[#5c6370]" />
+                          <ChevronRightIcon className="h-4 w-4 text-[#5c6370] shrink-0" />
                         </PopoverButton>
                       );
                     })}
@@ -680,72 +713,78 @@ export default function Navbar(): React.ReactElement {
                 </div>
               </div>
 
-              {/* Mobile Auth & Theme Controls */}
-              <div className="border-t border-[#e4e0d8] dark:border-white/10 pb-4 pt-3">
-                {/* Mobile Theme Switcher Row */}
-                <div className="flex items-center justify-between px-4 py-2.5 mb-2 border-b border-[#e4e0d8]/60 dark:border-white/5">
-                  <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb]">
-                    Thème d&apos;affichage
-                  </span>
-                  <ThemeToggle variant="pill" />
-                </div>
-
+              {/* Mobile Auth Controls */}
+              <div className="border-t border-[#e4e0d8] dark:border-white/10 p-3 sm:p-4 bg-[#faf8f5]/60 dark:bg-white/[0.02]">
                 {isAuthenticated ? (
-                  <div className="space-y-1">
-                    <div className="flex items-center px-4">
-                      <div className="flex-shrink-0">
-                        <Image
-                          className="h-10 w-10 rounded-full"
-                          src={user?.avatarUrl || '/images/default-avatar.svg'}
-                          alt={user?.name || 'User avatar'}
-                          width={40}
-                          height={40}
-                          unoptimized={!user?.avatarUrl?.includes('cloudinary.com')}
-                        />
-                      </div>
-                      <div className="ml-3">
-                        <div className="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-[#e03e3e]">
-                          Mon Compte
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 shadow-2xs">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="flex-shrink-0">
+                          <Image
+                            className="h-10 w-10 rounded-full border border-[#e4e0d8] dark:border-white/10 object-cover"
+                            src={user?.avatarUrl || '/images/default-avatar.svg'}
+                            alt={user?.name || 'User avatar'}
+                            width={40}
+                            height={40}
+                            unoptimized={!user?.avatarUrl?.includes('cloudinary.com')}
+                          />
                         </div>
-                        <div className="text-base font-medium text-[#101216] dark:text-white">{user?.name}</div>
-                        <div className="text-sm font-medium text-[#5c6370] dark:text-[#a7adbb]">{user?.email}</div>
+                        <div className="min-w-0">
+                          <div className="text-sm font-bold text-[#101216] dark:text-white truncate">
+                            {user?.name}
+                          </div>
+                          <div className="text-xs text-[#5c6370] dark:text-[#a7adbb] truncate">
+                            {user?.email}
+                          </div>
+                        </div>
                       </div>
+                      <span
+                        className={cn(
+                          'shrink-0 text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border',
+                          isAdmin
+                            ? 'bg-[#e03e3e]/10 text-[#e03e3e] border-[#e03e3e]/30'
+                            : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+                        )}
+                      >
+                        {isAdmin ? 'Admin' : 'Membre'}
+                      </span>
                     </div>
-                    <div className="mt-3 space-y-1 px-2">
+
+                    <div className="grid grid-cols-1 gap-1">
                       {[...userNavigation, ...adminNavigation].map((item) => (
                         <PopoverButton
                           key={item.name}
                           as={Link}
                           href={item.href}
-                          className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white rounded-md"
+                          className="flex items-center gap-3 min-h-[44px] px-3 py-2 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white rounded-md transition-colors"
                         >
-                          <item.icon className="h-5 w-5 text-[#e03e3e]" />
+                          <item.icon className="h-4 w-4 text-[#e03e3e] shrink-0" />
                           <span>{item.name}</span>
                         </PopoverButton>
                       ))}
                       <PopoverButton
                         as="button"
                         onClick={() => logout()}
-                        className="flex items-center gap-3 w-full text-left px-3 py-2.5 text-sm font-semibold text-[#e03e3e] hover:bg-black/5 dark:hover:bg-white/5 rounded-md"
+                        className="flex items-center gap-3 min-h-[44px] w-full text-left px-3 py-2 text-xs font-semibold text-[#e03e3e] hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors cursor-pointer"
                       >
-                        <ArrowRightOnRectangleIcon className="h-5 w-5 text-[#e03e3e]" />
+                        <ArrowRightOnRectangleIcon className="h-4 w-4 text-[#e03e3e] shrink-0" />
                         <span>Se déconnecter</span>
                       </PopoverButton>
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 gap-2 px-4 pt-1">
+                  <div className="grid grid-cols-2 gap-2 pt-1">
                     <PopoverButton
                       as={Link}
                       href="/login"
-                      className="flex items-center justify-center min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-white/10 text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                      className="flex items-center justify-center min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-white/10 text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                     >
                       Connexion
                     </PopoverButton>
                     <PopoverButton
                       as={Link}
                       href="/rejoindre"
-                      className="flex items-center justify-center min-h-[44px] rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-[0.06em] shadow-2xs"
+                      className="flex items-center justify-center min-h-[44px] rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-[0.06em] shadow-2xs transition-colors"
                     >
                       Rejoindre
                     </PopoverButton>
