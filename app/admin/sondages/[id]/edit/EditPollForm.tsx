@@ -3,12 +3,13 @@
 import React, { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { updateWeekendPollAction } from '@/app/actions';
+import { updateWeekendPollAction, getSaturdaySortieInfoAction } from '@/app/actions';
 import { WeekendPoll, PollCustomQuestion } from '@/app/types';
 import {
   ArrowLeftIcon,
   PlusIcon,
   TrashIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 
@@ -16,9 +17,10 @@ interface EditPollFormProps {
   poll: WeekendPoll;
 }
 
-export default function EditPollForm({ poll }: EditPollFormProps) {
+export default function EditPollForm({ poll }: EditPollFormProps): React.ReactElement {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [isSyncingSortie, setIsSyncingSortie] = useState(false);
 
   const [weekendIsoDate, setWeekendIsoDate] = useState(poll.weekendIsoDate);
   const [title, setTitle] = useState(poll.title);
@@ -28,7 +30,46 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
     poll.customQuestions || []
   );
 
-  const handleAddQuestion = () => {
+  const handleSyncSortie = async (): Promise<void> => {
+    setIsSyncingSortie(true);
+    try {
+      const info = await getSaturdaySortieInfoAction(weekendIsoDate);
+      if (info && info.found) {
+        setTitle(info.suggestedTitle);
+        setDescription(info.suggestedDescription);
+
+        if (info.distanceOptions && info.distanceOptions.length > 0) {
+          const distanceQuestion: PollCustomQuestion = {
+            id: `q-distance-${Date.now()}`,
+            title: info.suggestedQuestionTitle || 'Option de distance / parcours (Samedi)',
+            options: info.distanceOptions,
+            allowMultiple: false,
+          };
+          setCustomQuestions((prev) => {
+            const remaining = prev.filter(
+              (q) =>
+                !q.title.toLowerCase().includes('distance') &&
+                !q.title.toLowerCase().includes('parcours')
+            );
+            return [distanceQuestion, ...remaining];
+          });
+        }
+        toast.success(
+          `Informations de la sortie appliquées : ${info.location} (${info.distanceOptions.length} option(s) de distance).`
+        );
+      } else {
+        toast.info(
+          `Aucune sortie spécifique trouvée au calendrier pour le samedi ${weekendIsoDate}.`
+        );
+      }
+    } catch (_err) {
+      toast.error('Erreur lors de la récupération des détails de la sortie.');
+    } finally {
+      setIsSyncingSortie(false);
+    }
+  };
+
+  const handleAddQuestion = (): void => {
     const newQ: PollCustomQuestion = {
       id: `q-${Date.now()}`,
       title: 'Option / Préférence de parcours',
@@ -38,19 +79,19 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
     setCustomQuestions((prev) => [...prev, newQ]);
   };
 
-  const handleUpdateQuestionTitle = (qId: string, val: string) => {
+  const handleUpdateQuestionTitle = (qId: string, val: string): void => {
     setCustomQuestions((prev) =>
       prev.map((q) => (q.id === qId ? { ...q, title: val } : q))
     );
   };
 
-  const handleToggleMultiple = (qId: string) => {
+  const handleToggleMultiple = (qId: string): void => {
     setCustomQuestions((prev) =>
       prev.map((q) => (q.id === qId ? { ...q, allowMultiple: !q.allowMultiple } : q))
     );
   };
 
-  const handleAddOption = (qId: string) => {
+  const handleAddOption = (qId: string): void => {
     setCustomQuestions((prev) =>
       prev.map((q) =>
         q.id === qId ? { ...q, options: [...q.options, `Option ${q.options.length + 1}`] } : q
@@ -58,7 +99,7 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
     );
   };
 
-  const handleUpdateOption = (qId: string, optIndex: number, val: string) => {
+  const handleUpdateOption = (qId: string, optIndex: number, val: string): void => {
     setCustomQuestions((prev) =>
       prev.map((q) => {
         if (q.id !== qId) return q;
@@ -69,7 +110,7 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
     );
   };
 
-  const handleDeleteOption = (qId: string, optIndex: number) => {
+  const handleDeleteOption = (qId: string, optIndex: number): void => {
     setCustomQuestions((prev) =>
       prev.map((q) => {
         if (q.id !== qId) return q;
@@ -78,11 +119,11 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
     );
   };
 
-  const handleDeleteQuestion = (qId: string) => {
+  const handleDeleteQuestion = (qId: string): void => {
     setCustomQuestions((prev) => prev.filter((q) => q.id !== qId));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
 
     startTransition(async () => {
@@ -130,9 +171,25 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Information Card */}
         <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-5">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800">
-            1. Informations Générales
-          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-100">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+              1. Informations Générales
+            </h2>
+            <button
+              type="button"
+              disabled={isSyncingSortie}
+              onClick={handleSyncSortie}
+              className="inline-flex items-center gap-1.5 rounded-md border border-[#e03e3e]/30 bg-[#e03e3e]/5 hover:bg-[#e03e3e]/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#e03e3e] transition-colors shadow-xs disabled:opacity-50 min-h-[44px]"
+              title="Récupérer et réappliquer les informations de la sortie au calendrier pour cette date"
+            >
+              {isSyncingSortie ? (
+                <div className="h-3.5 w-3.5 rounded-full border-2 border-[#e03e3e] border-t-transparent animate-spin" />
+              ) : (
+                <SparklesIcon className="h-3.5 w-3.5" />
+              )}
+              <span>Recharger depuis la sortie du samedi</span>
+            </button>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -209,7 +266,7 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors min-h-[44px]"
             >
               <PlusIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>Ajouter une question</span>
@@ -309,14 +366,14 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
         <div className="flex items-center justify-end gap-3 pt-2">
           <Link
             href={`/admin/sondages/${poll.id}`}
-            className="rounded-full border border-slate-200 bg-white px-6 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            className="rounded-md border border-slate-200 bg-white px-6 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors min-h-[44px] inline-flex items-center"
           >
             Annuler
           </Link>
           <button
             type="submit"
             disabled={isPending}
-            className="rounded-full bg-[#e03e3e] hover:bg-[#c93434] text-white px-8 py-2.5 text-xs font-semibold shadow-xs transition-colors disabled:opacity-50"
+            className="rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-8 py-2.5 text-xs font-semibold uppercase tracking-wider shadow-xs transition-colors disabled:opacity-50 min-h-[44px] inline-flex items-center"
           >
             {isPending ? 'Enregistrement...' : 'Enregistrer les modifications'}
           </button>

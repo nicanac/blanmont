@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   XMarkIcon,
@@ -132,12 +132,24 @@ export default function SondagesTutorialModal({
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
                   <div className="flex items-center gap-2 text-white font-bold text-xs">
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-[0.625rem]">
-                      M
+                      L
                     </span>
-                    <span>Mardi : Lancement du vote</span>
+                    <span>Lundi matin : Génération automatique</span>
                   </div>
                   <p className="text-[#a7adbb] text-xs">
-                    L&apos;administrateur crée le sondage de la semaine avec la météo prévisionnelle et les options de traces.
+                    Le sondage est créé automatiquement à partir de la sortie du samedi et des traces GPX du calendrier. Les administrateurs peuvent le modifier ou l&apos;ajuster manuellement à tout moment.
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
+                  <div className="flex items-center gap-2 text-white font-bold text-xs">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-black font-extrabold text-[0.625rem]">
+                      M-J
+                    </span>
+                    <span>Mardi à Jeudi : Vote du peloton</span>
+                  </div>
+                  <p className="text-[#a7adbb] text-xs">
+                    Les membres indiquent leurs disponibilités (samedi / dimanche) et leurs choix de parcours et de groupes.
                   </p>
                 </div>
 
