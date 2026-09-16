@@ -157,7 +157,7 @@ function LoginForm(): React.ReactElement {
             role="alert"
             className="rounded-md border border-[#e03e3e]/40 bg-[#e03e3e]/10 p-3.5 flex items-start gap-2.5 text-xs text-red-200"
           >
-            <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+            <ExclamationCircleIcon className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
             <span className="leading-relaxed">{error}</span>
           </div>
         )}
@@ -175,7 +175,7 @@ function LoginForm(): React.ReactElement {
             {directActivationLink && (
               <a
                 href={directActivationLink}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
               >
                 <span>Définir mon mot de passe maintenant</span>
                 <ArrowRightIcon className="h-4 w-4" />
@@ -271,11 +271,11 @@ function LoginForm(): React.ReactElement {
         ) : (
           /* ──── Tab 2 : First-Time Activation / Reset ──── */
           <form className="space-y-4" onSubmit={handleActivation}>
-            <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 text-xs text-amber-200/90 leading-relaxed space-y-1">
+            <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 text-xs text-amber-200 leading-relaxed space-y-1">
               <p className="font-semibold text-amber-300">
                 Réservé aux membres inscrits au club
               </p>
-              <p className="text-[0.75rem] text-amber-200/80">
+              <p className="text-xs text-amber-200/90">
                 Entrez l&apos;adresse email enregistrée par l&apos;administration du club. Seuls les membres déjà répertoriés dans la base de données peuvent activer leur compte et définir leur mot de passe.
               </p>
             </div>
@@ -308,7 +308,7 @@ function LoginForm(): React.ReactElement {
               <button
                 type="submit"
                 disabled={isLoading || !email.trim()}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-amber-500 hover:bg-amber-400 text-stone-950 px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-lg disabled:opacity-50 min-h-[44px]"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-amber-500 hover:bg-amber-400 text-amber-950 px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-lg disabled:opacity-50 min-h-[44px]"
               >
                 {isLoading ? (
                   <>

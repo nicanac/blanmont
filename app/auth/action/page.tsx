@@ -193,7 +193,7 @@ function AuthActionHandler(): React.ReactElement {
       {status === 'ready' && (
         <div className="rounded-xl border border-white/10 bg-[#12151d] p-7 sm:p-9 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/15 border border-[#e03e3e]/30 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#e03e3e]">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/15 border border-[#e03e3e]/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-red-400">
               <ShieldCheckIcon className="h-3.5 w-3.5" />
               <span>Activation Sécurisée</span>
             </div>
@@ -212,7 +212,7 @@ function AuthActionHandler(): React.ReactElement {
               role="alert"
               className="rounded-md border border-[#e03e3e]/40 bg-[#e03e3e]/10 p-3.5 flex items-start gap-2.5 text-xs text-red-200"
             >
-              <ExclamationTriangleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+              <ExclamationTriangleIcon className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
           )}
@@ -316,7 +316,7 @@ function AuthActionHandler(): React.ReactElement {
       {status === 'expired' && (
         <div className="rounded-xl border border-white/10 bg-[#12151d] p-7 sm:p-9 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-amber-300">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-300">
               <ExclamationTriangleIcon className="h-3.5 w-3.5 text-amber-400" />
               <span>Lien Expiré</span>
             </div>
@@ -333,7 +333,7 @@ function AuthActionHandler(): React.ReactElement {
               role="alert"
               className="rounded-md border border-[#e03e3e]/40 bg-[#e03e3e]/10 p-3.5 flex items-start gap-2.5 text-xs text-red-200"
             >
-              <ExclamationTriangleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+              <ExclamationTriangleIcon className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
           )}
@@ -351,9 +351,9 @@ function AuthActionHandler(): React.ReactElement {
               {newDirectLink && (
                 <Link
                   href={newDirectLink}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98]"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
                 >
-                  <span>👉 Définir mon mot de passe maintenant</span>
+                  <span>Définir mon mot de passe maintenant</span>
                   <ArrowRightIcon className="h-4 w-4" />
                 </Link>
               )}
@@ -388,7 +388,7 @@ function AuthActionHandler(): React.ReactElement {
               <button
                 type="submit"
                 disabled={recoveryLoading || !recoveryEmail.trim()}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-amber-500 hover:bg-amber-400 text-stone-950 px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-lg disabled:opacity-50 min-h-[44px]"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-amber-500 hover:bg-amber-400 text-amber-950 px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors active:scale-[0.98] shadow-lg disabled:opacity-50 min-h-[44px]"
               >
                 {recoveryLoading ? (
                   <>
