@@ -13,6 +13,7 @@ import {
 } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { useIsMounted } from '../utils/useIsMounted';
+import { cn } from '../utils/cn';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 import { submitEventReviewAction, deleteEventReviewAction } from '../actions';
 import { toast } from 'sonner';
@@ -499,32 +500,34 @@ export default function CalendarDrawer({
       />
 
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
-        <div className="w-screen max-w-xl lg:max-w-2xl bg-white dark:bg-[#161922] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 border-l border-[#e4e0d8] dark:border-[#262b38]">
+        <div className="w-full sm:w-screen sm:max-w-xl lg:max-w-2xl bg-white dark:bg-[#161922] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 border-l border-[#e4e0d8] dark:border-[#262b38]">
           {/* ──── Header: Editorial Peloton Cover ──── */}
-          <div className="relative bg-[#101216] text-white p-6 sm:p-7 border-b border-[#262b38] overflow-hidden shrink-0">
+          <div className="relative bg-[#101216] text-white p-4 sm:p-6 border-b border-[#262b38] overflow-hidden shrink-0">
             {/* Ambient Watermark */}
-            <div className="absolute right-4 -bottom-6 pointer-events-none select-none opacity-[0.04] text-7xl sm:text-8xl font-black uppercase tracking-tighter text-white">
+            <div className="absolute right-3 -bottom-4 sm:right-4 sm:-bottom-6 pointer-events-none select-none opacity-[0.04] text-5xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white">
               PELOTON
             </div>
 
-            <div className="relative z-10 flex items-start justify-between gap-4">
-              <div className="space-y-2">
+            <div className="relative z-10 flex items-start justify-between gap-3 sm:gap-4">
+              <div className="space-y-1.5 sm:space-y-2 min-w-0 flex-1">
                 {/* Status Badges */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/20 text-[#ff6b6b] border border-[#e03e3e]/30 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/20 text-[#ff6b6b] border border-[#e03e3e]/30 px-2 sm:px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                    {isWeekend ? 'Sortie Club officielle' : 'Événement officiel'}
+                    <span>{isWeekend ? 'Sortie Club' : 'Événement'}</span>
+                    <span className="hidden sm:inline">{isWeekend ? 'officielle' : 'officiel'}</span>
                   </span>
 
                   {eventDone ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-semibold">
-                      <CheckCircleIcon className="h-3.5 w-3.5" />
-                      Sortie terminée · Débriefings ouverts
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 sm:px-2.5 py-0.5 text-xs font-semibold">
+                      <CheckCircleIcon className="h-3.5 w-3.5 shrink-0" />
+                      <span>Terminée</span>
+                      <span className="hidden sm:inline">· Débriefings ouverts</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/10 text-white/80 border border-white/10 px-2.5 py-0.5 text-xs font-medium">
-                      <ClockIcon className="h-3.5 w-3.5" />
-                      Sortie à venir
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/10 text-white/80 border border-white/10 px-2 sm:px-2.5 py-0.5 text-xs font-medium">
+                      <ClockIcon className="h-3.5 w-3.5 shrink-0" />
+                      <span>À venir</span>
                     </span>
                   )}
                 </div>
@@ -532,15 +535,15 @@ export default function CalendarDrawer({
                 {/* Location Title */}
                 <h2
                   id="drawer-title"
-                  className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white font-display"
+                  className="text-xl sm:text-2xl lg:text-3xl font-extrabold uppercase tracking-tight text-white font-display truncate"
                 >
                   {event.location}
                 </h2>
 
                 {/* French Date Display */}
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#a7adbb] capitalize">
-                  <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
-                  <span>{dateStr}</span>
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] capitalize truncate">
+                  <CalendarDaysIcon className="h-3.5 w-3.5 text-[#e03e3e] shrink-0" />
+                  <span className="truncate">{dateStr}</span>
                 </div>
               </div>
 
@@ -552,78 +555,91 @@ export default function CalendarDrawer({
                 aria-label="Fermer la fiche de la sortie"
                 title="Fermer la fiche"
               >
-                <XMarkIcon className="h-6 w-6" />
+                <XMarkIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               </button>
             </div>
           </div>
 
           {/* ──── Key Telemetry Stat Strip (Hairline Divided) ──── */}
-          <div className="bg-[#faf8f5] dark:bg-[#101216] border-b border-[#e4e0d8] dark:border-[#262b38] grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-[#e4e0d8] dark:divide-[#262b38] shrink-0 text-center">
-            <div className="p-3 sm:py-3.5">
-              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Heure de départ
+          <div className="bg-[#faf8f5] dark:bg-[#101216] border-b border-[#e4e0d8] dark:border-[#262b38] grid grid-cols-4 divide-x divide-[#e4e0d8] dark:divide-[#262b38] shrink-0 text-center">
+            <div className="py-2 px-1 sm:py-3 sm:px-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+                <span className="hidden sm:inline">Heure de départ</span>
+                <span className="sm:hidden">Départ</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums">
+              <span className="text-sm sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums block truncate">
                 {event.departure}
               </span>
             </div>
 
-            <div className="p-3 sm:py-3.5">
-              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Distance prévue
+            <div className="py-2 px-1 sm:py-3 sm:px-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+                <span className="hidden sm:inline">Distance prévue</span>
+                <span className="sm:hidden">Distance</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums">
+              <span className="text-sm sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums block truncate">
                 {event.distances ? `${event.distances} km` : '—'}
               </span>
             </div>
 
-            <div className="p-3 sm:py-3.5">
-              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Groupe / Peloton
+            <div className="py-2 px-1 sm:py-3 sm:px-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+                <span className="hidden sm:inline">Groupe / Peloton</span>
+                <span className="sm:hidden">Peloton</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white truncate block">
+              <span className="text-sm sm:text-lg font-extrabold text-[#101216] dark:text-white truncate block">
                 {event.group || 'Club'}
               </span>
             </div>
 
-            <div className="p-3 sm:py-3.5">
-              <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] block">
-                Inscrits au départ
+            <div className="py-2 px-1 sm:py-3 sm:px-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+                <span className="hidden sm:inline">Inscrits au départ</span>
+                <span className="sm:hidden">Inscrits</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums">
-                {attendees.length} {attendees.length === 1 ? 'cycliste' : 'cyclistes'}
+              <span className="text-sm sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums block truncate">
+                <span className="sm:hidden">{attendees.length}</span>
+                <span className="hidden sm:inline">
+                  {attendees.length} {attendees.length === 1 ? 'cycliste' : 'cyclistes'}
+                </span>
               </span>
             </div>
           </div>
 
           {/* ──── Segmented View Tabs ──── */}
-          <div className="flex border-b border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-6 shrink-0">
+          <div className="flex border-b border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-3 sm:px-6 shrink-0">
             <button
               type="button"
               onClick={() => setActiveTab('details')}
-              className={`min-h-[46px] flex items-center gap-2 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+              className={`min-h-[44px] flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
                 activeTab === 'details'
                   ? 'border-[#e03e3e] text-[#e03e3e]'
                   : 'border-transparent text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
               }`}
             >
-              <MapIcon className="h-4 w-4" />
-              <span>Programme & Parcours</span>
+              <MapIcon className="h-4 w-4 shrink-0" />
+              <span>
+                <span className="hidden sm:inline">Programme & Parcours</span>
+                <span className="sm:hidden">Parcours</span>
+              </span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('debrief')}
-              className={`min-h-[46px] flex items-center gap-2 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+              className={`min-h-[44px] flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
                 activeTab === 'debrief'
                   ? 'border-[#e03e3e] text-[#e03e3e]'
                   : 'border-transparent text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
               }`}
             >
-              <ChatBubbleLeftRightIcon className="h-4 w-4" />
-              <span>Débrief du Peloton</span>
+              <ChatBubbleLeftRightIcon className="h-4 w-4 shrink-0" />
+              <span>
+                <span className="hidden sm:inline">Débrief du Peloton</span>
+                <span className="sm:hidden">Débriefs</span>
+              </span>
               {reviews.length > 0 && (
-                <span className="rounded-full bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#ff6b6b] px-2 py-0.2 text-[11px] font-extrabold tabular-nums">
+                <span className="rounded-full bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#ff6b6b] px-1.5 py-0.5 text-xs font-extrabold tabular-nums">
                   {reviews.length}
                 </span>
               )}
@@ -631,10 +647,10 @@ export default function CalendarDrawer({
           </div>
 
           {/* ──── Scrollable Content Area ──── */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto overscroll-contain [scrollbar-width:thin] [scrollbar-color:rgba(156,163,175,0.3)_transparent] p-3.5 sm:p-6 space-y-3.5 sm:space-y-6">
             {/* TAB 1: DETAILS & PARCOURS */}
             {activeTab === 'details' && (
-              <div className="space-y-6 animate-in fade-in duration-200">
+              <div className="space-y-3.5 sm:space-y-6 animate-in fade-in duration-200">
                 {/* Weather Forecast Badge */}
                 <div>
                   <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} />
