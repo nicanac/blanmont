@@ -133,7 +133,7 @@ function AgendaItem({
         type="button"
         onClick={() => onSelectEvent(event)}
         aria-label={`Détails de la sortie ${event.location} le ${fullDateStr}`}
-        className="flex items-start sm:items-center gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] -m-1.5 p-1.5 cursor-pointer"
+        className="w-full flex items-start sm:items-center gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] -m-1.5 p-1.5 cursor-pointer"
       >
         {/* Date Block: Editorial High-Contrast Badge */}
         <div
@@ -233,7 +233,7 @@ function AgendaItem({
           {/* Micro-Telemetry Row */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5c6370] dark:text-[#a7adbb]">
             <span
-              className="inline-flex items-center gap-1.5"
+              className="inline-flex items-center gap-1.5 shrink-0"
               title="Heure de départ du peloton"
             >
               <ClockIcon className="h-3.5 w-3.5 text-[#e03e3e] shrink-0" />
@@ -242,7 +242,7 @@ function AgendaItem({
 
             {event.distances && (
               <span
-                className="inline-flex items-center gap-1.5 tabular-nums"
+                className="inline-flex items-center gap-1.5 tabular-nums shrink-0"
                 title="Distance approximative du parcours officiel"
               >
                 <BicycleIcon className="h-3.5 w-3.5 text-[#101216] dark:text-white shrink-0" />
@@ -256,18 +256,23 @@ function AgendaItem({
                 title={`Point de rassemblement précis : ${event.address}`}
               >
                 <MapPinIcon className="h-3.5 w-3.5 text-[#5c6370] shrink-0" />
-                <span className="truncate">{event.address}</span>
+                <span className="truncate min-w-0">{event.address}</span>
               </span>
             )}
           </div>
 
           {/* Alternative Route: Subtle, refined pill instead of screaming alert banner */}
           {event.alternative && (
-            <div className="pt-0.5">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-[#faf8f5] dark:bg-[#1d2128] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-1 text-xs text-[#5c6370] dark:text-[#a7adbb]">
+            <div className="pt-0.5 max-w-full">
+              <span
+                className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-[#faf8f5] dark:bg-[#1d2128] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-1 text-xs text-[#5c6370] dark:text-[#a7adbb]"
+                title={`Raccourci : ${event.alternative}`}
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500 shrink-0" />
-                <span className="font-semibold text-[#101216] dark:text-white">Raccourci :</span>
-                <span className="truncate max-w-xs sm:max-w-md">{event.alternative}</span>
+                <span className="font-semibold text-[#101216] dark:text-white shrink-0 whitespace-nowrap">
+                  Raccourci&nbsp;:
+                </span>
+                <span className="truncate min-w-0 flex-1">{event.alternative}</span>
               </span>
             </div>
           )}
@@ -275,7 +280,7 @@ function AgendaItem({
       </button>
 
       {/* Right Deck: Weather & Independent Actions */}
-      <div className="flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-[#e4e0d8] dark:border-[#262b38]">
+      <div className="w-full md:w-auto flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-[#e4e0d8] dark:border-[#262b38]">
         <div>
           <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} compact={true} />
         </div>
