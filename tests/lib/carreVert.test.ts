@@ -4,6 +4,8 @@ import {
   isWeekendDate,
   getWeekendKey,
   calculateMemberCarres,
+  getPossibleCarresCount,
+  calculateLeaderboardFromAttendance,
 } from '@/app/lib/carreVert';
 
 describe('carreVert calculations', () => {
@@ -140,4 +142,91 @@ describe('carreVert calculations', () => {
       expect(empty.dates).toEqual([]);
     });
   });
+
+  describe('getPossibleCarresCount', () => {
+    const mockEvents: any[] = [
+      { id: 'ev-1', isoDate: '2026-03-14' }, // Sat (Weekend 1)
+      { id: 'ev-2', isoDate: '2026-03-15' }, // Sun (Weekend 1) -> 1 possible carre total
+      { id: 'ev-3', isoDate: '2026-03-18' }, // Wed -> 1 possible carre
+      { id: 'ev-4', isoDate: '2026-03-21' }, // Sat (Weekend 2) -> 1 possible carre
+      { id: 'ev-5', isoDate: '2025-05-10' }, // Previous year
+    ];
+
+    it('counts possible carres for a given year consolidating weekends', () => {
+      const count = getPossibleCarresCount(mockEvents, 2026);
+      // Weekend 1 (14+15) + Wed (18) + Weekend 2 (21) = 3
+      expect(count).toBe(3);
+    });
+
+    it('returns 0 for a year with no events', () => {
+      expect(getPossibleCarresCount(mockEvents, 2024)).toBe(0);
+    });
+
+    it('respects maxIsoDate cut-off option', () => {
+      const count = getPossibleCarresCount(mockEvents, 2026, { maxIsoDate: '2026-03-16' });
+      // Only Weekend 1 (14+15) is <= 2026-03-16
+      expect(count).toBe(1);
+    });
+  });
+
+  describe('calculateLeaderboardFromAttendance', () => {
+    const mockEvents: any[] = [
+      { id: 'ev-1', isoDate: '2026-03-14' }, // Sat
+      { id: 'ev-2', isoDate: '2026-03-15' }, // Sun
+      { id: 'ev-3', isoDate: '2026-03-18' }, // Wed
+    ];
+
+    const mockEntries: any[] = [
+      { id: 'mem-1', memberId: 'mem-1', name: 'Alice', group: 'A', carres: 0, physicalRides: 0, dates: [], year: 2026 },
+      { id: 'mem-2', memberId: 'mem-2', name: 'Bob', group: 'B', carres: 0, physicalRides: 0, dates: [], year: 2026 },
+    ];
+
+    const mockAttendance: any[] = [
+      {
+        eventId: 'ev-1',
+        isoDate: '2026-03-14',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice', group: 'A', markedAt: '2026-03-14T08:00:00Z' },
+          'mem-2': { memberId: 'mem-2', name: 'Bob', group: 'B', markedAt: '2026-03-14T08:00:00Z' },
+        },
+      },
+      {
+        eventId: 'ev-2',
+        isoDate: '2026-03-15',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice', group: 'A', markedAt: '2026-03-15T08:00:00Z' },
+        },
+      },
+      {
+        eventId: 'ev-3',
+        isoDate: '2026-03-18',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice', group: 'A', markedAt: '2026-03-18T08:00:00Z' },
+        },
+      },
+    ];
+
+    it('calculates points and sorts members with highest points at the top', () => {
+      const results = calculateLeaderboardFromAttendance(mockEntries, mockEvents, mockAttendance, 2026);
+
+      expect(results.length).toBe(2);
+
+      // Alice: attended Sat + Sun (1 point) + Wed (1 point) = 2 points, 3 physical dates
+      const alice = results.find((r) => r.name === 'Alice');
+      expect(alice).toBeDefined();
+      expect(alice?.rides).toBe(2);
+      expect(alice?.dates.length).toBe(3);
+
+      // Bob: attended Sat (1 point) = 1 point, 1 physical date
+      const bob = results.find((r) => r.name === 'Bob');
+      expect(bob).toBeDefined();
+      expect(bob?.rides).toBe(1);
+      expect(bob?.dates.length).toBe(1);
+
+      // Alice is first, Bob is second
+      expect(results[0].name).toBe('Alice');
+      expect(results[1].name).toBe('Bob');
+    });
+  });
 });
+
