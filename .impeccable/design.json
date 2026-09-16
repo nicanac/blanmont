@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-16T15:59:30.000Z",
+  "title": "Design System: CC Saint-Martin Blanmont",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Brand Crimson Red",
+        "canonical": "#e03e3e",
+        "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#e03e3e", "#f87171", "#fdecec"]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Deep Crimson Hover",
+        "canonical": "#c93434",
+        "tonalRamp": ["#3b0808", "#6c1717", "#8c1919", "#aa1919", "#c93434", "#d94a4a", "#e87a7a", "#f9dada"]
+      },
+      "primary-light": {
+        "role": "primary",
+        "displayName": "Crimson Tint",
+        "canonical": "#fdecec",
+        "tonalRamp": ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5", "#fdecec"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm Editorial Paper",
+        "canonical": "#faf8f5",
+        "tonalRamp": ["#1f1e1c", "#3d3b37", "#6b6760", "#99948a", "#c4bfb5", "#dedad0", "#f2efe9", "#faf8f5"]
+      },
+      "paper-dim": {
+        "role": "neutral",
+        "displayName": "Paper Dim",
+        "canonical": "#f2efe9",
+        "tonalRamp": ["#1c1b18", "#383631", "#635f56", "#8f8a7e", "#bbb5a7", "#d5cfc1", "#f2efe9", "#faf8f5"]
+      },
+      "paper-card": {
+        "role": "neutral",
+        "displayName": "Paper Card (Pure White)",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#18181b", "#27272a", "#52525b", "#71717a", "#a1a1aa", "#d4d4d8", "#f4f4f5", "#ffffff"]
+      },
+      "paper-border": {
+        "role": "neutral",
+        "displayName": "Paper Hairline Rule",
+        "canonical": "#e4e0d8",
+        "tonalRamp": ["#181715", "#33312c", "#5e5b53", "#89857a", "#b5b0a3", "#cfcbbf", "#e4e0d8", "#f7f6f3"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Editorial Ink Black",
+        "canonical": "#101216",
+        "tonalRamp": ["#08090b", "#101216", "#1c2027", "#2e3440", "#4c566a", "#74819a", "#aab3c5", "#e5e9f0"]
+      },
+      "ink-deep": {
+        "role": "neutral",
+        "displayName": "Deep Cover Onyx",
+        "canonical": "#0a0c10",
+        "tonalRamp": ["#050608", "#0a0c10", "#141820", "#242b3a", "#3b4760", "#5c6e94", "#90a0c4", "#dae1f0"]
+      },
+      "ink-panel": {
+        "role": "neutral",
+        "displayName": "Ink Panel Charcoal",
+        "canonical": "#161922",
+        "tonalRamp": ["#0b0c11", "#161922", "#222735", "#353d52", "#4e5977", "#707d9f", "#a2acc5", "#e2e6f0"]
+      },
+      "ink-border": {
+        "role": "neutral",
+        "displayName": "Ink Hairline Slate",
+        "canonical": "#262b38",
+        "tonalRamp": ["#13151c", "#262b38", "#394154", "#505b76", "#6c7b9e", "#8f9cb9", "#b9c2d5", "#e7ebf3"]
+      },
+      "ink-body": {
+        "role": "neutral",
+        "displayName": "Ink Body Text Slate",
+        "canonical": "#3a3f4a",
+        "tonalRamp": ["#1d2025", "#3a3f4a", "#505766", "#6b7488", "#8892a7", "#abb2c3", "#cfd4df", "#edf0f5"]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Muted Text Grey",
+        "canonical": "#5c6370",
+        "tonalRamp": ["#2e3138", "#454a54", "#5c6370", "#777f8f", "#969db0", "#b7bcd0", "#d7daf0", "#f1f3f9"]
+      },
+      "ondark-text": {
+        "role": "neutral",
+        "displayName": "On-Dark Headline White",
+        "canonical": "#f5f6f8",
+        "tonalRamp": ["#15171b", "#2a2d35", "#4a4f5d", "#70778a", "#9ca3b5", "#c6cbd7", "#e7e9ee", "#f5f6f8"]
+      },
+      "ondark-muted": {
+        "role": "neutral",
+        "displayName": "On-Dark Muted Slate",
+        "canonical": "#a7adbb",
+        "tonalRamp": ["#1d1f23", "#393c44", "#595d6a", "#7d8293", "#a7adbb", "#c3c7d2", "#e0e2e8", "#f4f5f7"]
+      },
+      "accent-green": {
+        "role": "accent",
+        "displayName": "Peloton Emerald",
+        "canonical": "#10b981",
+        "tonalRamp": ["#064e3b", "#065f46", "#047857", "#059669", "#10b981", "#34d399", "#6ee7b7", "#a7f3d0"]
+      },
+      "accent-amber": {
+        "role": "accent",
+        "displayName": "Peloton Amber",
+        "canonical": "#f59e0b",
+        "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fcd34d", "#fde68a"]
+      },
+      "accent-blue": {
+        "role": "accent",
+        "displayName": "Peloton Sky Blue",
+        "canonical": "#3b82f6",
+        "tonalRamp": ["#1e3a8a", "#1e40af", "#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Cover Display",
+        "purpose": "Single commanding uppercase cover headline positioned above the fold."
+      },
+      "headline": {
+        "displayName": "Section Headline",
+        "purpose": "Major section dividers, bento headings, and dark panel titles."
+      },
+      "title": {
+        "displayName": "Card & Route Title",
+        "purpose": "Route names, card headers, dialog titles, and list item headers."
+      },
+      "body": {
+        "displayName": "Editorial Body",
+        "purpose": "Continuous editorial copy, trace descriptions, news articles, and onboarding copy."
+      },
+      "label": {
+        "displayName": "Sporting Label",
+        "purpose": "Uppercase tracking labels, status badges, difficulty chips, and table headers."
+      }
+    },
+    "shadows": [
+      {
+        "name": "subtle-lift",
+        "value": "0 2px 8px -1px rgba(16, 18, 22, 0.06)",
+        "purpose": "Micro-elevation on card hover states."
+      },
+      {
+        "name": "dropdown-float",
+        "value": "0 10px 25px -5px rgba(16, 18, 22, 0.12)",
+        "purpose": "Floating navigation menus and popover filters."
+      },
+      {
+        "name": "modal-depth",
+        "value": "0 25px 50px -12px rgba(10, 12, 16, 0.35)",
+        "purpose": "Modal dialogs and mobile navigation drawers."
+      },
+      {
+        "name": "glow-crimson",
+        "value": "0 0 40px -10px rgba(224, 62, 62, 0.35)",
+        "purpose": "Accent glow on featured highlights."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-editorial",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Editorial motion signature: fast exponential ease-out for entrance reveals."
+      },
+      {
+        "name": "transition-fast",
+        "value": "150ms ease",
+        "purpose": "Default brisk hover and interactive state transitions."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Action Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "High-contrast brand crimson CTA for primary actions (join, register, submit).",
+      "html": "<button class=\"ds-btn-primary\">REJOINDRE LE PELOTON</button>",
+      "css": ".ds-btn-primary { background-color: #e03e3e; color: #ffffff; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 14px 28px; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 150ms cubic-bezier(0.16, 1, 0.3, 1), transform 150ms ease; } .ds-btn-primary:hover { background-color: #c93434; transform: translateY(-1px); } .ds-btn-primary:active { background-color: #aa1919; transform: translateY(0); } .ds-btn-primary:focus-visible { outline: 2px solid #e03e3e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Dark Outline Button",
+      "kind": "button",
+      "refersTo": "button-dark-outline",
+      "description": "Subtle outline action on dark ink hero covers and headers.",
+      "html": "<button class=\"ds-btn-dark-outline\">TÉLÉCHARGER LE GPX</button>",
+      "css": ".ds-btn-dark-outline { background-color: transparent; color: #f5f6f8; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 14px 28px; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 150ms ease, border-color 150ms ease; } .ds-btn-dark-outline:hover { background-color: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.5); } .ds-btn-dark-outline:focus-visible { outline: 2px solid #e03e3e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Paper Outline Button",
+      "kind": "button",
+      "refersTo": "button-paper-outline",
+      "description": "Clean bordered button for paper surfaces and content spreads.",
+      "html": "<button class=\"ds-btn-paper-outline\">VOIR LE PARCOURS</button>",
+      "css": ".ds-btn-paper-outline { background-color: #ffffff; color: #101216; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 12px 24px; border: 1px solid #e4e0d8; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 150ms ease, border-color 150ms ease; } .ds-btn-paper-outline:hover { background-color: #f2efe9; border-color: #101216; } .ds-btn-paper-outline:focus-visible { outline: 2px solid #e03e3e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Live Status Pill",
+      "kind": "chip",
+      "refersTo": "chip-status-live",
+      "description": "Full pill indicator for real-time status and upcoming rendez-vous.",
+      "html": "<div class=\"ds-chip-live\"><span class=\"ds-pulse-dot\"></span>PROCHAIN RENDEZ-VOUS</div>",
+      "css": ".ds-chip-live { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background-color: #f2efe9; border: 1px solid #e4e0d8; border-radius: 9999px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #101216; } .ds-pulse-dot { width: 8px; height: 8px; border-radius: 9999px; background-color: #e03e3e; animation: ds-pulse 2s infinite; } @keyframes ds-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }"
+    },
+    {
+      "name": "Difficulty Badge - Emerald",
+      "kind": "chip",
+      "refersTo": "chip-difficulty",
+      "description": "Route difficulty indicator pill for discovery and endurance loops.",
+      "html": "<span class=\"ds-badge-difficulty\">PARCOURS DÉCOUVERTE • 65 KM</span>",
+      "css": ".ds-badge-difficulty { display: inline-flex; align-items: center; padding: 4px 12px; background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 9999px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #065f46; }"
+    },
+    {
+      "name": "Paper Editorial Card",
+      "kind": "card",
+      "refersTo": "card-paper",
+      "description": "Raised crisp white card on paper ground with tabular metric block.",
+      "html": "<div class=\"ds-card-paper\"><div class=\"ds-card-header\"><span class=\"ds-card-tag\">SORTIE DU SAMEDI</span><span class=\"ds-card-date\">20 SEPT. 2026</span></div><h3 class=\"ds-card-title\">Boucle Brabançonne & Mont-Saint-Guibert</h3><div class=\"ds-card-metrics\"><div class=\"ds-metric\"><span class=\"ds-metric-value\">84</span><span class=\"ds-metric-unit\">KM</span></div><div class=\"ds-metric-divider\"></div><div class=\"ds-metric\"><span class=\"ds-metric-value\">720</span><span class=\"ds-metric-unit\">M D+</span></div><div class=\"ds-metric-divider\"></div><div class=\"ds-metric\"><span class=\"ds-metric-value\">26.5</span><span class=\"ds-metric-unit\">KM/H</span></div></div></div>",
+      "css": ".ds-card-paper { background-color: #ffffff; border: 1px solid #e4e0d8; border-radius: 10px; padding: 24px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; transition: border-color 150ms ease, box-shadow 150ms ease; } .ds-card-paper:hover { border-color: #e03e3e; box-shadow: 0 2px 8px -1px rgba(16, 18, 22, 0.06); } .ds-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; } .ds-card-tag { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #e03e3e; } .ds-card-date { font-size: 0.8125rem; color: #5c6370; font-variant-numeric: tabular-nums; } .ds-card-title { font-size: 1.25rem; font-weight: 600; line-height: 1.3; color: #101216; margin: 0 0 16px 0; } .ds-card-metrics { display: flex; align-items: center; background-color: #faf8f5; border: 1px solid #e4e0d8; border-radius: 6px; padding: 10px 16px; gap: 16px; } .ds-metric { display: flex; align-items: baseline; gap: 4px; } .ds-metric-value { font-size: 1.125rem; font-weight: 700; color: #101216; font-variant-numeric: tabular-nums; } .ds-metric-unit { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; color: #5c6370; } .ds-metric-divider { width: 1px; height: 18px; background-color: #e4e0d8; }"
+    },
+    {
+      "name": "Dark Bento Panel",
+      "kind": "card",
+      "refersTo": "card-dark",
+      "description": "Charcoal surface for member features, night spreads, and high-contrast bento cells.",
+      "html": "<div class=\"ds-card-dark\"><div class=\"ds-card-header\"><span class=\"ds-card-tag-dark\">ZONE MEMBRES</span><span class=\"ds-pulse-dot\"></span></div><h3 class=\"ds-card-title-dark\">Pointage Express Peloton</h3><p class=\"ds-card-body-dark\">Validez votre présence au départ du samedi en un clic via badge ou QR.</p></div>",
+      "css": ".ds-card-dark { background-color: #161922; border: 1px solid #262b38; border-radius: 10px; padding: 24px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; transition: border-color 150ms ease; } .ds-card-dark:hover { border-color: rgba(224, 62, 62, 0.5); } .ds-card-header { display: flex; justify-content: space-between; align-items: center; } .ds-card-tag-dark { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #e03e3e; } .ds-card-title-dark { font-size: 1.25rem; font-weight: 600; line-height: 1.3; color: #f5f6f8; margin: 12px 0 8px 0; } .ds-card-body-dark { font-size: 0.875rem; line-height: 1.5; color: #a7adbb; margin: 0; } .ds-pulse-dot { width: 8px; height: 8px; border-radius: 9999px; background-color: #e03e3e; animation: ds-pulse 2s infinite; }"
+    },
+    {
+      "name": "Form Input Field",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Crisp paper-ground input with brand red caret and crimson focus ring.",
+      "html": "<input type=\"text\" class=\"ds-input-field\" placeholder=\"Rechercher un parcours, un dénivelé...\" />",
+      "css": ".ds-input-field { width: 100%; box-sizing: border-box; background-color: #ffffff; color: #101216; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.875rem; padding: 10px 14px; border: 1px solid #e4e0d8; border-radius: 6px; caret-color: #e03e3e; transition: border-color 150ms ease, box-shadow 150ms ease; } .ds-input-field::placeholder { color: #5c6370; } .ds-input-field:focus { outline: none; border-color: #e03e3e; box-shadow: 0 0 0 2px rgba(224, 62, 62, 0.2); }"
+    },
+    {
+      "name": "Cycling Telemetry Strip",
+      "kind": "custom",
+      "refersTo": "telemetry-strip",
+      "description": "High-contrast dark telemetry strip with tabular numerals and hairline dividers.",
+      "html": "<div class=\"ds-telemetry-strip\"><div class=\"ds-telemetry-cell\"><span class=\"ds-telemetry-num\">95.4</span><span class=\"ds-telemetry-lbl\">DISTANCE (KM)</span></div><div class=\"ds-telemetry-bar\"></div><div class=\"ds-telemetry-cell\"><span class=\"ds-telemetry-num\">840</span><span class=\"ds-telemetry-lbl\">DÉNIVELÉ (M D+)</span></div><div class=\"ds-telemetry-bar\"></div><div class=\"ds-telemetry-cell\"><span class=\"ds-telemetry-num\">28.2</span><span class=\"ds-telemetry-lbl\">MOYENNE (KM/H)</span></div></div>",
+      "css": ".ds-telemetry-strip { display: flex; align-items: center; justify-content: space-between; background-color: #101216; border: 1px solid #262b38; border-radius: 8px; padding: 16px 24px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; } .ds-telemetry-cell { display: flex; flex-direction: column; align-items: center; } .ds-telemetry-num { font-size: 1.75rem; font-weight: 800; color: #f5f6f8; font-variant-numeric: tabular-nums; line-height: 1; } .ds-telemetry-lbl { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; color: #a7adbb; margin-top: 6px; } .ds-telemetry-bar { width: 1px; height: 36px; background-color: #262b38; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Editorial Peloton",
+    "overview": "The CC Saint-Martin Blanmont visual system is the Editorial Peloton: a cycling-magazine cover brought to the web. Warm paper grounds, deep ink covers, oversized uppercase Poppins headlines with tight tracking, aggressive brand-red accents, hard-cropped photography, hairline rules, and asymmetric 12-column bento grids. The interface reads like the season preview issue of a premier road-cycling publication and functions seamlessly as the club's digital operating hub.\n\nSurfaces establish rhythm through clear contrast: page covers, site mastheads, and footers adopt deep ink tones, while content spreads and reading surfaces dwell on warm paper grounds. Structure is achieved through 1px hairlines and calibrated whitespace rather than stacked cards and drop shadows. Numbers are treated as sacred artifacts of the sport: tabular numerals, sharp units, and prominent visual weight.",
+    "keyCharacteristics": [
+      "Editorial Cover Feel: High-contrast pairing of deep ink (#101216) covers and warm paper (#faf8f5) spreads.",
+      "Single Dominant Display: One commanding clamped uppercase Poppins headline per surface.",
+      "Full-Strength Accent: Brand red (#e03e3e) reserved strictly for action, live telemetry, and hover highlights.",
+      "Hairline Precision: 1px hairline borders (#e4e0d8 / #262b38) define structural boundaries without visual bloat.",
+      "Sporting Telemetry: Tabular figures (tabular-nums) with dedicated unit hierarchy for kilometers, elevation, and pacing.",
+      "Mobile Thumb Ergonomics: Minimum 44px touch targets across interactive controls and quick-action toolbars."
+    ],
+    "rules": [
+      {
+        "name": "The Full-Strength Red Rule",
+        "body": "Brand red (#e03e3e) is deployed strictly at full strength on calls-to-action, interactive hover triggers, and live status dots. It must never be diluted into broad pastel background washes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper & Ink Contrast Rule",
+        "body": "Never mix muddy mid-tone grays. A surface is either crisp ink or warm editorial paper. Hairlines define the boundary.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Cover Headline Rule",
+        "body": "Every primary surface features exactly one oversized, tightly-tracked cover display headline. Competing display headlines on the same viewport are prohibited.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Metric Rule",
+        "body": "All cycling metrics (km, m D+, km/h, time splits) must use tabular-nums. Numbers represent the sport — align them like stopwatch splits.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "Never place an uppercase kicker or eyebrow label directly above a major headline. Let the scale, weight, and negative space of the headline establish dominance.",
+        "section": "typography"
+      },
+      {
+        "name": "The Asymmetric Spread Rule",
+        "body": "Never compose a dashboard or landing page from identical, cookie-cutter cards. Vary cell span, height, and surface tone to construct an editorial narrative.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "All surfaces rest flat against their background. Shadows appear solely in response to elevation states (hover, focus, modal overlay).",
+        "section": "elevation"
+      },
+      {
+        "name": "The Hairline Depth Rule",
+        "body": "A 1px border (#e4e0d8 or #262b38) conveys precision boundaries faster and cleaner than a soft blur.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Status Pill Rule",
+        "body": "Pill radii (rounded-full) are reserved for status chips and tags. Buttons remain crisp (rounded-md, 6px) to maintain editorial structure.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Hard-Crop Rule",
+        "body": "Photography must feel like an intentional editorial photo desk crop: edge-to-edge, rectilinear, and framed boldly.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do write all user-facing copy in idiomatic French (e.g. 'Parcours', 'Sorties', 'Membres', 'Dénivelé', 'Télécharger GPX').",
+      "Do use Poppins (var(--font-poppins)) and Tailwind utility classes across all UI elements.",
+      "Do present cycling metrics (distance in km, elevation in m D+) prominently with tabular-nums.",
+      "Do design mobile-first with touch-friendly interactive targets (minimum 44px height).",
+      "Do let typography scale and whitespace structure pages instead of adding ornamental containers.",
+      "Do use 1px hairlines and tonal stepping to create visual hierarchy."
+    ],
+    "donts": [
+      "Don't place a kicker or eyebrow label above a headline — the headline speaks for itself.",
+      "Don't use decorative glassmorphism, gradient text, or colored drop-shadow halos.",
+      "Don't build pages as monotonous rows of identical cards; vary cell span, tone, and rhythm.",
+      "Don't use raw English terms in member interfaces (use 'Sortie du Samedi' instead of 'Saturday Ride', 'Parcours' instead of 'Traces').",
+      "Don't use full pill radii (rounded-full) on buttons; reserve pills strictly for status indicators.",
+      "Don't parse dates with naive UTC new Date('YYYY-MM-DD') which causes date shifts across timezones.",
+      "Don't render Leaflet maps without dynamic client-side loading (ssr: false)."
+    ]
+  }
+}

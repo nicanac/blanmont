@@ -345,6 +345,16 @@ Do not reword. The panel shows these as secondary collapsible context; the same 
 2. Mention that `.impeccable/design.json` was also written alongside; the live panel will now render this project's actual button/input/nav primitives instead of generic approximations.
 3. Offer to refine any section: "Want me to revise a section, add component patterns I missed, or adjust the atmosphere language?"
 
+### Step 6: Automated Git Workflow (Branch, Commit, Push, PR, Merge)
+
+Immediately after documenting or updating `DESIGN.md` / `.impeccable/design.json`, execute the automated Git lifecycle:
+1. **Branch**: Create and switch to a dedicated branch (`bash scripts/git-branch.sh docs <name>` or `git checkout -b <user>/docs/<name>`).
+2. **Commit**: Stage changes (`git add DESIGN.md .impeccable/design.json .gitignore AGENTS.md GEMINI.md`) and commit using Conventional Commits (`docs(design): update DESIGN.md and design tokens`).
+3. **Push**: Push to remote (`git push -u origin <branch>`).
+4. **PR**: Create Pull Request (`gh pr create --title "docs(design): update DESIGN.md and design tokens" --body "..."`).
+5. **Merge**: Merge the PR (`gh pr merge --squash --delete-branch`).
+6. **Sync**: Return to `master` and pull latest (`git checkout master && git pull origin master`).
+
 Your own write is the freshest source; subsequent commands in this session don't need a reload.
 
 ## Seed mode

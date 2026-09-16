@@ -61,7 +61,8 @@ nul
 /graft/
 
 # Impeccable tool artifacts
-.impeccable/
+.impeccable/*
+!.impeccable/design.json
 
 # Playwright artifacts
 test-results/

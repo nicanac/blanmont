@@ -26,6 +26,13 @@ Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS
 - **Styling**: Tailwind CSS v4 only. Strictly follow typographic roles in `DESIGN.md`. No CSS modules, no inline styles.
 - **Database**: Firebase RTDB is the single source of truth (Admin SDK on server, Client SDK on client).
 - **Reactive Updates**: Only add new rules here reactively when an error recurs, never preemptively.
+- **Documentation Git Automation**: Whenever documenting design system changes (`/impeccable document` or updates to `DESIGN.md` / `.impeccable/design.json`), automatically execute the full Git flow:
+  1. Branch: create a branch following conventions (`bash scripts/git-branch.sh docs <name>` or `<user>/docs/<name>`).
+  2. Commit: commit using Conventional Commits (`docs(design): ...`).
+  3. Push: push the branch to remote (`git push -u origin <branch>`).
+  4. PR: create a Pull Request via GitHub CLI (`gh pr create`).
+  5. Merge: merge the PR (`gh pr merge --squash --delete-branch`).
+  6. Sync: return to `master` and sync (`git checkout master && git pull origin master`).
 
 ## Codebase Navigation (Graft)
 
