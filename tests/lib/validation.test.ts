@@ -7,6 +7,14 @@ import {
   SubmitFeedbackSchema,
   LoginSchema,
   AccountActivationSchema,
+  validateImageFile,
+  UploadMapPreviewSchema,
+  GenerateMapPreviewSchema,
+  FetchStravaActivitySchema,
+  FetchGarminActivitySchema,
+  ImportStravaTraceSchema,
+  AddTraceApiSchema,
+  ParseGpxApiSchema,
   safeValidate,
   validateFormData,
 } from '@/app/lib/validation';
@@ -170,4 +178,129 @@ describe('validation schemas & helpers', () => {
       }
     });
   });
+
+  describe('validateImageFile helper', () => {
+    it('accepts valid JPEG, PNG, and WebP files under 5MB', () => {
+      const validJpg = new File(['dummy'], 'photo.jpg', { type: 'image/jpeg' });
+      const validPng = new File(['dummy'], 'photo.png', { type: 'image/png' });
+      const validWebp = new File(['dummy'], 'photo.webp', { type: 'image/webp' });
+
+      expect(validateImageFile(validJpg).success).toBe(true);
+      expect(validateImageFile(validPng).success).toBe(true);
+      expect(validateImageFile(validWebp).success).toBe(true);
+    });
+
+    it('rejects disallowed image formats (e.g. GIF, PDF)', () => {
+      const gif = new File(['dummy'], 'anim.gif', { type: 'image/gif' });
+      const pdf = new File(['dummy'], 'doc.pdf', { type: 'application/pdf' });
+
+      expect(validateImageFile(gif).success).toBe(false);
+      expect(validateImageFile(pdf).success).toBe(false);
+    });
+
+    it('rejects files larger than 5MB', () => {
+      // Mock large file > 5MB
+      const largeFile = {
+        size: 6 * 1024 * 1024,
+        type: 'image/jpeg',
+      } as unknown as File;
+
+      const result = validateImageFile(largeFile);
+      expect(result.success).toBe(false);
+    });
+  });
+
+  describe('Map Preview Schemas', () => {
+    it('validates UploadMapPreviewSchema with valid URL', () => {
+      expect(
+        safeValidate(UploadMapPreviewSchema, {
+          traceId: 'trace-1',
+          imageUrl: 'https://example.com/map.jpg',
+        }).success
+      ).toBe(true);
+
+      expect(
+        safeValidate(UploadMapPreviewSchema, {
+          traceId: 'trace-1',
+          imageUrl: 'not-a-url',
+        }).success
+      ).toBe(false);
+    });
+
+    it('validates GenerateMapPreviewSchema requires traceId', () => {
+      expect(safeValidate(GenerateMapPreviewSchema, { traceId: 'tr-1' }).success).toBe(true);
+      expect(safeValidate(GenerateMapPreviewSchema, { traceId: '' }).success).toBe(false);
+    });
+  });
+
+  describe('Import Activity Schemas (Strava & Garmin)', () => {
+    it('validates FetchStravaActivitySchema regex', () => {
+      expect(
+        safeValidate(FetchStravaActivitySchema, {
+          url: 'https://www.strava.com/activities/1234567890',
+        }).success
+      ).toBe(true);
+
+      expect(
+        safeValidate(FetchStravaActivitySchema, {
+          url: 'https://other-site.com/activity/123',
+        }).success
+      ).toBe(false);
+    });
+
+    it('validates FetchGarminActivitySchema regex', () => {
+      expect(
+        safeValidate(FetchGarminActivitySchema, {
+          url: 'https://connect.garmin.com/modern/activity/987654321',
+        }).success
+      ).toBe(true);
+
+      expect(
+        safeValidate(FetchGarminActivitySchema, {
+          url: 'https://connect.garmin.com/wrong/path',
+        }).success
+      ).toBe(false);
+    });
+
+    it('validates ImportStravaTraceSchema with activity object', () => {
+      const validPayload = {
+        activity: {
+          id: 12345,
+          name: 'Morning Ride',
+          distance: 65400,
+          total_elevation_gain: 450,
+        },
+        overrides: {
+          name: 'Sortie du Samedi',
+          surface: 'Road',
+        },
+      };
+      expect(safeValidate(ImportStravaTraceSchema, validPayload).success).toBe(true);
+    });
+  });
+
+  describe('Admin API Schemas', () => {
+    it('validates AddTraceApiSchema fields', () => {
+      const validTrace = {
+        name: 'Grand Tour',
+        date: '2026-05-15',
+        distance: 80,
+        elevation: 600,
+        status: 'Done' as const,
+      };
+      expect(safeValidate(AddTraceApiSchema, validTrace).success).toBe(true);
+
+      const invalidDate = {
+        ...validTrace,
+        date: '15/05/2026',
+      };
+      expect(safeValidate(AddTraceApiSchema, invalidDate).success).toBe(false);
+    });
+
+    it('validates ParseGpxApiSchema requires a valid URL', () => {
+      expect(safeValidate(ParseGpxApiSchema, { url: 'https://example.com/route.gpx' }).success).toBe(true);
+      expect(safeValidate(ParseGpxApiSchema, { url: 'bad-url' }).success).toBe(false);
+    });
+  });
 });
+
