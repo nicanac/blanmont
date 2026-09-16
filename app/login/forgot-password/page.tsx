@@ -86,7 +86,7 @@ export default function ForgotPasswordPage(): React.ReactElement {
                   {message.type === 'success' ? (
                     <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
                   ) : (
-                    <ExclamationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+                    <ExclamationCircleIcon className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
                   )}
                   <span className="leading-relaxed">{message.text}</span>
                 </div>
@@ -94,7 +94,7 @@ export default function ForgotPasswordPage(): React.ReactElement {
                 {directLink && (
                   <a
                     href={directLink}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-stone-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
                   >
                     <span>Définir mon mot de passe maintenant</span>
                     <ArrowRightIcon className="h-4 w-4" />
