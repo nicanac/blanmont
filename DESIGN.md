@@ -89,6 +89,16 @@ components:
     backgroundColor: "{colors.ink-panel}"
     rounded: "{rounded.lg}"
     padding: "20px"
+  chip-paper:
+    backgroundColor: "{colors.paper-dim}"
+    textColor: "{colors.ink-body}"
+    rounded: "{rounded.full}"
+    padding: "4px 12px"
+  input-text:
+    backgroundColor: "{colors.paper-card}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.md}"
+    padding: "10px 14px"
 ---
 
 # Design System: CC Saint-Martin Blanmont
