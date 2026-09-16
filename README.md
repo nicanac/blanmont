@@ -22,7 +22,7 @@ Sidereal Satellite is the digital hub for the **Club de Blanmont**. It provides 
 ## Tech Stack
 
 - **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS v4.
-- **Database**: Firebase Realtime Database (RTDB) via Admin SDK (server) & Client SDK (client). Full details in [DATABASE.md](DATABASE.md).
+- **Database**: Firebase Realtime Database (RTDB) via Admin SDK (server) & Client SDK (client). Full details in [docs/database.md](docs/database.md).
 - **Authentication**: Firebase Authentication.
 - **Storage**: Cloudinary & Firebase Storage.
 - **State**: React Context (`AuthContext`) + Server Actions.
@@ -32,29 +32,23 @@ Sidereal Satellite is the digital hub for the **Club de Blanmont**. It provides 
 ## Getting Started
 
 1. **Environment Setup**:
-   Create a `.env.local` file with the required Firebase, Cloudinary, and optional Notion credentials (refer to [DATABASE.md](DATABASE.md) for full specification).
+   Create a `.env.local` file with the required Firebase, Cloudinary, and optional Notion credentials (refer to [docs/database.md](docs/database.md) for full specification).
 
-    2.  **Run Development Server**:
-        ```bash
-        npm run dev
-        ```
-        Open [http://localhost:3000](http://localhost:3000).
+2. **Run Development Server**:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000).
 
-    ## Project Documentation
+## Project Documentation
 
-<<<<<<< Updated upstream
-- `/app`: Next.js App Router source.
-  - `/lib/notion.ts`: **Core Data Layer**. All Notion API calls live here.
-  - `/components`: Reusable UI components.
-  - `/calendrier`: Calendar feature.
-  - `/le-club`: Club info feature.
-  - `/saturday-ride`: Voting feature.
-  - `/traces`: Route catalog feature.
-=======
-    -   [DATABASE.md](DATABASE.md) — Comprehensive guide on database architecture, schemas, access layers, caching, and scripts.
-    -   [AI_CONTEXT.md](AI_CONTEXT.md) — Context and technical conventions for development.
-    -   [DESIGN.md](DESIGN.md) — Design tokens, color palette, typography, and styling standards.
->>>>>>> Stashed changes
+- [docs/architecture.md](docs/architecture.md) — Application overview, core business logic, and flows.
+- [docs/database.md](docs/database.md) — Comprehensive guide on database architecture, schemas, and scripts.
+- [DESIGN.md](DESIGN.md) — Design tokens, color palette, typography, and styling standards.
+- [docs/admin-guide.md](docs/admin-guide.md) — Administration onboarding, permissions, and security.
+- [docs/validation.md](docs/validation.md) — Input validation schemas with Zod.
+- [docs/code-review.md](docs/code-review.md) — Code quality audits and checklists.
+- [PRODUCT.md](PRODUCT.md) — Product vision and target personas.
 
 ## Contributing
 
