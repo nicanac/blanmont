@@ -657,24 +657,24 @@ export default function CalendarDrawer({
                 </div>
 
                 {/* Primary Route Action Bar */}
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {event.gpxUrl ? (
                     <a
                       href={event.gpxUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="min-h-[44px] flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors"
+                      className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-3 sm:px-5 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-2xs transition-colors text-center"
                       title="Télécharger ou ouvrir l'itinéraire officiel"
                     >
-                      <ArrowDownTrayIcon className="h-4 w-4" />
-                      <span>
+                      <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />
+                      <span className="truncate">
                         {event.gpxUrl.includes('strava.com')
-                          ? 'Ouvrir l\'itinéraire sur Strava'
+                          ? 'Itinéraire Strava'
                           : event.gpxUrl.includes('garmin.com')
-                            ? 'Ouvrir le parcours Garmin Connect'
+                            ? 'Parcours Garmin'
                             : event.gpxUrl.includes('komoot')
-                              ? 'Ouvrir le circuit Komoot'
-                              : 'Télécharger la trace GPX (GPS)'}
+                              ? 'Circuit Komoot'
+                              : 'Trace GPX (GPS)'}
                       </span>
                     </a>
                   ) : null}
@@ -683,20 +683,23 @@ export default function CalendarDrawer({
                     href={mapsLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] hover:border-[#101216]/30 dark:hover:border-white/30 text-[#101216] dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-colors"
+                    className={cn(
+                      'min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] hover:border-[#101216]/30 dark:hover:border-white/30 text-[#101216] dark:text-white px-3 sm:px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-colors',
+                      !event.gpxUrl && 'sm:col-span-2'
+                    )}
                     title="Localiser le point de départ dans Google Maps"
                   >
-                    <MapPinIcon className="h-4 w-4 text-[#e03e3e]" />
+                    <MapPinIcon className="h-4 w-4 text-[#e03e3e] shrink-0" />
                     <span>Point GPS Maps</span>
-                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
+                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
                   </a>
                 </div>
 
                 {/* Meeting Point Card */}
-                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-5 space-y-3">
+                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-3.5 sm:p-5 space-y-2 sm:space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shadow-2xs">
+                      <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-md bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shadow-2xs shrink-0">
                         <MapPinIcon className="h-4 w-4" />
                       </div>
                       <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
@@ -705,7 +708,7 @@ export default function CalendarDrawer({
                     </div>
                   </div>
 
-                  <div className="space-y-1 pl-10 text-xs">
+                  <div className="space-y-1 pl-0 sm:pl-9 text-xs">
                     <div className="font-bold text-[#101216] dark:text-white text-sm">
                       {event.location}
                     </div>
@@ -723,26 +726,26 @@ export default function CalendarDrawer({
 
                 {/* Remarks & Alternatives */}
                 {(event.remarks || event.alternative) && (
-                  <div className="space-y-3">
+                  <div className="space-y-2.5 sm:space-y-3">
                     {event.remarks && (
-                      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-5 space-y-2">
+                      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-3.5 sm:p-5 space-y-2">
                         <div className="flex items-center gap-2 text-xs font-bold text-[#101216] dark:text-white uppercase tracking-wider">
-                          <InformationCircleIcon className="h-4 w-4 text-[#e03e3e]" />
+                          <InformationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0" />
                           <span>Consignes & Remarques du club</span>
                         </div>
-                        <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed pl-6">
+                        <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed pl-0 sm:pl-6">
                           {event.remarks}
                         </p>
                       </div>
                     )}
 
                     {event.alternative && (
-                      <div className="rounded-lg border border-amber-200 dark:border-amber-900/40 bg-amber-50/50 dark:bg-amber-950/20 p-5 space-y-2">
+                      <div className="rounded-lg border border-amber-200 dark:border-amber-900/40 bg-amber-50/50 dark:bg-amber-950/20 p-3.5 sm:p-5 space-y-2">
                         <div className="text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-2">
-                          <span className="h-2 w-2 rounded-full bg-amber-500" />
+                          <span className="h-2 w-2 rounded-full bg-amber-500 shrink-0" />
                           <span>Option Alternative / Raccourci proposé</span>
                         </div>
-                        <p className="text-xs text-[#3a3f4a] dark:text-amber-200/80 leading-relaxed pl-4">
+                        <p className="text-xs text-[#3a3f4a] dark:text-amber-200/80 leading-relaxed pl-0 sm:pl-4">
                           {event.alternative}
                         </p>
                       </div>
@@ -751,10 +754,10 @@ export default function CalendarDrawer({
                 )}
 
                 {/* Attendees Roster */}
-                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-5 space-y-4">
+                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-3.5 sm:p-5 space-y-3 sm:space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
                     <div className="flex items-center gap-2">
-                      <UserGroupIcon className="h-4 w-4 text-[#101216] dark:text-white" />
+                      <UserGroupIcon className="h-4 w-4 text-[#101216] dark:text-white shrink-0" />
                       <h3 className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
                         Peloton au Départ ({attendees.length})
                       </h3>
@@ -764,13 +767,13 @@ export default function CalendarDrawer({
                       href="/sondage"
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
                     >
-                      <CheckCircleIcon className="h-4 w-4" />
+                      <CheckCircleIcon className="h-4 w-4 shrink-0" />
                       <span>{eventDone ? 'Consulter le sondage' : 'Gérer ma présence / Répondre au sondage'}</span>
                     </Link>
                   </div>
 
                   {attendees.length > 0 ? (
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {Object.entries(groupedAttendees).map(([groupName, members]) => (
                         <div key={groupName} className="space-y-2">
                           <div className="flex items-center gap-2">
@@ -788,7 +791,7 @@ export default function CalendarDrawer({
                                   key={idx}
                                   className="flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3 py-2 text-xs text-[#101216] dark:text-white shadow-2xs"
                                 >
-                                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-[10px] font-bold text-white shrink-0 select-none">
+                                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
                                     {getInitials(att.name)}
                                   </span>
                                   <span className="font-semibold truncate">{att.name}</span>
