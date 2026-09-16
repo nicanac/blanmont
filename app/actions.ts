@@ -244,6 +244,7 @@ export async function deleteWeekendPollAction(id: string) {
 }
 
 import { getSaturdaySortieDetails, type SaturdaySortieInfo } from './lib/sondage-helpers';
+import { autoCreateUpcomingWeekendPoll, type AutoCreatePollResult } from './lib/sondage-automation';
 
 /**
  * Server Action to fetch Saturday ride details and precalculated poll suggestions.
@@ -251,6 +252,22 @@ import { getSaturdaySortieDetails, type SaturdaySortieInfo } from './lib/sondage
 export async function getSaturdaySortieInfoAction(isoDate?: string): Promise<SaturdaySortieInfo> {
   await requireAdminSession();
   return getSaturdaySortieDetails(isoDate);
+}
+
+/**
+ * Admin Server Action to manually trigger the automated weekend poll creation workflow.
+ */
+export async function triggerAutoCreateWeekendPollAction(
+  options?: { force?: boolean }
+): Promise<AutoCreatePollResult> {
+  await requireAdminSession();
+  const result = await autoCreateUpcomingWeekendPoll(options);
+  if (!result.success) {
+    throw new Error(result.error || result.message || 'Échec de la génération automatique.');
+  }
+  revalidatePath('/sondage');
+  revalidatePath('/admin/sondages');
+  return result;
 }
 
 import { validateUser } from './lib/firebase';

@@ -42,12 +42,27 @@ export async function getActiveWeekendPoll(): Promise<WeekendPoll | null> {
 
     if (activePolls.length === 0) return null;
 
-    // Return the one with closest weekend date
-    return activePolls.sort((a, b) => a.weekendIsoDate.localeCompare(b.weekendIsoDate))[0];
+    // Prefer upcoming or current weekend poll (>= today)
+    const today = new Date().toISOString().split('T')[0];
+    const upcomingActive = activePolls.filter((p) => p.weekendIsoDate >= today);
+    if (upcomingActive.length > 0) {
+      return upcomingActive.sort((a, b) => a.weekendIsoDate.localeCompare(b.weekendIsoDate))[0];
+    }
+
+    // Otherwise fallback to most recent active poll
+    return activePolls.sort((a, b) => b.weekendIsoDate.localeCompare(a.weekendIsoDate))[0];
   } catch (error) {
     console.error('Failed to fetch active weekend poll:', error);
     return null;
   }
+}
+
+/**
+ * Fetches a weekend poll matching a specific weekend ISO date.
+ */
+export async function getWeekendPollByDate(isoDate: string): Promise<WeekendPoll | null> {
+  const polls = await getAllWeekendPolls();
+  return polls.find((p) => p.weekendIsoDate === isoDate) || null;
 }
 
 /**
