@@ -788,7 +788,7 @@ export default function CalendarDrawer({
                                   key={idx}
                                   className="flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3 py-2 text-xs text-[#101216] dark:text-white shadow-2xs"
                                 >
-                                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-[10px] font-bold text-white shrink-0 select-none">
+                                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
                                     {getInitials(att.name)}
                                   </span>
                                   <span className="font-semibold truncate">{att.name}</span>
@@ -966,7 +966,7 @@ export default function CalendarDrawer({
                                       </span>
                                     )}
                                   </div>
-                                  <span className="text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
+                                  <span className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                                     {revDate}
                                   </span>
                                 </div>
@@ -993,28 +993,28 @@ export default function CalendarDrawer({
                             {/* Evaluation Tags Strip */}
                             <div className="flex flex-wrap items-center gap-1.5 pt-1">
                               {rev.effort && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-[11px] font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
                                   <span>Effort :</span>
                                   <span className="capitalize">{rev.effort}</span>
                                 </span>
                               )}
 
                               {rev.pace && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-[11px] font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
                                   <span>Allure :</span>
                                   <span className="capitalize">{rev.pace.replace('-', ' ')}</span>
                                 </span>
                               )}
 
                               {rev.roadCondition && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-[11px] font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
                                   <span>Route :</span>
                                   <span className="capitalize">{rev.roadCondition}</span>
                                 </span>
                               )}
 
                               {rev.weatherEncountered && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-[11px] font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
                                   <span>Météo :</span>
                                   <span className="capitalize">{rev.weatherEncountered}</span>
                                 </span>
@@ -1046,7 +1046,7 @@ export default function CalendarDrawer({
                                 <button
                                   type="button"
                                   onClick={() => handleDeleteReview(rev.memberId)}
-                                  className="text-[11px] font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-rose-600 transition-colors"
+                                  className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-rose-600 transition-colors cursor-pointer"
                                 >
                                   Supprimer
                                 </button>
@@ -1073,23 +1073,26 @@ export default function CalendarDrawer({
           </div>
 
           {/* ──── Footer ──── */}
-          <div className="p-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex justify-between items-center bg-[#faf8f5] dark:bg-[#101216] shrink-0">
+          <div className="p-3 sm:p-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between gap-3 bg-[#faf8f5] dark:bg-[#101216] shrink-0">
             {mounted && isAdmin ? (
               <Link
                 href={`/admin/events/${event.id}/edit`}
-                className="min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#101216] dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-[#101216] hover:bg-[#161922] dark:hover:bg-slate-200 transition-colors"
+                className="min-h-[44px] flex-1 sm:flex-initial inline-flex items-center justify-center rounded-md bg-[#101216] dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-[#101216] hover:bg-[#161922] dark:hover:bg-slate-200 transition-colors"
               >
-                <PencilSquareIcon className="h-4 w-4 mr-1.5" />
+                <PencilSquareIcon className="h-4 w-4 mr-1.5 shrink-0" />
                 <span>Modifier dans l&apos;admin</span>
               </Link>
             ) : (
-              <div />
+              <div className="hidden sm:block" />
             )}
 
             <button
               type="button"
               onClick={onClose}
-              className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-6 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-[#faf8f5] dark:hover:bg-[#262b38] hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors"
+              className={cn(
+                'min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-6 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-[#faf8f5] dark:hover:bg-[#262b38] hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors cursor-pointer',
+                (!mounted || !isAdmin) && 'w-full sm:w-auto'
+              )}
             >
               Fermer
             </button>
