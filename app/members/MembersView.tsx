@@ -60,18 +60,18 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
         {/* Search input */}
         <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un membre, un rôle..."
-            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#7d8493] hover:text-[#101216]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#5c6370] hover:text-[#101216]"
             >
               Effacer
             </button>
@@ -89,7 +89,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             }`}
           >
             <span>Tous</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#7d8493]'}`}>
+            <span className={`text-xs tabular-nums ${selectedFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
               ({members.length})
             </span>
           </button>
@@ -103,7 +103,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             }`}
           >
             <span>Bureau &amp; Comité</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'bureau' ? 'text-white/80' : 'text-[#7d8493]'}`}>
+            <span className={`text-xs tabular-nums ${selectedFilter === 'bureau' ? 'text-white/80' : 'text-[#5c6370]'}`}>
               ({bureauCount})
             </span>
           </button>
@@ -117,7 +117,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             }`}
           >
             <span>Capitaines de Route</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'capitaines' ? 'text-white/80' : 'text-[#7d8493]'}`}>
+            <span className={`text-xs tabular-nums ${selectedFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370]'}`}>
               ({captainsCount})
             </span>
           </button>
@@ -134,7 +134,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
       ) : (
         /* Empty State */
         <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center space-y-3">
-          <UsersIcon className="mx-auto h-12 w-12 text-[#7d8493]" />
+          <UsersIcon className="mx-auto h-12 w-12 text-[#5c6370]" />
           <h3 className="text-base font-bold text-[#101216]">Aucun membre trouvé</h3>
           <p className="text-xs sm:text-sm text-[#5c6370] max-w-sm mx-auto">
             Aucun membre ne correspond à votre recherche « {search} ». Essayez de réinitialiser vos filtres.

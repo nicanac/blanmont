@@ -32,12 +32,6 @@ export default function SurrealInvitationCrescendo() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-10 sm:space-y-12">
-        {/* Top Floating Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-[0.2em] text-[#a7adbb]">
-          <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-ping" />
-          <span>Essai Libre &amp; Sans Engagement</span>
-        </div>
-
         {/* Monumental Headline */}
         <div className="space-y-4 max-w-4xl mx-auto">
           <h2 className="text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold uppercase tracking-[-0.035em] leading-[0.94] text-balance">

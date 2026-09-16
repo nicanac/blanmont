@@ -9,6 +9,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
@@ -115,7 +116,7 @@ export default function NewBlogPostPage(): React.ReactElement {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/blog"
-            className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+            className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
             title="Retour à la liste des articles"
           >
             <ArrowLeftIcon className="h-5 w-5" />
@@ -169,7 +170,7 @@ export default function NewBlogPostPage(): React.ReactElement {
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2.5 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+              className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2.5 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
               placeholder="Ex: Sortie d'automne en Brabant wallon & pause café"
             />
           </div>
@@ -203,7 +204,7 @@ export default function NewBlogPostPage(): React.ReactElement {
               rows={2}
               value={formData.excerpt}
               onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-              className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2.5 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors leading-relaxed"
+              className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2.5 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors leading-relaxed"
               placeholder="1 à 2 phrases résumant l'article, affichées sur la page d'accueil et les partages..."
             />
           </div>
@@ -217,8 +218,10 @@ export default function NewBlogPostPage(): React.ReactElement {
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="flex-1">
                   <input
+                    id="blog-new-file-upload"
                     type="file"
                     accept="image/*"
+                    aria-label="Téléverser une image de couverture"
                     onChange={handleImageSelect}
                     disabled={isImageUploading}
                     className="block w-full text-xs text-[#5c6370] file:mr-4 file:rounded-md file:border-0 file:bg-[#101216] file:px-4 file:py-2 file:text-xs file:font-semibold file:text-white hover:file:bg-[#262b38] file:transition-colors file:cursor-pointer"
@@ -227,9 +230,10 @@ export default function NewBlogPostPage(): React.ReactElement {
                 <input
                   type="text"
                   id="coverImage"
+                  aria-label="URL de l'image de couverture"
                   value={formData.coverImage}
                   onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  className="flex-1 rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2 text-xs text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+                  className="flex-1 rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2 text-xs text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
                   placeholder="Ou collez directement une URL d'image (https://...)"
                 />
               </div>
@@ -245,12 +249,16 @@ export default function NewBlogPostPage(): React.ReactElement {
 
               {formData.coverImage && (
                 <div className="mt-2 relative group w-fit">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={formData.coverImage}
-                    alt="Prévisualisation couverture"
-                    className="h-48 w-auto rounded-md object-cover border border-[#e4e0d8] shadow-xs"
-                  />
+                  <div className="relative h-48 w-72 rounded-md overflow-hidden border border-[#e4e0d8] shadow-xs">
+                    <Image
+                      src={formData.coverImage}
+                      alt="Prévisualisation couverture"
+                      fill
+                      unoptimized
+                      className="object-cover"
+                      sizes="288px"
+                    />
+                  </div>
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, coverImage: '' })}

@@ -10,6 +10,8 @@ import {
   LightBulbIcon,
 } from '@heroicons/react/24/outline';
 
+import { useFocusTrap } from '@/app/hooks/useFocusTrap';
+
 interface StatisticsTutorialModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -22,21 +24,18 @@ export default function StatisticsTutorialModal({
   onStartTour,
 }: StatisticsTutorialModalProps): React.ReactElement | null {
   const [activeTab, setActiveTab] = useState<'metrics' | 'evolution' | 'reports'>('metrics');
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="stats-tutorial-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity"
@@ -54,10 +53,10 @@ export default function StatisticsTutorialModal({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
+                <h2 id="stats-tutorial-title" className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide des Statistiques &amp; Analyses
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/40 px-2 py-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/40 px-2.5 py-0.5">
                   Analytics
                 </span>
               </div>
@@ -70,9 +69,9 @@ export default function StatisticsTutorialModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1.5 text-[#7d8493] hover:bg-white/10 hover:text-white transition-colors"
+            aria-label="Fermer le guide"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white transition-colors"
           >
-            <span className="sr-only">Fermer</span>
             <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
@@ -85,7 +84,7 @@ export default function StatisticsTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'metrics'
                 ? 'border-purple-400 text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <ChartBarIcon className="h-4 w-4 text-purple-400" />
@@ -97,7 +96,7 @@ export default function StatisticsTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'evolution'
                 ? 'border-purple-400 text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <ArrowTrendingUpIcon className="h-4 w-4 text-emerald-400" />
@@ -109,7 +108,7 @@ export default function StatisticsTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'reports'
                 ? 'border-purple-400 text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <TrophyIcon className="h-4 w-4 text-amber-400" />

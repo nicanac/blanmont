@@ -163,7 +163,7 @@ export default function Navbar(): React.ReactElement {
                     <span className="text-xl font-extrabold uppercase tracking-[-0.02em] text-[#101216] dark:text-white font-sans">
                       Blan<span className="text-[#e03e3e]">mont</span>
                     </span>
-                    <span className="hidden md:inline-block text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#7d8493] border-l border-[#e4e0d8] dark:border-white/15 pl-2.5 leading-tight">
+                    <span className="hidden md:inline-block text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb] border-l border-[#e4e0d8] dark:border-white/15 pl-2.5 leading-tight">
                       Cyclo Club
                       <br />
                       Saint-Martin
@@ -191,7 +191,7 @@ export default function Navbar(): React.ReactElement {
                           <span>Le Club</span>
                           <ChevronDownIcon
                             className={cn(
-                              clubOpen ? 'text-[#e03e3e] rotate-180' : 'text-[#7d8493]',
+                              clubOpen ? 'text-[#e03e3e] rotate-180' : 'text-[#5c6370]',
                               'h-3.5 w-3.5 transition duration-150 ease-in-out group-hover:text-[#101216] dark:group-hover:text-white'
                             )}
                             aria-hidden="true"
@@ -213,7 +213,7 @@ export default function Navbar(): React.ReactElement {
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 sm:p-5">
                                 {/* Column 1: Découvrir le Club */}
                                 <div className="space-y-1">
-                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb] px-2.5 py-1">
+                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb] px-2.5 py-1">
                                     Découvrir le Club
                                   </p>
                                   {clubDiscover.map((item) => {
@@ -252,9 +252,9 @@ export default function Navbar(): React.ReactElement {
                                             >
                                               {item.name}
                                             </p>
-                                            <ChevronRightIcon className="h-3.5 w-3.5 text-[#7d8493] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
+                                            <ChevronRightIcon className="h-3.5 w-3.5 text-[#5c6370] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
                                           </div>
-                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493] leading-snug">
+                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb] leading-snug">
                                             {item.description}
                                           </p>
                                         </div>
@@ -265,7 +265,7 @@ export default function Navbar(): React.ReactElement {
 
                                 {/* Column 2: Vie du Club */}
                                 <div className="space-y-1">
-                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb] px-2.5 py-1">
+                                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb] px-2.5 py-1">
                                     Vie du Club &amp; Activités
                                   </p>
                                   {clubLife.map((item) => {
@@ -304,9 +304,9 @@ export default function Navbar(): React.ReactElement {
                                             >
                                               {item.name}
                                             </p>
-                                            <ChevronRightIcon className="h-3.5 w-3.5 text-[#7d8493] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
+                                            <ChevronRightIcon className="h-3.5 w-3.5 text-[#5c6370] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#e03e3e] transition-all duration-150 shrink-0" />
                                           </div>
-                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493] leading-snug">
+                                          <p className="mt-0.5 text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb] leading-snug">
                                             {item.description}
                                           </p>
                                         </div>
@@ -331,7 +331,7 @@ export default function Navbar(): React.ReactElement {
                                         Gratuit
                                       </span>
                                     </div>
-                                    <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493] mt-0.5 leading-snug">
+                                    <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb] mt-0.5 leading-snug">
                                       Venez rouler avec le peloton sans engagement avant d&apos;adhérer.
                                     </p>
                                   </div>
@@ -414,7 +414,7 @@ export default function Navbar(): React.ReactElement {
                           </span>
                           <ChevronDownIcon
                             className={cn(
-                              open ? 'text-[#e03e3e] rotate-180' : 'text-[#7d8493]',
+                              open ? 'text-[#e03e3e] rotate-180' : 'text-[#5c6370]',
                               'h-3.5 w-3.5 transition-transform duration-200 ease-in-out group-hover:text-[#101216] dark:group-hover:text-white'
                             )}
                             aria-hidden="true"
@@ -433,7 +433,7 @@ export default function Navbar(): React.ReactElement {
                             <div className="overflow-hidden rounded-md shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922]">
                               <div className="relative grid gap-2 px-3 py-3 sm:p-4">
                                 <div className="p-3 border-b border-[#e4e0d8] dark:border-[#262b38] pb-4 mb-1">
-                                  <p className="text-xs text-[#5c6370] dark:text-[#7d8493]">Connecté en tant que</p>
+                                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Connecté en tant que</p>
                                   <p className="text-sm font-semibold text-[#101216] dark:text-white truncate">
                                     {user?.name}
                                   </p>
@@ -454,7 +454,7 @@ export default function Navbar(): React.ReactElement {
                                       <p className="text-sm font-semibold text-[#101216] dark:text-white">
                                         {item.name}
                                       </p>
-                                      <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493]">
+                                      <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#a7adbb]">
                                         {item.description}
                                       </p>
                                     </div>
@@ -473,7 +473,7 @@ export default function Navbar(): React.ReactElement {
                                     <p className="text-sm font-semibold text-[#e03e3e]">
                                       Se déconnecter
                                     </p>
-                                    <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#7d8493]">Fermer la session</p>
+                                    <p className="mt-0.5 text-xs text-[#5c6370] dark:text-[#a7adbb]">Fermer la session</p>
                                   </div>
                                 </button>
                               </div>
@@ -545,7 +545,7 @@ export default function Navbar(): React.ReactElement {
               <div className="p-3 space-y-4">
                 {/* 1. Sorties & Activités */}
                 <div>
-                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Sorties &amp; Activités
                   </p>
                   <div className="space-y-0.5 mt-1">
@@ -576,7 +576,7 @@ export default function Navbar(): React.ReactElement {
                               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
                           ) : (
-                            <ChevronRightIcon className="h-4 w-4 text-[#7d8493]" />
+                            <ChevronRightIcon className="h-4 w-4 text-[#5c6370]" />
                           )}
                         </PopoverButton>
                       );
@@ -586,7 +586,7 @@ export default function Navbar(): React.ReactElement {
 
                 {/* 2. Le Club (Featured Card + Submenu Accordion) */}
                 <div>
-                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Le Club
                   </p>
 
@@ -606,10 +606,10 @@ export default function Navbar(): React.ReactElement {
                             <span className="text-xs font-bold text-[#101216] dark:text-white">Rejoindre le Club</span>
                             <span className="text-[0.5625rem] font-bold uppercase tracking-wider text-[#e03e3e] bg-[#e03e3e]/10 px-1.5 py-0.5 rounded">3 essais</span>
                           </div>
-                          <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#7d8493]">Sorties d&apos;essai gratuites &amp; adhésion</p>
+                          <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb]">Sorties d&apos;essai gratuites &amp; adhésion</p>
                         </div>
                       </div>
-                      <ChevronRightIcon className="h-4 w-4 text-[#7d8493] group-hover:text-[#e03e3e] group-hover:translate-x-0.5 transition-all shrink-0" />
+                      <ChevronRightIcon className="h-4 w-4 text-[#5c6370] group-hover:text-[#e03e3e] group-hover:translate-x-0.5 transition-all shrink-0" />
                     </PopoverButton>
                   </div>
 
@@ -636,7 +636,7 @@ export default function Navbar(): React.ReactElement {
                                 <item.icon className="h-3.5 w-3.5" />
                               </div>
                               <span className="flex-1 text-left">{item.name}</span>
-                              <ChevronRightIcon className="h-3.5 w-3.5 text-[#7d8493] opacity-50 group-hover:opacity-100 group-hover:text-[#e03e3e]" />
+                              <ChevronRightIcon className="h-3.5 w-3.5 text-[#5c6370] opacity-50 group-hover:opacity-100 group-hover:text-[#e03e3e]" />
                             </PopoverButton>
                           ))}
                         </Disclosure.Panel>
@@ -647,7 +647,7 @@ export default function Navbar(): React.ReactElement {
 
                 {/* 3. Communauté */}
                 <div>
-                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                  <p className="px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Communauté
                   </p>
                   <div className="space-y-0.5 mt-1">
@@ -672,7 +672,7 @@ export default function Navbar(): React.ReactElement {
                             </div>
                             <span className="uppercase tracking-[0.06em] text-xs font-bold">{item.name}</span>
                           </div>
-                          <ChevronRightIcon className="h-4 w-4 text-[#7d8493]" />
+                          <ChevronRightIcon className="h-4 w-4 text-[#5c6370]" />
                         </PopoverButton>
                       );
                     })}
@@ -708,7 +708,7 @@ export default function Navbar(): React.ReactElement {
                           Mon Compte
                         </div>
                         <div className="text-base font-medium text-[#101216] dark:text-white">{user?.name}</div>
-                        <div className="text-sm font-medium text-[#5c6370] dark:text-[#7d8493]">{user?.email}</div>
+                        <div className="text-sm font-medium text-[#5c6370] dark:text-[#a7adbb]">{user?.email}</div>
                       </div>
                     </div>
                     <div className="mt-3 space-y-1 px-2">

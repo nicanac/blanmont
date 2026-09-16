@@ -234,7 +234,7 @@ export default function AdminOnboardingChecklist({
                 <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
                 <span>Guide de Prise en Main</span>
               </span>
-              <span className="text-xs text-[#7d8493] font-semibold uppercase tracking-wider">
+              <span className="text-xs text-[#5c6370] font-semibold uppercase tracking-wider">
                 Administration du Club
               </span>
             </div>
@@ -262,7 +262,7 @@ export default function AdminOnboardingChecklist({
             <button
               type="button"
               onClick={toggleCollapse}
-              className="rounded-md p-1.5 text-[#7d8493] hover:bg-white/10 hover:text-white transition-colors"
+              className="rounded-md p-1.5 text-[#5c6370] hover:bg-white/10 hover:text-white transition-colors"
               title={isCollapsed ? 'Développer' : 'Réduire'}
             >
               {isCollapsed ? (
@@ -275,7 +275,7 @@ export default function AdminOnboardingChecklist({
             <button
               type="button"
               onClick={handleDismiss}
-              className="rounded-md p-1.5 text-[#7d8493] hover:bg-white/10 hover:text-white transition-colors"
+              className="rounded-md p-1.5 text-[#5c6370] hover:bg-white/10 hover:text-white transition-colors"
               title="Masquer le guide"
             >
               <XMarkIcon className="h-5 w-5" />
@@ -330,13 +330,13 @@ export default function AdminOnboardingChecklist({
                   <button
                     type="button"
                     onClick={(e) => toggleTask(step.id, e)}
-                    className="mt-0.5 shrink-0 rounded text-[#7d8493] hover:text-[#e03e3e] transition-colors focus:outline-none"
+                    className="mt-0.5 shrink-0 rounded text-[#5c6370] hover:text-[#e03e3e] transition-colors focus:outline-none"
                     title={completed ? 'Marquer comme non fait' : 'Marquer comme complété'}
                   >
                     {completed ? (
                       <CheckCircleSolidIcon className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#e4e0d8] dark:border-[#2e3542] hover:border-[#e03e3e] text-xs font-bold text-[#7d8493] dark:text-[#9ba3af]">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#e4e0d8] dark:border-[#2e3542] hover:border-[#e03e3e] text-xs font-bold text-[#5c6370] dark:text-[#9ba3af]">
                         {index + 1}
                       </div>
                     )}
@@ -346,7 +346,7 @@ export default function AdminOnboardingChecklist({
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
                         className={`text-sm font-bold ${
-                          completed ? 'text-[#3a3f4a] dark:text-[#7d8493] line-through decoration-[#7d8493]' : 'text-[#101216] dark:text-white'
+                          completed ? 'text-[#3a3f4a] dark:text-[#a7adbb] line-through decoration-[#5c6370]' : 'text-[#101216] dark:text-white'
                         }`}
                       >
                         {step.title}
@@ -364,7 +364,7 @@ export default function AdminOnboardingChecklist({
                       {step.description}
                     </p>
 
-                    <p className="text-[0.6875rem] text-[#7d8493] dark:text-[#7d8493] italic">
+                    <p className="text-[0.6875rem] text-[#5c6370] dark:text-[#a7adbb] italic">
                       <span className="font-semibold text-[#5c6370] dark:text-[#9ba3af] not-italic">Conseil :</span> {step.tip}
                     </p>
                   </div>
@@ -399,7 +399,7 @@ export default function AdminOnboardingChecklist({
             <button
               type="button"
               onClick={handleDismiss}
-              className="text-xs font-semibold text-[#7d8493] dark:text-[#9ba3af] hover:text-[#101216] dark:hover:text-white hover:underline"
+              className="text-xs font-semibold text-[#5c6370] dark:text-[#9ba3af] hover:text-[#101216] dark:hover:text-white hover:underline"
             >
               Masquer pour l&apos;instant
             </button>

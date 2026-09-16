@@ -57,7 +57,7 @@ export default function EventsHeader({
             href="/admin/events/import"
             className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
           >
-            <ArrowUpTrayIcon className="h-4 w-4 text-[#7d8493]" />
+            <ArrowUpTrayIcon className="h-4 w-4 text-[#5c6370]" />
             <span>Importer PDF</span>
           </Link>
 

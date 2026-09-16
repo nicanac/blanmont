@@ -144,7 +144,9 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                 ))}
               </div>
               <input
+                id="carre-vert-event-search"
                 type="text"
+                aria-label="Rechercher un lieu ou une date"
                 placeholder="Rechercher un lieu ou une date..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

@@ -213,7 +213,7 @@ export default function PointageExpressClient({
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-[#e4e0d8] bg-white text-xs font-semibold text-[#101216] hover:bg-[#faf8f5] transition-colors"
           >
             <span>Carré Vert</span>
-            <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+            <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370]" />
           </Link>
         </div>
       </div>
@@ -221,13 +221,15 @@ export default function PointageExpressClient({
       {/* Event Selector & Stats Strip */}
       <div className="bg-white rounded-[10px] border border-[#e4e0d8] p-4 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a]">
+          <label htmlFor="express-event-select" className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] cursor-pointer">
             <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
             <span>Sortie sélectionnée</span>
           </label>
 
           <div className="relative flex-1 max-w-md">
             <select
+              id="express-event-select"
+              aria-label="Sortie sélectionnée pour le pointage"
               value={selectedEventId}
               onChange={(e) => setSelectedEventId(e.target.value)}
               className="w-full appearance-none rounded-md border border-[#e4e0d8] bg-[#faf8f5] py-2 pl-3 pr-8 text-xs font-medium text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
@@ -239,7 +241,7 @@ export default function PointageExpressClient({
                 </option>
               ))}
             </select>
-            <ChevronUpDownIcon className="pointer-events-none absolute right-2.5 top-2.5 h-4 w-4 text-[#7d8493]" />
+            <ChevronUpDownIcon className="pointer-events-none absolute right-2.5 top-2.5 h-4 w-4 text-[#5c6370]" />
           </div>
         </div>
 
@@ -276,9 +278,11 @@ export default function PointageExpressClient({
       <div className="space-y-3">
         {/* Search Input */}
         <div className="relative">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-[#7d8493]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-[#5c6370]" />
           <input
+            id="express-member-search"
             type="text"
+            aria-label="Rechercher un coureur pour le pointage"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Rechercher un coureur (nom, prénom, GSM)..."
@@ -288,7 +292,7 @@ export default function PointageExpressClient({
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-2.5 p-1 text-[#7d8493] hover:text-[#101216]"
+              className="absolute right-2.5 top-2.5 p-1 text-[#5c6370] hover:text-[#101216]"
             >
               <XMarkIcon className="h-4 w-4" />
             </button>
@@ -369,7 +373,7 @@ export default function PointageExpressClient({
       {/* Member Cards Grid */}
       <div className="space-y-2">
         {filteredMembers.length === 0 ? (
-          <div className="bg-white rounded-[10px] border border-[#e4e0d8] p-8 text-center text-xs text-[#7d8493]">
+          <div className="bg-white rounded-[10px] border border-[#e4e0d8] p-8 text-center text-xs text-[#5c6370]">
             Aucun coureur ne correspond à votre filtre.
           </div>
         ) : (
@@ -423,7 +427,7 @@ export default function PointageExpressClient({
                       )}
                     </div>
                     <div className="flex items-center gap-2 mt-0.5 text-xs">
-                      <span className="font-semibold text-[#7d8493]">
+                      <span className="font-semibold text-[#5c6370]">
                         Groupe {member.preferredGroup || 'B'}
                       </span>
                       {member.phone && (
@@ -490,7 +494,7 @@ export default function PointageExpressClient({
               <button
                 type="button"
                 onClick={() => setActiveIceMember(null)}
-                className="p-1 rounded-md text-[#7d8493] hover:text-[#101216]"
+                className="p-1 rounded-md text-[#5c6370] hover:text-[#101216]"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -544,7 +548,7 @@ export default function PointageExpressClient({
                   href={`tel:${activeIceMember.phone}`}
                   className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#f2efe9] hover:bg-[#e7e3dc] text-[#101216] rounded-lg font-semibold text-xs transition-colors min-h-[44px]"
                 >
-                  <PhoneIcon className="h-4 w-4 text-[#7d8493]" />
+                  <PhoneIcon className="h-4 w-4 text-[#5c6370]" />
                   <span>Appeler le coureur ({activeIceMember.phone})</span>
                 </a>
               )}

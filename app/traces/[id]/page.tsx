@@ -121,8 +121,8 @@ export default async function TraceDetailPage(props: {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
         {/* Main Content */}
         <div className="lg:col-span-8 space-y-8">
-          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs space-y-6">
-            <div className="text-base text-[#3a3f4a] leading-relaxed whitespace-pre-line">
+          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="text-base text-[#3a3f4a] dark:text-[#d1d5db] leading-relaxed whitespace-pre-line">
               {trace.description || 'Aucune description fournie.'}
             </div>
 
@@ -156,22 +156,22 @@ export default async function TraceDetailPage(props: {
 
             {/* Photo Previews */}
             {trace.photoPreviews && trace.photoPreviews.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-4 border-t border-[#efece5]">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-4 border-t border-[#efece5] dark:border-[#262b38]">
                 {trace.photoPreviews.map((url, i) => (
                   <a
                     key={i}
                     href={trace.photoAlbumUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative aspect-square overflow-hidden rounded-md bg-[#f2efe9] hover:opacity-90 transition-opacity"
+                    className="relative aspect-square overflow-hidden rounded-md bg-[#f2efe9] dark:bg-[#101216] hover:opacity-90 transition-opacity"
                   >
                     <Image
                       src={url}
                       alt={`Ride preview ${i + 1}`}
                       fill
+                      unoptimized
                       sizes="(max-width: 600px) 50vw, 25vw"
                       className="object-cover"
-                      loading="lazy"
                     />
                   </a>
                 ))}
@@ -181,7 +181,7 @@ export default async function TraceDetailPage(props: {
 
           {/* Feedback Section */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-[#101216]">
+            <h3 className="text-xl font-bold text-[#101216] dark:text-white">
               Commentaires de la communauté
             </h3>
             <FeedbackList feedbackList={feedbackList} members={members} />
@@ -191,14 +191,14 @@ export default async function TraceDetailPage(props: {
         {/* Sidebar */}
         <div className="lg:col-span-4 space-y-6">
           {/* Feedback Form Card */}
-          <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-4">
+          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
             <div>
-              <h3 className="text-lg font-bold text-[#101216]">Donnez votre avis</h3>
-              <p className="text-xs text-[#5c6370] mt-1">
+              <h3 className="text-lg font-bold text-[#101216] dark:text-white">Donnez votre avis</h3>
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] mt-1">
                 Vous avez roulé ce parcours ? Partagez votre expérience avec le club.
               </p>
             </div>
-            <Suspense fallback={<div className="text-xs text-[#5c6370]">Chargement...</div>}>
+            <Suspense fallback={<div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Chargement...</div>}>
               <FeedbackForm
                 traceId={trace.id}
                 members={members}
@@ -209,22 +209,22 @@ export default async function TraceDetailPage(props: {
           </div>
 
           {/* Admin Tools Card */}
-          <div className="rounded-lg border border-[#e4e0d8] bg-[#f2efe9]/70 p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#3a3f4a]">
+          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922]/70 p-6 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-[#a7adbb]">
               Outils Administrateur
             </h3>
 
             {/* Edit Trace Button */}
             <Link
               href={`/traces/${trace.id}/edit`}
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 w-full rounded-md bg-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#262b38] transition-colors"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 w-full rounded-md bg-[#101216] dark:bg-white dark:text-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#262b38] dark:hover:bg-gray-200 transition-colors"
             >
               <PencilSquareIcon className="h-4 w-4" aria-hidden="true" />
               <span>Modifier le parcours</span>
             </Link>
 
-            <div className="border-t border-[#e4e0d8] pt-3 space-y-3">
-              <p className="text-xs text-[#5c6370]">
+            <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-3 space-y-3">
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                 Mettre à jour l&apos;aperçu de la carte (URL de l&apos;image)
               </p>
 
@@ -235,27 +235,27 @@ export default async function TraceDetailPage(props: {
                   name="imageUrl"
                   placeholder="https://example.com/map.jpg"
                   required
-                  className="w-full min-h-[44px] rounded-md border border-[#e4e0d8] bg-white px-3 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
+                  className="w-full min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1c202a] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder:text-[#5c6370] dark:placeholder:text-gray-500 focus:border-[#e03e3e] focus:outline-hidden"
                 />
                 <button
                   type="submit"
-                  className="min-h-[44px] w-full rounded-md border border-[#e4e0d8] bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
+                  className="min-h-[44px] w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1c202a] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors"
                 >
                   Mettre à jour l&apos;image
                 </button>
               </form>
 
               <div className="relative flex py-1 items-center">
-                <div className="flex-grow border-t border-[#e4e0d8]" />
-                <span className="shrink mx-2 text-xs text-[#5c6370] font-semibold uppercase tracking-wider">ou</span>
-                <div className="flex-grow border-t border-[#e4e0d8]" />
+                <div className="flex-grow border-t border-[#e4e0d8] dark:border-[#262b38]" />
+                <span className="shrink mx-2 text-xs text-[#5c6370] dark:text-[#a7adbb] font-semibold uppercase tracking-wider">ou</span>
+                <div className="flex-grow border-t border-[#e4e0d8] dark:border-[#262b38]" />
               </div>
 
               <form action={generateMapPreview}>
                 <input type="hidden" name="traceId" value={trace.id} />
                 <button
                   type="submit"
-                  className="min-h-[44px] inline-flex items-center justify-center gap-1.5 w-full rounded-md border border-[#e4e0d8] bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] hover:bg-[#f2efe9] transition-colors"
+                  className="min-h-[44px] inline-flex items-center justify-center gap-1.5 w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1c202a] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors"
                 >
                   <SparklesIcon className="h-3.5 w-3.5 text-amber-500" aria-hidden="true" />
                   <span>Générer depuis Komoot</span>

@@ -127,7 +127,7 @@ function LoginForm(): React.ReactElement {
             className={`rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
               mode === 'login'
                 ? 'bg-[#1e232f] text-white shadow-sm border border-white/10'
-                : 'text-[#7d8493] hover:text-white'
+                : 'text-[#a7adbb] hover:text-white'
             }`}
           >
             Connexion
@@ -143,7 +143,7 @@ function LoginForm(): React.ReactElement {
             className={`inline-flex items-center justify-center gap-1.5 rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
               mode === 'activate'
                 ? 'bg-[#1e232f] text-amber-300 shadow-sm border border-amber-500/30'
-                : 'text-[#7d8493] hover:text-white'
+                : 'text-[#a7adbb] hover:text-white'
             }`}
           >
             <SparklesIcon className="h-3.5 w-3.5 text-amber-400" />
@@ -195,7 +195,7 @@ function LoginForm(): React.ReactElement {
                 Adresse Email
               </label>
               <div className="relative">
-                <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a7adbb]" />
                 <input
                   id="login-email"
                   name="email"
@@ -232,7 +232,7 @@ function LoginForm(): React.ReactElement {
                 </button>
               </div>
               <div className="relative">
-                <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a7adbb]" />
                 <input
                   id="login-password"
                   name="password"
@@ -288,7 +288,7 @@ function LoginForm(): React.ReactElement {
                 Adresse Email du Membre
               </label>
               <div className="relative">
-                <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a7adbb]" />
                 <input
                   id="activate-email"
                   name="email"
@@ -361,7 +361,7 @@ function LoginForm(): React.ReactElement {
       <div className="text-center">
         <Link
           href="/"
-          className="min-h-[44px] inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-[#7d8493] hover:text-white transition-colors"
+          className="min-h-[44px] inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white transition-colors"
         >
           <span>← Retour à l&apos;accueil du club</span>
         </Link>
@@ -385,7 +385,7 @@ export default function LoginPage(): React.ReactElement {
 
       <Suspense
         fallback={
-          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#12151d] p-8 text-center text-xs text-[#7d8493]">
+          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#12151d] p-8 text-center text-xs text-[#a7adbb]">
             <ArrowPathIcon className="h-5 w-5 animate-spin mx-auto mb-2 text-[#e03e3e]" />
             <span>Chargement de l&apos;espace membre...</span>
           </div>

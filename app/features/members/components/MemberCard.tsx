@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Member } from '../../../types';
 import { ShieldCheckIcon, UserIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
@@ -85,13 +86,15 @@ export default function MemberCard({ member }: MemberCardProps) {
       {/* ──── Portrait / Fallback Avatar Container ──── */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922]">
         {hasValidPhoto ? (
-          <img
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          <Image
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             src={member.photoUrl}
             alt={member.name}
+            fill
+            unoptimized
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             style={{ objectPosition: member.photoPosition || 'center center' }}
             onError={() => setImgError(true)}
-            loading="lazy"
           />
         ) : (
           /* High-craft editorial monogram fallback when photo is missing or broken */
@@ -161,16 +164,16 @@ export default function MemberCard({ member }: MemberCardProps) {
               {member.bio}
             </p>
           ) : (
-            <p className="mt-1.5 text-xs text-[#7d8493] italic">
+            <p className="mt-1.5 text-xs text-[#5c6370] italic">
               Membre actif du peloton de Blanmont
             </p>
           )}
         </div>
 
         {/* Bottom Metadata & Social / Strava links */}
-        <div className="pt-3 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#7d8493]">
+        <div className="pt-3 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#5c6370]">
           <span className="inline-flex items-center gap-1">
-            <UserIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+            <UserIcon className="h-3.5 w-3.5 text-[#5c6370]" />
             <span>Club de Blanmont</span>
           </span>
 

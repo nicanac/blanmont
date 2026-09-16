@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 import { updateProfilePhotoAction, getMemberProfileAction, updateMemberEmergencyAction } from '../actions';
 import Cropper from 'react-easy-crop';
@@ -206,11 +207,14 @@ export default function ProfilePage(): React.ReactElement | null {
           <div className="rounded-[10px] border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-5">
             <div className="relative aspect-square w-full overflow-hidden rounded-[8px] bg-[#161922] group border border-[#e4e0d8]">
               {hasPhoto ? (
-                <img
-                  src={user.avatarUrl}
+                <Image
+                  src={user.avatarUrl!}
                   alt={user.name}
+                  fill
+                  unoptimized
                   onError={() => setImgError(true)}
-                  className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 400px"
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
               ) : (
                 <div className="h-full w-full bg-gradient-to-br from-[#161922] via-[#242938] to-[#0a0c10] flex flex-col items-center justify-center text-center p-6 select-none">
@@ -243,7 +247,7 @@ export default function ProfilePage(): React.ReactElement | null {
               <span className="inline-flex items-center rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-3 py-0.5 text-xs font-bold uppercase tracking-wider">
                 {user.role ? (Array.isArray(user.role) ? user.role.join(', ') : user.role) : 'Membre actif'}
               </span>
-              <p className="text-xs text-[#7d8493]">
+              <p className="text-xs text-[#5c6370]">
                 Membre du Club Cyclo Saint-Martin de Blanmont
               </p>
             </div>
@@ -364,7 +368,7 @@ export default function ProfilePage(): React.ReactElement | null {
             <div className="divide-y divide-[#efece5] text-xs sm:text-sm">
               <div className="flex items-center justify-between py-3.5">
                 <span className="flex items-center gap-2 font-medium text-[#3a3f4a]">
-                  <EnvelopeIcon className="h-4 w-4 text-[#7d8493]" />
+                  <EnvelopeIcon className="h-4 w-4 text-[#5c6370]" />
                   <span>Adresse Email</span>
                 </span>
                 <span className="font-semibold text-[#101216] select-all">{user.email}</span>
@@ -372,7 +376,7 @@ export default function ProfilePage(): React.ReactElement | null {
 
               <div className="flex items-center justify-between py-3.5">
                 <span className="flex items-center gap-2 font-medium text-[#3a3f4a]">
-                  <PhoneIcon className="h-4 w-4 text-[#7d8493]" />
+                  <PhoneIcon className="h-4 w-4 text-[#5c6370]" />
                   <span>Téléphone Mobile</span>
                 </span>
                 <span className="font-semibold text-[#101216] tabular-nums select-all">

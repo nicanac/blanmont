@@ -64,7 +64,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
               {nextRide.dateFormatted}
             </span>
             <div
-              className={`rounded-full p-1 text-[#7d8493] group-hover:text-[#e03e3e] transition-all ${
+              className={`rounded-full p-1 text-[#5c6370] group-hover:text-[#e03e3e] transition-all ${
                 isExpanded ? 'rotate-180 text-[#e03e3e]' : ''
               }`}
               title={isExpanded ? 'Réduire' : 'Déplier les détails'}
@@ -82,7 +82,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
           </div>
 
           <div className="text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1.5">
-            <ClockIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+            <ClockIcon className="h-3.5 w-3.5 text-[#5c6370]" />
             <span>
               Départ <strong className="text-[#101216] dark:text-[#f5f6f8]">{nextRide.departure}</strong>
             </span>
@@ -99,7 +99,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
                 {nextRide.address && (
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                     <span className="font-semibold text-[#101216] dark:text-white">Lieu de RDV :</span>{' '}
-                    <span className="text-[#7d8493]">{nextRide.address}</span>
+                    <span className="text-[#5c6370]">{nextRide.address}</span>
                   </p>
                 )}
                 {nextRide.remarks && (

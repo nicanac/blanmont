@@ -129,11 +129,6 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
           {/* Left Column: Typographic Monument */}
           <div className="lg:col-span-6 space-y-6 sm:space-y-8">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e03e3e]/10 border border-[#e03e3e]/30 text-[#e03e3e] text-[11px] font-bold uppercase tracking-[0.15em]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                Haute Cyclotourisme Belge
-              </div>
-
               <h1 className="text-[clamp(2.75rem,7vw,5.5rem)] font-extrabold uppercase tracking-[-0.035em] leading-[0.94] text-balance">
                 <span className="cover-line">
                   <span>L&apos;Ordre Céleste</span>
@@ -189,20 +184,20 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
             </div>
 
             {/* Micro-Telemetry Badge */}
-            <div className="cover-rise cover-rise-3 pt-4 border-t border-white/[0.08] flex items-center gap-6 text-xs text-[#7d8493]">
+            <div className="cover-rise cover-rise-3 pt-4 border-t border-white/[0.08] flex items-center gap-6 text-xs text-[#a7adbb]">
               <div>
                 <span className="block text-white font-bold tabular-nums text-sm">48 Ans</span>
-                <span className="text-[11px] uppercase tracking-wider">De Passion (1978)</span>
+                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">De Passion (1978)</span>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>
                 <span className="block text-white font-bold tabular-nums text-sm">3 Allures + VTT</span>
-                <span className="text-[11px] uppercase tracking-wider">Tous Niveaux</span>
+                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Tous Niveaux</span>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>
                 <span className="block text-emerald-400 font-bold tabular-nums text-sm">100%</span>
-                <span className="text-[11px] uppercase tracking-wider">Entraide &amp; Sécurité</span>
+                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Entraide &amp; Sécurité</span>
               </div>
             </div>
           </div>

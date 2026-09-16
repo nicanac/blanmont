@@ -75,10 +75,6 @@ export default function EditorialPhotographicMosaic() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] dark:border-white/10 pb-8">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
-              <SparklesIcon className="h-4 w-4" />
-              Chronique Visuelle
-            </div>
             <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
               La Traversée des Éléments
             </h2>
@@ -116,7 +112,7 @@ export default function EditorialPhotographicMosaic() {
 
                 {/* Top Badge */}
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10">
-                  <span className="inline-flex items-center gap-2 rounded-md bg-[#08090c]/85 backdrop-blur-md px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white border border-white/15 shadow-lg">
+                  <span className="inline-flex items-center gap-2 rounded-md bg-[#08090c]/85 backdrop-blur-md px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white border border-white/15 shadow-lg">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
                     {item.badge}
                   </span>
@@ -137,51 +133,51 @@ export default function EditorialPhotographicMosaic() {
         </div>
 
         {/* ── 4 Historical Pillars Manifesto Strip ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-[#e4e0d8]">
-          <div className="p-6 rounded-lg bg-white border border-[#e4e0d8] space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-[#e4e0d8] dark:border-[#262b38]">
+          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
             <span className="text-2xl font-extrabold text-[#e03e3e] tabular-nums">
               1978
             </span>
-            <div className="text-sm font-bold text-[#101216]">
+            <div className="text-sm font-bold text-[#101216] dark:text-white">
               Fondation du Club
             </div>
-            <p className="text-xs text-[#5c6370] leading-relaxed">
+            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               Près d&apos;un demi-siècle d&apos;héritage cycliste ininterrompu au cœur du Brabant wallon.
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white border border-[#e4e0d8] space-y-2">
-            <span className="text-2xl font-extrabold text-[#101216] tabular-nums">
+          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
+            <span className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums">
               0 Abandon
             </span>
-            <div className="text-sm font-bold text-[#101216]">
+            <div className="text-sm font-bold text-[#101216] dark:text-white">
               Pacte de Solidarité
             </div>
-            <p className="text-xs text-[#5c6370] leading-relaxed">
+            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               En cas de coup de pompe ou de crevaison, le peloton s&apos;arrête. Personne ne rentre seul.
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white border border-[#e4e0d8] space-y-2">
-            <span className="text-2xl font-extrabold text-[#101216] tabular-nums">
+          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
+            <span className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums">
               250+ Traces
             </span>
-            <div className="text-sm font-bold text-[#101216]">
+            <div className="text-sm font-bold text-[#101216] dark:text-white">
               Bibliothèque GPX
             </div>
-            <p className="text-xs text-[#5c6370] leading-relaxed">
+            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               Des centaines d&apos;itinéraires soignés avec dénivelés, profils et panoramas vérifiés.
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white border border-[#e4e0d8] space-y-2">
-            <span className="text-2xl font-extrabold text-emerald-600 tabular-nums">
+          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
+            <span className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums">
               100% Plaisir
             </span>
-            <div className="text-sm font-bold text-[#101216]">
+            <div className="text-sm font-bold text-[#101216] dark:text-white">
               Troisième Mi-temps
             </div>
-            <p className="text-xs text-[#5c6370] leading-relaxed">
+            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
               Le plaisir de débriefer la sortie autour d&apos;une boisson fraîche sur la Place de Blanmont.
             </p>
           </div>

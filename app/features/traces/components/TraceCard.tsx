@@ -30,23 +30,24 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
         if (!surface) return 'bg-[#5c6370]';
         const s = surface.toLowerCase();
         if (s.includes('route') || s.includes('asphalt')) return 'bg-[#e03e3e]';
-        if (s.includes('vtt') || s.includes('gravel') || s.includes('chemins') || s.includes('pav')) return 'bg-[#7d8493]';
+        if (s.includes('vtt') || s.includes('gravel') || s.includes('chemins') || s.includes('pav')) return 'bg-[#5c6370]';
         return 'bg-[#5c6370]';
     };
 
     return (
-        <div className={`group relative flex flex-col overflow-hidden rounded-md border border-[#e4e0d8] bg-white shadow-2xs hover:shadow-md hover:border-slate-300 transition-all duration-300 ${props.className || ''}`}>
-            <div className="aspect-h-3 aspect-w-4 relative bg-[#f2efe9] sm:aspect-none group-hover:opacity-95 sm:h-52 overflow-hidden">
+        <div className={`group relative flex flex-col overflow-hidden rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] shadow-2xs hover:shadow-md hover:border-slate-300 dark:hover:border-[#3a4254] transition-all duration-300 ${props.className || ''}`}>
+            <div className="aspect-h-3 aspect-w-4 relative bg-[#f2efe9] dark:bg-[#101216] sm:aspect-none group-hover:opacity-95 sm:h-52 overflow-hidden">
                 {trace.photoUrl ? (
                     <Image
                         src={trace.photoUrl}
                         alt={trace.name}
                         fill
+                        unoptimized
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover object-center transition-transform duration-500 group-hover:scale-103"
                     />
                 ) : (
-                    <div className="h-full w-full flex items-center justify-center bg-[#f2efe9] text-slate-400">
+                    <div className="h-full w-full flex items-center justify-center bg-[#f2efe9] dark:bg-[#101216] text-slate-400 dark:text-slate-600">
                         <MapPinIcon className="h-12 w-12" />
                     </div>
                 )}
@@ -63,35 +64,35 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                 {props.imageOverlay}
             </div>
             <div className="flex flex-1 flex-col p-4 sm:p-5 space-y-2">
-                <h3 className="text-base font-bold text-[#101216] group-hover:text-[#e03e3e] transition-colors line-clamp-1">
+                <h3 className="text-base font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors line-clamp-1">
                     <Link href={`/traces/${trace.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {stripSuffix(trace.name, '#')}
                     </Link>
                 </h3>
-                <p className="text-xs sm:text-sm text-[#3a3f4a] line-clamp-2 leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
                     {trace.description || "Circuit vélo autour de Blanmont."}
                 </p>
                 <div className="flex flex-1 flex-col justify-end pt-2">
-                    <div className="flex items-center justify-between text-xs text-[#3a3f4a] pt-2 border-t border-[#efece5]">
+                    <div className="flex items-center justify-between text-xs text-[#3a3f4a] dark:text-[#a7adbb] pt-2 border-t border-[#efece5] dark:border-[#262b38]">
                         <div className="flex items-baseline gap-1">
-                            <span className="text-base font-bold text-[#101216] tabular-nums">{trace.distance}</span>
-                            <span className="font-semibold text-[#5c6370]">km</span>
+                            <span className="text-base font-bold text-[#101216] dark:text-white tabular-nums">{trace.distance}</span>
+                            <span className="font-semibold text-[#5c6370] dark:text-[#a7adbb]">km</span>
                         </div>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-base font-bold text-[#101216] tabular-nums">{trace.elevation}</span>
-                            <span className="font-semibold text-[#5c6370]">m D+</span>
+                            <span className="text-base font-bold text-[#101216] dark:text-white tabular-nums">{trace.elevation}</span>
+                            <span className="font-semibold text-[#5c6370] dark:text-[#a7adbb]">m D+</span>
                         </div>
                     </div>
                     <div className="mt-3 flex items-center gap-2">
                         {trace.surface && (
-                            <span className="inline-flex items-center gap-1.5 rounded-xs border border-[#e4e0d8] bg-[#faf8f5] px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#101216]">
+                            <span className="inline-flex items-center gap-1.5 rounded-xs border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white">
                                 <span className={`h-1.5 w-1.5 rounded-full ${getSurfaceDotClass(trace.surface)}`} />
                                 {trace.surface}
                             </span>
                         )}
                         {trace.start && (
-                            <span className="inline-flex items-center rounded-xs bg-[#faf8f5] border border-[#e4e0d8] px-2 py-0.5 text-xs font-medium text-[#5c6370] truncate">
+                            <span className="inline-flex items-center rounded-xs bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] px-2 py-0.5 text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] truncate">
                                 {trace.start}
                             </span>
                         )}
@@ -105,7 +106,7 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                     props.footer
                 ) : (
                     trace.gpxUrl && (
-                        <div className="border-t border-[#efece5] px-4 py-2.5 bg-[#f2efe9]/80">
+                        <div className="border-t border-[#efece5] dark:border-[#262b38] px-4 py-2.5 bg-[#f2efe9]/80 dark:bg-[#12141a]">
                             <a
                                 href={trace.gpxUrl}
                                 target="_blank"
@@ -119,6 +120,6 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                     )
                 )
             }
-        </div >
+        </div>
     );
 }

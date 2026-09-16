@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   PencilIcon,
   KeyIcon,
@@ -169,10 +170,12 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-3.5 sm:p-4 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
         {/* Search Input Bar */}
         <div id="members-search-bar" className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
           <input
+            id="admin-members-search-input"
             type="text"
-            className="block w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] py-2 pl-10 pr-4 text-xs sm:text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+            aria-label="Rechercher par nom, rôle ou email"
+            className="block w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] py-2 pl-10 pr-4 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
             placeholder="Rechercher par nom, rôle ou email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -180,7 +183,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#7d8493] hover:text-[#101216]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#5c6370] hover:text-[#101216]"
             >
               Effacer
             </button>
@@ -199,7 +202,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             }`}
           >
             <span>Tous</span>
-            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#7d8493]'}`}>
+            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
               ({initialMembers.length})
             </span>
           </button>
@@ -215,7 +218,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           >
             <BicycleIcon className={`h-3.5 w-3.5 ${tabFilter === 'capitaines' ? 'text-white' : 'text-[#e03e3e]'}`} />
             <span>Capitaines</span>
-            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'capitaines' ? 'text-white/80' : 'text-[#7d8493]'}`}>
+            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370]'}`}>
               ({captainsCount})
             </span>
           </button>
@@ -279,7 +282,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           >
             <KeyIcon className="h-3.5 w-3.5" />
             <span>Admins</span>
-            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'admin' ? 'text-white/80' : 'text-[#7d8493]'}`}>
+            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'admin' ? 'text-white/80' : 'text-[#5c6370]'}`}>
               ({adminCount})
             </span>
           </button>
@@ -292,22 +295,22 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           <table className="min-w-full divide-y divide-[#e4e0d8]">
             <thead className="bg-[#f2efe9]">
               <tr>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Membre
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Email &amp; Tél
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Rôle(s)
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Cotisation 2026
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Sécurité ICE
                 </th>
-                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Actions
                 </th>
               </tr>
@@ -328,12 +331,15 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         {/* Avatar with fallback initials */}
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center font-bold text-xs text-white">
                           {hasPhoto ? (
-                            <img
+                            <Image
                               src={member.photoUrl}
                               alt={member.name}
+                              fill
+                              unoptimized
+                              sizes="36px"
                               style={{ objectPosition: member.photoPosition || 'center center' }}
                               onError={() => setImgErrors((prev) => ({ ...prev, [member.id]: true }))}
-                              className="h-full w-full object-cover"
+                              className="object-cover"
                             />
                           ) : (
                             <div className={`h-full w-full bg-gradient-to-br ${gradient} flex items-center justify-center text-xs font-extrabold text-white`}>
@@ -344,7 +350,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         <div>
                           <p className="font-bold text-[#101216]">{member.name}</p>
                           {member.bio && (
-                            <p className="text-xs text-[#7d8493] line-clamp-1 max-w-xs">{member.bio}</p>
+                            <p className="text-xs text-[#5c6370] line-clamp-1 max-w-xs">{member.bio}</p>
                           )}
                         </div>
                       </div>
@@ -353,7 +359,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                       <div className="space-y-0.5">
                         <p>{member.email || '-'}</p>
                         {member.phone && (
-                          <p className="text-[11px] text-[#7d8493] font-mono">{member.phone}</p>
+                          <p className="text-[11px] text-[#5c6370] font-mono">{member.phone}</p>
                         )}
                       </div>
                     </td>
@@ -405,7 +411,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                           <span>{member.iceContactName || 'ICE renseigné'}</span>
                         </button>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-xs text-[#7d8493]">
+                        <span className="inline-flex items-center gap-1 text-xs text-[#5c6370]">
                           <ExclamationTriangleIcon className="h-3.5 w-3.5 text-amber-500" />
                           <span>Non renseigné</span>
                         </span>
@@ -415,21 +421,21 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                       <div className="flex items-center justify-end gap-1">
                         <Link
                           href="/admin/members/photos"
-                          className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#e03e3e] transition-colors"
+                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#e03e3e] transition-colors"
                           title="Cadrage et positionnement photo"
                         >
                           <PhotoIcon className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/admin/members/${member.id}/edit`}
-                          className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
                           title="Modifier"
                         >
                           <PencilIcon className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/admin/members/${member.id}/reset-password`}
-                          className="rounded-md p-1.5 text-[#7d8493] hover:bg-sky-50 hover:text-sky-600 transition-colors"
+                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-sky-50 hover:text-sky-600 transition-colors"
                           title="Réinitialiser mot de passe"
                         >
                           <KeyIcon className="h-4 w-4" />
@@ -449,7 +455,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
 
         {filteredMembers.length === 0 && (
           <div className="py-12 px-4 text-center space-y-2">
-            <UsersIcon className="mx-auto h-8 w-8 text-[#7d8493]" />
+            <UsersIcon className="mx-auto h-8 w-8 text-[#5c6370]" />
             <p className="text-sm font-semibold text-[#101216]">
               Aucun membre trouvé
             </p>
@@ -489,13 +495,13 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-[#101216]">Fiche d&apos;Urgence Peloton (ICE)</h3>
-                  <p className="text-[11px] text-[#7d8493]">{selectedIceMember.name}</p>
+                  <p className="text-[11px] text-[#5c6370]">{selectedIceMember.name}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedIceMember(null)}
-                className="rounded p-1 text-[#7d8493] hover:text-[#101216] hover:bg-[#f2efe9]"
+                className="rounded p-1 text-[#5c6370] hover:text-[#101216] hover:bg-[#f2efe9]"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -504,15 +510,15 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             <div className="space-y-3 text-xs">
               <div className="rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-3.5 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-[#7d8493]">Contact d&apos;urgence :</span>
+                  <span className="text-[#5c6370]">Contact d&apos;urgence :</span>
                   <span className="font-bold text-[#101216]">{selectedIceMember.iceContactName || 'Non précisé'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#7d8493]">Lien de parenté :</span>
+                  <span className="text-[#5c6370]">Lien de parenté :</span>
                   <span className="font-semibold text-[#101216]">{selectedIceMember.iceRelationship || 'Proche'}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2 border-t border-[#e4e0d8]">
-                  <span className="text-[#7d8493]">Téléphone d&apos;urgence :</span>
+                  <span className="text-[#5c6370]">Téléphone d&apos;urgence :</span>
                   {selectedIceMember.iceContactPhone ? (
                     <a
                       href={`tel:${selectedIceMember.iceContactPhone}`}

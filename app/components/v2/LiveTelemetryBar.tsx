@@ -129,7 +129,7 @@ export default function LiveTelemetryBar({
           {/* 1. Compte à Rebours Départ */}
           <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e]/40 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#7d8493]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
                 Compte à Rebours
               </span>
               <ClockIcon className="h-4 w-4 text-[#e03e3e]" />
@@ -146,25 +146,25 @@ export default function LiveTelemetryBar({
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {String(timeLeft.days).padStart(2, '0')}
                     </span>
-                    <span className="text-[9px] uppercase tracking-wider text-[#7d8493]">Jours</span>
+                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Jours</span>
                   </div>
                   <div className="bg-black/40 rounded p-1.5 border border-white/5">
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {String(timeLeft.hours).padStart(2, '0')}
                     </span>
-                    <span className="text-[9px] uppercase tracking-wider text-[#7d8493]">Heures</span>
+                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Heures</span>
                   </div>
                   <div className="bg-black/40 rounded p-1.5 border border-white/5">
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {String(timeLeft.minutes).padStart(2, '0')}
                     </span>
-                    <span className="text-[9px] uppercase tracking-wider text-[#7d8493]">Min</span>
+                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Min</span>
                   </div>
                   <div className="bg-black/40 rounded p-1.5 border border-white/5">
                     <span className="block text-xl font-extrabold text-[#e03e3e] tabular-nums">
                       {String(timeLeft.seconds).padStart(2, '0')}
                     </span>
-                    <span className="text-[9px] uppercase tracking-wider text-[#7d8493]">Sec</span>
+                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Sec</span>
                   </div>
                 </div>
               )}
@@ -173,7 +173,7 @@ export default function LiveTelemetryBar({
               </div>
             </div>
 
-            <div className="pt-2 border-t border-white/5 text-[11px] text-[#7d8493] flex items-center justify-between">
+            <div className="pt-2 border-t border-white/5 text-xs text-[#a7adbb] flex items-center justify-between">
               <span>Briefing capitaine : -5 min</span>
               <span className="text-emerald-400 font-bold">● Ponctualité</span>
             </div>
@@ -182,7 +182,7 @@ export default function LiveTelemetryBar({
           {/* 2. Lieu de Rassemblement */}
           <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e]/40 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#7d8493]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
                 Lieu du Rassemblement
               </span>
               <MapPinIcon className="h-4 w-4 text-[#e03e3e]" />
@@ -198,17 +198,17 @@ export default function LiveTelemetryBar({
             </div>
 
             <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs">
-              <span className="text-[#7d8493]">Groupes : {nextRide.distances || 'A, B, C & VTT'}</span>
+              <span className="text-[#a7adbb]">Groupes : {nextRide.distances || 'A, B, C & VTT'}</span>
             </div>
           </div>
 
           {/* 3. Météo & Rose des Vents en Direct */}
           <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-3 hover:border-[#e03e3e]/40 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#7d8493]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
                 Atmosphère &amp; Vent
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">
                 LIVE METEO
               </span>
             </div>
@@ -225,10 +225,10 @@ export default function LiveTelemetryBar({
           {/* 4. Sondage de Présence & Actions */}
           <div className="rounded-lg border border-white/10 bg-gradient-to-br from-[#161922] to-[#1a1416] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#e03e3e]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
                 Sondage Weekend
               </span>
-              <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#7d8493]' : 'bg-[#e03e3e] animate-ping'}`} />
+              <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#a7adbb]' : 'bg-[#e03e3e] animate-ping'}`} />
             </div>
 
             <div className="space-y-1.5">
@@ -243,7 +243,7 @@ export default function LiveTelemetryBar({
             <div className="pt-2 flex items-center justify-between gap-2">
               <Link
                 href="/sondage"
-                className="inline-flex items-center gap-2 rounded bg-[#e03e3e] hover:bg-[#c93434] text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors"
+                className="inline-flex items-center gap-2 rounded bg-[#e03e3e] hover:bg-[#c93434] text-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors min-h-[44px]"
               >
                 <ChatBubbleLeftRightIcon className="h-3.5 w-3.5" />
                 <span>Voter</span>
@@ -254,7 +254,7 @@ export default function LiveTelemetryBar({
                   href={nextRide.gpxUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-[#a7adbb] hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1 text-xs text-[#a7adbb] hover:text-white transition-colors min-h-[44px] px-2"
                 >
                   <ArrowDownTrayIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                   <span>GPX</span>
@@ -262,7 +262,7 @@ export default function LiveTelemetryBar({
               ) : (
                 <Link
                   href="/traces"
-                  className="text-xs text-[#7d8493] hover:text-white transition-colors"
+                  className="text-xs text-[#a7adbb] hover:text-white transition-colors min-h-[44px] flex items-center px-2"
                 >
                   Parcours →
                 </Link>

@@ -38,7 +38,7 @@ export function PelotonRoadDiagram(): React.ReactElement {
           <text
             x="320"
             y="108"
-            fill="#7d8493"
+            fill="#5c6370"
             fontSize="11"
             fontWeight="500"
             letterSpacing="0.04em"
@@ -46,7 +46,7 @@ export function PelotonRoadDiagram(): React.ReactElement {
           >
             VOIE OPPOSÉE — CIRCULATION STRICTEMENT INTERDITE AU GROUPE
           </text>
-          <path d="M120 104L70 104M78 99L70 104L78 109" stroke="#7d8493" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M120 104L70 104M78 99L70 104L78 109" stroke="#5c6370" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 
           {/* Center line (Axe médian de la chaussée) */}
           <line x1="0" y1="170" x2="640" y2="170" stroke="#f5f6f8" strokeWidth="3" strokeDasharray="24 16" />

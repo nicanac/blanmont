@@ -155,7 +155,7 @@ function AgendaItem({
                 ? 'text-[#ff6b6b] dark:text-[#e03e3e]'
                 : isWeekend
                 ? 'text-[#e03e3e]'
-                : 'text-[#7d8493] dark:text-[#a7adbb]'
+                : 'text-[#5c6370] dark:text-[#a7adbb]'
             )}
           >
             {weekdayStr.slice(0, 3)}
@@ -166,7 +166,7 @@ function AgendaItem({
           <span
             className={cn(
               'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider truncate',
-              isToday ? 'opacity-90' : 'text-[#7d8493] dark:text-[#a7adbb]'
+              isToday ? 'opacity-90' : 'text-[#5c6370] dark:text-[#a7adbb]'
             )}
           >
             {monthStr}
@@ -255,7 +255,7 @@ function AgendaItem({
                 className="inline-flex items-center gap-1.5 truncate max-w-[220px] sm:max-w-xs md:max-w-sm"
                 title={`Point de rassemblement précis : ${event.address}`}
               >
-                <MapPinIcon className="h-3.5 w-3.5 text-[#7d8493] shrink-0" />
+                <MapPinIcon className="h-3.5 w-3.5 text-[#5c6370] shrink-0" />
                 <span className="truncate">{event.address}</span>
               </span>
             )}

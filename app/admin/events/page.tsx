@@ -37,7 +37,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
           <h2 className="text-xs font-bold uppercase tracking-wider text-[#101216]">
             Prochaines Sorties Programmées
           </h2>
-          <span className="text-xs font-semibold text-[#7d8493] tabular-nums">
+          <span className="text-xs font-semibold text-[#5c6370] tabular-nums">
             {upcomingEvents.length} sorties
           </span>
         </div>
@@ -89,7 +89,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
                       </span>
                       {event.departure && (
                         <span className="inline-flex items-center gap-1">
-                          <ClockIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+                          <ClockIcon className="h-3.5 w-3.5 text-[#5c6370]" />
                           Départ {event.departure}
                         </span>
                       )}
@@ -141,7 +141,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
       {pastEvents.length > 0 && (
         <div className="rounded-lg border border-[#e4e0d8] bg-white shadow-xs overflow-hidden opacity-80">
           <div className="border-b border-[#e4e0d8] px-6 py-3.5 bg-[#f2efe9]">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               Dernières Sorties Passées
             </h2>
           </div>
@@ -155,7 +155,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
                   <span className="text-xs font-semibold text-[#101216]">
                     {formatFrenchDate(event.isoDate)}
                   </span>
-                  <span className="text-xs text-[#7d8493]">• {event.location}</span>
+                  <span className="text-xs text-[#5c6370]">• {event.location}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <DeleteEventButton eventId={event.id} eventDate={event.isoDate} />

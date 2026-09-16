@@ -71,7 +71,7 @@ export default function GobikSizeGuide({
             </div>
             <button
               onClick={onClose}
-              className="rounded-full p-2 text-[#7d8493] hover:text-[#101216] dark:hover:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] transition-colors"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-full p-2 text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] transition-colors"
               aria-label="Fermer le guide des tailles"
             >
               <XMarkIcon className="h-5 w-5" />
@@ -83,7 +83,7 @@ export default function GobikSizeGuide({
             <button
               type="button"
               onClick={() => setGender('men')}
-              className={`flex-1 py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-wider transition-colors border ${
+              className={`min-h-[44px] flex-1 py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-wider transition-colors border ${
                 gender === 'men'
                   ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
                   : 'bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
@@ -94,7 +94,7 @@ export default function GobikSizeGuide({
             <button
               type="button"
               onClick={() => setGender('women')}
-              className={`flex-1 py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-wider transition-colors border ${
+              className={`min-h-[44px] flex-1 py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-wider transition-colors border ${
                 gender === 'women'
                   ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
                   : 'bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'

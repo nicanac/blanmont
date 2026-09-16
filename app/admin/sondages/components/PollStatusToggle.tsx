@@ -29,6 +29,8 @@ export default function PollStatusToggle({ pollId, currentStatus }: PollStatusTo
 
   return (
     <select
+      id={`poll-status-toggle-${pollId}`}
+      aria-label="Modifier le statut du sondage"
       value={currentStatus}
       onChange={(e) => handleStatusChange(e.target.value as 'draft' | 'active' | 'closed')}
       disabled={isPending}
