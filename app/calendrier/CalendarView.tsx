@@ -655,7 +655,7 @@ export default function CalendarView({
   return (
     <div className="space-y-6">
       {/* ──── Controls & Filter Toolbar ──── */}
-      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 shadow-xs space-y-4">
+      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-3.5 sm:p-5 shadow-xs space-y-3.5 sm:space-y-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Month Title & Nav */}
           <div className="w-full md:w-auto flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
@@ -704,7 +704,7 @@ export default function CalendarView({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Rechercher une destination, distance..."
+                placeholder="Rechercher destination, km..."
                 aria-label="Rechercher une sortie par destination, commune, distance ou mois"
                 className="w-full min-h-[44px] pl-10 pr-10 py-2 text-xs rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] focus:bg-white dark:focus:bg-[#161922] focus:outline-none focus:border-[#e03e3e] transition-colors text-[#101216] dark:text-white placeholder:text-[#5c6370] dark:placeholder:text-[#a7adbb]"
               />
