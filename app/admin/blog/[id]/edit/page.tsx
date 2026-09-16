@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { use } from 'react';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
@@ -199,8 +200,10 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
                  <div className="flex gap-4">
                   <div className="flex-1">
                     <input
+                      id="blog-edit-file-upload"
                       type="file"
                       accept="image/*"
+                      aria-label="Téléverser une image de couverture"
                       onChange={handleImageSelect}
                       disabled={isImageUploading}
                       className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100"
@@ -209,6 +212,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
                    <input
                     type="text"
                     id="coverImage"
+                    aria-label="URL de l'image de couverture"
                     value={formData.coverImage}
                     onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
                     className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
@@ -225,11 +229,16 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
                 )}
                 {formData.coverImage && (
                   <div className="mt-2 relative group w-fit">
-                    <img
-                      src={formData.coverImage}
-                      alt="Preview"
-                      className="h-48 w-auto rounded-lg object-cover border border-gray-200"
-                    />
+                    <div className="relative h-48 w-72 rounded-lg overflow-hidden border border-gray-200">
+                      <Image
+                        src={formData.coverImage}
+                        alt="Preview"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                        sizes="288px"
+                      />
+                    </div>
                     <button
                         type="button"
                         onClick={() => setFormData({...formData, coverImage: ''})}

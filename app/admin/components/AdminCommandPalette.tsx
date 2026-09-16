@@ -259,7 +259,12 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
   }, [filteredItems, selectedIndex, handleSelect, onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 overflow-y-auto">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Palette de commandes administrateur"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 overflow-y-auto"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
@@ -271,22 +276,24 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
       <div className="relative w-full max-w-2xl rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-white shadow-2xl overflow-hidden z-10">
         {/* Search Header */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216]">
-          <MagnifyingGlassIcon className="h-5 w-5 text-[#7d8493] shrink-0" />
+          <MagnifyingGlassIcon className="h-5 w-5 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
           <input
+            id="admin-command-palette-input"
             ref={inputRef}
             type="text"
+            aria-label="Rechercher une section, une action ou un module"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
             placeholder="Rechercher une section, une action, un module... (ou taper 'sondage', 'trace')"
-            className="w-full bg-transparent border-none text-sm font-medium text-[#101216] dark:text-white placeholder-[#7d8493] focus:outline-hidden focus:ring-0"
+            className="w-full bg-transparent border-none text-sm font-medium text-[#101216] dark:text-white placeholder-[#5c6370] focus:outline-hidden focus:ring-0"
           />
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-md text-[#7d8493] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            className="p-1 rounded-md text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
@@ -299,7 +306,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
               <p className="text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb]">
                 Aucun résultat pour &ldquo;{query}&rdquo;
               </p>
-              <p className="mt-1 text-xs text-[#7d8493]">
+              <p className="mt-1 text-xs text-[#5c6370]">
                 Essayez des mots-clés comme &ldquo;sondage&rdquo;, &ldquo;membres&rdquo;, &ldquo;parcours&rdquo; ou &ldquo;sortie&rdquo;.
               </p>
             </div>
@@ -336,7 +343,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
                           <span className="font-bold text-sm text-[#101216] dark:text-white truncate">
                             {item.name}
                           </span>
-                          <span className="text-[0.6875rem] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-[#f2efe9] dark:bg-[#161922] text-[#7d8493]">
+                          <span className="text-[0.6875rem] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370]">
                             {item.category}
                           </span>
                         </div>
@@ -359,7 +366,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
         </div>
 
         {/* Footer shortcuts hint */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[0.6875rem] text-[#7d8493]">
+        <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[0.6875rem] text-[#5c6370]">
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1">
               <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem]">↑</kbd>

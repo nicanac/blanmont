@@ -61,7 +61,7 @@ export default function Error({
 
         {/* Technical Digest Details (Collapsible for debug) */}
         {error.digest && (
-          <div className="text-xs font-mono text-[#7d8493] bg-[#f2efe9] border border-[#e4e0d8] p-2.5 rounded-md inline-block">
+          <div className="text-xs font-mono text-[#5c6370] bg-[#f2efe9] border border-[#e4e0d8] p-2.5 rounded-md inline-block">
             Code d&apos;incident : <span className="text-[#101216] select-all">{error.digest}</span>
           </div>
         )}
@@ -82,7 +82,7 @@ export default function Error({
             href="/"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-6 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors min-h-[44px]"
           >
-            <HomeIcon className="h-4 w-4 text-[#7d8493]" />
+            <HomeIcon className="h-4 w-4 text-[#5c6370]" />
             <span>Accueil du club</span>
           </Link>
 
@@ -90,7 +90,7 @@ export default function Error({
             href="/calendrier"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] px-6 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors min-h-[44px]"
           >
-            <CalendarDaysIcon className="h-4 w-4 text-[#7d8493]" />
+            <CalendarDaysIcon className="h-4 w-4 text-[#5c6370]" />
             <span>Calendrier</span>
           </Link>
         </div>

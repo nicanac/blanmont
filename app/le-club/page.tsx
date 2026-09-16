@@ -111,17 +111,17 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des A</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Sportif &amp; Rythmé
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Allure
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                    &gt; 30 <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
+                    &gt; 30 <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb]">km/h</span>
                   </span>
                 </div>
               </div>
@@ -129,7 +129,7 @@ export default function LeClubPage(): React.ReactElement {
                 Groupe dynamique et sportif. Allure soutenue, sorties rythmées et participation fréquente aux randos et classiques extérieures. Traces GPS envoyées à l&apos;avance via le groupe WhatsApp.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
               <span>Capitaines : Lucien &amp; Laurent</span>
               <span className="font-semibold text-[#101216] dark:text-white">Traces GPS</span>
             </div>
@@ -145,17 +145,17 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des B</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Cœur du Peloton
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Allure
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                    25 – 28 <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
+                    25 – 28 <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb]">km/h</span>
                   </span>
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default function LeClubPage(): React.ReactElement {
                 Le cœur du peloton de Blanmont. Circuits équilibrés et variés évitant les grands axes, départs vent de face pour un retour fluide et groupé. Esprit d&apos;équipe garanti.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
               <span>Capitaines : Dany, Philippe &amp; René</span>
               <span className="font-semibold text-[#101216] dark:text-white">Circuits variés</span>
             </div>
@@ -179,17 +179,17 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des C</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Rando &amp; Progression
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Allure
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                    &lt; 25 <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
+                    &lt; 25 <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb]">km/h</span>
                   </span>
                 </div>
               </div>
@@ -197,7 +197,7 @@ export default function LeClubPage(): React.ReactElement {
                 Allure modérée idéale pour progresser, reprendre le vélo ou rouler sans pression de chrono. Tout le monde s&apos;attend, avec l&apos;objectif de franchir le cap des 100 km en cours de saison.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
               <span>Capitaines : Les 2 Joël &amp; Michel</span>
               <span className="font-semibold text-[#101216] dark:text-white">Accessible à tous</span>
             </div>
@@ -213,13 +213,13 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des VTT</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#7d8493] dark:text-[#a7adbb]">
+                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Chemins &amp; Forêt
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#7d8493] dark:text-[#a7adbb]">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Terrain
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tracking-tight">
@@ -231,7 +231,7 @@ export default function LeClubPage(): React.ReactElement {
                 Exploration des chemins de terre, sous-bois et bosses de la région. Regroupement systématique au sommet des côtes et entraide technique sur les passages délicats.
               </p>
             </div>
-            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#7d8493] dark:text-[#a7adbb]">
+            <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
               <span>Capitaines : Nicolas, Pascal &amp; Jean</span>
               <span className="font-semibold text-[#101216] dark:text-white">Chemins &amp; Nature</span>
             </div>
@@ -242,7 +242,7 @@ export default function LeClubPage(): React.ReactElement {
         <div className="space-y-4 pt-8">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold text-[#101216] dark:text-white">La Vie du Club en Images</h3>
-            <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb]">Sorties &amp; Convivialité</span>
+            <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb]">Sorties &amp; Convivialité</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

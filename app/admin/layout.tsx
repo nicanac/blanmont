@@ -196,7 +196,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
       {navigationGroups.map((group) => (
         <div key={group.title}>
           {(!isCollapsed || isDrawer) && (
-            <h3 className="px-3 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#7d8493] mb-1.5">
+            <h3 className="px-3 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#5c6370] mb-1.5">
               {group.title}
             </h3>
           )}
@@ -246,7 +246,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                       'h-4 w-4 shrink-0 transition-colors',
                       active
                         ? 'text-[#e03e3e] dark:text-white'
-                        : 'text-[#7d8493] group-hover:text-[#101216] dark:group-hover:text-white'
+                        : 'text-[#5c6370] group-hover:text-[#101216] dark:group-hover:text-white'
                     )}
                   />
 
@@ -259,7 +259,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                             'ml-2 rounded-xs px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider',
                             active
                               ? 'bg-[#e03e3e] text-white'
-                              : 'bg-[#f2efe9] dark:bg-[#161922] text-[#7d8493]'
+                              : 'bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370]'
                           )}
                         >
                           {item.badge}
@@ -297,7 +297,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                     <p className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
                       Blan<span className="text-[#e03e3e]">mont</span>
                     </p>
-                    <p className="text-[0.625rem] font-bold uppercase tracking-widest text-[#7d8493]">
+                    <p className="text-[0.625rem] font-bold uppercase tracking-widest text-[#5c6370]">
                       Administration
                     </p>
                   </div>
@@ -305,7 +305,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 <button
                   type="button"
                   onClick={closeMobileSidebar}
-                  className="p-1.5 rounded-md text-[#7d8493] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                  className="p-1.5 rounded-md text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
                 >
                   <XMarkIcon className="h-5 w-5" />
                 </button>
@@ -329,7 +329,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 </button>
                 <Link
                   href="/"
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold text-[#7d8493] hover:bg-black/5 dark:hover:bg-white/5"
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold text-[#5c6370] hover:bg-black/5 dark:hover:bg-white/5"
                 >
                   <ArrowLeftIcon className="h-3.5 w-3.5" />
                   <span>Retour au site public</span>
@@ -362,7 +362,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                   <p className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white truncate">
                     Blan<span className="text-[#e03e3e]">mont</span>
                   </p>
-                  <p className="text-[0.625rem] font-bold uppercase tracking-widest text-[#5c6370] dark:text-[#7d8493]">
+                  <p className="text-[0.625rem] font-bold uppercase tracking-widest text-[#5c6370] dark:text-[#a7adbb]">
                     Administration
                   </p>
                 </div>
@@ -393,7 +393,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
 
                 <Link
                   href="/"
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-[#7d8493] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-[#5c6370] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
                 >
                   <ArrowLeftIcon className="h-3.5 w-3.5 shrink-0" />
                   <span>Retour au site public</span>
@@ -428,7 +428,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                     });
                   }}
                   onMouseLeave={() => setHoveredTooltip(null)}
-                  className="flex items-center justify-center h-10 w-10 rounded-lg text-[#7d8493] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+                  className="flex items-center justify-center h-10 w-10 rounded-lg text-[#5c6370] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
                   aria-label="Retour au site public"
                 >
                   <ArrowLeftIcon className="h-4 w-4" />

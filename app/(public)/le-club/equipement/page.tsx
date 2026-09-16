@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   XMarkIcon,
   ShieldCheckIcon,
@@ -216,7 +217,7 @@ MODALITÉS CLUB :
 
         {/* Category Filter Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xs transition-colors">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7d8493] dark:text-[#a7adbb]">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
             <CheckBadgeIcon className="h-4 w-4 text-[#e03e3e]" />
             <span>Catégories :</span>
           </div>
@@ -237,7 +238,7 @@ MODALITÉS CLUB :
             ))}
           </div>
 
-          <span className="text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb] tabular-nums">
+          <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
             {filteredEquipment.length} article{filteredEquipment.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -256,12 +257,14 @@ MODALITÉS CLUB :
                 {/* Product Apparel Image / Fallback Container */}
                 <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922] dark:bg-[#1c202a]">
                   {hasPhoto ? (
-                    <img
+                    <Image
                       src={item.imageUrl}
                       alt={item.name}
+                      fill
+                      unoptimized
                       onError={() => handleImageError(item.id)}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                   ) : (
                     <EquipmentIllustration
@@ -305,7 +308,7 @@ MODALITÉS CLUB :
                       <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
                         {item.price.toFixed(2)}&nbsp;€
                       </div>
-                      <div className="text-xs font-medium text-[#7d8493] dark:text-[#a7adbb] mt-0.5">
+                      <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] mt-0.5">
                         Tailles : {item.sizes.join(' · ')}
                       </div>
                     </div>
@@ -391,7 +394,7 @@ MODALITÉS CLUB :
                     <h2 className="text-sm font-bold text-[#101216] dark:text-white uppercase tracking-wider">
                       Bon de Commande &amp; Réservation Équipement
                     </h2>
-                    <p className="text-[11px] text-[#7d8493] dark:text-[#a7adbb]">
+                    <p className="text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
                       CC Saint-Martin Blanmont · Partenaire GOBIK Custom
                     </p>
                   </div>
@@ -399,7 +402,7 @@ MODALITÉS CLUB :
 
                 <button
                   onClick={closeModal}
-                  className="rounded-full p-2 text-[#7d8493] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                  className="rounded-full p-2 text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                   aria-label="Fermer"
                 >
                   <XMarkIcon className="h-5 w-5" />
@@ -414,11 +417,14 @@ MODALITÉS CLUB :
                     {/* Visual thumbnail */}
                     <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-[#161922] dark:bg-[#1c202a] border border-[#e4e0d8] dark:border-[#262b38]">
                       {Boolean(selectedProduct.imageUrl) && !imgErrors[selectedProduct.id] ? (
-                        <img
+                        <Image
                           src={selectedProduct.imageUrl}
                           alt={selectedProduct.name}
+                          fill
+                          unoptimized
                           onError={() => handleImageError(selectedProduct.id)}
-                          className="h-full w-full object-cover"
+                          className="object-cover"
+                          sizes="96px"
                         />
                       ) : (
                         <EquipmentIllustration
@@ -438,7 +444,7 @@ MODALITÉS CLUB :
                         {selectedProduct.name}
                       </h3>
                       {selectedProduct.gobikReference && (
-                        <p className="text-[11px] font-mono text-[#7d8493] dark:text-[#a7adbb] uppercase truncate">
+                        <p className="text-[11px] font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase truncate">
                           Ref: {selectedProduct.gobikReference}
                         </p>
                       )}
@@ -513,7 +519,7 @@ MODALITÉS CLUB :
                     </div>
 
                     <div className="text-right">
-                      <div className="text-xs text-[#7d8493] dark:text-[#a7adbb]">
+                      <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                         Prix unitaire : {selectedProduct.price.toFixed(2)}&nbsp;€
                       </div>
                       <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -532,10 +538,11 @@ MODALITÉS CLUB :
 
                     <div className="space-y-3 text-xs">
                       <div>
-                        <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                        <label htmlFor="equip-order-name" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
                           Nom &amp; Prénom
                         </label>
                         <input
+                          id="equip-order-name"
                           type="text"
                           value={effectiveMemberName}
                           onChange={(e) => setMemberName(e.target.value)}
@@ -546,10 +553,11 @@ MODALITÉS CLUB :
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         <div>
-                          <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                          <label htmlFor="equip-order-email" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
                             Email
                           </label>
                           <input
+                            id="equip-order-email"
                             type="email"
                             value={effectiveMemberEmail}
                             onChange={(e) => setMemberEmail(e.target.value)}
@@ -558,10 +566,11 @@ MODALITÉS CLUB :
                           />
                         </div>
                         <div>
-                          <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                          <label htmlFor="equip-order-phone" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
                             Téléphone (optionnel)
                           </label>
                           <input
+                            id="equip-order-phone"
                             type="tel"
                             value={memberPhone}
                             onChange={(e) => setMemberPhone(e.target.value)}
@@ -572,10 +581,11 @@ MODALITÉS CLUB :
                       </div>
 
                       <div>
-                        <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                        <label htmlFor="equip-order-notes" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
                           Remarque ou demande d&apos;essayage
                         </label>
                         <input
+                          id="equip-order-notes"
                           type="text"
                           value={orderNotes}
                           onChange={(e) => setOrderNotes(e.target.value)}
@@ -635,7 +645,7 @@ MODALITÉS CLUB :
                           </>
                         ) : (
                           <>
-                            <ClipboardDocumentIcon className="h-4 w-4 text-[#7d8493]" />
+                            <ClipboardDocumentIcon className="h-4 w-4 text-[#5c6370]" />
                             <span>Copier le bon</span>
                           </>
                         )}
@@ -651,7 +661,7 @@ MODALITÉS CLUB :
                       </Link>
                     </div>
 
-                    <p className="text-center text-[11px] text-[#7d8493] dark:text-[#a7adbb]">
+                    <p className="text-center text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
                       Paiement par virement ou à la remise en main propre le samedi.
                     </p>
                   </div>

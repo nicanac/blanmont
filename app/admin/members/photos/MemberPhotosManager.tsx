@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   PhotoIcon,
   AdjustmentsHorizontalIcon,
@@ -317,9 +318,11 @@ export default function MemberPhotosManager({
     <div className="space-y-8 pb-20">
       {/* Hidden file input for uploading */}
       <input
+        id="member-photos-file-upload"
         ref={fileInputRef}
         type="file"
         accept="image/*"
+        aria-label="Téléverser une photo pour le trombinoscope"
         onChange={handleFileSelect}
         className="hidden"
       />
@@ -354,7 +357,7 @@ export default function MemberPhotosManager({
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           <Link
             href="/admin/members"
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#7d8493] hover:text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#5c6370] hover:text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
           >
             <span>Annuaire Membres</span>
           </Link>
@@ -392,18 +395,20 @@ export default function MemberPhotosManager({
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-4 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
         {/* Search input */}
         <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
           <input
+            id="member-photos-search-input"
             type="text"
+            aria-label="Rechercher un membre par nom ou rôle"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un membre par nom ou rôle..."
-            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#7d8493] hover:text-[#101216]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#5c6370] hover:text-[#101216]"
             >
               Effacer
             </button>
@@ -422,7 +427,7 @@ export default function MemberPhotosManager({
             }`}
           >
             <span>Avec photo</span>
-            <span className={`text-[0.6875rem] tabular-nums ${roleFilter === 'with-photo' ? 'text-[#a7adbb]' : 'text-[#7d8493]'}`}>
+            <span className={`text-[0.6875rem] tabular-nums ${roleFilter === 'with-photo' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
               ({withPhotoCount})
             </span>
           </button>
@@ -485,7 +490,7 @@ export default function MemberPhotosManager({
               className={`p-1.5 rounded border transition-colors ${
                 viewMode === 'grid'
                   ? 'bg-[#101216] text-white border-[#101216]'
-                  : 'bg-white text-[#7d8493] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                  : 'bg-white text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9]'
               }`}
               title="Vue Cartes Réelles (Ratio 4:5)"
             >
@@ -497,7 +502,7 @@ export default function MemberPhotosManager({
               className={`p-1.5 rounded border transition-colors ${
                 viewMode === 'table'
                   ? 'bg-[#101216] text-white border-[#101216]'
-                  : 'bg-white text-[#7d8493] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                  : 'bg-white text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9]'
               }`}
               title="Vue Liste Compacte"
             >
@@ -532,13 +537,15 @@ export default function MemberPhotosManager({
                 <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922] group">
                   {hasPhoto ? (
                     <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={member.photoUrl}
                         alt={member.name}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         style={{ objectPosition: member.photoPosition || 'center center' }}
                         onError={() => setBrokenImages((prev) => ({ ...prev, [member.id]: true }))}
-                        className="h-full w-full object-cover transition-transform duration-300"
+                        className="object-cover transition-transform duration-300"
                       />
                       {/* Current Vertical % Pill */}
                       <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5">
@@ -601,7 +608,7 @@ export default function MemberPhotosManager({
                       <h3 className="text-sm font-bold text-[#101216] truncate">
                         {member.name}
                       </h3>
-                      <p className="text-[11px] text-[#7d8493] truncate">
+                      <p className="text-[11px] text-[#5c6370] truncate">
                         {member.email || 'Membre actif'}
                       </p>
                     </div>
@@ -649,10 +656,12 @@ export default function MemberPhotosManager({
 
                         {/* Range Slider for Millimetric Positioning */}
                         <input
+                          id={`member-photo-y-${member.id}`}
                           type="range"
                           min={0}
                           max={100}
                           step={1}
+                          aria-label={`Ajuster la position verticale de la photo pour ${member.name}`}
                           value={currentY}
                           onChange={(e) =>
                             handleSetPosition(member.id, formatVerticalPosition(Number(e.target.value)))
@@ -704,7 +713,7 @@ export default function MemberPhotosManager({
                   ) : (
                     /* If no photo: upload trigger */
                     <div className="pt-2 border-t border-[#e4e0d8] space-y-2">
-                      <p className="text-[11px] text-[#7d8493]">
+                      <p className="text-[11px] text-[#5c6370]">
                         Ce membre n&apos;a pas encore de photo de profil.
                       </p>
                       <button
@@ -726,58 +735,61 @@ export default function MemberPhotosManager({
       ) : (
         /* ── Compact Table View ── */
         <div className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
-          <table className="min-w-full divide-y divide-[#e4e0d8]">
-            <thead className="bg-[#f2efe9]">
-              <tr>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
-                  Portrait &amp; Membre
-                </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
-                  Positionnement Vertical
-                </th>
-                <th className="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
-                  Valeur
-                </th>
-                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#efece5] bg-white text-xs">
-              {filteredMembers.map((member) => {
-                const hasPhoto = isValidPhotoUrl(member.photoUrl) && !brokenImages[member.id];
-                const initials = getInitials(member.name);
-                const gradient = getAvatarGradient(member.name);
-                const currentY = parseVerticalPosition(member.photoPosition);
-                const isModified = modifiedIds.has(member.id);
-                const isSaving = savingIds.has(member.id);
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-[#e4e0d8]">
+              <thead className="bg-[#f2efe9]">
+                <tr>
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                    Portrait &amp; Membre
+                  </th>
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                    Positionnement Vertical
+                  </th>
+                  <th className="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                    Valeur
+                  </th>
+                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#efece5] bg-white text-xs">
+                {filteredMembers.map((member) => {
+                  const hasPhoto = isValidPhotoUrl(member.photoUrl) && !brokenImages[member.id];
+                  const initials = getInitials(member.name);
+                  const gradient = getAvatarGradient(member.name);
+                  const currentY = parseVerticalPosition(member.photoPosition);
+                  const isModified = modifiedIds.has(member.id);
+                  const isSaving = savingIds.has(member.id);
 
-                return (
-                  <tr key={member.id} className="hover:bg-[#faf8f5] transition-colors">
-                    <td className="whitespace-nowrap px-6 py-3.5">
-                      <div className="flex items-center gap-3">
-                        <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded border border-[#262b38] bg-[#101216]">
-                          {hasPhoto ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={member.photoUrl}
-                              alt={member.name}
-                              style={{ objectPosition: member.photoPosition || 'center center' }}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className={`h-full w-full bg-gradient-to-br ${gradient} flex items-center justify-center font-bold text-white text-[10px]`}>
-                              {initials}
-                            </div>
-                          )}
-                        </div>
+                  return (
+                    <tr key={member.id} className="hover:bg-[#faf8f5] transition-colors">
+                      <td className="whitespace-nowrap px-6 py-3.5">
+                        <div className="flex items-center gap-3">
+                          <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded border border-[#262b38] bg-[#101216]">
+                            {hasPhoto ? (
+                              <Image
+                                src={member.photoUrl}
+                                alt={member.name}
+                                fill
+                                unoptimized
+                                sizes="44px"
+                                style={{ objectPosition: member.photoPosition || 'center center' }}
+                                className="object-cover"
+                              />
+                            ) : (
+                              <div className={`h-full w-full bg-gradient-to-br ${gradient} flex items-center justify-center font-bold text-white text-xs`}>
+                                {initials}
+                              </div>
+                            )}
+                          </div>
 
-                        <div>
-                          <p className="font-bold text-[#101216]">{member.name}</p>
-                          <p className="text-xs text-[#7d8493]">{member.email || '-'}</p>
+                          <div>
+                            <p className="font-bold text-[#101216]">{member.name}</p>
+                            <p className="text-xs text-[#5c6370]">{member.email || '-'}</p>
+                          </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
                     <td className="px-6 py-3.5 max-w-xs">
                       {hasPhoto ? (
@@ -799,10 +811,12 @@ export default function MemberPhotosManager({
                             ))}
                           </div>
                           <input
+                            id={`member-table-photo-y-${member.id}`}
                             type="range"
                             min={0}
                             max={100}
                             step={1}
+                            aria-label={`Ajuster la position verticale de la photo pour ${member.name}`}
                             value={currentY}
                             onChange={(e) =>
                               handleSetPosition(member.id, formatVerticalPosition(Number(e.target.value)))
@@ -811,7 +825,7 @@ export default function MemberPhotosManager({
                           />
                         </div>
                       ) : (
-                        <span className="text-xs text-[#7d8493] italic">Pas de photo</span>
+                        <span className="text-xs text-[#5c6370] italic">Pas de photo</span>
                       )}
                     </td>
 
@@ -858,13 +872,14 @@ export default function MemberPhotosManager({
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
 
       {/* Empty State */}
       {filteredMembers.length === 0 && (
         <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center space-y-3">
-          <PhotoIcon className="mx-auto h-12 w-12 text-[#7d8493]" />
+          <PhotoIcon className="mx-auto h-12 w-12 text-[#5c6370]" />
           <h3 className="text-base font-bold text-[#101216]">Aucun membre trouvé</h3>
           <p className="text-xs sm:text-sm text-[#5c6370] max-w-sm mx-auto">
             Aucun membre ne correspond aux critères de filtre ou de recherche sélectionnés.

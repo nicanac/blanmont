@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BlogPost } from '../../../types';
 import { NewspaperIcon, CalendarDaysIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { parseDateInfo } from '@/app/lib/carreVert';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -11,15 +13,18 @@ interface BlogCardProps {
 }
 
 function formatDate(dateString: string): string {
+  const info = parseDateInfo(dateString);
+  if (!info) return dateString;
   try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
+    const utcDate = new Date(Date.UTC(info.year, info.month - 1, info.day));
+    return utcDate.toLocaleDateString('fr-FR', {
+      timeZone: 'UTC',
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     });
   } catch {
-    return dateString;
+    return info.displayDate;
   }
 }
 
@@ -67,12 +72,14 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
         }`}
       >
         {hasCoverImage ? (
-          <img
-            src={post.coverImage}
+          <Image
+            src={post.coverImage!}
             alt={post.title}
+            fill
+            unoptimized
             onError={() => setImgError(true)}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
           /* High-craft editorial article fallback */
@@ -133,11 +140,14 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
             {/* Author Avatar with initials fallback */}
             <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-white/10 flex items-center justify-center text-xs font-bold text-white">
               {hasAvatar ? (
-                <img
-                  src={post.authorAvatar}
+                <Image
+                  src={post.authorAvatar!}
                   alt=""
+                  fill
+                  unoptimized
                   onError={() => setAvatarError(true)}
-                  className="h-full w-full object-cover"
+                  className="object-cover"
+                  sizes="28px"
                 />
               ) : (
                 <span>{getInitials(post.author)}</span>

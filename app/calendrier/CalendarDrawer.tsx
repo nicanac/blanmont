@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useMemo, useTransition } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   CalendarEvent,
   EventReview,
@@ -922,12 +923,16 @@ export default function CalendarDrawer({
                             <div className="flex items-start justify-between gap-3">
                               <div className="flex items-center gap-3">
                                 {rev.memberPhotoUrl ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img
-                                    src={rev.memberPhotoUrl}
-                                    alt={rev.memberName}
-                                    className="h-10 w-10 rounded-full object-cover border border-[#e4e0d8] dark:border-[#262b38]"
-                                  />
+                                  <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-[#e4e0d8] dark:border-[#262b38]">
+                                    <Image
+                                      src={rev.memberPhotoUrl}
+                                      alt={rev.memberName}
+                                      fill
+                                      unoptimized
+                                      sizes="40px"
+                                      className="object-cover"
+                                    />
+                                  </div>
                                 ) : (
                                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
                                     {getInitials(rev.memberName)}
@@ -940,7 +945,7 @@ export default function CalendarDrawer({
                                       {rev.memberName}
                                     </span>
                                     {rev.memberGroup && (
-                                      <span className="rounded-xs border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#5c6370] dark:text-[#a7adbb]">
+                                      <span className="rounded-xs border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-1.5 py-0.5 text-xs font-bold uppercase text-[#5c6370] dark:text-[#a7adbb]">
                                         {rev.memberGroup}
                                       </span>
                                     )}

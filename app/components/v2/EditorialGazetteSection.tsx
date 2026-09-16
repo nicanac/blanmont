@@ -4,22 +4,26 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BlogPost } from '@/app/types';
-import { ArrowRightIcon, SparklesIcon, BookOpenIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { parseDateInfo } from '@/app/lib/carreVert';
 
 interface EditorialGazetteSectionProps {
   posts: BlogPost[];
 }
 
 function formatDate(dateString: string): string {
+  const info = parseDateInfo(dateString);
+  if (!info) return dateString;
   try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
+    const utcDate = new Date(Date.UTC(info.year, info.month - 1, info.day));
+    return utcDate.toLocaleDateString('fr-FR', {
+      timeZone: 'UTC',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
   } catch {
-    return dateString;
+    return info.displayDate;
   }
 }
 
@@ -35,10 +39,6 @@ export default function EditorialGazetteSection({ posts }: EditorialGazetteSecti
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] pb-8">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#e03e3e]">
-              <BookOpenIcon className="h-4 w-4" />
-              Édition &amp; Chroniques
-            </div>
             <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] text-balance">
               La Gazette du Peloton
             </h2>
@@ -67,6 +67,7 @@ export default function EditorialGazetteSection({ posts }: EditorialGazetteSecti
               src={featured.coverImage}
               alt={featured.title}
               fill
+              unoptimized
               sizes="(max-width: 1024px) 100vw, 58vw"
               className="object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
@@ -74,10 +75,10 @@ export default function EditorialGazetteSection({ posts }: EditorialGazetteSecti
 
             <div className="relative z-10 p-6 sm:p-10 space-y-4">
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="rounded-md bg-[#e03e3e] px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white shadow-md">
+                <span className="rounded-md bg-[#e03e3e] px-3 py-1 text-xs font-bold uppercase tracking-widest text-white shadow-md">
                   À la Une
                 </span>
-                <span className="rounded-md bg-white/20 backdrop-blur-md px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white border border-white/20">
+                <span className="rounded-md bg-white/20 backdrop-blur-md px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white border border-white/20">
                   {featured.category}
                 </span>
                 <span className="text-xs text-white/75">
@@ -109,10 +110,10 @@ export default function EditorialGazetteSection({ posts }: EditorialGazetteSecti
                   href={`/blog/${post.slug}`}
                   className="group block py-6 hover:bg-white/80 transition-colors px-4 -mx-4 rounded-lg"
                 >
-                  <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest text-[#5c6370]">
+                  <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-[#5c6370]">
                     <span className="text-[#e03e3e]">{post.category}</span>
                     <span className="h-px w-3 bg-[#e4e0d8]" />
-                    <span className="font-medium text-[#7d8493]">{formatDate(post.publishedAt)}</span>
+                    <span className="font-medium text-[#5c6370]">{formatDate(post.publishedAt)}</span>
                   </div>
 
                   <h4 className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug">
@@ -137,7 +138,7 @@ export default function EditorialGazetteSection({ posts }: EditorialGazetteSecti
                 <span className="text-xs font-bold text-[#101216]">
                   La boutique officielle
                 </span>
-                <p className="text-[11px] text-[#5c6370]">
+                <p className="text-xs text-[#5c6370]">
                   Maillots, cuissards et vestes thermiques du club.
                 </p>
               </div>

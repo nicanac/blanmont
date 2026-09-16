@@ -5,19 +5,23 @@ import { getBlogPosts } from '../../lib/firebase/blog';
 import DeleteBlogButton from './components/DeleteBlogButton';
 import AdminEmptyState from '../components/AdminEmptyState';
 import BlogIndexHeader from './components/BlogIndexHeader';
+import { parseDateInfo } from '@/app/lib/carreVert';
 
 export const dynamic = 'force-dynamic';
 
 function formatDate(dateString: string): string {
+  const info = parseDateInfo(dateString);
+  if (!info) return dateString;
   try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-BE', {
+    const utcDate = new Date(Date.UTC(info.year, info.month - 1, info.day));
+    return utcDate.toLocaleDateString('fr-BE', {
+      timeZone: 'UTC',
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     });
   } catch {
-    return dateString;
+    return info.displayDate;
   }
 }
 
@@ -53,22 +57,22 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
             <table className="min-w-full divide-y divide-[#e4e0d8]">
               <thead className="bg-[#f2efe9]">
                 <tr>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                     Article
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                     Auteur
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                     Catégorie
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                     Date
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                     Statut
                   </th>
-                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                     Actions
                   </th>
                 </tr>
@@ -81,7 +85,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                         <p className="font-bold text-[#101216] truncate max-w-xs">
                           {post.title}
                         </p>
-                        <p className="text-xs text-[#7d8493] truncate max-w-xs">{post.excerpt}</p>
+                        <p className="text-xs text-[#5c6370] truncate max-w-xs">{post.excerpt}</p>
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-[#3a3f4a] font-medium">
@@ -92,7 +96,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                         {post.category || 'Actualité'}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-[#7d8493] tabular-nums">
+                    <td className="whitespace-nowrap px-6 py-4 text-[#5c6370] tabular-nums">
                       {formatDate(post.publishedAt)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
@@ -111,14 +115,14 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                         <Link
                           href={`/blog/${post.slug}`}
                           target="_blank"
-                          className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
                           title="Voir sur le site"
                         >
                           <ArrowTopRightOnSquareIcon className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/admin/blog/${post.id}/edit`}
-                          className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
                           title="Modifier"
                         >
                           <PencilIcon className="h-4 w-4" />

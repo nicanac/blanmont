@@ -196,7 +196,7 @@ export default function AdminTopbar({
             return (
               <React.Fragment key={crumb.label + idx}>
                 {idx > 0 && (
-                  <ChevronRightIcon className="h-3 w-3 text-[#7d8493] shrink-0" />
+                  <ChevronRightIcon className="h-3 w-3 text-[#5c6370] shrink-0" />
                 )}
                 {isLast ? (
                   <span className="font-bold text-[#101216] dark:text-white truncate">
@@ -210,7 +210,7 @@ export default function AdminTopbar({
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-[#7d8493] truncate hidden sm:inline">
+                  <span className="text-[#5c6370] truncate hidden sm:inline">
                     {crumb.label}
                   </span>
                 )}
@@ -229,9 +229,9 @@ export default function AdminTopbar({
           className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30 hover:text-[#101216] dark:hover:text-white transition-all shadow-2xs"
           title="Rechercher (⌘K)"
         >
-          <MagnifyingGlassIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+          <MagnifyingGlassIcon className="h-3.5 w-3.5 text-[#5c6370]" />
           <span className="hidden sm:inline">Rechercher...</span>
-          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem] text-[#7d8493]">
+          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem] text-[#5c6370]">
             ⌘K
           </kbd>
         </button>
@@ -252,7 +252,7 @@ export default function AdminTopbar({
 
           {isNewMenuOpen && (
             <div className="absolute right-0 mt-2 w-64 rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] shadow-xl p-1.5 z-50 text-left animate-in fade-in-50 zoom-in-95 duration-100">
-              <div className="px-3 py-1.5 text-[0.6875rem] font-bold uppercase tracking-wider text-[#7d8493]">
+              <div className="px-3 py-1.5 text-[0.6875rem] font-bold uppercase tracking-wider text-[#5c6370]">
                 Création Rapide
               </div>
               <div className="space-y-0.5">
@@ -270,7 +270,7 @@ export default function AdminTopbar({
                       <div className="font-bold text-[#101216] dark:text-white">
                         {action.name}
                       </div>
-                      <div className="text-[0.6875rem] text-[#7d8493]">
+                      <div className="text-[0.6875rem] text-[#5c6370]">
                         {action.desc}
                       </div>
                     </div>
@@ -302,7 +302,7 @@ export default function AdminTopbar({
           title="Ouvrir le site public dans un nouvel onglet"
         >
           <span className="hidden lg:inline">Voir le site</span>
-          <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#7d8493]" />
+          <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370]" />
         </Link>
 
         {/* User Pill / Role */}

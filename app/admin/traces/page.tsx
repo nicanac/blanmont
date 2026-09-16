@@ -98,7 +98,7 @@ export default function AdminTracesPage(): React.ReactElement {
             className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors"
           >
             <span>Catalogue public</span>
-            <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#7d8493]" />
+            <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370]" />
           </Link>
           <Link
             href="/admin/add-trace"
@@ -138,7 +138,7 @@ export default function AdminTracesPage(): React.ReactElement {
               </div>
             </div>
 
-            <div className="pt-2 border-t border-[#f2efe9] flex items-center justify-between text-xs font-semibold text-[#7d8493] group-hover:text-[#101216]">
+            <div className="pt-2 border-t border-[#f2efe9] flex items-center justify-between text-xs font-semibold text-[#5c6370] group-hover:text-[#101216]">
               <span>Accéder à l&apos;outil</span>
               <ArrowRightIcon className="h-3.5 w-3.5 text-[#e03e3e] transition-transform group-hover:translate-x-1" />
             </div>

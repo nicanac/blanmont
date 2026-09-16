@@ -125,12 +125,12 @@ export default async function Home(): Promise<React.ReactElement> {
                 {/* Inline metadata chip row */}
                 <div className="flex flex-wrap items-center gap-4 text-xs text-[#5c6370] dark:text-[#a7adbb] pt-1">
                   <span className="flex items-center gap-1.5 font-medium">
-                    <BicycleIcon className="h-4 w-4 text-[#7d8493] dark:text-[#a7adbb] shrink-0" />
+                    <BicycleIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
                     <span>Groupes : <strong className="text-[#101216] dark:text-white">{nextRide.distances || 'Allures A, B, C & VTT'}</strong></span>
                   </span>
                   <span className="text-[#e4e0d8] dark:text-white/20">•</span>
                   <span className="flex items-center gap-1.5 font-medium">
-                    <MapPinIcon className="h-3.5 w-3.5 text-[#7d8493] dark:text-[#a7adbb]" />
+                    <MapPinIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
                     <span>{nextRide.location}</span>
                   </span>
                 </div>
@@ -156,7 +156,7 @@ export default async function Home(): Promise<React.ReactElement> {
                     <span>Télécharger la trace GPX</span>
                   </a>
                 ) : (
-                  <span className="text-xs text-[#7d8493] dark:text-[#a7adbb] italic">Trace disponible avant le départ</span>
+                  <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] italic">Trace disponible avant le départ</span>
                 )}
 
                 <Link
@@ -175,7 +175,7 @@ export default async function Home(): Promise<React.ReactElement> {
                 {/* Header row: Live pulse status */}
                 <div className="flex items-center justify-between pb-3 border-b border-[#262b38]">
                   <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#7d8493]' : 'bg-[#e03e3e] animate-pulse'}`} />
+                    <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#5c6370]' : 'bg-[#e03e3e] animate-pulse'}`} />
                     <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#a7adbb]">
                       Sondage de présence
                     </span>
@@ -211,7 +211,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
                 <Link
                   href="/sondage"
-                  className="text-xs font-medium text-[#7d8493] hover:text-white transition-colors"
+                  className="text-xs font-medium text-[#5c6370] hover:text-white transition-colors"
                 >
                   Voir les réponses →
                 </Link>
@@ -255,7 +255,7 @@ export default async function Home(): Promise<React.ReactElement> {
           {/* Speed & Pace Groups Strip — Distilled, No Nested Cards */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#7d8493] dark:text-[#a7adbb]">
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb]">
                 Groupes de niveau &amp; allures
               </span>
               <Link
@@ -278,7 +278,7 @@ export default async function Home(): Promise<React.ReactElement> {
                     <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
                   </div>
                   <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                    &gt; 30 <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
+                    &gt; 30 <span className="text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">km/h</span>
                   </div>
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Sportif, rythmé et soutenu. Pour les cyclistes aguerris habitués aux relais dynamiques.
@@ -296,7 +296,7 @@ export default async function Home(): Promise<React.ReactElement> {
                     <span className="h-2 w-2 rounded-full bg-sky-500" />
                   </div>
                   <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                    25 – 28 <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
+                    25 – 28 <span className="text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">km/h</span>
                   </div>
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Équilibré, fluide et convivial en peloton régulier. Idéal pour progresser et rouler groupé.
@@ -314,7 +314,7 @@ export default async function Home(): Promise<React.ReactElement> {
                     <span className="h-2 w-2 rounded-full bg-emerald-500" />
                   </div>
                   <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                    &lt; 25 <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">km/h</span>
+                    &lt; 25 <span className="text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">km/h</span>
                   </div>
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Découverte, reprise et plaisir sans pression. Adapté aux vélos traditionnels et VAE.
@@ -332,7 +332,7 @@ export default async function Home(): Promise<React.ReactElement> {
                     <span className="h-2 w-2 rounded-full bg-amber-500" />
                   </div>
                   <div className="text-2xl font-extrabold text-[#101216] dark:text-white tracking-tight">
-                    Sentiers <span className="text-xs font-normal text-[#7d8493] dark:text-[#a7adbb]">Bois &amp; Campagne</span>
+                    Sentiers <span className="text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">Bois &amp; Campagne</span>
                   </div>
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Chemins de terre, sous-bois et sentiers vallonnés du Brabant wallon.

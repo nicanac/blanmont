@@ -279,7 +279,7 @@ export default function SecuriteInteractive(): React.ReactElement {
                 <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-xs font-bold text-[#e03e3e]">
                   {s.step}
                 </span>
-                <span className="text-[10px] uppercase font-bold text-[#7d8493]">
+                <span className="text-[10px] uppercase font-bold text-[#5c6370]">
                   Temps {s.step}/4
                 </span>
               </div>
@@ -324,7 +324,7 @@ export default function SecuriteInteractive(): React.ReactElement {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-rose-600">{item.step}</span>
-                <span className="text-[10px] uppercase font-bold text-[#7d8493]">{item.label}</span>
+                <span className="text-[10px] uppercase font-bold text-[#5c6370]">{item.label}</span>
               </div>
               <h3 className="text-sm font-bold text-[#101216] dark:text-white">
                 {item.label}

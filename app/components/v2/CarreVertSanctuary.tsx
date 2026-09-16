@@ -26,10 +26,6 @@ export default function CarreVertSanctuary({ activePoll }: CarreVertSanctuaryPro
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-emerald-400">
-              <TrophyIcon className="h-4 w-4" />
-              Challenge &amp; Démocratie du Peloton
-            </div>
             <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-white text-balance">
               Le Sanctuaire du Carré Vert
             </h2>
@@ -95,7 +91,7 @@ export default function CarreVertSanctuary({ activePoll }: CarreVertSanctuaryPro
                 <ArrowRightIcon className="h-3.5 w-3.5" />
               </Link>
 
-              <span className="text-[11px] text-[#7d8493] font-mono">
+              <span className="text-xs text-[#a7adbb] font-mono">
                 SAISON 2026 EN COURS
               </span>
             </div>
@@ -106,7 +102,7 @@ export default function CarreVertSanctuary({ activePoll }: CarreVertSanctuaryPro
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-[#e03e3e]/15 border border-[#e03e3e]/30 text-[#e03e3e] text-xs font-bold uppercase tracking-widest">
-                  <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#7d8493]' : 'bg-[#e03e3e] animate-ping'}`} />
+                  <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#a7adbb]' : 'bg-[#e03e3e] animate-ping'}`} />
                   {activePoll?.status === 'closed' ? 'Sondage Clôturé' : 'Sondage Ouvert'}
                 </div>
                 <ChatBubbleLeftRightIcon className="h-6 w-6 text-[#e03e3e]" />
@@ -124,7 +120,7 @@ export default function CarreVertSanctuary({ activePoll }: CarreVertSanctuaryPro
               {/* Instant Live Features */}
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
                 <div className="bg-black/30 rounded-lg p-3.5 border border-white/5 space-y-1">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#7d8493]">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
                     Choix du jour
                   </div>
                   <div className="text-xs font-bold text-white">
@@ -132,7 +128,7 @@ export default function CarreVertSanctuary({ activePoll }: CarreVertSanctuaryPro
                   </div>
                 </div>
                 <div className="bg-black/30 rounded-lg p-3.5 border border-white/5 space-y-1">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#7d8493]">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
                     Export Capitaines
                   </div>
                   <div className="text-xs font-bold text-white">

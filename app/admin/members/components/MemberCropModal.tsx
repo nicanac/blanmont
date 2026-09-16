@@ -12,6 +12,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 
+import { useFocusTrap } from '@/app/hooks/useFocusTrap';
+
 interface MemberCropModalProps {
   isOpen: boolean;
   imageSrc: string | null;
@@ -38,6 +40,7 @@ export default function MemberCropModal({
     height: number;
   } | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   const onCropComplete = useCallback(
     (_croppedArea: unknown, pixelCrop: { x: number; y: number; width: number; height: number }) => {
@@ -58,9 +61,9 @@ export default function MemberCropModal({
         throw new Error('Échec de la génération du recadrage');
       }
       await onCropConfirmed(croppedBlob);
+      toast.success('Photo recadrée avec succès ! Pensez à enregistrer le membre.');
       onClose();
     } catch (err: unknown) {
-      console.error('Crop confirmation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors du recadrage';
       toast.error(errorMessage);
     } finally {
@@ -70,8 +73,10 @@ export default function MemberCropModal({
 
   return (
     <div
+      ref={modalRef}
       role="dialog"
       aria-modal="true"
+      aria-labelledby="member-crop-title"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6"
     >
       <div className="bg-[#101216] border border-[#262b38] rounded-xl overflow-hidden w-full max-w-3xl shadow-2xl animate-in zoom-in-95 flex flex-col max-h-[92vh]">
@@ -82,7 +87,7 @@ export default function MemberCropModal({
               <AdjustmentsHorizontalIcon className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-white uppercase tracking-wider">
+              <h3 id="member-crop-title" className="text-sm sm:text-base font-bold text-white uppercase tracking-wider">
                 Recadrage Photo · {memberName || 'Membre'}
               </h3>
               <p className="text-xs text-[#a7adbb]">
@@ -95,8 +100,8 @@ export default function MemberCropModal({
             type="button"
             onClick={onClose}
             disabled={isProcessing}
-            className="rounded-md p-1.5 text-[#7d8493] hover:text-white hover:bg-white/10 transition-colors"
-            title="Fermer"
+            aria-label="Fermer le recadrage"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
@@ -131,10 +136,12 @@ export default function MemberCropModal({
               <MagnifyingGlassMinusIcon className="h-4 w-4" />
             </button>
             <input
+              id="member-crop-zoom-slider"
               type="range"
               min={1}
               max={3}
               step={0.05}
+              aria-label="Niveau de zoom du recadrage photo"
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
               className="w-full accent-[#e03e3e] cursor-pointer"
@@ -154,7 +161,7 @@ export default function MemberCropModal({
 
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#262b38]">
-            <p className="text-[11px] text-[#7d8493]">
+            <p className="text-[11px] text-[#5c6370]">
               Astuce : Déplacez directement le sujet à la souris ou au doigt pour un cadrage optimal.
             </p>
 

@@ -225,7 +225,7 @@ export default function ImportEventsPage() {
               </p>
             </div>
 
-            <label className="relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50/60 p-8 hover:bg-red-50/30 hover:border-red-300 transition-all group">
+            <label htmlFor="events-pdf-upload" className="relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50/60 p-8 hover:bg-red-50/30 hover:border-red-300 transition-all group">
               <span className="text-sm font-semibold text-slate-700 group-hover:text-[#e03e3e] transition-colors">
                 {isProcessing
                   ? 'Extraction des événements en cours...'
@@ -233,7 +233,9 @@ export default function ImportEventsPage() {
               </span>
               <span className="mt-1 text-xs text-slate-400">Format .pdf accepté</span>
               <input
+                id="events-pdf-upload"
                 type="file"
+                aria-label="Choisir le calendrier PDF"
                 className="hidden"
                 accept=".pdf"
                 onChange={handleFileUpload}
@@ -352,7 +354,9 @@ export default function ImportEventsPage() {
                       {/* Checkbox */}
                       <td className="px-3 py-2.5 text-center">
                         <input
+                          id={`event-select-${event.id}`}
                           type="checkbox"
+                          aria-label={`Sélectionner l'événement du ${event.isoDate || event.location || 'nouveau'}`}
                           checked={event.selected}
                           onChange={() => toggleSelectEvent(event.id)}
                           className="h-4 w-4 rounded border-slate-300 text-[#e03e3e] focus:ring-[#e03e3e]"
@@ -362,7 +366,9 @@ export default function ImportEventsPage() {
                       {/* Date */}
                       <td className="px-3 py-2.5">
                         <input
+                          id={`event-date-${event.id}`}
                           type="date"
+                          aria-label={`Date pour ${event.location || 'l\'événement'}`}
                           value={event.isoDate}
                           onChange={(e) =>
                             handleFieldChange(event.id, 'isoDate', e.target.value)
@@ -374,7 +380,9 @@ export default function ImportEventsPage() {
                       {/* Location */}
                       <td className="px-3 py-2.5">
                         <input
+                          id={`event-location-${event.id}`}
                           type="text"
+                          aria-label={`Lieu pour l'événement du ${event.isoDate || 'sélectionné'}`}
                           value={event.location}
                           onChange={(e) =>
                             handleFieldChange(event.id, 'location', e.target.value)
@@ -386,7 +394,9 @@ export default function ImportEventsPage() {
                       {/* Distances */}
                       <td className="px-3 py-2.5">
                         <input
+                          id={`event-distances-${event.id}`}
                           type="text"
+                          aria-label={`Distances pour ${event.location || 'l\'événement'}`}
                           value={event.distances || ''}
                           placeholder="70-90"
                           onChange={(e) =>
@@ -399,7 +409,9 @@ export default function ImportEventsPage() {
                       {/* Departure */}
                       <td className="px-3 py-2.5">
                         <input
+                          id={`event-departure-${event.id}`}
                           type="text"
+                          aria-label={`Heure de départ pour ${event.location || 'l\'événement'}`}
                           value={event.departure || ''}
                           placeholder="8h30"
                           onChange={(e) =>
@@ -412,7 +424,9 @@ export default function ImportEventsPage() {
                       {/* Address / RDV */}
                       <td className="px-3 py-2.5">
                         <input
+                          id={`event-address-${event.id}`}
                           type="text"
+                          aria-label={`Adresse de départ pour ${event.location || 'l\'événement'}`}
                           value={event.address || ''}
                           placeholder="Place de Blanmont"
                           onChange={(e) =>
@@ -425,7 +439,9 @@ export default function ImportEventsPage() {
                       {/* Remarks */}
                       <td className="px-3 py-2.5">
                         <input
+                          id={`event-remarks-${event.id}`}
                           type="text"
+                          aria-label={`Remarques pour ${event.location || 'l\'événement'}`}
                           value={event.remarks || ''}
                           placeholder="Optionnel"
                           onChange={(e) =>
@@ -438,7 +454,9 @@ export default function ImportEventsPage() {
                       {/* GPX Url */}
                       <td className="px-3 py-2.5">
                         <input
+                          id={`event-gpx-${event.id}`}
                           type="text"
+                          aria-label={`Lien GPX pour ${event.location || 'l\'événement'}`}
                           value={event.gpxUrl || ''}
                           placeholder="Lien Strava / Garmin / GPX"
                           onChange={(e) =>

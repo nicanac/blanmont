@@ -12,6 +12,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 
+import { useFocusTrap } from '@/app/hooks/useFocusTrap';
+
 interface EquipementsTutorialModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -24,21 +26,18 @@ export default function EquipementsTutorialModal({
   onStartTour,
 }: EquipementsTutorialModalProps): React.ReactElement | null {
   const [activeTab, setActiveTab] = useState<'catalog' | 'stock' | 'orders'>('catalog');
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="equipements-tutorial-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity"
@@ -73,7 +72,7 @@ export default function EquipementsTutorialModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1.5 text-[#7d8493] hover:bg-white/10 hover:text-white transition-colors"
+            className="rounded-md p-1.5 text-[#5c6370] hover:bg-white/10 hover:text-white transition-colors"
           >
             <span className="sr-only">Fermer</span>
             <XMarkIcon className="h-5 w-5" />
@@ -88,7 +87,7 @@ export default function EquipementsTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'catalog'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <JerseyIcon className="h-4 w-4 text-[#e03e3e]" />
@@ -100,7 +99,7 @@ export default function EquipementsTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'stock'
                 ? 'border-emerald-400 text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <CubeIcon className="h-4 w-4 text-sky-400" />
@@ -112,7 +111,7 @@ export default function EquipementsTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'orders'
                 ? 'border-emerald-400 text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <TagIcon className="h-4 w-4 text-amber-400" />

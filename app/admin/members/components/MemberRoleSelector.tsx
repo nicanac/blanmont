@@ -107,7 +107,7 @@ export default function MemberRoleSelector({
           <label className="text-sm font-bold tracking-tight text-[#101216]">
             Rôle(s) &amp; Responsabilités au Club
           </label>
-          <span className="text-xs text-[#7d8493]">
+          <span className="text-xs text-[#5c6370]">
             Sélection multiple autorisée
           </span>
         </div>
@@ -156,7 +156,7 @@ export default function MemberRoleSelector({
                       <h4 className="text-xs sm:text-sm font-bold text-[#101216] truncate">
                         {roleDef.label}
                       </h4>
-                      <span className="block text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+                      <span className="block text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-[#5c6370]">
                         {getBadgeCategory(roleDef.key)}
                       </span>
                     </div>
@@ -186,7 +186,7 @@ export default function MemberRoleSelector({
                 >
                   {roleDef.key}
                 </span>
-                <span className="text-[0.6875rem] font-medium text-[#7d8493]">
+                <span className="text-[0.6875rem] font-medium text-[#5c6370]">
                   {isActive ? 'Actif' : 'Inactif'}
                 </span>
               </div>
@@ -219,7 +219,7 @@ export default function MemberRoleSelector({
                 <button
                   type="button"
                   onClick={() => handleRemoveCustomRole(cRole)}
-                  className="rounded-full p-0.5 text-[#7d8493] hover:bg-[#e4e0d8] hover:text-[#101216] transition-colors"
+                  className="rounded-full p-0.5 text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216] transition-colors"
                   title={`Supprimer ${cRole}`}
                 >
                   <XMarkIcon className="h-3.5 w-3.5" />
@@ -233,12 +233,14 @@ export default function MemberRoleSelector({
         <div className="flex flex-col sm:flex-row gap-2 pt-1">
           <div className="relative flex-1">
             <input
+              id="custom-role-input"
               type="text"
+              aria-label="Ajouter un rôle sur mesure"
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ajouter un rôle sur mesure (ex: Traceur, Resp. Calendrier...)"
-              className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+              className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
             />
           </div>
           <button
@@ -254,7 +256,7 @@ export default function MemberRoleSelector({
 
         {/* Suggested Quick Add Chips */}
         <div className="pt-2 border-t border-[#e4e0d8]/60">
-          <span className="block text-[0.625rem] font-semibold uppercase tracking-wider text-[#7d8493] mb-1.5">
+          <span className="block text-[0.625rem] font-semibold uppercase tracking-wider text-[#5c6370] mb-1.5">
             Suggestions rapides :
           </span>
           <div className="flex flex-wrap gap-1.5">

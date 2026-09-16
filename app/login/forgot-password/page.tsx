@@ -111,7 +111,7 @@ export default function ForgotPasswordPage(): React.ReactElement {
                 Adresse Email
               </label>
               <div className="relative">
-                <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a7adbb]" />
                 <input
                   id="reset-email"
                   name="email"
@@ -122,7 +122,7 @@ export default function ForgotPasswordPage(): React.ReactElement {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nom@exemple.be"
-                  className="w-full rounded-md border border-[#262b38] bg-[#101216] pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none transition-colors"
+                  className="w-full rounded-md border border-[#262b38] bg-[#101216] pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder:text-[#a7adbb] focus:border-[#e03e3e] focus:outline-none transition-colors"
                 />
               </div>
             </div>

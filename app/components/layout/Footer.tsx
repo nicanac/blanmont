@@ -47,7 +47,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
               <span className="text-3xl font-extrabold uppercase tracking-[-0.02em] text-[#101216] dark:text-white font-sans">
                 Blan<span className="text-[#e03e3e]">mont</span>
               </span>
-              <span className="text-xs font-semibold tracking-[0.14em] uppercase text-[#7d8493]">
+              <span className="text-xs font-semibold tracking-[0.14em] uppercase text-[#5c6370]">
                 CC St-Martin
               </span>
             </Link>
@@ -55,7 +55,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
               Cyclo Club Saint-Martin Blanmont. Convivialité, passion du cyclisme sur route et
               esprit d&apos;équipe au cœur du Brabant wallon.
             </p>
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#7d8493]">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370]">
               Fondé en 1978 &bull; Brabant wallon, Belgique
             </p>
           </div>
@@ -125,13 +125,13 @@ export default async function Footer(): Promise<React.JSX.Element> {
 
         {/* Bottom Bar with Copyright and Theme Switcher */}
         <div className="mt-12 border-t border-[#e4e0d8] dark:border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs leading-5 text-[#7d8493] text-center sm:text-left">
+          <p className="text-xs leading-5 text-[#5c6370] text-center sm:text-left">
             &copy; {new Date().getFullYear()} Cyclo Club Saint-Martin Blanmont. Tous droits
             réservés.
           </p>
 
           <div className="flex items-center gap-4">
-            <p className="text-xs text-[#5c6370] dark:text-[#7d8493] hidden md:inline">
+            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] hidden md:inline">
               Fait avec passion pour le cyclisme à Blanmont
             </p>
             <ThemeToggle variant="pill" />

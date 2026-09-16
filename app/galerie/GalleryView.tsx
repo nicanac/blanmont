@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Image from 'next/image';
 import type { PhotoAlbum } from '../types';
 import {
   CameraIcon,
@@ -42,7 +43,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 bg-white rounded-[10px] border border-[#e4e0d8] shadow-xs">
         {/* Year Filter */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493] mr-2 shrink-0">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] mr-2 shrink-0">
             Saison :
           </span>
           <button
@@ -82,7 +83,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               className={`px-3 py-1.5 rounded-md text-xs font-semibold shrink-0 transition-colors ${
                 selectedCategory === cat
                   ? 'bg-[#f2efe9] text-[#101216] border border-[#cfc9be]'
-                  : 'text-[#7d8493] hover:text-[#101216]'
+                  : 'text-[#5c6370] hover:text-[#101216]'
               }`}
             >
               {cat === 'all' ? 'Tous les thèmes' : cat}
@@ -96,7 +97,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
         <div className="bg-white rounded-[10px] border border-[#e4e0d8] p-12 text-center space-y-3">
           <CameraIcon className="h-8 w-8 text-[#a7adbb] mx-auto" />
           <p className="text-sm font-semibold text-[#101216]">Aucun album photo ne correspond aux critères.</p>
-          <p className="text-xs text-[#7d8493]">
+          <p className="text-xs text-[#5c6370]">
             Essayez de sélectionner une autre saison ou un autre thème.
           </p>
         </div>
@@ -112,19 +113,21 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 className="relative aspect-16/10 w-full bg-[#161922] overflow-hidden cursor-pointer"
                 onClick={() => setActiveModalAlbum(album)}
               >
-                <img
+                <Image
                   src={album.coverUrl}
                   alt={album.title}
-                  className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
 
                 {/* Overlays: Year & Category badge */}
-                <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                  <span className="px-2 py-0.5 rounded-xs bg-[#101216]/90 backdrop-blur-xs text-white text-[10px] font-bold tracking-wider uppercase">
+                <div className="absolute top-3 left-3 flex items-center gap-1.5 z-10">
+                  <span className="px-2 py-0.5 rounded-xs bg-[#101216]/90 backdrop-blur-xs text-white text-xs font-bold tracking-wider uppercase">
                     {album.year}
                   </span>
-                  <span className="px-2 py-0.5 rounded-xs bg-white/90 backdrop-blur-xs text-[#101216] text-[10px] font-bold tracking-wider">
+                  <span className="px-2 py-0.5 rounded-xs bg-white/90 backdrop-blur-xs text-[#101216] text-xs font-bold tracking-wider">
                     {album.category}
                   </span>
                 </div>
@@ -216,10 +219,13 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
         >
           <div className="bg-white rounded-[10px] border border-[#e4e0d8] overflow-hidden w-full max-w-2xl shadow-2xl animate-in zoom-in-95">
             <div className="relative aspect-16/9 w-full bg-[#0a0c10]">
-              <img
+              <Image
                 src={activeModalAlbum.coverUrl}
                 alt={activeModalAlbum.title}
-                className="h-full w-full object-cover"
+                fill
+                unoptimized
+                sizes="(max-width: 768px) 100vw, 672px"
+                className="object-cover"
               />
               <button
                 type="button"
@@ -235,11 +241,11 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 <span className="px-2.5 py-0.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] text-xs font-bold uppercase tracking-wider">
                   Saison {activeModalAlbum.year}
                 </span>
-                <span className="text-xs font-medium text-[#7d8493] flex items-center gap-1">
+                <span className="text-xs font-medium text-[#5c6370] flex items-center gap-1">
                   <CalendarDaysIcon className="h-3.5 w-3.5" />
                   {activeModalAlbum.category}
                 </span>
-                <span className="text-xs font-medium text-[#7d8493] ml-auto tabular-nums">
+                <span className="text-xs font-medium text-[#5c6370] ml-auto tabular-nums">
                   {activeModalAlbum.photoCount} photos
                 </span>
               </div>

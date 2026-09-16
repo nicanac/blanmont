@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
 import {
   WeekendPoll,
@@ -599,10 +600,13 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                           {res.memberPhotoUrl &&
                             !res.memberPhotoUrl.includes('placehold') &&
                             !res.memberPhotoUrl.includes('default-avatar') && (
-                              <img
+                              <Image
                                 src={res.memberPhotoUrl}
                                 alt={res.memberName}
-                                className="absolute inset-0 h-full w-full object-cover"
+                                fill
+                                unoptimized
+                                sizes="36px"
+                                className="object-cover"
                                 onError={(e) => {
                                   (e.target as HTMLElement).style.display = 'none';
                                 }}

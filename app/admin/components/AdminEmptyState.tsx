@@ -75,7 +75,7 @@ export default function AdminEmptyState({
                 href={secondaryAction.href}
                 className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] transition-colors"
               >
-                {secondaryAction.icon && <secondaryAction.icon className="h-4 w-4 text-[#7d8493]" />}
+                {secondaryAction.icon && <secondaryAction.icon className="h-4 w-4 text-[#5c6370]" />}
                 <span>{secondaryAction.label}</span>
               </Link>
             ) : (
@@ -84,7 +84,7 @@ export default function AdminEmptyState({
                 onClick={secondaryAction.onClick}
                 className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] transition-colors"
               >
-                {secondaryAction.icon && <secondaryAction.icon className="h-4 w-4 text-[#7d8493]" />}
+                {secondaryAction.icon && <secondaryAction.icon className="h-4 w-4 text-[#5c6370]" />}
                 <span>{secondaryAction.label}</span>
               </button>
             ))}

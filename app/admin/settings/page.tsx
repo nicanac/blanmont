@@ -117,7 +117,7 @@ export default function AdminSettingsPage(): React.ReactElement {
                     <span className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
                       Blan<span className="text-[#e03e3e]">mont</span>
                     </span>
-                    <span className="text-[10px] uppercase tracking-wider text-[#5c6370] dark:text-[#7d8493] border-l border-[#e4e0d8] dark:border-white/15 pl-2">
+                    <span className="text-[10px] uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] border-l border-[#e4e0d8] dark:border-white/15 pl-2">
                       CC St-Martin
                     </span>
                   </div>
@@ -183,7 +183,7 @@ export default function AdminSettingsPage(): React.ReactElement {
 
         <div className="rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
           <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               Nom Officiel
             </span>
             <span className="sm:col-span-2 text-sm font-semibold text-[#101216] dark:text-white">
@@ -192,7 +192,7 @@ export default function AdminSettingsPage(): React.ReactElement {
           </div>
 
           <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               Lieu de Rendez-vous
             </span>
             <span className="sm:col-span-2 text-sm font-medium text-[#3a3f4a] dark:text-[#f5f6f8]">
@@ -201,7 +201,7 @@ export default function AdminSettingsPage(): React.ReactElement {
           </div>
 
           <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               Année de Fondation
             </span>
             <span className="sm:col-span-2 text-sm font-medium text-[#3a3f4a] dark:text-[#f5f6f8] tabular-nums">
@@ -210,7 +210,7 @@ export default function AdminSettingsPage(): React.ReactElement {
           </div>
 
           <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               Saison Active
             </span>
             <span className="sm:col-span-2 text-sm font-bold text-[#e03e3e] tabular-nums">
@@ -219,7 +219,7 @@ export default function AdminSettingsPage(): React.ReactElement {
           </div>
 
           <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               Charte Graphique
             </span>
             <span className="sm:col-span-2 text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">

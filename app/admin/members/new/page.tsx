@@ -59,7 +59,7 @@ export default function NewMemberPage(): React.ReactElement {
       <div className="flex items-center gap-4 pb-4 border-b border-[#e4e0d8]">
         <Link
           href="/admin/members"
-          className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors shadow-xs"
+          className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors shadow-xs"
           title="Retour à l'annuaire des membres"
         >
           <ArrowLeftIcon className="h-4 w-4" />
@@ -85,7 +85,7 @@ export default function NewMemberPage(): React.ReactElement {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
                 placeholder="ex: Lucien Szustak"
               />
             </div>
@@ -100,7 +100,7 @@ export default function NewMemberPage(): React.ReactElement {
                 id="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
                 placeholder="membre@blanmont.be"
               />
             </div>
@@ -115,7 +115,7 @@ export default function NewMemberPage(): React.ReactElement {
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
                 placeholder="+32 470 12 34 56"
               />
             </div>
@@ -130,7 +130,7 @@ export default function NewMemberPage(): React.ReactElement {
                 id="photoUrl"
                 value={formData.photoUrl}
                 onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
                 placeholder="https://..."
               />
             </div>
@@ -145,7 +145,7 @@ export default function NewMemberPage(): React.ReactElement {
                 id="stravaId"
                 value={formData.stravaId}
                 onChange={(e) => setFormData({ ...formData, stravaId: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
                 placeholder="ex: 12345678"
               />
             </div>
@@ -160,7 +160,7 @@ export default function NewMemberPage(): React.ReactElement {
                 rows={3}
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
                 placeholder="Quelques mots sur le cycliste, ses allures favorites..."
               />
             </div>
@@ -173,10 +173,11 @@ export default function NewMemberPage(): React.ReactElement {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-new-cotisation" className="mb-1.5 block text-xs font-semibold text-[#101216]">
                     Statut Cotisation 2026
                   </label>
                   <select
+                    id="member-new-cotisation"
                     value={formData.cotisation2026Status}
                     onChange={(e) => setFormData({ ...formData, cotisation2026Status: e.target.value as any })}
                     className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
@@ -188,10 +189,11 @@ export default function NewMemberPage(): React.ReactElement {
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-new-cotisation-date" className="mb-1.5 block text-xs font-semibold text-[#101216]">
                     Date de règlement
                   </label>
                   <input
+                    id="member-new-cotisation-date"
                     type="date"
                     value={formData.cotisation2026PaidAt}
                     onChange={(e) => setFormData({ ...formData, cotisation2026PaidAt: e.target.value })}
@@ -200,10 +202,11 @@ export default function NewMemberPage(): React.ReactElement {
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-new-licence" className="mb-1.5 block text-xs font-semibold text-[#101216]">
                     N° Licence FFBC
                   </label>
                   <input
+                    id="member-new-licence"
                     type="text"
                     placeholder="ex: FFBC-2026-8491"
                     value={formData.ffbcLicenseNumber}
@@ -224,10 +227,11 @@ export default function NewMemberPage(): React.ReactElement {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="mb-1 block text-[11px] font-semibold text-amber-950">
+                    <label htmlFor="member-new-ice-name" className="mb-1 block text-[11px] font-semibold text-amber-950">
                       Nom du proche
                     </label>
                     <input
+                      id="member-new-ice-name"
                       type="text"
                       placeholder="ex: Marie Dupont"
                       value={formData.iceContactName}
@@ -237,10 +241,11 @@ export default function NewMemberPage(): React.ReactElement {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-[11px] font-semibold text-amber-950">
+                    <label htmlFor="member-new-ice-phone" className="mb-1 block text-[11px] font-semibold text-amber-950">
                       Téléphone d&apos;urgence
                     </label>
                     <input
+                      id="member-new-ice-phone"
                       type="tel"
                       placeholder="ex: +32 479 98 76 54"
                       value={formData.iceContactPhone}
@@ -250,10 +255,11 @@ export default function NewMemberPage(): React.ReactElement {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-[11px] font-semibold text-amber-950">
+                    <label htmlFor="member-new-ice-relation" className="mb-1 block text-[11px] font-semibold text-amber-950">
                       Lien de parenté
                     </label>
                     <input
+                      id="member-new-ice-relation"
                       type="text"
                       placeholder="ex: Épouse, Parent, Ami"
                       value={formData.iceRelationship}
@@ -266,10 +272,11 @@ export default function NewMemberPage(): React.ReactElement {
 
               {/* Preferred Group */}
               <div className="max-w-xs">
-                <label className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                <label htmlFor="member-new-group" className="mb-1.5 block text-xs font-semibold text-[#101216]">
                   Groupe habituel d&apos;allure
                 </label>
                 <select
+                  id="member-new-group"
                   value={formData.preferredGroup}
                   onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value as any })}
                   className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"

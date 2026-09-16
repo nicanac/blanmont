@@ -115,7 +115,7 @@ export default function SecuritePage(): React.ReactElement {
         className="sticky top-16 z-30 bg-white/95 dark:bg-[#0a0c10]/95 backdrop-blur-md border-b border-[#e4e0d8] dark:border-[#262b38] py-2.5 px-4 transition-colors"
       >
         <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto scrollbar-none text-xs">
-          <span className="text-[#7d8493] text-[11px] font-semibold uppercase tracking-wider shrink-0 mr-1">
+          <span className="text-[#5c6370] text-[11px] font-semibold uppercase tracking-wider shrink-0 mr-1">
             Aller à :
           </span>
           <a

@@ -17,6 +17,8 @@ import {
   ArrowUpTrayIcon,
 } from '@heroicons/react/24/outline';
 
+import { useFocusTrap } from '@/app/hooks/useFocusTrap';
+
 interface AdminHelpModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -29,21 +31,18 @@ export default function AdminHelpModal({
   onResetOnboarding,
 }: AdminHelpModalProps): React.ReactElement | null {
   const [activeTab, setActiveTab] = useState<'ritual' | 'roles' | 'shortcuts' | 'guide'>('ritual');
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="admin-help-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
@@ -60,7 +59,7 @@ export default function AdminHelpModal({
               <AcademicCapIcon className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
+              <h2 id="admin-help-title" className="text-base font-extrabold uppercase tracking-tight text-white">
                 Centre d&apos;Aide &amp; Raccourcis Admin
               </h2>
               <p className="text-xs text-[#a7adbb]">
@@ -72,9 +71,9 @@ export default function AdminHelpModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1.5 text-[#7d8493] hover:bg-white/10 hover:text-white transition-colors"
+            aria-label="Fermer l'aide"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white transition-colors"
           >
-            <span className="sr-only">Fermer</span>
             <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
@@ -87,7 +86,7 @@ export default function AdminHelpModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'ritual'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <CalendarDaysIcon className="h-4 w-4" />
@@ -99,7 +98,7 @@ export default function AdminHelpModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'roles'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <ShieldCheckIcon className="h-4 w-4" />
@@ -111,7 +110,7 @@ export default function AdminHelpModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'shortcuts'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <CommandLineIcon className="h-4 w-4" />
@@ -123,7 +122,7 @@ export default function AdminHelpModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'guide'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <ArrowPathIcon className="h-4 w-4" />
@@ -228,7 +227,7 @@ export default function AdminHelpModal({
                 </div>
               </div>
 
-              <div className="rounded-lg border border-[#262b38] bg-[#101216] p-4 text-xs text-[#7d8493] flex items-start gap-2.5">
+              <div className="rounded-lg border border-[#262b38] bg-[#101216] p-4 text-xs text-[#5c6370] flex items-start gap-2.5">
                 <ShieldCheckIcon className="h-5 w-5 text-sky-400 shrink-0 mt-0.5" />
                 <p>
                   Les droits sont attribués dans l&apos;onglet <Link href="/admin/members" onClick={onClose} className="text-white font-semibold underline">Membres</Link>. Chaque membre peut posséder des rôles multiples (ex. Trésorier + Administrateur).
@@ -250,10 +249,10 @@ export default function AdminHelpModal({
                     <ChatBubbleLeftRightIcon className="h-5 w-5 text-[#e03e3e]" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Nouveau Sondage</div>
-                      <div className="text-xs text-[#7d8493]">Lancer le vote de présence</div>
+                      <div className="text-xs text-[#5c6370]">Lancer le vote de présence</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#7d8493] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
                 </Link>
 
                 <Link
@@ -265,10 +264,10 @@ export default function AdminHelpModal({
                     <ArrowUpTrayIcon className="h-5 w-5 text-sky-400" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Importer Calendrier PDF</div>
-                      <div className="text-xs text-[#7d8493]">Ingestion automatique du calendrier</div>
+                      <div className="text-xs text-[#5c6370]">Ingestion automatique du calendrier</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#7d8493] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
                 </Link>
 
                 <Link
@@ -280,10 +279,10 @@ export default function AdminHelpModal({
                     <DocumentTextIcon className="h-5 w-5 text-emerald-400" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Nouvel Article News</div>
-                      <div className="text-xs text-[#7d8493]">Rédiger un article ou mot du club</div>
+                      <div className="text-xs text-[#5c6370]">Rédiger un article ou mot du club</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#7d8493] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
                 </Link>
 
                 <Link
@@ -295,10 +294,10 @@ export default function AdminHelpModal({
                     <UsersIcon className="h-5 w-5 text-amber-400" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Ajouter un Membre</div>
-                      <div className="text-xs text-[#7d8493]">Créer un compte cycliste</div>
+                      <div className="text-xs text-[#5c6370]">Créer un compte cycliste</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#7d8493] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
                 </Link>
               </div>
 
@@ -307,7 +306,7 @@ export default function AdminHelpModal({
                 <p className="font-mono text-xs bg-[#0a0c10] p-2 rounded border border-[#262b38] text-emerald-400 select-all">
                   /api/calendar/subscribe.ics
                 </p>
-                <p className="text-[#7d8493]">
+                <p className="text-[#5c6370]">
                   Ce flux synchronise automatiquement les sorties avec Apple Calendar, Google Calendar et Outlook des membres.
                 </p>
               </div>
@@ -349,7 +348,7 @@ export default function AdminHelpModal({
 
         {/* Footer */}
         <div className="flex items-center justify-between border-t border-[#262b38] bg-[#161922] px-6 py-3">
-          <div className="text-xs text-[#7d8493]">
+          <div className="text-xs text-[#5c6370]">
             CC Saint-Martin Blanmont • Système d&apos;exploitation club
           </div>
           <button

@@ -9,6 +9,8 @@ import {
   BookOpenIcon,
 } from '@heroicons/react/24/outline';
 
+import { parseDateInfo } from '@/app/lib/carreVert';
+
 interface HomeBlogSectionProps {
   posts: BlogPost[];
 }
@@ -17,12 +19,19 @@ interface HomeBlogSectionProps {
  * Formats a date string to a readable format
  */
 function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('fr-FR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const info = parseDateInfo(dateString);
+  if (!info) return dateString;
+  try {
+    const utcDate = new Date(Date.UTC(info.year, info.month - 1, info.day));
+    return utcDate.toLocaleDateString('fr-FR', {
+      timeZone: 'UTC',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  } catch {
+    return info.displayDate;
+  }
 }
 
 /**
@@ -79,6 +88,7 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
               src={featuredPost.coverImage}
               alt={featuredPost.title}
               fill
+              unoptimized
               sizes="(max-width: 1024px) 100vw, 58vw"
               className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-[1.03]"
             />
@@ -86,10 +96,10 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
 
             <div className="relative z-10 p-6 sm:p-8 space-y-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-[#e03e3e] px-2.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-white">
+                <span className="rounded-full bg-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.08em] text-white">
                   À la une
                 </span>
-                <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-white">
+                <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-white">
                   {featuredPost.category}
                 </span>
                 <span className="text-xs text-white/70">
@@ -116,7 +126,7 @@ export default function HomeBlogSection({ posts }: HomeBlogSectionProps): React.
                     href={`/blog/${post.slug}`}
                     className="group block py-5 border-b border-[#e4e0d8] dark:border-white/10 hover:bg-white/60 dark:hover:bg-white/5 transition-colors px-1 -mx-1"
                   >
-                    <div className="flex items-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb]">
+                    <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb]">
                       <span className="text-[#e03e3e]">{post.category}</span>
                       <span aria-hidden="true" className="h-px w-4 bg-[#e4e0d8] dark:bg-white/20" />
                       <span className="normal-case tracking-normal font-medium">{formatDate(post.publishedAt)}</span>

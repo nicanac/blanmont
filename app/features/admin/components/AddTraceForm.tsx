@@ -292,8 +292,9 @@ export default function AddTraceForm() {
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Informations Générales</h3>
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                             <div className="sm:col-span-4">
-                                <label className="block text-sm font-medium text-gray-700">Nom du Parcours</label>
+                                <label htmlFor="trace-name" className="block text-sm font-medium text-gray-700">Nom du Parcours</label>
                                 <input
+                                    id="trace-name"
                                     type="text"
                                     name="name"
                                     required
@@ -304,8 +305,9 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Date</label>
+                                <label htmlFor="trace-date" className="block text-sm font-medium text-gray-700">Date</label>
                                 <input
+                                    id="trace-date"
                                     type="date"
                                     name="date"
                                     required
@@ -316,8 +318,9 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium text-gray-700">Statut</label>
+                                <label htmlFor="trace-status" className="block text-sm font-medium text-gray-700">Statut</label>
                                 <select
+                                    id="trace-status"
                                     name="status"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
                                     value={formData.status}
@@ -337,13 +340,15 @@ export default function AddTraceForm() {
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
                             <div className="col-span-full bg-blue-50 p-4 rounded-md border border-blue-100">
-                                <label className="block text-sm font-medium text-blue-900 mb-2">
+                                <label htmlFor="trace-gpx-upload" className="block text-sm font-medium text-blue-900 mb-2 cursor-pointer">
                                     Importer un fichier GPX (Recommandé)
                                 </label>
                                 <div className="flex flex-col sm:flex-row gap-4 items-center">
                                     <input
+                                        id="trace-gpx-upload"
                                         type="file"
                                         accept=".gpx"
+                                        aria-label="Importer un fichier GPX"
                                         onChange={handleFileUpload}
                                         className="block w-full text-sm text-gray-500
                                             file:mr-4 file:py-2 file:px-4
@@ -359,8 +364,9 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Direction</label>
+                                <label htmlFor="trace-direction" className="block text-sm font-medium text-gray-700">Direction</label>
                                 <select
+                                    id="trace-direction"
                                     name="direction"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
                                     value={formData.direction}
@@ -379,8 +385,9 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Départ</label>
+                                <label htmlFor="trace-start" className="block text-sm font-medium text-gray-700">Départ</label>
                                 <input
+                                    id="trace-start"
                                     type="text"
                                     name="start"
                                     placeholder="Ville"
@@ -391,8 +398,9 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Arrivée</label>
+                                <label htmlFor="trace-end" className="block text-sm font-medium text-gray-700">Arrivée</label>
                                 <input
+                                    id="trace-end"
                                     type="text"
                                     name="end"
                                     placeholder="Ville"
@@ -403,8 +411,9 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium text-gray-700">Distance (km)</label>
+                                <label htmlFor="trace-distance" className="block text-sm font-medium text-gray-700">Distance (km)</label>
                                 <input
+                                    id="trace-distance"
                                     type="number"
                                     name="distance"
                                     step="0.1"
@@ -415,8 +424,9 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium text-gray-700">Dénivelé (D+)</label>
+                                <label htmlFor="trace-elevation" className="block text-sm font-medium text-gray-700">Dénivelé (D+)</label>
                                 <input
+                                    id="trace-elevation"
                                     type="number"
                                     name="elevation"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
@@ -432,8 +442,9 @@ export default function AddTraceForm() {
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Évaluation</h3>
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium text-gray-700">Qualité Route</label>
+                                <label htmlFor="trace-road-quality" className="block text-sm font-medium text-gray-700">Qualité Route</label>
                                 <select
+                                    id="trace-road-quality"
                                     name="roadQuality"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
                                     value={formData.roadQuality}
@@ -450,8 +461,9 @@ export default function AddTraceForm() {
                                 </select>
                             </div>
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium text-gray-700">Note Globale</label>
+                                <label htmlFor="trace-rating" className="block text-sm font-medium text-gray-700">Note Globale</label>
                                 <select
+                                    id="trace-rating"
                                     name="rating"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
                                     value={formData.rating}
@@ -466,8 +478,9 @@ export default function AddTraceForm() {
                                 </select>
                             </div>
                             <div className="col-span-full">
-                                <label className="block text-sm font-medium text-gray-700">Notes / Remarques</label>
+                                <label htmlFor="trace-note" className="block text-sm font-medium text-gray-700">Notes / Remarques</label>
                                 <textarea
+                                    id="trace-note"
                                     name="note"
                                     rows={2}
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
@@ -483,8 +496,9 @@ export default function AddTraceForm() {
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Liens Externes</h3>
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                             <div className="col-span-full">
-                                <label className="block text-sm font-medium text-gray-700">Lien Komoot (Optionnel)</label>
+                                <label htmlFor="trace-komoot-link" className="block text-sm font-medium text-gray-700">Lien Komoot (Optionnel)</label>
                                 <input
+                                    id="trace-komoot-link"
                                     type="url"
                                     name="komootLink"
                                     placeholder="https://www.komoot.fr/tour/..."
@@ -497,8 +511,9 @@ export default function AddTraceForm() {
                                 </p>
                             </div>
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium text-gray-700">Fichier GPX (URL de référence)</label>
+                                <label htmlFor="trace-gpx-link" className="block text-sm font-medium text-gray-700">Fichier GPX (URL de référence)</label>
                                 <input
+                                    id="trace-gpx-link"
                                     type="url"
                                     name="gpxLink"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
@@ -510,8 +525,9 @@ export default function AddTraceForm() {
                                 </p>
                             </div>
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium text-gray-700">Photo (URL)</label>
+                                <label htmlFor="trace-photo-link" className="block text-sm font-medium text-gray-700">Photo (URL)</label>
                                 <input
+                                    id="trace-photo-link"
                                     type="url"
                                     name="photoLink"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"

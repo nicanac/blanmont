@@ -133,18 +133,20 @@ export default function TrialRideForm(): React.ReactElement {
 
       {/* Speed Group Selector */}
       <div className="space-y-3">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <div id="trial-group-label" className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
           1. Quel groupe d&apos;allure souhaitez-vous tester ? *
-        </label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        </div>
+        <div role="radiogroup" aria-labelledby="trial-group-label" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {GROUPS.map((g) => {
             const isSelected = formData.preferredGroup === g.id;
             return (
               <button
                 key={g.id}
                 type="button"
+                role="radio"
+                aria-checked={isSelected}
                 onClick={() => setFormData({ ...formData, preferredGroup: g.id })}
-                className={`flex flex-col text-left p-3.5 rounded-md border transition-all cursor-pointer ${
+                className={`flex flex-col text-left p-3.5 rounded-md border transition-all cursor-pointer min-h-[44px] ${
                   isSelected
                     ? 'border-[#e03e3e] bg-[#e03e3e]/5 dark:bg-[#e03e3e]/10 text-[#101216] dark:text-white shadow-xs'
                     : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30'
@@ -157,7 +159,7 @@ export default function TrialRideForm(): React.ReactElement {
                   />
                 </div>
                 <span className="text-xs font-semibold text-[#e03e3e] tabular-nums">{g.speed}</span>
-                <span className="text-[11px] text-[#7d8493] dark:text-[#a7adbb] mt-0.5">{g.desc}</span>
+                <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] mt-0.5">{g.desc}</span>
               </button>
             );
           })}
@@ -167,18 +169,20 @@ export default function TrialRideForm(): React.ReactElement {
       {/* Bike Type & Level */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+          <div id="trial-bike-label" className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
             2. Type de vélo utilisé
-          </label>
-          <div className="grid grid-cols-2 gap-2">
+          </div>
+          <div role="radiogroup" aria-labelledby="trial-bike-label" className="grid grid-cols-2 gap-2">
             {BIKE_TYPES.map((b) => {
               const isSelected = formData.bikeType === b;
               return (
                 <button
                   key={b}
                   type="button"
+                  role="radio"
+                  aria-checked={isSelected}
                   onClick={() => setFormData({ ...formData, bikeType: b })}
-                  className={`px-3 py-2 text-xs font-semibold rounded-md border text-center transition-colors cursor-pointer ${
+                  className={`px-3 py-2.5 text-xs font-semibold rounded-md border text-center transition-colors cursor-pointer min-h-[44px] flex items-center justify-center ${
                     isSelected
                       ? 'border-[#e03e3e] bg-[#e03e3e] text-white'
                       : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#3a3f4a] dark:text-[#c4cad4] hover:bg-[#f2efe9]'
@@ -192,18 +196,20 @@ export default function TrialRideForm(): React.ReactElement {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+          <div id="trial-level-label" className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
             3. Votre niveau / habitude
-          </label>
-          <div className="grid grid-cols-2 gap-2">
+          </div>
+          <div role="radiogroup" aria-labelledby="trial-level-label" className="grid grid-cols-2 gap-2">
             {LEVELS.map((lvl) => {
               const isSelected = formData.experienceLevel === lvl;
               return (
                 <button
                   key={lvl}
                   type="button"
+                  role="radio"
+                  aria-checked={isSelected}
                   onClick={() => setFormData({ ...formData, experienceLevel: lvl })}
-                  className={`px-3 py-2 text-xs font-semibold rounded-md border text-center transition-colors cursor-pointer ${
+                  className={`px-3 py-2.5 text-xs font-semibold rounded-md border text-center transition-colors cursor-pointer min-h-[44px] flex items-center justify-center ${
                     isSelected
                       ? 'border-[#e03e3e] bg-[#e03e3e] text-white'
                       : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#3a3f4a] dark:text-[#c4cad4] hover:bg-[#f2efe9]'
@@ -219,76 +225,81 @@ export default function TrialRideForm(): React.ReactElement {
 
       {/* Date & Contact Information */}
       <div className="space-y-4 pt-2">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <div className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
           4. Vos coordonnées pour vous accueillir
-        </label>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-name" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
               Nom et Prénom *
             </label>
             <input
+              id="trial-name"
               type="text"
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="ex: Jean Dupont"
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e]"
+              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-email" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
               Adresse Email *
             </label>
             <input
+              id="trial-email"
               type="email"
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="ex: jean.dupont@email.be"
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e]"
+              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-phone" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
               Numéro de Téléphone / GSM *
             </label>
             <input
+              id="trial-phone"
               type="tel"
               required
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               placeholder="ex: +32 470 12 34 56"
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e]"
+              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-firstRideDate" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
               Date envisagée pour votre premier samedi (optionnel)
             </label>
             <input
+              id="trial-firstRideDate"
               type="date"
               value={formData.firstRideDate}
               onChange={(e) => setFormData({ ...formData, firstRideDate: e.target.value })}
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e]"
+              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+          <label htmlFor="trial-message" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
             Remarques ou questions éventuelles pour les capitaines
           </label>
           <textarea
+            id="trial-message"
             rows={3}
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             placeholder="Ex : Je roule habituellement seul à 27 km/h, j'aimerais tester le peloton en groupe B..."
-            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#7d8493] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e]"
+            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e]"
           />
         </div>
       </div>

@@ -136,10 +136,11 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="poll-edit-weekend-date" className="block text-xs font-semibold text-slate-700 mb-1">
                 Date cible du weekend (Samedi) *
               </label>
               <input
+                id="poll-edit-weekend-date"
                 type="date"
                 required
                 value={weekendIsoDate}
@@ -149,10 +150,11 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="poll-edit-status" className="block text-xs font-semibold text-slate-700 mb-1">
                 Statut du sondage *
               </label>
               <select
+                id="poll-edit-status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value as 'active' | 'draft' | 'closed')}
                 className="w-full rounded-xl border border-slate-200 p-2.5 text-xs font-semibold text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
@@ -165,10 +167,11 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label htmlFor="poll-edit-title" className="block text-xs font-semibold text-slate-700 mb-1">
               Titre du sondage *
             </label>
             <input
+              id="poll-edit-title"
               type="text"
               required
               value={title}
@@ -178,10 +181,11 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label htmlFor="poll-edit-description" className="block text-xs font-semibold text-slate-700 mb-1">
               Description / Consignes pour le peloton
             </label>
             <textarea
+              id="poll-edit-description"
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -239,7 +243,9 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
                   </div>
 
                   <input
+                    id={`poll-edit-q-title-${q.id}`}
                     type="text"
+                    aria-label={`Intitulé de la question #${qIndex + 1}`}
                     value={q.title}
                     onChange={(e) => handleUpdateQuestionTitle(q.id, e.target.value)}
                     className="w-full rounded-xl border border-slate-200 bg-white p-2.5 text-xs font-bold text-slate-900 focus:border-[#e03e3e] focus:outline-hidden"
@@ -251,7 +257,9 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
                       <div key={optIdx} className="flex items-center gap-2">
                         <span className="text-xs text-slate-400">•</span>
                         <input
+                          id={`poll-edit-q-${q.id}-opt-${optIdx}`}
                           type="text"
+                          aria-label={`Option de réponse #${optIdx + 1} pour ${q.title || 'la question'}`}
                           value={opt}
                           onChange={(e) => handleUpdateOption(q.id, optIdx, e.target.value)}
                           className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
@@ -279,8 +287,9 @@ export default function EditPollForm({ poll }: EditPollFormProps) {
                         + Ajouter une option
                       </button>
 
-                      <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+                      <label htmlFor={`poll-edit-q-${q.id}-multiple`} className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
                         <input
+                          id={`poll-edit-q-${q.id}-multiple`}
                           type="checkbox"
                           checked={q.allowMultiple || false}
                           onChange={() => handleToggleMultiple(q.id)}
