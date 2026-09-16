@@ -7,20 +7,26 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getBlogPostBySlug, getBlogPosts } from '../../lib/firebase';
 
+import Image from 'next/image';
+import { parseDateInfo } from '@/app/lib/carreVert';
+
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
 function formatDate(dateString: string): string {
+  const info = parseDateInfo(dateString);
+  if (!info) return dateString;
   try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
+    const utcDate = new Date(Date.UTC(info.year, info.month - 1, info.day));
+    return utcDate.toLocaleDateString('fr-FR', {
+      timeZone: 'UTC',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
   } catch {
-    return dateString;
+    return info.displayDate;
   }
 }
 
@@ -144,11 +150,14 @@ export default async function BlogPostPage({
           <div className="pt-6 border-t border-[#e4e0d8] dark:border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
             <div className="flex items-center gap-3">
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] dark:border-white/15 flex items-center justify-center font-bold text-xs text-white shadow-xs">
-                {hasAvatar ? (
-                  <img
+                {post.authorAvatar ? (
+                  <Image
                     src={post.authorAvatar}
                     alt=""
-                    className="h-full w-full object-cover"
+                    fill
+                    unoptimized
+                    sizes="40px"
+                    className="object-cover"
                   />
                 ) : (
                   <span>{initials}</span>
@@ -180,10 +189,14 @@ export default async function BlogPostPage({
         {/* Cover Photo if present */}
         {hasCoverImage && (
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg shadow-md mb-12 border border-[#e4e0d8] dark:border-[#262b38] bg-[#161922]">
-            <img
+            <Image
               src={post.coverImage}
               alt={post.title}
-              className="h-full w-full object-cover"
+              fill
+              unoptimized
+              priority
+              sizes="(max-width: 1024px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         )}

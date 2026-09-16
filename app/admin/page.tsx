@@ -151,7 +151,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
             className="group rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 shadow-xs hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#7d8493] dark:text-[#9ba3af]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
                 {stat.name}
               </span>
               <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
@@ -176,7 +176,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
             <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">
               Derniers Articles Publiés
             </h2>
-            <p className="text-xs text-[#7d8493] dark:text-[#9ba3af] mt-0.5">Actualités et chroniques récentes</p>
+            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af] mt-0.5">Actualités et chroniques récentes</p>
           </div>
           <Link
             href="/admin/blog"
@@ -191,19 +191,19 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           <table className="min-w-full divide-y divide-[#e4e0d8] dark:divide-[#222730]">
             <thead className="bg-[#f2efe9] dark:bg-[#111318]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
                   Titre
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
                   Auteur
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
                   Statut
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#7d8493] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
                   Action
                 </th>
               </tr>
@@ -211,7 +211,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
             <tbody className="divide-y divide-[#efece5] dark:divide-[#222730] bg-white dark:bg-[#16191f] text-xs">
               {recentPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-[#7d8493] dark:text-[#9ba3af]">
+                  <td colSpan={5} className="px-6 py-8 text-center text-[#5c6370] dark:text-[#9ba3af]">
                     Aucun article publié pour le moment.{' '}
                     <Link href="/admin/blog/new" className="text-[#e03e3e] font-semibold hover:underline">
                       Créer un premier article
@@ -226,13 +226,13 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                         <p className="font-bold text-[#101216] dark:text-white truncate max-w-sm">
                           {post.title}
                         </p>
-                        <p className="text-xs text-[#7d8493] dark:text-[#9ba3af]">{post.category || 'Actualité'}</p>
+                        <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">{post.category || 'Actualité'}</p>
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-[#3a3f4a] dark:text-[#c4cad4] font-medium">
                       {post.author}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-[#7d8493] dark:text-[#9ba3af] tabular-nums">
+                    <td className="whitespace-nowrap px-6 py-4 text-[#5c6370] dark:text-[#9ba3af] tabular-nums">
                       {formatDate(post.publishedAt)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
@@ -273,7 +273,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Nouvelle Sortie</p>
-            <p className="text-xs text-[#7d8493] dark:text-[#9ba3af]">Ajouter au calendrier</p>
+            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Ajouter au calendrier</p>
           </div>
         </Link>
 
@@ -286,7 +286,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Gestion Membres</p>
-            <p className="text-xs text-[#7d8493] dark:text-[#9ba3af]">Rôles et accès</p>
+            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Rôles et accès</p>
           </div>
         </Link>
 
@@ -299,7 +299,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Équipements Club</p>
-            <p className="text-xs text-[#7d8493] dark:text-[#9ba3af]">Stock et catalogue</p>
+            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Stock et catalogue</p>
           </div>
         </Link>
 
@@ -312,7 +312,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Paramètres & Thème</p>
-            <p className="text-xs text-[#7d8493] dark:text-[#9ba3af]">Clair, sombre ou auto</p>
+            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Clair, sombre ou auto</p>
           </div>
         </Link>
       </div>

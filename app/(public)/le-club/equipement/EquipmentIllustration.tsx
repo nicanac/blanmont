@@ -35,7 +35,7 @@ export default function EquipmentIllustration({
 
       {/* Top Brand Label */}
       <div className="w-full flex items-center justify-between z-10">
-        <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#7d8493]">
+        <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#5c6370]">
           GOBIK CUSTOM
         </span>
         <span className="text-xs font-extrabold uppercase tracking-[0.1em] text-[#e03e3e]">
@@ -49,7 +49,7 @@ export default function EquipmentIllustration({
         {isShort && (
           <svg viewBox="0 0 200 240" className="h-44 w-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" fill="none">
             {/* Straps */}
-            <path d="M70 20 L80 90 M130 20 L120 90" stroke="#7d8493" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
+            <path d="M70 20 L80 90 M130 20 L120 90" stroke="#5c6370" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
             <path d="M70 20 C70 40 80 80 85 95 L115 95 C120 80 130 40 130 20" stroke="#e03e3e" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
             {/* Main Shorts Body */}
             <path d="M60 95 L140 95 L148 180 L115 185 L100 130 L85 185 L52 180 Z" fill="#181b24" stroke="#2e3547" strokeWidth="2" />
@@ -72,7 +72,7 @@ export default function EquipmentIllustration({
         {isTight && (
           <svg viewBox="0 0 200 240" className="h-44 w-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" fill="none">
             {/* Straps */}
-            <path d="M75 15 L82 70 M125 15 L118 70" stroke="#7d8493" strokeWidth="10" strokeLinecap="round" opacity="0.5" />
+            <path d="M75 15 L82 70 M125 15 L118 70" stroke="#5c6370" strokeWidth="10" strokeLinecap="round" opacity="0.5" />
             {/* Main Long Leg Body */}
             <path d="M65 70 L135 70 L138 210 L120 210 L100 120 L80 210 L62 210 Z" fill="#181b24" stroke="#2e3547" strokeWidth="2" />
             {/* Knee articulation panels */}

@@ -147,7 +147,9 @@ export default function EventAttendancePanel({
       {/* Filters */}
       <div className="p-4 border-b border-gray-200 space-y-3">
         <input
+          id="attendance-member-search"
           type="text"
+          aria-label="Rechercher un membre"
           placeholder="Rechercher un membre..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

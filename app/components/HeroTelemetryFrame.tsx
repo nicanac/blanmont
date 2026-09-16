@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import {
   MapPinIcon,
   CalendarDaysIcon,
@@ -95,16 +96,18 @@ export default function HeroTelemetryFrame({
                 isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
               }`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={failedImages[slide.id || index] ? '/images/home-hero.jpg' : slide.url}
                 alt={slide.alt || 'Club de Blanmont – peloton cycliste'}
+                fill
+                unoptimized
+                priority={index === 0}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
                 style={{ objectPosition: slide.position || 'center center' }}
-                referrerPolicy="no-referrer"
                 onError={() => {
                   setFailedImages((prev) => ({ ...prev, [slide.id || index]: true }));
                 }}
-                className="h-full w-full object-cover"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             </div>
@@ -177,7 +180,7 @@ export default function HeroTelemetryFrame({
                 {renderCardIcon(card.icon)}
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#7d8493] truncate">
+                <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] truncate">
                   {card.label}
                 </div>
                 <div className="mt-0.5 text-sm font-bold text-[#101216] dark:text-white tabular-nums leading-tight truncate">

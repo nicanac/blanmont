@@ -95,12 +95,12 @@ export default function FilterPanel({
                             leaveFrom="translate-x-0"
                             leaveTo="translate-x-full"
                         >
-                            <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+                            <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white dark:bg-[#161922] py-4 pb-12 shadow-xl border-l border-[#e4e0d8] dark:border-[#262b38]">
                                 <div className="flex items-center justify-between px-4">
-                                    <h2 className="text-lg font-medium text-[#101216]">Filtres</h2>
+                                    <h2 className="text-lg font-bold text-[#101216] dark:text-white">Filtres</h2>
                                     <button
                                         type="button"
-                                        className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+                                        className="-mr-2 flex h-11 w-11 items-center justify-center rounded-md bg-transparent p-2 text-gray-400 hover:text-[#101216] dark:hover:text-white"
                                         onClick={() => setMobileFiltersOpen(false)}
                                     >
                                         <span className="sr-only">Fermer le menu</span>
@@ -109,10 +109,10 @@ export default function FilterPanel({
                                 </div>
 
                                 {/* Mobile Filters */}
-                                <form className="mt-4 border-t border-[#e4e0d8]">
+                                <form className="mt-4 border-t border-[#e4e0d8] dark:border-[#262b38]">
                                     {/* Distance Mobile */}
-                                    <div className="px-4 py-6 border-b border-[#e4e0d8]">
-                                        <h3 className="text-sm font-medium text-[#101216] mb-4">Distance ({filters.minDist} - {filters.maxDist} km)</h3>
+                                    <div className="px-4 py-6 border-b border-[#e4e0d8] dark:border-[#262b38]">
+                                        <h3 className="text-sm font-bold text-[#101216] dark:text-white mb-4">Distance ({filters.minDist} - {filters.maxDist} km)</h3>
                                         <div className="flex items-center gap-4">
                                             <input
                                                 type="range"
@@ -120,32 +120,31 @@ export default function FilterPanel({
                                                 max={maxDist}
                                                 value={filters.maxDist}
                                                 onChange={(e) => onFilterChange({ ...filters, maxDist: Number(e.target.value) })}
-                                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
+                                                className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#e03e3e]"
                                             />
                                         </div>
                                     </div>
 
                                     {/* Elevation Mobile */}
-                                    <div className="px-4 py-6 border-b border-[#e4e0d8]">
-                                        <h3 className="text-sm font-medium text-[#101216] mb-4">Dénivelé (Max {filters.maxElev} m)</h3>
+                                    <div className="px-4 py-6 border-b border-[#e4e0d8] dark:border-[#262b38]">
+                                        <h3 className="text-sm font-bold text-[#101216] dark:text-white mb-4">Dénivelé (Max {filters.maxElev} m)</h3>
                                         <input
                                             type="range"
                                             min={minElev}
                                             max={maxElev}
                                             value={filters.maxElev}
                                             onChange={(e) => onFilterChange({ ...filters, maxElev: Number(e.target.value) })}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
+                                            className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#e03e3e]"
                                         />
                                     </div>
 
-
                                     {sections.map((section) => (
-                                        <Disclosure as="div" key={section.id} className="border-t border-[#e4e0d8] px-4 py-6">
+                                        <Disclosure as="div" key={section.id} className="border-t border-[#e4e0d8] dark:border-[#262b38] px-4 py-6">
                                             {({ open }) => (
                                                 <>
                                                     <h3 className="-mx-2 -my-3 flow-root">
-                                                        <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-[#5c6370]">
-                                                            <span className="font-medium text-[#101216]">{section.name}</span>
+                                                        <Disclosure.Button className="flex w-full items-center justify-between bg-transparent px-2 py-3 text-gray-400 hover:text-[#5c6370] dark:hover:text-white">
+                                                            <span className="font-bold text-[#101216] dark:text-white text-sm">{section.name}</span>
                                                             <span className="ml-6 flex items-center">
                                                                 {open ? (
                                                                     <MinusIcon className="h-5 w-5" aria-hidden="true" />
@@ -156,9 +155,9 @@ export default function FilterPanel({
                                                         </Disclosure.Button>
                                                     </h3>
                                                     <Disclosure.Panel className="pt-6">
-                                                        <div className="space-y-6">
+                                                        <div className="space-y-4">
                                                             {section.options.map((option, optionIdx) => (
-                                                                <div key={option.value} className="flex items-center">
+                                                                <div key={option.value} className="flex items-center min-h-[44px]">
                                                                     <input
                                                                         id={`filter-mobile-${section.id}-${optionIdx}`}
                                                                         name={`${section.id}[]`}
@@ -171,11 +170,11 @@ export default function FilterPanel({
                                                                                     'selectedStarts',
                                                                             option.value
                                                                         )}
-                                                                        className="h-4 w-4 rounded border-gray-300 text-brand-primary focus:ring-brand-primary"
+                                                                        className="h-4 w-4 rounded border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] focus:ring-[#e03e3e] bg-white dark:bg-[#1c202a]"
                                                                     />
                                                                     <label
                                                                         htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                        className="ml-3 min-w-0 flex-1 text-[#5c6370]"
+                                                                        className="ml-3 min-w-0 flex-1 text-sm text-[#5c6370] dark:text-[#a7adbb]"
                                                                     >
                                                                         {option.label}
                                                                     </label>
@@ -196,13 +195,13 @@ export default function FilterPanel({
 
             {/* Desktop Filters */}
             <div className="hidden lg:block">
-                <form className="space-y-10">
+                <form className="space-y-8">
 
                     {/* Distance Desktop */}
                     <div>
-                        <h3 className="text-sm font-medium text-[#101216] mb-4">Distance</h3>
+                        <h3 className="text-sm font-bold text-[#101216] dark:text-white mb-4">Distance</h3>
                         <div className="px-1">
-                            <div className="flex justify-between text-xs text-[#5c6370] mb-2">
+                            <div className="flex justify-between text-xs text-[#5c6370] dark:text-[#a7adbb] mb-2">
                                 <span>{filters.minDist} km</span>
                                 <span>{filters.maxDist} km</span>
                             </div>
@@ -212,16 +211,16 @@ export default function FilterPanel({
                                 max={maxDist}
                                 value={filters.maxDist}
                                 onChange={(e) => onFilterChange({ ...filters, maxDist: Number(e.target.value) })}
-                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
+                                className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#e03e3e]"
                             />
                         </div>
                     </div>
 
                     {/* Elevation Desktop */}
-                    <div className="pt-6">
-                        <h3 className="text-sm font-medium text-[#101216] mb-4">Dénivelé maximum</h3>
+                    <div className="pt-6 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                        <h3 className="text-sm font-bold text-[#101216] dark:text-white mb-4">Dénivelé maximum</h3>
                         <div className="px-1">
-                            <div className="flex justify-between text-xs text-[#5c6370] mb-2">
+                            <div className="flex justify-between text-xs text-[#5c6370] dark:text-[#a7adbb] mb-2">
                                 <span>0 m</span>
                                 <span>{filters.maxElev} m</span>
                             </div>
@@ -231,18 +230,18 @@ export default function FilterPanel({
                                 max={maxElev}
                                 value={filters.maxElev}
                                 onChange={(e) => onFilterChange({ ...filters, maxElev: Number(e.target.value) })}
-                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
+                                className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#e03e3e]"
                             />
                         </div>
                     </div>
 
                     {sections.map((section) => (
-                        <Disclosure as="div" key={section.id} className="border-t border-[#e4e0d8] pt-6" defaultOpen={true}>
+                        <Disclosure as="div" key={section.id} className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-6" defaultOpen={true}>
                             {({ open }) => (
                                 <>
                                     <h3 className="-mx-2 -my-3 flow-root cursor-pointer">
-                                        <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-[#5c6370]">
-                                            <span className="font-medium text-[#101216]">{section.name}</span>
+                                        <Disclosure.Button className="flex w-full items-center justify-between bg-transparent px-2 py-3 text-gray-400 hover:text-[#5c6370] dark:hover:text-white">
+                                            <span className="font-bold text-[#101216] dark:text-white text-sm">{section.name}</span>
                                             <span className="ml-6 flex items-center">
                                                 {open ? (
                                                     <MinusIcon className="h-5 w-5" aria-hidden="true" />
@@ -253,9 +252,9 @@ export default function FilterPanel({
                                         </Disclosure.Button>
                                     </h3>
                                     <Disclosure.Panel className="pt-3">
-                                        <div className="space-y-2">
+                                        <div className="space-y-2.5">
                                             {section.options.map((option, optionIdx) => (
-                                                <div key={option.value} className="flex items-center">
+                                                <div key={option.value} className="flex items-center min-h-[32px]">
                                                     <input
                                                         id={`filter-${section.id}-${optionIdx}`}
                                                         name={`${section.id}[]`}
@@ -268,11 +267,11 @@ export default function FilterPanel({
                                                                     'selectedStarts',
                                                             option.value
                                                         )}
-                                                        className="h-4 w-4 rounded border-gray-300 text-brand-primary focus:ring-brand-primary cursor-pointer"
+                                                        className="h-4 w-4 rounded border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] focus:ring-[#e03e3e] bg-white dark:bg-[#1c202a] cursor-pointer"
                                                     />
                                                     <label
                                                         htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                        className="ml-3 min-w-0 flex-1 text-[#5c6370] cursor-pointer"
+                                                        className="ml-3 min-w-0 flex-1 text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] cursor-pointer"
                                                     >
                                                         {option.label}
                                                     </label>
@@ -285,7 +284,7 @@ export default function FilterPanel({
                         </Disclosure>
                     ))}
 
-                    <div className="pt-10">
+                    <div className="pt-6 border-t border-[#e4e0d8] dark:border-[#262b38]">
                         <button
                             type="button"
                             onClick={() => onFilterChange({
@@ -298,9 +297,9 @@ export default function FilterPanel({
                                 selectedDirections: [],
                                 minQuality: 0
                             })}
-                            className="text-sm font-medium text-brand-primary hover:text-red-700"
+                            className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-[#e03e3e] hover:underline min-h-[44px]"
                         >
-                            Reset Filters
+                            Réinitialiser les filtres
                         </button>
                     </div>
 

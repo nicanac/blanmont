@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import type { PhotoAlbum } from '@/app/types';
 import {
   CameraIcon,
@@ -148,10 +149,13 @@ export default function AdminGalerieClient({
                 <tr key={album.id} className="hover:bg-[#faf8f5]/60 transition-colors">
                   <td className="py-3 px-4">
                     <div className="h-12 w-20 rounded-md overflow-hidden bg-[#161922] border border-[#e4e0d8] relative shrink-0">
-                      <img
+                      <Image
                         src={album.coverUrl}
                         alt={album.title}
-                        className="h-full w-full object-cover"
+                        fill
+                        unoptimized
+                        sizes="80px"
+                        className="object-cover"
                       />
                       {album.featured && (
                         <div className="absolute top-1 left-1">
@@ -162,7 +166,7 @@ export default function AdminGalerieClient({
                   </td>
                   <td className="py-3 px-4 max-w-xs">
                     <p className="font-bold text-[#101216]">{album.title}</p>
-                    <p className="text-[11px] text-[#7d8493] line-clamp-1 mt-0.5">
+                    <p className="text-xs text-[#5c6370] line-clamp-1 mt-0.5">
                       {album.description}
                     </p>
                   </td>
@@ -197,7 +201,7 @@ export default function AdminGalerieClient({
                       type="button"
                       onClick={() => handleDelete(album.id, album.title)}
                       disabled={deletingId === album.id}
-                      className="p-1.5 rounded-md text-[#7d8493] hover:text-[#e03e3e] hover:bg-[#e03e3e]/10 transition-colors"
+                      className="p-1.5 rounded-md text-[#5c6370] hover:text-[#e03e3e] hover:bg-[#e03e3e]/10 transition-colors"
                       title="Supprimer l'album"
                     >
                       <TrashIcon className="h-4 w-4" />
@@ -225,7 +229,7 @@ export default function AdminGalerieClient({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-md text-[#7d8493] hover:text-[#101216]"
+                className="p-1 rounded-md text-[#5c6370] hover:text-[#101216]"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -233,10 +237,11 @@ export default function AdminGalerieClient({
 
             <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-title" className="block font-semibold text-[#3a3f4a] mb-1">
                   Titre de l&apos;album *
                 </label>
                 <input
+                  id="galerie-album-title"
                   type="text"
                   required
                   value={form.title}
@@ -248,10 +253,11 @@ export default function AdminGalerieClient({
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-semibold text-[#3a3f4a] mb-1">
+                  <label htmlFor="galerie-album-year" className="block font-semibold text-[#3a3f4a] mb-1">
                     Saison (Année) *
                   </label>
                   <input
+                    id="galerie-album-year"
                     type="number"
                     required
                     value={form.year}
@@ -261,10 +267,11 @@ export default function AdminGalerieClient({
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-[#3a3f4a] mb-1">
+                  <label htmlFor="galerie-album-category" className="block font-semibold text-[#3a3f4a] mb-1">
                     Thème / Catégorie *
                   </label>
                   <select
+                    id="galerie-album-category"
                     value={form.category}
                     onChange={(e) =>
                       setForm({
@@ -287,10 +294,11 @@ export default function AdminGalerieClient({
               </div>
 
               <div>
-                <label className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-cover" className="block font-semibold text-[#3a3f4a] mb-1">
                   URL de l&apos;image de couverture *
                 </label>
                 <input
+                  id="galerie-album-cover"
                   type="text"
                   required
                   value={form.coverUrl}
@@ -301,10 +309,11 @@ export default function AdminGalerieClient({
               </div>
 
               <div>
-                <label className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-external-url" className="block font-semibold text-[#3a3f4a] mb-1">
                   Lien de l&apos;album externe (Google Photos, OneDrive...)
                 </label>
                 <input
+                  id="galerie-album-external-url"
                   type="url"
                   value={form.externalAlbumUrl}
                   onChange={(e) => setForm({ ...form, externalAlbumUrl: e.target.value })}
@@ -315,10 +324,11 @@ export default function AdminGalerieClient({
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-semibold text-[#3a3f4a] mb-1">
+                  <label htmlFor="galerie-album-photo-count" className="block font-semibold text-[#3a3f4a] mb-1">
                     Nombre estimé de photos
                   </label>
                   <input
+                    id="galerie-album-photo-count"
                     type="number"
                     value={form.photoCount}
                     onChange={(e) => setForm({ ...form, photoCount: Number(e.target.value) })}
@@ -327,8 +337,9 @@ export default function AdminGalerieClient({
                 </div>
 
                 <div className="flex items-center pt-6">
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label htmlFor="galerie-album-featured" className="flex items-center gap-2 cursor-pointer">
                     <input
+                      id="galerie-album-featured"
                       type="checkbox"
                       checked={form.featured}
                       onChange={(e) => setForm({ ...form, featured: e.target.checked })}
@@ -340,10 +351,11 @@ export default function AdminGalerieClient({
               </div>
 
               <div>
-                <label className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-description" className="block font-semibold text-[#3a3f4a] mb-1">
                   Description / Récit de la sortie
                 </label>
                 <textarea
+                  id="galerie-album-description"
                   rows={3}
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}

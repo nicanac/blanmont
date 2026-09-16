@@ -89,7 +89,7 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
     }, [initialTraces, sort, filters]);
 
     return (
-        <main className="min-h-screen bg-[#faf8f5]">
+        <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
             <PageHero
                 title={
                     <>
@@ -104,17 +104,17 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
             />
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
                 {/* Controls Bar */}
-                <div className="flex items-center justify-between border-b border-[#e4e0d8] pb-6">
-                    <h2 className="text-base font-bold text-[#101216] tabular-nums">
+                <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-6">
+                    <h2 className="text-base font-bold text-[#101216] dark:text-white tabular-nums">
                         {filteredTraces.length} parcours disponibles
                     </h2>
                     <div className="flex items-center">
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
-                                <Menu.Button className="group inline-flex justify-center text-sm font-medium text-[#3a3f4a] hover:text-[#101216]">
+                                <Menu.Button className="group inline-flex items-center justify-center min-h-[44px] px-2 text-sm font-medium text-[#3a3f4a] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white">
                                     Trier
                                     <ChevronDownIcon
-                                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-[#5c6370]"
+                                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-[#5c6370] dark:group-hover:text-white"
                                         aria-hidden="true"
                                     />
                                 </Menu.Button>
@@ -129,7 +129,7 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
                                         {sortOptions.map((option) => (
                                             <Menu.Item key={option.name}>
@@ -137,9 +137,9 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                                     <button
                                                         onClick={() => setSort(option.value as SortOption)}
                                                         className={cn(
-                                                            option.value === sort ? 'font-medium text-[#101216]' : 'text-[#5c6370]',
-                                                            active ? 'bg-[#f2efe9]' : '',
-                                                            'block px-4 py-2 text-sm w-full text-left'
+                                                            option.value === sort ? 'font-bold text-[#e03e3e]' : 'text-[#3a3f4a] dark:text-[#a7adbb]',
+                                                            active ? 'bg-[#f2efe9] dark:bg-[#1f2430]' : '',
+                                                            'block px-4 py-2.5 text-xs w-full text-left transition-colors'
                                                         )}
                                                     >
                                                         {option.name}
@@ -152,13 +152,13 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                             </Transition>
                         </Menu>
 
-                        <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-[#5c6370] sm:ml-7" aria-label="Affichage en grille">
+                        <button type="button" className="-m-2 ml-4 flex h-11 w-11 items-center justify-center text-gray-400 hover:text-[#5c6370] dark:hover:text-white sm:ml-6" aria-label="Affichage en grille">
                             <span className="sr-only">Affichage en grille</span>
                             <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
                         </button>
                         <button
                             type="button"
-                            className="-m-2 ml-4 p-2 text-gray-400 hover:text-[#5c6370] sm:ml-6 lg:hidden"
+                            className="-m-2 ml-2 flex h-11 w-11 items-center justify-center text-gray-400 hover:text-[#5c6370] dark:hover:text-white sm:ml-4 lg:hidden"
                             onClick={() => setMobileFiltersOpen(true)}
                             aria-label="Filtres de recherche"
                         >
@@ -200,8 +200,8 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-16 bg-white rounded-lg border border-[#e4e0d8] p-8 space-y-4">
-                                    <p className="text-sm text-[#5c6370]">Aucun parcours ne correspond aux filtres sélectionnés.</p>
+                                <div className="text-center py-16 bg-white dark:bg-[#161922] rounded-lg border border-[#e4e0d8] dark:border-[#262b38] p-8 space-y-4">
+                                    <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">Aucun parcours ne correspond aux filtres sélectionnés.</p>
                                     <button
                                         type="button"
                                         onClick={() => setFilters({
@@ -209,7 +209,7 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                             minElev: ranges.minElev, maxElev: ranges.maxElev,
                                             selectedStarts: [], selectedSurfaces: [], selectedDirections: [], minQuality: 0
                                         })}
-                                        className="inline-flex items-center justify-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors min-h-[44px]"
+                                        className="inline-flex items-center justify-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors min-h-[44px]"
                                     >
                                         Effacer tous les filtres
                                     </button>

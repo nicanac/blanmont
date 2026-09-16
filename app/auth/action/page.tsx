@@ -227,7 +227,7 @@ function AuthActionHandler(): React.ReactElement {
                 Nouveau mot de passe
               </label>
               <div className="relative">
-                <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a7adbb]" />
                 <input
                   id="new-password"
                   name="password"
@@ -244,7 +244,7 @@ function AuthActionHandler(): React.ReactElement {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#7d8493] hover:text-white transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#a7adbb] hover:text-white transition-colors"
                 >
                   {showPassword ? (
                     <EyeSlashIcon className="h-4 w-4" />
@@ -264,7 +264,7 @@ function AuthActionHandler(): React.ReactElement {
                 Confirmer le mot de passe
               </label>
               <div className="relative">
-                <LockClosedIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                <LockClosedIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a7adbb]" />
                 <input
                   id="confirm-password"
                   name="confirmPassword"
@@ -370,7 +370,7 @@ function AuthActionHandler(): React.ReactElement {
                   Votre adresse email
                 </label>
                 <div className="relative">
-                  <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+                  <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a7adbb]" />
                   <input
                     id="recovery-email"
                     name="email"
@@ -472,7 +472,7 @@ function AuthActionHandler(): React.ReactElement {
       <div className="text-center">
         <Link
           href="/"
-          className="min-h-[44px] inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-[#7d8493] hover:text-white transition-colors"
+          className="min-h-[44px] inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white transition-colors"
         >
           <span>← Retour à l&apos;accueil du club</span>
         </Link>
@@ -493,7 +493,7 @@ export default function AuthActionPage(): React.ReactElement {
 
       <Suspense
         fallback={
-          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#12151d] p-8 text-center text-xs text-[#7d8493]">
+          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#12151d] p-8 text-center text-xs text-[#a7adbb]">
             <ArrowPathIcon className="h-5 w-5 animate-spin mx-auto mb-2 text-[#e03e3e]" />
             <span>Vérification de la clé de sécurité...</span>
           </div>

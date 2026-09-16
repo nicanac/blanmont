@@ -293,9 +293,11 @@ export default function EditEquipmentPage() {
 
                                 {/* Hidden file input */}
                                 <input
+                                    id="equipment-image-file"
                                     ref={fileInputRef}
                                     type="file"
                                     accept="image/*"
+                                    aria-label="Téléverser une image du produit"
                                     onChange={handleImageSelect}
                                     className="hidden"
                                 />
@@ -542,12 +544,14 @@ export default function EditEquipmentPage() {
                                                 key={size}
                                                 className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2"
                                             >
-                                                <span className="text-sm font-semibold text-gray-700 min-w-[2rem]">{size}</span>
+                                                <label htmlFor={`stock-${size}`} className="text-sm font-semibold text-gray-700 min-w-[2rem] cursor-pointer">{size}</label>
                                                 <input
+                                                    id={`stock-${size}`}
                                                     type="number"
                                                     value={formData.stock?.[size] || 0}
                                                     onChange={(e) => handleStockChange(size, e.target.value)}
                                                     min="0"
+                                                    aria-label={`Stock taille ${size}`}
                                                     className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-center focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
                                                 />
                                             </div>

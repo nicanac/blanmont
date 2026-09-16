@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import {
   ArrowLeftIcon,
@@ -133,7 +134,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             <div className="space-y-1">
               <Link
                 href="/le-club/equipement"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7d8493] dark:text-[#a7adbb] hover:text-[#e03e3e] dark:hover:text-[#e03e3e] transition-colors mb-2"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-[#e03e3e] dark:hover:text-[#e03e3e] transition-colors mb-2"
               >
                 <ArrowLeftIcon className="h-3.5 w-3.5" />
                 <span>Retour au catalogue des tenues</span>
@@ -159,7 +160,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   </>
                 ) : (
                   <>
-                    <ShareIcon className="h-4 w-4 text-[#7d8493]" />
+                    <ShareIcon className="h-4 w-4 text-[#5c6370]" />
                     <span>Partager le lien</span>
                   </>
                 )}
@@ -220,10 +221,13 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
               <div className="flex flex-col sm:flex-row gap-5 p-4 rounded-lg bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38]">
                 <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md bg-[#161922] dark:bg-[#1c202a] border border-[#e4e0d8] dark:border-[#262b38] self-center sm:self-start">
                   {selectedProduct.imageUrl ? (
-                    <img
+                    <Image
                       src={selectedProduct.imageUrl}
                       alt={selectedProduct.name}
-                      className="h-full w-full object-cover"
+                      fill
+                      unoptimized
+                      sizes="112px"
+                      className="object-cover"
                     />
                   ) : (
                     <EquipmentIllustration
@@ -245,7 +249,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   </div>
 
                   {selectedProduct.gobikReference && (
-                    <div className="text-[11px] font-mono text-[#7d8493] dark:text-[#a7adbb] uppercase">
+                    <div className="text-[11px] font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase">
                       Réf: {selectedProduct.gobikReference}
                     </div>
                   )}
@@ -332,7 +336,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                 </div>
 
                 <div className="text-right">
-                  <div className="text-xs text-[#7d8493] dark:text-[#a7adbb]">
+                  <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                     Sous-total ({quantity} article{quantity > 1 ? 's' : ''}) :
                   </div>
                   <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -422,7 +426,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     Bon de Commande
                   </span>
                 </div>
-                <span className="text-[11px] font-mono text-[#7d8493] dark:text-[#a7adbb]">
+                <span className="text-[11px] font-mono text-[#5c6370] dark:text-[#a7adbb]">
                   CC SAINT-MARTIN
                 </span>
               </div>
@@ -434,7 +438,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     <div className="font-bold text-[#101216] dark:text-white">
                       {quantity}&times; {selectedProduct.name}
                     </div>
-                    <div className="text-[11px] text-[#7d8493] dark:text-[#a7adbb]">
+                    <div className="text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
                       Taille : <span className="font-bold text-[#101216] dark:text-white">{effectiveSize}</span> · {unitPrice.toFixed(2)}&nbsp;€ / pièce
                     </div>
                   </div>
@@ -464,7 +468,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
                     Total TTC à régler
                   </div>
-                  <div className="text-[11px] text-[#7d8493] dark:text-[#a7adbb]">
+                  <div className="text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
                     TVA et personnalisation incluses
                   </div>
                 </div>
@@ -506,7 +510,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     </>
                   ) : (
                     <>
-                      <ClipboardDocumentIcon className="h-4 w-4 text-[#7d8493]" />
+                      <ClipboardDocumentIcon className="h-4 w-4 text-[#5c6370]" />
                       <span>Copier le récapitulatif (Presse-papiers)</span>
                     </>
                   )}
@@ -546,7 +550,7 @@ export default function CheckoutPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-white">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">
+          <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
             Chargement du bon de commande...
           </div>
         </div>

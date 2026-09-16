@@ -44,7 +44,7 @@ export default function NotFound() {
               <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
                 Accueil
               </div>
-              <div className="text-xs text-[#7d8493]">Retour au club</div>
+              <div className="text-xs text-[#5c6370]">Retour au club</div>
             </div>
           </Link>
 
@@ -59,7 +59,7 @@ export default function NotFound() {
               <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
                 Membres
               </div>
-              <div className="text-xs text-[#7d8493]">L’annuaire du club</div>
+              <div className="text-xs text-[#5c6370]">L’annuaire du club</div>
             </div>
           </Link>
 
@@ -74,7 +74,7 @@ export default function NotFound() {
               <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
                 Calendrier
               </div>
-              <div className="text-xs text-[#7d8493]">Sorties 2026</div>
+              <div className="text-xs text-[#5c6370]">Sorties 2026</div>
             </div>
           </Link>
 
@@ -89,7 +89,7 @@ export default function NotFound() {
               <div className="text-xs font-bold text-[#101216] uppercase tracking-wider">
                 Sondage
               </div>
-              <div className="text-xs text-[#7d8493]">Sortie weekend</div>
+              <div className="text-xs text-[#5c6370]">Sortie weekend</div>
             </div>
           </Link>
         </div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   PlusIcon,
   PencilIcon,
@@ -129,13 +130,15 @@ export default function AdminEquipementsPage() {
       <div id="equipements-search-filter" className="flex flex-col sm:flex-row sm:items-center gap-4">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7d8493]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
           <input
+            id="equipements-search-input"
             type="text"
             placeholder="Rechercher un équipement..."
+            aria-label="Rechercher un équipement"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-md border border-[#e4e0d8] bg-white py-2 pl-10 pr-4 text-xs sm:text-sm text-[#101216] placeholder:text-[#7d8493] focus:border-[#e03e3e] focus:outline-none transition-colors shadow-xs"
+            className="w-full rounded-md border border-[#e4e0d8] bg-white py-2 pl-10 pr-4 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none transition-colors shadow-xs"
           />
         </div>
 
@@ -170,23 +173,23 @@ export default function AdminEquipementsPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">Total Articles</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Total Articles</p>
           <p className="mt-1 text-2xl font-extrabold text-[#101216] tabular-nums">{equipment.length}</p>
         </div>
         <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">Disponibles</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Disponibles</p>
           <p className="mt-1 text-2xl font-extrabold text-emerald-600 tabular-nums">
             {equipment.filter((e) => e.isAvailable).length}
           </p>
         </div>
         <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">Stock Total</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Stock Total</p>
           <p className="mt-1 text-2xl font-extrabold text-[#101216] tabular-nums">
             {equipment.reduce((sum, e) => sum + getTotalStock(e.stock), 0)} pièces
           </p>
         </div>
         <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#7d8493]">Valeur Stock</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Valeur Stock</p>
           <p className="mt-1 text-2xl font-extrabold text-[#101216] tabular-nums">
             {equipment.reduce((sum, e) => sum + e.price * getTotalStock(e.stock), 0).toLocaleString('fr-BE')} €
           </p>
@@ -199,22 +202,22 @@ export default function AdminEquipementsPage() {
           <table className="min-w-full divide-y divide-[#e4e0d8]">
             <thead className="bg-[#f2efe9]">
               <tr>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Équipement
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Catégorie
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Prix
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Stock
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Statut
                 </th>
-                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#7d8493]">
+                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
                   Actions
                 </th>
               </tr>
@@ -224,20 +227,23 @@ export default function AdminEquipementsPage() {
                 <tr key={item.id} className="hover:bg-[#faf8f5] transition-colors">
                   <td className="whitespace-nowrap px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 shrink-0 overflow-hidden rounded-md bg-[#161922] border border-[#e4e0d8] flex items-center justify-center text-white">
+                      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-[#161922] border border-[#e4e0d8] flex items-center justify-center text-white">
                         {item.imageUrl ? (
-                          <img
+                          <Image
                             src={item.imageUrl}
                             alt={item.name}
-                            className="h-full w-full object-cover"
+                            fill
+                            unoptimized
+                            sizes="40px"
+                            className="object-cover"
                           />
                         ) : (
-                          <JerseyIcon className="h-5 w-5 text-[#7d8493]" />
+                          <JerseyIcon className="h-5 w-5 text-[#5c6370]" />
                         )}
                       </div>
                       <div>
                         <p className="font-bold text-[#101216]">{item.name}</p>
-                        <p className="text-xs text-[#7d8493] line-clamp-1 max-w-xs">
+                        <p className="text-xs text-[#5c6370] line-clamp-1 max-w-xs">
                           {item.description}
                         </p>
                       </div>
@@ -285,21 +291,21 @@ export default function AdminEquipementsPage() {
                     <div className="flex items-center justify-end gap-1">
                       <Link
                         href={`/admin/equipements/${item.id}`}
-                        className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                        className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
                         title="Voir"
                       >
                         <EyeIcon className="h-4 w-4" />
                       </Link>
                       <Link
                         href={`/admin/equipements/${item.id}/edit`}
-                        className="rounded-md p-1.5 text-[#7d8493] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                        className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
                         title="Modifier"
                       >
                         <PencilIcon className="h-4 w-4" />
                       </Link>
                       <button
                         onClick={() => handleDelete(item.id)}
-                        className="rounded-md p-1.5 text-[#7d8493] hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                        className="rounded-md p-1.5 text-[#5c6370] hover:bg-rose-50 hover:text-rose-600 transition-colors"
                         title="Supprimer"
                         disabled={isLoading}
                       >
@@ -314,7 +320,7 @@ export default function AdminEquipementsPage() {
         </div>
 
         {filteredEquipment.length === 0 && (
-          <div className="px-6 py-12 text-center text-xs text-[#7d8493]">
+          <div className="px-6 py-12 text-center text-xs text-[#5c6370]">
             Aucun équipement trouvé.
           </div>
         )}

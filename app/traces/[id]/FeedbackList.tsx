@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Feedback, Member } from '../../types';
 import { PencilSquareIcon, StarIcon } from '@heroicons/react/20/solid';
@@ -37,8 +38,8 @@ export default function FeedbackList({
 
   if (feedbackList.length === 0) {
     return (
-      <div className="rounded-md border border-[#e4e0d8] bg-[#f2efe9]/50 p-8 text-center text-xs sm:text-sm italic text-[#5c6370]">
-        Aucun commentaire pour l&apos;instant. Soyez le premier à donner votre avis sur ce parcours !
+      <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 text-center text-xs text-[#5c6370] dark:text-[#a7adbb]">
+        Aucun retour d&apos;expérience pour le moment sur ce parcours.
       </div>
     );
   }
@@ -55,17 +56,19 @@ export default function FeedbackList({
         return (
           <div
             key={fb.id}
-            className="rounded-md border border-[#e4e0d8] bg-white p-4 sm:p-5 shadow-xs hover:border-slate-300 transition-all"
+            className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 shadow-xs hover:border-slate-300 dark:hover:border-[#3a4254] transition-all"
           >
             <div className="flex items-start gap-3.5">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center text-xs font-bold text-white">
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-center text-xs font-bold text-white">
                 {hasPhoto ? (
-                  <img
-                    src={avatarUrl}
+                  <Image
+                    src={avatarUrl!}
                     alt={authorName}
+                    fill
+                    unoptimized
+                    sizes="40px"
                     onError={() => setImgErrors((prev) => ({ ...prev, [fb.id]: true }))}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
+                    className="object-cover"
                   />
                 ) : (
                   <span>{initials}</span>
@@ -74,14 +77,14 @@ export default function FeedbackList({
 
               <div className="flex-1 space-y-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-sm font-bold text-[#101216] truncate">{authorName}</h4>
+                  <h4 className="text-sm font-bold text-[#101216] dark:text-white truncate">{authorName}</h4>
                   <div className="flex items-center gap-1.5 shrink-0">
                     <div className="flex text-amber-400">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <StarIcon
                           key={star}
                           className={`h-4 w-4 ${
-                            star <= fb.rating ? 'text-amber-400' : 'text-slate-200'
+                            star <= fb.rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700'
                           }`}
                         />
                       ))}
@@ -90,7 +93,7 @@ export default function FeedbackList({
                       <button
                         type="button"
                         onClick={() => handleEdit(fb.memberId!)}
-                        className="rounded-md p-1 text-slate-400 hover:text-[#e03e3e] hover:bg-[#f2efe9] transition-colors"
+                        className="rounded-md p-1 text-slate-400 hover:text-[#e03e3e] hover:bg-[#f2efe9] dark:hover:bg-[#1f2430] transition-colors"
                         title="Modifier mon avis"
                       >
                         <PencilSquareIcon className="h-4 w-4" />
@@ -99,7 +102,7 @@ export default function FeedbackList({
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#3a3f4a] leading-relaxed whitespace-pre-line break-words">
+                <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#d1d5db] leading-relaxed whitespace-pre-line break-words">
                   {fb.comment}
                 </p>
               </div>

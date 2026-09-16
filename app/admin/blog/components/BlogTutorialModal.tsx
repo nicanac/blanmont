@@ -13,6 +13,8 @@ import {
   LightBulbIcon,
 } from '@heroicons/react/24/outline';
 
+import { useFocusTrap } from '@/app/hooks/useFocusTrap';
+
 interface BlogTutorialModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,21 +27,18 @@ export default function BlogTutorialModal({
   onStartTour,
 }: BlogTutorialModalProps): React.ReactElement | null {
   const [activeTab, setActiveTab] = useState<'steps' | 'formatting' | 'guidelines'>('steps');
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="blog-tutorial-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity"
@@ -57,10 +56,10 @@ export default function BlogTutorialModal({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
+                <h2 id="blog-tutorial-title" className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide de Rédaction &amp; Publication
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2.5 py-0.5">
                   Tutoriel
                 </span>
               </div>
@@ -73,9 +72,9 @@ export default function BlogTutorialModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1.5 text-[#7d8493] hover:bg-white/10 hover:text-white transition-colors"
+            aria-label="Fermer le guide"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white transition-colors"
           >
-            <span className="sr-only">Fermer</span>
             <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
@@ -88,7 +87,7 @@ export default function BlogTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'steps'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <DocumentTextIcon className="h-4 w-4" />
@@ -100,7 +99,7 @@ export default function BlogTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'formatting'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <ListBulletIcon className="h-4 w-4" />
@@ -112,7 +111,7 @@ export default function BlogTutorialModal({
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
               activeTab === 'guidelines'
                 ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#7d8493] hover:text-white'
+                : 'border-transparent text-[#5c6370] hover:text-white'
             }`}
           >
             <TagIcon className="h-4 w-4" />
@@ -201,19 +200,19 @@ export default function BlogTutorialModal({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Titres H2 &amp; H3</span>
-                    <p className="text-[#7d8493] text-[0.6875rem]">Idéal pour découper les longs récits en sections lisibles.</p>
+                    <p className="text-[#5c6370] text-[0.6875rem]">Idéal pour découper les longs récits en sections lisibles.</p>
                   </div>
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Listes à puces &amp; numérotées</span>
-                    <p className="text-[#7d8493] text-[0.6875rem]">Pour lister les consignes, les horaires ou les inscrits.</p>
+                    <p className="text-[#5c6370] text-[0.6875rem]">Pour lister les consignes, les horaires ou les inscrits.</p>
                   </div>
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Liens externes &amp; GPX</span>
-                    <p className="text-[#7d8493] text-[0.6875rem]">Liez directement vers des parcours Strava, Komoot ou Google Maps.</p>
+                    <p className="text-[#5c6370] text-[0.6875rem]">Liez directement vers des parcours Strava, Komoot ou Google Maps.</p>
                   </div>
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Images intégrées</span>
-                    <p className="text-[#7d8493] text-[0.6875rem]">Insérez des visuels et photos au fil du texte.</p>
+                    <p className="text-[#5c6370] text-[0.6875rem]">Insérez des visuels et photos au fil du texte.</p>
                   </div>
                 </div>
               </div>

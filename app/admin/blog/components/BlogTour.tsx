@@ -46,7 +46,7 @@ const TOUR_STYLES = `
 .driver-popover.driverjs-theme .driver-popover-progress-text {
   font-size: 0.6875rem !important;
   font-weight: 700 !important;
-  color: #7d8493 !important;
+  color: #5c6370 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
 }
@@ -96,7 +96,7 @@ const TOUR_STYLES = `
 }
 
 .driver-popover.driverjs-theme .driver-popover-close-btn {
-  color: #7d8493 !important;
+  color: #5c6370 !important;
   top: 12px !important;
   right: 12px !important;
 }

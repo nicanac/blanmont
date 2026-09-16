@@ -356,10 +356,11 @@ function NewWeekendPollForm() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="poll-weekend-date" className="block text-xs font-semibold text-slate-700 mb-1">
                 Date cible du weekend (Samedi) *
               </label>
               <input
+                id="poll-weekend-date"
                 type="date"
                 required
                 value={weekendIsoDate}
@@ -374,10 +375,11 @@ function NewWeekendPollForm() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="poll-status" className="block text-xs font-semibold text-slate-700 mb-1">
                 Statut initial du sondage *
               </label>
               <select
+                id="poll-status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value as 'active' | 'draft' | 'closed')}
                 className="w-full rounded-xl border border-slate-200 p-2.5 text-xs font-semibold text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
@@ -390,10 +392,11 @@ function NewWeekendPollForm() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label htmlFor="poll-title" className="block text-xs font-semibold text-slate-700 mb-1">
               Titre du sondage *
             </label>
             <input
+              id="poll-title"
               type="text"
               required
               value={title}
@@ -403,10 +406,11 @@ function NewWeekendPollForm() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label htmlFor="poll-description" className="block text-xs font-semibold text-slate-700 mb-1">
               Description / Consignes pour le peloton
             </label>
             <textarea
+              id="poll-description"
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -475,7 +479,9 @@ function NewWeekendPollForm() {
                   </div>
 
                   <input
+                    id={`poll-question-title-${q.id}`}
                     type="text"
+                    aria-label={`Intitulé de la question #${qIndex + 1}`}
                     value={q.title}
                     onChange={(e) => handleUpdateQuestionTitle(q.id, e.target.value)}
                     placeholder="Intitulé de la question..."
@@ -491,7 +497,9 @@ function NewWeekendPollForm() {
                       <div key={optIdx} className="flex items-center gap-2">
                         <span className="text-xs text-slate-400">•</span>
                         <input
+                          id={`poll-question-${q.id}-opt-${optIdx}`}
                           type="text"
+                          aria-label={`Option de réponse #${optIdx + 1} pour ${q.title || 'la question'}`}
                           value={opt}
                           onChange={(e) => handleUpdateOption(q.id, optIdx, e.target.value)}
                           className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
@@ -519,8 +527,9 @@ function NewWeekendPollForm() {
                         + Ajouter une option
                       </button>
 
-                      <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+                      <label htmlFor={`poll-question-${q.id}-multiple`} className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
                         <input
+                          id={`poll-question-${q.id}-multiple`}
                           type="checkbox"
                           checked={q.allowMultiple || false}
                           onChange={() => handleToggleMultiple(q.id)}

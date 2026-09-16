@@ -169,14 +169,30 @@ input, textarea, select, [contenteditable] {
 .cover-rise-3 { animation-delay: 0.44s; }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
   .cover-line > span,
-  .cover-rise {
-    animation: none;
-    transform: none;
-    opacity: 1;
+  .cover-rise,
+  .animate-slow-rotate,
+  .animate-slow-rotate-reverse,
+  .animate-float-subtle,
+  .animate-float-subtle-alt,
+  .animate-pulse-crimson,
+  .animate-ticker {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
 }
 
