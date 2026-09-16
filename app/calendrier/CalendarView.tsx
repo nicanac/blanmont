@@ -150,7 +150,7 @@ function AgendaItem({
         >
           <span
             className={cn(
-              'text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider',
+              'text-xs font-extrabold uppercase tracking-wider',
               isToday
                 ? 'text-[#ff6b6b] dark:text-[#e03e3e]'
                 : isWeekend
@@ -165,7 +165,7 @@ function AgendaItem({
           </span>
           <span
             className={cn(
-              'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider truncate',
+              'text-xs font-bold uppercase tracking-wider truncate',
               isToday ? 'opacity-90' : 'text-[#5c6370] dark:text-[#a7adbb]'
             )}
           >
@@ -179,7 +179,7 @@ function AgendaItem({
           <div className="flex flex-wrap items-center gap-2">
             {isNextRide && (
               <span
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e] text-white px-2.5 py-0.5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.06em] shadow-2xs"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e] text-white px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em] shadow-2xs"
                 title="Prochaine sortie officielle au calendrier"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
@@ -189,7 +189,7 @@ function AgendaItem({
 
             {isToday && !isNextRide && (
               <span
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] px-2.5 py-0.5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.06em]"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]"
                 title="Sortie programmée aujourd'hui"
               >
                 Aujourd&apos;hui
@@ -198,7 +198,7 @@ function AgendaItem({
 
             {isPast ? (
               <span
-                className="inline-flex items-center rounded-full bg-[#f2efe9] dark:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold"
+                className="inline-flex items-center rounded-full bg-[#f2efe9] dark:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold"
                 title="Sortie terminée. Débriefings et statistiques disponibles."
               >
                 Sortie terminée
@@ -206,7 +206,7 @@ function AgendaItem({
             ) : (
               !isNextRide && (
                 <span
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#ff8080] border border-[#e03e3e]/20 px-2.5 py-0.5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.06em]"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#ff8080] border border-[#e03e3e]/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]"
                   title={isWeekend ? 'Sortie club officielle' : 'Événement spécial / Randonnée extérieure'}
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
@@ -217,7 +217,7 @@ function AgendaItem({
 
             {event.group && (
               <span
-                className="inline-flex items-center rounded-full bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-[10px] sm:text-xs font-medium"
+                className="inline-flex items-center rounded-full bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-medium"
                 title={`Peloton : ${event.group}`}
               >
                 {event.group}
@@ -324,7 +324,7 @@ function AgendaItem({
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
               <UserGroupIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
               <span className="tabular-nums">{attendees.length}</span>
-              <span className="hidden sm:inline text-[11px] font-normal text-[#5c6370] dark:text-[#a7adbb]">
+              <span className="hidden sm:inline text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">
                 {attendees.length === 1 ? 'inscrit' : 'inscrits'}
               </span>
             </button>
@@ -340,7 +340,7 @@ function AgendaItem({
             >
               <ChatBubbleLeftRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
               <span className="tabular-nums">{avgRating}/5</span>
-              <span className="hidden sm:inline text-[11px] font-normal text-[#5c6370] dark:text-[#a7adbb]">
+              <span className="hidden sm:inline text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">
                 ({reviews.length})
               </span>
             </button>
@@ -658,12 +658,12 @@ export default function CalendarView({
       <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 shadow-xs space-y-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Month Title & Nav */}
-          <div className="flex items-center gap-3">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] dark:text-white min-w-[200px]">
+          <div className="w-full md:w-auto flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] dark:text-white md:min-w-[180px]">
               {MONTH_NAMES[month]} <span className="text-[#5c6370] dark:text-[#a7adbb] font-normal tabular-nums">{year}</span>
             </h2>
 
-            <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/60 dark:bg-[#1d2128] p-0.5">
+            <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/60 dark:bg-[#1d2128] p-0.5 shrink-0">
               <button
                 type="button"
                 onClick={goToPreviousMonth}
@@ -678,9 +678,10 @@ export default function CalendarView({
                 onClick={goToToday}
                 title="Revenir au mois en cours"
                 aria-label="Revenir au mois en cours (aujourd'hui)"
-                className="min-h-[44px] px-3.5 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-white dark:hover:bg-[#161922] rounded transition-colors flex items-center justify-center"
+                className="min-h-[44px] px-2.5 sm:px-3.5 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-white dark:hover:bg-[#161922] rounded transition-colors flex items-center justify-center"
               >
-                Aujourd&apos;hui
+                <span className="hidden sm:inline">Aujourd&apos;hui</span>
+                <span className="sm:hidden">Auj.</span>
               </button>
               <button
                 type="button"
@@ -695,9 +696,9 @@ export default function CalendarView({
           </div>
 
           {/* Right Side: View Switcher & Global Search */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="w-full md:w-auto flex flex-wrap items-center gap-3">
             {/* Search input across all months */}
-            <div className="relative flex-1 sm:w-72 sm:flex-none">
+            <div className="relative flex-1 min-w-[140px] sm:w-72 sm:flex-none">
               <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
               <input
                 type="text"
@@ -721,7 +722,7 @@ export default function CalendarView({
             </div>
 
             {/* View Mode Toggle */}
-            <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128] p-1">
+            <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128] p-1 shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode('agenda')}
