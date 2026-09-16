@@ -1,41 +1,38 @@
-<!-- graft:start -->
-## Graft — repo context graph
+# AGENTS.md
 
-This repo is indexed in `graft/`: small linked markdown nodes that explain each
-system and carry exact file:line spans, kept in sync with the code through git.
+Full-stack cycling club platform (`Club de Blanmont` / `CC Saint-Martin Blanmont`).
+Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS v4, Firebase Realtime Database. Package manager: `npm`.
 
-For ANY task here — understanding how something works, finding where code lives,
-or scoping a change — get context from the graph before grepping or opening
-source files. Re-ask freely (it's cheap) and reuse literal identifiers you
-already have (symbol, error string, file name) as the query. New to this repo?
-Run `graft map` first — a token-budgeted orientation (dir clusters, hubs,
-hotspots), no LLM, no key.
+## Global Architecture
 
-- Run `graft ask "<your question>" --source` → ranked nodes with the relevant
-  code spans inlined (each hit's ≤8-line crux by default; `--full` for whole
-  definitions when the crux isn't enough). Match the tool to the task shape:
-  for understanding or editing, the top node IS the answer — cite its
-  `covers:` file:line spans and edit straight from `--source`. For
-  exhaustive tasks ("every occurrence / every caller of this pattern"), ranked
-  results are top-N, not complete — run `graft grep "<literal>"` instead
-  (exhaustive over indexed files, grouped by enclosing symbol), falling back
-  to raw `grep -rn` only for unindexed files.
-- `graft skeleton <file>` → every definition's signature + span, ~10× cheaper
-  than reading the file; use it to skim an API surface.
-- `graft callers <symbol>` gives precomputed, exact edges — who calls this.
-  Add `--direction out` for what it calls, or `--depth N` to walk
-  transitively for the full blast radius. For structural questions, skip
-  ranking and use this directly.
-- Or browse: `graft/INDEX.md` lists every node; follow the links.
-- Monorepos and folders of multiple repos rank fairly across sub-projects —
-  hits carry `[scope/]` labels naming which one they're from. Narrow with
-  `graft ask "<task>" --in <scope>/` once you know where you're working.
+- `app/`: Next.js App Router (pages, client/server components, server actions)
+- `docs/`: Modular technical specifications and operational guides
+- `scripts/`: Operational utilities (DB backups, seed scripts)
+- `tests/`: Unit (Vitest) and end-to-end (Playwright) test suites
+- `public/`: Static assets and media
 
-If a returned span is truncated ("+N more lines"), open the file at that exact
-range before finalizing. Only open source files when a node genuinely lacks a
-needed detail, and then at the exact file:line the node points to — never
-re-read whole files.
+## Detailed Conventions & Guides
 
-After big code changes, refresh the graph with `graft build` (deterministic,
-no API key, $0).
-<!-- graft:end -->
+- Architecture & Business Logic: [docs/architecture.md](docs/architecture.md)
+- Database Schemas & Access: [docs/database.md](docs/database.md)
+- Design Tokens & Typography: [DESIGN.md](DESIGN.md)
+- Input Validation (Zod): [docs/validation.md](docs/validation.md)
+- Admin Security & Roles: [docs/admin-guide.md](docs/admin-guide.md)
+- Product Vision & Personas: [PRODUCT.md](PRODUCT.md)
+
+## Core Non-Negotiables
+
+- **UI Language**: French (Français) for all user-facing text and copy. English for code, commits, and comments.
+- **Styling**: Tailwind CSS v4 only. Strictly follow typographic roles in `DESIGN.md`. No CSS modules, no inline styles.
+- **Database**: Firebase RTDB is the single source of truth (Admin SDK on server, Client SDK on client).
+- **Reactive Updates**: Only add new rules here reactively when an error recurs, never preemptively.
+
+## Codebase Navigation (Graft)
+
+Use the pre-computed repo graph in `graft/` instead of scanning entire source files:
+- `graft ask "<question>" --source`: Semantic retrieval with inlined code crux.
+- `graft grep "<symbol>"`: Exhaustive symbol/caller find.
+- `graft skeleton <file>`: Function/type signatures overview (~10x cheaper than reading file).
+- `graft callers <symbol>`: Dependency and blast-radius tracing.
+- Run `graft build` to refresh the index after major refactors.
+
