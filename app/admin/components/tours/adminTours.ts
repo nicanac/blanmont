@@ -19,7 +19,7 @@ export const DRIVER_PELOTON_STYLES = `
 }
 
 .driver-popover.driverjs-theme .driver-popover-title {
-  font-size: 0.9375rem !important;
+  font-size: 1rem !important;
   font-weight: 800 !important;
   text-transform: uppercase !important;
   letter-spacing: -0.01em !important;
@@ -44,7 +44,7 @@ export const DRIVER_PELOTON_STYLES = `
 }
 
 .driver-popover.driverjs-theme .driver-popover-progress-text {
-  font-size: 0.6875rem !important;
+  font-size: 0.8125rem !important;
   font-weight: 700 !important;
   color: #5c6370 !important;
   text-transform: uppercase !important;
@@ -63,7 +63,7 @@ export const DRIVER_PELOTON_STYLES = `
   border: none !important;
   border-radius: 6px !important;
   padding: 6px 14px !important;
-  font-size: 0.6875rem !important;
+  font-size: 0.8125rem !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
@@ -82,7 +82,7 @@ export const DRIVER_PELOTON_STYLES = `
   border: 1px solid #262b38 !important;
   border-radius: 6px !important;
   padding: 6px 12px !important;
-  font-size: 0.6875rem !important;
+  font-size: 0.8125rem !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;

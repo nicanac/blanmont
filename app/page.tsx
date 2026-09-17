@@ -1,5 +1,6 @@
 import React from 'react';
-import GpxStatsDisplay, { isWebUiLink } from './components/ui/GpxStatsDisplay';
+import GpxStatsDisplay from './components/ui/GpxStatsDisplay';
+import { isWebUiLink } from './lib/urlUtils';
 import Link from 'next/link';
 import {
   ChatBubbleLeftRightIcon,
@@ -23,6 +24,7 @@ import { getNextScheduledRide } from './lib/firebase/calendar';
 import RideWeatherBadge from './components/ui/RideWeatherBadge';
 import EditorialPhotographicMosaic from './components/v2/EditorialPhotographicMosaic';
 import HeroTelemetryFrame from './components/HeroTelemetryFrame';
+import ParallaxLayer from './components/ui/ParallaxLayer';
 
 /**
  * Landing page — Editorial Peloton: magazine-cover hero on ink,
@@ -42,12 +44,17 @@ export default async function Home(): Promise<React.ReactElement> {
     <div className="bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
       {/* ──── Cover Hero (Adaptive Light / Dark) ──── */}
       <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
-        {/* Atmospheric Background Watermark */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+        {/* Atmospheric Background Watermark with Parallax */}
+        <ParallaxLayer
+          speed={-0.22}
+          maxOffset={140}
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center"
+        >
           <span className="text-[clamp(8rem,26vw,32rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>
-        </div>
+        </ParallaxLayer>
+
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12 z-10">
           <h1 className="max-w-5xl text-[clamp(2.5rem,7.5vw,5.5rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-[#101216] dark:text-white">
@@ -223,12 +230,17 @@ export default async function Home(): Promise<React.ReactElement> {
 
       {/* ──── Section : La Vie du Club (Distilled Editorial Spread with Giant Watermark) ──── */}
       <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#0a0c10] relative overflow-hidden transition-colors duration-200">
-        {/* Editorial Giant Background Typography Layer */}
-        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+        {/* Editorial Giant Background Typography Layer with Parallax */}
+        <ParallaxLayer
+          speed={-0.18}
+          maxOffset={110}
+          className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center"
+        >
           <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>
-        </div>
+        </ParallaxLayer>
+
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 relative z-10">
           {/* Section Header with exact style */}
@@ -448,12 +460,17 @@ export default async function Home(): Promise<React.ReactElement> {
 
       {/* ──── Club Spirit — typographic manifesto with Giant Watermark ──── */}
       <section className="py-20 sm:py-28 bg-[#f2efe9] dark:bg-[#0d0f14] border-y border-[#e4e0d8] dark:border-[#262b38] relative overflow-hidden transition-colors duration-200">
-        {/* Editorial Giant Background Typography Layer */}
-        <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+        {/* Editorial Giant Background Typography Layer with Parallax */}
+        <ParallaxLayer
+          speed={-0.18}
+          maxOffset={110}
+          className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center"
+        >
           <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             ESPRIT
           </span>
-        </div>
+        </ParallaxLayer>
+
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] dark:border-white/10 pb-8">
