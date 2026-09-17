@@ -133,7 +133,7 @@ export default function AdminGalerieClient({
       <div className="rounded-[10px] border border-[#e4e0d8] bg-white overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#faf8f5] text-[11px] font-bold uppercase tracking-wider text-[#5c6370] border-b border-[#e4e0d8]">
+            <thead className="bg-[#faf8f5] text-xs font-bold uppercase tracking-wider text-[#5c6370] border-b border-[#e4e0d8]">
               <tr>
                 <th className="py-3 px-4">Couverture</th>
                 <th className="py-3 px-4">Titre &amp; Description</th>
@@ -174,7 +174,7 @@ export default function AdminGalerieClient({
                     {album.year}
                   </td>
                   <td className="py-3 px-4">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#faf8f5] border border-[#e4e0d8] text-[#3a3f4a]">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#faf8f5] border border-[#e4e0d8] text-[#3a3f4a]">
                       {album.category}
                     </span>
                   </td>

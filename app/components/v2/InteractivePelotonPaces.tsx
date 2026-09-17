@@ -275,7 +275,7 @@ export default function InteractivePelotonPaces() {
               {/* Floating Speed & Distance Telemetry Card */}
               <div className="absolute bottom-6 left-6 right-6 z-10 p-4 rounded-lg bg-[#08090c]/85 backdrop-blur-md border border-white/15 text-white space-y-3">
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                  <span className="text-[11px] uppercase tracking-widest text-[#a7adbb] font-mono">
+                  <span className="text-xs uppercase tracking-widest text-[#a7adbb] font-mono">
                     TÉLÉMÉTRIE DU GROUPE
                   </span>
                   <span
@@ -289,7 +289,7 @@ export default function InteractivePelotonPaces() {
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {current.distance.split(' ')[0]}
                     </span>
-                    <span className="text-[10px] uppercase tracking-wider text-[#a7adbb]">
+                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">
                       Distance moy.
                     </span>
                   </div>
@@ -300,7 +300,7 @@ export default function InteractivePelotonPaces() {
                     >
                       {current.speed}
                     </span>
-                    <span className="text-[10px] uppercase tracking-wider text-[#a7adbb]">
+                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">
                       Allure visée
                     </span>
                   </div>

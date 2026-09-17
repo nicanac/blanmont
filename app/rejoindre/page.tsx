@@ -136,7 +136,7 @@ export default function RejoindrePage(): React.ReactElement {
             <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-extrabold text-[#e03e3e] tabular-nums">01</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
+                <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
                   Choix de l&apos;allure
                 </span>
               </div>
@@ -152,7 +152,7 @@ export default function RejoindrePage(): React.ReactElement {
             <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-extrabold text-[#e03e3e] tabular-nums">02</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
+                <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
                   Point de départ
                 </span>
               </div>
@@ -168,7 +168,7 @@ export default function RejoindrePage(): React.ReactElement {
             <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-extrabold text-[#e03e3e] tabular-nums">03</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
+                <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
                   Parrainage
                 </span>
               </div>
@@ -184,7 +184,7 @@ export default function RejoindrePage(): React.ReactElement {
             <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-extrabold text-[#e03e3e] tabular-nums">04</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
+                <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]">
                   Adhésion
                 </span>
               </div>

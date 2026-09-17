@@ -111,13 +111,13 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des A</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Sportif &amp; Rythmé
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
+                  <span className="block text-xs font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Allure
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -145,13 +145,13 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des B</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Cœur du Peloton
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
+                  <span className="block text-xs font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Allure
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -179,13 +179,13 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des C</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Rando &amp; Progression
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
+                  <span className="block text-xs font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Allure
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
@@ -213,13 +213,13 @@ export default function LeClubPage(): React.ReactElement {
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-[#101216] dark:text-white leading-tight">Le groupe des VTT</h3>
-                    <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-[#5c6370] dark:text-[#a7adbb]">
                       Chemins &amp; Forêt
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
+                  <span className="block text-xs font-bold uppercase tracking-[0.14em] text-[#5c6370] dark:text-[#a7adbb]">
                     Terrain
                   </span>
                   <span className="text-sm sm:text-base font-extrabold text-[#101216] dark:text-white tracking-tight">

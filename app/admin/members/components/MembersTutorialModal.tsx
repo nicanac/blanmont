@@ -59,7 +59,7 @@ export default function MembersTutorialModal({
                 <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide de Gestion des Membres
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 px-2 py-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 px-2 py-0.5">
                   Annuaire Club
                 </span>
               </div>
@@ -158,28 +158,28 @@ export default function MembersTutorialModal({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <span className="rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Président / Admin
                   </span>
                   <p className="text-[#a7adbb] text-xs">Accès intégral à la création de sorties, validation des membres, sondages et stocks Gobik.</p>
                 </div>
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <span className="rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Capitaine de Route
                   </span>
                   <p className="text-[#a7adbb] text-xs">Accès au pointage Carré Vert, organisation des groupes de niveau et partage des résumés WhatsApp.</p>
                 </div>
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <span className="rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Trésorier / Secrétaire
                   </span>
                   <p className="text-[#a7adbb] text-xs">Gestion des cotisations, suivi des commandes de vêtements et mise à jour des coordonnées.</p>
                 </div>
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <span className="rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Membre Cycliste
                   </span>
                   <p className="text-[#a7adbb] text-xs">Accès membre standard : participation aux votes, téléchargement de traces GPX et profil personnel.</p>

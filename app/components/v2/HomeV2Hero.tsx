@@ -88,16 +88,16 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
           <div className="absolute inset-4 rounded-full border border-dashed border-white/[0.06]" />
           <div className="absolute inset-20 rounded-full border border-white/[0.04] animate-slow-rotate-reverse" />
           {/* Compass degree points */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 text-[9px] tracking-widest text-white/30">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 text-xs tracking-widest text-white/30">
             N 000°
           </div>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[9px] tracking-widest text-white/30">
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs tracking-widest text-white/30">
             S 180°
           </div>
-          <div className="absolute top-1/2 right-0 -translate-y-1/2 text-[9px] tracking-widest text-white/30">
+          <div className="absolute top-1/2 right-0 -translate-y-1/2 text-xs tracking-widest text-white/30">
             E 090°
           </div>
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[9px] tracking-widest text-white/30">
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 text-xs tracking-widest text-white/30">
             W 270°
           </div>
         </div>
@@ -114,7 +114,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
           </div>
 
           <div className="flex items-center gap-3 text-xs tracking-wider text-[#a7adbb]">
-            <span className="hidden sm:inline-block px-2.5 py-1 rounded border border-white/10 bg-white/[0.03] text-[11px] font-mono">
+            <span className="hidden sm:inline-block px-2.5 py-1 rounded border border-white/10 bg-white/[0.03] text-xs font-mono">
               HORLOGE DU PELOTON · 08:30:00
             </span>
             <span className="inline-flex items-center gap-1 text-[#e03e3e] font-semibold text-xs uppercase tracking-wider">
@@ -230,7 +230,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
                   <div className="inline-flex items-center gap-2 rounded-md bg-[#08090c]/85 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-white shadow-xl">
                     <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.12em]">
+                    <span className="text-xs font-bold uppercase tracking-[0.12em]">
                       {photos[activeFrame].label}
                     </span>
                   </div>
@@ -239,7 +239,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 {/* Bottom Photo Metadata */}
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-20 flex items-end justify-between gap-4">
                   <div className="space-y-0.5">
-                    <div className="text-[10px] font-mono uppercase tracking-widest text-[#e03e3e]">
+                    <div className="text-xs font-mono uppercase tracking-widest text-[#e03e3e]">
                       {photos[activeFrame].coord}
                     </div>
                     <div className="text-sm sm:text-base font-bold text-white tracking-tight">
@@ -278,7 +278,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                   className="object-cover opacity-80 hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                <div className="absolute bottom-2 left-2 right-2 text-[10px] font-semibold text-white/90 truncate flex items-center justify-between">
+                <div className="absolute bottom-2 left-2 right-2 text-xs font-semibold text-white/90 truncate flex items-center justify-between">
                   <span>{photos[(activeFrame + 1) % photos.length].label}</span>
                   <span className="text-[#e03e3e]">↻</span>
                 </div>
@@ -290,10 +290,10 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                   8h30
                 </div>
                 <div className="space-y-0.5">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-white">
+                  <div className="text-xs font-bold uppercase tracking-wider text-white">
                     Place de Blanmont
                   </div>
-                  <div className="text-[10px] text-[#a7adbb]">
+                  <div className="text-xs text-[#a7adbb]">
                     Rassemblement rituel
                   </div>
                 </div>
@@ -304,7 +304,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
 
         {/* ── Seamless Marquee Ticker ── */}
         <div className="relative overflow-hidden py-3 border-y border-white/[0.08] bg-white/[0.02]">
-          <div className="flex whitespace-nowrap animate-ticker text-[11px] uppercase tracking-[0.2em] font-semibold text-[#a7adbb]/80">
+          <div className="flex whitespace-nowrap animate-ticker text-xs uppercase tracking-[0.2em] font-semibold text-[#a7adbb]/80">
             <span className="inline-flex items-center gap-4 mx-4">
               <span className="text-[#e03e3e]">✦</span> BRABANT WALLON
               <span className="text-[#e03e3e]">✦</span> DÉPART PLACE DE BLANMONT

@@ -68,7 +68,7 @@ export default async function CalendarPage() {
                 <RouteCalendarIcon className="h-5 w-5 text-[#e03e3e]" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#e03e3e]">
+                <div className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#e03e3e]">
                   Prochaine sortie officielle
                 </div>
                 <div className="flex items-center gap-2">

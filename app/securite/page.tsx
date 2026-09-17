@@ -61,7 +61,7 @@ export default function SecuritePage(): React.ReactElement {
                 <ShieldCheckIcon className="h-5 w-5 text-[#e03e3e]" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#e03e3e]">
+                <div className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#e03e3e]">
                   Code de la route belge
                 </div>
                 <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export default function SecuritePage(): React.ReactElement {
         className="sticky top-16 z-30 bg-white/95 dark:bg-[#0a0c10]/95 backdrop-blur-md border-b border-[#e4e0d8] dark:border-[#262b38] py-2.5 px-4 transition-colors"
       >
         <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto scrollbar-none text-xs">
-          <span className="text-[#5c6370] text-[11px] font-semibold uppercase tracking-wider shrink-0 mr-1">
+          <span className="text-[#5c6370] text-xs font-semibold uppercase tracking-wider shrink-0 mr-1">
             Aller à :
           </span>
           <a
@@ -182,7 +182,7 @@ export default function SecuritePage(): React.ReactElement {
                     <h3 className="text-sm font-bold text-[#101216] dark:text-white">
                       Seuil de 15 coureurs &amp; Dispense de piste cyclable
                     </h3>
-                    <span className="text-[11px] font-semibold text-[#e03e3e]">§1</span>
+                    <span className="text-xs font-semibold text-[#e03e3e]">§1</span>
                   </div>
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Dès <strong>15 participants</strong>, le peloton n&apos;est plus tenu d&apos;emprunter les pistes
@@ -197,7 +197,7 @@ export default function SecuritePage(): React.ReactElement {
                     <h3 className="text-sm font-bold text-[#101216] dark:text-white">
                       Deux de front permanents sur la voie de droite
                     </h3>
-                    <span className="text-[11px] font-semibold text-[#e03e3e]">§2</span>
+                    <span className="text-xs font-semibold text-[#e03e3e]">§2</span>
                   </div>
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Le peloton roule en <strong>double file permanente</strong>. Règle absolue : occuper strictement
@@ -211,7 +211,7 @@ export default function SecuritePage(): React.ReactElement {
                     <h3 className="text-sm font-bold text-[#101216] dark:text-white">
                       Capitaines de route assermentés &amp; Disque C3
                     </h3>
-                    <span className="text-[11px] font-semibold text-[#e03e3e]">§3</span>
+                    <span className="text-xs font-semibold text-[#e03e3e]">§3</span>
                   </div>
                   <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                     Deux capitaines de route minimum équipés du brassard tricolore encadrent le groupe.

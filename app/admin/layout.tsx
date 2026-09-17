@@ -196,7 +196,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
       {navigationGroups.map((group) => (
         <div key={group.title}>
           {(!isCollapsed || isDrawer) && (
-            <h3 className="px-3 text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-[#5c6370] mb-1.5">
+            <h3 className="px-3 text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] mb-1.5">
               {group.title}
             </h3>
           )}
@@ -256,7 +256,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                       {item.badge && (
                         <span
                           className={cn(
-                            'ml-2 rounded-xs px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider',
+                            'ml-2 rounded-xs px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider',
                             active
                               ? 'bg-[#e03e3e] text-white'
                               : 'bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370]'
@@ -297,7 +297,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                     <p className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
                       Blan<span className="text-[#e03e3e]">mont</span>
                     </p>
-                    <p className="text-[0.625rem] font-bold uppercase tracking-widest text-[#5c6370]">
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#5c6370]">
                       Administration
                     </p>
                   </div>
@@ -362,7 +362,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                   <p className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white truncate">
                     Blan<span className="text-[#e03e3e]">mont</span>
                   </p>
-                  <p className="text-[0.625rem] font-bold uppercase tracking-widest text-[#5c6370] dark:text-[#a7adbb]">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#5c6370] dark:text-[#a7adbb]">
                     Administration
                   </p>
                 </div>
@@ -481,7 +481,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
           >
             {hoveredTooltip.name}
             {hoveredTooltip.badge && (
-              <span className="ml-1.5 px-1 py-0.2 rounded-xs bg-[#e03e3e] text-white text-[0.625rem]">
+              <span className="ml-1.5 px-1 py-0.2 rounded-xs bg-[#e03e3e] text-white text-xs">
                 {hoveredTooltip.badge}
               </span>
             )}

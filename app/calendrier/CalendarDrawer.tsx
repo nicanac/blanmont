@@ -564,7 +564,7 @@ export default function CalendarDrawer({
           <div className="bg-[#faf8f5] dark:bg-[#101216] border-b border-[#e4e0d8] dark:border-[#262b38] grid grid-cols-2 sm:grid-cols-4 shrink-0 text-center">
             {/* 1. Départ */}
             <div className="py-2.5 px-3 sm:py-3 sm:px-3 border-r border-b sm:border-b-0 border-[#e4e0d8] dark:border-[#262b38] flex flex-col justify-center">
-              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
                 <span className="hidden sm:inline">Heure de départ</span>
                 <span className="sm:hidden">Départ</span>
               </span>
@@ -575,7 +575,7 @@ export default function CalendarDrawer({
 
             {/* 2. Distance */}
             <div className="py-2.5 px-3 sm:py-3 sm:px-3 sm:border-r border-b sm:border-b-0 border-[#e4e0d8] dark:border-[#262b38] flex flex-col justify-center">
-              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
                 <span className="hidden sm:inline">Distance prévue</span>
                 <span className="sm:hidden">Distance</span>
               </span>
@@ -586,7 +586,7 @@ export default function CalendarDrawer({
 
             {/* 3. Peloton */}
             <div className="py-2.5 px-3 sm:py-3 sm:px-3 border-r border-[#e4e0d8] dark:border-[#262b38] flex flex-col justify-center">
-              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
                 <span className="hidden sm:inline">Groupe / Peloton</span>
                 <span className="sm:hidden">Peloton</span>
               </span>
@@ -597,7 +597,7 @@ export default function CalendarDrawer({
 
             {/* 4. Inscrits */}
             <div className="py-2.5 px-3 sm:py-3 sm:px-3 flex flex-col justify-center">
-              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
                 <span className="hidden sm:inline">Inscrits au départ</span>
                 <span className="sm:hidden">Inscrits</span>
               </span>

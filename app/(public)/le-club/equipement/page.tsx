@@ -394,7 +394,7 @@ MODALITÉS CLUB :
                     <h2 className="text-sm font-bold text-[#101216] dark:text-white uppercase tracking-wider">
                       Bon de Commande &amp; Réservation Équipement
                     </h2>
-                    <p className="text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
+                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                       CC Saint-Martin Blanmont · Partenaire GOBIK Custom
                     </p>
                   </div>
@@ -437,14 +437,14 @@ MODALITÉS CLUB :
                     </div>
 
                     <div className="space-y-1 min-w-0">
-                      <span className="inline-flex rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider">
+                      <span className="inline-flex rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                         {selectedProduct.category}
                       </span>
                       <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] dark:text-white leading-snug">
                         {selectedProduct.name}
                       </h3>
                       {selectedProduct.gobikReference && (
-                        <p className="text-[11px] font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase truncate">
+                        <p className="text-xs font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase truncate">
                           Ref: {selectedProduct.gobikReference}
                         </p>
                       )}
@@ -610,7 +610,7 @@ MODALITÉS CLUB :
                         <span className="font-semibold text-[#101216] dark:text-white">Gratuit (0,00 €)</span>
                       </div>
                       <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-2 flex justify-between items-baseline">
-                        <span className="font-bold text-[#101216] dark:text-white uppercase tracking-wider text-[11px]">
+                        <span className="font-bold text-[#101216] dark:text-white uppercase tracking-wider text-xs">
                           Total TTC :
                         </span>
                         <span className="text-xl font-extrabold text-[#e03e3e] tabular-nums tracking-tight">
@@ -661,7 +661,7 @@ MODALITÉS CLUB :
                       </Link>
                     </div>
 
-                    <p className="text-center text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
+                    <p className="text-center text-xs text-[#5c6370] dark:text-[#a7adbb]">
                       Paiement par virement ou à la remise en main propre le samedi.
                     </p>
                   </div>

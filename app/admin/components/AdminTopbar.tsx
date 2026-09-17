@@ -231,7 +231,7 @@ export default function AdminTopbar({
         >
           <MagnifyingGlassIcon className="h-3.5 w-3.5 text-[#5c6370]" />
           <span className="hidden sm:inline">Rechercher...</span>
-          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem] text-[#5c6370]">
+          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs text-[#5c6370]">
             ⌘K
           </kbd>
         </button>
@@ -252,7 +252,7 @@ export default function AdminTopbar({
 
           {isNewMenuOpen && (
             <div className="absolute right-0 mt-2 w-64 rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] shadow-xl p-1.5 z-50 text-left animate-in fade-in-50 zoom-in-95 duration-100">
-              <div className="px-3 py-1.5 text-[0.6875rem] font-bold uppercase tracking-wider text-[#5c6370]">
+              <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
                 Création Rapide
               </div>
               <div className="space-y-0.5">
@@ -270,7 +270,7 @@ export default function AdminTopbar({
                       <div className="font-bold text-[#101216] dark:text-white">
                         {action.name}
                       </div>
-                      <div className="text-[0.6875rem] text-[#5c6370]">
+                      <div className="text-xs text-[#5c6370]">
                         {action.desc}
                       </div>
                     </div>
@@ -315,7 +315,7 @@ export default function AdminTopbar({
               <div className="text-xs font-bold text-[#101216] dark:text-white max-w-[90px] truncate">
                 {user.name || 'Admin'}
               </div>
-              <div className="text-[0.625rem] font-semibold uppercase tracking-wider text-[#e03e3e]">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#e03e3e]">
                 {user.role || 'Admin'}
               </div>
             </div>

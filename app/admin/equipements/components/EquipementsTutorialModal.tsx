@@ -58,7 +58,7 @@ export default function EquipementsTutorialModal({
                 <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide du Vestiaire Gobik &amp; Stocks
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-[#101216] border border-white/15 text-white px-2.5 py-0.5 inline-flex items-center gap-1.5">
+                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-[#101216] border border-white/15 text-white px-2.5 py-0.5 inline-flex items-center gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
                   Vestiaire Club
                 </span>

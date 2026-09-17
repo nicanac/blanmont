@@ -200,19 +200,19 @@ export default function BlogTutorialModal({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Titres H2 &amp; H3</span>
-                    <p className="text-[#5c6370] text-[0.6875rem]">Idéal pour découper les longs récits en sections lisibles.</p>
+                    <p className="text-[#5c6370] text-xs">Idéal pour découper les longs récits en sections lisibles.</p>
                   </div>
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Listes à puces &amp; numérotées</span>
-                    <p className="text-[#5c6370] text-[0.6875rem]">Pour lister les consignes, les horaires ou les inscrits.</p>
+                    <p className="text-[#5c6370] text-xs">Pour lister les consignes, les horaires ou les inscrits.</p>
                   </div>
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Liens externes &amp; GPX</span>
-                    <p className="text-[#5c6370] text-[0.6875rem]">Liez directement vers des parcours Strava, Komoot ou Google Maps.</p>
+                    <p className="text-[#5c6370] text-xs">Liez directement vers des parcours Strava, Komoot ou Google Maps.</p>
                   </div>
                   <div className="p-2.5 rounded bg-[#0a0c10] border border-[#262b38] space-y-1">
                     <span className="font-bold text-white text-xs">Images intégrées</span>
-                    <p className="text-[#5c6370] text-[0.6875rem]">Insérez des visuels et photos au fil du texte.</p>
+                    <p className="text-[#5c6370] text-xs">Insérez des visuels et photos au fil du texte.</p>
                   </div>
                 </div>
               </div>
@@ -234,7 +234,7 @@ export default function BlogTutorialModal({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1.5">
-                  <span className="rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Actualités
                   </span>
                   <h4 className="font-bold text-white text-xs">Nouvelles du club</h4>
@@ -242,7 +242,7 @@ export default function BlogTutorialModal({
                 </div>
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1.5">
-                  <span className="rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Récits de sortie
                   </span>
                   <h4 className="font-bold text-white text-xs">Chroniques du weekend</h4>
@@ -250,7 +250,7 @@ export default function BlogTutorialModal({
                 </div>
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1.5">
-                  <span className="rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Conseils
                   </span>
                   <h4 className="font-bold text-white text-xs">Guide &amp; Entraînement</h4>
@@ -258,7 +258,7 @@ export default function BlogTutorialModal({
                 </div>
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1.5">
-                  <span className="rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider">
+                  <span className="rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Événements
                   </span>
                   <h4 className="font-bold text-white text-xs">Brevets &amp; Voyages</h4>

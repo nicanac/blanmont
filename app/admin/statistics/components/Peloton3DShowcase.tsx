@@ -494,7 +494,7 @@ export default function Peloton3DShowcase({
               <h2 className="text-sm sm:text-base font-extrabold uppercase tracking-tight text-white">
                 Trophée Carré Vert 3D &amp; Télémétrie
               </h2>
-              <span className="rounded-full bg-[#10b981]/20 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-[#10b981] border border-[#10b981]/30">
+              <span className="rounded-full bg-[#10b981]/20 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-[#10b981] border border-[#10b981]/30">
                 Saison {selectedYear}
               </span>
             </div>
@@ -570,7 +570,7 @@ export default function Peloton3DShowcase({
         <div className="absolute bottom-4 left-4 z-10 max-w-xs rounded-lg border border-[#262b38]/90 bg-[#161922]/95 p-4 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-[#10b981] animate-pulse" />
-            <p className="text-[0.6875rem] font-bold uppercase tracking-wider text-[#10b981]">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#10b981]">
               Leader au Classement
             </p>
           </div>
@@ -590,7 +590,7 @@ export default function Peloton3DShowcase({
         </div>
 
         {/* Interaction Hint (Discreet bottom right) */}
-        <div className="pointer-events-none absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-1.5 rounded-md border border-[#262b38]/60 bg-[#0a0c10]/80 px-2.5 py-1 text-[0.6875rem] font-medium text-[#a7adbb] backdrop-blur-xs">
+        <div className="pointer-events-none absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-1.5 rounded-md border border-[#262b38]/60 bg-[#0a0c10]/80 px-2.5 py-1 text-xs font-medium text-[#a7adbb] backdrop-blur-xs">
           <span>Glisser pour pivoter à 360°</span>
         </div>
       </div>

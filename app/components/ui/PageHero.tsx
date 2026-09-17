@@ -124,7 +124,7 @@ export function PageHero({
                     {(badge || children) && (
                         <div className="mt-7 flex flex-wrap items-center gap-4">
                             {badge && (
-                                <div className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.08em] ${styles.badge}`}>
+                                <div className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.08em] ${styles.badge}`}>
                                     {badgeIcon || <SparklesIcon className="h-3.5 w-3.5" />}
                                     {badge}
                                 </div>

@@ -59,7 +59,7 @@ export default function TracesTutorialModal({
                 <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide des Traces &amp; Parcours GPS
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5">
                   Itinéraires
                 </span>
               </div>

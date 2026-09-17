@@ -134,7 +134,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
                 {/* Photo Count badge */}
                 <div className="absolute top-3 right-3">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs bg-black/70 backdrop-blur-xs text-white text-[10px] font-semibold tabular-nums">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs bg-black/70 backdrop-blur-xs text-white text-xs font-semibold tabular-nums">
                     <CameraIcon className="h-3 w-3" />
                     {album.photoCount} photos
                   </span>
@@ -142,7 +142,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
                 {album.featured && (
                   <div className="absolute bottom-3 left-3">
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs bg-[#e03e3e] text-white text-[10px] font-bold uppercase tracking-wider">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs bg-[#e03e3e] text-white text-xs font-bold uppercase tracking-wider">
                       <SparklesIcon className="h-3 w-3" />
                       À la Une
                     </span>

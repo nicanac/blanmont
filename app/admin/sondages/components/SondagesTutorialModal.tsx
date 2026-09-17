@@ -59,7 +59,7 @@ export default function SondagesTutorialModal({
                 <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide des Sondages du Weekend
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5">
                   Rituel Hebdomadaire
                 </span>
               </div>
@@ -131,7 +131,7 @@ export default function SondagesTutorialModal({
               <div className="space-y-3">
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
                   <div className="flex items-center gap-2 text-white font-bold text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-[0.625rem]">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
                       L
                     </span>
                     <span>Lundi matin : Génération automatique</span>
@@ -143,7 +143,7 @@ export default function SondagesTutorialModal({
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
                   <div className="flex items-center gap-2 text-white font-bold text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-black font-extrabold text-[0.625rem]">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-black font-extrabold text-xs">
                       M-J
                     </span>
                     <span>Mardi à Jeudi : Vote du peloton</span>
@@ -155,7 +155,7 @@ export default function SondagesTutorialModal({
 
                 <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
                   <div className="flex items-center gap-2 text-white font-bold text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-black font-extrabold text-[0.625rem]">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-black font-extrabold text-xs">
                       V
                     </span>
                     <span>Vendredi Soir : Clôture &amp; Synthèse</span>

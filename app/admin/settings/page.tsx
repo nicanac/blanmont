@@ -102,7 +102,7 @@ export default function AdminSettingsPage(): React.ReactElement {
                   Aperçu en direct du Thème ({resolvedTheme === 'dark' ? 'Sombre' : 'Clair'})
                 </h4>
               </div>
-              <span className="text-[11px] font-semibold text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1">
+              <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1">
                 <CheckCircleIcon className="h-3.5 w-3.5 text-emerald-500" />
                 Rendu instantané
               </span>
@@ -117,7 +117,7 @@ export default function AdminSettingsPage(): React.ReactElement {
                     <span className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
                       Blan<span className="text-[#e03e3e]">mont</span>
                     </span>
-                    <span className="text-[10px] uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] border-l border-[#e4e0d8] dark:border-white/15 pl-2">
+                    <span className="text-xs uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] border-l border-[#e4e0d8] dark:border-white/15 pl-2">
                       CC St-Martin
                     </span>
                   </div>
@@ -125,7 +125,7 @@ export default function AdminSettingsPage(): React.ReactElement {
                     <span className="text-[#101216] dark:text-white">Les News</span>
                     <span>Membres</span>
                     <span>Calendrier</span>
-                    <span className="bg-[#e03e3e] text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">
+                    <span className="bg-[#e03e3e] text-white text-xs px-2 py-0.5 rounded font-bold uppercase">
                       Espace Membre
                     </span>
                   </div>
@@ -133,7 +133,7 @@ export default function AdminSettingsPage(): React.ReactElement {
 
                 {/* Mini Hero Mockup */}
                 <div className="p-6 bg-gradient-to-b from-[#f5f2eb] via-[#faf8f5] to-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-white transition-colors duration-200">
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider mb-2">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider mb-2">
                     <SparklesIcon className="h-3 w-3" />
                     <span>Peloton 2026</span>
                   </div>

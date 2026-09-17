@@ -761,7 +761,7 @@ export default function CalendarView({
         <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
           {/* Mobile Filter Header & Reset */}
           <div className="flex items-center justify-between sm:hidden">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
               Filtrer les sorties
             </span>
             {filterType !== 'all' && (
@@ -796,7 +796,7 @@ export default function CalendarView({
               <span>Toutes</span>
               <span
                 className={cn(
-                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-[11px] sm:text-xs',
+                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'all'
                     ? 'bg-white/20 dark:bg-black/20 text-white dark:text-[#101216]'
                     : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
@@ -824,7 +824,7 @@ export default function CalendarView({
               <span className="hidden md:inline font-normal opacity-85">(Route)</span>
               <span
                 className={cn(
-                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-[11px] sm:text-xs',
+                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'saturday'
                     ? 'bg-white/20 text-white'
                     : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
@@ -852,7 +852,7 @@ export default function CalendarView({
               <span className="hidden md:inline font-normal opacity-85">(Route &amp; VTT)</span>
               <span
                 className={cn(
-                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-[11px] sm:text-xs',
+                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'sunday'
                     ? 'bg-white/20 text-white'
                     : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
@@ -881,7 +881,7 @@ export default function CalendarView({
               <span className="hidden sm:inline">Avec Tracé GPX</span>
               <span
                 className={cn(
-                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-[11px] sm:text-xs',
+                  'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'gpx'
                     ? 'bg-white/20 text-white'
                     : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
@@ -1035,7 +1035,7 @@ export default function CalendarView({
                           className={cn(
                             'text-xs font-bold tabular-nums inline-flex items-center justify-center',
                             isToday
-                              ? 'h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#e03e3e] text-white shadow-xs text-[11px] sm:text-xs'
+                              ? 'h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#e03e3e] text-white shadow-xs text-xs sm:text-xs'
                               : cell.isWeekend
                               ? 'text-[#101216] dark:text-white'
                               : 'text-[#5c6370] dark:text-[#a7adbb]'
@@ -1062,7 +1062,7 @@ export default function CalendarView({
                               className="w-full text-left rounded p-1 sm:p-1.5 bg-[#f2efe9] dark:bg-[#1d2128] text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#e03e3e] hover:text-white hover:border-[#e03e3e] transition-colors group/ev block shadow-2xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e]"
                             >
                               <div className="flex items-center justify-between gap-1">
-                                <span className="font-bold text-[11px] sm:text-xs truncate leading-tight">
+                                <span className="font-bold text-xs sm:text-xs truncate leading-tight">
                                   {event.location}
                                 </span>
                                 {event.departure && (
@@ -1073,13 +1073,13 @@ export default function CalendarView({
                               </div>
 
                               {event.distances && (
-                                <p className="text-[10px] sm:text-xs opacity-80 truncate mt-0.5 tabular-nums">
+                                <p className="text-xs sm:text-xs opacity-80 truncate mt-0.5 tabular-nums">
                                   {event.distances} km
                                 </p>
                               )}
 
                               {attendees.length > 0 && (
-                                <div className="mt-0.5 sm:mt-1 flex items-center gap-1 text-[10px] sm:text-xs text-emerald-600 dark:text-emerald-400">
+                                <div className="mt-0.5 sm:mt-1 flex items-center gap-1 text-xs sm:text-xs text-emerald-600 dark:text-emerald-400">
                                   <UserGroupIcon className="h-3 w-3 shrink-0" />
                                   <span className="tabular-nums">{attendees.length}</span>
                                 </div>

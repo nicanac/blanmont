@@ -475,10 +475,10 @@ export default function AdminHeroPage(): React.ReactElement {
                           }}
                           className="object-cover"
                         />
-                        <span className="absolute bottom-1 left-1 rounded bg-black/80 px-1.5 py-0.5 text-[9px] font-bold text-white">
+                        <span className="absolute bottom-1 left-1 rounded bg-black/80 px-1.5 py-0.5 text-xs font-bold text-white">
                           #{index + 1}
                         </span>
-                        <span className="absolute top-1 right-1 rounded bg-[#e03e3e]/90 px-1 py-0.2 text-[8px] font-mono font-bold text-white">
+                        <span className="absolute top-1 right-1 rounded bg-[#e03e3e]/90 px-1 py-0.2 text-xs font-mono font-bold text-white">
                           {currentY}%
                         </span>
                       </div>
@@ -560,7 +560,7 @@ export default function AdminHeroPage(): React.ReactElement {
                             <ArrowsUpDownIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                             <span>Alignement vertical dans le slider</span>
                           </p>
-                          <p className="text-[11px] text-[#5c6370]">
+                          <p className="text-xs text-[#5c6370]">
                             Choisissez une zone de focalisation rapide ou déplacez le curseur pour centrer au millimètre.
                           </p>
                         </div>
@@ -619,7 +619,7 @@ export default function AdminHeroPage(): React.ReactElement {
                           <span className="font-semibold text-[#101216]">
                             Ajustement fin de la hauteur : <strong className="text-[#e03e3e]">{currentY}%</strong>
                           </span>
-                          <span className="text-[11px] text-[#5c6370]">
+                          <span className="text-xs text-[#5c6370]">
                             0% = Haut extrême · 100% = Bas extrême
                           </span>
                         </div>
@@ -743,7 +743,7 @@ export default function AdminHeroPage(): React.ReactElement {
             >
               {/* Header card indicator */}
               <div className="flex items-center justify-between border-b border-[#e4e0d8] pb-2.5">
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#5c6370]">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
                   <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
                   Bloc #{index + 1}
                 </span>
@@ -756,7 +756,7 @@ export default function AdminHeroPage(): React.ReactElement {
 
               {/* Icon Selector */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-icon-${index}`} className="block text-[11px] font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-icon-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
                   Icône
                 </label>
                 <select
@@ -775,7 +775,7 @@ export default function AdminHeroPage(): React.ReactElement {
 
               {/* Label Field */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-label-${index}`} className="block text-[11px] font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-label-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
                   Titre / Libellé
                 </label>
                 <input
@@ -790,7 +790,7 @@ export default function AdminHeroPage(): React.ReactElement {
 
               {/* Main Value Field */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-value-${index}`} className="block text-[11px] font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-value-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
                   Valeur Principale (Heure ou Lieu)
                 </label>
                 <input
@@ -805,7 +805,7 @@ export default function AdminHeroPage(): React.ReactElement {
 
               {/* Detail / Suffix Field */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-detail-${index}`} className="block text-[11px] font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-detail-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
                   Détail additionnel (optionnel)
                 </label>
                 <input
@@ -914,7 +914,7 @@ export default function AdminHeroPage(): React.ReactElement {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#262b38]">
-                <p className="text-[11px] text-[#5c6370]">
+                <p className="text-xs text-[#5c6370]">
                   Astuce : Vous pouvez également glisser directement l&apos;image à la souris ou au doigt.
                 </p>
 
@@ -954,7 +954,7 @@ export default function AdminHeroPage(): React.ReactElement {
             <p className="text-xs font-bold uppercase tracking-wider text-white">
               Modifications non enregistrées
             </p>
-            <p className="text-[11px] text-[#a7adbb]">
+            <p className="text-xs text-[#a7adbb]">
               Cliquez pour publier instantanément sur le site.
             </p>
           </div>

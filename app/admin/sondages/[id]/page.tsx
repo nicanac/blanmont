@@ -265,7 +265,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                           {Object.values(r.customAnswers).map((ans, idx) => (
                             <span
                               key={idx}
-                              className="inline-flex items-center rounded-md bg-amber-50 border border-amber-200/80 px-2 py-0.5 text-[11px] font-semibold text-amber-900"
+                              className="inline-flex items-center rounded-md bg-amber-50 border border-amber-200/80 px-2 py-0.5 text-xs font-semibold text-amber-900"
                             >
                               🚴 {Array.isArray(ans) ? ans.join(', ') : ans}
                             </span>

@@ -59,7 +59,7 @@ export default function EventsTutorialModal({
                 <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
                   Guide du Calendrier &amp; Sorties
                 </h2>
-                <span className="text-[0.6875rem] font-bold uppercase tracking-wider rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5">
                   Planning
                 </span>
               </div>
