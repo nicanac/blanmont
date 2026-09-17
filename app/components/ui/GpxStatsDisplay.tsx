@@ -13,10 +13,9 @@ interface Stats {
   estimatedTime: string;
 }
 
-export const isWebUiLink = (url: string): boolean => {
-  if (!url) return false;
-  return /strava\.com|garmin\.com|komoot/i.test(url);
-};
+import { isWebUiLink } from '@/app/lib/urlUtils';
+export { isWebUiLink };
+
 
 export default function GpxStatsDisplay({ url }: GpxStatsDisplayProps) {
   const [stats, setStats] = useState<Stats | null>(null);
