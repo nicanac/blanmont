@@ -62,7 +62,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           onClick={() => execCommand('formatBlock', '<h2>')}
-          className="rounded px-2.5 py-1.5 font-extrabold uppercase text-[0.6875rem] tracking-wider hover:bg-white transition-colors"
+          className="rounded px-2.5 py-1.5 font-extrabold uppercase text-xs tracking-wider hover:bg-white transition-colors"
           title="Titre de section H2"
         >
           Titre H2
@@ -70,7 +70,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           onClick={() => execCommand('formatBlock', '<h3>')}
-          className="rounded px-2.5 py-1.5 font-bold uppercase text-[0.6875rem] tracking-wider hover:bg-white transition-colors"
+          className="rounded px-2.5 py-1.5 font-bold uppercase text-xs tracking-wider hover:bg-white transition-colors"
           title="Sous-titre H3"
         >
           Sous-titre H3
@@ -78,7 +78,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           onClick={() => execCommand('formatBlock', '<p>')}
-          className="rounded px-2.5 py-1.5 text-[0.6875rem] font-semibold hover:bg-white transition-colors"
+          className="rounded px-2.5 py-1.5 text-xs font-semibold hover:bg-white transition-colors"
           title="Paragraphe standard"
         >
           Texte

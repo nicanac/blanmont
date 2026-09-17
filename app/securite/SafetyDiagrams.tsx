@@ -179,19 +179,19 @@ export function PelotonRoadDiagram(): React.ReactElement {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 text-xs">
         <div className="flex items-start gap-2">
           <span className="flex h-2.5 w-2.5 rounded-full bg-[#e03e3e] shrink-0 mt-1" />
-          <p className="text-[11px] text-[#a7adbb] leading-normal">
+          <p className="text-xs text-[#a7adbb] leading-normal">
             <strong className="text-white font-semibold">Capitaines de route (C) :</strong> encadrent en tête et en queue avec brassard tricolore et disque C3.
           </p>
         </div>
         <div className="flex items-start gap-2">
           <span className="flex h-2.5 w-2.5 rounded-full bg-[#3a3f4a] border border-white/30 shrink-0 mt-1" />
-          <p className="text-[11px] text-[#a7adbb] leading-normal">
+          <p className="text-xs text-[#a7adbb] leading-normal">
             <strong className="text-white font-semibold">Deux de front stricts :</strong> maintien permanent sur la voie de droite sans franchir la ligne médiane.
           </p>
         </div>
         <div className="flex items-start gap-2">
           <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0 mt-1" />
-          <p className="text-[11px] text-[#a7adbb] leading-normal">
+          <p className="text-xs text-[#a7adbb] leading-normal">
             <strong className="text-white font-semibold">Peloton de 15 à 50 :</strong> dispense légale de piste cyclable inadaptée pour la sécurité du groupe.
           </p>
         </div>
@@ -223,7 +223,7 @@ export function HalfWheelingDiagram(): React.ReactElement {
         <div className="rounded-md border border-rose-200 dark:border-rose-900/60 bg-rose-50/40 dark:bg-rose-950/20 p-4 space-y-3">
           <div className="flex items-center justify-between text-xs font-bold text-rose-700 dark:text-rose-400">
             <span>Roue croisée : accrochage immédiat</span>
-            <span className="text-[11px] uppercase tracking-wider font-semibold">Danger</span>
+            <span className="text-xs uppercase tracking-wider font-semibold">Danger</span>
           </div>
 
           <div className="h-28 bg-white dark:bg-[#0a0c10] rounded border border-rose-200 dark:border-rose-900/40 relative flex items-center justify-center overflow-hidden">
@@ -266,7 +266,7 @@ export function HalfWheelingDiagram(): React.ReactElement {
         <div className="rounded-md border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/40 dark:bg-emerald-950/20 p-4 space-y-3">
           <div className="flex items-center justify-between text-xs font-bold text-emerald-700 dark:text-emerald-400">
             <span>Dans le sillage : aspiration sécurisée</span>
-            <span className="text-[11px] uppercase tracking-wider font-semibold">Conforme</span>
+            <span className="text-xs uppercase tracking-wider font-semibold">Conforme</span>
           </div>
 
           <div className="h-28 bg-white dark:bg-[#0a0c10] rounded border border-emerald-200 dark:border-emerald-900/40 relative flex items-center justify-center overflow-hidden">

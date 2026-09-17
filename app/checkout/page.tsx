@@ -249,7 +249,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   </div>
 
                   {selectedProduct.gobikReference && (
-                    <div className="text-[11px] font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase">
+                    <div className="text-xs font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase">
                       Réf: {selectedProduct.gobikReference}
                     </div>
                   )}
@@ -426,7 +426,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     Bon de Commande
                   </span>
                 </div>
-                <span className="text-[11px] font-mono text-[#5c6370] dark:text-[#a7adbb]">
+                <span className="text-xs font-mono text-[#5c6370] dark:text-[#a7adbb]">
                   CC SAINT-MARTIN
                 </span>
               </div>
@@ -438,7 +438,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     <div className="font-bold text-[#101216] dark:text-white">
                       {quantity}&times; {selectedProduct.name}
                     </div>
-                    <div className="text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
+                    <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                       Taille : <span className="font-bold text-[#101216] dark:text-white">{effectiveSize}</span> · {unitPrice.toFixed(2)}&nbsp;€ / pièce
                     </div>
                   </div>
@@ -468,7 +468,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
                     Total TTC à régler
                   </div>
-                  <div className="text-[11px] text-[#5c6370] dark:text-[#a7adbb]">
+                  <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                     TVA et personnalisation incluses
                   </div>
                 </div>

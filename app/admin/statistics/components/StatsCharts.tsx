@@ -335,7 +335,7 @@ export default function StatsCharts({
             <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/20">
               <UserGroupIcon className="h-5 w-5" />
             </div>
-            <span className="rounded-full bg-[#f2efe9] px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-[#5c6370]">
+            <span className="rounded-full bg-[#f2efe9] px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
               Inscrits {filteredStats.totalMembers}
             </span>
           </div>
@@ -359,7 +359,7 @@ export default function StatsCharts({
             <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20">
               <CalendarDaysIcon className="h-5 w-5" />
             </div>
-            <span className="rounded-full bg-[#10b981]/15 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-[#10b981]">
+            <span className="rounded-full bg-[#10b981]/15 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-[#10b981]">
               Sorties du Club
             </span>
           </div>
@@ -380,7 +380,7 @@ export default function StatsCharts({
             <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#f59e0b]/10 text-[#f59e0b] border border-[#f59e0b]/20">
               <ChartBarIcon className="h-5 w-5" />
             </div>
-            <span className="rounded-full bg-[#f59e0b]/15 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-[#f59e0b]">
+            <span className="rounded-full bg-[#f59e0b]/15 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-[#f59e0b]">
               Assiduité
             </span>
           </div>
@@ -402,7 +402,7 @@ export default function StatsCharts({
             <div className="flex h-11 w-11 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20">
               <ArrowTrendingUpIcon className="h-5 w-5" />
             </div>
-            <span className="rounded-full bg-[#e03e3e]/15 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-[#e03e3e]">
+            <span className="rounded-full bg-[#e03e3e]/15 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
               Régularité
             </span>
           </div>
@@ -462,7 +462,7 @@ export default function StatsCharts({
                   key={m.monthName}
                   className="flex flex-col items-center justify-between rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-2.5 transition-colors hover:border-[#101216]/30"
                 >
-                  <span className="text-[0.6875rem] font-bold uppercase tracking-wider text-[#5c6370]">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
                     {m.monthName.slice(0, 3)}
                   </span>
                   <div className="my-2 h-14 w-full flex items-end justify-center">
@@ -502,7 +502,7 @@ export default function StatsCharts({
                 <h2 className="text-base font-extrabold uppercase tracking-tight text-[#101216]">
                   Classement Officiel du Carré Vert {selectedYear}
                 </h2>
-                <span className="rounded-full bg-[#101216] px-2.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-white">
+                <span className="rounded-full bg-[#101216] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
                   {displayedEntries.length} Inscrits
                 </span>
               </div>
@@ -607,7 +607,7 @@ export default function StatsCharts({
                       <td className="whitespace-nowrap px-5 py-3 font-bold text-[#101216]">
                         {entry.name}
                         {index === 0 && entry.rides > 0 && (
-                          <span className="ml-2 inline-flex items-center gap-1 text-[0.625rem] font-bold uppercase tracking-wider text-[#f59e0b]">
+                          <span className="ml-2 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-[#f59e0b]">
                             <SparklesIcon className="h-3.5 w-3.5" />
                             Champion
                           </span>
@@ -617,7 +617,7 @@ export default function StatsCharts({
                       {/* Group */}
                       <td className="whitespace-nowrap px-5 py-3">
                         <span
-                          className={`inline-flex rounded-xs px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider ${getGroupBadgeStyle(
+                          className={`inline-flex rounded-xs px-2 py-0.5 text-xs font-bold uppercase tracking-wider ${getGroupBadgeStyle(
                             entry.group || ''
                           )}`}
                         >

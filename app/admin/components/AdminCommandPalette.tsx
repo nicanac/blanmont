@@ -343,7 +343,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
                           <span className="font-bold text-sm text-[#101216] dark:text-white truncate">
                             {item.name}
                           </span>
-                          <span className="text-[0.6875rem] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370]">
+                          <span className="text-xs font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370]">
                             {item.category}
                           </span>
                         </div>
@@ -366,19 +366,19 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
         </div>
 
         {/* Footer shortcuts hint */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[0.6875rem] text-[#5c6370]">
+        <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-xs text-[#5c6370]">
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem]">↑</kbd>
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem]">↓</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">↑</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">↓</kbd>
               Naviguer
             </span>
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem]">↵</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">↵</kbd>
               Ouvrir
             </span>
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-[0.625rem]">Esc</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">Esc</kbd>
               Fermer
             </span>
           </div>

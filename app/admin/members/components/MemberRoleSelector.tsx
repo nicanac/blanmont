@@ -156,7 +156,7 @@ export default function MemberRoleSelector({
                       <h4 className="text-xs sm:text-sm font-bold text-[#101216] truncate">
                         {roleDef.label}
                       </h4>
-                      <span className="block text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-[#5c6370]">
+                      <span className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370]">
                         {getBadgeCategory(roleDef.key)}
                       </span>
                     </div>
@@ -182,11 +182,11 @@ export default function MemberRoleSelector({
               {/* Bottom Tag Preview */}
               <div className="mt-3 pt-2.5 border-t border-[#e4e0d8]/80 flex items-center justify-between">
                 <span
-                  className={`inline-flex items-center rounded-full px-2 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wider border ${roleDef.badgeStyle}`}
+                  className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wider border ${roleDef.badgeStyle}`}
                 >
                   {roleDef.key}
                 </span>
-                <span className="text-[0.6875rem] font-medium text-[#5c6370]">
+                <span className="text-xs font-medium text-[#5c6370]">
                   {isActive ? 'Actif' : 'Inactif'}
                 </span>
               </div>
@@ -256,7 +256,7 @@ export default function MemberRoleSelector({
 
         {/* Suggested Quick Add Chips */}
         <div className="pt-2 border-t border-[#e4e0d8]/60">
-          <span className="block text-[0.625rem] font-semibold uppercase tracking-wider text-[#5c6370] mb-1.5">
+          <span className="block text-xs font-semibold uppercase tracking-wider text-[#5c6370] mb-1.5">
             Suggestions rapides :
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -271,7 +271,7 @@ export default function MemberRoleSelector({
                   key={suggestion}
                   type="button"
                   onClick={() => handleAddCustomRole(suggestion)}
-                  className="inline-flex items-center gap-1 rounded-md border border-dashed border-[#d3cec4] bg-white/70 px-2 py-0.5 text-[0.6875rem] font-medium text-[#5c6370] hover:border-[#e03e3e] hover:text-[#e03e3e] hover:bg-white transition-colors"
+                  className="inline-flex items-center gap-1 rounded-md border border-dashed border-[#d3cec4] bg-white/70 px-2 py-0.5 text-xs font-medium text-[#5c6370] hover:border-[#e03e3e] hover:text-[#e03e3e] hover:bg-white transition-colors"
                 >
                   <PlusIcon className="h-3 w-3" />
                   <span>{suggestion}</span>

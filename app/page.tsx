@@ -351,7 +351,7 @@ export default async function Home(): Promise<React.ReactElement> {
                   <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-all duration-300 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
                     <TrophySquareIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[0.6875rem] font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
                     <span>Challenge</span>
                   </span>
@@ -383,7 +383,7 @@ export default async function Home(): Promise<React.ReactElement> {
                   <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-all duration-300 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
                     <RouteCalendarIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[0.6875rem] font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
                     <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shrink-0" />
                     <span>Planning</span>
                   </span>
@@ -415,7 +415,7 @@ export default async function Home(): Promise<React.ReactElement> {
                   <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-all duration-300 group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white shadow-2xs group-hover:shadow-md group-hover:shadow-[#e03e3e]/20">
                     <JerseyIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[0.6875rem] font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-[0.12em] bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#5c6370] dark:text-[#a7adbb] transition-colors">
                     <span className="h-1.5 w-1.5 rounded-full bg-amber-500 shrink-0" />
                     <span>Boutique</span>
                   </span>

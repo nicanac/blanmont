@@ -396,12 +396,12 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                   <span className="text-xs font-bold uppercase tracking-wider text-amber-900">
                     Contact d&apos;urgence en peloton (ICE - In Case of Emergency)
                   </span>
-                  <span className="text-[10px] text-amber-800">Accessible aux capitaines</span>
+                  <span className="text-xs text-amber-800">Accessible aux capitaines</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label htmlFor="member-edit-ice-name" className="mb-1 block text-[11px] font-semibold text-amber-950">
+                    <label htmlFor="member-edit-ice-name" className="mb-1 block text-xs font-semibold text-amber-950">
                       Nom du proche
                     </label>
                     <input
@@ -415,7 +415,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                   </div>
 
                   <div>
-                    <label htmlFor="member-edit-ice-phone" className="mb-1 block text-[11px] font-semibold text-amber-950">
+                    <label htmlFor="member-edit-ice-phone" className="mb-1 block text-xs font-semibold text-amber-950">
                       Téléphone d&apos;urgence
                     </label>
                     <input
@@ -429,7 +429,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                   </div>
 
                   <div>
-                    <label htmlFor="member-edit-ice-relation" className="mb-1 block text-[11px] font-semibold text-amber-950">
+                    <label htmlFor="member-edit-ice-relation" className="mb-1 block text-xs font-semibold text-amber-950">
                       Lien de parenté
                     </label>
                     <input

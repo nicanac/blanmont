@@ -427,7 +427,7 @@ export default function MemberPhotosManager({
             }`}
           >
             <span>Avec photo</span>
-            <span className={`text-[0.6875rem] tabular-nums ${roleFilter === 'with-photo' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${roleFilter === 'with-photo' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
               ({withPhotoCount})
             </span>
           </button>
@@ -549,7 +549,7 @@ export default function MemberPhotosManager({
                       />
                       {/* Current Vertical % Pill */}
                       <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5">
-                        <span className="rounded bg-black/80 backdrop-blur-sm px-2 py-0.5 text-[10px] font-mono font-bold text-white border border-white/10">
+                        <span className="rounded bg-black/80 backdrop-blur-sm px-2 py-0.5 text-xs font-mono font-bold text-white border border-white/10">
                           {currentY}% Y
                         </span>
                         {isModified && (
@@ -577,7 +577,7 @@ export default function MemberPhotosManager({
                       {roles.slice(0, 1).map((r, i) => (
                         <span
                           key={i}
-                          className="rounded-full bg-[#101216]/85 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white border border-white/15 truncate"
+                          className="rounded-full bg-[#101216]/85 backdrop-blur-md px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/15 truncate"
                         >
                           {r}
                         </span>
@@ -608,13 +608,13 @@ export default function MemberPhotosManager({
                       <h3 className="text-sm font-bold text-[#101216] truncate">
                         {member.name}
                       </h3>
-                      <p className="text-[11px] text-[#5c6370] truncate">
+                      <p className="text-xs text-[#5c6370] truncate">
                         {member.email || 'Membre actif'}
                       </p>
                     </div>
 
                     {isModified && (
-                      <span className="shrink-0 rounded bg-amber-50 border border-amber-200 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-800">
+                      <span className="shrink-0 rounded bg-amber-50 border border-amber-200 px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider text-amber-800">
                         Modifié
                       </span>
                     )}
@@ -624,7 +624,7 @@ export default function MemberPhotosManager({
                     <>
                       {/* Vertical Alignment Presets */}
                       <div className="space-y-1.5">
-                        <div className="flex items-center justify-between text-[11px]">
+                        <div className="flex items-center justify-between text-xs">
                           <span className="font-semibold text-[#5c6370] flex items-center gap-1">
                             <ArrowsUpDownIcon className="h-3 w-3 text-[#e03e3e]" />
                             <span>Alignement vertical</span>
@@ -641,7 +641,7 @@ export default function MemberPhotosManager({
                                 key={preset.id}
                                 type="button"
                                 onClick={() => handleSetPosition(member.id, preset.position)}
-                                className={`rounded px-2 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors text-center truncate ${
+                                className={`rounded px-2 py-1 text-xs font-bold uppercase tracking-wider border transition-colors text-center truncate ${
                                   isSelected
                                     ? 'bg-[#101216] text-white border-[#101216]'
                                     : 'bg-[#faf8f5] text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9] hover:text-[#101216]'
@@ -675,7 +675,7 @@ export default function MemberPhotosManager({
                         <button
                           type="button"
                           onClick={() => handleOpenRecrop(member.id)}
-                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#5c6370] hover:text-[#101216] transition-colors"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#5c6370] hover:text-[#101216] transition-colors"
                         >
                           <AdjustmentsHorizontalIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                           <span>Recadrer</span>
@@ -685,7 +685,7 @@ export default function MemberPhotosManager({
                           type="button"
                           onClick={() => triggerUploadForMember(member.id)}
                           disabled={isUploading}
-                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#5c6370] hover:text-[#101216] transition-colors"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#5c6370] hover:text-[#101216] transition-colors"
                         >
                           <ArrowUpTrayIcon className="h-3.5 w-3.5" />
                           <span>Changer</span>
@@ -695,7 +695,7 @@ export default function MemberPhotosManager({
                           type="button"
                           onClick={() => handleSaveSingle(member.id)}
                           disabled={!isModified || isSaving}
-                          className={`inline-flex items-center gap-1 rounded px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                          className={`inline-flex items-center gap-1 rounded px-2.5 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
                             isModified
                               ? 'bg-[#e03e3e] hover:bg-[#c93434] text-white shadow-xs'
                               : 'bg-[#f2efe9] text-[#a7adbb] cursor-not-allowed'
@@ -713,7 +713,7 @@ export default function MemberPhotosManager({
                   ) : (
                     /* If no photo: upload trigger */
                     <div className="pt-2 border-t border-[#e4e0d8] space-y-2">
-                      <p className="text-[11px] text-[#5c6370]">
+                      <p className="text-xs text-[#5c6370]">
                         Ce membre n&apos;a pas encore de photo de profil.
                       </p>
                       <button
@@ -800,7 +800,7 @@ export default function MemberPhotosManager({
                                 key={preset.id}
                                 type="button"
                                 onClick={() => handleSetPosition(member.id, preset.position)}
-                                className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider border transition-colors ${
+                                className={`rounded px-2 py-0.5 text-xs font-bold uppercase tracking-wider border transition-colors ${
                                   Math.abs(currentY - preset.percent) <= 12
                                     ? 'bg-[#101216] text-white border-[#101216]'
                                     : 'bg-[#faf8f5] text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9]'
@@ -919,7 +919,7 @@ export default function MemberPhotosManager({
               <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-ping" />
               <span>{modifiedIds.size} modification(s) en attente</span>
             </p>
-            <p className="text-[11px] text-[#a7adbb]">
+            <p className="text-xs text-[#a7adbb]">
               Cliquez pour publier instantanément sur le site.
             </p>
           </div>
