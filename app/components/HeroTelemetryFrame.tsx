@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+
 import Image from 'next/image';
 import {
   MapPinIcon,
@@ -20,7 +21,7 @@ interface HeroTelemetryFrameProps {
   isPreview?: boolean;
 }
 
-function renderCardIcon(type: HeroIconType) {
+function renderCardIcon(type: HeroIconType): React.ReactElement {
   const iconClass = 'h-4 w-4';
   switch (type) {
     case 'pin':
@@ -43,7 +44,7 @@ function renderCardIcon(type: HeroIconType) {
 export default function HeroTelemetryFrame({
   settings,
   className = '',
-  isPreview = false,
+  isPreview: _isPreview = false,
 }: HeroTelemetryFrameProps): React.ReactElement {
   const slides = settings?.slides?.length ? settings.slides : [{ id: '1', url: '/images/home-hero.jpg', alt: 'Club de Blanmont' }];
   const cards = settings?.cards?.length ? settings.cards : [];
@@ -52,6 +53,62 @@ export default function HeroTelemetryFrame({
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [parallaxOffset, setParallaxOffset] = useState<number>(0);
+
+  // Parallax depth on hero image viewport
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) return;
+
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    let isVisible = false;
+    let rafId: number | null = null;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) schedule();
+      },
+      { rootMargin: '100px 0px 100px 0px' }
+    );
+    observer.observe(frame);
+
+    const updateParallax = (): void => {
+      if (!isVisible || !frameRef.current) return;
+      const rect = frameRef.current.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const elementCenter = rect.top + rect.height / 2;
+      const diff = elementCenter - viewportCenter;
+      const isMobile = window.innerWidth < 768;
+      const damping = isMobile ? 0.04 : 0.08;
+      const raw = diff * damping;
+      const clamped = Math.max(-25, Math.min(25, raw));
+      setParallaxOffset(Math.round(clamped * 10) / 10);
+    };
+
+    const schedule = (): void => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        updateParallax();
+      });
+    };
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    updateParallax();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   // Auto-cycle through slides if there are multiple
   useEffect(() => {
@@ -64,12 +121,7 @@ export default function HeroTelemetryFrame({
     return () => clearInterval(timer);
   }, [slides.length, isPaused]);
 
-  // Keep index within bounds if slides count changes
-  useEffect(() => {
-    if (currentSlideIndex >= slides.length) {
-      setCurrentSlideIndex(0);
-    }
-  }, [slides.length, currentSlideIndex]);
+  const activeSlideIndex = currentSlideIndex < slides.length ? currentSlideIndex : 0;
 
   const goToPrev = useCallback(() => {
     setCurrentSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
@@ -79,40 +131,50 @@ export default function HeroTelemetryFrame({
     setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
   }, [slides.length]);
 
+
   return (
     <div
       className={`overflow-hidden rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xl dark:shadow-2xl transition-colors duration-200 ${className}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* ── Hard-cropped photo / Slider viewport ── */}
-      <div className="relative aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] w-full overflow-hidden bg-[#0a0c10]">
-        {slides.map((slide, index) => {
-          const isActive = index === currentSlideIndex;
-          return (
-            <div
-              key={slide.id || index}
-              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
-              }`}
-            >
-              <Image
-                src={failedImages[slide.id || index] ? '/images/home-hero.jpg' : slide.url}
-                alt={slide.alt || 'Club de Blanmont – peloton cycliste'}
-                fill
-                unoptimized
-                priority={index === 0}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
-                style={{ objectPosition: slide.position || 'center center' }}
-                onError={() => {
-                  setFailedImages((prev) => ({ ...prev, [slide.id || index]: true }));
-                }}
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            </div>
-          );
-        })}
+      {/* ── Hard-cropped photo / Slider viewport with parallax ── */}
+      <div
+        ref={frameRef}
+        className="relative aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] w-full overflow-hidden bg-[#0a0c10]"
+      >
+        <div
+          className="absolute inset-0 scale-[1.06] will-change-transform transition-transform duration-75 ease-out motion-reduce:transform-none motion-reduce:scale-100"
+          style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
+        >
+          {slides.map((slide, index) => {
+            const isActive = index === activeSlideIndex;
+            return (
+              <div
+                key={slide.id || index}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                  isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
+                }`}
+              >
+                <Image
+                  src={failedImages[slide.id || index] ? '/images/home-hero.jpg' : slide.url}
+                  alt={slide.alt || 'Club de Blanmont – peloton cycliste'}
+                  fill
+                  unoptimized
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
+                  style={{ objectPosition: slide.position || 'center center' }}
+                  onError={() => {
+                    setFailedImages((prev) => ({ ...prev, [slide.id || index]: true }));
+                  }}
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              </div>
+            );
+          })}
+        </div>
+
 
         {/* Top-left editorial pill */}
         <div className="absolute top-4 left-4 z-20">
@@ -143,13 +205,14 @@ export default function HeroTelemetryFrame({
                     onClick={() => setCurrentSlideIndex(idx)}
                     aria-label={`Aller à la photo ${idx + 1}`}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
-                      currentSlideIndex === idx
+                      activeSlideIndex === idx
                         ? 'w-5 bg-[#e03e3e]'
                         : 'w-1.5 bg-white/40 hover:bg-white/70'
                     }`}
                   />
                 ))}
               </div>
+
 
               <button
                 type="button"

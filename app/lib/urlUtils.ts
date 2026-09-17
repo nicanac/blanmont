@@ -9,3 +9,12 @@ export function sanitizeUrl(rawUrl: string): string {
   url = url.replace(/^(&quot;|"|'|&apos;)+|(&quot;|"|'|&apos;)+$/g, '');
   return url.trim();
 }
+
+/**
+ * Checks whether a given URL points to a web UI (Strava, Garmin, Komoot) rather than a direct GPX file.
+ */
+export function isWebUiLink(url: string): boolean {
+  if (!url) return false;
+  return /strava\.com|garmin\.com|komoot/i.test(url);
+}
+

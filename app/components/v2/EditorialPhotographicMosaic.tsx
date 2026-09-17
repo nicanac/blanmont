@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import React from 'react';
+import ParallaxLayer from '../ui/ParallaxLayer';
+import ParallaxImage from '../ui/ParallaxImage';
 
 interface MosaicItem {
   id: string;
@@ -16,8 +15,8 @@ interface MosaicItem {
   span: string;
 }
 
-export default function EditorialPhotographicMosaic() {
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+export default function EditorialPhotographicMosaic(): React.ReactElement {
+
 
   const items: MosaicItem[] = [
     {
@@ -65,11 +64,15 @@ export default function EditorialPhotographicMosaic() {
   return (
     <section className="py-24 sm:py-32 bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] border-b border-[#e4e0d8] dark:border-[#262b38] relative overflow-hidden transition-colors duration-200">
       {/* Editorial Giant Background Typography Layer */}
-      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+      <ParallaxLayer
+        speed={-0.2}
+        maxOffset={100}
+        className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center"
+      >
         <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
           PELOTON
         </span>
-      </div>
+      </ParallaxLayer>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 relative z-10">
         {/* Section Header */}
@@ -93,19 +96,20 @@ export default function EditorialPhotographicMosaic() {
           {items.map((item) => (
             <div
               key={item.id}
-              onMouseEnter={() => setActiveImage(item.id)}
-              onMouseLeave={() => setActiveImage(null)}
               className={`group relative overflow-hidden rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-[#0a0c10] shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-[#e03e3e]/60 ${item.span}`}
             >
-              {/* Image with zoom and soft color grade */}
+
+              {/* Image with zoom, window parallax and soft color grade */}
               <div className={`relative w-full ${item.aspect}`}>
-                <Image
+                <ParallaxImage
                   src={item.src}
                   alt={item.alt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 65vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  className="transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  speed={0.12}
                 />
+
 
                 {/* Dark luxury gradient overlays */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />

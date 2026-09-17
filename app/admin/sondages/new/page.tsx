@@ -294,7 +294,7 @@ function NewWeekendPollForm() {
             </div>
 
             {sortieInfo.remarks && (
-              <div className="text-xs text-slate-600 rounded-lg bg-amber-50/60 border border-amber-200/60 px-3 py-2">
+              <div className="text-xs text-amber-950/80 rounded-lg bg-amber-50/60 border border-amber-200/60 px-3 py-2">
                 <strong className="font-semibold text-amber-900">Note au calendrier :</strong> {sortieInfo.remarks}
               </div>
             )}

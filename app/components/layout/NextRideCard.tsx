@@ -1,5 +1,6 @@
 'use client';
-import GpxStatsDisplay, { isWebUiLink } from '../ui/GpxStatsDisplay';
+import GpxStatsDisplay from '../ui/GpxStatsDisplay';
+import { isWebUiLink } from '@/app/lib/urlUtils';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
