@@ -30,7 +30,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
       return (
         <div className={cn('inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/15 px-3 py-1.5 text-xs text-muted-foreground', className)}>
           <span className="h-4 w-4 rounded-full bg-black/10 dark:bg-white/10 animate-pulse" />
-          <span className="text-[11px] font-semibold uppercase tracking-wider">Thème</span>
+          <span className="text-xs font-semibold uppercase tracking-wider">Thème</span>
         </div>
       );
     }
@@ -117,7 +117,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
                   <Icon className="h-5 w-5" />
                 </div>
                 {isSelected && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#e03e3e] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#e03e3e] px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
                     Actif
                   </span>
                 )}
@@ -195,7 +195,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         title="Activer le mode clair"
       >
         <SunIcon className="h-3.5 w-3.5 text-amber-500" />
-        <span className="text-[11px]">Clair</span>
+        <span className="text-xs">Clair</span>
       </button>
 
       <button
@@ -210,7 +210,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         title="Activer le mode sombre"
       >
         <MoonIcon className="h-3.5 w-3.5" />
-        <span className="text-[11px]">Sombre</span>
+        <span className="text-xs">Sombre</span>
       </button>
     </div>
   );

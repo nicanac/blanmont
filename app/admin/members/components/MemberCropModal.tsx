@@ -161,7 +161,7 @@ export default function MemberCropModal({
 
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#262b38]">
-            <p className="text-[11px] text-[#5c6370]">
+            <p className="text-xs text-[#5c6370]">
               Astuce : Déplacez directement le sujet à la souris ou au doigt pour un cadrage optimal.
             </p>
 

@@ -251,25 +251,25 @@ export default function PointageExpressClient({
             <div className="text-lg font-bold text-emerald-800 tabular-nums">
               {stats.present} / {stats.total}
             </div>
-            <div className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
+            <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
               Présents
             </div>
           </div>
           <div className="p-2.5 rounded-lg bg-[#faf8f5] border border-[#e4e0d8] text-center">
             <div className="text-base font-bold text-[#101216] tabular-nums">{stats.groupA}</div>
-            <div className="text-[10px] font-medium text-[#5c6370]">Groupe A</div>
+            <div className="text-xs font-medium text-[#5c6370]">Groupe A</div>
           </div>
           <div className="p-2.5 rounded-lg bg-[#faf8f5] border border-[#e4e0d8] text-center">
             <div className="text-base font-bold text-[#101216] tabular-nums">{stats.groupB}</div>
-            <div className="text-[10px] font-medium text-[#5c6370]">Groupe B</div>
+            <div className="text-xs font-medium text-[#5c6370]">Groupe B</div>
           </div>
           <div className="p-2.5 rounded-lg bg-[#faf8f5] border border-[#e4e0d8] text-center">
             <div className="text-base font-bold text-[#101216] tabular-nums">{stats.groupC}</div>
-            <div className="text-[10px] font-medium text-[#5c6370]">Groupe C</div>
+            <div className="text-xs font-medium text-[#5c6370]">Groupe C</div>
           </div>
           <div className="p-2.5 rounded-lg bg-[#faf8f5] border border-[#e4e0d8] text-center">
             <div className="text-base font-bold text-[#101216] tabular-nums">{stats.groupVTT}</div>
-            <div className="text-[10px] font-medium text-[#5c6370]">VTT / Gravel</div>
+            <div className="text-xs font-medium text-[#5c6370]">VTT / Gravel</div>
           </div>
         </div>
       </div>
@@ -431,7 +431,7 @@ export default function PointageExpressClient({
                         Groupe {member.preferredGroup || 'B'}
                       </span>
                       {member.phone && (
-                        <span className="text-[#a7adbb] font-mono tabular-nums text-[11px]">
+                        <span className="text-[#a7adbb] font-mono tabular-nums text-xs">
                           {member.phone}
                         </span>
                       )}

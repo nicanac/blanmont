@@ -130,7 +130,7 @@ export default function GobikSizeGuide({
                         <div className="flex items-center gap-2">
                           <span>{row.size}</span>
                           {isCurrent && (
-                            <span className="text-[10px] uppercase font-bold text-[#e03e3e]">
+                            <span className="text-xs uppercase font-bold text-[#e03e3e]">
                               (actuel)
                             </span>
                           )}
@@ -147,7 +147,7 @@ export default function GobikSizeGuide({
                               onSelectSize(row.size);
                               onClose();
                             }}
-                            className={`px-3 py-1 rounded text-[11px] font-bold uppercase transition-colors ${
+                            className={`px-3 py-1 rounded text-xs font-bold uppercase transition-colors ${
                               isCurrent
                                 ? 'bg-[#e03e3e] text-white'
                                 : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#101216] dark:text-[#f5f6f8] hover:bg-[#101216] hover:text-white dark:hover:bg-white dark:hover:text-[#101216]'

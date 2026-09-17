@@ -256,10 +256,10 @@ function NewWeekendPollForm() {
               <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-3 flex items-start gap-2.5">
                 <MapPinIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Lieu &amp; RDV</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Lieu &amp; RDV</div>
                   <div className="text-xs font-bold text-slate-900 truncate">{sortieInfo.location}</div>
                   {sortieInfo.address && (
-                    <div className="text-[11px] text-slate-500 truncate">{sortieInfo.address}</div>
+                    <div className="text-xs text-slate-500 truncate">{sortieInfo.address}</div>
                   )}
                 </div>
               </div>
@@ -267,16 +267,16 @@ function NewWeekendPollForm() {
               <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-3 flex items-start gap-2.5">
                 <ClockIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Départ</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Départ</div>
                   <div className="text-xs font-bold text-slate-900">{sortieInfo.departure}</div>
-                  <div className="text-[11px] text-slate-500">{sortieInfo.formattedDate}</div>
+                  <div className="text-xs text-slate-500">{sortieInfo.formattedDate}</div>
                 </div>
               </div>
 
               <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-3 flex items-start gap-2.5">
                 <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Distances prévues</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Distances prévues</div>
                   <div className="text-xs font-bold text-[#e03e3e] tabular-nums">
                     {sortieInfo.distancesRaw ? (
                       sortieInfo.distancesRaw.toLowerCase().includes('km')
@@ -286,7 +286,7 @@ function NewWeekendPollForm() {
                       'Standard club'
                     )}
                   </div>
-                  <div className="text-[11px] text-slate-500">
+                  <div className="text-xs text-slate-500">
                     {sortieInfo.distanceOptions.length} option{sortieInfo.distanceOptions.length > 1 ? 's' : ''} de distance
                   </div>
                 </div>

@@ -202,7 +202,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             }`}
           >
             <span>Tous</span>
-            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${tabFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
               ({initialMembers.length})
             </span>
           </button>
@@ -218,7 +218,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           >
             <BicycleIcon className={`h-3.5 w-3.5 ${tabFilter === 'capitaines' ? 'text-white' : 'text-[#e03e3e]'}`} />
             <span>Capitaines</span>
-            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${tabFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370]'}`}>
               ({captainsCount})
             </span>
           </button>
@@ -234,7 +234,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           >
             <CheckCircleIcon className="h-3.5 w-3.5" />
             <span>Cotisation Payée</span>
-            <span className="text-[0.6875rem] tabular-nums font-bold">
+            <span className="text-xs tabular-nums font-bold">
               ({paidCount})
             </span>
           </button>
@@ -250,7 +250,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           >
             <ClockIcon className="h-3.5 w-3.5" />
             <span>En attente</span>
-            <span className="text-[0.6875rem] tabular-nums font-bold">
+            <span className="text-xs tabular-nums font-bold">
               ({pendingCount})
             </span>
           </button>
@@ -266,7 +266,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           >
             <ExclamationTriangleIcon className="h-3.5 w-3.5" />
             <span>Sans ICE</span>
-            <span className="text-[0.6875rem] tabular-nums font-bold">
+            <span className="text-xs tabular-nums font-bold">
               ({noIceCount})
             </span>
           </button>
@@ -282,7 +282,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           >
             <KeyIcon className="h-3.5 w-3.5" />
             <span>Admins</span>
-            <span className={`text-[0.6875rem] tabular-nums ${tabFilter === 'admin' ? 'text-white/80' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${tabFilter === 'admin' ? 'text-white/80' : 'text-[#5c6370]'}`}>
               ({adminCount})
             </span>
           </button>
@@ -359,7 +359,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                       <div className="space-y-0.5">
                         <p>{member.email || '-'}</p>
                         {member.phone && (
-                          <p className="text-[11px] text-[#5c6370] font-mono">{member.phone}</p>
+                          <p className="text-xs text-[#5c6370] font-mono">{member.phone}</p>
                         )}
                       </div>
                     </td>
@@ -495,7 +495,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-[#101216]">Fiche d&apos;Urgence Peloton (ICE)</h3>
-                  <p className="text-[11px] text-[#5c6370]">{selectedIceMember.name}</p>
+                  <p className="text-xs text-[#5c6370]">{selectedIceMember.name}</p>
                 </div>
               </div>
               <button
@@ -533,7 +533,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                 </div>
               </div>
 
-              <div className="space-y-1 pt-1 text-[11px] text-[#5c6370]">
+              <div className="space-y-1 pt-1 text-xs text-[#5c6370]">
                 <p>• <strong>Téléphone du membre</strong> : {selectedIceMember.phone || 'Non renseigné'}</p>
                 <p>• <strong>N° Licence FFBC</strong> : {selectedIceMember.ffbcLicenseNumber || 'Non renseigné'}</p>
                 <p>• <strong>Groupe habituel</strong> : Groupe {selectedIceMember.preferredGroup || 'B'}</p>
