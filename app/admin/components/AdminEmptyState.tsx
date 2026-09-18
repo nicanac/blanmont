@@ -37,7 +37,7 @@ export default function AdminEmptyState({
     >
       {/* Icon */}
       <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-[#e03e3e]/10 border border-[#e03e3e]/20 text-[#e03e3e]">
-        <Icon className="h-7 w-7" />
+        <Icon className="h-7 w-7 md:h-7 md:w-7" />
       </div>
 
       {/* Content */}

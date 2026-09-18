@@ -330,7 +330,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div
-                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${
+                        className={`flex h-8 w-8 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-md ${
                           isSelected
                             ? 'bg-[#e03e3e] text-white'
                             : 'bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb]'

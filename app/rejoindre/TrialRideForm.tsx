@@ -66,7 +66,7 @@ export default function TrialRideForm(): React.ReactElement {
     return (
       <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-10 shadow-xs text-center space-y-6 animate-fadeIn">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
-          <CheckCircleIcon className="h-8 w-8" />
+          <CheckCircleIcon className="h-8 w-8 md:h-8 md:w-8" />
         </div>
 
         <div className="space-y-2 max-w-md mx-auto">

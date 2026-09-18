@@ -455,7 +455,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
 
         {filteredMembers.length === 0 && (
           <div className="py-12 px-4 text-center space-y-2">
-            <UsersIcon className="mx-auto h-8 w-8 text-[#5c6370]" />
+            <UsersIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#5c6370]" />
             <p className="text-sm font-semibold text-[#101216]">
               Aucun membre trouvé
             </p>

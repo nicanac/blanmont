@@ -149,7 +149,7 @@ export default function AdminTracesPage(): React.ReactElement {
       {/* Contextual Information Band */}
       <div id="traces-info-section" className="rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-4">
         <div className="flex items-start gap-3.5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#101216] text-[#e03e3e]">
+          <div className="flex h-8 w-8 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-md bg-[#101216] text-[#e03e3e]">
             <InformationCircleIcon className="h-5 w-5" />
           </div>
           <div className="space-y-1">
