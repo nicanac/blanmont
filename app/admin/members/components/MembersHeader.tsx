@@ -6,7 +6,7 @@ import {
   UsersIcon,
   PlusIcon,
   AcademicCapIcon,
-  PhotoIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import MembersTutorialModal from './MembersTutorialModal';
 import { useAdminTours } from '../../components/tours/adminTours';
@@ -45,8 +45,8 @@ export default function MembersHeader({
             className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
             title="Ajuster le cadrage et l'alignement des photos de membres"
           >
-            <PhotoIcon className="h-4 w-4 text-[#e03e3e]" />
-            <span>Cadrage Photos</span>
+            <UserCircleIcon className="h-4 w-4 text-[#e03e3e]" />
+            <span>Portraits &amp; Cadrage</span>
           </Link>
 
           <button

@@ -19,7 +19,6 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   CalendarIcon,
-  TrophyIcon,
   InformationCircleIcon,
   ChatBubbleLeftRightIcon,
   ShieldCheckIcon,
@@ -156,7 +155,7 @@ export default function Navbar(): React.ReactElement {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 justify-between items-center">
               {/* Left Side: Logo | Divider | Links */}
-              <div className="flex items-center">
+              <div className="flex items-center h-full">
                 {/* Logo */}
                 <div className="flex-shrink-0 flex items-center">
                   <Link href="/" className="flex items-center gap-2.5">
@@ -172,19 +171,19 @@ export default function Navbar(): React.ReactElement {
                 </div>
 
                 {/* Divider */}
-                <div className="hidden lg:block h-6 w-px bg-[#e4e0d8] dark:bg-white/15 mx-4 xl:mx-6"></div>
+                <div className="hidden lg:block h-6 w-px bg-[#e4e0d8] dark:bg-white/15 mx-4 xl:mx-6 self-center"></div>
 
                 {/* Navigation Links */}
-                <div className="hidden lg:flex lg:space-x-3.5 xl:space-x-5 items-center">
+                <div className="hidden lg:flex lg:space-x-3.5 xl:space-x-5 items-center h-full">
                   {/* Le Club Popover */}
-                  <Popover className="relative self-center -mt-px">
+                  <Popover className="relative flex items-center h-full">
                     {({ open: clubOpen }) => (
                       <>
                         <PopoverButton
                           className={cn(
-                            'group relative inline-flex items-center gap-1 text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors focus:outline-none py-1',
+                            'group relative inline-flex items-center gap-1 text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors focus:outline-none h-full min-h-[44px]',
                             clubOpen || isClubActive
-                              ? 'text-[#101216] dark:text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
+                              ? 'text-[#101216] dark:text-white after:absolute after:-bottom-px after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e] after:z-10'
                               : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
                           )}
                         >
@@ -207,7 +206,7 @@ export default function Navbar(): React.ReactElement {
                           leaveFrom="opacity-100 translate-y-0"
                           leaveTo="opacity-0 translate-y-1"
                         >
-                          <PopoverPanel className="absolute left-0 xl:left-1/2 z-50 mt-3 w-screen max-w-xl xl:-translate-x-1/2 transform px-3 sm:px-0">
+                          <PopoverPanel className="absolute top-full left-0 xl:left-1/2 z-50 mt-2 w-screen max-w-xl xl:-translate-x-1/2 transform px-3 sm:px-0">
                             <div className="overflow-hidden rounded-xl shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] transition-colors">
                               {/* 2 Columns: Découvrir & Vie du Club */}
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 sm:p-5">
@@ -354,15 +353,17 @@ export default function Navbar(): React.ReactElement {
 
                   {/* Primary Navigation Links */}
                   {primaryNavigation.map((item) => {
-                    const isCurrent = pathname === item.href;
+                    const isCurrent =
+                      pathname === item.href ||
+                      (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
                     return (
                       <Link
                         key={item.name}
                         href={item.href}
                         className={cn(
-                          'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 py-1 min-h-[44px]',
+                          'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 h-full min-h-[44px]',
                           isCurrent
-                            ? 'text-[#101216] dark:text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
+                            ? 'text-[#101216] dark:text-white after:absolute after:-bottom-px after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e] after:z-10'
                             : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
                         )}
                         aria-current={isCurrent ? 'page' : undefined}
@@ -550,7 +551,9 @@ export default function Navbar(): React.ReactElement {
                   </p>
                   <div className="space-y-1 mt-1">
                     {outingsNavigation.map((item) => {
-                      const isCurrent = pathname === item.href;
+                      const isCurrent =
+                        pathname === item.href ||
+                        (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
                       return (
                         <PopoverButton
                           key={item.name}
@@ -678,7 +681,9 @@ export default function Navbar(): React.ReactElement {
                   </p>
                   <div className="space-y-1 mt-1">
                     {communityNavigation.map((item) => {
-                      const isCurrent = pathname === item.href;
+                      const isCurrent =
+                        pathname === item.href ||
+                        (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
                       return (
                         <PopoverButton
                           key={item.name}

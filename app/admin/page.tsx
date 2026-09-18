@@ -7,7 +7,7 @@ import {
   PlusIcon,
   ChatBubbleLeftRightIcon,
   ArrowRightIcon,
-  PhotoIcon,
+  WindowIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
@@ -114,7 +114,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
             href="/admin/hero"
             className="inline-flex items-center gap-2 rounded-md bg-white dark:bg-[#16191f] border border-[#e4e0d8] dark:border-[#222730] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] transition-colors"
           >
-            <PhotoIcon className="h-4 w-4 text-[#e03e3e]" />
+            <WindowIcon className="h-4 w-4 text-[#e03e3e]" />
             <span>Bannière Accueil</span>
           </Link>
           <Link

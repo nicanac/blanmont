@@ -86,6 +86,9 @@ export default function AdminTopbar({
       } else if (pathname !== '/admin/events') {
         parts.push({ label: 'Détails' });
       }
+    } else if (pathname.startsWith('/admin/pointage-express')) {
+      parts.push({ label: 'Rituels' });
+      parts.push({ label: 'Pointage Express' });
     } else if (pathname.startsWith('/admin/traces') || pathname.startsWith('/admin/add-trace')) {
       parts.push({ label: 'Rituels' });
       parts.push({ label: 'Traces & Parcours', href: '/admin/traces' });
@@ -101,20 +104,26 @@ export default function AdminTopbar({
       if (pathname.endsWith('/new')) {
         parts.push({ label: 'Nouvel article' });
       }
-    } else if (pathname.startsWith('/admin/equipements')) {
+    } else if (pathname.startsWith('/admin/galerie')) {
       parts.push({ label: 'Contenu' });
-      parts.push({ label: 'Équipements Club', href: '/admin/equipements' });
+      parts.push({ label: 'Galeries Photos', href: '/admin/galerie' });
+    } else if (pathname.startsWith('/admin/members/photos')) {
+      parts.push({ label: 'Gestion' });
+      parts.push({ label: 'Portraits & Cadrage' });
     } else if (pathname.startsWith('/admin/members')) {
       parts.push({ label: 'Gestion' });
       parts.push({ label: 'Annuaire des Membres', href: '/admin/members' });
       if (pathname.endsWith('/new')) {
         parts.push({ label: 'Nouveau membre' });
       }
-    } else if (pathname.startsWith('/admin/statistics')) {
+    } else if (pathname.startsWith('/admin/equipements')) {
       parts.push({ label: 'Gestion' });
+      parts.push({ label: 'Équipements Club', href: '/admin/equipements' });
+    } else if (pathname.startsWith('/admin/statistics')) {
+      parts.push({ label: "Vue d'ensemble" });
       parts.push({ label: 'Statistiques & Rapports' });
     } else if (pathname.startsWith('/admin/settings') || pathname.startsWith('/admin/parametres')) {
-      parts.push({ label: 'Système' });
+      parts.push({ label: 'Gestion' });
       parts.push({ label: 'Paramètres' });
     } else {
       parts.push({ label: 'Navigation' });
