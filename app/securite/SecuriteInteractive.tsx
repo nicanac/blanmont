@@ -174,7 +174,7 @@ export default function SecuriteInteractive(): React.ReactElement {
             <button
               type="button"
               onClick={() => setActiveCategory('all')}
-              className={`px-3 py-1.5 rounded-md font-semibold transition-colors shrink-0 ${
+              className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'all'
                   ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216]'
                   : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'
@@ -185,7 +185,7 @@ export default function SecuriteInteractive(): React.ReactElement {
             <button
               type="button"
               onClick={() => setActiveCategory('sol')}
-              className={`px-3 py-1.5 rounded-md font-semibold transition-colors shrink-0 ${
+              className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'sol'
                   ? 'bg-[#e03e3e] text-white'
                   : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'
@@ -196,7 +196,7 @@ export default function SecuriteInteractive(): React.ReactElement {
             <button
               type="button"
               onClick={() => setActiveCategory('trafic')}
-              className={`px-3 py-1.5 rounded-md font-semibold transition-colors shrink-0 ${
+              className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'trafic'
                   ? 'bg-[#e03e3e] text-white'
                   : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'
@@ -207,7 +207,7 @@ export default function SecuriteInteractive(): React.ReactElement {
             <button
               type="button"
               onClick={() => setActiveCategory('groupe')}
-              className={`px-3 py-1.5 rounded-md font-semibold transition-colors shrink-0 ${
+              className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'groupe'
                   ? 'bg-[#e03e3e] text-white'
                   : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'

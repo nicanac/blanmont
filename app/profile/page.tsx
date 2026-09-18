@@ -405,7 +405,7 @@ export default function ProfilePage(): React.ReactElement | null {
                 <button
                   type="button"
                   onClick={() => setIsEditingEmergency(true)}
-                  className="shrink-0 px-3.5 py-1.5 rounded-md border border-[#e4e0d8] text-xs font-semibold text-[#101216] hover:bg-[#faf8f5] dark:border-[#262b38] dark:text-[#f5f6f8] dark:hover:bg-[#1e222d] transition-colors"
+                  className="shrink-0 px-3.5 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] text-xs font-semibold text-[#101216] hover:bg-[#faf8f5] dark:border-[#262b38] dark:text-[#f5f6f8] dark:hover:bg-[#1e222d] transition-colors"
                 >
                   Modifier
                 </button>
@@ -515,14 +515,14 @@ export default function ProfilePage(): React.ReactElement | null {
                     type="button"
                     onClick={() => setIsEditingEmergency(false)}
                     disabled={isSavingEmergency}
-                    className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] dark:text-[#d1d5db] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] rounded-md transition-colors"
+                    className="px-4 py-2 min-h-[44px] inline-flex items-center justify-center text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] dark:text-[#d1d5db] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] rounded-md transition-colors"
                   >
                     Annuler
                   </button>
                   <button
                     type="submit"
                     disabled={isSavingEmergency}
-                    className="inline-flex items-center gap-2 px-5 py-2 bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-semibold uppercase tracking-wider rounded-md shadow-xs transition-colors disabled:opacity-50"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2 min-h-[44px] bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-semibold uppercase tracking-wider rounded-md shadow-xs transition-colors disabled:opacity-50"
                   >
                     {isSavingEmergency && <ArrowPathIcon className="h-4 w-4 animate-spin" />}
                     <span>{isSavingEmergency ? 'Enregistrement...' : 'Valider'}</span>

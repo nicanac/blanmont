@@ -117,7 +117,7 @@ export default function ImportForm() {
                 <button
                     onClick={handlePreview}
                     disabled={loading || !url}
-                    className="rounded-xl bg-[#fc4c02] px-5 py-2 text-sm font-semibold text-white shadow-xs hover:bg-[#e03d00] transition-colors disabled:opacity-50"
+                    className="rounded-xl bg-[#fc4c02] px-5 py-2.5 min-h-[44px] inline-flex items-center justify-center text-sm font-semibold text-white shadow-xs hover:bg-[#e03d00] transition-colors disabled:opacity-50 cursor-pointer"
                 >
                     {loading ? 'Chargement...' : 'Prévisualiser'}
                 </button>

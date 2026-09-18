@@ -151,7 +151,7 @@ export default function FirstArrivalLoader() {
       {/* Skip button */}
       <button
         onClick={handleSkip}
-        className="absolute bottom-6 right-6 text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-full border border-slate-800 hover:bg-slate-900 transition-colors z-20"
+        className="absolute bottom-6 right-6 text-xs text-slate-400 hover:text-white px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-full border border-slate-800 hover:bg-slate-900 transition-colors z-20 cursor-pointer"
       >
         Passer l&apos;intro ✕
       </button>

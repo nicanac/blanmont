@@ -124,7 +124,7 @@ function LoginForm(): React.ReactElement {
               setError('');
               setSuccessMessage('');
             }}
-            className={`rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+            className={`min-h-[44px] inline-flex items-center justify-center rounded-md py-2.5 px-3 text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
               mode === 'login'
                 ? 'bg-[#1e232f] text-white shadow-sm border border-white/10'
                 : 'text-[#a7adbb] hover:text-white'
@@ -140,7 +140,7 @@ function LoginForm(): React.ReactElement {
               setError('');
               setSuccessMessage('');
             }}
-            className={`inline-flex items-center justify-center gap-1.5 rounded-md py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+            className={`inline-flex items-center justify-center gap-1.5 min-h-[44px] rounded-md py-2.5 px-3 text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
               mode === 'activate'
                 ? 'bg-[#1e232f] text-amber-300 shadow-sm border border-amber-500/30'
                 : 'text-[#a7adbb] hover:text-white'
