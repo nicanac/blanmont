@@ -175,9 +175,9 @@ export default function CalendarSubscribeButton() {
             </div>
 
             {/* Direct ICS Download & Feed URL copy */}
-            <div className="pt-3 border-t border-[#e4e0d8] space-y-3">
+            <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-semibold text-[#101216]">
+                <span className="text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
                   Lien direct du flux iCal (.ics)
                 </span>
                 <a
@@ -197,13 +197,13 @@ export default function CalendarSubscribeButton() {
                   readOnly
                   value={httpsUrl}
                   aria-label="URL du flux calendrier iCal à copier"
-                  className="flex-1 rounded-md border border-[#e4e0d8] bg-[#f2efe9] px-3 py-2.5 text-xs text-[#3a3f4a] font-mono focus:outline-hidden"
+                  className="flex-1 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#0a0c10] px-3 py-2.5 text-xs text-[#3a3f4a] dark:text-[#d1d5db] font-mono focus:outline-hidden"
                 />
                 <button
                   type="button"
                   onClick={handleCopy}
                   aria-label="Copier l'URL du flux dans le presse-papier"
-                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md bg-[#101216] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#161922] transition-colors shrink-0"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md bg-[#101216] dark:bg-[#262b38] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#161922] dark:hover:bg-[#32384a] transition-colors shrink-0"
                 >
                   {copied ? (
                     <>
@@ -225,7 +225,7 @@ export default function CalendarSubscribeButton() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] bg-white px-6 py-2.5 text-xs font-semibold text-[#101216] hover:bg-[#f2efe9] hover:border-[#101216]/30 transition-colors"
+                className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-6 py-2.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors"
               >
                 Fermer
               </button>
