@@ -118,8 +118,8 @@ export default function ProfilePage(): React.ReactElement | null {
 
   if (!isAuthenticated || !user) {
     return (
-      <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center p-8">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#e4e0d8] border-t-[#e03e3e]" />
+      <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] flex items-center justify-center p-8">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#e4e0d8] dark:border-[#262b38] border-t-[#e03e3e]" />
       </div>
     );
   }
@@ -187,7 +187,7 @@ export default function ProfilePage(): React.ReactElement | null {
   const hasIce = Boolean(profileData?.iceContactName && profileData?.iceContactPhone);
 
   return (
-    <main className="min-h-screen bg-[#faf8f5]">
+    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10]">
       <PageHero
         title={
           <>
@@ -204,8 +204,8 @@ export default function ProfilePage(): React.ReactElement | null {
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-12 lg:px-8">
         {/* User Avatar Card & Status */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="rounded-[10px] border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-5">
-            <div className="relative aspect-square w-full overflow-hidden rounded-[8px] bg-[#161922] group border border-[#e4e0d8]">
+          <div className="rounded-[10px] border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] p-6 shadow-xs space-y-5">
+            <div className="relative aspect-square w-full overflow-hidden rounded-[8px] bg-[#161922] group border border-[#e4e0d8] dark:border-[#262b38]">
               {hasPhoto ? (
                 <Image
                   src={user.avatarUrl!}
@@ -229,7 +229,7 @@ export default function ProfilePage(): React.ReactElement | null {
 
               {/* Photo Change Action Overlay */}
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
-                <label className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] cursor-pointer transition-colors shadow-md">
+                <label className="inline-flex items-center gap-2 rounded-md bg-white dark:bg-[#161922] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] cursor-pointer transition-colors shadow-md">
                   <CameraIcon className="h-4 w-4 text-[#e03e3e]" />
                   <span>Modifier la photo</span>
                   <input
@@ -247,36 +247,36 @@ export default function ProfilePage(): React.ReactElement | null {
               <span className="inline-flex items-center rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-3 py-0.5 text-xs font-bold uppercase tracking-wider">
                 {user.role ? (Array.isArray(user.role) ? user.role.join(', ') : user.role) : 'Membre actif'}
               </span>
-              <p className="text-xs text-[#5c6370]">
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                 Membre du Club Cyclo Saint-Martin de Blanmont
               </p>
             </div>
 
             {/* Cotisation 2026 & FFBC Status Pill */}
-            <div className="pt-4 border-t border-[#efece5] space-y-3">
+            <div className="pt-4 border-t border-[#efece5] dark:border-[#262b38] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#5c6370]">Cotisation 2026</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">Cotisation 2026</span>
                 {cotisationStatus === 'paid' ? (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
                     <CheckCircleIcon className="h-3.5 w-3.5" /> En règle
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800">
                     <ClockIcon className="h-3.5 w-3.5" /> En attente
                   </span>
                 )}
               </div>
 
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[#5c6370]">Licence FFBC</span>
-                <span className="font-mono font-medium text-[#101216]">
+                <span className="text-[#5c6370] dark:text-[#a7adbb]">Licence FFBC</span>
+                <span className="font-mono font-medium text-[#101216] dark:text-[#f5f6f8]">
                   {profileData?.ffbcLicenseNumber || 'Non renseignée'}
                 </span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[#5c6370]">Allure de référence</span>
-                <span className="font-bold text-[#101216]">
+                <span className="text-[#5c6370] dark:text-[#a7adbb]">Allure de référence</span>
+                <span className="font-bold text-[#101216] dark:text-[#f5f6f8]">
                   Groupe {profileData?.preferredGroup || 'B'}
                 </span>
               </div>
@@ -291,12 +291,12 @@ export default function ProfilePage(): React.ReactElement | null {
             aria-modal="true"
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4"
           >
-            <div className="bg-white rounded-lg border border-[#e4e0d8] overflow-hidden w-full max-w-md shadow-2xl animate-in zoom-in-95">
-              <div className="p-4 border-b border-[#efece5] flex items-center justify-between">
-                <h3 className="text-sm font-bold text-[#101216] uppercase tracking-wider">
+            <div className="bg-white dark:bg-[#161922] rounded-lg border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden w-full max-w-md shadow-2xl animate-in zoom-in-95">
+              <div className="p-4 border-b border-[#efece5] dark:border-[#262b38] flex items-center justify-between">
+                <h3 className="text-sm font-bold text-[#101216] dark:text-[#f5f6f8] uppercase tracking-wider">
                   Recadrer votre photo
                 </h3>
-                <span className="text-xs text-[#5c6370]">Format carré 1:1</span>
+                <span className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Format carré 1:1</span>
               </div>
 
               <div className="relative h-80 w-full bg-[#0a0c10]">
@@ -311,9 +311,9 @@ export default function ProfilePage(): React.ReactElement | null {
                 />
               </div>
 
-              <div className="p-5 flex flex-col gap-4 bg-white">
+              <div className="p-5 flex flex-col gap-4 bg-white dark:bg-[#161922]">
                 <div className="space-y-1">
-                  <label htmlFor="zoom-range" className="text-xs font-bold uppercase tracking-wider text-[#3a3f4a]">
+                  <label htmlFor="zoom-range" className="text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-[#d1d5db]">
                     Zoom
                   </label>
                   <input
@@ -328,12 +328,12 @@ export default function ProfilePage(): React.ReactElement | null {
                   />
                 </div>
 
-                <div className="flex justify-end gap-2.5 pt-2 border-t border-[#efece5]">
+                <div className="flex justify-end gap-2.5 pt-2 border-t border-[#efece5] dark:border-[#262b38]">
                   <button
                     type="button"
                     onClick={handleCancel}
                     disabled={isSavingPhoto}
-                    className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] hover:bg-[#f2efe9] rounded-md transition-colors min-h-[44px]"
+                    className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] dark:text-[#d1d5db] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] rounded-md transition-colors min-h-[44px]"
                   >
                     Annuler
                   </button>
@@ -355,31 +355,31 @@ export default function ProfilePage(): React.ReactElement | null {
         {/* Member Details & Emergency Contact Section */}
         <div className="lg:col-span-7 mt-8 lg:mt-0 space-y-6">
           {/* Identity Card */}
-          <div className="rounded-[10px] border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="rounded-[10px] border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] p-6 sm:p-8 shadow-xs space-y-6">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#101216]">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#101216] dark:text-[#f5f6f8]">
                 {firstName} <span className="text-[#e03e3e]">{lastName}</span>
               </h2>
-              <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
+              <p className="mt-1 text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">
                 Fiche individuelle du coureur et coordonnées de contact.
               </p>
             </div>
 
-            <div className="divide-y divide-[#efece5] text-xs sm:text-sm">
+            <div className="divide-y divide-[#efece5] dark:divide-[#262b38] text-xs sm:text-sm">
               <div className="flex items-center justify-between py-3.5">
-                <span className="flex items-center gap-2 font-medium text-[#3a3f4a]">
-                  <EnvelopeIcon className="h-4 w-4 text-[#5c6370]" />
+                <span className="flex items-center gap-2 font-medium text-[#3a3f4a] dark:text-[#d1d5db]">
+                  <EnvelopeIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
                   <span>Adresse Email</span>
                 </span>
-                <span className="font-semibold text-[#101216] select-all">{user.email}</span>
+                <span className="font-semibold text-[#101216] dark:text-[#f5f6f8] select-all">{user.email}</span>
               </div>
 
               <div className="flex items-center justify-between py-3.5">
-                <span className="flex items-center gap-2 font-medium text-[#3a3f4a]">
-                  <PhoneIcon className="h-4 w-4 text-[#5c6370]" />
+                <span className="flex items-center gap-2 font-medium text-[#3a3f4a] dark:text-[#d1d5db]">
+                  <PhoneIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
                   <span>Téléphone Mobile</span>
                 </span>
-                <span className="font-semibold text-[#101216] tabular-nums select-all">
+                <span className="font-semibold text-[#101216] dark:text-[#f5f6f8] tabular-nums select-all">
                   {emergencyForm.phone || user.phone || 'Non renseigné'}
                 </span>
               </div>
@@ -387,16 +387,16 @@ export default function ProfilePage(): React.ReactElement | null {
           </div>
 
           {/* ICE Emergency Contact Card */}
-          <div className="rounded-[10px] border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="rounded-[10px] border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] p-6 sm:p-8 shadow-xs space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2">
                   <ShieldCheckIcon className="h-5 w-5 text-[#e03e3e]" />
-                  <h3 className="text-lg font-bold text-[#101216]">
+                  <h3 className="text-lg font-bold text-[#101216] dark:text-[#f5f6f8]">
                     Sécurité Peloton & Contact d&apos;Urgence (ICE)
                   </h3>
                 </div>
-                <p className="mt-1 text-xs text-[#5c6370] leading-relaxed">
+                <p className="mt-1 text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                   En cas d&apos;incident sur la route, ces informations permettent aux capitaines de route
                   d&apos;avertir immédiatement vos proches et les services de secours.
                 </p>
@@ -405,7 +405,7 @@ export default function ProfilePage(): React.ReactElement | null {
                 <button
                   type="button"
                   onClick={() => setIsEditingEmergency(true)}
-                  className="shrink-0 px-3.5 py-1.5 rounded-md border border-[#e4e0d8] text-xs font-semibold text-[#101216] hover:bg-[#faf8f5] transition-colors"
+                  className="shrink-0 px-3.5 py-1.5 rounded-md border border-[#e4e0d8] text-xs font-semibold text-[#101216] hover:bg-[#faf8f5] dark:border-[#262b38] dark:text-[#f5f6f8] dark:hover:bg-[#1e222d] transition-colors"
                 >
                   Modifier
                 </button>
@@ -413,11 +413,11 @@ export default function ProfilePage(): React.ReactElement | null {
             </div>
 
             {!hasIce && !isEditingEmergency && (
-              <div className="rounded-lg border border-amber-200 bg-amber-50/70 p-4 text-xs text-amber-900 flex items-start gap-3">
-                <ClockIcon className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="rounded-lg border border-amber-200 bg-amber-50/70 dark:border-amber-800/60 dark:bg-amber-950/30 p-4 text-xs text-amber-900 dark:text-amber-200 flex items-start gap-3">
+                <ClockIcon className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <p className="font-semibold">Aucun contact ICE renseigné</p>
-                  <p className="text-amber-800 leading-relaxed">
+                  <p className="text-amber-800 dark:text-amber-300 leading-relaxed">
                     Pour la sécurité de tous lors des sorties club, merci de renseigner une personne à contacter
                     en cas d&apos;urgence ainsi que votre numéro de GSM.
                   </p>
@@ -436,7 +436,7 @@ export default function ProfilePage(): React.ReactElement | null {
               <form onSubmit={handleSaveEmergency} className="space-y-4 pt-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-[#3a3f4a] mb-1">
+                    <label className="block text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
                       Votre GSM personnel
                     </label>
                     <input
@@ -444,11 +444,11 @@ export default function ProfilePage(): React.ReactElement | null {
                       value={emergencyForm.phone}
                       onChange={(e) => setEmergencyForm({ ...emergencyForm, phone: e.target.value })}
                       placeholder="+32 470 12 34 56"
-                      className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-xs text-[#101216] placeholder:text-[#a7adbb] focus:border-[#e03e3e] focus:outline-hidden"
+                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-xs text-[#101216] dark:text-[#f5f6f8] placeholder:text-[#a7adbb] dark:placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-hidden"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#3a3f4a] mb-1">
+                    <label className="block text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
                       Allure de peloton préférée
                     </label>
                     <select
@@ -459,7 +459,7 @@ export default function ProfilePage(): React.ReactElement | null {
                           preferredGroup: e.target.value as 'A' | 'B' | 'C' | 'VTT',
                         })
                       }
-                      className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-hidden bg-white"
+                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-3 py-2 text-xs text-[#101216] dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden"
                     >
                       <option value="A">Groupe A (30-32 km/h)</option>
                       <option value="B">Groupe B (27-29 km/h)</option>
@@ -471,7 +471,7 @@ export default function ProfilePage(): React.ReactElement | null {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                   <div className="sm:col-span-1">
-                    <label className="block text-xs font-semibold text-[#3a3f4a] mb-1">
+                    <label className="block text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
                       Nom du contact ICE *
                     </label>
                     <input
@@ -480,11 +480,11 @@ export default function ProfilePage(): React.ReactElement | null {
                       value={emergencyForm.iceContactName}
                       onChange={(e) => setEmergencyForm({ ...emergencyForm, iceContactName: e.target.value })}
                       placeholder="ex: Marie Dupont"
-                      className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-xs text-[#101216] placeholder:text-[#a7adbb] focus:border-[#e03e3e] focus:outline-hidden"
+                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-xs text-[#101216] dark:text-[#f5f6f8] placeholder:text-[#a7adbb] dark:placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-hidden"
                     />
                   </div>
                   <div className="sm:col-span-1">
-                    <label className="block text-xs font-semibold text-[#3a3f4a] mb-1">
+                    <label className="block text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
                       Téléphone ICE *
                     </label>
                     <input
@@ -493,11 +493,11 @@ export default function ProfilePage(): React.ReactElement | null {
                       value={emergencyForm.iceContactPhone}
                       onChange={(e) => setEmergencyForm({ ...emergencyForm, iceContactPhone: e.target.value })}
                       placeholder="+32 470 98 76 54"
-                      className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-xs text-[#101216] placeholder:text-[#a7adbb] focus:border-[#e03e3e] focus:outline-hidden"
+                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-xs text-[#101216] dark:text-[#f5f6f8] placeholder:text-[#a7adbb] dark:placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-hidden"
                     />
                   </div>
                   <div className="sm:col-span-1">
-                    <label className="block text-xs font-semibold text-[#3a3f4a] mb-1">
+                    <label className="block text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
                       Lien de parenté
                     </label>
                     <input
@@ -505,17 +505,17 @@ export default function ProfilePage(): React.ReactElement | null {
                       value={emergencyForm.iceRelationship}
                       onChange={(e) => setEmergencyForm({ ...emergencyForm, iceRelationship: e.target.value })}
                       placeholder="Conjointe, Parent, etc."
-                      className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-xs text-[#101216] placeholder:text-[#a7adbb] focus:border-[#e03e3e] focus:outline-hidden"
+                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-xs text-[#101216] dark:text-[#f5f6f8] placeholder:text-[#a7adbb] dark:placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-hidden"
                     />
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-2.5 pt-4 border-t border-[#efece5]">
+                <div className="flex justify-end gap-2.5 pt-4 border-t border-[#efece5] dark:border-[#262b38]">
                   <button
                     type="button"
                     onClick={() => setIsEditingEmergency(false)}
                     disabled={isSavingEmergency}
-                    className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] hover:bg-[#f2efe9] rounded-md transition-colors"
+                    className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] dark:text-[#d1d5db] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] rounded-md transition-colors"
                   >
                     Annuler
                   </button>
@@ -530,16 +530,16 @@ export default function ProfilePage(): React.ReactElement | null {
                 </div>
               </form>
             ) : (
-              <div className="divide-y divide-[#efece5] text-xs sm:text-sm">
+              <div className="divide-y divide-[#efece5] dark:divide-[#262b38] text-xs sm:text-sm">
                 <div className="flex items-center justify-between py-3">
-                  <span className="text-[#5c6370]">Contact ICE</span>
-                  <span className="font-semibold text-[#101216]">
+                  <span className="text-[#5c6370] dark:text-[#a7adbb]">Contact ICE</span>
+                  <span className="font-semibold text-[#101216] dark:text-[#f5f6f8]">
                     {profileData?.iceContactName || '—'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-3">
-                  <span className="text-[#5c6370]">Téléphone d&apos;urgence</span>
-                  <span className="font-mono font-semibold text-[#101216] tabular-nums">
+                  <span className="text-[#5c6370] dark:text-[#a7adbb]">Téléphone d&apos;urgence</span>
+                  <span className="font-mono font-semibold text-[#101216] dark:text-[#f5f6f8] tabular-nums">
                     {profileData?.iceContactPhone ? (
                       <a href={`tel:${profileData.iceContactPhone}`} className="text-[#e03e3e] hover:underline">
                         {profileData.iceContactPhone}
@@ -550,14 +550,14 @@ export default function ProfilePage(): React.ReactElement | null {
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-3">
-                  <span className="text-[#5c6370]">Lien de parenté</span>
-                  <span className="text-[#101216]">{profileData?.iceRelationship || '—'}</span>
+                  <span className="text-[#5c6370] dark:text-[#a7adbb]">Lien de parenté</span>
+                  <span className="text-[#101216] dark:text-[#f5f6f8]">{profileData?.iceRelationship || '—'}</span>
                 </div>
               </div>
             )}
           </div>
 
-          <div className="rounded-md bg-[#f2efe9] p-4 text-xs text-[#5c6370] leading-relaxed">
+          <div className="rounded-md bg-[#f2efe9] dark:bg-[#1e222d] p-4 text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
             Pour modifier votre adresse email ou vos informations d&apos;adhésion au comité, veuillez contacter le secrétariat du CC Saint-Martin Blanmont.
           </div>
         </div>

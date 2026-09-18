@@ -16,19 +16,23 @@ import { getMembers } from '../lib/firebase/members';
 import { getCalendarEvents } from '../lib/firebase/calendar';
 import { getActiveWeekendPoll, getPollResponses } from '../lib/firebase/polls';
 import AdminOnboardingChecklist from './components/AdminOnboardingChecklist';
+import { parseDateInfo } from '../lib/carreVert';
 
 export const dynamic = 'force-dynamic';
 
 function formatDate(dateString: string): string {
+  const info = parseDateInfo(dateString);
+  if (!info) return dateString;
   try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-BE', {
+    const utcDate = new Date(Date.UTC(info.year, info.month - 1, info.day));
+    return utcDate.toLocaleDateString('fr-BE', {
+      timeZone: 'UTC',
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     });
   } catch {
-    return dateString;
+    return info.displayDate;
   }
 }
 

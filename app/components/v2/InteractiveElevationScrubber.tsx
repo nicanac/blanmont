@@ -4,9 +4,7 @@ import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import {
   ArrowRightIcon,
-  ArrowDownTrayIcon,
   MapPinIcon,
-  SparklesIcon,
 } from '@heroicons/react/24/outline';
 
 interface RouteProfile {
@@ -141,6 +139,7 @@ export default function InteractiveElevationScrubber() {
             {routes.map((r, idx) => (
               <button
                 key={r.id}
+                type="button"
                 onClick={() => {
                   setSelectedRoute(idx);
                   setScrubIndex(Math.floor(r.points.length / 2));
@@ -255,8 +254,17 @@ export default function InteractiveElevationScrubber() {
                 return (
                   <g
                     key={idx}
-                    className="cursor-pointer"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Étape à ${p.km} km : ${p.landmark}`}
+                    className="cursor-pointer focus:outline-none"
                     onClick={() => setScrubIndex(idx)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setScrubIndex(idx);
+                      }
+                    }}
                     onMouseEnter={() => setScrubIndex(idx)}
                   >
                     <circle
@@ -296,14 +304,16 @@ export default function InteractiveElevationScrubber() {
 
           {/* ── Active Milestone Telemetry Card ── */}
           <div className="rounded-lg bg-[#161922] border border-white/10 p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-            <div className="md:col-span-6 space-y-1.5">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#e03e3e]">
-                <MapPinIcon className="h-4 w-4" />
-                <span>Point Kilométrique {activePoint.km} km</span>
+            <div className="md:col-span-6 space-y-2">
+              <div className="flex items-start justify-between gap-3">
+                <h4 className="text-xl font-bold text-white tracking-tight">
+                  {activePoint.landmark}
+                </h4>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-xs font-mono text-[#e03e3e] tabular-nums shrink-0">
+                  <MapPinIcon className="h-3.5 w-3.5" />
+                  <span>km {activePoint.km}</span>
+                </span>
               </div>
-              <h4 className="text-xl font-bold text-white tracking-tight">
-                {activePoint.landmark}
-              </h4>
               <p className="text-xs text-[#a7adbb]">
                 Sensation peloton : <em className="text-white not-italic">{activePoint.sensation}</em>
               </p>

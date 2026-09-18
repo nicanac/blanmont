@@ -360,7 +360,7 @@ export default function Navbar(): React.ReactElement {
                         key={item.name}
                         href={item.href}
                         className={cn(
-                          'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 py-1',
+                          'relative text-[0.8125rem] font-semibold uppercase tracking-[0.08em] transition-colors inline-flex items-center gap-1.5 py-1 min-h-[44px]',
                           isCurrent
                             ? 'text-[#101216] dark:text-white after:absolute after:-bottom-[21px] after:left-0 after:right-0 after:h-0.5 after:bg-[#e03e3e]'
                             : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
@@ -393,11 +393,11 @@ export default function Navbar(): React.ReactElement {
                   <Popover className="relative">
                     {({ open }) => (
                       <>
-                        <PopoverButton className="group inline-flex items-center gap-2.5 rounded-full py-1 pl-1 pr-3.5 bg-black/5 dark:bg-white/[0.04] hover:bg-black/10 dark:hover:bg-white/[0.08] border border-[#e4e0d8] dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 text-[#101216] dark:text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/40">
+                        <PopoverButton className="group inline-flex min-h-[44px] items-center gap-2.5 rounded-full py-1 pl-1 pr-3.5 bg-black/5 dark:bg-white/[0.04] hover:bg-black/10 dark:hover:bg-white/[0.08] border border-[#e4e0d8] dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 text-[#101216] dark:text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/40">
                           <span className="sr-only">Ouvrir le menu utilisateur</span>
                           {user?.avatarUrl ? (
                             <Image
-                              className="h-8 w-8 rounded-full object-cover ring-1 ring-black/10 dark:ring-white/20 group-hover:ring-[#e03e3e]/50 transition-colors"
+                              className="h-8 w-8 md:h-8 md:w-8 rounded-full object-cover ring-1 ring-black/10 dark:ring-white/20 group-hover:ring-[#e03e3e]/50 transition-colors"
                               src={user.avatarUrl}
                               alt={user.name || 'User avatar'}
                               width={32}
@@ -405,7 +405,7 @@ export default function Navbar(): React.ReactElement {
                               unoptimized={!user.avatarUrl.includes('cloudinary.com')}
                             />
                           ) : (
-                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/10 dark:bg-white/10 text-[#101216] dark:text-white ring-1 ring-black/10 dark:ring-white/20">
+                            <span className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-full bg-black/10 dark:bg-white/10 text-[#101216] dark:text-white ring-1 ring-black/10 dark:ring-white/20">
                               <UserIcon className="h-4 w-4" aria-hidden="true" />
                             </span>
                           )}
@@ -444,10 +444,10 @@ export default function Navbar(): React.ReactElement {
                                     key={item.name}
                                     as={Link}
                                     href={item.href}
-                                    className="flex items-start rounded-md p-3 hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150"
+                                    className="flex items-start rounded-md p-3 min-h-[44px] hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150"
                                   >
                                     <item.icon
-                                      className="h-6 w-6 flex-shrink-0 text-[#e03e3e]"
+                                      className="h-6 w-6 md:h-6 md:w-6 flex-shrink-0 text-[#e03e3e]"
                                       aria-hidden="true"
                                     />
                                     <div className="ml-4 text-left">
@@ -463,10 +463,10 @@ export default function Navbar(): React.ReactElement {
 
                                 <button
                                   onClick={() => logout()}
-                                  className="flex w-full items-start rounded-md p-3 hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150"
+                                  className="flex w-full items-start rounded-md p-3 min-h-[44px] hover:bg-black/5 dark:hover:bg-white/5 transition ease-in-out duration-150"
                                 >
                                   <ArrowRightOnRectangleIcon
-                                    className="h-6 w-6 flex-shrink-0 text-[#e03e3e]"
+                                    className="h-6 w-6 md:h-6 md:w-6 flex-shrink-0 text-[#e03e3e]"
                                     aria-hidden="true"
                                   />
                                   <div className="ml-4 text-left">
@@ -487,13 +487,13 @@ export default function Navbar(): React.ReactElement {
                   <div className="flex items-center space-x-3 sm:space-x-4">
                     <Link
                       href="/login"
-                      className="text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors py-1.5"
+                      className="inline-flex items-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white font-semibold text-[0.8125rem] uppercase tracking-[0.08em] transition-colors py-1.5 min-h-[44px] px-2"
                     >
                       Se connecter
                     </Link>
                     <Link
                       href="/rejoindre"
-                      className="inline-flex items-center gap-1.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-3.5 py-1.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-2xs"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-3.5 py-1.5 text-[0.8125rem] font-semibold uppercase tracking-[0.06em] transition-colors shadow-2xs min-h-[44px]"
                     >
                       <UserPlusIcon className="h-3.5 w-3.5" />
                       <span>Rejoindre</span>
@@ -510,9 +510,9 @@ export default function Navbar(): React.ReactElement {
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Ouvrir le menu principal</span>
                   {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="block h-6 w-6 md:h-6 md:w-6" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="block h-6 w-6 md:h-6 md:w-6" aria-hidden="true" />
                   )}
                 </PopoverButton>
               </div>
@@ -565,7 +565,7 @@ export default function Navbar(): React.ReactElement {
                           aria-current={isCurrent ? 'page' : undefined}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
+                            <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
                               <item.icon className="h-4 w-4 text-[#e03e3e]" />
                             </div>
                             <div className="text-left">
@@ -606,10 +606,10 @@ export default function Navbar(): React.ReactElement {
                       <PopoverButton
                         as={Link}
                         href="/rejoindre"
-                        className="flex items-center justify-between p-3 rounded-lg bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 hover:border-[#e03e3e] transition-colors group w-full"
+                        className="flex items-center justify-between min-h-[44px] p-3 rounded-lg bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 hover:border-[#e03e3e] transition-colors group w-full"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white shrink-0 shadow-2xs">
+                          <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white shrink-0 shadow-2xs">
                             <UserPlusIcon className="h-4 w-4" />
                           </div>
                           <div className="text-left">
@@ -631,7 +631,7 @@ export default function Navbar(): React.ReactElement {
                       <div className="mt-1">
                         <Disclosure.Button className="flex w-full items-center justify-between min-h-[44px] py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                           <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
+                            <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
                               <ClubCrestIcon className="h-4 w-4 text-[#e03e3e]" />
                             </div>
                             <span>Rubriques du Club</span>
@@ -693,7 +693,7 @@ export default function Navbar(): React.ReactElement {
                           aria-current={isCurrent ? 'page' : undefined}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
+                            <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 text-[#101216] dark:text-white shrink-0">
                               <item.icon className="h-4 w-4 text-[#e03e3e]" />
                             </div>
                             <div className="text-left">

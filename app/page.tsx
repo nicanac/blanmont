@@ -157,7 +157,7 @@ export default async function Home(): Promise<React.ReactElement> {
                     href={nextRide.gpxUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-md bg-[#f2efe9] dark:bg-white/10 hover:bg-[#e4e0d8] dark:hover:bg-white/20 text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-md bg-[#f2efe9] dark:bg-white/10 hover:bg-[#e4e0d8] dark:hover:bg-white/20 text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold transition-colors min-h-[44px]"
                   >
                     <ArrowDownTrayIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
                     <span>Télécharger la trace GPX</span>
@@ -210,7 +210,7 @@ export default async function Home(): Promise<React.ReactElement> {
               <div className="pt-4 border-t border-[#262b38] flex items-center justify-between gap-3">
                 <Link
                   href="/sondage"
-                  className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] min-h-[44px]"
                 >
                   <ChatBubbleLeftRightIcon className="h-4 w-4" />
                   <span>Participer au sondage</span>
@@ -218,7 +218,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
                 <Link
                   href="/sondage"
-                  className="text-xs font-medium text-[#5c6370] hover:text-white transition-colors"
+                  className="inline-flex items-center text-xs font-medium text-[#5c6370] hover:text-white transition-colors min-h-[44px] px-2"
                 >
                   Voir les réponses →
                 </Link>

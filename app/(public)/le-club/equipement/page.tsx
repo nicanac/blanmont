@@ -208,7 +208,7 @@ MODALITÉS CLUB :
           </div>
           <Link
             href="/checkout"
-            className="inline-flex items-center gap-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap min-h-[44px]"
           >
             <span>Accéder au Checkout</span>
             <ArrowRightIcon className="h-3.5 w-3.5" />
@@ -227,7 +227,7 @@ MODALITÉS CLUB :
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors min-h-[44px] ${
                   selectedCategory === category
                     ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216]'
                     : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#5c6370] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38] hover:text-[#101216] dark:hover:text-white'
@@ -402,7 +402,7 @@ MODALITÉS CLUB :
 
                 <button
                   onClick={closeModal}
-                  className="rounded-full p-2 text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                  className="rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
                   aria-label="Fermer"
                 >
                   <XMarkIcon className="h-5 w-5" />
@@ -428,43 +428,36 @@ MODALITÉS CLUB :
                         />
                       ) : (
                         <EquipmentIllustration
-                          category={selectedProduct.category}
                           name={selectedProduct.name}
-                          productCode={selectedProduct.productCode}
-                          className="scale-90"
+                          category={selectedProduct.category}
                         />
                       )}
                     </div>
 
-                    <div className="space-y-1 min-w-0">
-                      <span className="inline-flex rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
+                    <div className="flex-1 min-w-0">
+                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-xs font-bold uppercase tracking-wider text-[#e03e3e] mb-1">
                         {selectedProduct.category}
-                      </span>
-                      <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] dark:text-white leading-snug">
+                      </div>
+                      <h3 className="text-lg font-bold text-[#101216] dark:text-white tracking-tight">
                         {selectedProduct.name}
                       </h3>
-                      {selectedProduct.gobikReference && (
-                        <p className="text-xs font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase truncate">
-                          Ref: {selectedProduct.gobikReference}
-                        </p>
-                      )}
+                      <div className="text-xs text-[#5c6370] dark:text-[#a7adbb] font-mono mt-0.5">
+                        Ref. {selectedProduct.id.toUpperCase()} · Coupe {selectedProduct.cut || 'Standard'}
+                      </div>
                     </div>
                   </div>
 
-                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-                    {selectedProduct.description}
-                  </p>
-
-                  {/* Size Selector + Size Guide Link */}
-                  <div className="space-y-3 pt-3 border-t border-[#e4e0d8] dark:border-[#262b38]">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
-                        Taille ({selectedSize || 'À choisir'}) :
-                      </label>
+                  {/* Size Selector */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                        Taille sélectionnée :&nbsp;
+                        <span className="text-[#e03e3e] font-black">{selectedSize}</span>
+                      </div>
                       <button
                         type="button"
                         onClick={() => setIsSizeGuideOpen(true)}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline cursor-pointer"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline cursor-pointer min-h-[44px] py-2"
                       >
                         <QuestionMarkCircleIcon className="h-4 w-4" />
                         <span>Guide des tailles Gobik</span>
@@ -477,7 +470,7 @@ MODALITÉS CLUB :
                           key={size}
                           type="button"
                           onClick={() => setSelectedSize(size)}
-                          className={`min-w-[2.75rem] min-h-[2.5rem] rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer ${
+                          className={`min-w-[2.75rem] min-h-[44px] rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer inline-flex items-center justify-center ${
                             selectedSize === size
                               ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
                               : 'bg-[#faf8f5] dark:bg-[#161922] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
@@ -499,7 +492,7 @@ MODALITÉS CLUB :
                         <button
                           type="button"
                           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                          className="p-2 text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                          className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
                           aria-label="Diminuer la quantité"
                         >
                           <MinusIcon className="h-3.5 w-3.5" />
@@ -510,7 +503,7 @@ MODALITÉS CLUB :
                         <button
                           type="button"
                           onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                          className="p-2 text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                          className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
                           aria-label="Augmenter la quantité"
                         >
                           <PlusIcon className="h-3.5 w-3.5" />
@@ -636,7 +629,7 @@ MODALITÉS CLUB :
                       <button
                         type="button"
                         onClick={handleCopyOrder}
-                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#101216] dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#101216] dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer min-h-[44px]"
                       >
                         {copied ? (
                           <>
@@ -653,7 +646,7 @@ MODALITÉS CLUB :
 
                       <Link
                         href={`/checkout?product=${encodeURIComponent(selectedProduct.id)}&size=${encodeURIComponent(selectedSize)}&qty=${quantity}`}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#5c6370] dark:text-[#a7adbb] px-3.5 py-2.5 text-xs font-semibold transition-colors whitespace-nowrap"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#5c6370] dark:text-[#a7adbb] px-3.5 py-2.5 text-xs font-semibold transition-colors whitespace-nowrap min-h-[44px]"
                         title="Ouvrir la page de commande dédiée"
                       >
                         <span>Page checkout</span>

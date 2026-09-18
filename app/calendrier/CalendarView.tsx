@@ -101,17 +101,24 @@ function AgendaItem({
   isAdmin,
   mounted,
 }: AgendaItemProps) {
-  const [y, m, d] = event.isoDate.split('-').map(Number);
-  const dateObj = new Date(y, m - 1, d);
-  const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
-  const weekdayStr = dateObj.toLocaleDateString('fr-FR', { weekday: 'long' });
-  const monthStr = dateObj.toLocaleDateString('fr-FR', { month: 'short' });
-  const fullDateStr = dateObj.toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
+  const dateInfo = parseDateInfo(event.isoDate);
+  const isWeekend = dateInfo?.isWeekend ?? false;
+  let weekdayStr = '';
+  let monthStr = '';
+  let fullDateStr = event.isoDate;
+
+  if (dateInfo) {
+    const utcDate = new Date(Date.UTC(dateInfo.year, dateInfo.month - 1, dateInfo.day));
+    weekdayStr = utcDate.toLocaleDateString('fr-FR', { timeZone: 'UTC', weekday: 'long' });
+    monthStr = utcDate.toLocaleDateString('fr-FR', { timeZone: 'UTC', month: 'short' });
+    fullDateStr = utcDate.toLocaleDateString('fr-FR', {
+      timeZone: 'UTC',
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  }
 
   const avgRating = reviews.length
     ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
@@ -161,7 +168,7 @@ function AgendaItem({
             {weekdayStr.slice(0, 3)}
           </span>
           <span className="text-2xl sm:text-3xl font-extrabold tabular-nums leading-none my-0.5 tracking-tight">
-            {dateObj.getDate()}
+            {dateInfo?.day ?? ''}
           </span>
           <span
             className={cn(
@@ -291,8 +298,8 @@ function AgendaItem({
               type="button"
               onClick={() => onJumpToMonth(event.isoDate)}
               className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold transition-colors shadow-2xs"
-              title={`Afficher le mois complet de ${monthStr} ${y} dans l'agenda`}
-              aria-label={`Afficher le mois complet de ${monthStr} ${y} dans l'agenda`}
+              title={`Afficher le mois complet de ${monthStr} ${dateInfo?.year ?? ''} dans l'agenda`}
+              aria-label={`Afficher le mois complet de ${monthStr} ${dateInfo?.year ?? ''} dans l'agenda`}
             >
               <CalendarDaysIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
               <span className="hidden sm:inline">Aller au mois</span>
@@ -392,9 +399,9 @@ export default function CalendarView({
     }
 
     if (targetEvent) {
-      const [y, m, d] = targetEvent.isoDate.split('-').map(Number);
-      if (!isNaN(y) && !isNaN(m)) {
-        initialDate = new Date(y, m - 1, d || 1);
+      const dateInfo = parseDateInfo(targetEvent.isoDate);
+      if (dateInfo) {
+        initialDate = new Date(dateInfo.year, dateInfo.month - 1, dateInfo.day);
       }
     } else if (paramDate) {
       const dateInfo = parseDateInfo(paramDate);
@@ -449,15 +456,13 @@ export default function CalendarView({
     return events
       .filter((e) => {
         if (!e.isoDate) return false;
-        const [y, m, d] = e.isoDate.split('-').map(Number);
+        const dateInfo = parseDateInfo(e.isoDate);
 
         // Category Filter during search
         if (filterType === 'saturday') {
-          const dateObj = new Date(y, m - 1, d);
-          if (dateObj.getDay() !== 6) return false;
+          if (!dateInfo || dateInfo.dayOfWeek !== 6) return false;
         } else if (filterType === 'sunday') {
-          const dateObj = new Date(y, m - 1, d);
-          if (dateObj.getDay() !== 0) return false;
+          if (!dateInfo || dateInfo.dayOfWeek !== 0) return false;
         } else if (filterType === 'gpx') {
           if (!e.gpxUrl) return false;
         }
@@ -469,7 +474,7 @@ export default function CalendarView({
         const matchesAlternative = normalizeText(e.alternative || '').includes(query);
         const matchesGroup = normalizeText(e.group || '').includes(query);
         const matchesDate = (e.isoDate || '').toLowerCase().includes(query);
-        const monthName = normalizeText(MONTH_NAMES[m - 1] || '');
+        const monthName = dateInfo ? normalizeText(MONTH_NAMES[dateInfo.month - 1] || '') : '';
         const matchesMonthName = monthName.includes(query);
 
         return (
@@ -524,16 +529,14 @@ export default function CalendarView({
   const monthEvents = useMemo(() => {
     return events.filter((e) => {
       if (!e.isoDate) return false;
-      const [y, m, d] = e.isoDate.split('-').map(Number);
-      if (y !== year || m - 1 !== month) return false;
+      const dateInfo = parseDateInfo(e.isoDate);
+      if (!dateInfo || dateInfo.year !== year || dateInfo.month - 1 !== month) return false;
 
       // Category Filter
       if (filterType === 'saturday') {
-        const dateObj = new Date(y, m - 1, d);
-        if (dateObj.getDay() !== 6) return false;
+        if (dateInfo.dayOfWeek !== 6) return false;
       } else if (filterType === 'sunday') {
-        const dateObj = new Date(y, m - 1, d);
-        if (dateObj.getDay() !== 0) return false;
+        if (dateInfo.dayOfWeek !== 0) return false;
       } else if (filterType === 'gpx') {
         if (!e.gpxUrl) return false;
       }
@@ -599,8 +602,8 @@ export default function CalendarView({
 
     return events.filter((e) => {
       if (!e.isoDate) return false;
-      const [y, m] = e.isoDate.split('-').map(Number);
-      return y === year && m - 1 === month;
+      const dateInfo = parseDateInfo(e.isoDate);
+      return dateInfo?.year === year && dateInfo?.month - 1 === month;
     });
   }, [events, isSearching, searchQuery, year, month]);
 
@@ -610,10 +613,9 @@ export default function CalendarView({
     let gpx = 0;
 
     baseEventsForCounts.forEach((e) => {
-      const [y, m, d] = e.isoDate.split('-').map(Number);
-      const dateObj = new Date(y, m - 1, d);
-      if (dateObj.getDay() === 6) saturday++;
-      if (dateObj.getDay() === 0) sunday++;
+      const dateInfo = parseDateInfo(e.isoDate);
+      if (dateInfo?.dayOfWeek === 6) saturday++;
+      if (dateInfo?.dayOfWeek === 0) sunday++;
       if (e.gpxUrl) gpx++;
     });
 

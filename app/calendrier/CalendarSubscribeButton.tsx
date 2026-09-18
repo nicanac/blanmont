@@ -79,23 +79,23 @@ export default function CalendarSubscribeButton() {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
         >
           <div
-            className="relative w-full max-w-lg rounded-lg bg-white p-6 sm:p-8 shadow-2xl border border-[#e4e0d8] space-y-6"
+            className="relative w-full max-w-lg rounded-lg bg-white dark:bg-[#161922] p-6 sm:p-8 shadow-2xl border border-[#e4e0d8] dark:border-[#262b38] space-y-6"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
-                <h3 id="subscribe-modal-title" className="text-xl font-bold text-[#101216]">
+                <h3 id="subscribe-modal-title" className="text-xl font-bold text-[#101216] dark:text-[#f5f6f8]">
                   Ajouter les sorties à votre agenda
                 </h3>
-                <p className="text-xs text-[#5c6370] leading-relaxed">
+                <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                   Synchronisez automatiquement les sorties officielles du CC Saint-Martin Blanmont avec votre agenda (Apple, Google, Outlook). Les horaires et lieux sont mis à jour en continu.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors shrink-0"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#5c6370] dark:text-[#a7adbb] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] hover:text-[#101216] dark:hover:text-[#f5f6f8] transition-colors shrink-0"
                 aria-label="Fermer la fenêtre d'abonnement"
               >
                 <XMarkIcon className="h-5 w-5" />
@@ -107,7 +107,7 @@ export default function CalendarSubscribeButton() {
               {/* Apple Calendar / iOS / Mac */}
               <a
                 href={webcalUrl}
-                className="min-h-[44px] flex items-center justify-between p-3.5 rounded-md border border-[#e4e0d8] hover:border-[#e03e3e]/40 hover:bg-[#faf8f5] transition-all group"
+                className="min-h-[44px] flex items-center justify-between p-3.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:border-[#e03e3e]/40 hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-all group"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#101216] text-white shrink-0">
@@ -116,15 +116,15 @@ export default function CalendarSubscribeButton() {
                     </svg>
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-[#101216] group-hover:text-[#e03e3e] transition-colors">
+                    <div className="text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] group-hover:text-[#e03e3e] transition-colors">
                       Calendrier Apple (iPhone, iPad, Mac)
                     </div>
-                    <div className="text-xs text-[#5c6370]">
+                    <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                       Abonnement direct dans l&apos;application Calendrier
                     </div>
                   </div>
                 </div>
-                <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-[#e03e3e] transition-colors" />
+                <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] group-hover:text-[#e03e3e] transition-colors" />
               </a>
 
               {/* Google Calendar */}
@@ -132,22 +132,22 @@ export default function CalendarSubscribeButton() {
                 href={googleCalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[44px] flex items-center justify-between p-3.5 rounded-md border border-[#e4e0d8] hover:border-[#3b82f6]/40 hover:bg-[#faf8f5] transition-all group"
+                className="min-h-[44px] flex items-center justify-between p-3.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:border-[#3b82f6]/40 hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-50 border border-blue-200 text-blue-600 font-extrabold text-sm shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 font-extrabold text-sm shrink-0">
                     G
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-[#101216] group-hover:text-blue-600 transition-colors">
+                    <div className="text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] group-hover:text-blue-600 transition-colors">
                       Google Agenda (Android, Web)
                     </div>
-                    <div className="text-xs text-[#5c6370]">
+                    <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                       Ajout automatique dans votre agenda Google
                     </div>
                   </div>
                 </div>
-                <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-blue-600 transition-colors" />
+                <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] group-hover:text-blue-600 transition-colors" />
               </a>
 
               {/* Outlook */}
@@ -155,22 +155,22 @@ export default function CalendarSubscribeButton() {
                 href={outlookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[44px] flex items-center justify-between p-3.5 rounded-md border border-[#e4e0d8] hover:border-sky-300 hover:bg-[#faf8f5] transition-all group"
+                className="min-h-[44px] flex items-center justify-between p-3.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:border-sky-300 dark:hover:border-sky-700 hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-50 border border-sky-200 text-sky-600 font-extrabold text-sm shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 text-sky-600 dark:text-sky-400 font-extrabold text-sm shrink-0">
                     O
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-[#101216] group-hover:text-sky-600 transition-colors">
+                    <div className="text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] group-hover:text-sky-600 transition-colors">
                       Microsoft Outlook (Web &amp; Application)
                     </div>
-                    <div className="text-xs text-[#5c6370]">
+                    <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                       Abonnement en ligne au calendrier internet
                     </div>
                   </div>
                 </div>
-                <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-sky-600 transition-colors" />
+                <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] group-hover:text-sky-600 transition-colors" />
               </a>
             </div>
 

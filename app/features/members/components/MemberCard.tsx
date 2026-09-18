@@ -82,7 +82,7 @@ export default function MemberCard({ member }: MemberCardProps) {
   const hasValidPhoto = isValidPhotoUrl(member.photoUrl) && !imgError;
 
   return (
-    <li className="group flex flex-col rounded-lg border border-[#e4e0d8] bg-white overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1">
+    <li className="group flex flex-col rounded-lg border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1">
       {/* ──── Portrait / Fallback Avatar Container ──── */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922]">
         {hasValidPhoto ? (
@@ -153,27 +153,27 @@ export default function MemberCard({ member }: MemberCardProps) {
       </div>
 
       {/* ──── Member Details Card Body ──── */}
-      <div className="p-5 flex flex-col flex-grow justify-between space-y-3 bg-white">
+      <div className="p-5 flex flex-col flex-grow justify-between space-y-3 bg-white dark:bg-[#161922]">
         <div>
-          <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] group-hover:text-[#e03e3e] transition-colors truncate">
+          <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] dark:text-[#f5f6f8] group-hover:text-[#e03e3e] transition-colors truncate">
             {member.name}
           </h3>
 
           {member.bio ? (
-            <p className="mt-1.5 text-xs text-[#5c6370] line-clamp-2 leading-relaxed">
+            <p className="mt-1.5 text-xs text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
               {member.bio}
             </p>
           ) : (
-            <p className="mt-1.5 text-xs text-[#5c6370] italic">
+            <p className="mt-1.5 text-xs text-[#5c6370] dark:text-[#a7adbb] italic">
               Membre actif du peloton de Blanmont
             </p>
           )}
         </div>
 
         {/* Bottom Metadata & Social / Strava links */}
-        <div className="pt-3 border-t border-[#e4e0d8] flex items-center justify-between text-xs text-[#5c6370]">
+        <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
           <span className="inline-flex items-center gap-1">
-            <UserIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+            <UserIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
             <span>Club de Blanmont</span>
           </span>
 

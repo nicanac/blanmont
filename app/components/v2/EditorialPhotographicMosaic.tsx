@@ -10,7 +10,6 @@ interface MosaicItem {
   alt: string;
   title: string;
   subtitle: string;
-  badge: string;
   aspect: string;
   span: string;
 }
@@ -25,7 +24,6 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
       alt: 'Rassemblement printanier du Club de Blanmont sous un ciel azur',
       title: 'L\'Appel du Printemps',
       subtitle: 'Le peloton au complet réuni sous les cerisiers en fleurs',
-      badge: 'Rassemblement Annuel',
       aspect: 'aspect-[16/10]',
       span: 'lg:col-span-8',
     },
@@ -35,7 +33,6 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
       alt: 'Halte photo devant la chapelle brabançonne en briques rouges',
       title: 'Le Sanctuaire Brabançon',
       subtitle: 'Halte contemplative devant les chapelles historiques de campagne',
-      badge: 'Patrimoine & Histoire',
       aspect: 'aspect-[4/3] sm:aspect-[4/5]',
       span: 'lg:col-span-4',
     },
@@ -45,7 +42,6 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
       alt: 'Peloton en formation serrée fendant le vent sur la route',
       title: 'L\'Aspiration Pure',
       subtitle: 'Les relais se succèdent au millimètre dans le sillage du vent',
-      badge: 'Allure & Cadence',
       aspect: 'aspect-[4/3] sm:aspect-[4/5]',
       span: 'lg:col-span-4',
     },
@@ -55,7 +51,6 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
       alt: 'Routes sinueuses entre champs dorés et bois brabançons',
       title: 'Les Chemins Secrets',
       subtitle: 'Des vallées oubliées et des chemins de crête où le temps s\'arrête',
-      badge: 'Paysages Sauvages',
       aspect: 'aspect-[16/10]',
       span: 'lg:col-span-8',
     },
@@ -113,14 +108,6 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
 
                 {/* Dark luxury gradient overlays */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
-
-                {/* Top Badge */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10">
-                  <span className="inline-flex items-center gap-2 rounded-md bg-[#08090c]/85 backdrop-blur-md px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white border border-white/15 shadow-lg">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                    {item.badge}
-                  </span>
-                </div>
 
                 {/* Bottom Story Reveal */}
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-10 space-y-1.5 transform transition-transform duration-500 group-hover:-translate-y-1">

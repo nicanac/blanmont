@@ -48,7 +48,11 @@ export default function MapPreview({ summaryPolyline }: MapPreviewProps) {
         }
     }, [summaryPolyline]);
 
-    if (!positions.length) return <div className="h-48 bg-[#f2efe9] flex items-center justify-center">Loading Map...</div>;
+    if (!positions.length) return (
+        <div className="h-48 bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] flex items-center justify-center text-xs font-semibold uppercase tracking-wider">
+            Chargement de la carte...
+        </div>
+    );
 
     return (
         <MapContainer

@@ -17,6 +17,7 @@ import { cn } from '../utils/cn';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 import { submitEventReviewAction, deleteEventReviewAction } from '../actions';
 import { toast } from 'sonner';
+import { parseDateInfo } from '../lib/carreVert';
 import {
   XMarkIcon,
   MapPinIcon,
@@ -58,10 +59,12 @@ function getInitials(name: string): string {
  */
 export function isEventDone(isoDate: string, departure: string): boolean {
   if (!isoDate) return false;
-  const [yr, mo, dy] = isoDate.split('-').map(Number);
+  const dateInfo = parseDateInfo(isoDate);
+  if (!dateInfo) return false;
+
   const now = new Date();
-  const eventDate = new Date(yr, mo - 1, dy);
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const eventDate = new Date(Date.UTC(dateInfo.year, dateInfo.month - 1, dateInfo.day));
+  const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
 
   if (eventDate < today) return true;
   if (eventDate > today) return false;
@@ -219,11 +222,11 @@ function EventReviewForm({
               onClick={() => setRating(star)}
               onMouseEnter={() => setHoverRating(star)}
               onMouseLeave={() => setHoverRating(null)}
-              className="min-h-[44px] min-w-[40px] sm:min-w-[44px] flex items-center justify-center p-1 hover:scale-110 transition-transform focus:outline-hidden"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center p-1 hover:scale-110 transition-transform focus:outline-hidden"
               aria-label={`${star} étoile${star > 1 ? 's' : ''} sur 5`}
             >
               <StarIcon
-                className={`h-7 w-7 transition-colors ${
+                className={`h-7 w-7 md:h-7 md:w-7 transition-colors ${
                   star <= (hoverRating ?? rating)
                     ? 'text-amber-400'
                     : 'text-[#e4e0d8] dark:text-[#262b38]'
@@ -437,15 +440,19 @@ export default function CalendarDrawer({
   if (!event || !open) return null;
 
   // Format Date in French
-  const [yr, mo, dy] = event.isoDate.split('-');
-  const dateObj = new Date(Number(yr), Number(mo) - 1, Number(dy));
-  const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
-  const dateStr = dateObj.toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const dateInfo = parseDateInfo(event.isoDate);
+  const isWeekend = dateInfo?.isWeekend ?? false;
+  let dateStr = event.isoDate;
+  if (dateInfo) {
+    const utcDate = new Date(Date.UTC(dateInfo.year, dateInfo.month - 1, dateInfo.day));
+    dateStr = utcDate.toLocaleDateString('fr-FR', {
+      timeZone: 'UTC',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
 
   const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     `${event.location} ${event.address || ''}`
@@ -699,7 +706,7 @@ export default function CalendarDrawer({
                 {/* Meeting Point Card */}
                 <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-4 sm:p-5 space-y-2.5">
                   <div className="flex items-center gap-2.5">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shadow-2xs shrink-0">
+                    <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shadow-2xs shrink-0">
                       <MapPinIcon className="h-4 w-4" />
                     </div>
                     <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
@@ -790,7 +797,7 @@ export default function CalendarDrawer({
                                   key={idx}
                                   className="flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3 py-2 text-xs text-[#101216] dark:text-white shadow-2xs"
                                 >
-                                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
+                                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
                                     {getInitials(att.name)}
                                   </span>
                                   <span className="font-semibold truncate">{att.name}</span>
@@ -860,7 +867,7 @@ export default function CalendarDrawer({
                 {/* If Not Completed yet */}
                 {!canDebrief && (
                   <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-6 text-center space-y-2">
-                    <ClockIcon className="mx-auto h-8 w-8 text-[#5c6370] dark:text-[#a7adbb]" />
+                    <ClockIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#5c6370] dark:text-[#a7adbb]" />
                     <h4 className="text-sm font-bold text-[#101216] dark:text-white">
                       Sortie non encore effectuée
                     </h4>
@@ -873,7 +880,7 @@ export default function CalendarDrawer({
                 {/* Login Prompt if not logged in and event is done */}
                 {canDebrief && !isAuthenticated && (
                   <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-6 text-center space-y-3">
-                    <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 text-[#e03e3e]" />
+                    <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#e03e3e]" />
                     <h4 className="text-sm font-bold text-[#101216] dark:text-white">
                       Vous avez roulé dans le peloton ?
                     </h4>
@@ -923,11 +930,17 @@ export default function CalendarDrawer({
                     <div className="space-y-4">
                       {reviews.map((rev) => {
                         const revDate = rev.createdAt
-                          ? new Date(rev.createdAt).toLocaleDateString('fr-FR', {
-                              day: 'numeric',
-                              month: 'short',
-                              year: 'numeric',
-                            })
+                          ? (() => {
+                              const info = parseDateInfo(rev.createdAt);
+                              if (!info) return '';
+                              const utcDate = new Date(Date.UTC(info.year, info.month - 1, info.day));
+                              return utcDate.toLocaleDateString('fr-FR', {
+                                timeZone: 'UTC',
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric',
+                              });
+                            })()
                           : '';
 
                         const isAuthor = user?.id === rev.memberId;
@@ -1048,7 +1061,7 @@ export default function CalendarDrawer({
                                 <button
                                   type="button"
                                   onClick={() => handleDeleteReview(rev.memberId)}
-                                  className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-rose-600 transition-colors cursor-pointer"
+                                  className="min-h-[44px] inline-flex items-center text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-rose-600 transition-colors cursor-pointer"
                                 >
                                   Supprimer
                                 </button>
@@ -1060,7 +1073,7 @@ export default function CalendarDrawer({
                     </div>
                   ) : (
                     <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-8 text-center space-y-2">
-                      <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 text-[#5c6370] dark:text-[#a7adbb]" />
+                      <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#5c6370] dark:text-[#a7adbb]" />
                       <h4 className="text-xs font-bold text-[#101216] dark:text-white uppercase tracking-wider">
                         Aucun débriefing enregistré pour le moment
                       </h4>

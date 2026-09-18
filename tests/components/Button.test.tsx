@@ -44,7 +44,7 @@ describe('Button component', () => {
 
   it('applies size classes accurately', () => {
     const { rerender } = render(<Button size="sm">Petit</Button>);
-    expect(screen.getByRole('button')).toHaveClass('h-9');
+    expect(screen.getByRole('button')).toHaveClass('sm:h-9');
 
     rerender(<Button size="lg">Grand</Button>);
     expect(screen.getByRole('button')).toHaveClass('h-11');
