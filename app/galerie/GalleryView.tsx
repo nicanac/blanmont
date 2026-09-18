@@ -14,6 +14,8 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   FunnelIcon,
+  TagIcon,
+  ArrowsUpDownIcon,
 } from '@heroicons/react/24/outline';
 
 interface GalleryViewProps {
@@ -83,6 +85,23 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
   }, [initialAlbums, years]);
 
   const categories = ['all', 'Sorties', 'Ardennes & Stages', 'Événements', 'Équipements'] as const;
+
+  // Category counts
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {
+      all: initialAlbums.length,
+      Sorties: 0,
+      'Ardennes & Stages': 0,
+      'Événements': 0,
+      'Équipements': 0,
+    };
+    initialAlbums.forEach((a) => {
+      if (counts[a.category] !== undefined) {
+        counts[a.category]++;
+      }
+    });
+    return counts;
+  }, [initialAlbums]);
 
   // Filter and sort albums
   const filteredAlbums = useMemo(() => {
@@ -218,17 +237,17 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       </div>
 
       {/* ── Multi-Filter & Search Toolbar ── */}
-      <div className="p-4 sm:p-5 bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] shadow-xs space-y-4">
+      <div className="p-5 sm:p-6 bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] shadow-xs space-y-5">
         {/* Row 1: Search & Sort */}
-        <div className="flex flex-col sm:row items-stretch sm:items-center gap-3">
-          <div className="relative flex-1">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full">
+          <div className="relative flex-1 w-full">
             <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              placeholder="Rechercher une sortie, un lieu, un mot-clé (ex. Riccione, Blanmontoise, Bastogne)..."
-              className="w-full pl-9 pr-9 py-2.5 min-h-[44px] text-xs sm:text-sm bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] rounded-md text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/30 focus:border-[#e03e3e] transition-colors"
+              placeholder="Rechercher une sortie, un col, un lieu, un mot-clé (ex. Riccione, Blanmontoise, Bastogne)..."
+              className="w-full pl-10 pr-10 py-2.5 min-h-[44px] text-xs sm:text-sm bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] rounded-md text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/20 focus:border-[#e03e3e] transition-colors"
             />
             {searchQuery && (
               <button
@@ -238,7 +257,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   setVisibleCount(PAGE_SIZE);
                 }}
                 aria-label="Effacer la recherche"
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white transition-colors cursor-pointer"
               >
                 <XMarkIcon className="h-4 w-4" />
               </button>
@@ -246,76 +265,184 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hidden md:inline">
-              Trier par :
-            </span>
-            <select
-              value={sortBy}
-              onChange={handleSortChange}
-              className="px-3 py-2 min-h-[44px] text-xs font-semibold bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] rounded-md text-[#101216] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/30 focus:border-[#e03e3e] cursor-pointer"
-            >
-              <option value="recent">Plus récents d&apos;abord</option>
-              <option value="oldest">Plus anciens d&apos;abord</option>
-              <option value="photos">Nombre de clichés</option>
-            </select>
+            <div className="flex items-center gap-2 px-3 py-1 bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] rounded-md min-h-[44px] w-full sm:w-auto">
+              <ArrowsUpDownIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
+              <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] shrink-0">
+                Trier :
+              </span>
+              <select
+                value={sortBy}
+                onChange={handleSortChange}
+                className="py-1.5 pr-2 text-xs font-semibold bg-transparent text-[#101216] dark:text-white focus:outline-none cursor-pointer"
+              >
+                <option value="recent">Plus récents d&apos;abord</option>
+                <option value="oldest">Plus anciens d&apos;abord</option>
+                <option value="photos">Nombre de clichés</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        {/* Row 2: Season & Category Filters */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-[#e4e0d8] dark:border-[#262b38]">
-          {/* Seasons Filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
-            <span className="text-[0.75rem] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] mr-1.5 shrink-0">
-              Saison :
-            </span>
+        {/* Row 2: Seasons */}
+        <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+            <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
+            <span>Saison :</span>
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             <button
               type="button"
               onClick={() => handleSelectYear('all')}
-              className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md text-xs font-semibold shrink-0 transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold shrink-0 transition-all cursor-pointer ${
                 selectedYear === 'all'
-                  ? 'bg-[#101216] text-white dark:bg-[#e03e3e] dark:text-white'
+                  ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216] shadow-xs'
                   : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#0a0c10] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
               }`}
             >
-              Toutes ({stats.totalAlbums})
+              <span>Toutes les saisons</span>
+              <span
+                className={`px-1.5 py-0.5 rounded-xs text-[0.65rem] tabular-nums font-bold ${
+                  selectedYear === 'all'
+                    ? 'bg-white/20 text-white dark:bg-black/10 dark:text-[#101216]'
+                    : 'bg-[#efece5] dark:bg-[#1e222d] text-[#5c6370] dark:text-[#a7adbb]'
+                }`}
+              >
+                {stats.totalAlbums}
+              </span>
             </button>
+
             {years.map((yr) => {
               const yrCount = initialAlbums.filter((a) => a.year === yr).length;
+              const isSelected = selectedYear === yr;
               return (
                 <button
                   key={yr}
                   type="button"
                   onClick={() => handleSelectYear(yr)}
-                  className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md text-xs font-semibold shrink-0 transition-colors cursor-pointer ${
-                    selectedYear === yr
-                      ? 'bg-[#e03e3e] text-white'
+                  className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold shrink-0 transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#e03e3e] text-white shadow-xs'
                       : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#0a0c10] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
                   }`}
                 >
-                  {yr} <span className="ml-1 opacity-75">({yrCount})</span>
+                  <span>{yr}</span>
+                  <span
+                    className={`px-1.5 py-0.5 rounded-xs text-[0.65rem] tabular-nums font-bold ${
+                      isSelected
+                        ? 'bg-black/20 text-white'
+                        : 'bg-[#efece5] dark:bg-[#1e222d] text-[#5c6370] dark:text-[#a7adbb]'
+                    }`}
+                  >
+                    {yrCount}
+                  </span>
                 </button>
               );
             })}
           </div>
+        </div>
 
-          {/* Category Filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => handleSelectCategory(cat)}
-                className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md text-xs font-semibold shrink-0 transition-colors cursor-pointer ${
-                  selectedCategory === cat
-                    ? 'bg-[#101216] text-white dark:bg-[#262b38] dark:text-white'
-                    : 'text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white'
-                }`}
-              >
-                {cat === 'all' ? 'Tous les thèmes' : cat}
-              </button>
-            ))}
+        {/* Row 3: Categories */}
+        <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+            <TagIcon className="h-4 w-4 text-[#e03e3e]" />
+            <span>Thème :</span>
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {categories.map((cat) => {
+              const count = categoryCounts[cat] || 0;
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => handleSelectCategory(cat)}
+                  className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold shrink-0 transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216] shadow-xs'
+                      : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#0a0c10] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
+                  }`}
+                >
+                  <span>{cat === 'all' ? 'Tous les thèmes' : cat}</span>
+                  <span
+                    className={`px-1.5 py-0.5 rounded-xs text-[0.65rem] tabular-nums font-bold ${
+                      isSelected
+                        ? 'bg-white/20 text-white dark:bg-black/10 dark:text-[#101216]'
+                        : 'bg-[#efece5] dark:bg-[#1e222d] text-[#5c6370] dark:text-[#a7adbb]'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
+
+        {/* Active Filters Pill Bar */}
+        {(selectedYear !== 'all' || selectedCategory !== 'all' || searchQuery) && (
+          <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-bold text-[#5c6370] dark:text-[#a7adbb] uppercase tracking-wider text-[0.7rem]">
+                Filtres actifs :
+              </span>
+
+              {selectedYear !== 'all' && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#e03e3e]/10 text-[#e03e3e] font-semibold border border-[#e03e3e]/20">
+                  <span>Saison {selectedYear}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleSelectYear('all')}
+                    className="hover:text-[#c93434] p-0.5 cursor-pointer"
+                    aria-label="Retirer le filtre de saison"
+                  >
+                    <XMarkIcon className="h-3.5 w-3.5" />
+                  </button>
+                </span>
+              )}
+
+              {selectedCategory !== 'all' && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#101216]/10 dark:bg-white/10 text-[#101216] dark:text-white font-semibold border border-[#101216]/20 dark:border-white/20">
+                  <span>{selectedCategory}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleSelectCategory('all')}
+                    className="p-0.5 cursor-pointer"
+                    aria-label="Retirer le filtre de thème"
+                  >
+                    <XMarkIcon className="h-3.5 w-3.5" />
+                  </button>
+                </span>
+              )}
+
+              {searchQuery && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#101216]/10 dark:bg-white/10 text-[#101216] dark:text-white font-semibold border border-[#101216]/20 dark:border-white/20">
+                  <span>&ldquo;{searchQuery}&rdquo;</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setVisibleCount(PAGE_SIZE);
+                    }}
+                    className="p-0.5 cursor-pointer"
+                    aria-label="Effacer la recherche"
+                  >
+                    <XMarkIcon className="h-3.5 w-3.5" />
+                  </button>
+                </span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="text-xs font-bold uppercase tracking-wider text-[#e03e3e] hover:text-[#c93434] hover:underline cursor-pointer min-h-[44px] inline-flex items-center"
+            >
+              Réinitialiser tous les filtres
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── Active Filters Summary ── */}
