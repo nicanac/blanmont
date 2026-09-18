@@ -8,7 +8,6 @@ import {
   ArrowDownTrayIcon,
   ArrowRightIcon,
   ChatBubbleLeftRightIcon,
-  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import RideWeatherBadge from '../ui/RideWeatherBadge';
 
@@ -104,7 +103,7 @@ export default function LiveTelemetryBar({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
           <div className="flex items-center gap-2.5">
             <span className="h-2.5 w-2.5 rounded-full bg-[#e03e3e] animate-ping" />
-            <h2 className="text-xs font-bold uppercase tracking-[0.15em] text-[#a7adbb]">
+            <h2 className="text-sm font-bold text-white tracking-tight">
               Télémétrie du Prochain Rendez-Vous
             </h2>
           </div>
@@ -181,21 +180,16 @@ export default function LiveTelemetryBar({
 
           {/* 2. Lieu de Rassemblement */}
           <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e]/40 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
-                Lieu du Rassemblement
-              </span>
-              <MapPinIcon className="h-4 w-4 text-[#e03e3e]" />
-            </div>
-
-            <div className="space-y-1">
-              <h3 className="text-lg font-bold text-white tracking-tight">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                 {nextRide.location}
               </h3>
-              <p className="text-xs text-[#a7adbb] line-clamp-2">
-                {nextRide.remarks || 'Rassemblement sous les arbres, constitution des 3 pelotons de niveau.'}
-              </p>
+              <MapPinIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
             </div>
+
+            <p className="text-xs text-[#a7adbb] line-clamp-3">
+              {nextRide.remarks || 'Rassemblement sous les arbres, constitution des 3 pelotons de niveau.'}
+            </p>
 
             <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs">
               <span className="text-[#a7adbb]">Groupes : {nextRide.distances || 'A, B, C & VTT'}</span>
@@ -205,12 +199,9 @@ export default function LiveTelemetryBar({
           {/* 3. Météo & Rose des Vents en Direct */}
           <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-3 hover:border-[#e03e3e]/40 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
                 Atmosphère &amp; Vent
-              </span>
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                LIVE METEO
-              </span>
+              </h3>
             </div>
 
             <div className="flex-1 flex flex-col justify-center">
@@ -224,21 +215,20 @@ export default function LiveTelemetryBar({
 
           {/* 4. Sondage de Présence & Actions */}
           <div className="rounded-lg border border-white/10 bg-gradient-to-br from-[#161922] to-[#1a1416] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e] transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
-                Sondage Weekend
-              </span>
-              <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#a7adbb]' : 'bg-[#e03e3e] animate-ping'}`} />
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="text-sm font-bold text-white leading-snug">
+                {activePoll?.title || 'Qui roule avec le club ce weekend ?'}
+              </h3>
+              <span
+                className={`h-2 w-2 rounded-full shrink-0 mt-1 ${activePoll?.status === 'closed' ? 'bg-[#a7adbb]' : 'bg-[#e03e3e] animate-ping'}`}
+                title={activePoll?.status === 'closed' ? 'Sondage clos' : 'Sondage en cours'}
+                aria-label={activePoll?.status === 'closed' ? 'Sondage clos' : 'Sondage en cours'}
+              />
             </div>
 
-            <div className="space-y-1.5">
-              <div className="text-sm font-bold text-white">
-                {activePoll?.title || 'Qui roule avec le club ce weekend ?'}
-              </div>
-              <p className="text-xs text-[#a7adbb]">
-                Indiquez votre présence pour aider les capitaines à composer les groupes.
-              </p>
-            </div>
+            <p className="text-xs text-[#a7adbb]">
+              Indiquez votre présence pour aider les capitaines à composer les groupes.
+            </p>
 
             <div className="pt-2 flex items-center justify-between gap-2">
               <Link
