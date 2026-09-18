@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeftIcon, CalendarDaysIcon, UserIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getBlogPostBySlug, getBlogPosts } from '../../lib/firebase';
@@ -96,14 +96,12 @@ export default async function BlogPostPage({
   }
 
   const hasCoverImage = isValidImageUrl(post.coverImage);
-  const hasAvatar = isValidImageUrl(post.authorAvatar);
   const initials = getInitials(post.author);
 
   // Compute estimated reading time (~200 words per minute)
   const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
   const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
-  const encodedShareUrl = encodeURIComponent(`https://blanmont.be/blog/${post.slug}`);
   const encodedShareText = encodeURIComponent(
     `🚴‍♂️ ${post.title} — Club Cyclo Saint-Martin de Blanmont : https://blanmont.be/blog/${post.slug}`
   );
@@ -113,7 +111,7 @@ export default async function BlogPostPage({
       {/* ──── Editorial Article Header ──── */}
       <header className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]">
         {/* Atmospheric Background Watermark */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03] dark:opacity-[0.025] leading-none text-center">
+        <div className="absolute top-32 sm:top-44 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
           <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>

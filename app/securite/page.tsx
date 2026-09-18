@@ -1,6 +1,5 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import {
   ShieldCheckIcon,
   WrenchScrewdriverIcon,
@@ -23,7 +22,7 @@ export default function SecuritePage(): React.ReactElement {
       {/* ──── Editorial Cover Hero (Adaptive Light / Dark) ──── */}
       <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
         {/* Atmospheric Background Watermark */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+        <div className="absolute top-32 sm:top-44 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
           <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
             BLANMONT
           </span>

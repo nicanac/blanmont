@@ -104,7 +104,7 @@ export function PageHero({
         <section className={`relative overflow-hidden transition-colors duration-200 ${styles.bg} ${sizes.padding}`}>
             {/* Atmospheric Background Watermark */}
             {watermark && (
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
+                <div className="absolute top-32 sm:top-44 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
                     <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
                         {watermark}
                     </span>
