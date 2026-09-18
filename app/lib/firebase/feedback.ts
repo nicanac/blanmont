@@ -30,9 +30,16 @@ export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> 
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const feedbackRef = ref(db, 'feedback');
-    const snapshot = await get(feedbackRef);
+    let snapshot;
+    if (typeof window === 'undefined') {
+      const { getAdminDatabase } = await import('./admin');
+      const db = getAdminDatabase();
+      snapshot = await db.ref('feedback').once('value');
+    } else {
+      const db = getFirebaseDatabase();
+      const feedbackRef = ref(db, 'feedback');
+      snapshot = await get(feedbackRef);
+    }
 
     if (!snapshot.exists()) return [];
 
@@ -93,7 +100,6 @@ export const submitFeedback = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
     let targetId = validData.feedbackId;
 
     // Check for existing feedback from this member
@@ -108,25 +114,45 @@ export const submitFeedback = async (
       }
     }
 
-    if (targetId) {
-      // Update existing feedback
-      const feedbackRef = ref(db, `feedback/${targetId}`);
-      await update(feedbackRef, {
-        comment: validData.comment,
-        rating: validData.rating,
-        updatedAt: new Date().toISOString(),
-      });
+    if (typeof window === 'undefined') {
+      const { getAdminDatabase } = await import('./admin');
+      const db = getAdminDatabase();
+      if (targetId) {
+        await db.ref(`feedback/${targetId}`).update({
+          comment: validData.comment,
+          rating: validData.rating,
+          updatedAt: new Date().toISOString(),
+        });
+      } else {
+        const newId = `feedback_${Date.now()}`;
+        await db.ref(`feedback/${newId}`).set({
+          traceId: validData.traceId,
+          memberId: validData.memberId,
+          comment: validData.comment,
+          rating: validData.rating,
+          createdAt: new Date().toISOString(),
+        });
+      }
     } else {
-      // Create new feedback
-      const newId = `feedback_${Date.now()}`;
-      const feedbackRef = ref(db, `feedback/${newId}`);
-      await set(feedbackRef, {
-        traceId: validData.traceId,
-        memberId: validData.memberId,
-        comment: validData.comment,
-        rating: validData.rating,
-        createdAt: new Date().toISOString(),
-      });
+      const db = getFirebaseDatabase();
+      if (targetId) {
+        const feedbackRef = ref(db, `feedback/${targetId}`);
+        await update(feedbackRef, {
+          comment: validData.comment,
+          rating: validData.rating,
+          updatedAt: new Date().toISOString(),
+        });
+      } else {
+        const newId = `feedback_${Date.now()}`;
+        const feedbackRef = ref(db, `feedback/${newId}`);
+        await set(feedbackRef, {
+          traceId: validData.traceId,
+          memberId: validData.memberId,
+          comment: validData.comment,
+          rating: validData.rating,
+          createdAt: new Date().toISOString(),
+        });
+      }
     }
   } catch (error) {
     console.error('Failed to submit feedback:', error);
@@ -146,9 +172,15 @@ export const deleteFeedback = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const feedbackRef = ref(db, `feedback/${feedbackId}`);
-    await set(feedbackRef, null);
+    if (typeof window === 'undefined') {
+      const { getAdminDatabase } = await import('./admin');
+      const db = getAdminDatabase();
+      await db.ref(`feedback/${feedbackId}`).remove();
+    } else {
+      const db = getFirebaseDatabase();
+      const feedbackRef = ref(db, `feedback/${feedbackId}`);
+      await set(feedbackRef, null);
+    }
     return { success: true };
   } catch (error) {
     console.error('Failed to delete feedback:', error);
@@ -163,9 +195,16 @@ export const getAllFeedback = async (): Promise<Feedback[]> => {
   if (isMockMode) return [];
 
   try {
-    const db = getFirebaseDatabase();
-    const feedbackRef = ref(db, 'feedback');
-    const snapshot = await get(feedbackRef);
+    let snapshot;
+    if (typeof window === 'undefined') {
+      const { getAdminDatabase } = await import('./admin');
+      const db = getAdminDatabase();
+      snapshot = await db.ref('feedback').once('value');
+    } else {
+      const db = getFirebaseDatabase();
+      const feedbackRef = ref(db, 'feedback');
+      snapshot = await get(feedbackRef);
+    }
 
     return snapshotToArray<Feedback>(snapshot);
   } catch (error) {
