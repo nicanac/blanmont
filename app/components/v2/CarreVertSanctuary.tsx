@@ -6,8 +6,6 @@ import {
   TrophyIcon,
   ChatBubbleLeftRightIcon,
   ArrowRightIcon,
-  ShieldCheckIcon,
-  SparklesIcon,
   CheckBadgeIcon,
 } from '@heroicons/react/24/outline';
 import type { WeekendPoll } from '@/app/types';
@@ -48,22 +46,18 @@ export default function CarreVertSanctuary({ activePoll }: CarreVertSanctuaryPro
           {/* Left: Le Carré Vert Annual Challenge */}
           <div className="lg:col-span-6 rounded-xl border border-emerald-500/30 bg-gradient-to-br from-[#161922] via-[#101216] to-[#0c1814] p-8 sm:p-10 flex flex-col justify-between space-y-8 shadow-2xl">
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                  Palmarès d&apos;Assiduité
-                </div>
-                <TrophyIcon className="h-6 w-6 text-emerald-400" />
-              </div>
-
-              <div className="space-y-2">
+              <div className="flex items-start justify-between gap-4">
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                   Le Rituel du Carré Vert
                 </h3>
-                <p className="text-sm text-[#a7adbb] leading-relaxed">
-                  Chaque sortie officielle du samedi et du dimanche attribue un point de présence. À la fin de la saison, lors de l&apos;Assemblée Générale, les membres les plus assidus sont honorés par le prestigieux Trophée du Carré Vert.
-                </p>
+                <div className="h-10 w-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                  <TrophyIcon className="h-5 w-5 text-emerald-400" />
+                </div>
               </div>
+
+              <p className="text-sm text-[#a7adbb] leading-relaxed">
+                Chaque sortie officielle du samedi et du dimanche attribue un point de présence. À la fin de la saison, lors de l&apos;Assemblée Générale, les membres les plus assidus sont honorés par le prestigieux Trophée du Carré Vert.
+              </p>
 
               {/* 3 Core Rules */}
               <div className="space-y-3 pt-4 border-t border-white/10">
@@ -100,39 +94,41 @@ export default function CarreVertSanctuary({ activePoll }: CarreVertSanctuaryPro
           {/* Right: Weekend Sondage & Democratic Participation */}
           <div className="lg:col-span-6 rounded-xl border border-white/10 bg-[#161922] p-8 sm:p-10 flex flex-col justify-between space-y-8 shadow-2xl">
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-[#e03e3e]/15 border border-[#e03e3e]/30 text-[#e03e3e] text-xs font-bold uppercase tracking-widest">
-                  <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#a7adbb]' : 'bg-[#e03e3e] animate-ping'}`} />
-                  {activePoll?.status === 'closed' ? 'Sondage Clôturé' : 'Sondage Ouvert'}
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-2">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    {activePoll?.title || 'Sondage de Présence du Weekend'}
+                  </h3>
+                  <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#a7adbb]">
+                    <span className={`h-2 w-2 rounded-full ${activePoll?.status === 'closed' ? 'bg-[#a7adbb]' : 'bg-[#e03e3e] animate-ping'}`} />
+                    <span>{activePoll?.status === 'closed' ? 'Sondage clôturé' : 'Sondage ouvert'}</span>
+                  </div>
                 </div>
-                <ChatBubbleLeftRightIcon className="h-6 w-6 text-[#e03e3e]" />
+                <div className="h-10 w-10 rounded-lg bg-[#e03e3e]/10 border border-[#e03e3e]/20 flex items-center justify-center shrink-0">
+                  <ChatBubbleLeftRightIcon className="h-5 w-5 text-[#e03e3e]" />
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                  {activePoll?.title || 'Sondage de Présence du Weekend'}
-                </h3>
-                <p className="text-sm text-[#a7adbb] leading-relaxed">
-                  Chaque semaine, la démocratie du club s&apos;exprime en direct : indiquez vos jours de sortie (Samedi, Dimanche, ou les deux) et votre allure pour que les capitaines affinent les parcours et l&apos;encadrement.
-                </p>
-              </div>
+              <p className="text-sm text-[#a7adbb] leading-relaxed">
+                Chaque semaine, la démocratie du club s&apos;exprime en direct : indiquez vos jours de sortie (Samedi, Dimanche, ou les deux) et votre allure pour que les capitaines affinent les parcours et l&apos;encadrement.
+              </p>
 
               {/* Instant Live Features */}
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
                 <div className="bg-black/30 rounded-lg p-3.5 border border-white/5 space-y-1">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
-                    Choix du jour
-                  </div>
                   <div className="text-xs font-bold text-white">
                     Samedi · Dimanche · VTT
                   </div>
+                  <div className="text-xs text-[#a7adbb]">
+                    Groupes de niveau &amp; allures
+                  </div>
                 </div>
                 <div className="bg-black/30 rounded-lg p-3.5 border border-white/5 space-y-1">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
-                    Export Capitaines
-                  </div>
                   <div className="text-xs font-bold text-white">
-                    Synthèse WhatsApp en 1 clic
+                    Synthèse WhatsApp
+                  </div>
+                  <div className="text-xs text-[#a7adbb]">
+                    Export capitaine en 1 clic
                   </div>
                 </div>
               </div>

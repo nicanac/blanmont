@@ -40,10 +40,10 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
   return (
     <div className="space-y-10">
       {/* Filter Toolbar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 bg-white rounded-[10px] border border-[#e4e0d8] shadow-xs">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] shadow-xs">
         {/* Year Filter */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] mr-2 shrink-0">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] mr-2 shrink-0">
             Saison :
           </span>
           <button
@@ -51,8 +51,8 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
             onClick={() => setSelectedYear('all')}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-colors ${
               selectedYear === 'all'
-                ? 'bg-[#101216] text-white'
-                : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8]'
+                ? 'bg-[#101216] text-white dark:bg-[#262b38] dark:text-white'
+                : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
             }`}
           >
             Toutes les saisons
@@ -65,7 +65,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               className={`px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-colors ${
                 selectedYear === yr
                   ? 'bg-[#e03e3e] text-white'
-                  : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8]'
+                  : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
               }`}
             >
               {yr}
@@ -82,8 +82,8 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               onClick={() => setSelectedCategory(cat)}
               className={`px-3 py-1.5 rounded-md text-xs font-semibold shrink-0 transition-colors ${
                 selectedCategory === cat
-                  ? 'bg-[#f2efe9] text-[#101216] border border-[#cfc9be]'
-                  : 'text-[#5c6370] hover:text-[#101216]'
+                  ? 'bg-[#f2efe9] text-[#101216] border border-[#cfc9be] dark:bg-[#262b38] dark:text-white dark:border-[#3a3f4a]'
+                  : 'text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white'
               }`}
             >
               {cat === 'all' ? 'Tous les thèmes' : cat}
@@ -94,10 +94,10 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
       {/* Albums Grid */}
       {filteredAlbums.length === 0 ? (
-        <div className="bg-white rounded-[10px] border border-[#e4e0d8] p-12 text-center space-y-3">
-          <CameraIcon className="h-8 w-8 text-[#a7adbb] mx-auto" />
-          <p className="text-sm font-semibold text-[#101216]">Aucun album photo ne correspond aux critères.</p>
-          <p className="text-xs text-[#5c6370]">
+        <div className="bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] p-12 text-center space-y-3">
+          <CameraIcon className="h-8 w-8 text-[#a7adbb] dark:text-[#5c6370] mx-auto" />
+          <p className="text-sm font-semibold text-[#101216] dark:text-[#f5f6f8]">Aucun album photo ne correspond aux critères.</p>
+          <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
             Essayez de sélectionner une autre saison ou un autre thème.
           </p>
         </div>
@@ -106,7 +106,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
           {filteredAlbums.map((album) => (
             <article
               key={album.id}
-              className="group bg-white rounded-[10px] border border-[#e4e0d8] overflow-hidden flex flex-col shadow-xs hover:border-[#cfc9be] hover:shadow-md transition-all duration-300"
+              className="group bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden flex flex-col shadow-xs hover:border-[#cfc9be] dark:hover:border-[#3a3f4a] hover:shadow-md transition-all duration-300"
             >
               {/* Cover Image Container */}
               <div
@@ -127,7 +127,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   <span className="px-2 py-0.5 rounded-xs bg-[#101216]/90 backdrop-blur-xs text-white text-xs font-bold tracking-wider uppercase">
                     {album.year}
                   </span>
-                  <span className="px-2 py-0.5 rounded-xs bg-white/90 backdrop-blur-xs text-[#101216] text-xs font-bold tracking-wider">
+                  <span className="px-2 py-0.5 rounded-xs bg-white/90 dark:bg-[#161922]/90 backdrop-blur-xs text-[#101216] dark:text-white text-xs font-bold tracking-wider">
                     {album.category}
                   </span>
                 </div>
@@ -154,21 +154,21 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
                   <h2
-                    className="text-base font-bold text-[#101216] leading-snug cursor-pointer group-hover:text-[#e03e3e] transition-colors"
+                    className="text-base font-bold text-[#101216] dark:text-[#f5f6f8] leading-snug cursor-pointer group-hover:text-[#e03e3e] transition-colors"
                     onClick={() => setActiveModalAlbum(album)}
                   >
                     {album.title}
                   </h2>
-                  <p className="text-xs text-[#5c6370] line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
                     {album.description}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-[#efece5] flex items-center justify-between">
+                <div className="pt-3 border-t border-[#efece5] dark:border-[#262b38] flex items-center justify-between">
                   <button
                     type="button"
                     onClick={() => setActiveModalAlbum(album)}
-                    className="text-xs font-semibold text-[#101216] hover:text-[#e03e3e] transition-colors"
+                    className="text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] hover:text-[#e03e3e] transition-colors"
                   >
                     Voir l&apos;aperçu
                   </button>
@@ -192,19 +192,19 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       )}
 
       {/* Community Contribution Box */}
-      <div className="rounded-[10px] border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div className="rounded-[10px] border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-[#101216]">
+          <h3 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">
             Vous avez immortalisé une sortie du peloton ?
           </h3>
-          <p className="text-xs text-[#5c6370] leading-relaxed max-w-2xl">
+          <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed max-w-2xl">
             Partagez vos photos avec le club. Les clichés sélectionnés seront ajoutés aux chroniques de la saison
             et mis à l&apos;honneur sur les réseaux du CC Saint-Martin Blanmont.
           </p>
         </div>
         <a
           href="mailto:contact@cc-blanmont.be?subject=Photos%20Sortie%20CC%20Blanmont"
-          className="inline-flex items-center justify-center px-5 py-2.5 rounded-md bg-[#101216] hover:bg-[#242938] text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-xs min-h-[44px]"
+          className="inline-flex items-center justify-center px-5 py-2.5 rounded-md bg-[#101216] hover:bg-[#242938] dark:bg-[#e03e3e] dark:hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-xs min-h-[44px]"
         >
           Transmettre des photos
         </a>
@@ -217,7 +217,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4"
         >
-          <div className="bg-white rounded-[10px] border border-[#e4e0d8] overflow-hidden w-full max-w-2xl shadow-2xl animate-in zoom-in-95">
+          <div className="bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden w-full max-w-2xl shadow-2xl animate-in zoom-in-95">
             <div className="relative aspect-16/9 w-full bg-[#0a0c10]">
               <Image
                 src={activeModalAlbum.coverUrl}
@@ -241,25 +241,25 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 <span className="px-2.5 py-0.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] text-xs font-bold uppercase tracking-wider">
                   Saison {activeModalAlbum.year}
                 </span>
-                <span className="text-xs font-medium text-[#5c6370] flex items-center gap-1">
+                <span className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1">
                   <CalendarDaysIcon className="h-3.5 w-3.5" />
                   {activeModalAlbum.category}
                 </span>
-                <span className="text-xs font-medium text-[#5c6370] ml-auto tabular-nums">
+                <span className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] ml-auto tabular-nums">
                   {activeModalAlbum.photoCount} photos
                 </span>
               </div>
 
-              <h3 className="text-xl font-bold text-[#101216]">{activeModalAlbum.title}</h3>
-              <p className="text-xs sm:text-sm text-[#5c6370] leading-relaxed">
+              <h3 className="text-xl font-bold text-[#101216] dark:text-[#f5f6f8]">{activeModalAlbum.title}</h3>
+              <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                 {activeModalAlbum.description}
               </p>
 
-              <div className="pt-4 border-t border-[#efece5] flex items-center justify-between gap-3">
+              <div className="pt-4 border-t border-[#efece5] dark:border-[#262b38] flex items-center justify-between gap-3">
                 <button
                   type="button"
                   onClick={() => setActiveModalAlbum(null)}
-                  className="px-4 py-2 text-xs font-semibold text-[#5c6370] hover:text-[#101216]"
+                  className="px-4 py-2 text-xs font-semibold text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white"
                 >
                   Fermer
                 </button>

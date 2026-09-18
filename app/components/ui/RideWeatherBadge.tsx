@@ -47,7 +47,7 @@ export default function RideWeatherBadge({
         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs animate-pulse ${
           theme === 'dark'
             ? 'bg-white/5 border border-white/10 text-[#a7adbb]'
-            : 'bg-[#f2efe9] text-[#5c6370]'
+            : 'bg-[#f2efe9] text-[#5c6370] dark:bg-[#1e222d] dark:text-[#a7adbb]'
         }`}
       >
         <span>🌤️</span>
@@ -63,7 +63,7 @@ export default function RideWeatherBadge({
         className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium border ${
           theme === 'dark'
             ? 'bg-white/5 border-white/10 text-[#a7adbb]'
-            : 'bg-[#f2efe9] border-[#e4e0d8] text-[#5c6370]'
+            : 'bg-[#f2efe9] border-[#e4e0d8] text-[#5c6370] dark:bg-[#1e222d] dark:border-[#262b38] dark:text-[#a7adbb]'
         }`}
       >
         <span>📅</span>
@@ -101,13 +101,13 @@ export default function RideWeatherBadge({
 
     return (
       <div
-        className="inline-flex items-center gap-2 rounded-md bg-[#faf8f5] px-2.5 py-1 text-xs text-[#101216] border border-[#e4e0d8] font-medium"
+        className="inline-flex items-center gap-2 rounded-md bg-[#faf8f5] dark:bg-[#161922] px-2.5 py-1 text-xs text-[#101216] dark:text-[#f5f6f8] border border-[#e4e0d8] dark:border-[#262b38] font-medium"
         title={`${weather.condition} • ${weather.temperature}°C • ${weather.windDescription} à ${weather.windSpeed} km/h • Pluie: ${weather.precipitationProb}%`}
       >
         <span>{weather.icon}</span>
-        <span className="font-bold tabular-nums text-[#101216]">{weather.temperature}°C</span>
-        <span className="text-[#e4e0d8]">•</span>
-        <span className="flex items-center gap-1 text-[#3a3f4a]">
+        <span className="font-bold tabular-nums text-[#101216] dark:text-[#f5f6f8]">{weather.temperature}°C</span>
+        <span className="text-[#e4e0d8] dark:text-[#262b38]">•</span>
+        <span className="flex items-center gap-1 text-[#3a3f4a] dark:text-[#d1d5db]">
           <span
             className="inline-block transition-transform text-[#3b82f6] font-black text-xs"
             style={{ transform: `rotate(${arrowAngle}deg)` }}
@@ -172,21 +172,21 @@ export default function RideWeatherBadge({
   }
 
   return (
-    <div className="rounded-lg bg-white p-3.5 border border-[#e4e0d8] space-y-2.5">
+    <div className="rounded-lg bg-white dark:bg-[#161922] p-3.5 border border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <span className="text-xl">{weather.icon}</span>
           <div>
-            <div className="text-xs font-bold text-[#101216]">
+            <div className="text-xs font-bold text-[#101216] dark:text-[#f5f6f8]">
               {weather.condition}
             </div>
-            <div className="text-xs text-[#5c6370]">
+            <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
               Prévisions pour le départ {departure ? `(${departure})` : ''}
             </div>
           </div>
         </div>
         <div className="text-right">
-          <span className="text-lg font-bold text-[#101216] tabular-nums">
+          <span className="text-lg font-bold text-[#101216] dark:text-[#f5f6f8] tabular-nums">
             {weather.temperature}°C
           </span>
           {weather.precipitationProb > 10 && (
@@ -198,11 +198,11 @@ export default function RideWeatherBadge({
       </div>
 
       {/* Wind & Riding Strategy */}
-      <div className="flex items-center justify-between pt-2 border-t border-[#e4e0d8] text-xs">
-        <div className="flex items-center gap-1.5 font-medium text-[#3a3f4a]">
+      <div className="flex items-center justify-between pt-2 border-t border-[#e4e0d8] dark:border-[#262b38] text-xs">
+        <div className="flex items-center gap-1.5 font-medium text-[#3a3f4a] dark:text-[#d1d5db]">
           <span className="text-sm">💨</span>
           <span>
-            Vent : <strong className="text-[#101216] tabular-nums">{weather.windSpeed} km/h</strong> ({weather.windCardinal})
+            Vent : <strong className="text-[#101216] dark:text-[#f5f6f8] tabular-nums">{weather.windSpeed} km/h</strong> ({weather.windCardinal})
           </span>
           <span
             className="inline-block text-[#3b82f6] font-bold text-xs"
@@ -213,7 +213,7 @@ export default function RideWeatherBadge({
           </span>
         </div>
 
-        <span className="text-xs font-semibold text-[#3a3f4a] bg-[#faf8f5] px-2 py-0.5 rounded-full border border-[#e4e0d8]">
+        <span className="text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] bg-[#faf8f5] dark:bg-[#1e222d] px-2 py-0.5 rounded-full border border-[#e4e0d8] dark:border-[#262b38]">
           {weather.windSpeed < 15 ? 'Vent faible' : weather.windSpeed < 30 ? 'Vent modéré' : 'Vent soutenu ⚠️'}
         </span>
       </div>

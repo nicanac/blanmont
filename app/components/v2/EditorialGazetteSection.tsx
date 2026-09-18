@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BlogPost } from '@/app/types';
-import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { parseDateInfo } from '@/app/lib/carreVert';
 
 interface EditorialGazetteSectionProps {
@@ -73,24 +73,22 @@ export default function EditorialGazetteSection({ posts }: EditorialGazetteSecti
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-[#08090c]/40 to-transparent" />
 
-            <div className="relative z-10 p-6 sm:p-10 space-y-4">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <span className="rounded-md bg-[#e03e3e] px-3 py-1 text-xs font-bold uppercase tracking-widest text-white shadow-md">
-                  À la Une
-                </span>
-                <span className="rounded-md bg-white/20 backdrop-blur-md px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white border border-white/20">
-                  {featured.category}
-                </span>
-                <span className="text-xs text-white/75">
-                  {formatDate(featured.publishedAt)}
-                </span>
-              </div>
-
+            <div className="relative z-10 p-6 sm:p-10 space-y-3">
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight text-white group-hover:text-[#e03e3e] transition-colors">
                 {featured.title}
               </h3>
 
-              <p className="text-sm sm:text-base text-white/80 line-clamp-2 leading-relaxed max-w-2xl font-light">
+              <div className="flex flex-wrap items-center gap-2.5 text-xs text-white/80">
+                <span className="font-semibold text-white">
+                  {featured.category}
+                </span>
+                <span className="text-white/40">•</span>
+                <span>
+                  {formatDate(featured.publishedAt)}
+                </span>
+              </div>
+
+              <p className="text-sm sm:text-base text-white/80 line-clamp-2 leading-relaxed max-w-2xl font-light pt-1">
                 {featured.excerpt}
               </p>
 
@@ -110,17 +108,17 @@ export default function EditorialGazetteSection({ posts }: EditorialGazetteSecti
                   href={`/blog/${post.slug}`}
                   className="group block py-6 hover:bg-white/80 transition-colors px-4 -mx-4 rounded-lg"
                 >
-                  <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-[#5c6370]">
-                    <span className="text-[#e03e3e]">{post.category}</span>
-                    <span className="h-px w-3 bg-[#e4e0d8]" />
-                    <span className="font-medium text-[#5c6370]">{formatDate(post.publishedAt)}</span>
-                  </div>
-
-                  <h4 className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug">
+                  <h4 className="text-lg sm:text-xl font-bold tracking-tight text-[#101216] group-hover:text-[#e03e3e] transition-colors leading-snug">
                     {post.title}
                   </h4>
 
-                  <p className="mt-1.5 text-xs sm:text-sm text-[#5c6370] line-clamp-2 leading-relaxed">
+                  <div className="mt-1.5 flex items-center gap-2 text-xs text-[#5c6370]">
+                    <span className="font-semibold text-[#e03e3e]">{post.category}</span>
+                    <span>•</span>
+                    <span>{formatDate(post.publishedAt)}</span>
+                  </div>
+
+                  <p className="mt-2 text-xs sm:text-sm text-[#5c6370] line-clamp-2 leading-relaxed">
                     {post.excerpt}
                   </p>
 

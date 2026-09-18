@@ -187,40 +187,43 @@ export default function HeroTelemetryFrame({
         {/* Carousel controls */}
         {slides.length > 1 && (
           <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2">
-            <div className="flex items-center bg-[#0a0c10]/70 backdrop-blur-sm border border-white/10 rounded-full p-1">
+            <div className="flex items-center bg-[#0a0c10]/70 backdrop-blur-sm border border-white/10 rounded-full p-0.5">
               <button
                 type="button"
                 onClick={goToPrev}
                 aria-label="Photo précédente"
-                className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                <ChevronLeftIcon className="h-3.5 w-3.5" />
+                <ChevronLeftIcon className="h-4 w-4" />
               </button>
 
-              <div className="flex items-center gap-1.5 px-1.5">
+              <div className="flex items-center gap-0.5 px-0.5">
                 {slides.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setCurrentSlideIndex(idx)}
                     aria-label={`Aller à la photo ${idx + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      activeSlideIndex === idx
-                        ? 'w-5 bg-[#e03e3e]'
-                        : 'w-1.5 bg-white/40 hover:bg-white/70'
-                    }`}
-                  />
+                    className="min-h-[44px] min-w-[24px] flex items-center justify-center p-1 cursor-pointer"
+                  >
+                    <span
+                      className={`h-1.5 rounded-full transition-all duration-300 block ${
+                        activeSlideIndex === idx
+                          ? 'w-5 bg-[#e03e3e]'
+                          : 'w-1.5 bg-white/40 hover:bg-white/70'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
-
 
               <button
                 type="button"
                 onClick={goToNext}
                 aria-label="Photo suivante"
-                className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                <ChevronRightIcon className="h-3.5 w-3.5" />
+                <ChevronRightIcon className="h-4 w-4" />
               </button>
             </div>
           </div>

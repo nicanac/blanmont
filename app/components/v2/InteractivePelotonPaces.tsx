@@ -4,11 +4,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  BoltIcon,
   ArrowRightIcon,
   ShieldCheckIcon,
   UserGroupIcon,
-  SparklesIcon,
 } from '@heroicons/react/24/outline';
 
 export default function InteractivePelotonPaces() {
@@ -20,13 +18,10 @@ export default function InteractivePelotonPaces() {
       letter: 'A',
       name: "L'Échappée Pure",
       speed: '> 30 km/h',
-      speedValue: 32,
       distance: '85 – 110 km',
       elevation: '700 – 1200 m D+',
       accentColor: '#e03e3e',
-      bgGlow: 'rgba(224, 62, 62, 0.15)',
       borderColor: 'border-[#e03e3e]',
-      tagColor: 'bg-[#e03e3e]/15 text-[#e03e3e] border-[#e03e3e]/30',
       tag: 'Rythme Soutenu & Relais',
       image: '/images/home-hero.jpg',
       quote: '« La vitesse pure fendant le vent sur les plateaux du Brabant. »',
@@ -44,13 +39,10 @@ export default function InteractivePelotonPaces() {
       letter: 'B',
       name: 'Le Cœur Battant',
       speed: '25 – 28 km/h',
-      speedValue: 27,
       distance: '70 – 90 km',
       elevation: '450 – 850 m D+',
       accentColor: '#3b82f6',
-      bgGlow: 'rgba(59, 130, 246, 0.15)',
       borderColor: 'border-sky-500',
-      tagColor: 'bg-sky-500/15 text-sky-400 border-sky-500/30',
       tag: 'Équilibre & Convivialité',
       image: '/images/IMG_7627.JPG',
       quote: '« L\'harmonie parfaite entre intensité sportive et cohésion collective. »',
@@ -68,13 +60,10 @@ export default function InteractivePelotonPaces() {
       letter: 'C',
       name: 'Les Esthètes de la Route',
       speed: '< 25 km/h',
-      speedValue: 23,
       distance: '55 – 75 km',
       elevation: '300 – 600 m D+',
       accentColor: '#10b981',
-      bgGlow: 'rgba(16, 185, 129, 0.15)',
       borderColor: 'border-emerald-500',
-      tagColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
       tag: 'Plaisir Pur & VAE Bienvenus',
       image: '/images/IMG_5777.JPG',
       quote: '« Le plaisir de rouler sans le diktat du chronomètre. »',
@@ -92,13 +81,10 @@ export default function InteractivePelotonPaces() {
       letter: 'VTT',
       name: 'Les Sentiers Sauvages',
       speed: 'Allure Adaptée',
-      speedValue: 18,
       distance: '40 – 65 km',
       elevation: '500 – 950 m D+',
       accentColor: '#f59e0b',
-      bgGlow: 'rgba(245, 158, 11, 0.15)',
       borderColor: 'border-amber-500',
-      tagColor: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
       tag: 'Sous-Bois & Chemins Creux',
       image: '/images/6efc2d5e-2326-446d-98d8-47889f881454.jpg',
       quote: '« La liberté des singles forestiers et des chemins brabançons. »',
@@ -142,6 +128,7 @@ export default function InteractivePelotonPaces() {
             return (
               <button
                 key={grp.id}
+                type="button"
                 onClick={() => setActiveGroup(index)}
                 className={`relative p-4 sm:p-6 rounded-lg text-left transition-all duration-300 flex flex-col justify-between border min-h-[44px] ${
                   isSelected
@@ -159,24 +146,17 @@ export default function InteractivePelotonPaces() {
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span
-                      className="text-xs font-extrabold uppercase tracking-wider px-2 py-0.5 rounded border"
-                      style={{
-                        backgroundColor: `${grp.accentColor}15`,
-                        color: grp.accentColor,
-                        borderColor: `${grp.accentColor}30`,
-                      }}
-                    >
-                      Groupe {grp.letter}
+                    <span className="text-xs font-bold text-[#5c6370] dark:text-[#a7adbb]">
+                      Allure {grp.speed}
                     </span>
                     <span
-                      className="h-2 w-2 rounded-full"
+                      className="h-2.5 w-2.5 rounded-full"
                       style={{ backgroundColor: grp.accentColor }}
                     />
                   </div>
 
                   <div className="text-lg sm:text-xl font-extrabold text-[#101216] dark:text-white tracking-tight">
-                    {grp.name}
+                    Groupe {grp.letter} · {grp.name}
                   </div>
                 </div>
 
@@ -199,27 +179,24 @@ export default function InteractivePelotonPaces() {
             {/* Left: Deep Story & Specs */}
             <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between space-y-8">
               <div className="space-y-6">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span
-                    className="text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full border"
-                    style={{
-                      backgroundColor: `${current.accentColor}15`,
-                      color: current.accentColor,
-                      borderColor: `${current.accentColor}30`,
-                    }}
-                  >
-                    Groupe {current.letter} · {current.tag}
-                  </span>
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-                    {current.speed}
-                  </span>
-                </div>
-
                 <div className="space-y-3">
-                  <h3 className="text-3xl sm:text-4xl font-extrabold text-[#101216] dark:text-white tracking-tight">
-                    {current.name}
-                  </h3>
-                  <blockquote className="text-base sm:text-lg italic font-serif text-[#e03e3e]">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="h-3 w-3 rounded-full"
+                      style={{ backgroundColor: current.accentColor }}
+                    />
+                    <h3 className="text-3xl sm:text-4xl font-extrabold text-[#101216] dark:text-white tracking-tight">
+                      Groupe {current.letter} — {current.name}
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="font-semibold text-[#101216] dark:text-white">{current.tag}</span>
+                    <span>•</span>
+                    <span>{current.speed}</span>
+                    <span>•</span>
+                    <span>{current.distance}</span>
+                  </div>
+                  <blockquote className="text-base sm:text-lg italic font-serif text-[#e03e3e] pt-1">
                     {current.quote}
                   </blockquote>
                 </div>

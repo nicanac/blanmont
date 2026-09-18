@@ -6,7 +6,6 @@ import Image from 'next/image';
 import {
   ArrowRightIcon,
   ChatBubbleLeftRightIcon,
-  MapPinIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
 import type { WeekendPoll } from '@/app/types';
@@ -226,24 +225,14 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-transparent to-black/20" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
 
-                {/* Overlaid Gold Luxury Stamp */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
-                  <div className="inline-flex items-center gap-2 rounded-md bg-[#08090c]/85 backdrop-blur-md px-3.5 py-1.5 border border-white/15 text-white shadow-xl">
-                    <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
-                    <span className="text-xs font-bold uppercase tracking-[0.12em]">
-                      {photos[activeFrame].label}
-                    </span>
-                  </div>
-                </div>
-
                 {/* Bottom Photo Metadata */}
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-20 flex items-end justify-between gap-4">
-                  <div className="space-y-0.5">
-                    <div className="text-xs font-mono uppercase tracking-widest text-[#e03e3e]">
-                      {photos[activeFrame].coord}
-                    </div>
+                  <div className="space-y-1">
                     <div className="text-sm sm:text-base font-bold text-white tracking-tight">
                       {photos[activeFrame].caption}
+                    </div>
+                    <div className="text-xs font-mono text-[#a7adbb]">
+                      {photos[activeFrame].coord}
                     </div>
                   </div>
 
@@ -252,6 +241,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                     {photos.map((_, idx) => (
                       <button
                         key={idx}
+                        type="button"
                         onClick={() => setActiveFrame(idx)}
                         aria-label={`Afficher la vue ${idx + 1}`}
                         className={`h-2 rounded-full transition-all duration-300 ${
@@ -266,9 +256,11 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
               </div>
 
               {/* Floating Surreal Satellite Frame (Tilted Offset Layer) */}
-              <div
+              <button
+                type="button"
                 onClick={() => setActiveFrame((activeFrame + 1) % photos.length)}
-                className="hidden sm:block absolute -bottom-6 -right-6 w-44 lg:w-52 aspect-[4/3] rounded-lg overflow-hidden border-2 border-white/20 bg-[#161922] shadow-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:border-[#e03e3e] z-30 animate-float-subtle"
+                aria-label="Afficher la photo suivante"
+                className="hidden sm:block absolute -bottom-6 -right-6 w-44 lg:w-52 aspect-[4/3] rounded-lg overflow-hidden border-2 border-white/20 bg-[#161922] shadow-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:border-[#e03e3e] z-30 animate-float-subtle text-left"
               >
                 <Image
                   src={photos[(activeFrame + 1) % photos.length].src}
@@ -282,22 +274,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                   <span>{photos[(activeFrame + 1) % photos.length].label}</span>
                   <span className="text-[#e03e3e]">↻</span>
                 </div>
-              </div>
-
-              {/* Surreal Floating Badge Left */}
-              <div className="hidden sm:flex absolute -top-5 -left-5 items-center gap-2 rounded-md bg-[#101216]/95 border border-[#e03e3e]/40 p-3 shadow-2xl z-30 animate-float-subtle-alt">
-                <div className="h-8 w-8 rounded bg-[#e03e3e]/20 border border-[#e03e3e]/40 flex items-center justify-center text-[#e03e3e] font-bold text-xs">
-                  8h30
-                </div>
-                <div className="space-y-0.5">
-                  <div className="text-xs font-bold uppercase tracking-wider text-white">
-                    Place de Blanmont
-                  </div>
-                  <div className="text-xs text-[#a7adbb]">
-                    Rassemblement rituel
-                  </div>
-                </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>
