@@ -6,7 +6,7 @@ export default function CalendarLoading(): React.ReactElement {
       {/* Editorial Cover Skeleton */}
       <section className="editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] pt-14 pb-10 sm:pt-20 sm:pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-10 border-b border-[#e4e0d8] dark:border-white/10 animate-pulse">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 animate-pulse">
             <div className="space-y-4 max-w-3xl">
               <div className="h-12 w-96 max-w-full rounded-md bg-black/10 dark:bg-white/10" />
               <div className="h-4 w-128 max-w-full rounded-md bg-black/5 dark:bg-white/5" />
@@ -15,7 +15,7 @@ export default function CalendarLoading(): React.ReactElement {
           </div>
 
           {/* Telemetry Stat Strip Skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6 animate-pulse">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-8 sm:pt-10 animate-pulse">
             <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
               <div className="h-10 w-10 rounded-md bg-black/10 dark:bg-white/10 shrink-0" />
               <div className="space-y-1.5 flex-1 min-w-0">

@@ -44,7 +44,7 @@ export default async function CalendarPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8 z-10">
           {/* Top row: Title + Subscribe CTA */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-8 border-b border-[#e4e0d8] dark:border-white/10">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div className="space-y-3 max-w-3xl">
               <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
                 Calendrier des <span className="text-[#e03e3e] italic">Sorties</span>
@@ -61,7 +61,7 @@ export default async function CalendarPage() {
           </div>
 
           {/* Stat Strip (Editorial Unified Structure) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-8 sm:pt-10">
             {/* Next ride highlight */}
             <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
               <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
