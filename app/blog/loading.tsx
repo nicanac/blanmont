@@ -6,13 +6,13 @@ export default function BlogLoading(): React.ReactElement {
       {/* ──── Hero Cover Skeleton (Adaptive Surface) ──── */}
       <section className="editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] pt-14 pb-10 sm:pt-20 sm:pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="max-w-7xl mx-auto space-y-6">
-          <div className="space-y-3 max-w-3xl pb-8 border-b border-[#e4e0d8] dark:border-white/10">
+          <div className="space-y-3 max-w-3xl">
             <div className="h-12 w-96 max-w-full rounded-md bg-black/10 dark:bg-white/10" />
             <div className="h-4 w-full max-w-xl rounded-md bg-black/5 dark:bg-white/5" />
           </div>
 
           {/* Stat Strip Skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-4 sm:pt-6">
             <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
               <div className="h-10 w-10 rounded-md bg-black/10 dark:bg-white/10 shrink-0" />
               <div className="space-y-1.5">
