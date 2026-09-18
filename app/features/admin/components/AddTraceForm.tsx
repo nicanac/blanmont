@@ -197,22 +197,22 @@ export default function AddTraceForm() {
     const mapEmbedUrl = getKomootEmbedUrl(formData.komootLink);
 
     return (
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden max-w-5xl mx-auto">
+        <div className="bg-white dark:bg-[#161922] rounded-lg shadow-xs border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden max-w-5xl mx-auto">
 
             {/* COLLAPSIBLE HEADER */}
             <div
-                className="bg-gray-50 px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-gray-100 transition-colors border-b border-gray-200"
+                className="bg-[#faf8f5] dark:bg-[#101216] px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] transition-colors duration-150 border-b border-[#e4e0d8] dark:border-[#262b38]"
                 onClick={() => setIsMapOpen(!isMapOpen)}
             >
                 <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5 text-[#5c6370] dark:text-[#a7adbb]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 7m0 13V7m0 0L9 7" />
                     </svg>
-                    <h3 className="text-sm font-medium text-gray-900">
+                    <h3 className="text-sm font-semibold text-[#101216] dark:text-white">
                         {isMapOpen ? 'Masquer la carte' : 'Afficher la carte'}
                     </h3>
                 </div>
-                <button type="button" className="text-gray-400"
+                <button type="button" className="text-[#5c6370] dark:text-[#a7adbb]"
                     onClick={() => setIsMapOpen(!isMapOpen)}
                     aria-label={isMapOpen ? "Masquer la carte" : "Afficher la carte"}
                     aria-expanded={isMapOpen}
@@ -232,7 +232,7 @@ export default function AddTraceForm() {
 
             {/* MAP SECTION (CONDITIONAL) */}
             {isMapOpen && (
-                <div id="map-preview-container" className="w-full h-64 sm:h-80 lg:h-96 bg-gray-50 border-b border-gray-200 relative animate-in slide-in-from-top-4 duration-300">
+                <div id="map-preview-container" className="w-full h-64 sm:h-80 lg:h-96 bg-[#faf8f5] dark:bg-[#101216] border-b border-[#e4e0d8] dark:border-[#262b38] relative animate-in slide-in-from-top-4 duration-300">
                     {gpxGeoJson ? (
                         <MapPreview key={mapKey} geoJson={gpxGeoJson} />
                     ) : mapEmbedUrl ? (
@@ -245,10 +245,10 @@ export default function AddTraceForm() {
                             className="absolute inset-0 w-full h-full"
                         ></iframe>
                     ) : (
-                        <div className="h-full w-full flex flex-col items-center justify-center text-gray-400 p-6">
+                        <div className="h-full w-full flex flex-col items-center justify-center text-[#5c6370] dark:text-[#a7adbb] p-6">
                             {isParsingGpx ? (
                                 <div className="animate-pulse flex flex-col items-center">
-                                    <svg className="animate-spin h-8 w-8 text-blue-500 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <svg className="animate-spin h-8 w-8 text-[#e03e3e] mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
@@ -256,7 +256,7 @@ export default function AddTraceForm() {
                                 </div>
                             ) : (
                                 <>
-                                    <svg className="h-12 w-12 text-gray-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg className="h-12 w-12 text-[#e4e0d8] dark:text-[#3a3f4a] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 7m0 13V7m0 0L9 7" />
                                     </svg>
                                     <p className="text-sm">Aperçu de la carte</p>
@@ -267,14 +267,14 @@ export default function AddTraceForm() {
 
                     {/* Floating Stats Summary (Optional overlay) */}
                     {(formData.distance || formData.elevation) && (
-                        <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-md border border-gray-200 text-xs sm:text-sm flex gap-4 z-[400]">
+                        <div className="absolute bottom-4 right-4 bg-white/90 dark:bg-[#161922]/90 backdrop-blur-xs p-3 rounded-lg shadow-xs border border-[#e4e0d8] dark:border-[#262b38] text-xs sm:text-sm flex gap-4 z-[400]">
                             <div>
-                                <span className="block text-gray-500 font-medium">Distance</span>
-                                <span className="block font-bold text-gray-900">{formData.distance ? `${formData.distance} km` : '-'}</span>
+                                <span className="block text-[#5c6370] dark:text-[#a7adbb] font-medium">Distance</span>
+                                <span className="block font-bold text-[#101216] dark:text-white">{formData.distance ? `${formData.distance} km` : '-'}</span>
                             </div>
                             <div>
-                                <span className="block text-gray-500 font-medium">Dénivelé</span>
-                                <span className="block font-bold text-gray-900">{formData.elevation ? `${formData.elevation} m` : '-'}</span>
+                                <span className="block text-[#5c6370] dark:text-[#a7adbb] font-medium">Dénivelé</span>
+                                <span className="block font-bold text-[#101216] dark:text-white">{formData.elevation ? `${formData.elevation} m` : '-'}</span>
                             </div>
                         </div>
                     )}
@@ -283,46 +283,46 @@ export default function AddTraceForm() {
 
             {/* FORM SECTION */}
             <div className="py-8 px-4 sm:px-6 lg:px-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-8">Détails du Parcours</h2>
+                <h2 className="text-2xl font-bold text-[#101216] dark:text-white mb-8">Détails du Parcours</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto">
 
                     {/* SECTION: GENERAL */}
                     <div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-4">Informations Générales</h3>
+                        <h3 className="text-lg font-bold text-[#101216] dark:text-white mb-4">Informations Générales</h3>
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                             <div className="sm:col-span-4">
-                                <label htmlFor="trace-name" className="block text-sm font-medium text-gray-700">Nom du Parcours</label>
+                                <label htmlFor="trace-name" className="block text-sm font-medium text-[#101216] dark:text-white">Nom du Parcours</label>
                                 <input
                                     id="trace-name"
                                     type="text"
                                     name="name"
                                     required
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.name}
                                     onChange={handleChange}
                                 />
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label htmlFor="trace-date" className="block text-sm font-medium text-gray-700">Date</label>
+                                <label htmlFor="trace-date" className="block text-sm font-medium text-[#101216] dark:text-white">Date</label>
                                 <input
                                     id="trace-date"
                                     type="date"
                                     name="date"
                                     required
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.date}
                                     onChange={handleChange}
                                 />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label htmlFor="trace-status" className="block text-sm font-medium text-gray-700">Statut</label>
+                                <label htmlFor="trace-status" className="block text-sm font-medium text-[#101216] dark:text-white">Statut</label>
                                 <select
                                     id="trace-status"
                                     name="status"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.status}
                                     onChange={handleChange}
                                 >
@@ -335,12 +335,12 @@ export default function AddTraceForm() {
                     </div>
 
                     {/* SECTION: STATS & LOC */}
-                    <div className="border-t border-gray-200 pt-8">
-                        <h3 className="text-lg font-medium text-gray-900 mb-4">Localisation & Stats</h3>
+                    <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-8">
+                        <h3 className="text-lg font-bold text-[#101216] dark:text-white mb-4">Localisation & Stats</h3>
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
-                            <div className="col-span-full bg-blue-50 p-4 rounded-md border border-blue-100">
-                                <label htmlFor="trace-gpx-upload" className="block text-sm font-medium text-blue-900 mb-2 cursor-pointer">
+                            <div className="col-span-full bg-red-50/40 dark:bg-red-950/20 p-4 rounded-md border border-[#e4e0d8] dark:border-red-900/40">
+                                <label htmlFor="trace-gpx-upload" className="block text-sm font-semibold text-[#101216] dark:text-white mb-2 cursor-pointer">
                                     Importer un fichier GPX (Recommandé)
                                 </label>
                                 <div className="flex flex-col sm:flex-row gap-4 items-center">
@@ -350,25 +350,25 @@ export default function AddTraceForm() {
                                         accept=".gpx"
                                         aria-label="Importer un fichier GPX"
                                         onChange={handleFileUpload}
-                                        className="block w-full text-sm text-gray-500
+                                        className="block w-full text-sm text-[#5c6370] dark:text-[#a7adbb]
                                             file:mr-4 file:py-2 file:px-4
-                                            file:rounded-full file:border-0
+                                            file:rounded-md file:border-0
                                             file:text-sm file:font-semibold
-                                            file:bg-blue-100 file:text-blue-700
-                                            hover:file:bg-blue-200"
+                                            file:bg-red-50 dark:file:bg-red-950/40 file:text-[#e03e3e]
+                                            hover:file:bg-red-100 dark:hover:file:bg-red-950/60 transition-colors duration-150"
                                     />
-                                    <p className="text-xs text-blue-600 sm:max-w-xs">
+                                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] sm:max-w-xs">
                                         Calcule auto de la distance, dénivelé et affiche la carte ci-dessus.
                                     </p>
                                 </div>
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label htmlFor="trace-direction" className="block text-sm font-medium text-gray-700">Direction</label>
+                                <label htmlFor="trace-direction" className="block text-sm font-medium text-[#101216] dark:text-white">Direction</label>
                                 <select
                                     id="trace-direction"
                                     name="direction"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.direction}
                                     onChange={handleChange}
                                 >
@@ -385,51 +385,51 @@ export default function AddTraceForm() {
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label htmlFor="trace-start" className="block text-sm font-medium text-gray-700">Départ</label>
+                                <label htmlFor="trace-start" className="block text-sm font-medium text-[#101216] dark:text-white">Départ</label>
                                 <input
                                     id="trace-start"
                                     type="text"
                                     name="start"
                                     placeholder="Ville"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.start}
                                     onChange={handleChange}
                                 />
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label htmlFor="trace-end" className="block text-sm font-medium text-gray-700">Arrivée</label>
+                                <label htmlFor="trace-end" className="block text-sm font-medium text-[#101216] dark:text-white">Arrivée</label>
                                 <input
                                     id="trace-end"
                                     type="text"
                                     name="end"
                                     placeholder="Ville"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.end}
                                     onChange={handleChange}
                                 />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label htmlFor="trace-distance" className="block text-sm font-medium text-gray-700">Distance (km)</label>
+                                <label htmlFor="trace-distance" className="block text-sm font-medium text-[#101216] dark:text-white">Distance (km)</label>
                                 <input
                                     id="trace-distance"
                                     type="number"
                                     name="distance"
                                     step="0.1"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.distance}
                                     onChange={handleChange}
                                 />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label htmlFor="trace-elevation" className="block text-sm font-medium text-gray-700">Dénivelé (D+)</label>
+                                <label htmlFor="trace-elevation" className="block text-sm font-medium text-[#101216] dark:text-white">Dénivelé (D+)</label>
                                 <input
                                     id="trace-elevation"
                                     type="number"
                                     name="elevation"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.elevation}
                                     onChange={handleChange}
                                 />
@@ -438,15 +438,15 @@ export default function AddTraceForm() {
                     </div>
 
                     {/* SECTION: RATINGS */}
-                    <div className="border-t border-gray-200 pt-8">
-                        <h3 className="text-lg font-medium text-gray-900 mb-4">Évaluation</h3>
+                    <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-8">
+                        <h3 className="text-lg font-bold text-[#101216] dark:text-white mb-4">Évaluation</h3>
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                             <div className="sm:col-span-3">
-                                <label htmlFor="trace-road-quality" className="block text-sm font-medium text-gray-700">Qualité Route</label>
+                                <label htmlFor="trace-road-quality" className="block text-sm font-medium text-[#101216] dark:text-white">Qualité Route</label>
                                 <select
                                     id="trace-road-quality"
                                     name="roadQuality"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.roadQuality}
                                     onChange={handleChange}
                                 >
@@ -461,11 +461,11 @@ export default function AddTraceForm() {
                                 </select>
                             </div>
                             <div className="sm:col-span-3">
-                                <label htmlFor="trace-rating" className="block text-sm font-medium text-gray-700">Note Globale</label>
+                                <label htmlFor="trace-rating" className="block text-sm font-medium text-[#101216] dark:text-white">Note Globale</label>
                                 <select
                                     id="trace-rating"
                                     name="rating"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.rating}
                                     onChange={handleChange}
                                 >
@@ -478,12 +478,12 @@ export default function AddTraceForm() {
                                 </select>
                             </div>
                             <div className="col-span-full">
-                                <label htmlFor="trace-note" className="block text-sm font-medium text-gray-700">Notes / Remarques</label>
+                                <label htmlFor="trace-note" className="block text-sm font-medium text-[#101216] dark:text-white">Notes / Remarques</label>
                                 <textarea
                                     id="trace-note"
                                     name="note"
                                     rows={2}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.note}
                                     onChange={handleChange}
                                 />
@@ -492,45 +492,45 @@ export default function AddTraceForm() {
                     </div>
 
                     {/* SECTION: LINKS */}
-                    <div className="border-t border-gray-200 pt-8">
-                        <h3 className="text-lg font-medium text-gray-900 mb-4">Liens Externes</h3>
+                    <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-8">
+                        <h3 className="text-lg font-bold text-[#101216] dark:text-white mb-4">Liens Externes</h3>
                         <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                             <div className="col-span-full">
-                                <label htmlFor="trace-komoot-link" className="block text-sm font-medium text-gray-700">Lien Komoot (Optionnel)</label>
+                                <label htmlFor="trace-komoot-link" className="block text-sm font-medium text-[#101216] dark:text-white">Lien Komoot (Optionnel)</label>
                                 <input
                                     id="trace-komoot-link"
                                     type="url"
                                     name="komootLink"
                                     placeholder="https://www.komoot.fr/tour/..."
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.komootLink}
                                     onChange={handleChange}
                                 />
-                                <p className="mt-1 text-xs text-gray-500">
-                                    Si vide, la carte au-dessus se basera sur l'import GPX.
+                                <p className="mt-1 text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                                    Si vide, la carte au-dessus se basera sur l&apos;import GPX.
                                 </p>
                             </div>
                             <div className="sm:col-span-3">
-                                <label htmlFor="trace-gpx-link" className="block text-sm font-medium text-gray-700">Fichier GPX (URL de référence)</label>
+                                <label htmlFor="trace-gpx-link" className="block text-sm font-medium text-[#101216] dark:text-white">Fichier GPX (URL de référence)</label>
                                 <input
                                     id="trace-gpx-link"
                                     type="url"
                                     name="gpxLink"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.gpxLink}
                                     onChange={handleChange}
                                 />
-                                <p className="mt-1 text-xs text-gray-500">
+                                <p className="mt-1 text-xs text-[#5c6370] dark:text-[#a7adbb]">
                                     Pour le téléchargement par les membres (ex: lien Google Drive).
                                 </p>
                             </div>
                             <div className="sm:col-span-3">
-                                <label htmlFor="trace-photo-link" className="block text-sm font-medium text-gray-700">Photo (URL)</label>
+                                <label htmlFor="trace-photo-link" className="block text-sm font-medium text-[#101216] dark:text-white">Photo (URL)</label>
                                 <input
                                     id="trace-photo-link"
                                     type="url"
                                     name="photoLink"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                    className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     value={formData.photoLink}
                                     onChange={handleChange}
                                 />
@@ -542,7 +542,7 @@ export default function AddTraceForm() {
                         <button
                             type="submit"
                             disabled={status === 'loading'}
-                            className="w-full flex justify-center py-4 px-4 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-brand-primary hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary disabled:opacity-50 transition-all transform hover:scale-[1.02]"
+                            className="w-full flex justify-center py-3.5 px-4 rounded-md shadow-xs text-sm font-semibold text-white bg-[#e03e3e] hover:bg-[#c93434] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] disabled:opacity-50 transition-colors duration-150 cursor-pointer min-h-[44px]"
                         >
                             {status === 'loading' ? 'Envoi en cours...' : 'Ajouter le Parcours'}
                         </button>

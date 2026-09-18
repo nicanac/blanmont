@@ -219,7 +219,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
             </div>
           ) : isClosed ? (
             <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 text-center shadow-xs space-y-3">
-              <InformationCircleIcon className="mx-auto h-8 w-8 text-slate-400" />
+              <InformationCircleIcon className="mx-auto h-8 w-8 text-[#a7adbb]" />
               <h3 className="text-base font-bold text-[#101216] dark:text-white">Les votes sont clôturés</h3>
               <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                 Ce sondage est désormais fermé. Rendez-vous au départ selon les groupes ci-contre !
@@ -241,7 +241,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-3.5 py-2 text-xs font-semibold text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors min-h-[44px] cursor-pointer"
+                  className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-3.5 py-2 text-xs font-semibold text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors duration-150 min-h-[44px] cursor-pointer"
                 >
                   <PencilSquareIcon className="h-3.5 w-3.5" />
                   <span>Modifier</span>
@@ -249,24 +249,24 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               </div>
 
               <div className="space-y-3 text-xs">
-                <div className="flex justify-between py-2 border-b border-[#efece5] dark:border-[#262b38]">
+                <div className="flex justify-between py-2 border-b border-[#e4e0d8] dark:border-[#262b38]">
                   <span className="text-[#5c6370] dark:text-[#a7adbb]">Membre :</span>
                   <strong className="text-[#101216] dark:text-white truncate max-w-[200px]">{user?.name}</strong>
                 </div>
-                <div className="flex justify-between py-2 border-b border-[#efece5] dark:border-[#262b38]">
+                <div className="flex justify-between py-2 border-b border-[#e4e0d8] dark:border-[#262b38]">
                   <span className="text-[#5c6370] dark:text-[#a7adbb]">Jour(s) :</span>
                   <span className="font-bold text-[#101216] dark:text-white capitalize">
                     {DAY_OPTIONS.find((d) => d.id === myResponse.dayChoice)?.label}
                   </span>
                 </div>
-                <div className="flex justify-between py-2 border-b border-[#efece5] dark:border-[#262b38]">
+                <div className="flex justify-between py-2 border-b border-[#e4e0d8] dark:border-[#262b38]">
                   <span className="text-[#5c6370] dark:text-[#a7adbb]">Groupe :</span>
                   <span className="font-bold text-[#101216] dark:text-white">{myResponse.groupChoice}</span>
                 </div>
                 {myResponse.comment && (
-                  <div className="py-2 border-b border-[#efece5] dark:border-[#262b38]">
+                  <div className="py-2 border-b border-[#e4e0d8] dark:border-[#262b38]">
                     <span className="text-[#5c6370] dark:text-[#a7adbb] block mb-1">Remarque :</span>
-                    <p className="italic text-[#3a3f4a] dark:text-[#d1d5db] bg-[#faf8f5] dark:bg-[#101216] p-2.5 rounded-md border border-[#efece5] dark:border-[#262b38] break-words">
+                    <p className="italic text-[#3a3f4a] dark:text-[#d1d5db] bg-[#faf8f5] dark:bg-[#101216] p-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] break-words">
                       &laquo; {myResponse.comment} &raquo;
                     </p>
                   </div>
@@ -278,14 +278,14 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   type="button"
                   onClick={handleDeleteResponse}
                   disabled={isPending}
-                  className="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors py-2.5 px-3 min-h-[44px] inline-flex items-center cursor-pointer"
+                  className="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors duration-150 py-2.5 px-3 min-h-[44px] inline-flex items-center cursor-pointer"
                 >
                   Annuler ma participation
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="rounded-md bg-slate-900 dark:bg-white px-5 py-2.5 text-xs font-semibold text-white dark:text-[#101216] hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors min-h-[44px] inline-flex items-center justify-center cursor-pointer"
+                  className="rounded-md bg-[#101216] dark:bg-white px-5 py-2.5 text-xs font-semibold text-white dark:text-[#101216] hover:bg-[#1a1d24] dark:hover:bg-white/90 transition-colors duration-150 min-h-[44px] inline-flex items-center justify-center cursor-pointer"
                 >
                   Modifier mon choix
                 </button>
@@ -297,7 +297,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               onSubmit={handleSubmitResponse}
               className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-8 shadow-xs space-y-6"
             >
-              <div className="flex items-center justify-between border-b border-[#efece5] dark:border-[#262b38] pb-4">
+              <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-4">
                 <div>
                   <h3 className="text-lg font-bold text-[#101216] dark:text-white">
                     {myResponse ? 'Modifier votre réponse' : 'Votre réponse au sondage'}
@@ -310,7 +310,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="text-xs text-slate-400 hover:text-[#3a3f4a] dark:hover:text-white px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center cursor-pointer"
+                    className="text-xs text-[#a7adbb] hover:text-[#3a3f4a] dark:hover:text-white transition-colors duration-150 px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center cursor-pointer"
                   >
                     Fermer
                   </button>
@@ -331,14 +331,14 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                         key={opt.id}
                         type="button"
                         onClick={() => setSelectedDay(opt.id)}
-                        className={`group flex items-start gap-3 p-3.5 rounded-md border text-left transition-all min-h-[54px] ${
+                        className={`group flex items-start gap-3 p-3.5 rounded-md border text-left transition-all duration-150 min-h-[54px] ${
                           isSelected
                             ? 'border-[#e03e3e] bg-red-50/50 dark:bg-red-950/30 ring-2 ring-[#e03e3e]/20'
-                            : 'border-[#e4e0d8] dark:border-[#262b38] hover:border-slate-300 dark:hover:border-white/20 hover:bg-[#f2efe9]/60 dark:hover:bg-[#1d2128]'
+                            : 'border-[#e4e0d8] dark:border-[#262b38] hover:border-[#c9c4ba] dark:hover:border-white/20 hover:bg-[#f2efe9]/60 dark:hover:bg-[#1d2128]'
                         }`}
                       >
                         <div
-                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border transition-colors ${
+                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border transition-colors duration-150 ${
                             isSelected
                               ? 'border-[#e03e3e] bg-[#e03e3e] text-white'
                               : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#101216] dark:text-[#f5f6f8] group-hover:border-[#e03e3e]/40'
@@ -358,7 +358,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
 
               {/* Question 2: Groupe (if attending) */}
               {selectedDay !== 'absent' && (
-                <div className="space-y-3 pt-2 border-t border-[#efece5] dark:border-[#262b38]">
+                <div className="space-y-3 pt-2 border-t border-[#e4e0d8] dark:border-[#262b38]">
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-[#d1d5db]">
                     2. Dans quel groupe souhaitez-vous rouler ? *
                   </label>
@@ -368,10 +368,10 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                         key={grp.id}
                         type="button"
                         onClick={() => setSelectedGroup(grp.id)}
-                        className={`flex items-center justify-between p-3 rounded-md border text-left transition-all min-h-[44px] ${
+                        className={`flex items-center justify-between p-3 rounded-md border text-left transition-all duration-150 min-h-[44px] ${
                           selectedGroup === grp.id
                             ? 'border-[#e03e3e] bg-red-50/50 dark:bg-red-950/30 ring-2 ring-[#e03e3e]/20 font-bold'
-                            : 'border-[#e4e0d8] dark:border-[#262b38] hover:border-slate-300 dark:hover:border-white/20 hover:bg-[#f2efe9]/60 dark:hover:bg-[#1d2128]'
+                            : 'border-[#e4e0d8] dark:border-[#262b38] hover:border-[#c9c4ba] dark:hover:border-white/20 hover:bg-[#f2efe9]/60 dark:hover:bg-[#1d2128]'
                         }`}
                       >
                         <span className="text-xs text-[#101216] dark:text-white">{grp.label}</span>
@@ -384,7 +384,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
 
               {/* Custom Admin Questions (if any) */}
               {poll.customQuestions && poll.customQuestions.length > 0 && selectedDay !== 'absent' && (
-                <div className="space-y-4 pt-2 border-t border-[#efece5] dark:border-[#262b38]">
+                <div className="space-y-4 pt-2 border-t border-[#e4e0d8] dark:border-[#262b38]">
                   {poll.customQuestions.map((q, idx) => (
                     <div key={q.id} className="space-y-2">
                       <label className="block text-xs font-bold text-[#101216] dark:text-white">
@@ -406,7 +406,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                                   ? handleCustomCheckboxChange(q.id, opt)
                                   : handleCustomRadioChange(q.id, opt)
                               }
-                              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-md border text-xs text-left transition-all min-h-[44px] ${
+                              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-md border text-xs text-left transition-all duration-150 min-h-[44px] ${
                                 isSelected
                                   ? 'border-[#e03e3e] bg-red-50/50 dark:bg-red-950/30 text-red-950 dark:text-red-200 font-bold'
                                   : 'border-[#e4e0d8] dark:border-[#262b38] text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#f2efe9] dark:hover:bg-[#1d2128]'
@@ -417,7 +417,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                                 className={`h-4 w-4 rounded-full border flex items-center justify-center text-xs shrink-0 ml-2 ${
                                   isSelected
                                     ? 'bg-[#e03e3e] border-[#e03e3e] text-white'
-                                    : 'border-slate-300 dark:border-slate-600'
+                                    : 'border-[#e4e0d8] dark:border-[#262b38]'
                                 }`}
                               >
                                 {isSelected ? '✓' : ''}
@@ -432,7 +432,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               )}
 
               {/* Question 4: Commentaire */}
-              <div className="space-y-1.5 pt-2 border-t border-[#efece5] dark:border-[#262b38]">
+              <div className="space-y-1.5 pt-2 border-t border-[#e4e0d8] dark:border-[#262b38]">
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="poll-comment"
@@ -459,7 +459,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full inline-flex items-center justify-center rounded-md bg-[#e03e3e] py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#c93434] transition-all disabled:opacity-50 active:scale-[0.98] min-h-[44px]"
+                className="w-full inline-flex items-center justify-center rounded-md bg-[#e03e3e] py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#c93434] transition-all duration-150 disabled:opacity-50 active:scale-[0.98] min-h-[44px]"
               >
                 {isPending
                   ? 'Enregistrement en cours...'
@@ -496,8 +496,8 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               </div>
             </div>
             <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 text-center shadow-xs">
-              <div className="text-2xl font-bold text-slate-400 dark:text-slate-500 tabular-nums">{absentCount}</div>
-              <div className="text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider mt-0.5">
+              <div className="text-2xl font-bold text-[#a7adbb] tabular-nums">{absentCount}</div>
+              <div className="text-xs font-medium text-[#a7adbb] uppercase tracking-wider mt-0.5">
                 Absents
               </div>
             </div>
@@ -515,7 +515,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 const percentage = activeAttendees.length > 0 ? (count / activeAttendees.length) * 100 : 0;
 
                 return (
-                  <div key={grp.id} className="rounded-md border border-[#efece5] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128] p-4 space-y-2">
+                  <div key={grp.id} className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128] p-4 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-[#101216] dark:text-white">{grp.label}</span>
                       <span className="text-sm font-extrabold text-[#101216] dark:text-white tabular-nums">
@@ -523,9 +523,9 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                       </span>
                     </div>
 
-                    <div className="h-1.5 w-full rounded-full bg-slate-200 dark:bg-[#262b38] overflow-hidden">
+                    <div className="h-1.5 w-full rounded-full bg-[#e4e0d8] dark:bg-[#262b38] overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-[#e03e3e] transition-all duration-500"
+                        className="h-full rounded-full bg-[#e03e3e] transition-all duration-300 ease-out"
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -537,7 +537,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
 
           {/* Participants Directory */}
           <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#efece5] dark:border-[#262b38] pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#e4e0d8] dark:border-[#262b38] pb-4">
               <div>
                 <h3 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white tabular-nums">
                   Liste des participants ({filteredResponses.length})
@@ -574,7 +574,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
             </div>
 
             {filteredResponses.length === 0 ? (
-              <p className="text-xs text-center py-8 text-slate-400 italic">
+              <p className="text-xs text-center py-8 text-[#a7adbb] italic">
                 Aucune réponse correspondant aux filtres sélectionnés.
               </p>
             ) : (
@@ -587,10 +587,10 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   return (
                     <div
                       key={res.id}
-                      className={`flex items-start justify-between p-3 rounded-md border transition-all ${
+                      className={`flex items-start justify-between p-3 rounded-md border transition-all duration-150 ${
                         isAbsent
-                          ? 'border-[#efece5] dark:border-[#262b38] bg-[#f2efe9]/40 dark:bg-[#1d2128]/40 opacity-60'
-                          : 'border-[#efece5] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128] hover:bg-white dark:hover:bg-[#161922]/80'
+                          ? 'border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/40 dark:bg-[#1d2128]/40 opacity-60'
+                          : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128] hover:bg-white dark:hover:bg-[#161922]/80'
                       }`}
                     >
                       <div className="flex items-start gap-3 min-w-0">

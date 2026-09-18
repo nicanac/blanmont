@@ -28,10 +28,10 @@ export default function TraceSelector({ traces, selectedIds, onToggle }: Props) 
                     return (
                         <div
                             key={trace.id}
-                            className={`rounded-xl border p-4 transition-all cursor-pointer ${
+                            className={`rounded-lg border p-4 transition-all duration-150 ease-out cursor-pointer ${
                                 isSelected
                                     ? 'border-[#e03e3e] bg-red-50/60 dark:bg-red-950/30 ring-2 ring-[#e03e3e]/20 shadow-xs'
-                                    : 'border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:border-slate-300 dark:hover:border-[#3a4254] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'
+                                    : 'border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:border-[#c9c4ba] dark:hover:border-[#3a4254] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'
                             }`}
                             onClick={() => onToggle(trace.id)}
                         >

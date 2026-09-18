@@ -242,7 +242,7 @@ export default function GarminImportPage() {
                 </div>
 
                 {/* Main Card */}
-                <div className="bg-white dark:bg-[#161922] rounded-xl shadow-lg border border-[#efece5] dark:border-[#262b38] overflow-hidden">
+                <div className="bg-white dark:bg-[#161922] rounded-xl shadow-lg border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden">
 
                     {/* Mode Toggle - Section Header */}
                     {!preview && !successMessage && (
@@ -252,17 +252,17 @@ export default function GarminImportPage() {
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => setMode('file')}
-                                        className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer ${mode === 'file'
+                                        className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-150 cursor-pointer ${mode === 'file'
                                             ? 'bg-brand-primary text-white'
-                                            : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-gray-300 dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
+                                            : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
                                     >
                                         📁 Fichier GPX
                                     </button>
                                     <button
                                         onClick={() => setMode('url')}
-                                        className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer ${mode === 'url'
+                                        className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-150 cursor-pointer ${mode === 'url'
                                             ? 'bg-brand-primary text-white'
-                                            : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-gray-300 dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
+                                            : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
                                     >
                                         🔗 URL
                                     </button>
@@ -273,13 +273,13 @@ export default function GarminImportPage() {
 
                     {!preview && !successMessage && mode === 'file' && (
                         <div className="p-6">
-                            <div className="flex justify-center rounded-lg border-2 border-dashed border-gray-300 dark:border-[#3a3f4a] px-6 py-10 hover:border-gray-400 dark:hover:border-[#5c6370] transition-colors">
+                            <div className="flex justify-center rounded-lg border border-dashed border-[#e4e0d8] dark:border-[#3a3f4a] px-6 py-10 hover:border-[#c9c4ba] dark:hover:border-[#5c6370] transition-colors duration-150">
                                 <div className="text-center">
-                                    <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-[#5c6370]" aria-hidden="true" />
+                                    <CloudArrowUpIcon className="mx-auto h-12 w-12 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
                                     <div className="mt-4 flex text-sm leading-6 text-[#3a3f4a] dark:text-[#d1d5db] justify-center">
                                         <label
                                             htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md font-semibold text-brand-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-primary focus-within:ring-offset-2 hover:opacity-80"
+                                            className="relative cursor-pointer rounded-md font-semibold text-brand-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-primary focus-within:ring-offset-2 hover:opacity-80 transition-opacity duration-150"
                                         >
                                             <span>Téléverser un fichier GPX</span>
                                             <input id="file-upload" name="file-upload" type="file" className="sr-only" accept=".gpx" onChange={handleFileChange} />
@@ -301,12 +301,12 @@ export default function GarminImportPage() {
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
                                     placeholder="https://connect.garmin.com/modern/activity/... ou https://www.komoot.com/tour/..."
-                                    className="flex-1 rounded-md border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border placeholder:text-gray-400 dark:placeholder:text-[#5c6370]"
+                                    className="flex-1 rounded-md border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border placeholder:text-[#5c6370] dark:placeholder:text-[#5c6370] transition-colors duration-150"
                                 />
                                 <button
                                     onClick={handleUrlSubmit}
                                     disabled={loading || !url}
-                                    className="bg-brand-primary text-white px-6 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md hover:opacity-90 disabled:opacity-50 font-medium cursor-pointer"
+                                    className="bg-brand-primary text-white px-6 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md hover:opacity-90 transition-opacity duration-150 disabled:opacity-50 font-medium cursor-pointer"
                                 >
                                     {loading ? 'Chargement...' : 'Charger'}
                                 </button>
@@ -319,7 +319,7 @@ export default function GarminImportPage() {
 
                     {loading && (
                         <div className="p-6 text-center">
-                            <div className="animate-spin h-8 w-8 border-4 border-brand-primary border-t-transparent rounded-full mx-auto"></div>
+                            <div className="animate-spin h-8 w-8 border-2 border-brand-primary border-t-transparent rounded-full mx-auto"></div>
                             <p className="mt-2 text-[#3a3f4a] dark:text-[#a7adbb]">Traitement en cours...</p>
                         </div>
                     )}
@@ -356,13 +356,13 @@ export default function GarminImportPage() {
                                 <div className="mt-4 flex gap-3 flex-wrap">
                                     <Link
                                         href={`/traces/${createdTraceId}`}
-                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150"
                                     >
                                         Voir le parcours →
                                     </Link>
                                     <Link
                                         href={`/traces/${createdTraceId}/edit`}
-                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-green-700 dark:text-emerald-300 bg-white dark:bg-[#161922] border border-green-300 dark:border-emerald-800 rounded-md hover:bg-green-50 dark:hover:bg-emerald-950/50"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-green-700 dark:text-emerald-300 bg-white dark:bg-[#161922] border border-green-300 dark:border-emerald-800 rounded-md hover:bg-green-50 dark:hover:bg-emerald-950/50 transition-colors duration-150"
                                     >
                                         <PencilIcon className="h-4 w-4 mr-1.5" />
                                         Modifier
@@ -370,7 +370,7 @@ export default function GarminImportPage() {
                                     <button
                                         onClick={handleDelete}
                                         disabled={loading}
-                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-red-700 dark:text-red-300 bg-white dark:bg-[#161922] border border-red-300 dark:border-red-800 rounded-md hover:bg-red-50 dark:hover:bg-red-950/50 disabled:opacity-50 cursor-pointer"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-red-700 dark:text-red-300 bg-white dark:bg-[#161922] border border-red-300 dark:border-red-800 rounded-md hover:bg-red-50 dark:hover:bg-red-950/50 disabled:opacity-50 transition-colors duration-150 cursor-pointer"
                                     >
                                         <TrashIcon className="h-4 w-4 mr-1.5" />
                                         Supprimer
