@@ -80,7 +80,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                         <div className="mt-6">
                             <Link
                                 href="/login"
-                                className="inline-flex items-center rounded-md bg-brand-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+                                className="inline-flex items-center justify-center rounded-md bg-brand-primary min-h-[44px] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
                             >
                                 Se connecter pour voter
                             </Link>
@@ -158,7 +158,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                             <Link
                                                                                 href={`/traces/${trace.id}`}
                                                                                 target="_blank"
-                                                                                className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-l-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary"
+                                                                                className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-l-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 min-h-[44px] text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary cursor-pointer"
                                                                             >
                                                                                 Détails <ArrowRightIcon className="h-4 w-4" />
                                                                             </Link>
@@ -167,7 +167,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                                     href={trace.gpxUrl}
                                                                                     target="_blank"
                                                                                     rel="noopener noreferrer"
-                                                                                    className="relative -ml-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-r-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary"
+                                                                                    className="relative -ml-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-r-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 min-h-[44px] text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary cursor-pointer"
                                                                                 >
                                                                                     GPX <ArrowDownTrayIcon className="h-4 w-4" />
                                                                                 </a>
@@ -180,7 +180,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                                 isVoted
                                                                                     ? 'bg-[#f2efe9] text-gray-400 dark:bg-[#262b38] dark:text-[#a7adbb]'
                                                                                     : 'bg-brand-primary text-white hover:bg-red-700',
-                                                                                'inline-flex w-full items-center justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:cursor-not-allowed'
+                                                                                'inline-flex w-full items-center justify-center rounded-md px-3 py-2.5 min-h-[44px] text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:cursor-not-allowed cursor-pointer'
                                                                             )}
                                                                         >
                                                                             {isVoted ? 'Voté' : 'Voter'}

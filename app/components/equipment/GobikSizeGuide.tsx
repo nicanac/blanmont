@@ -147,7 +147,7 @@ export default function GobikSizeGuide({
                               onSelectSize(row.size);
                               onClose();
                             }}
-                            className={`px-3 py-1 rounded text-xs font-bold uppercase transition-colors ${
+                            className={`min-h-[44px] px-3.5 py-2 inline-flex items-center justify-center rounded text-xs font-bold uppercase transition-colors cursor-pointer ${
                               isCurrent
                                 ? 'bg-[#e03e3e] text-white'
                                 : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#101216] dark:text-[#f5f6f8] hover:bg-[#101216] hover:text-white dark:hover:bg-white dark:hover:text-[#101216]'
@@ -182,7 +182,7 @@ export default function GobikSizeGuide({
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer"
+              className="min-h-[44px] px-5 py-2.5 inline-flex items-center justify-center rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer"
             >
               Fermer le guide
             </button>

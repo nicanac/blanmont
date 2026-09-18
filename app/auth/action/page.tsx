@@ -244,7 +244,8 @@ function AuthActionHandler(): React.ReactElement {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#a7adbb] hover:text-white transition-colors"
+                  aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center p-2 text-[#a7adbb] hover:text-white transition-colors cursor-pointer"
                 >
                   {showPassword ? (
                     <EyeSlashIcon className="h-4 w-4" />

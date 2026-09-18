@@ -87,7 +87,7 @@ export default function BlogList({ posts }: BlogListProps): React.ReactElement {
               type="button"
               onClick={() => setSearch('')}
               aria-label="Effacer la recherche"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[40px] min-w-[40px] flex items-center justify-center text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white rounded-md transition-colors"
+              className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] px-2 flex items-center justify-center text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white rounded-md transition-colors cursor-pointer"
             >
               Effacer
             </button>

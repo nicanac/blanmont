@@ -110,7 +110,7 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                             <a
                                 href={trace.gpxUrl}
                                 target="_blank"
-                                className="relative z-10 flex items-center justify-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:text-[#c93434] transition-colors py-0.5"
+                                className="relative z-10 flex items-center justify-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:text-[#c93434] transition-colors py-1.5 min-h-[44px]"
                                 download
                             >
                                 <ArrowDownTrayIcon className="h-3.5 w-3.5" />

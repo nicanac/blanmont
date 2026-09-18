@@ -129,7 +129,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
                   href={nextRide.gpxUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-md bg-[#e03e3e]/10 hover:bg-[#e03e3e]/20 text-[#e03e3e] px-3 py-2 text-xs font-semibold uppercase tracking-wider border border-[#e03e3e]/30 transition-colors"
+                  className="inline-flex items-center justify-center gap-1.5 w-full rounded-md bg-[#e03e3e]/10 hover:bg-[#e03e3e]/20 text-[#e03e3e] px-3 py-2 text-xs font-semibold uppercase tracking-wider border border-[#e03e3e]/30 transition-colors min-h-[44px]"
                 >
                   <ArrowDownTrayIcon className="h-3.5 w-3.5" />
                   <span>

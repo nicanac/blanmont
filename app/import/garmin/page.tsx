@@ -252,7 +252,7 @@ export default function GarminImportPage() {
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => setMode('file')}
-                                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === 'file'
+                                        className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer ${mode === 'file'
                                             ? 'bg-brand-primary text-white'
                                             : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-gray-300 dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
                                     >
@@ -260,7 +260,7 @@ export default function GarminImportPage() {
                                     </button>
                                     <button
                                         onClick={() => setMode('url')}
-                                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === 'url'
+                                        className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer ${mode === 'url'
                                             ? 'bg-brand-primary text-white'
                                             : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-gray-300 dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
                                     >
@@ -306,7 +306,7 @@ export default function GarminImportPage() {
                                 <button
                                     onClick={handleUrlSubmit}
                                     disabled={loading || !url}
-                                    className="bg-brand-primary text-white px-6 py-2 rounded-md hover:opacity-90 disabled:opacity-50 font-medium"
+                                    className="bg-brand-primary text-white px-6 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md hover:opacity-90 disabled:opacity-50 font-medium cursor-pointer"
                                 >
                                     {loading ? 'Chargement...' : 'Charger'}
                                 </button>
@@ -344,7 +344,7 @@ export default function GarminImportPage() {
                                         <button
                                             type="button"
                                             onClick={() => setSuccessMessage(null)}
-                                            className="inline-flex rounded-md bg-green-50 dark:bg-emerald-950/30 p-1.5 text-green-500 dark:text-emerald-400 hover:bg-green-100 dark:hover:bg-emerald-900/40 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                                            className="inline-flex items-center justify-center rounded-md bg-green-50 dark:bg-emerald-950/30 p-2 min-h-[44px] min-w-[44px] text-green-500 dark:text-emerald-400 hover:bg-green-100 dark:hover:bg-emerald-900/40 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 cursor-pointer"
                                         >
                                             <span className="sr-only">Fermer</span>
                                             <XMarkIcon className="h-5 w-5" aria-hidden="true" />
@@ -356,13 +356,13 @@ export default function GarminImportPage() {
                                 <div className="mt-4 flex gap-3 flex-wrap">
                                     <Link
                                         href={`/traces/${createdTraceId}`}
-                                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
                                     >
                                         Voir le parcours →
                                     </Link>
                                     <Link
                                         href={`/traces/${createdTraceId}/edit`}
-                                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-700 dark:text-emerald-300 bg-white dark:bg-[#161922] border border-green-300 dark:border-emerald-800 rounded-md hover:bg-green-50 dark:hover:bg-emerald-950/50"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-green-700 dark:text-emerald-300 bg-white dark:bg-[#161922] border border-green-300 dark:border-emerald-800 rounded-md hover:bg-green-50 dark:hover:bg-emerald-950/50"
                                     >
                                         <PencilIcon className="h-4 w-4 mr-1.5" />
                                         Modifier
@@ -370,7 +370,7 @@ export default function GarminImportPage() {
                                     <button
                                         onClick={handleDelete}
                                         disabled={loading}
-                                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 dark:text-red-300 bg-white dark:bg-[#161922] border border-red-300 dark:border-red-800 rounded-md hover:bg-red-50 dark:hover:bg-red-950/50 disabled:opacity-50"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-red-700 dark:text-red-300 bg-white dark:bg-[#161922] border border-red-300 dark:border-red-800 rounded-md hover:bg-red-50 dark:hover:bg-red-950/50 disabled:opacity-50 cursor-pointer"
                                     >
                                         <TrashIcon className="h-4 w-4 mr-1.5" />
                                         Supprimer

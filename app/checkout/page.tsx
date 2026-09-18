@@ -151,7 +151,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
               <button
                 type="button"
                 onClick={handleShareLink}
-                className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2 min-h-[44px] text-xs font-semibold text-[#101216] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
               >
                 {copiedLink ? (
                   <>
@@ -294,7 +294,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                       key={sz}
                       type="button"
                       onClick={() => setSelectedSize(sz)}
-                      className={`min-w-[3.25rem] min-h-[2.75rem] rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer ${
+                      className={`min-w-[3.25rem] min-h-[44px] rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer inline-flex items-center justify-center ${
                         effectiveSize === sz
                           ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white shadow-xs'
                           : 'bg-[#faf8f5] dark:bg-[#161922] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
@@ -316,7 +316,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     <button
                       type="button"
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                      className="p-2.5 text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                      className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
                       aria-label="Moins"
                     >
                       <MinusIcon className="h-4 w-4" />
@@ -327,7 +327,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     <button
                       type="button"
                       onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                      className="p-2.5 text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                      className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
                       aria-label="Plus"
                     >
                       <PlusIcon className="h-4 w-4" />

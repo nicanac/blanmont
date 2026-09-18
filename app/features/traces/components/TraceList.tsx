@@ -139,7 +139,7 @@ export default function TraceList({ initialTraces }: TraceListProps): React.Reac
                                                         className={cn(
                                                             option.value === sort ? 'font-bold text-[#e03e3e]' : 'text-[#3a3f4a] dark:text-[#a7adbb]',
                                                             active ? 'bg-[#f2efe9] dark:bg-[#1f2430]' : '',
-                                                            'block px-4 py-2.5 text-xs w-full text-left transition-colors'
+                                                            'flex items-center px-4 py-2.5 text-xs w-full text-left transition-colors min-h-[44px]'
                                                         )}
                                                     >
                                                         {option.name}

@@ -241,7 +241,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-3 py-1 text-xs font-semibold text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors min-h-[36px]"
+                  className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-3.5 py-2 text-xs font-semibold text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors min-h-[44px] cursor-pointer"
                 >
                   <PencilSquareIcon className="h-3.5 w-3.5" />
                   <span>Modifier</span>
@@ -278,14 +278,14 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   type="button"
                   onClick={handleDeleteResponse}
                   disabled={isPending}
-                  className="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors py-2"
+                  className="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors py-2.5 px-3 min-h-[44px] inline-flex items-center cursor-pointer"
                 >
                   Annuler ma participation
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="rounded-md bg-slate-900 dark:bg-white px-5 py-2 text-xs font-semibold text-white dark:text-[#101216] hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors min-h-[36px]"
+                  className="rounded-md bg-slate-900 dark:bg-white px-5 py-2.5 text-xs font-semibold text-white dark:text-[#101216] hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors min-h-[44px] inline-flex items-center justify-center cursor-pointer"
                 >
                   Modifier mon choix
                 </button>
@@ -310,7 +310,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="text-xs text-slate-400 hover:text-[#3a3f4a] dark:hover:text-white p-1"
+                    className="text-xs text-slate-400 hover:text-[#3a3f4a] dark:hover:text-white px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center cursor-pointer"
                   >
                     Fermer
                   </button>
@@ -549,7 +549,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 <select
                   value={filterDay}
                   onChange={(e) => setFilterDay(e.target.value)}
-                  className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] dark:text-[#a7adbb] focus:outline-hidden min-h-[36px]"
+                  className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] px-3 py-2 text-xs font-medium text-[#3a3f4a] dark:text-[#a7adbb] focus:outline-hidden min-h-[44px]"
                   aria-label="Filtrer par jour"
                 >
                   <option value="all">Tous les jours</option>
@@ -561,7 +561,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 <select
                   value={filterGroup}
                   onChange={(e) => setFilterGroup(e.target.value)}
-                  className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] px-3 py-1.5 text-xs font-medium text-[#3a3f4a] dark:text-[#a7adbb] focus:outline-hidden min-h-[36px]"
+                  className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] px-3 py-2 text-xs font-medium text-[#3a3f4a] dark:text-[#a7adbb] focus:outline-hidden min-h-[44px]"
                   aria-label="Filtrer par groupe"
                 >
                   <option value="all">Tous les groupes</option>

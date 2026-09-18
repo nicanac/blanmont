@@ -140,7 +140,7 @@ function AgendaItem({
         type="button"
         onClick={() => onSelectEvent(event)}
         aria-label={`Détails de la sortie ${event.location} le ${fullDateStr}`}
-        className="w-full flex items-start sm:items-center gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] -m-1.5 p-1.5 cursor-pointer"
+        className="w-full flex items-start sm:items-center gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] -m-1.5 p-1.5 cursor-pointer min-h-[44px]"
       >
         {/* Date Block: Editorial High-Contrast Badge */}
         <div
@@ -1061,7 +1061,7 @@ export default function CalendarView({
                               type="button"
                               onClick={() => setSelectedEvent(event)}
                               aria-label={`Détails de la sortie ${event.location} à ${event.departure}`}
-                              className="w-full text-left rounded p-1 sm:p-1.5 bg-[#f2efe9] dark:bg-[#1d2128] text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#e03e3e] hover:text-white hover:border-[#e03e3e] transition-colors group/ev block shadow-2xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e]"
+                              className="w-full text-left rounded p-2 sm:p-1.5 min-h-[44px] sm:min-h-0 bg-[#f2efe9] dark:bg-[#1d2128] text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#e03e3e] hover:text-white hover:border-[#e03e3e] transition-colors group/ev flex flex-col justify-center shadow-2xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] cursor-pointer"
                             >
                               <div className="flex items-center justify-between gap-1">
                                 <span className="font-bold text-xs sm:text-xs truncate leading-tight">

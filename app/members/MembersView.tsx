@@ -82,7 +82,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setSelectedFilter('all')}
-            className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'all'
                 ? 'bg-[#101216] text-white dark:bg-[#262b38] dark:text-white'
                 : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:bg-[#262b38] dark:hover:text-white'
@@ -96,7 +96,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
 
           <button
             onClick={() => setSelectedFilter('bureau')}
-            className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'bureau'
                 ? 'bg-[#e03e3e] text-white'
                 : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:bg-[#262b38] dark:hover:text-white'
@@ -110,7 +110,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
 
           <button
             onClick={() => setSelectedFilter('capitaines')}
-            className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'capitaines'
                 ? 'bg-sky-600 text-white'
                 : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:bg-[#262b38] dark:hover:text-white'
@@ -144,7 +144,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
               setSearch('');
               setSelectedFilter('all');
             }}
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#c93434] transition-colors"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] text-white px-5 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider hover:bg-[#c93434] transition-colors cursor-pointer"
           >
             Réinitialiser les filtres
           </button>

@@ -209,7 +209,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                             type="button"
                             onClick={handleImportClick}
                             disabled={isLoading}
-                            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-brand-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-[#c93434] focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="ml-3 inline-flex items-center justify-center rounded-md border border-transparent bg-brand-primary min-h-[44px] py-2 px-5 text-sm font-medium text-white shadow-sm hover:bg-[#c93434] focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         >
                             {isLoading ? 'Création en cours...' : 'Créer le parcours Notion'}
                         </button>

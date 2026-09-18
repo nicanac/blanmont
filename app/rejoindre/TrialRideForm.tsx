@@ -109,7 +109,7 @@ export default function TrialRideForm(): React.ReactElement {
               message: '',
             });
           }}
-          className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1f242d] transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-5 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1f242d] transition-colors"
         >
           <span>Envoyer une autre demande</span>
         </button>
@@ -309,7 +309,7 @@ export default function TrialRideForm(): React.ReactElement {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.06em] transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-[#e03e3e]/20"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-8 py-3.5 min-h-[44px] text-xs font-semibold uppercase tracking-[0.06em] transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-[#e03e3e]/20"
         >
           {isSubmitting ? (
             <>

@@ -120,37 +120,37 @@ export default function SecuritePage(): React.ReactElement {
           </span>
           <a
             href="#art43bis"
-            className="px-3 py-1.5 rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
+            className="px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
           >
             Code Art. 43bis
           </a>
           <a
             href="#demi-roue"
-            className="px-3 py-1.5 rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
+            className="px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
           >
             Roue Croisée
           </a>
           <a
             href="#signaux"
-            className="px-3 py-1.5 rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
+            className="px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
           >
             Signaux
           </a>
           <a
             href="#relais"
-            className="px-3 py-1.5 rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
+            className="px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
           >
             Relais
           </a>
           <a
             href="#urgence"
-            className="px-3 py-1.5 rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
+            className="px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
           >
             Urgence 112
           </a>
           <a
             href="#materiel"
-            className="px-3 py-1.5 rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
+            className="px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] font-semibold text-[#101216] dark:text-[#f5f6f8] hover:border-[#e03e3e] shrink-0 transition-colors"
           >
             Checklist
           </a>

@@ -204,7 +204,7 @@ export default function HeroTelemetryFrame({
                     type="button"
                     onClick={() => setCurrentSlideIndex(idx)}
                     aria-label={`Aller à la photo ${idx + 1}`}
-                    className="min-h-[44px] min-w-[24px] flex items-center justify-center p-1 cursor-pointer"
+                    className="min-h-[44px] min-w-[44px] sm:min-w-[28px] flex items-center justify-center p-1 cursor-pointer"
                   >
                     <span
                       className={`h-1.5 rounded-full transition-all duration-300 block ${
