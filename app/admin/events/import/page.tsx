@@ -213,7 +213,7 @@ export default function ImportEventsPage() {
         <div className="rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-12 shadow-xs text-center">
           <div className="max-w-md mx-auto space-y-6">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20">
-              <DocumentArrowUpIcon className="h-8 w-8" />
+              <DocumentArrowUpIcon className="h-8 w-8 md:h-8 md:w-8" />
             </div>
 
             <div className="space-y-1">

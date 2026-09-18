@@ -104,7 +104,7 @@ export default function FilterPanel({
                                         onClick={() => setMobileFiltersOpen(false)}
                                     >
                                         <span className="sr-only">Fermer le menu</span>
-                                        <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                                        <XMarkIcon className="h-6 w-6 md:h-6 md:w-6" aria-hidden="true" />
                                     </button>
                                 </div>
 

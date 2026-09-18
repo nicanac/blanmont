@@ -290,7 +290,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
             <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0a0c10] border-r border-[#e4e0d8] dark:border-[#262b38] flex flex-col shadow-2xl">
               <div className="flex h-16 items-center justify-between px-5 border-b border-[#e4e0d8] dark:border-[#262b38]">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white font-extrabold text-xs">
+                  <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white font-extrabold text-xs">
                     CC
                   </div>
                   <div>

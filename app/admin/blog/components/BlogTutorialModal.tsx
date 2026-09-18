@@ -130,7 +130,7 @@ export default function BlogTutorialModal({
 
               <div className="space-y-4">
                 <div className="flex items-start gap-3.5 p-3.5 rounded-lg border border-[#262b38] bg-[#161922]">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
+                  <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
                     1
                   </div>
                   <div className="space-y-1">
@@ -142,7 +142,7 @@ export default function BlogTutorialModal({
                 </div>
 
                 <div className="flex items-start gap-3.5 p-3.5 rounded-lg border border-[#262b38] bg-[#161922]">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
+                  <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
                     2
                   </div>
                   <div className="space-y-1">
@@ -154,7 +154,7 @@ export default function BlogTutorialModal({
                 </div>
 
                 <div className="flex items-start gap-3.5 p-3.5 rounded-lg border border-[#262b38] bg-[#161922]">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
+                  <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
                     3
                   </div>
                   <div className="space-y-1">
@@ -166,7 +166,7 @@ export default function BlogTutorialModal({
                 </div>
 
                 <div className="flex items-start gap-3.5 p-3.5 rounded-lg border border-[#262b38] bg-[#161922]">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
+                  <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
                     4
                   </div>
                   <div className="space-y-1">
@@ -178,7 +178,7 @@ export default function BlogTutorialModal({
                 </div>
 
                 <div className="flex items-start gap-3.5 p-3.5 rounded-lg border border-[#262b38] bg-[#161922]">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
+                  <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
                     5
                   </div>
                   <div className="space-y-1">

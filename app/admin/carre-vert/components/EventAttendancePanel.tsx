@@ -206,7 +206,7 @@ export default function EventAttendancePanel({
                 <button
                   onClick={() => toggleAttendance(member)}
                   disabled={isLoading}
-                  className={`flex-shrink-0 h-6 w-6 rounded-md border flex items-center justify-center transition-colors duration-150 ${
+                  className={`flex-shrink-0 h-6 w-6 md:h-6 md:w-6 rounded-md border flex items-center justify-center transition-colors duration-150 ${
                     isLoading
                       ? 'border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] cursor-wait'
                       : isPresent

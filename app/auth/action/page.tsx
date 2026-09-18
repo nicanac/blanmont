@@ -177,7 +177,7 @@ function AuthActionHandler(): React.ReactElement {
       {/* ──── Verification Loader ──── */}
       {status === 'verifying' && (
         <div className="rounded-xl border border-white/10 bg-[#12151d] p-10 shadow-2xl text-center space-y-4">
-          <ArrowPathIcon className="h-8 w-8 animate-spin mx-auto text-[#e03e3e]" />
+          <ArrowPathIcon className="h-8 w-8 md:h-8 md:w-8 animate-spin mx-auto text-[#e03e3e]" />
           <div className="space-y-1">
             <h2 className="text-lg font-bold text-white uppercase tracking-tight">
               Vérification de la clé de sécurité
@@ -421,7 +421,7 @@ function AuthActionHandler(): React.ReactElement {
       {status === 'success' && (
         <div className="rounded-xl border border-emerald-500/30 bg-[#12151d] p-8 sm:p-10 shadow-2xl text-center space-y-4">
           <div className="h-12 w-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
-            <CheckCircleIcon className="h-7 w-7" />
+            <CheckCircleIcon className="h-7 w-7 md:h-7 md:w-7" />
           </div>
           <div className="space-y-1">
             <h2 className="text-xl font-extrabold uppercase tracking-tight text-white">
@@ -447,7 +447,7 @@ function AuthActionHandler(): React.ReactElement {
       {status === 'email_verified' && (
         <div className="rounded-xl border border-emerald-500/30 bg-[#12151d] p-8 sm:p-10 shadow-2xl text-center space-y-4">
           <div className="h-12 w-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
-            <CheckCircleIcon className="h-7 w-7" />
+            <CheckCircleIcon className="h-7 w-7 md:h-7 md:w-7" />
           </div>
           <div className="space-y-1">
             <h2 className="text-xl font-extrabold uppercase tracking-tight text-white">

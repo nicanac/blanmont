@@ -319,7 +319,7 @@ export default function GarminImportPage() {
 
                     {loading && (
                         <div className="p-6 text-center">
-                            <div className="animate-spin h-8 w-8 border-2 border-brand-primary border-t-transparent rounded-full mx-auto"></div>
+                            <div className="animate-spin h-8 w-8 md:h-8 md:w-8 border-2 border-brand-primary border-t-transparent rounded-full mx-auto"></div>
                             <p className="mt-2 text-[#3a3f4a] dark:text-[#a7adbb]">Traitement en cours...</p>
                         </div>
                     )}

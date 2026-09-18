@@ -59,7 +59,7 @@ export default function BlogLoading(): React.ReactElement {
             <div className="h-4 w-4/5 rounded bg-[#f2efe9] dark:bg-[#1c202a]" />
             <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-full bg-[#f2efe9] dark:bg-[#1c202a]" />
+                <div className="h-7 w-7 md:h-7 md:w-7 rounded-full bg-[#f2efe9] dark:bg-[#1c202a]" />
                 <div className="h-4 w-28 rounded bg-[#f2efe9] dark:bg-[#1c202a]" />
               </div>
               <div className="h-4 w-24 rounded bg-[#f2efe9] dark:bg-[#1c202a]" />

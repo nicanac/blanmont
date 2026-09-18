@@ -537,7 +537,7 @@ export default function Peloton3DShowcase({
             type="button"
             onClick={handleResetCamera}
             title="Recentrer la vue 3D"
-            className="flex h-8 w-8 items-center justify-center rounded-md border border-[#262b38] bg-[#161922] text-[#a7adbb] hover:bg-[#262b38] hover:text-white transition-colors"
+            className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md border border-[#262b38] bg-[#161922] text-[#a7adbb] hover:bg-[#262b38] hover:text-white transition-colors"
           >
             <ArrowPathIcon className="h-4 w-4" />
           </button>

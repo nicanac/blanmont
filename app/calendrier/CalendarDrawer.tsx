@@ -562,7 +562,7 @@ export default function CalendarDrawer({
                 aria-label="Fermer la fiche de la sortie"
                 title="Fermer la fiche"
               >
-                <XMarkIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                <XMarkIcon className="h-5 w-5 sm:h-6 sm:w-6 md:h-6 md:w-6" />
               </button>
             </div>
           </div>

@@ -195,7 +195,7 @@ export default function PointageExpressClient({
       <div className="bg-white rounded-[10px] border border-[#e4e0d8] p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center justify-center h-7 w-7 rounded-md bg-[#e03e3e]/10 text-[#e03e3e]">
+            <span className="inline-flex items-center justify-center h-7 w-7 md:h-7 md:w-7 rounded-md bg-[#e03e3e]/10 text-[#e03e3e]">
               <BoltIcon className="h-4 w-4" />
             </span>
             <h1 className="text-xl font-bold tracking-tight text-[#101216]">
@@ -400,7 +400,7 @@ export default function PointageExpressClient({
                 >
                   {/* Presence Checkbox Box */}
                   <div
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
+                    className={`flex h-8 w-8 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
                       isPresent
                         ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs'
                         : 'border-[#d0cbd0] bg-[#faf8f5] text-transparent hover:border-[#a7adbb]'

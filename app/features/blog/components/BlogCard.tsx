@@ -99,7 +99,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
               <span className="text-xs font-mono uppercase tracking-widest text-[#a7adbb]">
                 CC SAINT-MARTIN
               </span>
-              <NewspaperIcon className="h-6 w-6 text-[#e03e3e]/50" aria-hidden="true" />
+              <NewspaperIcon className="h-6 w-6 md:h-6 md:w-6 text-[#e03e3e]/50" aria-hidden="true" />
             </div>
 
             <div className="relative z-10 space-y-1">
@@ -138,7 +138,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
         <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
           <div className="flex items-center gap-2.5 min-w-0">
             {/* Author Avatar with initials fallback */}
-            <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-white/10 flex items-center justify-center text-xs font-bold text-white">
+            <div className="relative h-7 w-7 md:h-7 md:w-7 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-white/10 flex items-center justify-center text-xs font-bold text-white">
               {hasAvatar ? (
                 <Image
                   src={post.authorAvatar!}

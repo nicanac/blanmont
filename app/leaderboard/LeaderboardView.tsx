@@ -372,7 +372,7 @@ export default function LeaderboardView({
                     {sortedEntries.length === 0 && (
                         <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-12 text-center shadow-2xs">
                             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-emerald-600 dark:text-emerald-400 mb-5">
-                                <TrophySquareIcon className="h-7 w-7" aria-hidden="true" />
+                                <TrophySquareIcon className="h-7 w-7 md:h-7 md:w-7" aria-hidden="true" />
                             </div>
                             <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight text-[#101216] dark:text-white">
                                 Aucun classement pour la saison {selectedYear}

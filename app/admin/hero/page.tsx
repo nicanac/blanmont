@@ -334,7 +334,7 @@ export default function AdminHeroPage(): React.ReactElement {
   if (isLoading) {
     return (
       <div className="py-20 flex flex-col items-center justify-center space-y-4">
-        <ArrowPathIcon className="h-8 w-8 text-[#e03e3e] animate-spin" />
+        <ArrowPathIcon className="h-8 w-8 md:h-8 md:w-8 text-[#e03e3e] animate-spin" />
         <p className="text-xs uppercase tracking-widest text-[#5c6370] font-bold">
           Chargement des paramètres du Hero...
         </p>
@@ -833,7 +833,7 @@ export default function AdminHeroPage(): React.ReactElement {
             {/* Modal Header */}
             <div className="p-4 sm:p-5 border-b border-[#262b38] flex items-center justify-between bg-[#0a0c10]">
               <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-md bg-[#e03e3e]/20 border border-[#e03e3e]/40 flex items-center justify-center text-[#e03e3e]">
+                <div className="h-8 w-8 md:h-8 md:w-8 rounded-md bg-[#e03e3e]/20 border border-[#e03e3e]/40 flex items-center justify-center text-[#e03e3e]">
                   <AdjustmentsHorizontalIcon className="h-5 w-5" />
                 </div>
                 <div>

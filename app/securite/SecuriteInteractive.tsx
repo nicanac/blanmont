@@ -276,7 +276,7 @@ export default function SecuriteInteractive(): React.ReactElement {
               className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-5 space-y-3 shadow-xs"
             >
               <div className="flex items-center justify-between">
-                <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-xs font-bold text-[#e03e3e]">
+                <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-xs font-bold text-[#e03e3e]">
                   {s.step}
                 </span>
                 <span className="text-xs uppercase font-bold text-[#5c6370]">

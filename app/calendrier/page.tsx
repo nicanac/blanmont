@@ -121,7 +121,7 @@ export default async function CalendarPage() {
         <Suspense
           fallback={
             <div className="flex items-center justify-center py-20 text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e03e3e]" />
+              <div className="animate-spin rounded-full h-8 w-8 md:h-8 md:w-8 border-b-2 border-[#e03e3e]" />
             </div>
           }
         >

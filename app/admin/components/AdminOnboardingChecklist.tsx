@@ -334,9 +334,9 @@ export default function AdminOnboardingChecklist({
                     title={completed ? 'Marquer comme non fait' : 'Marquer comme complété'}
                   >
                     {completed ? (
-                      <CheckCircleSolidIcon className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                      <CheckCircleSolidIcon className="h-6 w-6 md:h-6 md:w-6 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#e4e0d8] dark:border-[#2e3542] hover:border-[#e03e3e] text-xs font-bold text-[#5c6370] dark:text-[#9ba3af]">
+                      <div className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full border-2 border-[#e4e0d8] dark:border-[#2e3542] hover:border-[#e03e3e] text-xs font-bold text-[#5c6370] dark:text-[#9ba3af]">
                         {index + 1}
                       </div>
                     )}

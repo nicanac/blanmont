@@ -263,7 +263,7 @@ export default function AdminTopbar({
                     onClick={() => setIsNewMenuOpen(false)}
                     className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs hover:bg-[#f2efe9] dark:hover:bg-[#161922] transition-colors group"
                   >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] group-hover:text-[#e03e3e] group-hover:border-[#e03e3e]/30 transition-colors">
+                    <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] group-hover:text-[#e03e3e] group-hover:border-[#e03e3e]/30 transition-colors">
                       <action.icon className="h-3.5 w-3.5" />
                     </div>
                     <div>
@@ -308,7 +308,7 @@ export default function AdminTopbar({
         {/* User Pill / Role */}
         {user && (
           <div className="hidden xl:flex items-center gap-2 pl-1">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#101216] text-white font-bold text-xs border border-white/20">
+            <div className="flex h-7 w-7 md:h-7 md:w-7 items-center justify-center rounded-full bg-[#101216] text-white font-bold text-xs border border-white/20">
               {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
             </div>
             <div className="text-left leading-tight">

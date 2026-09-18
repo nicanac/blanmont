@@ -365,7 +365,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] p-6 text-left align-middle shadow-xl transition-all">
                                     <div className="flex items-center gap-4">
                                         <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-red-100 dark:bg-red-950/50">
-                                            <ExclamationTriangleIcon className="w-6 h-6 text-red-600 dark:text-red-400" />
+                                            <ExclamationTriangleIcon className="w-6 h-6 md:w-6 md:h-6 text-red-600 dark:text-red-400" />
                                         </div>
                                         <div>
                                             <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-[#101216] dark:text-[#f5f6f8]">

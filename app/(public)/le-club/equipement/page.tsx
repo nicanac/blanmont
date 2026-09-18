@@ -387,7 +387,7 @@ MODALITÉS CLUB :
               {/* Header Bar */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#14171f]">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded bg-[#e03e3e]/10 text-[#e03e3e]">
+                  <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded bg-[#e03e3e]/10 text-[#e03e3e]">
                     <ShoppingBagIcon className="h-4 w-4" />
                   </div>
                   <div>

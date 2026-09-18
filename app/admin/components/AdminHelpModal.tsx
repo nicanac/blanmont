@@ -317,7 +317,7 @@ export default function AdminHelpModal({
           {activeTab === 'guide' && (
             <div className="space-y-4 text-center py-4">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30">
-                <ArrowPathIcon className="h-6 w-6" />
+                <ArrowPathIcon className="h-6 w-6 md:h-6 md:w-6" />
               </div>
 
               <div className="max-w-md mx-auto space-y-2">

@@ -59,7 +59,7 @@ export default function ViewEquipmentPage() {
     if (isLoading) {
         return (
             <div className="flex h-64 items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-red-600 border-t-transparent"></div>
+                <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-4 border-red-600 border-t-transparent"></div>
             </div>
         );
     }
