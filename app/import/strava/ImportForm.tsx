@@ -112,12 +112,12 @@ export default function ImportForm() {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://www.strava.com/activities/123456789"
-                    className="flex-1 rounded-xl border border-slate-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-4 py-2 text-[#101216] dark:text-[#f5f6f8] shadow-xs placeholder:text-slate-400 dark:placeholder:text-[#5c6370] focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm"
+                    className="flex-1 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-4 py-2 text-[#101216] dark:text-[#f5f6f8] shadow-xs placeholder:text-[#5c6370] focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm transition-colors duration-150"
                 />
                 <button
                     onClick={handlePreview}
                     disabled={loading || !url}
-                    className="rounded-xl bg-[#fc4c02] px-5 py-2.5 min-h-[44px] inline-flex items-center justify-center text-sm font-semibold text-white shadow-xs hover:bg-[#e03d00] transition-colors disabled:opacity-50 cursor-pointer"
+                    className="rounded-md bg-[#fc4c02] px-5 py-2.5 min-h-[44px] inline-flex items-center justify-center text-sm font-semibold text-white shadow-xs hover:bg-[#e03d00] transition-colors duration-150 disabled:opacity-50 cursor-pointer"
                 >
                     {loading ? 'Chargement...' : 'Prévisualiser'}
                 </button>
@@ -141,13 +141,13 @@ export default function ImportForm() {
                                     <div className="mt-3 flex items-center gap-4 text-xs font-semibold">
                                         <Link
                                             href={`/traces/${createdTraceId}`}
-                                            className="text-[#e03e3e] dark:text-[#ff6b6b] hover:underline"
+                                            className="text-[#e03e3e] dark:text-[#ff6b6b] hover:underline transition-colors duration-150"
                                         >
                                             Consulter le parcours →
                                         </Link>
                                         <button
                                             onClick={handleDelete}
-                                            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+                                            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors duration-150 cursor-pointer"
                                         >
                                             Supprimer
                                         </button>
@@ -158,7 +158,7 @@ export default function ImportForm() {
                         <button
                             type="button"
                             onClick={() => setSuccessMessage(null)}
-                            className="text-emerald-500 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-200"
+                            className="text-emerald-500 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-200 transition-colors duration-150"
                         >
                             <XMarkIcon className="h-4 w-4" />
                         </button>

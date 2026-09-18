@@ -35,7 +35,7 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
     };
 
     return (
-        <div className={`group relative flex flex-col overflow-hidden rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] shadow-2xs hover:shadow-md hover:border-slate-300 dark:hover:border-[#3a4254] transition-all duration-300 ${props.className || ''}`}>
+        <div className={`group relative flex flex-col overflow-hidden rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] shadow-2xs hover:shadow-md hover:border-[#c9c4ba] dark:hover:border-[#3a4254] transition-all duration-200 ease-out ${props.className || ''}`}>
             <div className="aspect-h-3 aspect-w-4 relative bg-[#f2efe9] dark:bg-[#101216] sm:aspect-none group-hover:opacity-95 sm:h-52 overflow-hidden">
                 {trace.photoUrl ? (
                     <Image
@@ -64,7 +64,7 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                 {props.imageOverlay}
             </div>
             <div className="flex flex-1 flex-col p-4 sm:p-5 space-y-2">
-                <h3 className="text-base font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors line-clamp-1">
+                <h3 className="text-base font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors duration-150 line-clamp-1">
                     <Link href={`/traces/${trace.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {stripSuffix(trace.name, '#')}
@@ -74,7 +74,7 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                     {trace.description || "Circuit vélo autour de Blanmont."}
                 </p>
                 <div className="flex flex-1 flex-col justify-end pt-2">
-                    <div className="flex items-center justify-between text-xs text-[#3a3f4a] dark:text-[#a7adbb] pt-2 border-t border-[#efece5] dark:border-[#262b38]">
+                    <div className="flex items-center justify-between text-xs text-[#3a3f4a] dark:text-[#a7adbb] pt-2 border-t border-[#e4e0d8] dark:border-[#262b38]">
                         <div className="flex items-baseline gap-1">
                             <span className="text-base font-bold text-[#101216] dark:text-white tabular-nums">{trace.distance}</span>
                             <span className="font-semibold text-[#5c6370] dark:text-[#a7adbb]">km</span>
@@ -106,11 +106,11 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
                     props.footer
                 ) : (
                     trace.gpxUrl && (
-                        <div className="border-t border-[#efece5] dark:border-[#262b38] px-4 py-2.5 bg-[#f2efe9]/80 dark:bg-[#12141a]">
+                        <div className="border-t border-[#e4e0d8] dark:border-[#262b38] px-4 py-2.5 bg-[#f2efe9]/80 dark:bg-[#12141a]">
                             <a
                                 href={trace.gpxUrl}
                                 target="_blank"
-                                className="relative z-10 flex items-center justify-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:text-[#c93434] transition-colors py-1.5 min-h-[44px]"
+                                className="relative z-10 flex items-center justify-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:text-[#c93434] transition-colors duration-150 py-1.5 min-h-[44px]"
                                 download
                             >
                                 <ArrowDownTrayIcon className="h-3.5 w-3.5" />

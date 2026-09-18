@@ -580,20 +580,20 @@ export default function StatsCharts({
                   return (
                     <tr
                       key={entry.id}
-                      className="hover:bg-[#faf8f5] transition-colors"
+                      className="hover:bg-[#faf8f5] dark:hover:bg-white/5 transition-colors duration-150"
                     >
                       {/* Rank / Podium Badge */}
-                      <td className="whitespace-nowrap px-5 py-3 font-extrabold text-[#101216]">
+                      <td className="whitespace-nowrap px-5 py-3 font-extrabold text-[#101216] dark:text-white">
                         {index === 0 ? (
                           <span className="inline-flex items-center gap-1 rounded-full bg-[#f59e0b]/20 px-2 py-0.5 text-xs font-bold text-[#b45309] border border-[#f59e0b]/40">
                             1er 🥇
                           </span>
                         ) : index === 1 ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-slate-200 px-2 py-0.5 text-xs font-bold text-slate-700 border border-slate-300">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#f2efe9] dark:bg-[#1e222d] px-2 py-0.5 text-xs font-bold text-[#3a3f4a] dark:text-[#d1d5db] border border-[#c9c4ba] dark:border-[#3a3f4a]">
                             2e 🥈
                           </span>
                         ) : index === 2 ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800 border border-amber-300">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-950/30 px-2 py-0.5 text-xs font-bold text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
                             3e 🥉
                           </span>
                         ) : (

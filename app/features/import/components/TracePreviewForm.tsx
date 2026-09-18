@@ -87,26 +87,26 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
             <div className="space-y-8 max-w-4xl mx-auto">
                 {/* SECTION: GENERAL */}
                 <div>
-                    <h3 className="text-lg font-medium text-[#101216] dark:text-[#f5f6f8] mb-4">Informations Générales</h3>
+                    <h3 className="text-lg font-bold text-[#101216] dark:text-white mb-4">Informations Générales</h3>
                     <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                         {/* Name */}
                         <div className="sm:col-span-4">
-                            <label className="block text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">Nom du Parcours</label>
+                            <label className="block text-sm font-medium text-[#101216] dark:text-white">Nom du Parcours</label>
                             <input
                                 type="text"
                                 value={editedName}
                                 onChange={(e) => setEditedName(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                             />
                         </div>
 
                         {/* Rating */}
                         <div className="sm:col-span-2">
-                            <label className="block text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">Difficulté (Rating)</label>
+                            <label className="block text-sm font-medium text-[#101216] dark:text-white">Difficulté (Rating)</label>
                             <select
                                 value={rating}
                                 onChange={(e) => setRating(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                             >
                                 <option value="⭐">⭐ (Facile)</option>
                                 <option value="⭐⭐">⭐⭐</option>
@@ -118,11 +118,11 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
 
                         {/* Direction */}
                         <div className="sm:col-span-3">
-                            <label className="block text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">Direction</label>
+                            <label className="block text-sm font-medium text-[#101216] dark:text-white">Direction</label>
                             <select
                                 value={direction}
                                 onChange={(e) => setDirection(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                             >
                                 <option value="North">↑ Nord</option>
                                 <option value="South">↓ Sud</option>
@@ -137,11 +137,11 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
 
                         {/* Surface */}
                         <div className="sm:col-span-3">
-                            <label className="block text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">Type de vélo</label>
+                            <label className="block text-sm font-medium text-[#101216] dark:text-white">Type de vélo</label>
                             <select
                                 value={surface}
                                 onChange={(e) => setSurface(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                             >
                                 <option value="Road">Route</option>
                                 <option value="Gravel">Gravel</option>
@@ -152,22 +152,22 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                         </div>
 
                         {/* Additional Stats Section */}
-                        <div className="sm:col-span-6 pt-4 border-t border-[#efece5] dark:border-[#262b38] mt-2">
-                            <h4 className="text-sm font-medium text-[#101216] dark:text-[#f5f6f8] mb-3">Statistiques (Modifiables)</h4>
+                        <div className="sm:col-span-6 pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] mt-2">
+                            <h4 className="text-sm font-semibold text-[#101216] dark:text-white mb-3">Statistiques (Modifiables)</h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">Distance (km)</label>
+                                    <label className="block text-sm font-medium text-[#101216] dark:text-white">Distance (km)</label>
                                     <input
                                         type="number"
                                         step="0.1"
                                         value={editedDistance}
                                         onChange={(e) => setEditedDistance(parseFloat(e.target.value) || 0)}
-                                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border"
+                                        className="mt-1 block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 transition-colors duration-150"
                                     />
                                     <p className="mt-1 text-xs text-[#5c6370] dark:text-[#a7adbb]">Format: xx.x km</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">
+                                    <label className="block text-sm font-medium text-[#101216] dark:text-white">
                                         Dénivelé (m)
                                         {elevationMissing && (
                                             <span className="ml-2 text-amber-600 dark:text-amber-400 font-normal text-xs inline-flex items-center">
@@ -180,7 +180,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                                         type="number"
                                         value={editedElevation}
                                         onChange={(e) => setEditedElevation(parseInt(e.target.value) || 0)}
-                                        className={`mt-1 block w-full rounded-md shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border ${elevationMissing ? 'border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700 dark:text-amber-200' : 'border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8]'}`}
+                                        className={`mt-1 block w-full rounded-md shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 border transition-colors duration-150 ${elevationMissing ? 'border-amber-400 bg-amber-50/60 dark:bg-amber-950/30 dark:border-amber-700 dark:text-amber-200' : 'border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white'}`}
                                     />
                                 </div>
                             </div>
@@ -188,14 +188,14 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
 
                         {/* Description */}
                         <div className="sm:col-span-6">
-                            <label className="block text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">Description / Note</label>
+                            <label className="block text-sm font-medium text-[#101216] dark:text-white">Description / Note</label>
                             <div className="mt-1">
                                 <textarea
                                     rows={4}
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     placeholder="Ajoutez une description, état des routes, points d'intérêt..."
-                                    className="block w-full rounded-md border-gray-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border placeholder:text-gray-400 dark:placeholder:text-[#5c6370]"
+                                    className="block w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white shadow-xs focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] sm:text-sm p-2 placeholder:text-[#a7adbb] transition-colors duration-150"
                                 />
                             </div>
                         </div>
@@ -209,7 +209,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                             type="button"
                             onClick={handleImportClick}
                             disabled={isLoading}
-                            className="ml-3 inline-flex items-center justify-center rounded-md border border-transparent bg-brand-primary min-h-[44px] py-2 px-5 text-sm font-medium text-white shadow-sm hover:bg-[#c93434] focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                            className="ml-3 inline-flex items-center justify-center rounded-md border border-transparent bg-[#e03e3e] min-h-[44px] py-2 px-5 text-sm font-semibold text-white shadow-xs hover:bg-[#c93434] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer"
                         >
                             {isLoading ? 'Création en cours...' : 'Créer le parcours Notion'}
                         </button>

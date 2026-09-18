@@ -95,14 +95,14 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
   return (
     <div className="space-y-4">
       {/* Synchronization Banner / Action */}
-      <div className="bg-white p-4 shadow rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-gray-100">
+      <div className="bg-white dark:bg-[#161922] p-4 shadow-xs rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-[#e4e0d8] dark:border-[#262b38]">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-green-50 flex items-center justify-center text-green-700">
+          <div className="h-10 w-10 rounded-full bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-700 dark:text-emerald-400">
             <ArrowPathIcon className={`h-5 w-5 ${syncing ? 'animate-spin' : ''}`} />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900">Synchronisation Google Sheets</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="text-sm font-semibold text-[#101216] dark:text-white">Synchronisation Google Sheets</h3>
+            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
               Synchronise automatiquement les présences et recalcule les Carrés Verts (1/WE max + sorties semaine).
             </p>
           </div>
@@ -110,7 +110,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
         <button
           onClick={handleSyncSheet}
           disabled={syncing}
-          className="inline-flex items-center justify-center gap-2 rounded-md bg-green-600 px-3.5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 px-3.5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer min-h-[44px]"
         >
           <ArrowPathIcon className={`h-4 w-4 ${syncing ? 'animate-spin' : ''}`} />
           {syncing ? 'Synchronisation...' : 'Synchroniser depuis Google Sheets'}
@@ -118,7 +118,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
       </div>
 
       {syncMessage && (
-        <div className="rounded-md bg-green-50 p-3 text-xs font-medium text-green-800 border border-green-200">
+        <div className="rounded-md bg-emerald-50 dark:bg-emerald-950/30 p-3 text-xs font-medium text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800">
           {syncMessage}
         </div>
       )}
@@ -126,18 +126,19 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left panel: Event list */}
         <div id="carre-vert-events-list" className="lg:col-span-1">
-          <div className="bg-white shadow rounded-lg overflow-hidden">
+          <div className="bg-white dark:bg-[#161922] shadow-xs rounded-lg overflow-hidden border border-[#e4e0d8] dark:border-[#262b38]">
             {/* Filters */}
-            <div className="p-4 border-b border-gray-200 space-y-3">
+            <div className="p-4 border-b border-[#e4e0d8] dark:border-[#262b38] space-y-3">
               <div className="flex gap-2">
                 {(['past', 'upcoming', 'all'] as const).map((f) => (
                   <button
                     key={f}
                     onClick={() => setFilter(f)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${filter === f
-                        ? 'bg-green-600 text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                      }`}
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors duration-150 min-h-[32px] cursor-pointer ${
+                      filter === f
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38]'
+                    }`}
                   >
                     {f === 'past' ? 'Passés' : f === 'upcoming' ? 'À venir' : 'Tous'}
                   </button>
@@ -150,14 +151,14 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                 placeholder="Rechercher un lieu ou une date..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white px-3 py-2 text-sm placeholder-[#a7adbb] focus:border-[#e03e3e] focus:ring-1 focus:ring-[#e03e3e] focus:outline-hidden transition-colors duration-150"
               />
             </div>
 
             {/* Event List */}
-            <div className="max-h-[calc(100vh-300px)] overflow-y-auto divide-y divide-gray-100">
+            <div className="max-h-[calc(100vh-300px)] overflow-y-auto divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
               {filteredEvents.length === 0 ? (
-                <div className="p-8 text-center text-sm text-gray-500 italic">
+                <div className="p-8 text-center text-sm text-[#5c6370] dark:text-[#a7adbb] italic">
                   Aucun événement trouvé.
                 </div>
               ) : (
@@ -173,41 +174,44 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                     <button
                       key={event.id}
                       onClick={() => setSelectedEventId(event.id)}
-                      className={`w-full text-left p-4 rounded-xl transition-all ${isSelected
-                          ? 'bg-emerald-50/80 ring-1 ring-emerald-600/30 font-semibold'
-                          : 'hover:bg-slate-50'
-                        }`}
+                      className={`w-full text-left p-4 rounded-lg transition-all duration-150 cursor-pointer ${
+                        isSelected
+                          ? 'bg-emerald-50/80 dark:bg-emerald-950/30 ring-1 ring-emerald-600/30 font-semibold'
+                          : 'hover:bg-[#faf8f5] dark:hover:bg-[#1d2128]'
+                      }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span
-                              className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ${dayType === 'weekend'
-                                  ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20'
-                                  : 'bg-orange-50 text-orange-700 ring-1 ring-orange-600/20'
-                                }`}
+                              className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ${
+                                dayType === 'weekend'
+                                  ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 ring-1 ring-emerald-600/20'
+                                  : 'bg-orange-50 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300 ring-1 ring-orange-600/20'
+                              }`}
                             >
                               {dayType === 'weekend' ? 'WE' : 'Sem'}
                             </span>
-                            <span className="text-sm font-medium text-gray-900 truncate">
+                            <span className="text-sm font-medium text-[#101216] dark:text-white truncate">
                               {formatDate(event.isoDate)}
                             </span>
                             {!isPast && (
-                              <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700 ring-1 ring-blue-600/20">
+                              <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-950/30 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-600/20">
                                 À venir
                               </span>
                             )}
                           </div>
-                          <p className="mt-1 text-sm text-gray-600 truncate">
+                          <p className="mt-1 text-sm text-[#5c6370] dark:text-[#a7adbb] truncate">
                             {event.location}
                           </p>
                         </div>
                         <div className="ml-4 flex-shrink-0">
                           <span
-                            className={`inline-flex items-center justify-center rounded-full h-8 w-8 text-xs font-bold ${attendeeCount > 0
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-gray-100 text-gray-400'
-                              }`}
+                            className={`inline-flex items-center justify-center rounded-full h-8 w-8 text-xs font-bold tabular-nums ${
+                              attendeeCount > 0
+                                ? 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200'
+                                : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb]'
+                            }`}
                           >
                             {attendeeCount}
                           </span>
@@ -231,10 +235,10 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
               initialAttendees={attendanceMap[selectedEvent.id] || {}}
             />
           ) : (
-            <div className="bg-white shadow rounded-lg flex items-center justify-center h-96 text-gray-400">
+            <div className="bg-white dark:bg-[#161922] shadow-xs rounded-lg flex items-center justify-center h-96 text-[#5c6370] dark:text-[#a7adbb] border border-[#e4e0d8] dark:border-[#262b38]">
               <div className="text-center">
                 <svg
-                  className="mx-auto h-12 w-12 text-gray-300"
+                  className="mx-auto h-12 w-12 text-[#e4e0d8] dark:text-[#3a3f4a]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

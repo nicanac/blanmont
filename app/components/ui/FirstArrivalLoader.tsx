@@ -135,13 +135,13 @@ export default function FirstArrivalLoader() {
 
         {/* Athletic Progress Bar */}
         <div className="w-48 sm:w-64 space-y-2 pt-2">
-          <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/60">
+          <div className="h-1.5 w-full bg-[#161922] rounded-full overflow-hidden p-0.5 border border-[#262b38]">
             <div
-              className="h-full bg-gradient-to-r from-red-600 to-[#e03e3e] rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-gradient-to-r from-red-600 to-[#e03e3e] rounded-full transition-all duration-300 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="flex items-center justify-between text-xs font-medium text-slate-400 uppercase tracking-wider tabular-nums">
+          <div className="flex items-center justify-between text-xs font-medium text-[#5c6370] uppercase tracking-wider tabular-nums">
             <span>Mise en route</span>
             <span className="font-semibold text-slate-300">{progress}%</span>
           </div>
@@ -151,7 +151,7 @@ export default function FirstArrivalLoader() {
       {/* Skip button */}
       <button
         onClick={handleSkip}
-        className="absolute bottom-6 right-6 text-xs text-slate-400 hover:text-white px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-full border border-slate-800 hover:bg-slate-900 transition-colors z-20 cursor-pointer"
+        className="absolute bottom-6 right-6 text-xs text-[#5c6370] hover:text-white px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#262b38] hover:bg-[#161922] transition-colors duration-150 z-20 cursor-pointer"
       >
         Passer l&apos;intro ✕
       </button>
