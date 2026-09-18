@@ -17,7 +17,7 @@ export default async function GaleriePage(): Promise<React.ReactElement> {
   const albums = await getPhotoAlbums();
 
   return (
-    <main className="min-h-screen bg-[#faf8f5]">
+    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10]">
       <PageHero
         title={
           <>

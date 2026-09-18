@@ -58,7 +58,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
     };
 
     return (
-        <main className="min-h-screen bg-[#faf8f5]">
+        <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10]">
             <PageHero
                 title={
                     <>
@@ -74,9 +74,9 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
             <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
 
                 {!isAuthenticated && (
-                    <div className="rounded-md bg-white p-12 text-center shadow">
-                        <h3 className="mt-2 text-sm font-semibold text-[#101216]">Connexion Requise</h3>
-                        <p className="mt-1 text-sm text-[#5c6370]">Veuillez vous connecter pour participer au vote.</p>
+                    <div className="rounded-md bg-white dark:bg-[#161922] border border-transparent dark:border-[#262b38] p-12 text-center shadow">
+                        <h3 className="mt-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8]">Connexion Requise</h3>
+                        <p className="mt-1 text-sm text-[#5c6370] dark:text-[#a7adbb]">Veuillez vous connecter pour participer au vote.</p>
                         <div className="mt-6">
                             <Link
                                 href="/login"
@@ -91,9 +91,9 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                 {currentUser && (
                     <>
                         {activeRides.length === 0 ? (
-                            <div className="text-center py-12 bg-white rounded-lg shadow">
-                                <h3 className="mt-2 text-sm font-semibold text-[#101216]">Aucune session de vote active</h3>
-                                <p className="mt-1 text-sm text-[#5c6370]">
+                            <div className="text-center py-12 bg-white dark:bg-[#161922] border border-transparent dark:border-[#262b38] rounded-lg shadow">
+                                <h3 className="mt-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8]">Aucune session de vote active</h3>
+                                <p className="mt-1 text-sm text-[#5c6370] dark:text-[#a7adbb]">
                                     Il n&apos;y a actuellement aucune sortie ouverte au vote.
                                     {!isAdmin && " Revenez plus tard !"}
                                 </p>
@@ -129,8 +129,8 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                     return (
                                         <div key={ride.id}>
                                             <div className="mb-4 flex items-center gap-4">
-                                                <h2 className="text-xl font-bold text-[#101216]">Vote pour le Samedi {ride.date}</h2>
-                                                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                <h2 className="text-xl font-bold text-[#101216] dark:text-[#f5f6f8]">Vote pour le Samedi {ride.date}</h2>
+                                                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800">
                                                     {ride.status}
                                                 </span>
                                             </div>
@@ -153,12 +153,12 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                     isVoting && !isVoted ? 'opacity-50' : ''
                                                                 )}
                                                                 footer={
-                                                                    <div className="relative z-10 border-t border-[#efece5] bg-[#f2efe9] px-4 py-4 sm:px-6 flex flex-col gap-2">
+                                                                    <div className="relative z-10 border-t border-[#efece5] bg-[#f2efe9] dark:border-[#262b38] dark:bg-[#1e222d] px-4 py-4 sm:px-6 flex flex-col gap-2">
                                                                         <div className="flex rounded-md shadow-sm">
                                                                             <Link
                                                                                 href={`/traces/${trace.id}`}
                                                                                 target="_blank"
-                                                                                className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-l-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-[#101216] hover:bg-[#f2efe9] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary"
+                                                                                className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-l-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary"
                                                                             >
                                                                                 Détails <ArrowRightIcon className="h-4 w-4" />
                                                                             </Link>
@@ -167,7 +167,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                                     href={trace.gpxUrl}
                                                                                     target="_blank"
                                                                                     rel="noopener noreferrer"
-                                                                                    className="relative -ml-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-r-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-[#101216] hover:bg-[#f2efe9] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary"
+                                                                                    className="relative -ml-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-r-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary"
                                                                                 >
                                                                                     GPX <ArrowDownTrayIcon className="h-4 w-4" />
                                                                                 </a>
@@ -178,7 +178,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                             disabled={isVoting || isVoted}
                                                                             className={cn(
                                                                                 isVoted
-                                                                                    ? 'bg-[#f2efe9] text-gray-400'
+                                                                                    ? 'bg-[#f2efe9] text-gray-400 dark:bg-[#262b38] dark:text-[#a7adbb]'
                                                                                     : 'bg-brand-primary text-white hover:bg-red-700',
                                                                                 'inline-flex w-full items-center justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:cursor-not-allowed'
                                                                             )}

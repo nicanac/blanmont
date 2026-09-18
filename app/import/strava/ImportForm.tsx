@@ -112,7 +112,7 @@ export default function ImportForm() {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://www.strava.com/activities/123456789"
-                    className="flex-1 rounded-xl border border-slate-300 px-4 py-2 text-[#101216] shadow-xs placeholder:text-slate-400 focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm"
+                    className="flex-1 rounded-xl border border-slate-300 dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-4 py-2 text-[#101216] dark:text-[#f5f6f8] shadow-xs placeholder:text-slate-400 dark:placeholder:text-[#5c6370] focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm"
                 />
                 <button
                     onClick={handlePreview}
@@ -124,30 +124,30 @@ export default function ImportForm() {
             </div>
 
             {error && (
-                <div className="p-4 bg-red-50 text-red-700 rounded-md border border-red-200 text-sm">
+                <div className="p-4 bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300 rounded-md border border-red-200 dark:border-red-900/50 text-sm">
                     {error}
                 </div>
             )}
 
             {successMessage && (
-                <div className="rounded-md border border-emerald-200 bg-emerald-50 p-4 shadow-xs">
+                <div className="rounded-md border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-950/30 p-4 shadow-xs">
                     <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
-                            <CheckCircleIcon className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+                            <CheckCircleIcon className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                             <div>
-                                <h4 className="text-sm font-bold text-emerald-900">Importation réussie</h4>
-                                <p className="text-xs text-emerald-700 mt-0.5">{successMessage}</p>
+                                <h4 className="text-sm font-bold text-emerald-900 dark:text-emerald-200">Importation réussie</h4>
+                                <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-0.5">{successMessage}</p>
                                 {createdTraceId && (
                                     <div className="mt-3 flex items-center gap-4 text-xs font-semibold">
                                         <Link
                                             href={`/traces/${createdTraceId}`}
-                                            className="text-[#e03e3e] hover:underline"
+                                            className="text-[#e03e3e] dark:text-[#ff6b6b] hover:underline"
                                         >
                                             Consulter le parcours →
                                         </Link>
                                         <button
                                             onClick={handleDelete}
-                                            className="text-red-600 hover:text-red-800"
+                                            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
                                         >
                                             Supprimer
                                         </button>
@@ -158,7 +158,7 @@ export default function ImportForm() {
                         <button
                             type="button"
                             onClick={() => setSuccessMessage(null)}
-                            className="text-emerald-500 hover:text-emerald-800"
+                            className="text-emerald-500 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-200"
                         >
                             <XMarkIcon className="h-4 w-4" />
                         </button>

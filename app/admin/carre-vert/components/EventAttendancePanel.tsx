@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CalendarEvent } from '@/app/types';
 import { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
 import { toast } from 'sonner';
+import { parseDateInfo } from '@/app/lib/carreVert';
 
 type AttendanceInfo = { name: string; group: string; markedAt: string };
 
@@ -56,13 +57,18 @@ export default function EventAttendancePanel({
   const presentCount = Object.keys(attendees).length;
 
   // Format date
-  const dateObj = new Date(event.isoDate);
-  const dateStr = dateObj.toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
+  const dateInfo = parseDateInfo(event.isoDate);
+  let dateStr = event.isoDate;
+  if (dateInfo) {
+    const utcDate = new Date(Date.UTC(dateInfo.year, dateInfo.month - 1, dateInfo.day));
+    dateStr = utcDate.toLocaleDateString('fr-FR', {
+      timeZone: 'UTC',
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  }
 
   const isPast = event.isoDate <= new Date().toISOString().split('T')[0];
 

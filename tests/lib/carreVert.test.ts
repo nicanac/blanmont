@@ -55,6 +55,23 @@ describe('carreVert calculations', () => {
       expect(info?.day).toBe(14);
     });
 
+    it('parses full ISO datetime strings without timezone shift', () => {
+      const info = parseDateInfo('2026-02-04T15:55:59.124Z');
+      expect(info).not.toBeNull();
+      expect(info?.year).toBe(2026);
+      expect(info?.month).toBe(2);
+      expect(info?.day).toBe(4);
+      expect(info?.isoDate).toBe('2026-02-04');
+    });
+
+    it('guarantees weekend detection consistent with UTC', () => {
+      // 2026-10-25 is DST shift Sunday in Europe
+      const info = parseDateInfo('2026-10-25');
+      expect(info).not.toBeNull();
+      expect(info?.dayOfWeek).toBe(0); // Sunday
+      expect(info?.isWeekend).toBe(true);
+    });
+
     it('returns null for invalid date strings', () => {
       expect(parseDateInfo('')).toBeNull();
       expect(parseDateInfo('invalid-string')).toBeNull();

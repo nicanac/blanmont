@@ -150,7 +150,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         aria-label="Basculer le thème clair ou sombre"
         onClick={toggleTheme}
         className={cn(
-          'relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e03e3e]',
+          'relative inline-flex min-h-[44px] min-w-[44px] h-8 w-14 sm:h-7 sm:w-14 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e03e3e]',
           isDark ? 'bg-[#161922] border-[#262b38]' : 'bg-[#e4e0d8]',
           className
         )}
@@ -158,7 +158,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         <span className="sr-only">Changer de thème</span>
         <span
           className={cn(
-            'pointer-events-none flex h-6 w-6 transform items-center justify-center rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out',
+            'pointer-events-none flex h-6 w-6 md:h-6 md:w-6 transform items-center justify-center rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out',
             isDark ? 'translate-x-7 bg-[#0a0c10] text-[#f5f6f8]' : 'translate-x-0 text-[#101216]'
           )}
         >
@@ -187,7 +187,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         type="button"
         onClick={() => setTheme('light')}
         className={cn(
-          'flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer',
+          'flex items-center gap-1.5 rounded-full px-3.5 py-2 min-h-[44px] sm:min-h-[36px] text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer',
           resolvedTheme === 'light' && theme !== 'system'
             ? 'bg-[#101216] text-white shadow-xs'
             : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
@@ -202,7 +202,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         type="button"
         onClick={() => setTheme('dark')}
         className={cn(
-          'flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer',
+          'flex items-center gap-1.5 rounded-full px-3.5 py-2 min-h-[44px] sm:min-h-[36px] text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer',
           resolvedTheme === 'dark' && theme !== 'system'
             ? 'bg-[#e03e3e] text-white shadow-xs'
             : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
