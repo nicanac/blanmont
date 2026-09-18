@@ -38,7 +38,8 @@ The Blanmont web application operates on a **modern hybrid cloud architecture** 
 │   ├── /blog              (Club news, articles & announcements)                         │
 │   ├── /equipment         (Gobik club apparel catalogue)                                │
 │   ├── /feedback          (Trace reviews and ratings)                                   │
-│   └── /leaderboard       (Member participation statistics & dates)                     │
+│   ├── /leaderboard       (Member participation statistics & dates)                     │
+│   └── /galleries         (Photo albums, Google Photos archives & image collections)    │
 └────────────────────────────────────────┬───────────────────────────────────────────────┘
                                          │
                  ┌───────────────────────┴───────────────────────┐
@@ -254,6 +255,28 @@ Aggregated attendance count and historical participation dates per member.
 }
 ```
 
+### 3.10. `/galleries` — Photo Albums & Historical Chronicles
+Historical and ongoing photo albums of the club, containing Google Photos album links, categories, and direct photo URLs.
+```json
+{
+  "album-2026-001-en-avril-ne-te-decouvre-pas-d-un-fil": {
+    "id": "album-2026-001-en-avril-ne-te-decouvre-pas-d-un-fil",
+    "title": "En avril, ne te découvre pas d'un fil ...",
+    "description": "Chronique photographique : En avril, ne te découvre pas d'un fil ... — Saison 2026.",
+    "year": 2026,
+    "category": "Sorties",
+    "coverUrl": "https://lh3.googleusercontent.com/pw/...",
+    "externalAlbumUrl": "https://photos.app.goo.gl/CC5Y88BfT3eD8dAH6",
+    "photoCount": 10,
+    "featured": false,
+    "createdAt": "2026-11-01T10:00:00.000Z",
+    "images": [
+      "https://lh3.googleusercontent.com/pw/..."
+    ]
+  }
+}
+```
+
 ---
 
 ## 4. 🔌 Code Wiring: Data Access Layers (`app/lib/firebase/`)
@@ -273,6 +296,7 @@ The application isolates database access in `app/lib/firebase/`:
 | [`equipment.ts`](app/lib/firebase/equipment.ts) | Gobik gear items, categories, ordering, availability | `getEquipment`, `getEquipmentById`, `updateEquipment` |
 | [`leaderboard.ts`](app/lib/firebase/leaderboard.ts) | Member ranking calculations, attendance date sync | `getLeaderboard`, `updateLeaderboardEntry` |
 | [`feedback.ts`](app/lib/firebase/feedback.ts) | Route reviews and star ratings | `getFeedbackForTrace`, `submitFeedback` |
+| [`galleries.ts`](app/lib/firebase/galleries.ts) | Photo album chronicles, historical archives, Google Photos collections | `getPhotoAlbums`, `getPhotoAlbumById`, `createPhotoAlbum`, `deletePhotoAlbum` |
 
 ---
 

@@ -10,6 +10,7 @@ import {
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
   SparklesIcon,
+  MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 
@@ -21,6 +22,8 @@ export default function AdminGalerieClient({
   initialAlbums,
 }: AdminGalerieClientProps): React.ReactElement {
   const [albums, setAlbums] = useState<PhotoAlbum[]>(initialAlbums);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSeason, setSelectedSeason] = useState<number | 'all'>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -36,7 +39,7 @@ export default function AdminGalerieClient({
     featured: false,
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
     const toastId = toast.loading('Création de l’album photo...');
@@ -74,7 +77,7 @@ export default function AdminGalerieClient({
     }
   };
 
-  const handleDelete = async (id: string, title: string) => {
+  const handleDelete = async (id: string, title: string): Promise<void> => {
     if (!window.confirm(`Êtes-vous sûr de vouloir supprimer l'album "${title}" ?`)) {
       return;
     }
@@ -129,6 +132,37 @@ export default function AdminGalerieClient({
         </button>
       </div>
 
+      {/* Search & Season Filter Bar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-[#faf8f5] rounded-md border border-[#e4e0d8]">
+        <div className="relative flex-1">
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Rechercher par titre, description, lieu..."
+            className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-[#e4e0d8] rounded-md text-[#101216] focus:outline-none focus:border-[#e03e3e]"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-semibold text-[#5c6370]">Saison :</span>
+          <select
+            value={selectedSeason}
+            onChange={(e) => setSelectedSeason(e.target.value === 'all' ? 'all' : Number(e.target.value))}
+            className="px-2.5 py-2 text-xs font-semibold bg-white border border-[#e4e0d8] rounded-md text-[#101216] focus:outline-none focus:border-[#e03e3e]"
+          >
+            <option value="all">Toutes les saisons</option>
+            {Array.from(new Set(albums.map((a) => a.year)))
+              .sort((a, b) => b - a)
+              .map((yr) => (
+                <option key={yr} value={yr}>
+                  Saison {yr}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
+
       {/* Albums Table */}
       <div className="rounded-[10px] border border-[#e4e0d8] bg-white overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
@@ -145,7 +179,20 @@ export default function AdminGalerieClient({
               </tr>
             </thead>
             <tbody className="divide-y divide-[#efece5]">
-              {albums.map((album) => (
+              {albums
+                .filter((album) => {
+                  if (selectedSeason !== 'all' && album.year !== selectedSeason) return false;
+                  if (searchQuery.trim()) {
+                    const q = searchQuery.toLowerCase();
+                    return (
+                      album.title.toLowerCase().includes(q) ||
+                      album.description?.toLowerCase().includes(q) ||
+                      album.category.toLowerCase().includes(q)
+                    );
+                  }
+                  return true;
+                })
+                .map((album) => (
                 <tr key={album.id} className="hover:bg-[#faf8f5]/60 transition-colors">
                   <td className="py-3 px-4">
                     <div className="h-12 w-20 rounded-md overflow-hidden bg-[#161922] border border-[#e4e0d8] relative shrink-0">

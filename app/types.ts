@@ -352,5 +352,6 @@ export interface PhotoAlbum {
   photoCount: number;
   featured?: boolean;
   createdAt: string;
+  images?: string[];
 }
 
