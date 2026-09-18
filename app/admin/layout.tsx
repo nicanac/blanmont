@@ -13,7 +13,10 @@ import {
   XMarkIcon,
   ChatBubbleLeftRightIcon,
   AcademicCapIcon,
-  PhotoIcon,
+  CameraIcon,
+  WindowIcon,
+  UserCircleIcon,
+  ClipboardDocumentCheckIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
@@ -41,6 +44,7 @@ const navigationGroups: NavigationGroup[] = [
     title: "Vue d'ensemble",
     items: [
       { name: 'Tableau de bord', href: '/admin', icon: HomeIcon },
+      { name: 'Statistiques', href: '/admin/statistics', icon: ChartBarIcon },
     ],
   },
   {
@@ -69,7 +73,7 @@ const navigationGroups: NavigationGroup[] = [
       {
         name: 'Pointage Express',
         href: '/admin/pointage-express',
-        icon: TrophySquareIcon,
+        icon: ClipboardDocumentCheckIcon,
         badge: 'Départ',
       },
       {
@@ -80,20 +84,19 @@ const navigationGroups: NavigationGroup[] = [
     ],
   },
   {
-    title: 'Contenu',
+    title: 'Contenu & Médias',
     items: [
-      { name: 'Bannière Accueil', href: '/admin/hero', icon: PhotoIcon },
       { name: 'Articles & Blog', href: '/admin/blog', icon: DocumentTextIcon },
-      { name: 'Galeries Photos', href: '/admin/galerie', icon: PhotoIcon },
-      { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
+      { name: 'Galeries Photos', href: '/admin/galerie', icon: CameraIcon },
+      { name: 'Bannière Accueil', href: '/admin/hero', icon: WindowIcon },
     ],
   },
   {
-    title: 'Organisation & Système',
+    title: 'Gestion du Club',
     items: [
       { name: 'Membres du Club', href: '/admin/members', icon: UsersIcon },
-      { name: 'Cadrage Photos', href: '/admin/members/photos', icon: PhotoIcon },
-      { name: 'Statistiques', href: '/admin/statistics', icon: ChartBarIcon },
+      { name: 'Portraits & Cadrage', href: '/admin/members/photos', icon: UserCircleIcon },
+      { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
       { name: 'Paramètres', href: '/admin/settings', icon: Cog6ToothIcon, matchExtra: ['/admin/parametres'] },
     ],
   },
@@ -160,9 +163,11 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
     top: number;
   } | null>(null);
 
-  useEffect(() => {
+  const [prevTrackKey, setPrevTrackKey] = useState(`${isCollapsed}-${pathname}`);
+  if (prevTrackKey !== `${isCollapsed}-${pathname}`) {
+    setPrevTrackKey(`${isCollapsed}-${pathname}`);
     setHoveredTooltip(null);
-  }, [isCollapsed, pathname]);
+  }
 
   const handleResetOnboarding = (): void => {
     window.dispatchEvent(new CustomEvent('cc_admin_reset_onboarding'));
