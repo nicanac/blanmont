@@ -244,7 +244,7 @@ export default function RejoindrePage(): React.ReactElement {
             </div>
             <Link
               href="/securite"
-              className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1f242d] transition-colors shrink-0"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-5 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1f242d] transition-colors shrink-0"
             >
               <span>Lire la Charte Sécurité</span>
               <ArrowRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />

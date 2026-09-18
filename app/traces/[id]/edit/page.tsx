@@ -311,7 +311,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                         type="button"
                         onClick={() => setShowDeleteModal(true)}
                         disabled={deleting || saving}
-                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 dark:text-red-400 bg-white dark:bg-[#161922] border border-red-300 dark:border-red-900/50 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30 disabled:opacity-50 transition-colors"
+                        className="inline-flex items-center justify-center px-3 py-2 min-h-[44px] text-sm font-medium text-red-700 dark:text-red-400 bg-white dark:bg-[#161922] border border-red-300 dark:border-red-900/50 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30 disabled:opacity-50 transition-colors"
                     >
                         <TrashIcon className="h-4 w-4 mr-1.5" />
                         {deleting ? 'Suppression...' : 'Supprimer'}
@@ -321,14 +321,14 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                     <div className="flex gap-3">
                         <Link
                             href={`/traces/${trace?.id}`}
-                            className="px-4 py-2 text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db] bg-white dark:bg-[#161922] border border-gray-300 dark:border-[#262b38] rounded-md hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] transition-colors"
+                            className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db] bg-white dark:bg-[#161922] border border-gray-300 dark:border-[#262b38] rounded-md hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] transition-colors"
                         >
                             Annuler
                         </Link>
                         <button
                             type="submit"
                             disabled={saving || deleting}
-                            className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-md hover:opacity-90 disabled:opacity-50 shadow-xs"
+                            className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-white bg-brand-primary rounded-md hover:opacity-90 disabled:opacity-50 shadow-xs"
                         >
                             {saving ? 'Enregistrement...' : 'Enregistrer'}
                         </button>
@@ -384,14 +384,14 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                                     <div className="mt-6 flex justify-end gap-3">
                                         <button
                                             type="button"
-                                            className="px-4 py-2 text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db] bg-white dark:bg-[#101216] border border-gray-300 dark:border-[#262b38] rounded-md hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] transition-colors"
+                                            className="px-4 py-2 min-h-[44px] inline-flex items-center justify-center text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db] bg-white dark:bg-[#101216] border border-gray-300 dark:border-[#262b38] rounded-md hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] transition-colors"
                                             onClick={() => setShowDeleteModal(false)}
                                         >
                                             Annuler
                                         </button>
                                         <button
                                             type="button"
-                                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md shadow-xs transition-colors"
+                                            className="px-4 py-2 min-h-[44px] inline-flex items-center justify-center text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md shadow-xs transition-colors"
                                             onClick={handleDelete}
                                         >
                                             Supprimer

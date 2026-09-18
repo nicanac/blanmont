@@ -175,7 +175,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
 
               <Link
                 href="/traces"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white uppercase tracking-wider transition-colors px-2 py-2"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white uppercase tracking-wider transition-colors px-3 py-2 min-h-[44px]"
               >
                 <span>250+ Parcours GPX</span>
                 <span className="text-[#e03e3e]">→</span>
@@ -237,19 +237,23 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                   </div>
 
                   {/* Frame Navigator Dots */}
-                  <div className="flex items-center gap-1.5 bg-[#08090c]/80 backdrop-blur px-2.5 py-1.5 rounded-full border border-white/10">
+                  <div className="flex items-center gap-0.5 bg-[#08090c]/80 backdrop-blur px-2 py-0.5 rounded-full border border-white/10">
                     {photos.map((_, idx) => (
                       <button
                         key={idx}
                         type="button"
                         onClick={() => setActiveFrame(idx)}
                         aria-label={`Afficher la vue ${idx + 1}`}
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                          activeFrame === idx
-                            ? 'w-6 bg-[#e03e3e]'
-                            : 'w-2 bg-white/30 hover:bg-white/60'
-                        }`}
-                      />
+                        className="min-h-[44px] min-w-[44px] sm:min-w-[28px] flex items-center justify-center p-1 focus:outline-none cursor-pointer"
+                      >
+                        <span
+                          className={`h-2 rounded-full transition-all duration-300 block ${
+                            activeFrame === idx
+                              ? 'w-6 bg-[#e03e3e]'
+                              : 'w-2 bg-white/30 hover:bg-white/60'
+                          }`}
+                        />
+                      </button>
                     ))}
                   </div>
                 </div>
