@@ -28,6 +28,8 @@ export interface Equipment {
     gobikReference?: string;
     /** Internal product code for ordering. */
     productCode?: string;
+    /** Fit/cut of the item (e.g. 'Regular fit', 'Slim fit', 'Standard'). */
+    cut?: string;
     /** Created timestamp. */
     createdAt?: string;
     /** Updated timestamp. */
