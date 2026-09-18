@@ -65,6 +65,8 @@ export default function HeroTelemetryFrame({
     const frame = frameRef.current;
     if (!frame) return;
 
+    if (_isPreview) return;
+
     let isVisible = false;
     let rafId: number | null = null;
 
@@ -84,9 +86,9 @@ export default function HeroTelemetryFrame({
       const elementCenter = rect.top + rect.height / 2;
       const diff = elementCenter - viewportCenter;
       const isMobile = window.innerWidth < 768;
-      const damping = isMobile ? 0.04 : 0.08;
+      const damping = isMobile ? 0.03 : 0.05;
       const raw = diff * damping;
-      const clamped = Math.max(-25, Math.min(25, raw));
+      const clamped = Math.max(-18, Math.min(18, raw));
       setParallaxOffset(Math.round(clamped * 10) / 10);
     };
 
@@ -144,7 +146,7 @@ export default function HeroTelemetryFrame({
         className="relative aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] w-full overflow-hidden bg-[#0a0c10]"
       >
         <div
-          className="absolute inset-0 scale-[1.06] will-change-transform transition-transform duration-75 ease-out motion-reduce:transform-none motion-reduce:scale-100"
+          className="absolute -top-10 -bottom-10 left-0 right-0 scale-[1.02] will-change-transform transition-transform duration-75 ease-out motion-reduce:transform-none motion-reduce:top-0 motion-reduce:bottom-0 motion-reduce:scale-100"
           style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
         >
           {slides.map((slide, index) => {
