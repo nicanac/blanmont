@@ -6,7 +6,6 @@ import {
   ArrowRightIcon,
   ChatBubbleLeftRightIcon,
   ShieldCheckIcon,
-  SparklesIcon,
   MapPinIcon,
   HeartIcon,
 } from '@heroicons/react/24/outline';
@@ -64,33 +63,33 @@ export default function SurrealInvitationCrescendo() {
           </Link>
         </div>
 
-        {/* 3 Seal Badges */}
+        {/* 3 Pillar Cards */}
         <div className="pt-12 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto text-left">
           <div className="p-4 rounded-lg bg-white/[0.03] border border-white/5 space-y-1.5">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-white tracking-tight">
               <MapPinIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>Rassemblement</span>
-            </div>
+            </h3>
             <p className="text-xs text-[#a7adbb]">
               Place de Blanmont · Samedi 8h30 &amp; Dimanche 9h00.
             </p>
           </div>
 
           <div className="p-4 rounded-lg bg-white/[0.03] border border-white/5 space-y-1.5">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-white tracking-tight">
               <ShieldCheckIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>Sécurité Totale</span>
-            </div>
+            </h3>
             <p className="text-xs text-[#a7adbb]">
               Capitaines formés, parcours reconnus et entraide absolue.
             </p>
           </div>
 
           <div className="p-4 rounded-lg bg-white/[0.03] border border-white/5 space-y-1.5">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-white tracking-tight">
               <HeartIcon className="h-4 w-4 text-[#e03e3e]" />
               <span>Tous Profils</span>
-            </div>
+            </h3>
             <p className="text-xs text-[#a7adbb]">
               Cyclistes débutants ou confirmés, vélos classiques et VAE.
             </p>

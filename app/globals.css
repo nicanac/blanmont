@@ -221,18 +221,6 @@ select,
   }
 }
 
-@keyframes pulse-crimson {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.08);
-  }
-}
-
 @keyframes ticker-slide {
   0% {
     transform: translateX(0%);
@@ -258,10 +246,6 @@ select,
   animation: float-subtle-alt 8.5s ease-in-out infinite;
 }
 
-.animate-pulse-crimson {
-  animation: pulse-crimson 3.5s ease-in-out infinite;
-}
-
 .animate-ticker {
   animation: ticker-slide 32s linear infinite;
 }
@@ -284,8 +268,7 @@ select,
 
   /* 2. Complete halt of continuous floatings and breathing pulses */
   .animate-float-subtle,
-  .animate-float-subtle-alt,
-  .animate-pulse-crimson {
+  .animate-float-subtle-alt {
     animation: none !important;
     animation-play-state: paused !important;
   }
@@ -339,21 +322,3 @@ select,
   }
 }
 
-/* Luxury hairline borders and glow */
-.hairline-lux-ink {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.hairline-lux-paper {
-  border: 1px solid rgba(16, 18, 22, 0.08);
-}
-
-.glow-crimson {
-  box-shadow: 0 0 40px -10px rgba(224, 62, 62, 0.35);
-}
-
-.text-gold-gradient {
-  background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
