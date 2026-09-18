@@ -61,7 +61,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group flex flex-col rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] ${
+      className={`group flex flex-col rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] overflow-hidden transition-all duration-200 ease-out hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-0.5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] ${
         featured ? 'lg:col-span-2' : ''
       }`}
     >
@@ -122,7 +122,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
       <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between space-y-4 bg-white dark:bg-[#161922]">
         <div className="space-y-2">
           <h3
-            className={`font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors leading-snug line-clamp-2 ${
+            className={`font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors duration-150 leading-snug line-clamp-2 ${
               featured ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'
             }`}
           >

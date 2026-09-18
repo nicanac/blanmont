@@ -229,20 +229,20 @@ export default function EditEquipmentPage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-red-600 border-t-transparent" />
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#e03e3e] border-t-transparent" />
             </div>
         );
     }
 
     if (!formData.name && !isLoading) {
         return (
-            <div className="rounded-xl bg-white p-12 text-center shadow-sm">
-                <JerseyIcon className="mx-auto h-16 w-16 text-gray-300" />
-                <h2 className="mt-4 text-lg font-semibold text-gray-900">Équipement non trouvé</h2>
-                <p className="mt-2 text-gray-500">L&apos;équipement demandé n&apos;existe pas.</p>
+            <div className="rounded-xl bg-white dark:bg-[#161922] p-12 text-center shadow-sm border border-[#e4e0d8] dark:border-[#262b38]">
+                <JerseyIcon className="mx-auto h-16 w-16 text-gray-300 dark:text-[#5c6370]" />
+                <h2 className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Équipement non trouvé</h2>
+                <p className="mt-2 text-gray-500 dark:text-[#a7adbb]">L&apos;équipement demandé n&apos;existe pas.</p>
                 <Link
                     href="/admin/equipements"
-                    className="mt-6 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                    className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#e03e3e] px-4 py-2 text-white hover:bg-[#c93434] transition-colors duration-150"
                 >
                     <ArrowLeftIcon className="h-4 w-4" />
                     Retour à la liste
@@ -257,7 +257,7 @@ export default function EditEquipmentPage() {
             <div className="flex items-center gap-4">
                 <Link
                     href="/admin/equipements"
-                    className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                    className="rounded-md p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors duration-150"
                 >
                     <ArrowLeftIcon className="h-5 w-5" />
                 </Link>
@@ -288,18 +288,18 @@ export default function EditEquipmentPage() {
                     {/* Left Column - Image Upload (Sticky) */}
                     <div className="xl:col-span-4">
                         <div className="xl:sticky xl:top-6">
-                            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                                <h2 className="text-lg font-semibold text-gray-900 mb-4">Image du produit</h2>
+                            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Image du produit</h2>
 
                                 {/* Hidden file input */}
                                 <input
-                                    id="equipment-image-file"
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    aria-label="Téléverser une image du produit"
-                                    onChange={handleImageSelect}
-                                    className="hidden"
+                                     id="equipment-image-file"
+                                     ref={fileInputRef}
+                                     type="file"
+                                     accept="image/*"
+                                     aria-label="Téléverser une image du produit"
+                                     onChange={handleImageSelect}
+                                     className="hidden"
                                 />
 
                                 {/* Image Preview / Upload Zone */}
@@ -308,11 +308,11 @@ export default function EditEquipmentPage() {
                                     onDrop={handleDrop}
                                     onDragOver={handleDragOver}
                                     onDragLeave={handleDragLeave}
-                                    className={`relative aspect-square rounded-xl overflow-hidden transition-all duration-200 ${formData.imageUrl
-                                        ? 'bg-gray-50'
+                                    className={`relative aspect-square rounded-lg overflow-hidden transition-all duration-200 ${formData.imageUrl
+                                        ? 'bg-[#f8f7f5] dark:bg-[#101216]'
                                         : isDragOver
-                                            ? 'bg-red-50 border-2 border-dashed border-red-400 cursor-pointer'
-                                            : 'bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-dashed border-gray-300 cursor-pointer hover:border-red-400 hover:bg-red-50/30'
+                                             ? 'bg-red-50 dark:bg-red-950/20 border border-dashed border-[#e03e3e] cursor-pointer'
+                                             : 'bg-[#f8f7f5] dark:bg-[#101216] border border-dashed border-[#e4e0d8] dark:border-[#3a3f4a] cursor-pointer hover:border-[#e03e3e] hover:bg-red-50/20 transition-colors duration-150'
                                         }`}
                                 >
                                     {formData.imageUrl ? (
@@ -330,31 +330,31 @@ export default function EditEquipmentPage() {
                                                     e.stopPropagation();
                                                     removeImage();
                                                 }}
-                                                className="absolute top-3 right-3 rounded-full bg-red-600 p-1.5 text-white shadow-lg hover:bg-red-700 transition-colors"
+                                                className="absolute top-3 right-3 rounded-full bg-[#e03e3e] p-1.5 text-white shadow-lg hover:bg-[#c93434] transition-colors duration-150"
                                             >
                                                 <XMarkIcon className="h-4 w-4" />
                                             </button>
                                         </>
                                     ) : isUploading ? (
                                         <div className="flex flex-col items-center justify-center h-full p-6">
-                                            <div className="w-16 h-16 rounded-full border-4 border-red-200 border-t-red-600 animate-spin mb-4"></div>
-                                            <p className="text-sm font-medium text-gray-600">Upload en cours...</p>
-                                            <div className="w-full max-w-[200px] mt-3 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                            <div className="w-12 h-12 rounded-full border-2 border-[#e03e3e]/20 border-t-[#e03e3e] animate-spin mb-4"></div>
+                                            <p className="text-sm font-medium text-gray-600 dark:text-[#a7adbb]">Upload en cours...</p>
+                                            <div className="w-full max-w-[200px] mt-3 h-1.5 bg-[#e4e0d8] dark:bg-[#262b38] rounded-full overflow-hidden">
                                                 <div
-                                                    className="h-full bg-red-600 transition-all duration-300"
+                                                    className="h-full bg-[#e03e3e] transition-all duration-200"
                                                     style={{ width: `${progress}%` }}
                                                 ></div>
                                             </div>
-                                            <p className="mt-2 text-xs text-gray-500">{progress}%</p>
+                                            <p className="mt-2 text-xs text-gray-500 dark:text-[#5c6370]">{progress}%</p>
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                                            <CloudArrowUpIcon className={`h-16 w-16 mb-4 transition-colors ${isDragOver ? 'text-red-500' : 'text-gray-300'}`} />
-                                            <p className="text-sm font-medium text-gray-700 mb-1">
+                                            <CloudArrowUpIcon className={`h-16 w-16 mb-4 transition-colors duration-150 ${isDragOver ? 'text-[#e03e3e]' : 'text-gray-300 dark:text-[#5c6370]'}`} />
+                                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                                 {isDragOver ? 'Déposez l\'image ici' : 'Glissez une image ici'}
                                             </p>
-                                            <p className="text-xs text-gray-500 mb-4">ou cliquez pour sélectionner</p>
-                                            <span className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors">
+                                            <p className="text-xs text-gray-500 dark:text-[#5c6370] mb-4">ou cliquez pour sélectionner</p>
+                                            <span className="inline-flex items-center gap-1.5 rounded-md bg-[#e03e3e] px-4 py-2 text-sm font-medium text-white hover:bg-[#c93434] transition-colors duration-150">
                                                 <PhotoIcon className="h-4 w-4" />
                                                 Choisir une image
                                             </span>
@@ -367,7 +367,7 @@ export default function EditEquipmentPage() {
                                     <button
                                         type="button"
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="mt-4 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                        className="mt-4 w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-4 py-2 text-sm font-medium text-gray-700 dark:text-[#f5f6f8] hover:bg-[#f8f7f5] dark:hover:bg-[#1d2128] transition-colors duration-150"
                                     >
                                         Changer l&apos;image
                                     </button>
@@ -379,12 +379,12 @@ export default function EditEquipmentPage() {
                     {/* Right Column - Form Fields */}
                     <div className="xl:col-span-8 space-y-6">
                         {/* Basic Info Card */}
-                        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Informations générales</h2>
+                        <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs">
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informations générales</h2>
                             <div className="space-y-4">
                                 {/* Name */}
                                 <div>
-                                    <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-gray-700">
+                                    <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                         Nom du produit *
                                     </label>
                                     <input
@@ -394,7 +394,7 @@ export default function EditEquipmentPage() {
                                         required
                                         value={formData.name || ''}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all"
+                                        className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
                                         placeholder="Nom du produit"
                                     />
                                 </div>
@@ -402,7 +402,7 @@ export default function EditEquipmentPage() {
                                 {/* Category & Price */}
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div>
-                                        <label htmlFor="category" className="mb-1.5 block text-sm font-medium text-gray-700">
+                                        <label htmlFor="category" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                             Catégorie *
                                         </label>
                                         <select
@@ -411,7 +411,7 @@ export default function EditEquipmentPage() {
                                             required
                                             value={formData.category || 'Maillot'}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all"
+                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
                                         >
                                             {EQUIPMENT_CATEGORIES.filter(c => c !== 'Tous').map(cat => (
                                                 <option key={cat} value={cat}>{cat}</option>
@@ -419,7 +419,7 @@ export default function EditEquipmentPage() {
                                         </select>
                                     </div>
                                     <div>
-                                        <label htmlFor="price" className="mb-1.5 block text-sm font-medium text-gray-700">
+                                        <label htmlFor="price" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                             Prix (€) *
                                         </label>
                                         <input
@@ -431,7 +431,7 @@ export default function EditEquipmentPage() {
                                             step="0.01"
                                             value={formData.price || ''}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all"
+                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
                                             placeholder="0.00"
                                         />
                                     </div>
@@ -440,7 +440,7 @@ export default function EditEquipmentPage() {
                                 {/* Product Code & GOBIK Reference */}
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div>
-                                        <label htmlFor="productCode" className="mb-1.5 block text-sm font-medium text-gray-700">
+                                        <label htmlFor="productCode" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                             Code produit
                                         </label>
                                         <input
@@ -449,12 +449,12 @@ export default function EditEquipmentPage() {
                                             name="productCode"
                                             value={formData.productCode || ''}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all"
+                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
                                             placeholder="Ex: MaiCXPRO"
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="gobikReference" className="mb-1.5 block text-sm font-medium text-gray-700">
+                                        <label htmlFor="gobikReference" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                             Référence GOBIK
                                         </label>
                                         <input
@@ -463,7 +463,7 @@ export default function EditEquipmentPage() {
                                             name="gobikReference"
                                             value={formData.gobikReference || ''}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all"
+                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
                                             placeholder="Ex: SHORT SLEEVE JERSEY CX PRO"
                                         />
                                     </div>
@@ -471,7 +471,7 @@ export default function EditEquipmentPage() {
 
                                 {/* Description */}
                                 <div>
-                                    <label htmlFor="description" className="mb-1.5 block text-sm font-medium text-gray-700">
+                                    <label htmlFor="description" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                         Description
                                     </label>
                                     <textarea
@@ -480,25 +480,25 @@ export default function EditEquipmentPage() {
                                         rows={3}
                                         value={formData.description || ''}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all resize-none"
+                                        className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150 resize-none"
                                         placeholder="Description du produit"
                                     />
                                 </div>
 
                                 {/* Availability Toggle */}
-                                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
+                                <div className="flex items-center justify-between rounded-lg bg-[#f8f7f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] p-4">
                                     <div>
-                                        <p className="font-medium text-gray-900">Disponibilité</p>
-                                        <p className="text-sm text-gray-500">Produit disponible à la commande</p>
+                                        <p className="font-medium text-gray-900 dark:text-white">Disponibilité</p>
+                                        <p className="text-sm text-gray-500 dark:text-[#5c6370]">Produit disponible à la commande</p>
                                     </div>
                                     <button
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, isAvailable: !prev.isAvailable }))}
-                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${formData.isAvailable ? 'bg-red-600' : 'bg-gray-300'
+                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-150 ${formData.isAvailable ? 'bg-[#e03e3e]' : 'bg-gray-300 dark:bg-[#262b38]'
                                             }`}
                                     >
                                         <span
-                                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.isAvailable ? 'translate-x-6' : 'translate-x-1'
+                                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-150 ${formData.isAvailable ? 'translate-x-6' : 'translate-x-1'
                                                 }`}
                                         />
                                     </button>
@@ -507,12 +507,12 @@ export default function EditEquipmentPage() {
                         </div>
 
                         {/* Sizes & Stock Card */}
-                        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Tailles et Stock</h2>
+                        <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs">
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tailles et Stock</h2>
 
                             {/* Size Selection */}
                             <div className="mb-6">
-                                <label className="mb-2 block text-sm font-medium text-gray-700">
+                                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                     Tailles disponibles
                                 </label>
                                 <div className="flex flex-wrap gap-2">
@@ -521,9 +521,9 @@ export default function EditEquipmentPage() {
                                             key={size}
                                             type="button"
                                             onClick={() => handleSizeToggle(size)}
-                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${formData.sizes?.includes(size)
-                                                ? 'bg-red-600 text-white shadow-md'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-150 ${formData.sizes?.includes(size)
+                                                ? 'bg-[#e03e3e] text-white shadow-xs'
+                                                : 'bg-[#f8f7f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-gray-700 dark:text-[#a7adbb] hover:border-[#c9c4ba]'
                                                 }`}
                                         >
                                             {size}
@@ -535,16 +535,16 @@ export default function EditEquipmentPage() {
                             {/* Stock per Size */}
                             {formData.sizes && formData.sizes.length > 0 && (
                                 <div>
-                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                         Stock par taille
                                     </label>
                                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                                         {formData.sizes.map(size => (
                                             <div
                                                 key={size}
-                                                className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2"
+                                                className="flex items-center gap-2 rounded-md bg-[#f8f7f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] px-3 py-2"
                                             >
-                                                <label htmlFor={`stock-${size}`} className="text-sm font-semibold text-gray-700 min-w-[2rem] cursor-pointer">{size}</label>
+                                                <label htmlFor={`stock-${size}`} className="text-sm font-semibold text-gray-700 dark:text-[#f5f6f8] min-w-[2rem] cursor-pointer">{size}</label>
                                                 <input
                                                     id={`stock-${size}`}
                                                     type="number"
@@ -552,7 +552,7 @@ export default function EditEquipmentPage() {
                                                     onChange={(e) => handleStockChange(size, e.target.value)}
                                                     min="0"
                                                     aria-label={`Stock taille ${size}`}
-                                                    className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-center focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                                                    className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-2 py-1 text-sm text-center focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
                                                 />
                                             </div>
                                         ))}
@@ -565,14 +565,14 @@ export default function EditEquipmentPage() {
                         <div className="flex justify-end gap-3">
                             <Link
                                 href="/admin/equipements"
-                                className="rounded-lg border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-[#f5f6f8] hover:bg-[#f8f7f5] dark:hover:bg-[#1d2128] transition-colors duration-150"
                             >
                                 Annuler
                             </Link>
                             <button
                                 type="submit"
                                 disabled={isSaving || isUploading}
-                                className="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+                                className="rounded-md bg-[#e03e3e] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#c93434] disabled:opacity-50 transition-colors duration-150"
                             >
                                 {isSaving ? 'Enregistrement...' : isUploading ? 'Upload en cours...' : 'Enregistrer'}
                             </button>

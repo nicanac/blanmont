@@ -91,7 +91,7 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
           {items.map((item) => (
             <div
               key={item.id}
-              className={`group relative overflow-hidden rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-[#0a0c10] shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-[#e03e3e]/60 ${item.span}`}
+              className={`group relative overflow-hidden rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-[#0a0c10] shadow-xl transition-all duration-200 ease-out hover:shadow-2xl hover:border-[#e03e3e]/60 ${item.span}`}
             >
 
               {/* Image with zoom, window parallax and soft color grade */}
@@ -107,11 +107,11 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
 
 
                 {/* Dark luxury gradient overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-200" />
 
                 {/* Bottom Story Reveal */}
-                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-10 space-y-1.5 transform transition-transform duration-500 group-hover:-translate-y-1">
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight group-hover:text-[#e03e3e] transition-colors">
+                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-10 space-y-1.5 transform transition-transform duration-200 ease-out group-hover:-translate-y-1">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight group-hover:text-[#e03e3e] transition-colors duration-150">
                     {item.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#a7adbb] line-clamp-2 max-w-xl leading-relaxed">

@@ -132,9 +132,9 @@ export default function EventAttendancePanel({
   );
 
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden">
+    <div className="bg-white dark:bg-[#161922] shadow-xs rounded-lg overflow-hidden border border-[#e4e0d8] dark:border-[#262b38]">
       {/* Event Header */}
-      <div className={`p-6 ${isPast ? 'bg-green-600' : 'bg-blue-600'} text-white`}>
+      <div className={`p-6 ${isPast ? 'bg-emerald-700 dark:bg-emerald-900' : 'bg-[#101216] dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-[#262b38]'} text-white`}>
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold">{event.location}</h2>
@@ -144,14 +144,14 @@ export default function EventAttendancePanel({
             )}
           </div>
           <div className="text-right">
-            <div className="text-3xl font-bold">{presentCount}</div>
+            <div className="text-3xl font-bold tabular-nums">{presentCount}</div>
             <div className="text-sm opacity-90">présent{presentCount !== 1 ? 's' : ''}</div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="p-4 border-b border-gray-200 space-y-3">
+      <div className="p-4 border-b border-[#e4e0d8] dark:border-[#262b38] space-y-3">
         <input
           id="attendance-member-search"
           type="text"
@@ -159,15 +159,15 @@ export default function EventAttendancePanel({
           placeholder="Rechercher un membre..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white px-3 py-2 text-sm placeholder-[#a7adbb] focus:border-[#e03e3e] focus:ring-1 focus:ring-[#e03e3e] focus:outline-hidden transition-colors duration-150"
         />
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => setGroupFilter('all')}
-            className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+            className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors duration-150 min-h-[32px] cursor-pointer ${
               groupFilter === 'all'
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-[#101216] dark:bg-white text-white dark:text-[#101216]'
+                : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38]'
             }`}
           >
             Tous ({members.length})
@@ -176,10 +176,10 @@ export default function EventAttendancePanel({
             <button
               key={g}
               onClick={() => setGroupFilter(g)}
-              className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+              className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors duration-150 min-h-[32px] cursor-pointer ${
                 groupFilter === g
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-[#101216] dark:bg-white text-white dark:text-[#101216]'
+                  : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38]'
               }`}
             >
               {g} ({members.filter((m) => m.group === g).length})
@@ -189,7 +189,7 @@ export default function EventAttendancePanel({
       </div>
 
       {/* Members List */}
-      <div className="max-h-[calc(100vh-480px)] overflow-y-auto divide-y divide-gray-100">
+      <div className="max-h-[calc(100vh-480px)] overflow-y-auto divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
         {filteredMembers.map((member) => {
           const isPresent = !!attendees[member.id];
           const isLoading = !!loading[member.id];
@@ -197,8 +197,8 @@ export default function EventAttendancePanel({
           return (
             <div
               key={member.id}
-              className={`flex items-center justify-between p-4 transition-colors ${
-                isPresent ? 'bg-green-50' : 'hover:bg-gray-50'
+              className={`flex items-center justify-between p-4 transition-colors duration-150 ${
+                isPresent ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : 'hover:bg-[#faf8f5] dark:hover:bg-[#1d2128]'
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
@@ -206,16 +206,16 @@ export default function EventAttendancePanel({
                 <button
                   onClick={() => toggleAttendance(member)}
                   disabled={isLoading}
-                  className={`flex-shrink-0 h-6 w-6 rounded border-2 flex items-center justify-center transition-colors ${
+                  className={`flex-shrink-0 h-6 w-6 rounded-md border flex items-center justify-center transition-colors duration-150 ${
                     isLoading
-                      ? 'border-gray-300 bg-gray-100 cursor-wait'
+                      ? 'border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] cursor-wait'
                       : isPresent
-                      ? 'border-green-600 bg-green-600 hover:bg-green-700 cursor-pointer'
-                      : 'border-gray-300 hover:border-green-500 cursor-pointer'
+                      ? 'border-emerald-600 bg-emerald-600 hover:bg-emerald-700 cursor-pointer'
+                      : 'border-[#e4e0d8] dark:border-[#262b38] hover:border-emerald-500 cursor-pointer'
                   }`}
                 >
                   {isLoading ? (
-                    <svg className="animate-spin h-3 w-3 text-gray-400" viewBox="0 0 24 24">
+                    <svg className="animate-spin h-3 w-3 text-[#a7adbb]" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
@@ -232,7 +232,7 @@ export default function EventAttendancePanel({
 
                 {/* Name and group */}
                 <div className="min-w-0">
-                  <p className={`text-sm truncate ${isPresent ? 'font-bold text-gray-900' : 'font-medium text-gray-700'}`}>
+                  <p className={`text-sm truncate ${isPresent ? 'font-bold text-[#101216] dark:text-white' : 'font-medium text-[#3a3f4a] dark:text-[#d1d5db]'}`}>
                     {member.name}
                   </p>
                 </div>
@@ -240,14 +240,14 @@ export default function EventAttendancePanel({
 
               <div className="flex items-center gap-3">
                 <span
-                  className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${
+                  className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset ${
                     member.group.startsWith('A')
-                      ? 'bg-red-50 text-red-700 ring-red-600/10'
+                      ? 'bg-red-50 dark:bg-red-950/30 text-[#e03e3e] dark:text-red-300 ring-red-600/20'
                       : member.group.startsWith('B')
-                      ? 'bg-blue-50 text-blue-700 ring-blue-600/10'
+                      ? 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 ring-blue-600/20'
                       : member.group.startsWith('C')
-                      ? 'bg-green-50 text-green-700 ring-green-600/10'
-                      : 'bg-gray-50 text-gray-600 ring-gray-500/10'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 ring-emerald-600/20'
+                      : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] ring-[#e4e0d8] dark:ring-[#262b38]'
                   }`}
                 >
                   {member.group}

@@ -389,7 +389,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                           <span>À jour</span>
                         </span>
                       ) : isCotisationExempt ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-0.5 text-xs font-medium">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[#f2efe9] dark:bg-[#1e222d] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-medium">
                           <span>Exempté</span>
                         </span>
                       ) : (
@@ -404,7 +404,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         <button
                           type="button"
                           onClick={() => setSelectedIceMember(member)}
-                          className="inline-flex items-center gap-1.5 rounded-md border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-bold text-amber-900 hover:bg-amber-500/20 transition-colors cursor-pointer"
+                          className="inline-flex items-center gap-1.5 rounded-md border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-bold text-amber-900 hover:bg-amber-500/20 transition-colors duration-150 cursor-pointer"
                           title="Afficher la fiche d'urgence ICE"
                         >
                           <PhoneIcon className="h-3.5 w-3.5 text-amber-700" />

@@ -56,7 +56,7 @@ export default function FeedbackList({
         return (
           <div
             key={fb.id}
-            className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 shadow-xs hover:border-slate-300 dark:hover:border-[#3a4254] transition-all"
+            className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 shadow-xs hover:border-[#c9c4ba] dark:hover:border-[#3a4254] transition-all duration-150 ease-out"
           >
             <div className="flex items-start gap-3.5">
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-center text-xs font-bold text-white">
@@ -84,7 +84,7 @@ export default function FeedbackList({
                         <StarIcon
                           key={star}
                           className={`h-4 w-4 ${
-                            star <= fb.rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700'
+                            star <= fb.rating ? 'text-amber-400' : 'text-[#e4e0d8] dark:text-[#262b38]'
                           }`}
                         />
                       ))}
@@ -93,7 +93,7 @@ export default function FeedbackList({
                       <button
                         type="button"
                         onClick={() => handleEdit(fb.memberId!)}
-                        className="rounded-md p-1 min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-slate-400 hover:text-[#e03e3e] hover:bg-[#f2efe9] dark:hover:bg-[#1f2430] transition-colors"
+                        className="rounded-md p-1 min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#e03e3e] hover:bg-[#f2efe9] dark:hover:bg-[#1f2430] transition-colors duration-150 cursor-pointer"
                         title="Modifier mon avis"
                       >
                         <PencilSquareIcon className="h-4 w-4" />

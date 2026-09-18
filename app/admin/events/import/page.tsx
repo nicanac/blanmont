@@ -161,15 +161,15 @@ export default function ImportEventsPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/events"
-            className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+            className="rounded-md p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/10 dark:hover:text-white transition-colors duration-150"
           >
             <ArrowLeftIcon className="h-5 w-5" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
               Importation du Calendrier (PDF)
             </h1>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
               Extraction en 2 étapes : Prévisualisation, correction et enregistrement officiel.
             </p>
           </div>
@@ -181,19 +181,19 @@ export default function ImportEventsPage() {
             className={`px-3 py-1 rounded-full ${
               step === 'upload'
                 ? 'bg-[#e03e3e] text-white'
-                : 'bg-emerald-100 text-emerald-800'
+                : 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
             }`}
           >
             1. Sélection PDF
           </span>
-          <span className="text-slate-300">→</span>
+          <span className="text-slate-300 dark:text-[#5c6370]">→</span>
           <span
             className={`px-3 py-1 rounded-full ${
               step === 'preview'
                 ? 'bg-[#e03e3e] text-white'
                 : step === 'success'
-                  ? 'bg-emerald-100 text-emerald-800'
-                  : 'bg-slate-100 text-slate-400'
+                  ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
+                  : 'bg-slate-100 dark:bg-[#1d2128] text-slate-400 dark:text-[#5c6370]'
             }`}
           >
             2. Prévisualisation & Validation
@@ -202,36 +202,36 @@ export default function ImportEventsPage() {
       </div>
 
       {errorMessage && (
-        <div className="rounded-2xl bg-red-50 p-4 border border-red-200 flex items-start gap-3">
-          <ExclamationCircleIcon className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
-          <div className="text-sm text-red-800 font-medium">{errorMessage}</div>
+        <div className="rounded-lg bg-red-50 dark:bg-red-950/30 p-4 border border-red-200 dark:border-red-900/50 flex items-start gap-3">
+          <ExclamationCircleIcon className="h-5 w-5 text-[#e03e3e] shrink-0 mt-0.5" />
+          <div className="text-sm text-red-800 dark:text-red-300 font-medium">{errorMessage}</div>
         </div>
       )}
 
       {/* STEP 1: UPLOAD */}
       {step === 'upload' && (
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 shadow-xs text-center">
+        <div className="rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-12 shadow-xs text-center">
           <div className="max-w-md mx-auto space-y-6">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-[#e03e3e]">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20">
               <DocumentArrowUpIcon className="h-8 w-8" />
             </div>
 
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                 Sélectionnez le fichier PDF officiel
               </h2>
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
                 Le fichier sera analysé automatiquement pour en extraire les dates, destinations, départs et distances avant validation.
               </p>
             </div>
 
-            <label htmlFor="events-pdf-upload" className="relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50/60 p-8 hover:bg-red-50/30 hover:border-red-300 transition-all group">
-              <span className="text-sm font-semibold text-slate-700 group-hover:text-[#e03e3e] transition-colors">
+            <label htmlFor="events-pdf-upload" className="relative flex cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-[#e4e0d8] dark:border-[#3a3f4a] bg-[#f8f7f5] dark:bg-[#101216] p-8 hover:border-[#e03e3e] hover:bg-red-50/20 transition-colors duration-150 group">
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 group-hover:text-[#e03e3e] transition-colors duration-150">
                 {isProcessing
                   ? 'Extraction des événements en cours...'
                   : 'Choisir le calendrier PDF'}
               </span>
-              <span className="mt-1 text-xs text-slate-400">Format .pdf accepté</span>
+              <span className="mt-1 text-xs text-[#5c6370] dark:text-[#5c6370]">Format .pdf accepté</span>
               <input
                 id="events-pdf-upload"
                 type="file"
@@ -244,7 +244,7 @@ export default function ImportEventsPage() {
             </label>
 
             {isProcessing && (
-              <div className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-600">
+              <div className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
                 <ArrowPathIcon className="h-4 w-4 animate-spin text-[#e03e3e]" />
                 <span>Analyse du document et extraction des sorties...</span>
               </div>
@@ -257,16 +257,16 @@ export default function ImportEventsPage() {
       {step === 'preview' && (
         <div className="space-y-6">
           {/* Action Bar */}
-          <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-xs flex flex-wrap items-center justify-between gap-4">
+          <div className="rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] p-4 shadow-xs flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-sm font-bold text-slate-900">
+              <span className="text-sm font-bold text-slate-900 dark:text-white">
                 {events.length} sorties extraites
               </span>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-red-50 text-[#e03e3e]">
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-red-50 dark:bg-red-950/30 text-[#e03e3e]">
                 {selectedCount} sélectionnées pour l&apos;import
               </span>
               {fileName && (
-                <span className="text-xs text-slate-400 truncate max-w-xs">
+                <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] truncate max-w-xs">
                   Fichier : {fileName}
                 </span>
               )}
@@ -276,21 +276,21 @@ export default function ImportEventsPage() {
               <button
                 type="button"
                 onClick={() => toggleSelectAll(true)}
-                className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors"
+                className="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3 py-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:bg-slate-50 dark:hover:bg-white/5 transition-colors duration-150"
               >
                 Tout cocher
               </button>
               <button
                 type="button"
                 onClick={() => toggleSelectAll(false)}
-                className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors"
+                className="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3 py-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:bg-slate-50 dark:hover:bg-white/5 transition-colors duration-150"
               >
                 Tout décocher
               </button>
               <button
                 type="button"
                 onClick={handleAddManualRow}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white px-3 py-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f8f7f5] dark:bg-[#101216] hover:bg-slate-100 dark:hover:bg-white/10 transition-colors duration-150"
               >
                 <PlusIcon className="h-3.5 w-3.5" />
                 <span>Ajouter une ligne</span>
@@ -301,7 +301,7 @@ export default function ImportEventsPage() {
                   setStep('upload');
                   setEvents([]);
                 }}
-                className="text-xs font-semibold text-red-600 hover:text-red-700 px-3 py-1.5 rounded-xl hover:bg-red-50 transition-colors"
+                className="text-xs font-semibold text-[#e03e3e] hover:text-[#c93434] px-3 py-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors duration-150"
               >
                 Recharger un PDF
               </button>
@@ -309,10 +309,10 @@ export default function ImportEventsPage() {
           </div>
 
           {/* Table Container */}
-          <div className="rounded-3xl border border-slate-200 bg-white shadow-xs overflow-hidden">
+          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] shadow-xs overflow-hidden">
             <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-left text-xs">
-                <thead className="bg-slate-50 sticky top-0 z-10">
+              <table className="min-w-full divide-y divide-[#e4e0d8] dark:divide-[#262b38] text-left text-xs">
+                <thead className="bg-[#f8f7f5] dark:bg-[#101216] sticky top-0 z-10">
                   <tr>
                     <th className="px-3 py-3 w-10 text-center">
                       <span className="sr-only">Sélectionner</span>
@@ -343,12 +343,12 @@ export default function ImportEventsPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
                   {events.map((event) => (
                     <tr
                       key={event.id}
-                      className={`hover:bg-slate-50/80 transition-colors ${
-                        !event.selected ? 'opacity-50 bg-slate-50/40' : ''
+                      className={`hover:bg-slate-50/80 dark:hover:bg-white/5 transition-colors duration-150 ${
+                        !event.selected ? 'opacity-50 bg-slate-50/40 dark:bg-[#101216]/40' : ''
                       }`}
                     >
                       {/* Checkbox */}
@@ -359,7 +359,7 @@ export default function ImportEventsPage() {
                           aria-label={`Sélectionner l'événement du ${event.isoDate || event.location || 'nouveau'}`}
                           checked={event.selected}
                           onChange={() => toggleSelectEvent(event.id)}
-                          className="h-4 w-4 rounded border-slate-300 text-[#e03e3e] focus:ring-[#e03e3e]"
+                          className="h-4 w-4 rounded-xs border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] focus:ring-[#e03e3e]"
                         />
                       </td>
 
@@ -373,7 +373,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'isoDate', e.target.value)
                           }
-                          className="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-mono text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-2.5 py-1 text-xs font-mono text-slate-800 dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -387,7 +387,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'location', e.target.value)
                           }
-                          className="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-900 focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-2.5 py-1 text-xs font-medium text-slate-900 dark:text-white focus:border-[#e03e3e] focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -402,7 +402,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'distances', e.target.value)
                           }
-                          className="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-2.5 py-1 text-xs text-slate-800 dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -417,7 +417,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'departure', e.target.value)
                           }
-                          className="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-2.5 py-1 text-xs text-slate-800 dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -432,7 +432,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'address', e.target.value)
                           }
-                          className="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-xs text-slate-800 focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-2.5 py-1 text-xs text-slate-800 dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -447,7 +447,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'remarks', e.target.value)
                           }
-                          className="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-xs text-slate-600 focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-2.5 py-1 text-xs text-slate-600 dark:text-[#a7adbb] focus:border-[#e03e3e] focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -462,7 +462,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'gpxUrl', e.target.value)
                           }
-                          className="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-mono text-slate-600 focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-2.5 py-1 text-xs font-mono text-slate-600 dark:text-[#a7adbb] focus:border-[#e03e3e] focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -471,7 +471,7 @@ export default function ImportEventsPage() {
                         <button
                           type="button"
                           onClick={() => handleDeleteRow(event.id)}
-                          className="rounded-lg p-1.5 text-slate-400 hover:text-red-600 hover:bg-slate-100 transition-colors"
+                          className="rounded-md p-1.5 text-slate-400 hover:text-[#e03e3e] hover:bg-slate-100 dark:hover:bg-white/10 transition-colors duration-150 cursor-pointer"
                           title="Supprimer cette ligne"
                         >
                           <TrashIcon className="h-4 w-4" />
@@ -485,7 +485,7 @@ export default function ImportEventsPage() {
           </div>
 
           {/* Sticky Confirmation Bar */}
-          <div className="sticky bottom-4 z-20 rounded-2xl bg-slate-900/95 backdrop-blur-md p-4 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="sticky bottom-4 z-20 rounded-xl bg-[#101216]/95 border border-[#262b38] backdrop-blur-md p-4 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-xs sm:text-sm">
               <span className="font-bold text-white">{selectedCount}</span> sortie{selectedCount > 1 ? 's' : ''} prête{selectedCount > 1 ? 's' : ''} à être ajoutée{selectedCount > 1 ? 's' : ''} au calendrier.
             </div>
@@ -494,7 +494,7 @@ export default function ImportEventsPage() {
               <button
                 type="button"
                 onClick={() => setStep('upload')}
-                className="px-4 py-2 rounded-full text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                className="px-4 py-2 rounded-md text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 transition-colors duration-150 cursor-pointer"
               >
                 Annuler
               </button>
@@ -502,7 +502,7 @@ export default function ImportEventsPage() {
                 type="button"
                 onClick={handleConfirmImport}
                 disabled={isSaving || selectedCount === 0}
-                className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-2.5 text-xs sm:text-sm font-semibold shadow-md transition-all disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-2.5 text-xs sm:text-sm font-semibold shadow-xs transition-colors duration-150 disabled:opacity-50 cursor-pointer"
               >
                 {isSaving ? (
                   <>
@@ -523,30 +523,30 @@ export default function ImportEventsPage() {
 
       {/* STEP 3: SUCCESS */}
       {step === 'success' && (
-        <div className="rounded-3xl border border-emerald-200 bg-white p-8 sm:p-12 shadow-xs text-center space-y-6">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+        <div className="rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-white dark:bg-[#161922] p-8 sm:p-12 shadow-xs text-center space-y-6">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
             <CheckCircleIcon className="h-10 w-10" />
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
               Importation réussie !
             </h2>
-            <p className="text-sm text-slate-600 max-w-md mx-auto">
-              <strong className="text-emerald-700">{successCount} événements</strong> ont été enregistrés dans la base de données et sont désormais visibles sur le calendrier public.
+            <p className="text-sm text-slate-600 dark:text-[#a7adbb] max-w-md mx-auto">
+              <strong className="text-emerald-700 dark:text-emerald-400">{successCount} événements</strong> ont été enregistrés dans la base de données et sont désormais visibles sur le calendrier public.
             </p>
           </div>
 
           <div className="pt-4 flex flex-wrap justify-center gap-3">
             <Link
               href="/admin/events"
-              className="inline-flex items-center rounded-full bg-slate-900 px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center rounded-md bg-slate-900 dark:bg-white dark:text-slate-900 px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors duration-150"
             >
               Voir les événements dans l&apos;admin
             </Link>
             <Link
               href="/calendrier"
-              className="inline-flex items-center rounded-full bg-[#e03e3e] px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-[#c93434] transition-colors"
+              className="inline-flex items-center rounded-md bg-[#e03e3e] px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-[#c93434] transition-colors duration-150"
             >
               Consulter le calendrier public
             </Link>

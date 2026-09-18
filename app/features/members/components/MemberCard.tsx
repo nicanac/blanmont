@@ -82,7 +82,7 @@ export default function MemberCard({ member }: MemberCardProps) {
   const hasValidPhoto = isValidPhotoUrl(member.photoUrl) && !imgError;
 
   return (
-    <li className="group flex flex-col rounded-lg border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1">
+    <li className="group flex flex-col rounded-lg border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] overflow-hidden transition-all duration-200 ease-out hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-0.5">
       {/* ──── Portrait / Fallback Avatar Container ──── */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922]">
         {hasValidPhoto ? (
@@ -155,7 +155,7 @@ export default function MemberCard({ member }: MemberCardProps) {
       {/* ──── Member Details Card Body ──── */}
       <div className="p-5 flex flex-col flex-grow justify-between space-y-3 bg-white dark:bg-[#161922]">
         <div>
-          <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] dark:text-[#f5f6f8] group-hover:text-[#e03e3e] transition-colors truncate">
+          <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] dark:text-[#f5f6f8] group-hover:text-[#e03e3e] transition-colors duration-150 truncate">
             {member.name}
           </h3>
 
@@ -182,7 +182,7 @@ export default function MemberCard({ member }: MemberCardProps) {
               href={`https://www.strava.com/athletes/${member.stravaId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-semibold text-[#fc4c02] hover:underline"
+              className="inline-flex items-center gap-1 font-semibold text-[#fc4c02] hover:underline transition-colors duration-150"
               title="Profil Strava"
             >
               <span>Strava</span>

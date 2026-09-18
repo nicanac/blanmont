@@ -74,13 +74,13 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
             <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
 
                 {!isAuthenticated && (
-                    <div className="rounded-md bg-white dark:bg-[#161922] border border-transparent dark:border-[#262b38] p-12 text-center shadow">
+                    <div className="rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] p-12 text-center shadow-xs">
                         <h3 className="mt-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8]">Connexion Requise</h3>
                         <p className="mt-1 text-sm text-[#5c6370] dark:text-[#a7adbb]">Veuillez vous connecter pour participer au vote.</p>
                         <div className="mt-6">
                             <Link
                                 href="/login"
-                                className="inline-flex items-center justify-center rounded-md bg-brand-primary min-h-[44px] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+                                className="inline-flex items-center justify-center rounded-md bg-[#e03e3e] min-h-[44px] px-4 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-[#c93434] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e03e3e]"
                             >
                                 Se connecter pour voter
                             </Link>
@@ -91,7 +91,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                 {currentUser && (
                     <>
                         {activeRides.length === 0 ? (
-                            <div className="text-center py-12 bg-white dark:bg-[#161922] border border-transparent dark:border-[#262b38] rounded-lg shadow">
+                            <div className="text-center py-12 bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] rounded-lg shadow-xs">
                                 <h3 className="mt-2 text-sm font-semibold text-[#101216] dark:text-[#f5f6f8]">Aucune session de vote active</h3>
                                 <p className="mt-1 text-sm text-[#5c6370] dark:text-[#a7adbb]">
                                     Il n&apos;y a actuellement aucune sortie ouverte au vote.
@@ -153,12 +153,12 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                     isVoting && !isVoted ? 'opacity-50' : ''
                                                                 )}
                                                                 footer={
-                                                                    <div className="relative z-10 border-t border-[#efece5] bg-[#f2efe9] dark:border-[#262b38] dark:bg-[#1e222d] px-4 py-4 sm:px-6 flex flex-col gap-2">
-                                                                        <div className="flex rounded-md shadow-sm">
+                                                                    <div className="relative z-10 border-t border-[#e4e0d8] bg-[#f2efe9] dark:border-[#262b38] dark:bg-[#1e222d] px-4 py-4 sm:px-6 flex flex-col gap-2">
+                                                                        <div className="flex rounded-md shadow-xs">
                                                                             <Link
                                                                                 href={`/traces/${trace.id}`}
                                                                                 target="_blank"
-                                                                                className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-l-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 min-h-[44px] text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary cursor-pointer"
+                                                                                className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-l-md border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 min-h-[44px] text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] transition-colors duration-150 focus:z-10 focus:outline-hidden focus:ring-1 focus:ring-inset focus:ring-[#e03e3e] cursor-pointer"
                                                                             >
                                                                                 Détails <ArrowRightIcon className="h-4 w-4" />
                                                                             </Link>
@@ -167,7 +167,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                                     href={trace.gpxUrl}
                                                                                     target="_blank"
                                                                                     rel="noopener noreferrer"
-                                                                                    className="relative -ml-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-r-md border border-gray-300 bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 min-h-[44px] text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] focus:z-10 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-brand-primary cursor-pointer"
+                                                                                    className="relative -ml-px inline-flex w-0 flex-1 items-center justify-center gap-x-2 rounded-r-md border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] px-3 py-2 min-h-[44px] text-sm font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] transition-colors duration-150 focus:z-10 focus:outline-hidden focus:ring-1 focus:ring-inset focus:ring-[#e03e3e] cursor-pointer"
                                                                                 >
                                                                                     GPX <ArrowDownTrayIcon className="h-4 w-4" />
                                                                                 </a>
@@ -178,9 +178,9 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
                                                                             disabled={isVoting || isVoted}
                                                                             className={cn(
                                                                                 isVoted
-                                                                                    ? 'bg-[#f2efe9] text-gray-400 dark:bg-[#262b38] dark:text-[#a7adbb]'
-                                                                                    : 'bg-brand-primary text-white hover:bg-red-700',
-                                                                                'inline-flex w-full items-center justify-center rounded-md px-3 py-2.5 min-h-[44px] text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:cursor-not-allowed cursor-pointer'
+                                                                                    ? 'bg-[#f2efe9] text-[#a7adbb] dark:bg-[#262b38] dark:text-[#a7adbb]'
+                                                                                    : 'bg-[#e03e3e] text-white hover:bg-[#c93434] transition-colors duration-150',
+                                                                                'inline-flex w-full items-center justify-center rounded-md px-3 py-2.5 min-h-[44px] text-sm font-semibold shadow-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e03e3e] disabled:cursor-not-allowed cursor-pointer'
                                                                             )}
                                                                         >
                                                                             {isVoted ? 'Voté' : 'Voter'}

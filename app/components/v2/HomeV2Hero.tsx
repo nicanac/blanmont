@@ -175,7 +175,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
 
               <Link
                 href="/traces"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white uppercase tracking-wider transition-colors px-3 py-2 min-h-[44px]"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white uppercase tracking-wider transition-colors duration-150 px-3 py-2 min-h-[44px]"
               >
                 <span>250+ Parcours GPX</span>
                 <span className="text-[#e03e3e]">→</span>
@@ -264,14 +264,14 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 type="button"
                 onClick={() => setActiveFrame((activeFrame + 1) % photos.length)}
                 aria-label="Afficher la photo suivante"
-                className="hidden sm:block absolute -bottom-6 -right-6 w-44 lg:w-52 aspect-[4/3] rounded-lg overflow-hidden border-2 border-white/20 bg-[#161922] shadow-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:border-[#e03e3e] z-30 animate-float-subtle text-left"
+                className="hidden sm:block absolute -bottom-6 -right-6 w-44 lg:w-52 aspect-[4/3] rounded-lg overflow-hidden border border-white/20 bg-[#161922] shadow-2xl cursor-pointer transition-all duration-200 ease-out hover:scale-105 hover:border-[#e03e3e] z-30 animate-float-subtle text-left"
               >
                 <Image
                   src={photos[(activeFrame + 1) % photos.length].src}
                   alt="Aperçu photo satellite"
                   fill
                   sizes="220px"
-                  className="object-cover opacity-80 hover:opacity-100 transition-opacity"
+                  className="object-cover opacity-80 hover:opacity-100 transition-opacity duration-150"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-2 left-2 right-2 text-xs font-semibold text-white/90 truncate flex items-center justify-between">

@@ -72,7 +72,7 @@ export default function AdminHelpModal({
             type="button"
             onClick={onClose}
             aria-label="Fermer l'aide"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white transition-colors"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white transition-colors duration-150"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
@@ -83,7 +83,7 @@ export default function AdminHelpModal({
           <button
             type="button"
             onClick={() => setActiveTab('ritual')}
-            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
+            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'ritual'
                 ? 'border-[#e03e3e] text-white'
                 : 'border-transparent text-[#5c6370] hover:text-white'
@@ -95,7 +95,7 @@ export default function AdminHelpModal({
           <button
             type="button"
             onClick={() => setActiveTab('roles')}
-            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
+            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'roles'
                 ? 'border-[#e03e3e] text-white'
                 : 'border-transparent text-[#5c6370] hover:text-white'
@@ -107,7 +107,7 @@ export default function AdminHelpModal({
           <button
             type="button"
             onClick={() => setActiveTab('shortcuts')}
-            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
+            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'shortcuts'
                 ? 'border-[#e03e3e] text-white'
                 : 'border-transparent text-[#5c6370] hover:text-white'
@@ -119,7 +119,7 @@ export default function AdminHelpModal({
           <button
             type="button"
             onClick={() => setActiveTab('guide')}
-            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
+            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'guide'
                 ? 'border-[#e03e3e] text-white'
                 : 'border-transparent text-[#5c6370] hover:text-white'
@@ -140,7 +140,7 @@ export default function AdminHelpModal({
               </div>
 
               <div className="space-y-4">
-                <div className="relative pl-6 border-l-2 border-[#e03e3e] space-y-1">
+                <div className="relative pl-6 border-l border-[#e03e3e] space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="font-extrabold uppercase tracking-wider text-white text-xs bg-[#e03e3e] px-2 py-0.5 rounded-xs">
                       Mardi
@@ -152,7 +152,7 @@ export default function AdminHelpModal({
                   </p>
                 </div>
 
-                <div className="relative pl-6 border-l-2 border-amber-500 space-y-1">
+                <div className="relative pl-6 border-l border-amber-500 space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="font-extrabold uppercase tracking-wider text-white text-xs bg-amber-500 px-2 py-0.5 rounded-xs">
                       Vendredi 18h
@@ -164,7 +164,7 @@ export default function AdminHelpModal({
                   </p>
                 </div>
 
-                <div className="relative pl-6 border-l-2 border-emerald-500 space-y-1">
+                <div className="relative pl-6 border-l border-emerald-500 space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="font-extrabold uppercase tracking-wider text-white text-xs bg-emerald-600 px-2 py-0.5 rounded-xs">
                       Samedi 09h00
@@ -176,7 +176,7 @@ export default function AdminHelpModal({
                   </p>
                 </div>
 
-                <div className="relative pl-6 border-l-2 border-sky-500 space-y-1">
+                <div className="relative pl-6 border-l border-sky-500 space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="font-extrabold uppercase tracking-wider text-white text-xs bg-sky-600 px-2 py-0.5 rounded-xs">
                       Dimanche / Lundi
@@ -243,7 +243,7 @@ export default function AdminHelpModal({
                 <Link
                   href="/admin/sondages/new"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
                     <ChatBubbleLeftRightIcon className="h-5 w-5 text-[#e03e3e]" />
@@ -252,13 +252,13 @@ export default function AdminHelpModal({
                       <div className="text-xs text-[#5c6370]">Lancer le vote de présence</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
                 </Link>
 
                 <Link
                   href="/admin/events/import"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
                     <ArrowUpTrayIcon className="h-5 w-5 text-sky-400" />
@@ -267,13 +267,13 @@ export default function AdminHelpModal({
                       <div className="text-xs text-[#5c6370]">Ingestion automatique du calendrier</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
                 </Link>
 
                 <Link
                   href="/admin/blog/new"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
                     <DocumentTextIcon className="h-5 w-5 text-emerald-400" />
@@ -282,13 +282,13 @@ export default function AdminHelpModal({
                       <div className="text-xs text-[#5c6370]">Rédiger un article ou mot du club</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
                 </Link>
 
                 <Link
                   href="/admin/members/new"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
                     <UsersIcon className="h-5 w-5 text-amber-400" />
@@ -297,7 +297,7 @@ export default function AdminHelpModal({
                       <div className="text-xs text-[#5c6370]">Créer un compte cycliste</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
                 </Link>
               </div>
 
@@ -336,7 +336,7 @@ export default function AdminHelpModal({
                     }
                     onClose();
                   }}
-                  className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors duration-150 shadow-xs"
                 >
                   <CheckCircleIcon className="h-4 w-4" />
                   <span>Réafficher le Guide sur le Tableau de Bord</span>
@@ -354,7 +354,7 @@ export default function AdminHelpModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-[#262b38] bg-[#0a0c10] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-white/5 transition-colors"
+            className="rounded-md border border-[#262b38] bg-[#0a0c10] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-white/5 transition-colors duration-150"
           >
             Fermer
           </button>
