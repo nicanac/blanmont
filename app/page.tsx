@@ -495,7 +495,7 @@ export default async function Home(): Promise<React.ReactElement> {
           <div>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] dark:border-white/10 items-baseline">
               <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white inline-flex items-center gap-3">
-                <ShieldCheckIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
+                <ShieldCheckIcon className="h-6 w-6 md:h-6 md:w-6 text-[#e03e3e] shrink-0" />
                 Sécurité &amp; Encadrement
               </h3>
               <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed max-w-[65ch]">
@@ -505,7 +505,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] dark:border-white/10 items-baseline">
               <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white inline-flex items-center gap-3">
-                <HeartIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
+                <HeartIcon className="h-6 w-6 md:h-6 md:w-6 text-[#e03e3e] shrink-0" />
                 Convivialité &amp; Troisième Mi-temps
               </h3>
               <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed max-w-[65ch]">
@@ -515,7 +515,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-7 border-b border-[#e4e0d8] dark:border-white/10 items-baseline">
               <h3 className="md:col-span-5 text-xl sm:text-2xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white inline-flex items-center gap-3">
-                <BoltIcon className="h-6 w-6 text-[#e03e3e] shrink-0" />
+                <BoltIcon className="h-6 w-6 md:h-6 md:w-6 text-[#e03e3e] shrink-0" />
                 Ouvert à Tous les Profils
               </h3>
               <p className="md:col-span-7 text-sm sm:text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed max-w-[65ch]">

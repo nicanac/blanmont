@@ -119,7 +119,7 @@ export default function ProfilePage(): React.ReactElement | null {
   if (!isAuthenticated || !user) {
     return (
       <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] flex items-center justify-center p-8">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#e4e0d8] dark:border-[#262b38] border-t-[#e03e3e]" />
+        <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-2 border-[#e4e0d8] dark:border-[#262b38] border-t-[#e03e3e]" />
       </div>
     );
   }

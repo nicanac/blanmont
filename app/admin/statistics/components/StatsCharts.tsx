@@ -28,7 +28,7 @@ const Peloton3DShowcase = dynamic(() => import('./Peloton3DShowcase'), {
   loading: () => (
     <div className="rounded-lg border border-[#e4e0d8] bg-white p-8 flex items-center justify-center min-h-[320px] text-xs text-[#5c6370] animate-pulse">
       <div className="flex flex-col items-center gap-2">
-        <div className="h-8 w-8 rounded-full border-2 border-[#e03e3e] border-t-transparent animate-spin" />
+        <div className="h-8 w-8 md:h-8 md:w-8 rounded-full border-2 border-[#e03e3e] border-t-transparent animate-spin" />
         <span>Chargement du module 3D...</span>
       </div>
     </div>
@@ -40,7 +40,7 @@ const StatsChartsVisualizations = dynamic(() => import('./StatsChartsVisualizati
   loading: () => (
     <div className="col-span-full rounded-lg border border-[#e4e0d8] bg-white p-8 flex items-center justify-center min-h-[300px] text-xs text-[#5c6370] animate-pulse">
       <div className="flex flex-col items-center gap-2">
-        <div className="h-6 w-6 rounded-full border-2 border-[#e03e3e] border-t-transparent animate-spin" />
+        <div className="h-6 w-6 md:h-6 md:w-6 rounded-full border-2 border-[#e03e3e] border-t-transparent animate-spin" />
         <span>Chargement des graphiques d'analyse...</span>
       </div>
     </div>
@@ -295,7 +295,7 @@ export default function StatsCharts({
       {/* Top Filter & Season Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-lg border border-[#e4e0d8] shadow-xs">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#101216] text-white">
+          <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-[#101216] text-white">
             <BicycleIcon className="h-4 w-4 text-[#e03e3e]" />
           </div>
           <div>

@@ -144,7 +144,7 @@ export default function MemberRoleSelector({
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div
-                      className={`flex h-8 w-8 items-center justify-center rounded-md border transition-colors ${
+                      className={`flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md border transition-colors ${
                         isActive
                           ? 'border-[#e03e3e]/30 bg-white shadow-xs'
                           : 'border-[#e4e0d8] bg-[#faf8f5]'

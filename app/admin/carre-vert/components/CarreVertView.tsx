@@ -207,7 +207,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
                         </div>
                         <div className="ml-4 flex-shrink-0">
                           <span
-                            className={`inline-flex items-center justify-center rounded-full h-8 w-8 text-xs font-bold tabular-nums ${
+                            className={`inline-flex items-center justify-center rounded-full h-8 w-8 md:h-8 md:w-8 text-xs font-bold tabular-nums ${
                               attendeeCount > 0
                                 ? 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200'
                                 : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb]'

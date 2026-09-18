@@ -95,7 +95,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       {/* Albums Grid */}
       {filteredAlbums.length === 0 ? (
         <div className="bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] p-12 text-center space-y-3">
-          <CameraIcon className="h-8 w-8 text-[#a7adbb] dark:text-[#5c6370] mx-auto" />
+          <CameraIcon className="h-8 w-8 md:h-8 md:w-8 text-[#a7adbb] dark:text-[#5c6370] mx-auto" />
           <p className="text-sm font-semibold text-[#101216] dark:text-[#f5f6f8]">Aucun album photo ne correspond aux critères.</p>
           <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
             Essayez de sélectionner une autre saison ou un autre thème.

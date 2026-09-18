@@ -83,7 +83,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
     return (
       <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-12 text-center shadow-xs max-w-2xl mx-auto space-y-4">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e]">
-          <CalendarDaysIcon className="h-8 w-8" />
+          <CalendarDaysIcon className="h-8 w-8 md:h-8 md:w-8" />
         </div>
         <h2 className="text-xl font-bold text-[#101216] dark:text-white">Aucun sondage actif pour le moment</h2>
         <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed max-w-md mx-auto">
@@ -204,7 +204,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
           {!isAuthenticated ? (
             <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 text-center shadow-xs space-y-4">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e]">
-                <LockClosedIcon className="h-7 w-7" />
+                <LockClosedIcon className="h-7 w-7 md:h-7 md:w-7" />
               </div>
               <h3 className="text-lg font-bold text-[#101216] dark:text-white">Connexion requise</h3>
               <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
@@ -219,7 +219,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
             </div>
           ) : isClosed ? (
             <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 text-center shadow-xs space-y-3">
-              <InformationCircleIcon className="mx-auto h-8 w-8 text-[#a7adbb]" />
+              <InformationCircleIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#a7adbb]" />
               <h3 className="text-base font-bold text-[#101216] dark:text-white">Les votes sont clôturés</h3>
               <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
                 Ce sondage est désormais fermé. Rendez-vous au départ selon les groupes ci-contre !

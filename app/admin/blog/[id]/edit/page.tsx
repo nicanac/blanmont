@@ -116,7 +116,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#e03e3e] border-t-transparent" />
+        <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-2 border-[#e03e3e] border-t-transparent" />
       </div>
     );
   }

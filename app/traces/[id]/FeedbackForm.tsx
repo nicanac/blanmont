@@ -90,7 +90,7 @@ export default function FeedbackForm({
               aria-label={`${star} étoile${star > 1 ? 's' : ''}`}
             >
               <StarIcon
-                className={`h-6 w-6 ${
+                className={`h-6 w-6 md:h-6 md:w-6 ${
                   star <= rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700 hover:text-amber-200'
                 }`}
               />

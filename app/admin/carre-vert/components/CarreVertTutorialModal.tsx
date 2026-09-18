@@ -130,7 +130,7 @@ export default function CarreVertTutorialModal({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="p-4 rounded-lg border border-[#262b38] bg-[#161922] space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-black font-extrabold text-xs">
+                    <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-emerald-500 text-black font-extrabold text-xs">
                       1
                     </span>
                     <h4 className="font-bold text-white text-xs uppercase tracking-wider">
@@ -144,7 +144,7 @@ export default function CarreVertTutorialModal({
 
                 <div className="p-4 rounded-lg border border-[#262b38] bg-[#161922] space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500 text-white font-extrabold text-xs">
+                    <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-sky-500 text-white font-extrabold text-xs">
                       G
                     </span>
                     <h4 className="font-bold text-white text-xs uppercase tracking-wider">

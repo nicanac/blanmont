@@ -179,7 +179,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 shadow-xs space-y-5">
               <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
+                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
                     1
                   </span>
                   <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">
@@ -265,7 +265,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 shadow-xs space-y-6">
               <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
+                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
                     2
                   </span>
                   <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">
@@ -349,7 +349,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             {/* Step 3: Member Coordinates */}
             <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 shadow-xs space-y-5">
               <div className="flex items-center gap-2.5 border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
+                <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
                   3
                 </span>
                 <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">

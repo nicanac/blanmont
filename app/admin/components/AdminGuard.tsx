@@ -54,7 +54,7 @@ export default function AdminGuard({ children }: AdminGuardProps): React.ReactEl
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
         <div className="max-w-md w-full text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <ShieldExclamationIcon className="h-8 w-8 text-red-600" />
+            <ShieldExclamationIcon className="h-8 w-8 md:h-8 md:w-8 text-red-600" />
           </div>
           <h2 className="mt-6 text-2xl font-bold text-gray-900">
             Accès Refusé
