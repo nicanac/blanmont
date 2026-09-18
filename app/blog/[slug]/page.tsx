@@ -9,6 +9,7 @@ import { getBlogPostBySlug, getBlogPosts } from '../../lib/firebase';
 
 import Image from 'next/image';
 import { parseDateInfo } from '@/app/lib/carreVert';
+import { sanitizeBlogHtml, isHtmlContent } from '@/app/lib/sanitizeHtml';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -201,11 +202,19 @@ export default async function BlogPostPage({
           </div>
         )}
 
-        {/* Markdown Content */}
-        <div className="prose prose-lg max-w-none leading-relaxed dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-[#101216] dark:prose-headings:text-white prose-p:text-[#3a3f4a] dark:prose-p:text-[#d1d5db] prose-a:text-[#e03e3e] prose-a:font-semibold hover:prose-a:underline prose-blockquote:border-l-[#e03e3e] prose-blockquote:bg-white dark:prose-blockquote:bg-[#161922] prose-blockquote:p-4 prose-blockquote:rounded-r-md prose-img:rounded-lg prose-img:border prose-img:border-[#e4e0d8] dark:prose-img:border-[#262b38]">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {post.content}
-          </ReactMarkdown>
+        {/* Editorial Article Content */}
+        <div className="prose max-w-none">
+          {isHtmlContent(post.content) ? (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: sanitizeBlogHtml(post.content),
+              }}
+            />
+          ) : (
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {post.content}
+            </ReactMarkdown>
+          )}
         </div>
 
         {/* Share & Footer Strip */}
