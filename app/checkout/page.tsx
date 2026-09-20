@@ -34,9 +34,7 @@ function CheckoutContent() {
   const [selectedProductId, setSelectedProductId] = useState<string>(
     searchParams.get('product') || EQUIPMENT_DATA[0]?.id || ''
   );
-  const [selectedSize, setSelectedSize] = useState<string>(
-    searchParams.get('size') || 'M'
-  );
+  const [selectedSize, setSelectedSize] = useState<string>(searchParams.get('size') || 'M');
   const [quantity, setQuantity] = useState<number>(
     Math.max(1, parseInt(searchParams.get('qty') || '1', 10) || 1)
   );
@@ -71,13 +69,12 @@ function CheckoutContent() {
     equipmentList[0] ||
     EQUIPMENT_DATA[0];
 
-  const effectiveSize =
-    selectedProduct.sizes.includes(selectedSize)
-      ? selectedSize
-      : (selectedProduct.sizes[2] || selectedProduct.sizes[0] || 'M');
+  const effectiveSize = selectedProduct.sizes.includes(selectedSize)
+    ? selectedSize
+    : selectedProduct.sizes[2] || selectedProduct.sizes[0] || 'M';
 
-  const effectiveMemberName = memberName !== '' ? memberName : (user?.name || '');
-  const effectiveMemberEmail = memberEmail !== '' ? memberEmail : (user?.email || '');
+  const effectiveMemberName = memberName !== '' ? memberName : user?.name || '';
+  const effectiveMemberEmail = memberEmail !== '' ? memberEmail : user?.email || '';
 
   const unitPrice = selectedProduct?.price || 0;
   const totalPrice = (unitPrice * quantity).toFixed(2);
@@ -143,7 +140,8 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                 Bon de Commande &amp; <span className="text-[#e03e3e] italic">Checkout Club</span>
               </h1>
               <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">
-                Réservation des équipements officiels Gobik Spain du Cyclo Club Saint-Martin Blanmont.
+                Réservation des équipements officiels Gobik Spain du Cyclo Club Saint-Martin
+                Blanmont.
               </p>
             </div>
 
@@ -359,10 +357,14 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
 
               <div className="space-y-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                  <label
+                    htmlFor="name"
+                    className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1"
+                  >
                     Prénom &amp; Nom de famille *
                   </label>
                   <input
+                    id="name"
                     type="text"
                     value={effectiveMemberName}
                     onChange={(e) => setMemberName(e.target.value)}
@@ -373,10 +375,14 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                    <label
+                      htmlFor="email"
+                      className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1"
+                    >
                       Adresse email *
                     </label>
                     <input
+                      id="email"
                       type="email"
                       value={effectiveMemberEmail}
                       onChange={(e) => setMemberEmail(e.target.value)}
@@ -385,10 +391,14 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                    <label
+                      htmlFor="phone"
+                      className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1"
+                    >
                       Numéro de téléphone (pour notification SMS)
                     </label>
                     <input
+                      id="phone"
                       type="tel"
                       value={memberPhone}
                       onChange={(e) => setMemberPhone(e.target.value)}
@@ -399,10 +409,14 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                  <label
+                    htmlFor="notes"
+                    className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1"
+                  >
                     Remarque ou essayage préalable (optionnel)
                   </label>
                   <textarea
+                    id="notes"
                     rows={2}
                     value={orderNotes}
                     onChange={(e) => setOrderNotes(e.target.value)}
@@ -439,7 +453,11 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                       {quantity}&times; {selectedProduct.name}
                     </div>
                     <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
-                      Taille : <span className="font-bold text-[#101216] dark:text-white">{effectiveSize}</span> · {unitPrice.toFixed(2)}&nbsp;€ / pièce
+                      Taille :{' '}
+                      <span className="font-bold text-[#101216] dark:text-white">
+                        {effectiveSize}
+                      </span>{' '}
+                      · {unitPrice.toFixed(2)}&nbsp;€ / pièce
                     </div>
                   </div>
                   <div className="font-bold text-[#101216] dark:text-white tabular-nums">
@@ -484,7 +502,9 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   <span>Modalités de règlement &amp; distribution</span>
                 </div>
                 <p className="text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-                  Le paiement s&apos;effectue par virement bancaire sur le compte du club ou en espèces lors de la remise en main propre. La distribution des tenues a lieu sur la Place de Blanmont avant les sorties du club.
+                  Le paiement s&apos;effectue par virement bancaire sur le compte du club ou en
+                  espèces lors de la remise en main propre. La distribution des tenues a lieu sur la
+                  Place de Blanmont avant les sorties du club.
                 </p>
               </div>
 
@@ -522,11 +542,15 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             <div className="grid grid-cols-2 gap-3 text-xs text-[#5c6370] dark:text-[#a7adbb]">
               <div className="p-3 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] flex items-center gap-2.5">
                 <ShieldCheckIcon className="h-5 w-5 text-[#e03e3e] shrink-0" />
-                <span className="font-semibold text-[#101216] dark:text-white">GOBIK Custom Spain</span>
+                <span className="font-semibold text-[#101216] dark:text-white">
+                  GOBIK Custom Spain
+                </span>
               </div>
               <div className="p-3 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] flex items-center gap-2.5">
                 <TruckIcon className="h-5 w-5 text-[#e03e3e] shrink-0" />
-                <span className="font-semibold text-[#101216] dark:text-white">Remise sans frais</span>
+                <span className="font-semibold text-[#101216] dark:text-white">
+                  Remise sans frais
+                </span>
               </div>
             </div>
           </div>
