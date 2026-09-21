@@ -19,7 +19,9 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
     return members.filter((member) => {
       // 1. Search query matching name, bio, or role
       const searchLower = search.toLowerCase().trim();
-      const rolesString = Array.isArray(member.role) ? member.role.join(' ') : String(member.role || '');
+      const rolesString = Array.isArray(member.role)
+        ? member.role.join(' ')
+        : String(member.role || '');
       const matchesSearch =
         !searchLower ||
         member.name.toLowerCase().includes(searchLower) ||
@@ -30,7 +32,9 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
 
       // 2. Role filter matching
       if (selectedFilter === 'bureau') {
-        return /président|tresorier|trésorier|secrétaire|secretaire|vice|comité|comite/i.test(rolesString);
+        return /président|tresorier|trésorier|secrétaire|secretaire|vice|comité|comite/i.test(
+          rolesString
+        );
       }
       if (selectedFilter === 'capitaines') {
         return /capitaine/i.test(rolesString);
@@ -43,7 +47,9 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
   const bureauCount = useMemo(() => {
     return members.filter((m) => {
       const rolesString = Array.isArray(m.role) ? m.role.join(' ') : String(m.role || '');
-      return /président|tresorier|trésorier|secrétaire|secretaire|vice|comité|comite/i.test(rolesString);
+      return /président|tresorier|trésorier|secrétaire|secretaire|vice|comité|comite/i.test(
+        rolesString
+      );
     }).length;
   }, [members]);
 
@@ -70,6 +76,8 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
           />
           {search && (
             <button
+              type="button"
+              aria-label="Effacer la recherche"
               onClick={() => setSearch('')}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white"
             >
@@ -81,6 +89,8 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center gap-2">
           <button
+            type="button"
+            aria-pressed={selectedFilter === 'all'}
             onClick={() => setSelectedFilter('all')}
             className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'all'
@@ -89,12 +99,16 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             }`}
           >
             <span>Tous</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}>
+            <span
+              className={`text-xs tabular-nums ${selectedFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}
+            >
               ({members.length})
             </span>
           </button>
 
           <button
+            type="button"
+            aria-pressed={selectedFilter === 'bureau'}
             onClick={() => setSelectedFilter('bureau')}
             className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'bureau'
@@ -103,12 +117,16 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             }`}
           >
             <span>Bureau &amp; Comité</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'bureau' ? 'text-white/80' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}>
+            <span
+              className={`text-xs tabular-nums ${selectedFilter === 'bureau' ? 'text-white/80' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}
+            >
               ({bureauCount})
             </span>
           </button>
 
           <button
+            type="button"
+            aria-pressed={selectedFilter === 'capitaines'}
             onClick={() => setSelectedFilter('capitaines')}
             className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'capitaines'
@@ -117,7 +135,9 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             }`}
           >
             <span>Capitaines de Route</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}>
+            <span
+              className={`text-xs tabular-nums ${selectedFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}
+            >
               ({captainsCount})
             </span>
           </button>
@@ -126,7 +146,10 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
 
       {/* ──── Members Grid ──── */}
       {filteredMembers.length > 0 ? (
-        <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <ul
+          role="list"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           {filteredMembers.map((member) => (
             <MemberCard key={member.id} member={member} />
           ))}
@@ -135,11 +158,15 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
         /* Empty State */
         <div className="rounded-lg border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] p-12 text-center space-y-3">
           <UsersIcon className="mx-auto h-12 w-12 text-[#5c6370] dark:text-[#a7adbb]" />
-          <h3 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">Aucun membre trouvé</h3>
+          <h3 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">
+            Aucun membre trouvé
+          </h3>
           <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto">
-            Aucun membre ne correspond à votre recherche « {search} ». Essayez de réinitialiser vos filtres.
+            Aucun membre ne correspond à votre recherche « {search} ». Essayez de réinitialiser vos
+            filtres.
           </p>
           <button
+            type="button"
             onClick={() => {
               setSearch('');
               setSelectedFilter('all');
