@@ -327,6 +327,16 @@ export interface HeroSettings {
   updatedAt?: string;
 }
 
+export type TrialRideStatus =
+  | 'pending'
+  | 'contacted'
+  | 'ride_1'
+  | 'ride_2'
+  | 'ride_3'
+  | 'completed'
+  | 'converted'
+  | 'archived';
+
 export interface TrialRideRequest {
   id: string;
   name: string;
@@ -337,8 +347,14 @@ export interface TrialRideRequest {
   experienceLevel: 'Débutant' | 'Intermédiaire' | 'Confirmé' | 'Compétiteur';
   firstRideDate?: string;
   message?: string;
-  status: 'pending' | 'contacted' | 'completed' | 'archived';
+  status: TrialRideStatus;
+  adminNotes?: string;
+  mentorCaptainId?: string;
+  mentorCaptainName?: string;
+  contactedAt?: string;
+  convertedMemberId?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface PhotoAlbum {

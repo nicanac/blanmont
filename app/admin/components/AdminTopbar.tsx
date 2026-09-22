@@ -107,6 +107,9 @@ export default function AdminTopbar({
     } else if (pathname.startsWith('/admin/galerie')) {
       parts.push({ label: 'Contenu' });
       parts.push({ label: 'Galeries Photos', href: '/admin/galerie' });
+    } else if (pathname.startsWith('/admin/prospects') || pathname.startsWith('/admin/sorties-essai')) {
+      parts.push({ label: 'Gestion' });
+      parts.push({ label: 'Candidatures & Sorties d’essai', href: '/admin/prospects' });
     } else if (pathname.startsWith('/admin/members/photos')) {
       parts.push({ label: 'Gestion' });
       parts.push({ label: 'Portraits & Cadrage' });
