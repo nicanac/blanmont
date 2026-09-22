@@ -5,11 +5,8 @@ describe('logger', () => {
 
   beforeEach(() => {
     vi.resetModules();
-    // eslint-disable-next-line no-console
     vi.spyOn(console, 'log').mockImplementation(() => {});
-    // eslint-disable-next-line no-console
     vi.spyOn(console, 'warn').mockImplementation(() => {});
-    // eslint-disable-next-line no-console
     vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -22,7 +19,6 @@ describe('logger', () => {
     process.env.NODE_ENV = 'development';
     const { logger } = await import('../../app/lib/logger');
     logger.info('test info', { data: 1 });
-    // eslint-disable-next-line no-console
     expect(console.log).toHaveBeenCalledWith('[INFO] test info', { data: 1 });
   });
 
@@ -30,7 +26,6 @@ describe('logger', () => {
     process.env.NODE_ENV = 'production';
     const { logger } = await import('../../app/lib/logger');
     logger.info('test info');
-    // eslint-disable-next-line no-console
     expect(console.log).not.toHaveBeenCalled();
   });
 
@@ -38,7 +33,6 @@ describe('logger', () => {
     process.env.NODE_ENV = 'production';
     const { logger } = await import('../../app/lib/logger');
     logger.warn('test warn', { data: 2 });
-    // eslint-disable-next-line no-console
     expect(console.warn).toHaveBeenCalledWith('[WARN] test warn', { data: 2 });
   });
 
@@ -46,7 +40,6 @@ describe('logger', () => {
     process.env.NODE_ENV = 'production';
     const { logger } = await import('../../app/lib/logger');
     logger.error('test error', { data: 3 });
-    // eslint-disable-next-line no-console
     expect(console.error).toHaveBeenCalledWith('[ERROR] test error', { data: 3 });
   });
 });
