@@ -68,11 +68,18 @@ export const getAllRides = async (): Promise<SaturdayRide[]> => {
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const ridesRef = ref(db, 'saturday-rides');
-    const snapshot = await get(ridesRef);
+    let snapshot;
+    if (typeof window === 'undefined') {
+      const { getAdminDatabase } = await import('./admin');
+      const db = getAdminDatabase();
+      snapshot = await db.ref('saturday-rides').once('value');
+    } else {
+      const db = getFirebaseDatabase();
+      const ridesRef = ref(db, 'saturday-rides');
+      snapshot = await get(ridesRef);
+    }
 
-    if (!snapshot.exists()) return [];
+    if (!snapshot || !snapshot.exists()) return [];
 
     const allRides = snapshotToArray<SaturdayRide>(snapshot);
 
@@ -160,6 +167,35 @@ export const getVotes = async (rideId: string): Promise<Vote[]> => {
     return allVotes.filter((vote) => vote.rideId === rideId);
   } catch (error) {
     console.error('Failed to get votes:', error);
+    return [];
+  }
+};
+
+/**
+ * Fetches all votes across all rides.
+ */
+export const getAllVotes = async (): Promise<Vote[]> => {
+  if (isMockMode) {
+    return [];
+  }
+
+  try {
+    let snapshot;
+    if (typeof window === 'undefined') {
+      const { getAdminDatabase } = await import('./admin');
+      const db = getAdminDatabase();
+      snapshot = await db.ref('votes').once('value');
+    } else {
+      const db = getFirebaseDatabase();
+      const votesRef = ref(db, 'votes');
+      snapshot = await get(votesRef);
+    }
+
+    if (!snapshot || !snapshot.exists()) return [];
+
+    return snapshotToArray<Vote>(snapshot);
+  } catch (error) {
+    console.error('Failed to get all votes:', error);
     return [];
   }
 };

@@ -1,19 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import {
-  XMarkIcon,
   ChatBubbleLeftRightIcon,
-  PlayIcon,
-  PlusIcon,
   ClockIcon,
   UserGroupIcon,
   ShareIcon,
   LightBulbIcon,
 } from '@heroicons/react/24/outline';
-
-import { useFocusTrap } from '@/app/hooks/useFocusTrap';
+import AdminTutorialModal from '@/app/admin/components/AdminTutorialModal';
 
 interface SondagesTutorialModalProps {
   isOpen: boolean;
@@ -26,210 +21,114 @@ export default function SondagesTutorialModal({
   onClose,
   onStartTour,
 }: SondagesTutorialModalProps): React.ReactElement | null {
-  const [activeTab, setActiveTab] = useState<'ritual' | 'votes' | 'whatsapp'>('ritual');
-  const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
+  const tabs = [
+    {
+      id: 'ritual',
+      label: '1. Le Rituel Hebdomadaire',
+      icon: ClockIcon,
+      content: (
+        <div className="space-y-4">
+          <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-[#a7adbb] leading-relaxed">
+            Le sondage est le cœur battant de la vie du club chaque semaine. Il permet de connaître à l&apos;avance l&apos;effectif présent et d&apos;ajuster les groupes pour garantir la sécurité du peloton.
+          </div>
 
-  if (!isOpen) return null;
-
-  return (
-    <div
-      ref={modalRef}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="sondages-tutorial-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
-    >
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Modal Dialog */}
-      <div className="relative w-full max-w-3xl rounded-xl border border-[#262b38] bg-[#0a0c10] text-white shadow-2xl overflow-hidden z-10 my-8">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#262b38] px-6 py-4 bg-[#161922]">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40">
-              <ChatBubbleLeftRightIcon className="h-5 w-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
-                  Guide des Sondages du Weekend
-                </h2>
-                <span className="text-xs font-bold uppercase tracking-wider rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2 py-0.5">
-                  Rituel Hebdomadaire
+          <div className="space-y-3">
+            <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
+              <div className="flex items-center gap-2 text-white font-bold text-xs">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
+                  L
                 </span>
+                <span>Lundi matin : Génération automatique</span>
               </div>
-              <p className="text-xs text-[#a7adbb]">
-                Organisation des sorties, composition des groupes et génération du récapitulatif WhatsApp
+              <p className="text-[#a7adbb] text-xs">
+                Le sondage est créé automatiquement à partir de la sortie du samedi et des traces GPX du calendrier. Les administrateurs peuvent le modifier ou l&apos;ajuster manuellement à tout moment.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
+              <div className="flex items-center gap-2 text-white font-bold text-xs">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-black font-extrabold text-xs">
+                  M-J
+                </span>
+                <span>Mardi à Jeudi : Vote du peloton</span>
+              </div>
+              <p className="text-[#a7adbb] text-xs">
+                Les membres indiquent leurs disponibilités (samedi / dimanche) et leurs choix de parcours et de groupes.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
+              <div className="flex items-center gap-2 text-white font-bold text-xs">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-black font-extrabold text-xs">
+                  V
+                </span>
+                <span>Vendredi Soir : Clôture &amp; Synthèse</span>
+              </div>
+              <p className="text-[#a7adbb] text-xs">
+                L&apos;admin clôture le sondage, vérifie la taille des pelotons et partage le récapitulatif officiel sur le groupe WhatsApp du club.
               </p>
             </div>
           </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-md p-1.5 text-[#5c6370] hover:bg-white/10 hover:text-white transition-colors"
-          >
-            <span className="sr-only">Fermer</span>
-            <XMarkIcon className="h-5 w-5" />
-          </button>
         </div>
+      ),
+    },
+    {
+      id: 'votes',
+      label: '2. Choix & Groupes de Niveau',
+      icon: UserGroupIcon,
+      content: (
+        <div className="space-y-4">
+          <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-[#a7adbb] leading-relaxed">
+            Sur la page membre (<span className="text-white font-mono">/sondage</span>), chaque cycliste peut voter en 1 clic :
+          </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex border-b border-[#262b38] bg-[#101216] px-6 overflow-x-auto">
-          <button
-            type="button"
-            onClick={() => setActiveTab('ritual')}
-            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
-              activeTab === 'ritual'
-                ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#5c6370] hover:text-white'
-            }`}
-          >
-            <ClockIcon className="h-4 w-4" />
-            <span>1. Le Rituel Hebdomadaire</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('votes')}
-            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
-              activeTab === 'votes'
-                ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#5c6370] hover:text-white'
-            }`}
-          >
-            <UserGroupIcon className="h-4 w-4 text-sky-400" />
-            <span>2. Choix &amp; Groupes de Niveau</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('whatsapp')}
-            className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
-              activeTab === 'whatsapp'
-                ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#5c6370] hover:text-white'
-            }`}
-          >
-            <ShareIcon className="h-4 w-4 text-emerald-400" />
-            <span>3. Synthèse WhatsApp</span>
-          </button>
-        </div>
-
-        {/* Tab Content Body */}
-        <div className="p-6 max-h-[60vh] overflow-y-auto space-y-6 text-xs sm:text-sm">
-          {/* TAB 1: RITUAL */}
-          {activeTab === 'ritual' && (
-            <div className="space-y-4">
-              <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-[#a7adbb] leading-relaxed">
-                Le sondage est le cœur battant de la vie du club chaque semaine. Il permet de connaître à l&apos;avance l&apos;effectif présent et d&apos;ajuster les groupes pour garantir la sécurité du peloton.
-              </div>
-
-              <div className="space-y-3">
-                <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <div className="flex items-center gap-2 text-white font-bold text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e03e3e] text-white font-extrabold text-xs">
-                      L
-                    </span>
-                    <span>Lundi matin : Génération automatique</span>
-                  </div>
-                  <p className="text-[#a7adbb] text-xs">
-                    Le sondage est créé automatiquement à partir de la sortie du samedi et des traces GPX du calendrier. Les administrateurs peuvent le modifier ou l&apos;ajuster manuellement à tout moment.
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <div className="flex items-center gap-2 text-white font-bold text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-black font-extrabold text-xs">
-                      M-J
-                    </span>
-                    <span>Mardi à Jeudi : Vote du peloton</span>
-                  </div>
-                  <p className="text-[#a7adbb] text-xs">
-                    Les membres indiquent leurs disponibilités (samedi / dimanche) et leurs choix de parcours et de groupes.
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <div className="flex items-center gap-2 text-white font-bold text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-black font-extrabold text-xs">
-                      V
-                    </span>
-                    <span>Vendredi Soir : Clôture &amp; Synthèse</span>
-                  </div>
-                  <p className="text-[#a7adbb] text-xs">
-                    L&apos;admin clôture le sondage, vérifie la taille des pelotons et partage le récapitulatif officiel sur le groupe WhatsApp du club.
-                  </p>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
+              <h4 className="font-bold text-white text-xs">Disponibilité</h4>
+              <p className="text-[#a7adbb] text-xs">Samedi matin, Dimanche matin, Les deux jours, ou Absent.</p>
             </div>
-          )}
 
-          {/* TAB 2: VOTES */}
-          {activeTab === 'votes' && (
-            <div className="space-y-4">
-              <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-[#a7adbb] leading-relaxed">
-                Sur la page membre (<span className="text-white font-mono">/sondage</span>), chaque cycliste peut voter en 1 clic :
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <h4 className="font-bold text-white text-xs">Disponibilité</h4>
-                  <p className="text-[#a7adbb] text-xs">Samedi matin, Dimanche matin, Les deux jours, ou Absent.</p>
-                </div>
-
-                <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
-                  <h4 className="font-bold text-white text-xs">Groupe de Niveau</h4>
-                  <p className="text-[#a7adbb] text-xs">Groupe A (&gt;30 km/h), Groupe B (27-29 km/h), Groupe C (24-26 km/h) ou VTT.</p>
-                </div>
-              </div>
+            <div className="p-3.5 rounded-lg border border-[#262b38] bg-[#161922] space-y-1">
+              <h4 className="font-bold text-white text-xs">Groupe de Niveau</h4>
+              <p className="text-[#a7adbb] text-xs">Groupe A (&gt;30 km/h), Groupe B (27-29 km/h), Groupe C (24-26 km/h) ou VTT.</p>
             </div>
-          )}
-
-          {/* TAB 3: WHATSAPP */}
-          {activeTab === 'whatsapp' && (
-            <div className="space-y-4">
-              <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-[#a7adbb] leading-relaxed">
-                Fini les messages manuels fastidieux ! Sur la page de détails du sondage (<span className="text-white font-mono">/admin/sondages/[id]</span>), un bouton <strong>&laquo; Copier pour WhatsApp &raquo;</strong> génère instantanément le message complet avec les émojis, la liste des inscrits par groupe, l&apos;heure et le lien de la trace GPX.
-              </div>
-
-              <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 flex items-start gap-3">
-                <LightBulbIcon className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                <p className="text-xs text-[#a7adbb]">
-                  Les capitaines de route utilisent ce récapitulatif le samedi et dimanche matin pour faire l&apos;appel au départ sur la place de Blanmont.
-                </p>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
+      ),
+    },
+    {
+      id: 'whatsapp',
+      label: '3. Synthèse WhatsApp',
+      icon: ShareIcon,
+      content: (
+        <div className="space-y-4">
+          <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-[#a7adbb] leading-relaxed">
+            Fini les messages manuels fastidieux ! Sur la page de détails du sondage (<span className="text-white font-mono">/admin/sondages/[id]</span>), un bouton <strong>« Copier pour WhatsApp »</strong> génère instantanément le message complet avec les émojis, la liste des inscrits par groupe, l&apos;heure et le lien de la trace GPX.
+          </div>
 
-        {/* Footer Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-[#262b38] bg-[#161922] px-6 py-4 gap-3">
-          <button
-            type="button"
-            onClick={() => {
-              onClose();
-              onStartTour();
-            }}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-[#262b38] bg-[#0a0c10] hover:bg-white/10 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors"
-          >
-            <PlayIcon className="h-4 w-4 text-[#e03e3e]" />
-            <span>Lancer la visite interactive</span>
-          </button>
-
-          <Link
-            href="/admin/sondages/new"
-            onClick={onClose}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span>Créer un Sondage</span>
-          </Link>
+          <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 flex items-start gap-3">
+            <LightBulbIcon className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+            <p className="text-xs text-[#a7adbb]">
+              Les capitaines de route utilisent ce récapitulatif le samedi et dimanche matin pour faire l&apos;appel au départ sur la place de Blanmont.
+            </p>
+          </div>
         </div>
-      </div>
-    </div>
+      ),
+    },
+  ];
+
+  return (
+    <AdminTutorialModal
+      isOpen={isOpen}
+      onClose={onClose}
+      onStartTour={() => {
+        onClose();
+        onStartTour();
+      }}
+      title="Guide des Sondages du Weekend"
+      badge="Rituel Hebdomadaire"
+      icon={ChatBubbleLeftRightIcon}
+      tabs={tabs}
+    />
   );
 }

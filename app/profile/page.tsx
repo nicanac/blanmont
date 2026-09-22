@@ -8,6 +8,7 @@ import { updateProfilePhotoAction, getMemberProfileAction, updateMemberEmergency
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../lib/canvasUtils';
 import { PageHero } from '../components/ui/PageHero';
+import Link from 'next/link';
 import {
   UserCircleIcon,
   CameraIcon,
@@ -17,8 +18,10 @@ import {
   ShieldCheckIcon,
   CheckCircleIcon,
   ClockIcon,
+  QrCodeIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
+import { Spinner } from '../components/ui/Spinner';
 
 // Helper function to read file as Data URL
 const readFile = (file: File): Promise<string> => {
@@ -110,24 +113,6 @@ export default function ProfilePage(): React.ReactElement | null {
     setImageSrc(null);
   };
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, router]);
-
-  if (!isAuthenticated || !user) {
-    return (
-      <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] flex items-center justify-center p-8">
-        <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-2 border-[#e4e0d8] dark:border-[#262b38] border-t-[#e03e3e]" />
-      </div>
-    );
-  }
-
-  const nameParts = user.name.split(' ');
-  const firstName = nameParts[0];
-  const lastName = nameParts.slice(1).join(' ');
-  const initials = getInitials(user.name);
   const [profileData, setProfileData] = useState<{
     cotisation2026Status?: 'paid' | 'pending' | 'exempt';
     ffbcLicenseNumber?: string;
@@ -141,11 +126,18 @@ export default function ProfilePage(): React.ReactElement | null {
   const [isSavingEmergency, setIsSavingEmergency] = useState(false);
   const [emergencyForm, setEmergencyForm] = useState({
     phone: '',
+    ffbcLicenseNumber: '',
     iceContactName: '',
     iceContactPhone: '',
     iceRelationship: '',
     preferredGroup: 'B' as 'A' | 'B' | 'C' | 'VTT',
   });
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     if (user) {
@@ -155,6 +147,7 @@ export default function ProfilePage(): React.ReactElement | null {
             setProfileData(data);
             setEmergencyForm({
               phone: data.phone || user.phone || '',
+              ffbcLicenseNumber: data.ffbcLicenseNumber || '',
               iceContactName: data.iceContactName || '',
               iceContactPhone: data.iceContactPhone || '',
               iceRelationship: data.iceRelationship || '',
@@ -165,6 +158,19 @@ export default function ProfilePage(): React.ReactElement | null {
         .catch(console.error);
     }
   }, [user]);
+
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] flex items-center justify-center p-8">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  const nameParts = user.name.split(' ');
+  const firstName = nameParts[0];
+  const lastName = nameParts.slice(1).join(' ');
+  const initials = getInitials(user.name);
 
   const handleSaveEmergency = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -279,6 +285,17 @@ export default function ProfilePage(): React.ReactElement | null {
                 <span className="font-bold text-[#101216] dark:text-[#f5f6f8]">
                   Groupe {profileData?.preferredGroup || 'B'}
                 </span>
+              </div>
+
+              {/* Link to Official Digital Pass */}
+              <div className="pt-2">
+                <Link
+                  href="/profile/pass"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-[#101216] hover:bg-[#262b38] dark:bg-white dark:hover:bg-[#f2efe9] text-white dark:text-[#101216] text-xs font-bold uppercase tracking-wider transition-colors shadow-2xs min-h-[44px]"
+                >
+                  <QrCodeIcon className="h-4 w-4 text-[#e03e3e]" />
+                  <span>Pass Sécurité &amp; Carte Digitale</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -434,7 +451,7 @@ export default function ProfilePage(): React.ReactElement | null {
 
             {isEditingEmergency ? (
               <form onSubmit={handleSaveEmergency} className="space-y-4 pt-2">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
                       Votre GSM personnel
@@ -444,6 +461,18 @@ export default function ProfilePage(): React.ReactElement | null {
                       value={emergencyForm.phone}
                       onChange={(e) => setEmergencyForm({ ...emergencyForm, phone: e.target.value })}
                       placeholder="+32 470 12 34 56"
+                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-xs text-[#101216] dark:text-[#f5f6f8] placeholder:text-[#a7adbb] dark:placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-hidden"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
+                      Licence FFBC
+                    </label>
+                    <input
+                      type="text"
+                      value={emergencyForm.ffbcLicenseNumber}
+                      onChange={(e) => setEmergencyForm({ ...emergencyForm, ffbcLicenseNumber: e.target.value })}
+                      placeholder="ex: 2026-B-12345"
                       className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-xs text-[#101216] dark:text-[#f5f6f8] placeholder:text-[#a7adbb] dark:placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-hidden"
                     />
                   </div>

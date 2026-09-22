@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Member } from '../../../types';
 import { ShieldCheckIcon, UserIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import Badge from '@/app/components/ui/Badge';
 
 interface MemberCardProps {
   member: Member;
@@ -132,20 +133,15 @@ export default function MemberCard({ member }: MemberCardProps) {
               const isCaptain = /capitaine/i.test(role);
 
               return (
-                <span
+                <Badge
                   key={idx}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-xs border ${
-                    isBureau
-                      ? 'bg-[#e03e3e]/90 text-white border-[#e03e3e]'
-                      : isCaptain
-                      ? 'bg-[#101216]/90 text-white border-white/20'
-                      : 'bg-[#101216]/80 text-[#f5f6f8] border-white/15'
-                  }`}
+                  variant={isBureau ? 'brand-solid' : 'neutral'}
+                  size="sm"
+                  icon={isBureau ? ShieldCheckIcon : undefined}
+                  className={isCaptain ? 'border border-white/20' : 'border border-white/15'}
                 >
-                  {isBureau && <ShieldCheckIcon className="h-3 w-3 shrink-0 text-white" />}
-                  {isCaptain && <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e] shrink-0" />}
                   <span className="truncate max-w-[140px]">{role}</span>
-                </span>
+                </Badge>
               );
             })}
           </div>

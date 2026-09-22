@@ -1,3 +1,4 @@
+import path from 'path';
 import type { NextConfig } from 'next';
 
 // Dev-only allowance so impeccable live mode can load.
@@ -5,6 +6,9 @@ const IMPECCABLE_LIVE_DEV =
   process.env.NODE_ENV === 'development' ? ' http://localhost:8400' : '';
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   devIndicators: false,
   images: {
     remotePatterns: [

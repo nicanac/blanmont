@@ -15,6 +15,7 @@ import {
 } from '@/app/lib/imagePosition';
 
 import MemberRoleSelector from '../../components/MemberRoleSelector';
+import { Spinner } from '@/app/components/ui/Spinner';
 
 interface EditMemberPageProps {
   params: Promise<{ id: string }>;
@@ -125,7 +126,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-4 border-red-600 border-t-transparent" />
+        <Spinner size="md" />
       </div>
     );
   }

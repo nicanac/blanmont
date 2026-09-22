@@ -1,15 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import {
   UsersIcon,
   PlusIcon,
-  AcademicCapIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import MembersTutorialModal from './MembersTutorialModal';
 import { useAdminTours } from '../../components/tours/adminTours';
+import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
 
 interface MembersHeaderProps {
   memberCount: number;
@@ -23,52 +22,28 @@ export default function MembersHeader({
 
   return (
     <>
-      <div id="members-header-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
-        <div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
-              Membres du Club
-            </h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#101216] px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
-              <UsersIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
-              <span>Gestion Membres</span>
-            </span>
-          </div>
-          <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
-            {memberCount} cyclistes actifs enregistrés dans le système.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <Link
-            href="/admin/members/photos"
-            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
-            title="Ajuster le cadrage et l'alignement des photos de membres"
-          >
-            <UserCircleIcon className="h-4 w-4 text-[#e03e3e]" />
-            <span>Portraits &amp; Cadrage</span>
-          </Link>
-
-          <button
-            type="button"
-            onClick={() => setModalOpen(true)}
-            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
-            title="Ouvrir le guide de gestion des membres"
-          >
-            <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
-            <span>Tutoriel &amp; Guide</span>
-          </button>
-
-          <Link
-            id="members-new-btn"
-            href="/admin/members/new"
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span>Nouveau Membre</span>
-          </Link>
-        </div>
-      </div>
+      <AdminPageHeader
+        id="members-header-section"
+        title="Membres du Club"
+        badge={{ icon: UsersIcon, label: 'Gestion Membres' }}
+        description={`${memberCount} cyclistes actifs enregistrés dans le système.`}
+        onOpenTutorial={() => setModalOpen(true)}
+        actions={[
+          {
+            label: 'Portraits & Cadrage',
+            href: '/admin/members/photos',
+            icon: UserCircleIcon,
+            variant: 'secondary',
+          },
+          {
+            id: 'members-new-btn',
+            label: 'Nouveau Membre',
+            href: '/admin/members/new',
+            icon: PlusIcon,
+            variant: 'primary',
+          },
+        ]}
+      />
 
       <MembersTutorialModal
         isOpen={modalOpen}

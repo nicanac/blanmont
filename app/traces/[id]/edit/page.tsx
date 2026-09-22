@@ -59,7 +59,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
                 setRating(data.rating || '');
                 setDescription(data.description || '');
                 setMapUrl(data.mapUrl || '');
-            } catch (e) {
+            } catch {
                 setError('Failed to load trace');
             } finally {
                 setLoading(false);
@@ -101,8 +101,8 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
             setTimeout(() => {
                 router.push(`/traces/${trace.id}`);
             }, 1500);
-        } catch (e: any) {
-            setError(e.message);
+        } catch (e: unknown) {
+            setError(e instanceof Error ? e.message : 'Une erreur est survenue.');
         } finally {
             setSaving(false);
         }
@@ -125,7 +125,7 @@ export default function TraceEditPage({ params }: { params: Promise<{ id: string
             }
 
             router.push('/traces');
-        } catch (e: any) {
+        } catch {
             setError('Erreur lors de la suppression du parcours.');
             setDeleting(false);
         }

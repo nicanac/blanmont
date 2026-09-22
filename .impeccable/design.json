@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-17T16:15:00.000Z",
+  "generatedAt": "2026-09-22T16:00:00.000Z",
   "title": "Design System: CC Saint-Martin Blanmont",
   "extensions": {
     "colorMeta": {
@@ -249,6 +249,30 @@
       "description": "High-contrast dark telemetry strip with tabular numerals and hairline dividers.",
       "html": "<div class=\"ds-telemetry-strip\"><div class=\"ds-telemetry-cell\"><span class=\"ds-telemetry-num\">95.4</span><span class=\"ds-telemetry-lbl\">DISTANCE (KM)</span></div><div class=\"ds-telemetry-bar\"></div><div class=\"ds-telemetry-cell\"><span class=\"ds-telemetry-num\">840</span><span class=\"ds-telemetry-lbl\">DÉNIVELÉ (M D+)</span></div><div class=\"ds-telemetry-bar\"></div><div class=\"ds-telemetry-cell\"><span class=\"ds-telemetry-num\">28.2</span><span class=\"ds-telemetry-lbl\">MOYENNE (KM/H)</span></div></div>",
       "css": ".ds-telemetry-strip { display: flex; align-items: center; justify-content: space-between; background-color: #101216; border: 1px solid #262b38; border-radius: 8px; padding: 16px 24px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; } .ds-telemetry-cell { display: flex; flex-direction: column; align-items: center; } .ds-telemetry-num { font-size: 1.75rem; font-weight: 800; color: #f5f6f8; font-variant-numeric: tabular-nums; line-height: 1; } .ds-telemetry-lbl { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: #a7adbb; margin-top: 6px; } .ds-telemetry-bar { width: 1px; height: 36px; background-color: #262b38; }"
+    },
+    {
+      "name": "Badge - Brand Solid",
+      "kind": "chip",
+      "refersTo": "badge-brand-solid",
+      "description": "Solid crimson pill badge for high-priority roles, Bureau members, and active filters.",
+      "html": "<span class=\"ds-badge-solid\">BUREAU DU CLUB</span>",
+      "css": ".ds-badge-solid { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background-color: #e03e3e; color: #ffffff; border-radius: 9999px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: none; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }"
+    },
+    {
+      "name": "Spinner Indicator",
+      "kind": "custom",
+      "refersTo": "spinner-brand",
+      "description": "Accessible, semantic circular spinner with brand red border.",
+      "html": "<div role=\"status\" aria-label=\"Chargement...\" class=\"ds-spinner\"><span class=\"ds-sr-only\">Chargement...</span></div>",
+      "css": ".ds-spinner { display: inline-block; width: 24px; height: 24px; border: 2px solid #e03e3e; border-top-color: transparent; border-radius: 9999px; animation: ds-spin 0.75s linear infinite; } .ds-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; } @keyframes ds-spin { to { transform: rotate(360deg); } }"
+    },
+    {
+      "name": "Empty State Spread",
+      "kind": "card",
+      "refersTo": "empty-state",
+      "description": "Centered empty state callout with circular icon badge and clear action CTA.",
+      "html": "<div class=\"ds-empty-state\"><div class=\"ds-empty-icon\">🚵</div><h4 class=\"ds-empty-title\">Aucun parcours trouvé</h4><p class=\"ds-empty-desc\">Modifiez vos filtres de distance ou de dénivelé pour afficher les tracés.</p></div>",
+      "css": ".ds-empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 48px 24px; background-color: #ffffff; border: 1px solid #e4e0d8; border-radius: 10px; font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif; } .ds-empty-icon { font-size: 2rem; margin-bottom: 12px; } .ds-empty-title { font-size: 1.125rem; font-weight: 700; color: #101216; margin: 0 0 8px 0; } .ds-empty-desc { font-size: 0.875rem; color: #5c6370; margin: 0; max-width: 400px; line-height: 1.5; }"
     }
   ],
   "narrative": {
@@ -317,12 +341,15 @@
     "dos": [
       "Do write all user-facing copy in idiomatic French (e.g. 'Parcours', 'Sorties', 'Membres', 'Dénivelé', 'Télécharger GPX').",
       "Do use Poppins (var(--font-poppins)) and Tailwind utility classes across all UI elements.",
+      "Do use <Spinner />, <Badge />, <EmptyState />, and <MapPreview /> instead of creating ad-hoc inline elements.",
       "Do present cycling metrics (distance in km, elevation in m D+) prominently with tabular-nums.",
       "Do design mobile-first with touch-friendly interactive targets (minimum 44px height).",
       "Do let typography scale and whitespace structure pages instead of adding ornamental containers.",
       "Do use 1px hairlines and tonal stepping to create visual hierarchy."
     ],
     "donts": [
+      "Don't write raw animate-spin div tags; always use the mutualized <Spinner /> component.",
+      "Don't construct ad-hoc badge spans with disparate Tailwind colors; use the <Badge /> component.",
       "Don't place a kicker or eyebrow label above a headline — the headline speaks for itself.",
       "Don't use decorative glassmorphism, gradient text, or colored drop-shadow halos.",
       "Don't build pages as monotonous rows of identical cards; vary cell span, tone, and rhythm.",

@@ -1,70 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
-import { TrashIcon } from '@heroicons/react/24/outline';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import React from 'react';
+import AdminDeleteButton from '@/app/admin/components/AdminDeleteButton';
 
 interface DeleteEventButtonProps {
   eventId: string;
   eventDate?: string;
 }
 
-export default function DeleteEventButton({ eventId, eventDate: _eventDate }: DeleteEventButtonProps): React.ReactElement {
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const router = useRouter();
-
-  const handleDelete = async (): Promise<void> => {
-    setIsDeleting(true);
-    try {
-      const response = await fetch(`/api/admin/events/${eventId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        toast.success('Événement supprimé avec succès.');
-        router.refresh();
-      } else {
-        toast.error('Échec de la suppression de l\'événement');
-      }
-    } catch (error) {
-      console.error('Error deleting event:', error);
-      toast.error('Échec de la suppression de l\'événement');
-    } finally {
-      setIsDeleting(false);
-      setShowConfirm(false);
-    }
-  };
-
-  if (showConfirm) {
-    return (
-      <div className="flex items-center gap-1">
-        <button
-          onClick={handleDelete}
-          disabled={isDeleting}
-          className="rounded-lg px-2 py-1 text-xs font-medium text-white bg-red-600 hover:bg-red-700 disabled:opacity-50"
-        >
-          {isDeleting ? '...' : 'Oui'}
-        </button>
-        <button
-          onClick={() => setShowConfirm(false)}
-          className="rounded-lg px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200"
-        >
-          Non
-        </button>
-      </div>
-    );
-  }
-
+export default function DeleteEventButton({ eventId, eventDate }: DeleteEventButtonProps): React.ReactElement {
   return (
-    <button
-      onClick={() => setShowConfirm(true)}
-      className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-      title="Supprimer"
-      aria-label="Supprimer"
-    >
-      <TrashIcon className="h-4 w-4" />
-    </button>
+    <AdminDeleteButton
+      endpoint={`/api/admin/events/${eventId}`}
+      itemTitle={eventDate ? `Sortie du ${eventDate}` : undefined}
+      successMessage="Événement supprimé avec succès."
+      errorMessage="Échec de la suppression de l'événement"
+      ariaLabel="Supprimer la sortie"
+    />
   );
 }

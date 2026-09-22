@@ -97,6 +97,9 @@ describe('Firebase Saturday Ride Service (app/lib/firebase/saturday-ride.ts)', (
         forEach: (cb: (item: any) => void) => mockItems.forEach(cb),
       };
 
+      const onceMock = vi.fn().mockResolvedValue(snapshot);
+      const refMock = vi.fn().mockReturnValue({ once: onceMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
       vi.spyOn(clientModule, 'get').mockResolvedValue(snapshot as any);
 
       const rides = await getAllRides();
@@ -107,10 +110,36 @@ describe('Firebase Saturday Ride Service (app/lib/firebase/saturday-ride.ts)', (
 
     it('handles empty snapshot', async () => {
       const snapshot = { exists: () => false };
+      const onceMock = vi.fn().mockResolvedValue(snapshot);
+      const refMock = vi.fn().mockReturnValue({ once: onceMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
       vi.spyOn(clientModule, 'get').mockResolvedValue(snapshot as any);
 
       const rides = await getAllRides();
       expect(rides).toEqual([]);
+    });
+  });
+
+  describe('getAllVotes', () => {
+    it('fetches all votes across all rides', async () => {
+      const mockItems = [
+        { key: 'v-1', val: () => ({ rideId: 'ride-1', memberId: 'm1', traceId: 't1' }) },
+        { key: 'v-2', val: () => ({ rideId: 'ride-2', memberId: 'm2', traceId: 't2' }) },
+      ];
+      const snapshot = {
+        exists: () => true,
+        forEach: (cb: (item: any) => void) => mockItems.forEach(cb),
+      };
+
+      const onceMock = vi.fn().mockResolvedValue(snapshot);
+      const refMock = vi.fn().mockReturnValue({ once: onceMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+      vi.spyOn(clientModule, 'get').mockResolvedValue(snapshot as any);
+
+      const { getAllVotes } = await import('@/app/lib/firebase/saturday-ride');
+      const votes = await getAllVotes();
+      expect(votes).toHaveLength(2);
+      expect(votes[0].id).toBe('v-1');
     });
   });
 

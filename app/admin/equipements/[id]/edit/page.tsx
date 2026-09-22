@@ -15,6 +15,7 @@ import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '../../../../types/equipment';
 import { EQUIPMENT_DATA, EQUIPMENT_CATEGORIES } from '../../../../data/equipment';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
+import { Spinner } from '@/app/components/ui/Spinner';
 
 const SIZE_OPTIONS = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'S/M', 'L/XL', 'Unique'];
 
@@ -229,7 +230,7 @@ export default function EditEquipmentPage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-2 border-[#e03e3e] border-t-transparent" />
+                <Spinner size="md" />
             </div>
         );
     }

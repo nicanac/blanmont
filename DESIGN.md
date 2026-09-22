@@ -99,6 +99,25 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "10px 14px"
+  badge-brand:
+    backgroundColor: "{colors.primary-light}"
+    textColor: "{colors.primary}"
+    rounded: "{rounded.full}"
+    padding: "4px 10px"
+  badge-brand-solid:
+    backgroundColor: "{colors.primary}"
+    textColor: "#ffffff"
+    rounded: "{rounded.full}"
+    padding: "4px 10px"
+  badge-neutral:
+    backgroundColor: "{colors.ink}"
+    textColor: "#ffffff"
+    rounded: "{rounded.full}"
+    padding: "4px 10px"
+  empty-state:
+    backgroundColor: "{colors.paper-card}"
+    rounded: "{rounded.lg}"
+    padding: "48px 24px"
 ---
 
 # Design System: CC Saint-Martin Blanmont
@@ -223,10 +242,43 @@ The CC Saint-Martin Blanmont system is **hairline-first and flat-by-default**. D
 - **Primary Action:** Solid crimson background (`#e03e3e`, hover `#c93434`), white bold uppercase text, 6px radius (`rounded-md`), padding `14px 28px`.
 - **Dark Outline:** Transparent background, `1px solid rgba(255, 255, 255, 0.25)`, on-dark text (`#f5f6f8`), hover background `rgba(255, 255, 255, 0.05)`.
 - **Paper Outline:** White background (`#ffffff`), `1px solid #e4e0d8`, dark text (`#101216`), hover background `#f2efe9`.
+- **Admin Variants (`Button.tsx`):**
+  - `admin-primary`: Solid crimson (`#e03e3e`), uppercase tracking-wider font.
+  - `admin-secondary`: White ground, 1px border (`#e4e0d8`), hover `#f2efe9`.
+  - `admin-danger`: Light red wash (`bg-red-50 text-red-700 border-red-200`).
+- **Admin Delete Action (`AdminDeleteButton.tsx`):** Centralized two-step deletion button supporting inline confirmation (Oui / Annuler) or modal prompts with automated Sonner feedback and pending states.
 
-### Chips & Badges
-- **Style:** Pill shape (`rounded-full`), uppercase micro-typography (`0.75rem`), 1px subtle border.
-- **Variants:** Emerald (`bg-emerald-50 text-emerald-800 border-emerald-200`), Amber (`bg-amber-50 text-amber-800 border-amber-200`), Default Paper (`bg-[#f2efe9] text-[#3a3f4a] border-[#e4e0d8]`).
+### Chips & Badges (`Badge.tsx`)
+- **Style:** Pill shape (`rounded-full`), uppercase bold micro-typography, 1px hairline border, integrated icon support (`iconPosition="left"|"right"`).
+- **Sizes:** `sm` (`0.6875rem` / 11px), `md` (`0.75rem` / 12px), `lg` (`0.75rem`, touch-accessible `min-h-[44px]`).
+- **Variants:**
+  - `brand` (`bg-[#e03e3e]/15 text-[#e03e3e] border-[#e03e3e]/30`)
+  - `brand-solid` (`bg-[#e03e3e] text-white shadow-2xs font-bold`)
+  - `neutral` (`bg-[#101216] dark:bg-[#1d2128] text-white`)
+  - `paper` (`bg-[#f2efe9] dark:bg-white/5 text-[#101216] dark:text-white border-[#e4e0d8] dark:border-[#262b38]`)
+  - `success` (`bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20`)
+  - `warning` (`bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20`)
+  - `danger` (`bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20`)
+  - `outline` (`border-[#e4e0d8] dark:border-[#262b38] bg-transparent text-[#101216] dark:text-white`)
+  - `pill-active` (`bg-[#101216] text-white dark:bg-white dark:text-[#101216]`)
+  - `pill-inactive` (`bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] border-[#e4e0d8]`)
+
+### Spinners & Loaders (`Spinner.tsx`)
+- **Semantic:** Accessible indicator (`role="status"`, screen-reader text `<span className="sr-only">`).
+- **Sizes:** `xs` (12px), `sm` (16px), `md` (24px), `lg` (32px), `xl` (48px).
+- **Variants:** `brand` (`#e03e3e`), `white` (`#ffffff`), `muted` (`#5c6370`), `current`.
+
+### Empty States (`EmptyState.tsx`)
+- **Design:** Centered editorial layout with icon badge, title, contextual description, and optional primary CTA button.
+- **Themes:** `paper` (light/card, `#ffffff` ground with `#e4e0d8` border) and `ink` (dark/panel, `#161922` ground with `#262b38` border).
+
+### Map Previews (`MapPreview.tsx`)
+- **Behavior:** Dynamic client-side Leaflet preview (`ssr: false`) with placeholder shimmer skeleton while tiles load.
+- **Data Support:** Accepts GeoJSON FeatureCollections, encoded polyline strings (`@mapbox/polyline`), or explicit coordinate arrays.
+
+### Admin Dashboard Patterns
+- **Page Header (`AdminPageHeader.tsx`):** Standardized header across all admin sections featuring title, counter badge, description, tutorial trigger, and action buttons (`rightExtra`).
+- **Tutorial Modal (`AdminTutorialModal.tsx`):** Tabbed educational guide shell with keyboard focus trap, step-by-step tour launches, and responsive drawer adaptation.
 
 ### Cards & Containers
 - **TraceCard:** Rectilinear photo header (aspect 4/3 or 16/9), overlay rating chip, hairline divider, bold tabular metrics (`km` and `m D+`), crimson hover title.
@@ -247,12 +299,15 @@ The CC Saint-Martin Blanmont system is **hairline-first and flat-by-default**. D
 ### Do:
 - **Do** write all user-facing copy in idiomatic French (e.g. "Parcours", "Sorties", "Membres", "Dénivelé", "Télécharger GPX").
 - **Do** use Poppins (`var(--font-poppins)`) and Tailwind utility classes across all UI elements.
+- **Do** use `<Spinner />`, `<Badge />`, `<EmptyState />`, and `<MapPreview />` instead of creating ad-hoc inline elements.
 - **Do** present cycling metrics (distance in `km`, elevation in `m D+`) prominently with `tabular-nums`.
 - **Do** design mobile-first with touch-friendly interactive targets (minimum 44px height).
 - **Do** let typography scale and whitespace structure pages instead of adding ornamental containers.
 - **Do** use 1px hairlines and tonal stepping to create visual hierarchy.
 
 ### Don't:
+- **Don't** write raw `animate-spin` div tags; always use the mutualized `<Spinner />` component.
+- **Don't** construct ad-hoc badge spans with disparate Tailwind colors; use the `<Badge />` component.
 - **Don't** place a kicker or eyebrow label above a headline — the headline speaks for itself.
 - **Don't** use decorative glassmorphism, gradient text, or colored drop-shadow halos.
 - **Don't** build pages as monotonous rows of identical cards; vary cell span, tone, and rhythm.

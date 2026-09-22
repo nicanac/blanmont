@@ -16,11 +16,27 @@ export const getMembers = async (): Promise<Member[]> => {
 
   try {
     const dbId = cleanId(MEMBERS_DB_ID);
-    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
-      sorts: [{ property: 'Name', direction: 'ascending' }],
-    });
+    let allResults: NotionPage[] = [];
+    let hasMore = true;
+    let startCursor: string | undefined = undefined;
 
-    return response.results.map((page: NotionPage) => {
+    while (hasMore) {
+      const response: { results: NotionPage[]; has_more: boolean; next_cursor: string } = await notionRequest(
+        `databases/${dbId}/query`,
+        'POST',
+        {
+          sorts: [{ property: 'Name', direction: 'ascending' }],
+          page_size: 100,
+          start_cursor: startCursor,
+        }
+      );
+
+      allResults = [...allResults, ...response.results];
+      hasMore = response.has_more;
+      startCursor = response.next_cursor;
+    }
+
+    return allResults.map((page: NotionPage) => {
       const props = page.properties;
       const photoFiles = props.Photo?.files || [];
       const photoUrl = photoFiles.length > 0 ? photoFiles[0].file?.url || photoFiles[0].external?.url : '';

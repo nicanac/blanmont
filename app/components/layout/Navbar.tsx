@@ -24,6 +24,7 @@ import {
   ShieldCheckIcon,
   UserPlusIcon,
   PhotoIcon,
+  QrCodeIcon,
 } from '@heroicons/react/24/outline';
 import {
   JerseyIcon,
@@ -127,6 +128,12 @@ export default function Navbar(): React.ReactElement {
   // Trace management has been moved to Admin section
   const userNavigation = [
     { name: 'Mon Compte', description: 'Gérer mon profil', href: '/profile', icon: UserIcon },
+    {
+      name: 'Pass Sécurité & Carte',
+      description: 'Licence FFBC, ICE & QR départ',
+      href: '/profile/pass',
+      icon: QrCodeIcon,
+    },
   ];
 
   // Admin link - shown only for users with admin access

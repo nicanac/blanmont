@@ -6,6 +6,7 @@ import CalendarView from './CalendarView';
 import CalendarSubscribeButton from './CalendarSubscribeButton';
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import { RouteCalendarIcon, BicycleIcon } from '../components/ui/CyclingIcons';
+import { Spinner } from '../components/ui/Spinner';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -121,7 +122,7 @@ export default async function CalendarPage() {
         <Suspense
           fallback={
             <div className="flex items-center justify-center py-20 text-center">
-              <div className="animate-spin rounded-full h-8 w-8 md:h-8 md:w-8 border-b-2 border-[#e03e3e]" />
+              <Spinner size="md" />
             </div>
           }
         >

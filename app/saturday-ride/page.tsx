@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { getMembers, getTraces, getActiveRides, getVotes } from '../lib/firebase';
 import SaturdayRideView from '../features/saturday-ride/components/SaturdayRideView';
 import { Vote } from '../types';
+import { Spinner } from '../components/ui/Spinner';
 
 // Revalidate every minute to show fresh votes
 export const revalidate = 60;
@@ -10,7 +11,7 @@ function SaturdayRideLoading(): React.ReactElement {
   return (
     <div className="min-h-[60vh] flex items-center justify-center p-8 text-center bg-[#faf8f5] dark:bg-[#0a0c10]">
       <div className="space-y-4">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#e4e0d8] dark:border-[#262b38] border-t-[#e03e3e] mx-auto" />
+        <Spinner size="lg" />
         <p className="text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
           Chargement des parcours et votes du samedi...
         </p>

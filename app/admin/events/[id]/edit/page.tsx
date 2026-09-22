@@ -6,6 +6,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { use } from 'react';
 import { toast } from 'sonner';
+import { Spinner } from '@/app/components/ui/Spinner';
 
 interface EditEventPageProps {
   params: Promise<{ id: string }>;
@@ -85,7 +86,7 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-2 border-[#e03e3e] border-t-transparent" />
+        <Spinner size="md" />
       </div>
     );
   }

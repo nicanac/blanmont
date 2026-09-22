@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
 
+import aspectRatio from '@tailwindcss/aspect-ratio';
+import forms from '@tailwindcss/forms';
+
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,10 +21,9 @@ const config: Config = {
     },
   },
   plugins: [
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/forms'),
+    aspectRatio,
+    forms,
   ],
-
 };
 
 export default config;
