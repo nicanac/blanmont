@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { BlogPost } from '../../../types';
 import { NewspaperIcon, CalendarDaysIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { parseDateInfo } from '@/app/lib/carreVert';
+import Badge from '@/app/components/ui/Badge';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -112,9 +113,13 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
 
         {/* Category Badge */}
         <div className="absolute top-3 left-3 z-10">
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#101216]/85 backdrop-blur-md px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/20">
+          <Badge
+            variant="neutral"
+            size="sm"
+            className="backdrop-blur-md border border-white/20"
+          >
             {post.category || 'Actualité'}
-          </span>
+          </Badge>
         </div>
       </div>
 

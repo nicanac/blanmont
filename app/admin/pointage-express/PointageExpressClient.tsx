@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import type { CalendarEvent, Member } from '@/app/types';
 import {
@@ -188,6 +188,29 @@ export default function PointageExpressClient({
       setIsUpdating((prev) => ({ ...prev, [member.id]: false }));
     }
   };
+
+  // Handle express QR scan parameter (?memberId=...)
+  const hasHandledQrRef = React.useRef(false);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !currentEvent || hasHandledQrRef.current) return;
+    const params = new URLSearchParams(window.location.search);
+    const memberIdFromUrl = params.get('memberId');
+    if (!memberIdFromUrl) return;
+
+    const targetMember = members.find((m) => m.id === memberIdFromUrl);
+    if (targetMember) {
+      hasHandledQrRef.current = true;
+      if (!presentMemberIds.has(targetMember.id)) {
+        handleToggleAttendance(targetMember);
+        toast.success(`Pointage QR validé : ${targetMember.name} !`);
+      } else {
+        toast.info(`${targetMember.name} est déjà pointé(e) présent(e).`);
+      }
+      // Clean query parameter from URL
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, '', cleanUrl);
+    }
+  }, [currentEvent, members, presentMemberIds]);
 
   return (
     <div className="space-y-5">

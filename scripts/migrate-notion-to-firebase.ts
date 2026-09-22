@@ -108,13 +108,25 @@ async function migrateMembers() {
 
   try {
     const dbId = cleanId(NOTION_MEMBERS_DB_ID);
-    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
-      sorts: [{ property: 'Name', direction: 'ascending' }],
-    });
+    let allResults: any[] = [];
+    let hasMore = true;
+    let startCursor = undefined;
+
+    while (hasMore) {
+      const response: any = await notionRequest(`databases/${dbId}/query`, 'POST', {
+        sorts: [{ property: 'Name', direction: 'ascending' }],
+        page_size: 100,
+        start_cursor: startCursor,
+      });
+
+      allResults = [...allResults, ...response.results];
+      hasMore = response.has_more;
+      startCursor = response.next_cursor;
+    }
 
     const members: any[] = [];
 
-    for (const page of response.results) {
+    for (const page of allResults) {
       const props = page.properties;
       const notionId = page.id;
       const firebaseId = `member_${cleanId(notionId)}`;
@@ -148,7 +160,13 @@ async function migrateMembers() {
     // Write to Firebase
     const membersRef = db.ref('members');
     for (const { id, data, email, password } of members) {
-      await membersRef.child(id).set(data);
+      const existingSnap = await membersRef.child(id).once('value');
+      if (!existingSnap.exists()) {
+        await membersRef.child(id).set(data);
+      } else {
+        // Keep existing customizations, just ensure notionId is tracked
+        await membersRef.child(id).update({ notionId: data.notionId });
+      }
 
       // Create Firebase Auth user if email exists
       if (email) {
@@ -165,7 +183,15 @@ async function migrateMembers() {
           console.log(`  ✅ Created auth user for ${email}`);
         } catch (authError: any) {
           if (authError.code === 'auth/email-already-exists') {
-            console.log(`  ℹ️  Auth user already exists for ${email}`);
+            try {
+              const existingUser = await auth.getUserByEmail(email);
+              if (!existingSnap.exists() || !existingSnap.val().authUid) {
+                await membersRef.child(id).update({ authUid: existingUser.uid });
+              }
+              console.log(`  ℹ️  Auth user already exists for ${email}, linked authUid: ${existingUser.uid}`);
+            } catch {
+              console.log(`  ℹ️  Auth user already exists for ${email}`);
+            }
           } else {
             console.log(`  ⚠️  Failed to create auth user for ${email}: ${authError.message}`);
           }
@@ -287,13 +313,25 @@ async function migrateFeedback() {
 
   try {
     const dbId = cleanId(NOTION_FEEDBACK_DB_ID);
-    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
-      sorts: [{ timestamp: 'created_time', direction: 'descending' }],
-    });
+    let allResults: any[] = [];
+    let hasMore = true;
+    let startCursor = undefined;
+
+    while (hasMore) {
+      const response: any = await notionRequest(`databases/${dbId}/query`, 'POST', {
+        sorts: [{ timestamp: 'created_time', direction: 'descending' }],
+        page_size: 100,
+        start_cursor: startCursor,
+      });
+
+      allResults = [...allResults, ...response.results];
+      hasMore = response.has_more;
+      startCursor = response.next_cursor;
+    }
 
     const feedbackList: any[] = [];
 
-    for (const page of response.results) {
+    for (const page of allResults) {
       const props = page.properties;
       const notionId = page.id;
       const firebaseId = `feedback_${cleanId(notionId)}`;
@@ -341,13 +379,25 @@ async function migrateSaturdayRides() {
 
   try {
     const dbId = cleanId(NOTION_SATURDAY_RIDE_DB_ID);
-    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {
-      sorts: [{ property: 'Date', direction: 'ascending' }],
-    });
+    let allResults: any[] = [];
+    let hasMore = true;
+    let startCursor = undefined;
+
+    while (hasMore) {
+      const response: any = await notionRequest(`databases/${dbId}/query`, 'POST', {
+        sorts: [{ property: 'Date', direction: 'ascending' }],
+        page_size: 100,
+        start_cursor: startCursor,
+      });
+
+      allResults = [...allResults, ...response.results];
+      hasMore = response.has_more;
+      startCursor = response.next_cursor;
+    }
 
     const rides: any[] = [];
 
-    for (const page of response.results) {
+    for (const page of allResults) {
       const props = page.properties;
       const notionId = page.id;
       const firebaseId = `ride_${cleanId(notionId)}`;
@@ -398,11 +448,24 @@ async function migrateVotes() {
 
   try {
     const dbId = cleanId(NOTION_VOTES_DB_ID);
-    const response = await notionRequest(`databases/${dbId}/query`, 'POST', {});
+    let allResults: any[] = [];
+    let hasMore = true;
+    let startCursor = undefined;
+
+    while (hasMore) {
+      const response: any = await notionRequest(`databases/${dbId}/query`, 'POST', {
+        page_size: 100,
+        start_cursor: startCursor,
+      });
+
+      allResults = [...allResults, ...response.results];
+      hasMore = response.has_more;
+      startCursor = response.next_cursor;
+    }
 
     const votes: any[] = [];
 
-    for (const page of response.results) {
+    for (const page of allResults) {
       const props = page.properties;
       const notionId = page.id;
       const firebaseId = `vote_${cleanId(notionId)}`;

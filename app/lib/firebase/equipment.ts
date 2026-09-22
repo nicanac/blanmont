@@ -43,12 +43,10 @@ const getEquipmentUncached = async (): Promise<Equipment[]> => {
     const snapshot = await equipmentRef.once('value');
 
     if (!snapshot.exists()) {
-      // Return mock data if Firebase is empty (for initial setup)
       return getMockEquipment();
     }
 
     const items = snapshotToArray<Equipment>(snapshot);
-    // Sort by order, then by name
     return items.sort((a, b) => {
       if (a.order !== undefined && b.order !== undefined) {
         return a.order - b.order;
@@ -57,7 +55,6 @@ const getEquipmentUncached = async (): Promise<Equipment[]> => {
     });
   } catch (error) {
     console.error('Error fetching equipment:', error);
-    // Fallback to mock data on error
     return getMockEquipment();
   }
 };
@@ -75,8 +72,7 @@ export const getEquipment = unstable_cache(getEquipmentUncached, ['equipment'], 
  */
 export const getEquipmentById = async (id: string): Promise<Equipment | null> => {
   if (isMockMode) {
-    const items = getMockEquipment();
-    return items.find((item) => item.id === id) || null;
+    return getMockEquipment().find((item) => item.id === id) || null;
   }
 
   try {
@@ -85,7 +81,6 @@ export const getEquipmentById = async (id: string): Promise<Equipment | null> =>
     const snapshot = await itemRef.once('value');
 
     if (!snapshot.exists()) {
-      // Fallback: check mock data
       const mockItem = getMockEquipment().find((item) => item.id === id);
       return mockItem || null;
     }
@@ -93,7 +88,6 @@ export const getEquipmentById = async (id: string): Promise<Equipment | null> =>
     return { id, ...snapshot.val() } as Equipment;
   } catch (error) {
     console.error('Error fetching equipment by ID:', error);
-    // Fallback to mock data
     const mockItem = getMockEquipment().find((item) => item.id === id);
     return mockItem || null;
   }
@@ -138,11 +132,9 @@ export const updateEquipment = async (
   const db = getAdminDatabase();
   const itemRef = db.ref(`equipment/${id}`);
 
-  // Check if item exists in Firebase
   const snapshot = await itemRef.once('value');
 
   if (!snapshot.exists()) {
-    // Item doesn't exist in Firebase yet - create it from mock data
     const mockItem = getMockEquipment().find((item) => item.id === id);
     if (mockItem) {
       const fullItem: Equipment = {
@@ -155,7 +147,6 @@ export const updateEquipment = async (
       throw new Error(`Equipment item ${id} not found`);
     }
   } else {
-    // Update existing item
     await itemRef.update({
       ...updates,
       updatedAt: new Date().toISOString(),
@@ -200,7 +191,6 @@ export const seedEquipment = async (): Promise<void> => {
   });
 
   await Promise.all(promises);
-
   await revalidateEquipmentCache();
 };
 

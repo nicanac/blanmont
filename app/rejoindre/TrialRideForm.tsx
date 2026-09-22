@@ -6,10 +6,15 @@ import {
   PaperAirplaneIcon,
   ArrowPathIcon,
   MapPinIcon,
-  CalendarDaysIcon,
-  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
+import {
+  BIKE_TYPES,
+  EXPERIENCE_LEVELS,
+  type BikeType,
+  type ExperienceLevel,
+  type CyclingGroup,
+} from '@/app/constants/cycling';
 
 const GROUPS = [
   { id: 'A', name: 'Groupe A', speed: '> 30 km/h', desc: 'Sportif & rythmé' },
@@ -18,17 +23,23 @@ const GROUPS = [
   { id: 'VTT', name: 'Groupe VTT', speed: 'Chemins & bois', desc: 'Sentiers techniques' },
 ] as const;
 
-const BIKE_TYPES = ['Route', 'VTT', 'Gravel', 'VAE'] as const;
-const LEVELS = ['Débutant', 'Intermédiaire', 'Confirmé', 'Compétiteur'] as const;
-
 export default function TrialRideForm(): React.ReactElement {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+    preferredGroup: CyclingGroup;
+    bikeType: BikeType;
+    experienceLevel: ExperienceLevel;
+    firstRideDate: string;
+    message: string;
+  }>({
     name: '',
     email: '',
     phone: '',
-    preferredGroup: 'B' as 'A' | 'B' | 'C' | 'VTT',
-    bikeType: 'Route' as 'Route' | 'VTT' | 'Gravel' | 'VAE',
-    experienceLevel: 'Intermédiaire' as 'Débutant' | 'Intermédiaire' | 'Confirmé' | 'Compétiteur',
+    preferredGroup: 'B',
+    bikeType: 'Route',
+    experienceLevel: 'Intermédiaire',
     firstRideDate: '',
     message: '',
   });
@@ -55,8 +66,9 @@ export default function TrialRideForm(): React.ReactElement {
 
       setIsSubmitted(true);
       toast.success('Demande enregistrée ! Un capitaine de route va vous contacter.');
-    } catch (err: any) {
-      toast.error(err.message || 'Impossible d\'enregistrer votre demande. Veuillez réessayer.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Impossible d\'enregistrer votre demande. Veuillez réessayer.';
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -200,7 +212,7 @@ export default function TrialRideForm(): React.ReactElement {
             3. Votre niveau / habitude
           </div>
           <div role="radiogroup" aria-labelledby="trial-level-label" className="grid grid-cols-2 gap-2">
-            {LEVELS.map((lvl) => {
+            {EXPERIENCE_LEVELS.map((lvl) => {
               const isSelected = formData.experienceLevel === lvl;
               return (
                 <button

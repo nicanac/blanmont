@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import { use } from 'react';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
 import { toast } from 'sonner';
+import { Spinner } from '@/app/components/ui/Spinner';
 
 const RichTextEditor = dynamic(() => import('../../components/RichTextEditor'), {
   ssr: false,
@@ -116,7 +117,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 md:h-8 md:w-8 animate-spin rounded-full border-2 border-[#e03e3e] border-t-transparent" />
+        <Spinner size="md" />
       </div>
     );
   }
