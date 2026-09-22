@@ -155,3 +155,53 @@ export function ClubCrestIcon({ className = 'h-5 w-5', ...props }: IconProps) {
     </svg>
   );
 }
+
+/**
+ * Crown emblem for 'Légende du Club' and all-time champions (Hall of Fame).
+ */
+export function CrownIcon({ className = 'h-5 w-5', ...props }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M4 18h16l1-11-4.5 4L12 4 7.5 11 3 7l1 11z" />
+      <path d="M4 18a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1" />
+      <circle cx="12" cy="4" r="1" fill="currentColor" />
+      <circle cx="3" cy="7" r="1" fill="currentColor" />
+      <circle cx="21" cy="7" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+/**
+ * Precision sports medal icon with circular medallion and ribbon.
+ */
+export function PodiumMedalIcon({ className = 'h-5 w-5', ...props }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M8 3.5L6 9l6 3 6-3-2-5.5H8z" />
+      <circle cx="12" cy="15.5" r="4.5" />
+      <path d="M12 13.5v4" />
+      <path d="M10 15.5h4" />
+    </svg>
+  );
+}
+
