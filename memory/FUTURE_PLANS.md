@@ -20,12 +20,12 @@
 - [ ] **Persist Equipment Orders in Firebase**: Upgrade `/checkout` from mailto to write into `/orders` node; add `/admin/equipements/commandes` view.
 - [ ] **Trial Ride Leads CRM (`/admin/prospects`)**: Build interface to manage prospect inquiries from `/rejoindre`, assign mentors, and track 3 trial rides.
 - [ ] **Fix Revalidation Path Bug**: Correct `revalidatePath('/boutique')` to `revalidatePath('/le-club/equipement')` in `app/lib/firebase/equipment.ts`.
-- [ ] **Decouple 2026 Year Coupling**: Parameterize `sync-leaderboard` cron and Carré Vert logic for dynamic multi-year handling.
+- [x] **Decouple 2026 Year Coupling**: Parameterize `sync-leaderboard` cron and Carré Vert logic for dynamic multi-year handling.
 
 ### Phase 2: Core Rituals & Financial Suite
 - [ ] **"Hub Rituel du Weekend" (`/weekend`)**: Unify Saturday route voting (`/saturday-ride`) and presence poll (`/sondage`) into a single 2-step portal.
 - [ ] **Belgian EPC QR-Code & Payconiq Suite**: Generate dynamic SEPA QR codes for zero-typo membership dues (cotisations) and gear orders.
-- [ ] **Multi-Year Leaderboard Archive**: Add historical season selector (`2024`, `2025`, `2026`, `2027`) on `/leaderboard`.
+- [x] **Multi-Year Leaderboard Archive**: Add historical season selector (`2024`, `2025`, `2026`, `2027`) on `/leaderboard`.
 - [ ] **Automated WhatsApp Announcement**: Enhance 1-click WhatsApp export with Open-Meteo weather badge and winning route GPX link.
 
 ### Phase 3: Field Usability, PWA & Safety Operations
@@ -37,4 +37,4 @@
 ### Phase 4: Connected Ecosystem & Route Studio
 - [ ] **Strava Club Hub**: Webhook sync, activity matching against calendar events, weekly awards ("Roi de la Montagne").
 - [ ] **In-Browser GPX Route Editor**: Reverse route direction with 1 click, cut/loop variants generator, wind vector advisory.
-- [ ] **All-Time Club Hall of Fame**: Veteran fidelity rankings across multiple seasons.
+- [x] **All-Time Club Hall of Fame**: Veteran fidelity rankings across multiple seasons.

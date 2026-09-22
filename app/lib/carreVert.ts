@@ -309,3 +309,228 @@ export function calculateLeaderboardFromAttendance(
     })
     .sort((a, b) => b.rides - a.rides);
 }
+
+export interface SeasonStats {
+  year: number;
+  carres: number;
+  physicalRides: number;
+  dates: string[];
+  rank?: number;
+  isChampion?: boolean;
+  isPodium?: boolean;
+}
+
+export type FidelityGrade = 'legend' | 'pillar' | 'veteran' | 'faithful' | 'newcomer';
+
+export interface HallOfFameMember {
+  id: string;
+  name: string;
+  group: string;
+  totalCarres: number;
+  totalPhysicalRides: number;
+  activeSeasons: number[];
+  seasonBreakdown: Record<number, SeasonStats>;
+  allDates: string[];
+  honors: string[];
+  fidelityGrade: FidelityGrade;
+  fidelityGradeLabel: string;
+}
+
+/**
+ * Discovers all unique seasons/years from events, attendance, and member dates,
+ * guaranteeing inclusion of the baseline seasons (2024, 2025, 2026, 2027).
+ */
+export function getAvailableYears(
+  events: CalendarEvent[] = [],
+  allAttendance: EventAttendance[] = [],
+  entries: LeaderboardEntry[] = [],
+  baseYears: number[] = [2024, 2025, 2026, 2027]
+): number[] {
+  const yearsSet = new Set<number>(baseYears);
+
+  events.forEach((evt) => {
+    if (evt.isoDate) {
+      const info = parseDateInfo(evt.isoDate);
+      if (info && info.year >= 2020 && info.year <= 2100) {
+        yearsSet.add(info.year);
+      }
+    }
+  });
+
+  allAttendance.forEach((att) => {
+    if (att.isoDate) {
+      const info = parseDateInfo(att.isoDate);
+      if (info && info.year >= 2020 && info.year <= 2100) {
+        yearsSet.add(info.year);
+      }
+    }
+  });
+
+  entries.forEach((entry) => {
+    (entry.dates || []).forEach((d) => {
+      const info = parseDateInfo(d);
+      if (info && info.year >= 2020 && info.year <= 2100) {
+        yearsSet.add(info.year);
+      }
+    });
+  });
+
+  return Array.from(yearsSet).sort((a, b) => a - b);
+}
+
+/**
+ * Calculates career multi-season cumulative statistics, historical honours (champions, podiums),
+ * and fidelity grades for all members.
+ */
+export function calculateHallOfFameLeaderboard(
+  entries: LeaderboardEntry[],
+  events: CalendarEvent[],
+  allAttendance: EventAttendance[],
+  years: number[]
+): HallOfFameMember[] {
+  // 1. Calculate seasonal leaderboard for each year to determine rankings and champions
+  const seasonalResultsByYear = new Map<number, LeaderboardEntry[]>();
+
+  years.forEach((year) => {
+    const seasonEntries = calculateLeaderboardFromAttendance(entries, events, allAttendance, year);
+    seasonalResultsByYear.set(year, seasonEntries);
+  });
+
+  // Track champions and podiums per year (only if highest rides > 0)
+  const championsByYear = new Map<number, Set<string>>();
+  const podiumsByYear = new Map<number, Set<string>>();
+
+  seasonalResultsByYear.forEach((seasonEntries, year) => {
+    const activeEntries = seasonEntries.filter((e) => e.rides > 0);
+    if (activeEntries.length === 0) return;
+
+    const maxRides = activeEntries[0].rides;
+    if (maxRides <= 0) return;
+
+    // Competition ranking for the season
+    const champs = new Set<string>();
+    const pods = new Set<string>();
+
+    let currentRank = 1;
+    for (let i = 0; i < activeEntries.length; i++) {
+      const entry = activeEntries[i];
+      if (i > 0 && entry.rides < activeEntries[i - 1].rides) {
+        currentRank = i + 1;
+      }
+      if (currentRank === 1) {
+        champs.add(entry.id);
+        pods.add(entry.id);
+      } else if (currentRank <= 3) {
+        pods.add(entry.id);
+      }
+    }
+
+    championsByYear.set(year, champs);
+    podiumsByYear.set(year, pods);
+  });
+
+  // 2. Build aggregated Hall of Fame stats for each member
+  const hallOfFameList: HallOfFameMember[] = entries.map((entry) => {
+    const seasonBreakdown: Record<number, SeasonStats> = {};
+    const activeSeasons: number[] = [];
+    const honors: string[] = [];
+    const allDatesSet = new Set<string>();
+    let totalCarres = 0;
+    let totalPhysicalRides = 0;
+
+    years.forEach((year) => {
+      const seasonEntries = seasonalResultsByYear.get(year);
+      const memberSeasonEntry = seasonEntries?.find((e) => e.id === entry.id);
+
+      const isChampion = Boolean(championsByYear.get(year)?.has(entry.id));
+      const isPodium = Boolean(podiumsByYear.get(year)?.has(entry.id));
+      const seasonCarres = memberSeasonEntry ? memberSeasonEntry.rides : 0;
+      const seasonDates = memberSeasonEntry ? memberSeasonEntry.dates : [];
+
+      if (seasonCarres > 0) {
+        activeSeasons.push(year);
+        totalCarres += seasonCarres;
+        totalPhysicalRides += seasonDates.length;
+        seasonDates.forEach((d) => allDatesSet.add(d));
+
+        if (isChampion) {
+          honors.push(`Champion ${year}`);
+        } else if (isPodium) {
+          honors.push(`Podium ${year}`);
+        }
+      }
+
+      // Calculate season rank among active members
+      let seasonRank: number | undefined = undefined;
+      if (seasonEntries && seasonCarres > 0) {
+        const sortedActive = seasonEntries.filter((e) => e.rides > 0);
+        const idx = sortedActive.findIndex((e) => e.id === entry.id);
+        if (idx !== -1) {
+          seasonRank = idx + 1;
+        }
+      }
+
+      seasonBreakdown[year] = {
+        year,
+        carres: seasonCarres,
+        physicalRides: seasonDates.length,
+        dates: seasonDates,
+        rank: seasonRank,
+        isChampion,
+        isPodium,
+      };
+    });
+
+    // Determine fidelity grade
+    let fidelityGrade: FidelityGrade = 'newcomer';
+    let fidelityGradeLabel = 'Nouveau Venu';
+
+    if (totalCarres >= 70 || (honors.some((h) => h.startsWith('Champion')) && totalCarres >= 35)) {
+      fidelityGrade = 'legend';
+      fidelityGradeLabel = 'Légende du Club';
+    } else if (totalCarres >= 40 || (activeSeasons.length >= 3 && totalCarres >= 25)) {
+      fidelityGrade = 'pillar';
+      fidelityGradeLabel = 'Pilier du Peloton';
+    } else if (totalCarres >= 20 || (activeSeasons.length >= 2 && totalCarres >= 12)) {
+      fidelityGrade = 'veteran';
+      fidelityGradeLabel = 'Sociétaire Émérite';
+    } else if (totalCarres >= 5) {
+      fidelityGrade = 'faithful';
+      fidelityGradeLabel = 'Fidèle du Peloton';
+    }
+
+    const sortedAllDates = Array.from(allDatesSet).sort((a, b) => {
+      const infoA = parseDateInfo(a);
+      const infoB = parseDateInfo(b);
+      if (!infoA || !infoB) return a.localeCompare(b);
+      return infoA.isoDate.localeCompare(infoB.isoDate);
+    });
+
+    return {
+      id: entry.id,
+      name: entry.name,
+      group: entry.group,
+      totalCarres,
+      totalPhysicalRides,
+      activeSeasons,
+      seasonBreakdown,
+      allDates: sortedAllDates,
+      honors,
+      fidelityGrade,
+      fidelityGradeLabel,
+    };
+  });
+
+  // Sort Hall of Fame:
+  // 1. Total carres descending
+  // 2. Active seasons count descending
+  // 3. Total physical rides descending
+  // 4. Name ascending
+  return hallOfFameList.sort((a, b) => {
+    if (b.totalCarres !== a.totalCarres) return b.totalCarres - a.totalCarres;
+    if (b.activeSeasons.length !== a.activeSeasons.length) return b.activeSeasons.length - a.activeSeasons.length;
+    if (b.totalPhysicalRides !== a.totalPhysicalRides) return b.totalPhysicalRides - a.totalPhysicalRides;
+    return a.name.localeCompare(b.name, 'fr');
+  });
+}
+

@@ -6,6 +6,8 @@ import {
   calculateMemberCarres,
   getPossibleCarresCount,
   calculateLeaderboardFromAttendance,
+  getAvailableYears,
+  calculateHallOfFameLeaderboard,
 } from '@/app/lib/carreVert';
 
 describe('carreVert calculations', () => {
@@ -243,6 +245,177 @@ describe('carreVert calculations', () => {
       // Alice is first, Bob is second
       expect(results[0].name).toBe('Alice');
       expect(results[1].name).toBe('Bob');
+    });
+  });
+
+  describe('getAvailableYears', () => {
+    it('returns default base years (2024, 2025, 2026, 2027) when empty inputs are provided', () => {
+      const years = getAvailableYears([], [], []);
+      expect(years).toEqual([2024, 2025, 2026, 2027]);
+    });
+
+    it('extracts years dynamically from events, attendance, and member dates and deduplicates them', () => {
+      const mockEvents: any[] = [
+        { id: 'ev-1', isoDate: '2023-06-15' },
+        { id: 'ev-2', isoDate: '2025-08-20' },
+      ];
+      const mockAttendance: any[] = [
+        { id: 'att-1', isoDate: '2026-04-10' },
+        { id: 'att-2', isoDate: '2028-09-02' },
+      ];
+      const mockEntries: any[] = [
+        { id: 'mem-1', dates: ['10/05/2024', '12/07/2025', '2029-01-15'] },
+      ];
+
+      const years = getAvailableYears(mockEvents, mockAttendance, mockEntries);
+      expect(years).toContain(2023);
+      expect(years).toContain(2024);
+      expect(years).toContain(2025);
+      expect(years).toContain(2026);
+      expect(years).toContain(2027);
+      expect(years).toContain(2028);
+      expect(years).toContain(2029);
+      // Ensure sorted order
+      expect(years).toEqual([...years].sort((a, b) => a - b));
+    });
+  });
+
+  describe('calculateHallOfFameLeaderboard', () => {
+    const mockEntries: any[] = [
+      { id: 'mem-1', name: 'Alice Légende', group: 'A', dates: [] },
+      { id: 'mem-2', name: 'Bob Pilier', group: 'B', dates: [] },
+      { id: 'mem-3', name: 'Charlie Vétéran', group: 'C', dates: [] },
+      { id: 'mem-4', name: 'David Nouveau', group: 'A', dates: [] },
+    ];
+
+    const mockEvents: any[] = [
+      // 2024
+      { id: 'ev-24-1', isoDate: '2024-04-13' }, // Sat
+      { id: 'ev-24-2', isoDate: '2024-04-14' }, // Sun
+      // 2025
+      { id: 'ev-25-1', isoDate: '2025-05-17' }, // Sat
+      { id: 'ev-25-2', isoDate: '2025-05-21' }, // Wed
+      // 2026
+      { id: 'ev-26-1', isoDate: '2026-06-06' }, // Sat
+      { id: 'ev-26-2', isoDate: '2026-06-07' }, // Sun
+      { id: 'ev-26-3', isoDate: '2026-06-10' }, // Wed
+    ];
+
+    const mockAttendance: any[] = [
+      // 2024: Alice attends Sat+Sun (1 pt), Bob attends Sat (1 pt)
+      {
+        eventId: 'ev-24-1',
+        isoDate: '2024-04-13',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice Légende', group: 'A', markedAt: '2024-04-13' },
+          'mem-2': { memberId: 'mem-2', name: 'Bob Pilier', group: 'B', markedAt: '2024-04-13' },
+        },
+      },
+      {
+        eventId: 'ev-24-2',
+        isoDate: '2024-04-14',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice Légende', group: 'A', markedAt: '2024-04-14' },
+        },
+      },
+      // 2025: Alice attends Sat+Wed (2 pts), Charlie attends Sat (1 pt)
+      {
+        eventId: 'ev-25-1',
+        isoDate: '2025-05-17',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice Légende', group: 'A', markedAt: '2025-05-17' },
+          'mem-3': { memberId: 'mem-3', name: 'Charlie Vétéran', group: 'C', markedAt: '2025-05-17' },
+        },
+      },
+      {
+        eventId: 'ev-25-2',
+        isoDate: '2025-05-21',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice Légende', group: 'A', markedAt: '2025-05-21' },
+        },
+      },
+      // 2026: Bob attends Sat+Sun+Wed (2 pts), Alice attends Wed (1 pt)
+      {
+        eventId: 'ev-26-1',
+        isoDate: '2026-06-06',
+        members: {
+          'mem-2': { memberId: 'mem-2', name: 'Bob Pilier', group: 'B', markedAt: '2026-06-06' },
+        },
+      },
+      {
+        eventId: 'ev-26-2',
+        isoDate: '2026-06-07',
+        members: {
+          'mem-2': { memberId: 'mem-2', name: 'Bob Pilier', group: 'B', markedAt: '2026-06-07' },
+        },
+      },
+      {
+        eventId: 'ev-26-3',
+        isoDate: '2026-06-10',
+        members: {
+          'mem-1': { memberId: 'mem-1', name: 'Alice Légende', group: 'A', markedAt: '2026-06-10' },
+          'mem-2': { memberId: 'mem-2', name: 'Bob Pilier', group: 'B', markedAt: '2026-06-10' },
+        },
+      },
+    ];
+
+    it('aggregates multi-season career stats, active seasons, and orders riders correctly', () => {
+      const years = [2024, 2025, 2026, 2027];
+      const hof = calculateHallOfFameLeaderboard(mockEntries, mockEvents, mockAttendance, years);
+
+      expect(hof.length).toBe(4);
+
+      // Alice: 1 (2024) + 2 (2025) + 1 (2026) = 4 carres, active in 3 seasons [2024, 2025, 2026]
+      const alice = hof.find((m) => m.id === 'mem-1');
+      expect(alice).toBeDefined();
+      expect(alice?.totalCarres).toBe(4);
+      expect(alice?.activeSeasons).toEqual([2024, 2025, 2026]);
+      expect(alice?.seasonBreakdown[2024].carres).toBe(1);
+      expect(alice?.seasonBreakdown[2025].carres).toBe(2);
+      expect(alice?.seasonBreakdown[2026].carres).toBe(1);
+      expect(alice?.seasonBreakdown[2027].carres).toBe(0);
+
+      // Bob: 1 (2024) + 0 (2025) + 2 (2026) = 3 carres, active in 2 seasons [2024, 2026]
+      const bob = hof.find((m) => m.id === 'mem-2');
+      expect(bob).toBeDefined();
+      expect(bob?.totalCarres).toBe(3);
+      expect(bob?.activeSeasons).toEqual([2024, 2026]);
+
+      // Charlie: 1 (2025) = 1 carre, active in [2025]
+      const charlie = hof.find((m) => m.id === 'mem-3');
+      expect(charlie).toBeDefined();
+      expect(charlie?.totalCarres).toBe(1);
+      expect(charlie?.activeSeasons).toEqual([2025]);
+
+      // David: 0 carres, active in []
+      const david = hof.find((m) => m.id === 'mem-4');
+      expect(david).toBeDefined();
+      expect(david?.totalCarres).toBe(0);
+      expect(david?.activeSeasons).toEqual([]);
+
+      // Top of leaderboard is Alice, then Bob, then Charlie, then David
+      expect(hof[0].id).toBe('mem-1');
+      expect(hof[1].id).toBe('mem-2');
+      expect(hof[2].id).toBe('mem-3');
+      expect(hof[3].id).toBe('mem-4');
+    });
+
+    it('awards championship and podium honors to season leaders', () => {
+      const years = [2024, 2025, 2026];
+      const hof = calculateHallOfFameLeaderboard(mockEntries, mockEvents, mockAttendance, years);
+
+      const alice = hof.find((m) => m.id === 'mem-1')!;
+      const bob = hof.find((m) => m.id === 'mem-2')!;
+
+      // 2024: Alice & Bob tied at 1 pt -> both champions
+      expect(alice.honors).toContain('Champion 2024');
+      expect(bob.honors).toContain('Champion 2024');
+
+      // 2025: Alice (2 pts) was Champion 2025
+      expect(alice.honors).toContain('Champion 2025');
+
+      // 2026: Bob (2 pts) was Champion 2026
+      expect(bob.honors).toContain('Champion 2026');
     });
   });
 });
