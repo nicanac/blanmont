@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   UsersIcon,
+  UserPlusIcon,
   DocumentTextIcon,
   CalendarDaysIcon,
   PlusIcon,
@@ -15,6 +16,7 @@ import { getBlogPosts } from '../lib/firebase/blog';
 import { getMembers } from '../lib/firebase/members';
 import { getCalendarEvents } from '../lib/firebase/calendar';
 import { getActiveWeekendPoll, getPollResponses } from '../lib/firebase/polls';
+import { getTrialRequests } from '../lib/firebase/trial-requests';
 import AdminOnboardingChecklist from './components/AdminOnboardingChecklist';
 import { parseDateInfo } from '../lib/carreVert';
 
@@ -37,15 +39,17 @@ function formatDate(dateString: string): string {
 }
 
 export default async function AdminDashboardPage(): Promise<React.ReactElement> {
-  const [blogPosts, members, events, activePoll] = await Promise.all([
+  const [blogPosts, members, events, activePoll, trialRequests] = await Promise.all([
     getBlogPosts(),
     getMembers(),
     getCalendarEvents(),
     getActiveWeekendPoll(),
+    getTrialRequests(),
   ]);
 
   const pollResponses = activePoll ? await getPollResponses(activePoll.id) : [];
   const activeAttendees = pollResponses.filter((r) => r.dayChoice !== 'absent').length;
+  const pendingTrialsCount = trialRequests.filter((t) => t.status === 'pending').length;
 
   const totalMembers = members.length;
   const totalBlogPosts = blogPosts.length;
@@ -145,6 +149,32 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
         hasBlogPosts={totalBlogPosts > 0}
         totalBlogPosts={totalBlogPosts}
       />
+
+      {/* Alert banner for pending trial requests */}
+      {pendingTrialsCount > 0 && (
+        <div className="rounded-lg border border-amber-300 dark:border-amber-800/80 bg-amber-50 dark:bg-amber-950/30 p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-400/40 shrink-0">
+              <UserPlusIcon className="h-5 w-5 text-amber-700 dark:text-amber-400" />
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-amber-950 dark:text-amber-200">
+                {pendingTrialsCount} {pendingTrialsCount > 1 ? "nouvelles demandes de sortie d'essai" : "nouvelle demande de sortie d'essai"} à contacter
+              </h2>
+              <p className="text-xs text-amber-800 dark:text-amber-300/80 mt-0.5">
+                Des cyclistes ont postulé via /rejoindre et attendent une prise de contact et un capitaine mentor.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/admin/prospects"
+            className="inline-flex items-center gap-2 rounded-md bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-xs"
+          >
+            <span>Gérer les candidatures</span>
+            <ArrowRightIcon className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      )}
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">

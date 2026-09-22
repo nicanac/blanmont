@@ -16,6 +16,7 @@ import {
   CameraIcon,
   WindowIcon,
   UserCircleIcon,
+  UserPlusIcon,
   ClipboardDocumentCheckIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
@@ -95,6 +96,12 @@ const navigationGroups: NavigationGroup[] = [
     title: 'Gestion du Club',
     items: [
       { name: 'Membres du Club', href: '/admin/members', icon: UsersIcon },
+      {
+        name: "Candidatures & Essais",
+        href: '/admin/prospects',
+        icon: UserPlusIcon,
+        matchExtra: ['/admin/sorties-essai'],
+      },
       { name: 'Portraits & Cadrage', href: '/admin/members/photos', icon: UserCircleIcon },
       { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
       { name: 'Paramètres', href: '/admin/settings', icon: Cog6ToothIcon, matchExtra: ['/admin/parametres'] },
