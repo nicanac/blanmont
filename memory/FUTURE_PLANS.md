@@ -1,67 +1,40 @@
-# Future Plans & Implementation Guide
+# Future Plans & Implementation Blueprint (2026–2027)
 
-## 1. Correct PDF Import Feature
-**Goal**: Robustly parse the club's PDF calendar to create Event entries in Firebase.
+> **Canonical Document**: Full strategic and technical specification is maintained in [`ROADMAP.md`](../ROADMAP.md) and [`docs/roadmap.md`](../docs/roadmap.md).
 
-### Current Status
-- Basic extraction is implemented.
-- Error handling has been patched.
-- *Issue*: `pdf-parse` returns a raw string. Complex layouts (columns) may merge text lines incorrectly.
+---
 
-### Implementation Strategy
-1.  **Extraction Verification**:
-    - Log the raw text output of a successful parse to understand the structure.
-    - Check if "Date" and "Description" are on the same line or separated by newlines.
-2.  **Logic Refinement**:
-    - If columns are an issue (e.g., Date | Location | Distance), we may need a heuristic based on x-coordinates (if the parser supports it) or strict Regex patterns.
-    - *Alternative*: If `pdf-parse` is insufficient, consider `pdf2json` which provides coordinate data to separate columns.
-3.  **Validation Step**:
-    - Instead of directly inserting into DB, return a "Preview" list to the UI.
-    - Allow the admin to edit/confirm the events before the final "Save".
+## 🏆 Completed Historical Milestones
+- [x] **PDF 2-Step Ingestion & Import**: Implemented interactive preview table, batch row editing/toggling, and database commit (`/admin/events/import`).
+- [x] **Cloudinary Storage & Member Photo Uploads**: Migrated image storage to Cloudinary with `react-easy-crop` positioning for member portraits (`/admin/members/photos`).
+- [x] **Security Hardening**: Web Crypto HMAC-SHA256 HttpOnly session cookies (`ccb_session`), `middleware.ts` perimeter protection, `verifyAdminRequest` on all admin endpoints.
+- [x] **Weekend Poll QCM System**: Live presence polling (`/sondage`), speed groups (A/B/C/VTT), 1-click WhatsApp export, and complete admin management (`/admin/sondages`).
+- [x] **Typographic System & Design Tokens**: 100% Tailwind CSS v4, Poppins typography, zero CSS modules, Ciseco/Eco sporting aesthetic.
 
-## 2. Firebase Storage Implementation
-**Goal**: Enable image uploads for Member profiles and Blog posts.
+---
 
-### Architecture Update
-- **Storage Bucket**: Use standard Firebase Storage bucket.
-- **Path Structure**:
-  - `/members/{uid}/avatar.jpg`
-  - `/blog/{slug}/{filename}` or `/uploads/{date}-{filename}`
+## 🚀 Active Future Roadmap (from `ROADMAP.md`)
 
-### Implementation Steps
+### Phase 1: Quick Wins & Unblocking (Immediate)
+- [ ] **Unblock Traces Admin (`/admin/traces`)**: Remove hardcoded `redirect('/admin')`, restore sidebar nav link in `app/admin/layout.tsx`.
+- [ ] **Persist Equipment Orders in Firebase**: Upgrade `/checkout` from mailto to write into `/orders` node; add `/admin/equipements/commandes` view.
+- [ ] **Trial Ride Leads CRM (`/admin/prospects`)**: Build interface to manage prospect inquiries from `/rejoindre`, assign mentors, and track 3 trial rides.
+- [ ] **Fix Revalidation Path Bug**: Correct `revalidatePath('/boutique')` to `revalidatePath('/le-club/equipement')` in `app/lib/firebase/equipment.ts`.
+- [ ] **Decouple 2026 Year Coupling**: Parameterize `sync-leaderboard` cron and Carré Vert logic for dynamic multi-year handling.
 
-#### A. Configuration
-1.  **Client Init**:
-    - Update `app/lib/firebase/client.ts`:
-      ```typescript
-      import { getStorage } from "firebase/storage";
-      // ... after app init
-      export const storage = getStorage(app);
-      ```
-2.  **Security Rules**:
-    - Add rules to `firebase.json` or Console:
-      ```
-      match /b/{bucket}/o {
-        match /members/{userId}/{allPaths=**} {
-          allow read;
-          allow write: if request.auth.uid == userId || request.auth.token.admin == true;
-        }
-        match /blog/{allPaths=**} {
-          allow read;
-          allow write: if request.auth.token.admin == true;
-        }
-      }
-      ```
+### Phase 2: Core Rituals & Financial Suite
+- [ ] **"Hub Rituel du Weekend" (`/weekend`)**: Unify Saturday route voting (`/saturday-ride`) and presence poll (`/sondage`) into a single 2-step portal.
+- [ ] **Belgian EPC QR-Code & Payconiq Suite**: Generate dynamic SEPA QR codes for zero-typo membership dues (cotisations) and gear orders.
+- [ ] **Multi-Year Leaderboard Archive**: Add historical season selector (`2024`, `2025`, `2026`, `2027`) on `/leaderboard`.
+- [ ] **Automated WhatsApp Announcement**: Enhance 1-click WhatsApp export with Open-Meteo weather badge and winning route GPX link.
 
-#### B. Component Logic
-1.  **Upload Hook (`useImageUpload`)**:
-    - Inputs: `File`, `path`.
-    - Logic: `uploadBytesResumable`, track progress `%`, return `downloadURL`.
-2.  **UI Updates**:
-    - **Members**: Add `<input type="file" />` to the Member Edit form. On change -> resize (optional) -> upload -> save URL to `photoUrl` field.
-    - **Blog**: Integrate into the post editor. Either a simple "Cover Image" field or a drag-and-drop zone.
+### Phase 3: Field Usability, PWA & Safety Operations
+- [ ] **Progressive Web App (PWA)**: Add `manifest.webmanifest` and Service Worker for offline route, GPX, and emergency contact caching.
+- [ ] **Digital Member Safety Pass (`/profile/pass`)**: Mobile badge with photo, FFBC license, ICE emergency contacts, and blood group alert.
+- [ ] **Road Hazard Reporting Layer**: Interactive warning drop-pins on trace maps (potholes, gravel, road closures) with captain moderation.
+- [ ] **Web Push Notifications**: Automated broadcasts for poll opening, Saturday route decisions, and weather cancellations.
 
-### 3. Timeline
-- [ ] **Phase 1**: Fix PDF Parse (Next Session)
-- [ ] **Phase 2**: Storage Config & Member Uploads
-- [ ] **Phase 3**: Blog Image Uploads
+### Phase 4: Connected Ecosystem & Route Studio
+- [ ] **Strava Club Hub**: Webhook sync, activity matching against calendar events, weekly awards ("Roi de la Montagne").
+- [ ] **In-Browser GPX Route Editor**: Reverse route direction with 1 click, cut/loop variants generator, wind vector advisory.
+- [ ] **All-Time Club Hall of Fame**: Veteran fidelity rankings across multiple seasons.

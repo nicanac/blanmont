@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Sidereal Satellite is a web application for the **Club de Blanmont**. It serves as a central hub for managing cycling routes ("Traces"), club members, the annual calendar, news/blog, club gear, Carré Vert attendance, and coordinating the weekly "Saturday Ride". The application leverages **Firebase Realtime Database (RTDB)** as its primary backend and database (with Cloudinary for media storage and optional Notion fallback). Detailed database wiring and schemas are documented in [database.md](database.md).
+Sidereal Satellite is a web application for the **Club de Blanmont**. It serves as a central hub for managing cycling routes ("Traces"), club members, the annual calendar, news/blog, club gear, Carré Vert attendance, and coordinating the weekly "Saturday Ride". The application leverages **Firebase Realtime Database (RTDB)** as its primary backend and database (with Cloudinary for media storage and optional Notion fallback). Detailed database wiring and schemas are documented in [database.md](database.md), and the future evolution plan is detailed in [ROADMAP.md](../ROADMAP.md).
 
 ## Tech Stack
 
