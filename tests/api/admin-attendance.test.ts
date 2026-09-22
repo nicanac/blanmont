@@ -69,7 +69,7 @@ describe('Admin Attendance API (/api/admin/attendance)', () => {
         val: () => ({ dates: ['10/05/2026'] }),
       });
 
-      const refMock = vi.fn().mockImplementation((path: string) => {
+      const refMock = vi.fn().mockImplementation((_path: string) => {
         return {
           set: setMock,
           update: updateMock,

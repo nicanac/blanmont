@@ -71,6 +71,15 @@ const eslintConfig = [
     },
   },
   {
+    files: ["tests/**", "**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'no-console': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@next/next/no-img-element': 'off',
+    },
+  },
+  {
     ignores: [
       ".next/**",
       "out/**",

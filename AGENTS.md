@@ -26,6 +26,7 @@ Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS
 - **UI Language**: French (Français) for all user-facing text and copy. English for code, commits, and comments.
 - **Styling**: Tailwind CSS v4 only. Strictly follow typographic roles in `DESIGN.md`. No CSS modules, no inline styles.
 - **Database**: Firebase RTDB is the single source of truth (Admin SDK on server, Client SDK on client).
+- **Test Verification & Completion**: Whenever editing, modifying, or creating code, always run related tests, complete any missing test coverage for changed or new code, and ensure all tests pass (`npm test`) before considering the task complete.
 - **Reactive Updates**: Only add new rules here reactively when an error recurs, never preemptively.
 - **Documentation Git Automation**: Whenever documenting design system changes (`/impeccable document` or updates to `DESIGN.md` / `.impeccable/design.json`), automatically execute the full Git flow defined in [docs/git-workflow.md](docs/git-workflow.md):
   1. Branch: create a branch following conventions (`bash scripts/git-branch.sh docs <name>` or `<user>/docs/<name>`).

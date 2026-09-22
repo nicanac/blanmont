@@ -71,4 +71,11 @@ describe('roles constants & utils', () => {
     const custom = extractCustomRoles(roles);
     expect(custom).toEqual(['Traceur', 'Resp. Calendrier']);
   });
+
+  it('normalizes roles and defines CLUB_ROLES constant', () => {
+    expect(CLUB_ROLES.length).toBeGreaterThan(0);
+    expect(normalizeRoles(['  capitaine ', ' Membre '])).toEqual(['capitaine', 'Membre']);
+    expect(normalizeRoles(' Admin ')).toEqual(['Admin']);
+    expect(normalizeRoles(null)).toEqual([]);
+  });
 });

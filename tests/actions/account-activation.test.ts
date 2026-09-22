@@ -25,7 +25,7 @@ const mockUserRecord = {
 const mockUpdate = vi.fn().mockResolvedValue(undefined);
 const mockCreateUser = vi.fn().mockResolvedValue(mockUserRecord);
 const mockGetUserByEmail = vi.fn();
-const mockGeneratePasswordResetLink = vi.fn().mockImplementation((email: string) => {
+const mockGeneratePasswordResetLink = vi.fn().mockImplementation((_email: string) => {
   return Promise.resolve(`https://blanmont.firebaseapp.com/__/auth/action?mode=resetPassword&oobCode=code_12345&apiKey=key_abc`);
 });
 
