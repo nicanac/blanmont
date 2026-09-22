@@ -10,6 +10,8 @@ import {
   RouteCalendarIcon,
   BicycleIcon,
   ClubCrestIcon,
+  CrownIcon,
+  PodiumMedalIcon,
 } from '@/app/components/ui/CyclingIcons';
 
 describe('CyclingIcons Components (app/components/ui/CyclingIcons.tsx)', () => {
@@ -43,4 +45,13 @@ describe('CyclingIcons Components (app/components/ui/CyclingIcons.tsx)', () => {
     const { container: crestContainer } = render(<ClubCrestIcon />);
     expect(crestContainer.querySelector('svg')?.getAttribute('class')).toBe('h-5 w-5');
   });
+
+  it('renders CrownIcon and PodiumMedalIcon for Hall of Fame and Leaderboard podiums', () => {
+    const { container: crownContainer } = render(<CrownIcon className="h-6 w-6 text-amber-500" />);
+    expect(crownContainer.querySelector('svg')?.getAttribute('class')).toContain('h-6 w-6 text-amber-500');
+
+    const { container: medalContainer } = render(<PodiumMedalIcon className="h-5 w-5 text-emerald-600" />);
+    expect(medalContainer.querySelector('svg')?.getAttribute('class')).toContain('h-5 w-5 text-emerald-600');
+  });
 });
+

@@ -2,8 +2,23 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { XMarkIcon, ArrowTopRightOnSquareIcon, CalendarDaysIcon, FlagIcon } from '@heroicons/react/24/outline';
-import { TrophySquareIcon, BicycleIcon } from '../components/ui/CyclingIcons';
+import {
+    XMarkIcon,
+    ArrowTopRightOnSquareIcon,
+    CalendarDaysIcon,
+    FlagIcon,
+    TrophyIcon,
+    ShieldCheckIcon,
+    StarIcon,
+    MapPinIcon,
+    SparklesIcon,
+} from '@heroicons/react/24/outline';
+import {
+    TrophySquareIcon,
+    BicycleIcon,
+    CrownIcon,
+    PodiumMedalIcon,
+} from '../components/ui/CyclingIcons';
 import { CalendarEvent } from '../types';
 import { parseDateInfo, HallOfFameMember, FidelityGrade } from '../lib/carreVert';
 
@@ -51,7 +66,40 @@ const GroupBadge = ({ group }: { group: string }): React.ReactElement => (
     </span>
 );
 
-// Fidelity Grade Badge Component for Hall of Fame
+// Vector Medal Badge Component for Podiums
+const PodiumMedalBadge = ({
+    rank,
+    variant = 'seasonal',
+}: {
+    rank: number;
+    variant?: 'seasonal' | 'hof';
+}): React.ReactElement => {
+    if (rank === 1) {
+        return (
+            <div className={`flex h-7 w-7 items-center justify-center rounded-md shrink-0 ${
+                variant === 'hof'
+                    ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 ring-1 ring-amber-500/30'
+                    : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 ring-1 ring-emerald-500/30'
+            }`}>
+                <CrownIcon className="h-4 w-4" aria-hidden="true" />
+            </div>
+        );
+    }
+    if (rank === 2) {
+        return (
+            <div className="flex h-7 w-7 items-center justify-center rounded-md shrink-0 bg-slate-100 text-slate-700 dark:bg-slate-800/80 dark:text-slate-300 ring-1 ring-slate-400/30">
+                <PodiumMedalIcon className="h-4 w-4" aria-hidden="true" />
+            </div>
+        );
+    }
+    return (
+        <div className="flex h-7 w-7 items-center justify-center rounded-md shrink-0 bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 ring-1 ring-amber-700/30">
+            <PodiumMedalIcon className="h-4 w-4" aria-hidden="true" />
+        </div>
+    );
+};
+
+// Fidelity Grade Badge Component for Hall of Fame (strictly vector SVG)
 const FidelityGradeBadge = ({
     grade,
     label,
@@ -67,31 +115,39 @@ const FidelityGradeBadge = ({
         newcomer: 'bg-[#f2efe9] text-[#5c6370] ring-gray-500/10 dark:bg-[#1c202a] dark:text-[#a7adbb] dark:ring-white/10',
     }[grade];
 
-    const icon = {
-        legend: '👑',
-        pillar: '🛡️',
-        veteran: '🚴',
-        faithful: '⭐',
-        newcomer: '🔰',
-    }[grade];
+    const renderIcon = () => {
+        switch (grade) {
+            case 'legend':
+                return <CrownIcon className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />;
+            case 'pillar':
+                return <ShieldCheckIcon className="h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />;
+            case 'veteran':
+                return <BicycleIcon className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-blue-400" aria-hidden="true" />;
+            case 'faithful':
+                return <StarIcon className="h-3.5 w-3.5 shrink-0 text-purple-600 dark:text-purple-400" aria-hidden="true" />;
+            case 'newcomer':
+            default:
+                return <SparklesIcon className="h-3.5 w-3.5 shrink-0 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />;
+        }
+    };
 
     return (
-        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ring-inset ${styles}`}>
-            <span aria-hidden="true">{icon}</span>
+        <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ring-inset ${styles}`}>
+            {renderIcon()}
             <span>{label}</span>
         </span>
     );
 };
 
-// Honors Badge Component
+// Honors Badge Component (strictly vector SVG)
 const HonorsBadge = ({ text }: { text: string }): React.ReactElement => (
-    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-950/50 px-2 py-0.5 text-[11px] font-bold text-amber-800 dark:text-amber-300 ring-1 ring-inset ring-amber-600/20">
-        <span aria-hidden="true">🏆</span>
-        <span>{text}</span>
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 dark:bg-amber-950/50 px-2.5 py-0.5 text-[11px] font-bold text-amber-800 dark:text-amber-300 ring-1 ring-inset ring-amber-600/20">
+        <TrophyIcon className="h-3 w-3 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+        <span className="tabular-nums">{text}</span>
     </span>
 );
 
-// Seasonal Podium Card Component
+// Seasonal Podium Card Component (Flat-by-default, hairline depth)
 const SeasonalPodiumCard = ({
     entry,
     rank,
@@ -105,11 +161,10 @@ const SeasonalPodiumCard = ({
     totalPossibleRides: number;
     selectedYear: number;
 }): React.ReactElement => {
-    const medal = rank === 1 ? "🏆" : rank === 2 ? "🥈" : "🥉";
     const titleColor = rank === 1 ? "text-emerald-700 dark:text-emerald-400" : "text-[#101216] dark:text-white";
-    const ringColor = rank === 1 ? "ring-emerald-500/80 dark:ring-emerald-400/80 ring-2" : "ring-[#e4e0d8] dark:ring-[#262b38] ring-1";
-    const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
-    const bg = rank === 1 ? "bg-white dark:bg-[#161922]" : "bg-[#f2efe9]/70 dark:bg-[#101216]";
+    const borderStyle = rank === 1
+        ? "border-2 border-emerald-600/70 dark:border-emerald-500/70 bg-white dark:bg-[#161922] shadow-2xs hover:shadow-md"
+        : "border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5]/80 dark:bg-[#101216] shadow-2xs hover:shadow-xs";
     const lastDate = entry.dates.length > 0 ? formatFrenchDate(entry.dates[entry.dates.length - 1], selectedYear) : "Aucune";
 
     const fidelity = totalPossibleRides > 0
@@ -128,13 +183,16 @@ const SeasonalPodiumCard = ({
                     onSelect(entry.id);
                 }
             }}
-            className={`rounded-lg p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-[transform,box-shadow] duration-200 hover:shadow-xl cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-[0.98] motion-reduce:transition-none motion-reduce:transform-none`}
+            className={`rounded-lg p-6 sm:p-8 ${borderStyle} flex flex-col justify-between transition-[transform,box-shadow] duration-150 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-[0.99] motion-reduce:transition-none motion-reduce:transform-none`}
         >
             <div>
-                <div className="flex items-center justify-between">
-                    <h3 className={`text-base font-bold leading-6 ${titleColor} flex items-center gap-2`}>
-                        {medal} {rank === 1 ? "Champion" : rank === 2 ? "2ème Place" : "3ème Place"}
-                    </h3>
+                <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                        <PodiumMedalBadge rank={rank} variant="seasonal" />
+                        <h3 className={`text-base font-bold leading-6 ${titleColor}`}>
+                            {rank === 1 ? "Champion" : rank === 2 ? "2ème Place" : "3ème Place"}
+                        </h3>
+                    </div>
                     <GroupBadge group={entry.group} />
                 </div>
 
@@ -158,7 +216,7 @@ const SeasonalPodiumCard = ({
     );
 };
 
-// Hall of Fame Podium Card Component
+// Hall of Fame Podium Card Component (Flat-by-default, hairline depth)
 const HofPodiumCard = ({
     member,
     rank,
@@ -168,11 +226,10 @@ const HofPodiumCard = ({
     rank: number;
     onSelect: (id: string) => void;
 }): React.ReactElement => {
-    const medal = rank === 1 ? "🏆" : rank === 2 ? "🥈" : "🥉";
     const titleColor = rank === 1 ? "text-amber-600 dark:text-amber-400" : "text-[#101216] dark:text-white";
-    const ringColor = rank === 1 ? "ring-amber-500/80 dark:ring-amber-400/80 ring-2" : "ring-[#e4e0d8] dark:ring-[#262b38] ring-1";
-    const shadow = rank === 1 ? "shadow-2xl scale-105 z-10" : "shadow-md";
-    const bg = rank === 1 ? "bg-white dark:bg-[#161922]" : "bg-[#f2efe9]/70 dark:bg-[#101216]";
+    const borderStyle = rank === 1
+        ? "border-2 border-amber-500/80 dark:border-amber-400/80 bg-white dark:bg-[#161922] shadow-2xs hover:shadow-md"
+        : "border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5]/80 dark:bg-[#101216] shadow-2xs hover:shadow-xs";
 
     return (
         <div
@@ -186,18 +243,21 @@ const HofPodiumCard = ({
                     onSelect(member.id);
                 }
             }}
-            className={`rounded-lg p-8 ${ringColor} ${shadow} ${bg} flex flex-col justify-between transition-[transform,box-shadow] duration-200 hover:shadow-xl cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-[0.98] motion-reduce:transition-none motion-reduce:transform-none`}
+            className={`rounded-lg p-6 sm:p-8 ${borderStyle} flex flex-col justify-between transition-[transform,box-shadow] duration-150 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-[0.99] motion-reduce:transition-none motion-reduce:transform-none`}
         >
             <div>
                 <div className="flex items-center justify-between gap-2">
-                    <h3 className={`text-base font-bold leading-6 ${titleColor} flex items-center gap-2`}>
-                        {medal} {rank === 1 ? "Grand Pilier" : rank === 2 ? "2ème Légende" : "3ème Légende"}
-                    </h3>
+                    <div className="flex items-center gap-2">
+                        <PodiumMedalBadge rank={rank} variant="hof" />
+                        <h3 className={`text-base font-bold leading-6 ${titleColor}`}>
+                            {rank === 1 ? "Grand Pilier" : rank === 2 ? "2ème Légende" : "3ème Légende"}
+                        </h3>
+                    </div>
                     <GroupBadge group={member.group} />
                 </div>
 
                 <p className="mt-4 text-xl font-bold tracking-tight text-[#101216] dark:text-white truncate">{member.name}</p>
-                <div className="mt-2">
+                <div className="mt-2.5">
                     <FidelityGradeBadge grade={member.fidelityGrade} label={member.fidelityGradeLabel} />
                 </div>
 
@@ -227,6 +287,7 @@ const HofPodiumCard = ({
         </div>
     );
 };
+
 
 export default function LeaderboardView({
     entries,
@@ -451,7 +512,10 @@ export default function LeaderboardView({
                             </div>
 
                             {/* Multi-Season & Hall of Fame Navigation Selector */}
-                            <nav aria-label="Sélection de la saison ou Hall of Fame" className="inline-flex flex-wrap items-center gap-1 rounded-lg bg-white dark:bg-[#161922] p-1 border border-[#e4e0d8] dark:border-[#262b38] shrink-0 shadow-2xs">
+                            <nav
+                                aria-label="Sélection de la saison ou Hall of Fame"
+                                className="inline-flex max-w-full items-center gap-1 rounded-lg bg-white dark:bg-[#161922] p-1 border border-[#e4e0d8] dark:border-[#262b38] shrink-0 shadow-2xs overflow-x-auto no-scrollbar scroll-smooth"
+                            >
                                 {availableYears.map((year) => {
                                     const isSelected = !isHallOfFame && year === selectedYear;
                                     return (
@@ -1023,8 +1087,9 @@ export default function LeaderboardView({
                                                                         Saison {year}
                                                                     </span>
                                                                     {s?.isChampion && (
-                                                                        <span className="inline-flex items-center rounded-full bg-amber-100 text-amber-900 px-2 py-0.5 text-[10px] font-bold">
-                                                                            🏆 Champion
+                                                                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-amber-500/20">
+                                                                            <CrownIcon className="h-3 w-3 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+                                                                            <span>Champion</span>
                                                                         </span>
                                                                     )}
                                                                 </div>
@@ -1045,7 +1110,7 @@ export default function LeaderboardView({
                                                                             <Link
                                                                                 key={date}
                                                                                 href={`/calendrier?date=${isoDate}${event ? `&event=${event.id}` : ''}`}
-                                                                                className="inline-flex items-center gap-1 rounded-sm bg-emerald-50 dark:bg-emerald-950/40 px-2 py-1 text-[11px] font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40 hover:bg-emerald-600 hover:text-white transition-colors"
+                                                                                className="inline-flex items-center gap-1 rounded-md bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 text-[11px] font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40 hover:bg-emerald-600 hover:text-white transition-colors"
                                                                             >
                                                                                 <span className="tabular-nums">{formattedDate}</span>
                                                                                 <ArrowTopRightOnSquareIcon className="h-3 w-3 opacity-60" />
@@ -1123,7 +1188,10 @@ export default function LeaderboardView({
                                                                 <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                                                                 <span className="font-bold tabular-nums">{formatFrenchDate(hoveredDateInfo.dateStr, selectedYear)}</span>
                                                                 <span className="text-[#5c6370] dark:text-[#a7adbb]">·</span>
-                                                                <span className="font-semibold truncate">📍 {hoveredDateInfo.event.location}</span>
+                                                                <span className="flex items-center gap-1 font-semibold truncate">
+                                                                    <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
+                                                                    <span className="truncate">{hoveredDateInfo.event.location}</span>
+                                                                </span>
                                                                 {hoveredDateInfo.event.distances && (
                                                                     <>
                                                                         <span className="text-[#5c6370] dark:text-[#a7adbb]">·</span>
