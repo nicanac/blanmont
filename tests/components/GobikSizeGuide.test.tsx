@@ -53,4 +53,9 @@ describe('GobikSizeGuide component', () => {
 
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
+
+  it('exports valid men and women size charts', () => {
+    expect(MEN_SIZE_CHART.length).toBeGreaterThan(0);
+    expect(WOMEN_SIZE_CHART.length).toBeGreaterThan(0);
+  });
 });
