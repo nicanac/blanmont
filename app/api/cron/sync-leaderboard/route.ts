@@ -13,8 +13,25 @@ import { calculateMemberCarres } from '@/app/lib/carreVert';
 
 export const dynamic = 'force-dynamic'; // Ensure no caching for this route
 
-export async function GET() {
+export async function GET(request?: Request) {
     try {
+        const currentYear = new Date().getFullYear();
+        let targetYear = currentYear;
+        if (request && request.url) {
+            try {
+                const url = new URL(request.url);
+                const yearParam = url.searchParams.get('year');
+                if (yearParam) {
+                    const parsed = parseInt(yearParam, 10);
+                    if (!isNaN(parsed) && parsed >= 2020 && parsed <= 2100) {
+                        targetYear = parsed;
+                    }
+                }
+            } catch {
+                // Ignore URL parse error and fall back to currentYear
+            }
+        }
+
         const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1iKk938MCgkKn7CXconmZpjmy0xmSFaEPhYOqf0Nis84/export?format=csv&gid=1551990117';
         
         const response = await fetch(GOOGLE_SHEET_CSV_URL);
@@ -39,12 +56,12 @@ export async function GET() {
             const dateStr = header[i].trim();
             if (dateStr && dateStr.match(/^\d{2}\/\d{2}$/)) {
                 const [day, month] = dateStr.split('/');
-                const isoDate = `2026-${month}-${day}`;
-                dateColumns.push({ index: i, dateStr: `${dateStr}/2026`, isoDate });
+                const isoDate = `${targetYear}-${month}-${day}`;
+                dateColumns.push({ index: i, dateStr: `${dateStr}/${targetYear}`, isoDate });
             }
         }
 
-        console.log(`Found ${dateColumns.length} date columns for 2026.`);
+        console.log(`Found ${dateColumns.length} date columns for ${targetYear}.`);
 
         // 1. Fetch Existing Data
         const [existingEvents, existingLeaderboard] = await Promise.all([
@@ -64,20 +81,20 @@ export async function GET() {
             memberMapByName[entry.name.toLowerCase().trim()] = entry;
         });
 
-        // 2. Clear 2026 Data
-        // - Identify all events in 2026
-        const events2026 = existingEvents.filter(e => e.isoDate.startsWith('2026-'));
-        console.log(`Clearing attendance for ${events2026.length} existing 2026 events.`);
+        // 2. Clear Target Year Data
+        // - Identify all events in target year
+        const eventsTargetYear = existingEvents.filter(e => e.isoDate.startsWith(`${targetYear}-`));
+        console.log(`Clearing attendance for ${eventsTargetYear.length} existing ${targetYear} events.`);
 
-        for (const evt of events2026) {
+        for (const evt of eventsTargetYear) {
             await setEventAttendance(evt.id, evt.isoDate, {}); // Clear attendance
         }
 
-        // - Update Leaderboard: remove 2026 dates and recalculate rides
-        console.log('Cleaning up leaderboard 2026 stats...');
+        // - Update Leaderboard: remove target year dates and recalculate rides
+        console.log(`Cleaning up leaderboard ${targetYear} stats...`);
         for (const entry of existingLeaderboard) {
             const originalDates = entry.dates || [];
-            const newDates = originalDates.filter(d => !d.endsWith('/2026'));
+            const newDates = originalDates.filter(d => !d.endsWith(`/${targetYear}`));
 
             if (originalDates.length !== newDates.length) {
                 const updatedCarres = calculateMemberCarres(newDates).carres;
@@ -237,7 +254,7 @@ export async function GET() {
     }
 }
 
-export async function POST() {
-    return GET();
+export async function POST(request?: Request) {
+    return GET(request);
 }
 
