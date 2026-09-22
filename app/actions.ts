@@ -412,14 +412,7 @@ export async function requestAccountActivationAction(email: string): Promise<{
 }
 
 import { updateMemberPhoto } from './lib/firebase';
-import { v2 as cloudinary } from 'cloudinary';
-
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import { uploadImageToCloudinary } from './lib/cloudinary';
 
 /**
  * Server Action to update a member's profile photo.
@@ -448,26 +441,10 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
       throw new Error('Action non autorisée pour ce profil.');
     }
 
-    // Verify Cloudinary configuration
-    if (
-      !process.env.CLOUDINARY_CLOUD_NAME ||
-      !process.env.CLOUDINARY_API_KEY ||
-      !process.env.CLOUDINARY_API_SECRET
-    ) {
-      throw new Error('Cloudinary not configured');
-    }
-
-    // Convert File to base64 data URI for Cloudinary upload
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64 = buffer.toString('base64');
-    const dataURI = `data:${file.type};base64,${base64}`;
-
-    // Upload to Cloudinary
-    const result = await cloudinary.uploader.upload(dataURI, {
+    const result = await uploadImageToCloudinary(file, {
       folder: 'profiles',
-      public_id: `profile-${targetMemberId}`,
-      resource_type: 'auto',
+      publicId: `profile-${targetMemberId}`,
+      resourceType: 'auto',
       overwrite: true,
       transformation: [{ width: 256, height: 256, crop: 'fill', gravity: 'face' }],
     });
@@ -602,6 +579,7 @@ export async function updateMemberEmergencyAction(payload: {
   iceRelationship?: string;
   preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
   phone?: string;
+  ffbcLicenseNumber?: string;
 }) {
   const session = await getSessionUser();
   if (!session) {
@@ -616,5 +594,6 @@ export async function updateMemberEmergencyAction(payload: {
   });
 
   revalidatePath('/profile');
+  revalidatePath('/profile/pass');
   return { success: true };
 }

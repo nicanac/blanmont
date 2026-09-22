@@ -8,7 +8,7 @@ import LeaderboardView from '@/app/leaderboard/LeaderboardView';
 import { HallOfFameMember } from '@/app/lib/carreVert';
 
 vi.mock('next/link', () => ({
-  default: ({ children, href, prefetch, ...props }: any) => (
+  default: ({ children, href, _prefetch, ...props }: any) => (
     <a href={href} {...props}>
       {children}
     </a>
