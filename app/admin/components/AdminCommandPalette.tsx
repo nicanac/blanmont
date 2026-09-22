@@ -18,6 +18,7 @@ import {
   CameraIcon,
   WindowIcon,
   UserCircleIcon,
+  UserPlusIcon,
   ClipboardDocumentCheckIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
@@ -133,6 +134,15 @@ const COMMAND_ITEMS: CommandItem[] = [
     href: '/admin/members',
     icon: UsersIcon,
     keywords: ['membres', 'cyclistes', 'utilisateurs', 'capitaines', 'annuaire'],
+  },
+  {
+    id: 'page-prospects',
+    name: 'Candidatures & Sorties d’essai',
+    category: 'Pages',
+    description: 'Suivi des prospects /rejoindre, mentors capitaines et adhésions',
+    href: '/admin/prospects',
+    icon: UserPlusIcon,
+    keywords: ['prospects', 'candidatures', 'sorties', 'essai', 'rejoindre', 'recrutement', 'nouveaux'],
   },
   {
     id: 'page-members-photos',

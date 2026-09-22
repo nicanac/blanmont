@@ -114,8 +114,173 @@ describe('Firebase Trial Requests Service (app/lib/firebase/trial-requests.ts)',
       });
       vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
 
-      const success = await updateTrialRequestStatus('tr-123', 'approved');
+      const success = await updateTrialRequestStatus('tr-123', 'archived');
       expect(success).toBe(false);
     });
   });
+
+  describe('getTrialRequestById', () => {
+    it('returns single trial request when it exists in database', async () => {
+      const mockData = {
+        name: 'Émilie Charlier',
+        email: 'emilie@example.com',
+        phone: '+32478112233',
+        status: 'pending',
+      };
+      const snapshot = {
+        exists: () => true,
+        val: () => mockData,
+      };
+      const onceMock = vi.fn().mockResolvedValue(snapshot);
+      const refMock = vi.fn().mockReturnValue({ once: onceMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { getTrialRequestById } = await import('@/app/lib/firebase/trial-requests');
+      const res = await getTrialRequestById('tr-emilie');
+      expect(refMock).toHaveBeenCalledWith('trial-requests/tr-emilie');
+      expect(res).toEqual({ id: 'tr-emilie', ...mockData });
+    });
+
+    it('returns null when trial request is not found', async () => {
+      const snapshot = { exists: () => false };
+      const onceMock = vi.fn().mockResolvedValue(snapshot);
+      const refMock = vi.fn().mockReturnValue({ once: onceMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { getTrialRequestById } = await import('@/app/lib/firebase/trial-requests');
+      const res = await getTrialRequestById('tr-unknown');
+      expect(res).toBeNull();
+    });
+  });
+
+  describe('updateTrialRequest', () => {
+    it('updates arbitrary fields including adminNotes and mentorCaptain', async () => {
+      const updateMock = vi.fn().mockResolvedValue(undefined);
+      const refMock = vi.fn().mockReturnValue({ update: updateMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { updateTrialRequest } = await import('@/app/lib/firebase/trial-requests');
+      const success = await updateTrialRequest('tr-456', {
+        adminNotes: 'Contacté au téléphone, motivé.',
+        mentorCaptainId: 'captain-1',
+        mentorCaptainName: 'Marc V.',
+      });
+
+      expect(success).toBe(true);
+      expect(refMock).toHaveBeenCalledWith('trial-requests/tr-456');
+      expect(updateMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          adminNotes: 'Contacté au téléphone, motivé.',
+          mentorCaptainId: 'captain-1',
+          mentorCaptainName: 'Marc V.',
+          updatedAt: expect.any(String),
+        })
+      );
+    });
+
+    it('returns false on database update error', async () => {
+      const updateMock = vi.fn().mockRejectedValue(new Error('Update failed'));
+      const refMock = vi.fn().mockReturnValue({ update: updateMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { updateTrialRequest } = await import('@/app/lib/firebase/trial-requests');
+      const success = await updateTrialRequest('tr-456', { adminNotes: 'Test' });
+      expect(success).toBe(false);
+    });
+  });
+
+  describe('deleteTrialRequest', () => {
+    it('removes the trial request record from database', async () => {
+      const removeMock = vi.fn().mockResolvedValue(undefined);
+      const refMock = vi.fn().mockReturnValue({ remove: removeMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { deleteTrialRequest } = await import('@/app/lib/firebase/trial-requests');
+      const success = await deleteTrialRequest('tr-789');
+
+      expect(success).toBe(true);
+      expect(refMock).toHaveBeenCalledWith('trial-requests/tr-789');
+      expect(removeMock).toHaveBeenCalled();
+    });
+
+    it('returns false on delete error', async () => {
+      const removeMock = vi.fn().mockRejectedValue(new Error('Delete error'));
+      const refMock = vi.fn().mockReturnValue({ remove: removeMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { deleteTrialRequest } = await import('@/app/lib/firebase/trial-requests');
+      const success = await deleteTrialRequest('tr-789');
+      expect(success).toBe(false);
+    });
+  });
+
+  describe('convertTrialRequestToMember', () => {
+    it('creates a new member in /members and updates trial request status to converted', async () => {
+      const mockProspect = {
+        id: 'tr-convert',
+        name: 'Julien Lambert',
+        email: 'julien@example.be',
+        phone: '+32475112233',
+        preferredGroup: 'B',
+        bikeType: 'Route',
+        experienceLevel: 'Confirmé',
+        message: 'Prêt pour l’adhésion !',
+        status: 'ride_3',
+        createdAt: '2026-09-01T10:00:00.000Z',
+      };
+
+      const setMock = vi.fn().mockResolvedValue(undefined);
+      const updateMock = vi.fn().mockResolvedValue(undefined);
+      const snapshot = {
+        exists: () => true,
+        val: () => mockProspect,
+      };
+      const onceMock = vi.fn().mockResolvedValue(snapshot);
+
+      const refMock = vi.fn((path: string) => {
+        if (path === 'trial-requests/tr-convert') {
+          return { once: onceMock, update: updateMock };
+        }
+        if (path.startsWith('members/')) {
+          return { set: setMock };
+        }
+        return { set: setMock, once: onceMock, update: updateMock };
+      });
+
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { convertTrialRequestToMember } = await import('@/app/lib/firebase/trial-requests');
+      const result = await convertTrialRequestToMember('tr-convert');
+
+      expect(result.success).toBe(true);
+      expect(result.memberId).toMatch(/^member_/);
+      expect(setMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: 'Julien Lambert',
+          email: 'julien@example.be',
+          role: ['Membre'],
+        })
+      );
+      expect(updateMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: 'converted',
+          convertedMemberId: result.memberId,
+        })
+      );
+    });
+
+    it('returns error if prospect is not found', async () => {
+      const snapshot = { exists: () => false };
+      const onceMock = vi.fn().mockResolvedValue(snapshot);
+      const refMock = vi.fn().mockReturnValue({ once: onceMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      const { convertTrialRequestToMember } = await import('@/app/lib/firebase/trial-requests');
+      const result = await convertTrialRequestToMember('non-existent');
+
+      expect(result.success).toBe(false);
+      expect(result.error).toMatch(/introuvable/i);
+    });
+  });
 });
+
