@@ -42,6 +42,7 @@ Sidereal Satellite is the digital hub for the **Club de Blanmont**. It provides 
 
 ## Project Documentation
 
+- [ROADMAP.md](ROADMAP.md) — Strategic evolution plan and master feature roadmap (2026–2027).
 - [docs/architecture.md](docs/architecture.md) — Application overview, core business logic, and flows.
 - [docs/database.md](docs/database.md) — Comprehensive guide on database architecture, schemas, and scripts.
 - [DESIGN.md](DESIGN.md) — Design tokens, color palette, typography, and styling standards.
