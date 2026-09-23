@@ -38,7 +38,7 @@ export default function FeedbackList({
 
   if (feedbackList.length === 0) {
     return (
-      <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 text-center text-xs text-[#5c6370] dark:text-[#a7adbb]">
+      <div className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 text-center text-xs text-ink-3 dark:text-snow-3">
         Aucun retour d&apos;expérience pour le moment sur ce parcours.
       </div>
     );
@@ -56,10 +56,10 @@ export default function FeedbackList({
         return (
           <div
             key={fb.id}
-            className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 shadow-xs hover:border-[#c9c4ba] dark:hover:border-[#3a4254] transition-all duration-150 ease-out"
+            className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-4 sm:p-5 shadow-xs hover:border-line-strong dark:hover:border-night-line-strong transition-all duration-150 ease-out"
           >
             <div className="flex items-start gap-3.5">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-center text-xs font-bold text-white">
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-night-2 dark:bg-night-line border border-line dark:border-night-line flex items-center justify-center text-xs font-bold text-white">
                 {hasPhoto ? (
                   <Image
                     src={avatarUrl!}
@@ -77,14 +77,14 @@ export default function FeedbackList({
 
               <div className="flex-1 space-y-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-sm font-bold text-[#101216] dark:text-white truncate">{authorName}</h4>
+                  <h4 className="text-sm font-bold text-ink dark:text-white truncate">{authorName}</h4>
                   <div className="flex items-center gap-1.5 shrink-0">
                     <div className="flex text-amber-400">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <StarIcon
                           key={star}
                           className={`h-4 w-4 ${
-                            star <= fb.rating ? 'text-amber-400' : 'text-[#e4e0d8] dark:text-[#262b38]'
+                            star <= fb.rating ? 'text-amber-400' : 'text-line dark:text-night-line'
                           }`}
                         />
                       ))}
@@ -93,7 +93,7 @@ export default function FeedbackList({
                       <button
                         type="button"
                         onClick={() => handleEdit(fb.memberId!)}
-                        className="rounded-md p-1 min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#e03e3e] hover:bg-[#f2efe9] dark:hover:bg-[#1f2430] transition-colors duration-150 cursor-pointer"
+                        className="rounded-md p-1 min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-ink-3 dark:text-snow-3 hover:text-brand hover:bg-paper-2 dark:hover:bg-night-3 transition-colors duration-150 cursor-pointer"
                         title="Modifier mon avis"
                       >
                         <PencilSquareIcon className="h-4 w-4" />
@@ -102,7 +102,7 @@ export default function FeedbackList({
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#3a3f4a] dark:text-[#d1d5db] leading-relaxed whitespace-pre-line break-words">
+                <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2 leading-relaxed whitespace-pre-line break-words">
                   {fb.comment}
                 </p>
               </div>

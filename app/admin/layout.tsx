@@ -208,7 +208,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
       {navigationGroups.map((group) => (
         <div key={group.title}>
           {(!isCollapsed || isDrawer) && (
-            <h3 className="px-3 text-xs font-bold uppercase tracking-[0.08em] text-[#5c6370] mb-1.5">
+            <h3 className="px-3 text-xs font-bold uppercase tracking-[0.08em] text-ink-3 mb-1.5">
               {group.title}
             </h3>
           )}
@@ -243,22 +243,22 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                       ? 'justify-center p-2.5'
                       : 'gap-3 px-3 py-2.5',
                     active
-                      ? 'bg-[#e03e3e]/10 dark:bg-[#e03e3e]/20 text-[#e03e3e] dark:text-white font-bold'
-                      : 'text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white'
+                      ? 'bg-brand/10 dark:bg-brand/20 text-brand dark:text-white font-bold'
+                      : 'text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white'
                   )}
                   aria-label={isCollapsed && !isDrawer ? item.name : undefined}
                 >
                   {/* Left active marker */}
                   {active && (
-                    <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-md bg-[#e03e3e]" />
+                    <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-md bg-brand" />
                   )}
 
                   <Icon
                     className={cn(
                       'h-4 w-4 shrink-0 transition-colors',
                       active
-                        ? 'text-[#e03e3e] dark:text-white'
-                        : 'text-[#5c6370] group-hover:text-[#101216] dark:group-hover:text-white'
+                        ? 'text-brand dark:text-white'
+                        : 'text-ink-3 group-hover:text-ink dark:group-hover:text-white'
                     )}
                   />
 
@@ -270,8 +270,8 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                           className={cn(
                             'ml-2 rounded-xs px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider',
                             active
-                              ? 'bg-[#e03e3e] text-white'
-                              : 'bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370]'
+                              ? 'bg-brand text-white'
+                              : 'bg-paper-2 dark:bg-night-2 text-ink-3'
                           )}
                         >
                           {item.badge}
@@ -290,7 +290,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
 
   return (
     <AdminGuard>
-      <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
+      <div className="min-h-screen bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200">
         {/* Mobile slide-over drawer */}
         {mobileSidebarOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
@@ -299,17 +299,17 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
               onClick={closeMobileSidebar}
               aria-hidden="true"
             />
-            <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0a0c10] border-r border-[#e4e0d8] dark:border-[#262b38] flex flex-col shadow-2xl">
-              <div className="flex h-16 items-center justify-between px-5 border-b border-[#e4e0d8] dark:border-[#262b38]">
+            <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-night border-r border-line dark:border-night-line flex flex-col shadow-2xl">
+              <div className="flex h-16 items-center justify-between px-5 border-b border-line dark:border-night-line">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-[#e03e3e] text-white font-extrabold text-xs">
+                  <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-brand text-white font-extrabold text-xs">
                     CC
                   </div>
                   <div>
-                    <p className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
-                      Blan<span className="text-[#e03e3e]">mont</span>
+                    <p className="text-sm font-extrabold uppercase tracking-tight text-ink dark:text-white">
+                      Blan<span className="text-brand">mont</span>
                     </p>
-                    <p className="text-xs font-bold uppercase tracking-widest text-[#5c6370]">
+                    <p className="text-xs font-bold uppercase tracking-widest text-ink-3">
                       Administration
                     </p>
                   </div>
@@ -317,7 +317,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 <button
                   type="button"
                   onClick={closeMobileSidebar}
-                  className="p-1.5 rounded-md text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                  className="p-1.5 rounded-md text-ink-3 hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
                 >
                   <XMarkIcon className="h-5 w-5" />
                 </button>
@@ -327,21 +327,21 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 {renderNavItems(true)}
               </div>
 
-              <div className="p-4 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-2">
+              <div className="p-4 border-t border-line dark:border-night-line space-y-2">
                 <button
                   type="button"
                   onClick={() => {
                     closeMobileSidebar();
                     setHelpOpen(true);
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5"
                 >
-                  <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
+                  <AcademicCapIcon className="h-4 w-4 text-brand" />
                   <span>Guide &amp; Raccourcis</span>
                 </button>
                 <Link
                   href="/"
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold text-[#5c6370] hover:bg-black/5 dark:hover:bg-white/5"
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold text-ink-3 hover:bg-black/5 dark:hover:bg-white/5"
                 >
                   <ArrowLeftIcon className="h-3.5 w-3.5" />
                   <span>Retour au site public</span>
@@ -354,27 +354,27 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         {/* Desktop Sidebar (Collapsible: 256px wide or 72px collapsed) */}
         <aside
           className={cn(
-            'hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:flex-col bg-white dark:bg-[#0a0c10] border-r border-[#e4e0d8] dark:border-[#262b38] transition-[width] duration-200',
+            'hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:flex-col bg-white dark:bg-night border-r border-line dark:border-night-line transition-[width] duration-200',
             isCollapsed ? 'md:w-[72px]' : 'md:w-64'
           )}
         >
           {/* Brand Header */}
           <div
             className={cn(
-              'flex h-16 items-center border-b border-[#e4e0d8] dark:border-[#262b38] transition-all',
+              'flex h-16 items-center border-b border-line dark:border-night-line transition-all',
               isCollapsed ? 'justify-center px-2' : 'justify-between px-5'
             )}
           >
             <Link href="/admin" className="flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#e03e3e] shadow-xs">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-brand shadow-xs">
                 <span className="text-white font-extrabold text-xs">CC</span>
               </div>
               {!isCollapsed && (
                 <div className="min-w-0">
-                  <p className="text-sm font-extrabold uppercase tracking-tight text-[#101216] dark:text-white truncate">
-                    Blan<span className="text-[#e03e3e]">mont</span>
+                  <p className="text-sm font-extrabold uppercase tracking-tight text-ink dark:text-white truncate">
+                    Blan<span className="text-brand">mont</span>
                   </p>
-                  <p className="text-xs font-bold uppercase tracking-widest text-[#5c6370] dark:text-[#a7adbb]">
+                  <p className="text-xs font-bold uppercase tracking-widest text-ink-3 dark:text-snow-3">
                     Administration
                   </p>
                 </div>
@@ -391,21 +391,21 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
           </nav>
 
           {/* Bottom quick actions */}
-          <div className="border-t border-[#e4e0d8] dark:border-[#262b38] p-3 transition-all">
+          <div className="border-t border-line dark:border-night-line p-3 transition-all">
             {!isCollapsed ? (
               <div className="space-y-1">
                 <button
                   type="button"
                   onClick={() => setHelpOpen(true)}
-                  className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors text-left"
+                  className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors text-left"
                 >
-                  <AcademicCapIcon className="h-4 w-4 text-[#e03e3e] shrink-0" />
+                  <AcademicCapIcon className="h-4 w-4 text-brand shrink-0" />
                   <span>Guide &amp; Raccourcis</span>
                 </button>
 
                 <Link
                   href="/"
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-[#5c6370] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-ink-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
                 >
                   <ArrowLeftIcon className="h-3.5 w-3.5 shrink-0" />
                   <span>Retour au site public</span>
@@ -424,10 +424,10 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                     });
                   }}
                   onMouseLeave={() => setHoveredTooltip(null)}
-                  className="flex items-center justify-center h-10 w-10 rounded-lg text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+                  className="flex items-center justify-center h-10 w-10 rounded-lg text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
                   aria-label="Guide & Raccourcis"
                 >
-                  <AcademicCapIcon className="h-5 w-5 text-[#e03e3e]" />
+                  <AcademicCapIcon className="h-5 w-5 text-brand" />
                 </button>
 
                 <Link
@@ -440,7 +440,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                     });
                   }}
                   onMouseLeave={() => setHoveredTooltip(null)}
-                  className="flex items-center justify-center h-10 w-10 rounded-lg text-[#5c6370] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+                  className="flex items-center justify-center h-10 w-10 rounded-lg text-ink-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
                   aria-label="Retour au site public"
                 >
                   <ArrowLeftIcon className="h-4 w-4" />
@@ -489,11 +489,11 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         {isCollapsed && hoveredTooltip && (
           <div
             style={{ top: hoveredTooltip.top }}
-            className="fixed left-[76px] -translate-y-1/2 px-2.5 py-1 bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold rounded-md shadow-xl whitespace-nowrap z-50 pointer-events-none transition-all duration-150 animate-in fade-in zoom-in-95"
+            className="fixed left-[76px] -translate-y-1/2 px-2.5 py-1 bg-ink dark:bg-white text-white dark:text-ink text-xs font-semibold rounded-md shadow-xl whitespace-nowrap z-50 pointer-events-none transition-all duration-150 animate-in fade-in zoom-in-95"
           >
             {hoveredTooltip.name}
             {hoveredTooltip.badge && (
-              <span className="ml-1.5 px-1 py-0.2 rounded-xs bg-[#e03e3e] text-white text-xs">
+              <span className="ml-1.5 px-1 py-0.2 rounded-xs bg-brand text-white text-xs">
                 {hoveredTooltip.badge}
               </span>
             )}

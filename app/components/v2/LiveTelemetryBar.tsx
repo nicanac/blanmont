@@ -97,25 +97,25 @@ export default function LiveTelemetryBar({
   }, [nextRide.isoDate, nextRide.departure]);
 
   return (
-    <section className="relative bg-[#0e1117] text-white border-b border-[#262b38] py-8 sm:py-12">
+    <section className="relative bg-night text-white border-b border-night-line py-8 sm:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Editorial Sub-header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
           <div className="flex items-center gap-2.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#e03e3e] animate-ping" />
+            <span className="h-2.5 w-2.5 rounded-full bg-brand animate-ping" />
             <h2 className="text-sm font-bold text-white tracking-tight">
               Télémétrie du Prochain Rendez-Vous
             </h2>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs text-[#a7adbb]">
+            <span className="text-xs text-snow-3">
               Date : <strong className="text-white">{nextRide.dateFormatted}</strong>
             </span>
             <span className="text-white/20">•</span>
             <Link
               href="/calendrier"
-              className="text-xs font-semibold text-[#e03e3e] hover:underline inline-flex items-center gap-1"
+              className="text-xs font-semibold text-brand hover:underline inline-flex items-center gap-1"
             >
               <span>Calendrier Complet</span>
               <ArrowRightIcon className="h-3 w-3" />
@@ -126,12 +126,12 @@ export default function LiveTelemetryBar({
         {/* 4-Panel Telemetry Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 items-stretch">
           {/* 1. Compte à Rebours Départ */}
-          <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e]/40 transition-colors">
+          <div className="rounded-lg border border-white/10 bg-night-2 p-5 flex flex-col justify-between space-y-4 hover:border-brand/40 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
+              <span className="text-xs font-bold uppercase tracking-wider text-snow-3">
                 Compte à Rebours
               </span>
-              <ClockIcon className="h-4 w-4 text-[#e03e3e]" />
+              <ClockIcon className="h-4 w-4 text-brand" />
             </div>
 
             <div>
@@ -145,61 +145,61 @@ export default function LiveTelemetryBar({
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {String(timeLeft.days).padStart(2, '0')}
                     </span>
-                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Jours</span>
+                    <span className="text-xs uppercase tracking-wider text-snow-3">Jours</span>
                   </div>
                   <div className="bg-black/40 rounded p-1.5 border border-white/5">
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {String(timeLeft.hours).padStart(2, '0')}
                     </span>
-                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Heures</span>
+                    <span className="text-xs uppercase tracking-wider text-snow-3">Heures</span>
                   </div>
                   <div className="bg-black/40 rounded p-1.5 border border-white/5">
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {String(timeLeft.minutes).padStart(2, '0')}
                     </span>
-                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Min</span>
+                    <span className="text-xs uppercase tracking-wider text-snow-3">Min</span>
                   </div>
                   <div className="bg-black/40 rounded p-1.5 border border-white/5">
-                    <span className="block text-xl font-extrabold text-[#e03e3e] tabular-nums">
+                    <span className="block text-xl font-extrabold text-brand tabular-nums">
                       {String(timeLeft.seconds).padStart(2, '0')}
                     </span>
-                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Sec</span>
+                    <span className="text-xs uppercase tracking-wider text-snow-3">Sec</span>
                   </div>
                 </div>
               )}
-              <div className="mt-2 text-xs text-[#a7adbb] text-center">
+              <div className="mt-2 text-xs text-snow-3 text-center">
                 Départ à <strong className="text-white">{nextRide.departure}</strong> précises
               </div>
             </div>
 
-            <div className="pt-2 border-t border-white/5 text-xs text-[#a7adbb] flex items-center justify-between">
+            <div className="pt-2 border-t border-white/5 text-xs text-snow-3 flex items-center justify-between">
               <span>Briefing capitaine : -5 min</span>
               <span className="text-emerald-400 font-bold">● Ponctualité</span>
             </div>
           </div>
 
           {/* 2. Lieu de Rassemblement */}
-          <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e]/40 transition-colors">
+          <div className="rounded-lg border border-white/10 bg-night-2 p-5 flex flex-col justify-between space-y-4 hover:border-brand/40 transition-colors">
             <div className="flex items-start justify-between gap-2">
               <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                 {nextRide.location}
               </h3>
-              <MapPinIcon className="h-4 w-4 text-[#e03e3e] shrink-0 mt-0.5" />
+              <MapPinIcon className="h-4 w-4 text-brand shrink-0 mt-0.5" />
             </div>
 
-            <p className="text-xs text-[#a7adbb] line-clamp-3">
+            <p className="text-xs text-snow-3 line-clamp-3">
               {nextRide.remarks || 'Rassemblement sous les arbres, constitution des 3 pelotons de niveau.'}
             </p>
 
             <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs">
-              <span className="text-[#a7adbb]">Groupes : {nextRide.distances || 'A, B, C & VTT'}</span>
+              <span className="text-snow-3">Groupes : {nextRide.distances || 'A, B, C & VTT'}</span>
             </div>
           </div>
 
           {/* 3. Météo & Rose des Vents en Direct */}
-          <div className="rounded-lg border border-white/10 bg-[#161922] p-5 flex flex-col justify-between space-y-3 hover:border-[#e03e3e]/40 transition-colors">
+          <div className="rounded-lg border border-white/10 bg-night-2 p-5 flex flex-col justify-between space-y-3 hover:border-brand/40 transition-colors">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-snow-3">
                 Atmosphère &amp; Vent
               </h3>
             </div>
@@ -214,26 +214,26 @@ export default function LiveTelemetryBar({
           </div>
 
           {/* 4. Sondage de Présence & Actions */}
-          <div className="rounded-lg border border-white/10 bg-gradient-to-br from-[#161922] to-[#1a1416] p-5 flex flex-col justify-between space-y-4 hover:border-[#e03e3e] transition-colors">
+          <div className="rounded-lg border border-white/10 bg-gradient-to-br from-night-2 to-[#1a1416] p-5 flex flex-col justify-between space-y-4 hover:border-brand transition-colors">
             <div className="flex items-start justify-between gap-2">
               <h3 className="text-sm font-bold text-white leading-snug">
                 {activePoll?.title || 'Qui roule avec le club ce weekend ?'}
               </h3>
               <span
-                className={`h-2 w-2 rounded-full shrink-0 mt-1 ${activePoll?.status === 'closed' ? 'bg-[#a7adbb]' : 'bg-[#e03e3e] animate-ping'}`}
+                className={`h-2 w-2 rounded-full shrink-0 mt-1 ${activePoll?.status === 'closed' ? 'bg-snow-3' : 'bg-brand animate-ping'}`}
                 title={activePoll?.status === 'closed' ? 'Sondage clos' : 'Sondage en cours'}
                 aria-label={activePoll?.status === 'closed' ? 'Sondage clos' : 'Sondage en cours'}
               />
             </div>
 
-            <p className="text-xs text-[#a7adbb]">
+            <p className="text-xs text-snow-3">
               Indiquez votre présence pour aider les capitaines à composer les groupes.
             </p>
 
             <div className="pt-2 flex items-center justify-between gap-2">
               <Link
                 href="/sondage"
-                className="inline-flex items-center gap-2 rounded bg-[#e03e3e] hover:bg-[#c93434] text-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors min-h-[44px]"
+                className="inline-flex items-center gap-2 rounded bg-brand hover:bg-brand-strong text-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors min-h-[44px]"
               >
                 <ChatBubbleLeftRightIcon className="h-3.5 w-3.5" />
                 <span>Voter</span>
@@ -244,15 +244,15 @@ export default function LiveTelemetryBar({
                   href={nextRide.gpxUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-[#a7adbb] hover:text-white transition-colors min-h-[44px] px-2"
+                  className="inline-flex items-center gap-1 text-xs text-snow-3 hover:text-white transition-colors min-h-[44px] px-2"
                 >
-                  <ArrowDownTrayIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                  <ArrowDownTrayIcon className="h-3.5 w-3.5 text-brand" />
                   <span>GPX</span>
                 </a>
               ) : (
                 <Link
                   href="/traces"
-                  className="text-xs text-[#a7adbb] hover:text-white transition-colors min-h-[44px] flex items-center px-2"
+                  className="text-xs text-snow-3 hover:text-white transition-colors min-h-[44px] flex items-center px-2"
                 >
                   Parcours →
                 </Link>

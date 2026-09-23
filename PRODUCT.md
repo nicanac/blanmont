@@ -49,7 +49,7 @@ Unlike generic cycling apps (Strava/Garmin Connect) or static club websites, Sid
 ## Brand Commitments
 
 - **Name**: Cyclo Club Saint-Martin Blanmont (CC Blanmont) / Sidereal Satellite.
-- **Aesthetic**: "Ciseco / Eco" clean modern sporting aesthetic — pure white/light gray background, dark slate typography, bold energetic red accents (`#e03e3e`), soft subtle borders, rounded corners (`rounded-2xl` / `rounded-3xl`), and clear visual hierarchy.
+- **Aesthetic**: **"La Feuille de Blanmont — Carte IGN"** topographic sheet aesthetic. Tactile map paper (`#fbfbf8`) and nocturnal sheet (`#0d1013`), authentic cartographic spot inks (Route Red `#d63535`/`#e03e3e`, Relief Bistre `#b0703b`, Hydro Blue `#1f6fbf`, Woodland Green `#2e7d45`, Amber `#e8962a`), Archivo variable font superfamily with width-driven hierarchy (`font-wide`, `font-semiwide`, `font-narrow`), precision 1px hairline neatlines (`border-line` / `border-night-line`), printed cartouche headers (`SheetHeader`), geodetic benchmark (`50°37′23″ N · 4°38′32″ E`), scale bars, corner ticks (`corner-ticks`), and tabular cycling figures (`tabular-nums`). Zero artificial blur or glassmorphism.
 - **Voice & Tone**: Friendly, encouraging, sporting, clear, community-focused, and proud of local Belgian road cycling culture.
 
 ## Evidence on Hand

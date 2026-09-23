@@ -48,3 +48,49 @@ export type BikeType = (typeof BIKE_TYPES)[number];
 
 export const EXPERIENCE_LEVELS = ['Débutant', 'Intermédiaire', 'Confirmé', 'Compétiteur'] as const;
 export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
+
+/**
+ * The four weekend groups as the club presents them publicly, each printed on the
+ * territory sheet as a road class of the map legend (main road, secondary, local, track).
+ */
+export interface PaceGroup {
+  id: CyclingGroup;
+  name: string;
+  speed: string;
+  roadClass: string;
+  description: string;
+}
+
+export const PACE_GROUPS: readonly PaceGroup[] = [
+  {
+    id: 'A',
+    name: 'Groupe A',
+    speed: '> 30 km/h',
+    roadClass: 'Route principale',
+    description:
+      'Sportif, rythmé et soutenu. Pour les cyclistes aguerris habitués aux relais dynamiques.',
+  },
+  {
+    id: 'B',
+    name: 'Groupe B',
+    speed: '25 – 28 km/h',
+    roadClass: 'Route secondaire',
+    description:
+      'Équilibré, fluide et convivial en peloton régulier. Idéal pour progresser et rouler groupé.',
+  },
+  {
+    id: 'C',
+    name: 'Groupe C',
+    speed: '< 25 km/h',
+    roadClass: 'Route locale',
+    description:
+      'Découverte, reprise et plaisir sans pression. Adapté aux vélos traditionnels et VAE.',
+  },
+  {
+    id: 'VTT',
+    name: 'Groupe VTT',
+    speed: 'Sentiers',
+    roadClass: 'Chemin & sous-bois',
+    description: 'Chemins de terre, sous-bois et sentiers vallonnés du Brabant wallon.',
+  },
+] as const;

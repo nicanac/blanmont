@@ -6,7 +6,6 @@ import {
     XMarkIcon,
     ArrowTopRightOnSquareIcon,
     CalendarDaysIcon,
-    FlagIcon,
     TrophyIcon,
     ShieldCheckIcon,
     StarIcon,
@@ -21,6 +20,9 @@ import {
 } from '../components/ui/CyclingIcons';
 import { CalendarEvent } from '../types';
 import { parseDateInfo, HallOfFameMember, FidelityGrade } from '../lib/carreVert';
+import { SheetHeader } from '../components/carte/SheetHeader';
+import { RoadSwatch } from '../components/carte/RoadSwatch';
+import type { CyclingGroup } from '../constants/cycling';
 
 type LeaderboardEntry = {
     id: string;
@@ -55,16 +57,40 @@ function formatFrenchDate(dateStr: string, defaultYear?: number): string {
 }
 
 // Reusable Group Badge Component
-const GroupBadge = ({ group }: { group: string }): React.ReactElement => (
-    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
-        group.startsWith('A') ? 'bg-red-50 text-red-700 ring-red-600/10 dark:bg-red-950/40 dark:text-red-400 dark:ring-red-500/20' :
-        group.startsWith('B') ? 'bg-blue-50 text-blue-700 ring-blue-600/10 dark:bg-blue-950/40 dark:text-blue-400 dark:ring-blue-500/20' :
-        group.startsWith('C') ? 'bg-green-50 text-green-700 ring-green-600/10 dark:bg-green-950/40 dark:text-green-400 dark:ring-green-500/20' :
-        'bg-[#f2efe9] text-[#3a3f4a] ring-gray-500/10 dark:bg-[#1c202a] dark:text-[#a7adbb] dark:ring-white/10'
-    }`}>
-        {group}
-    </span>
-);
+const roadClassOf = (group: string): CyclingGroup | null => {
+    const g = group.toUpperCase();
+    if (g.startsWith('VTT') || g.startsWith('V')) return 'VTT';
+    if (g.startsWith('A')) return 'A';
+    if (g.startsWith('B')) return 'B';
+    if (g.startsWith('C')) return 'C';
+    return null;
+};
+
+const GroupBadge = ({ group }: { group: string }): React.ReactElement => {
+    const road = roadClassOf(group);
+    return (
+        <span className="inline-flex items-center gap-2 font-narrow text-sm font-bold text-ink dark:text-snow">
+            {road ? <RoadSwatch group={road} className="w-7" /> : null}
+            <span>{group}</span>
+        </span>
+    );
+};
+
+// The Carré Vert itself: one square per eligible ride, filled when attended
+const CarreStrip = ({ rides, possible, size = 'sm' }: { rides: number; possible: number; size?: 'sm' | 'md' }): React.ReactElement => {
+    const total = Math.max(possible, rides);
+    const dim = size === 'md' ? 'size-[9px]' : 'size-[7px]';
+    return (
+        <span className="flex flex-wrap gap-[2px]" role="img" aria-label={`${rides} sorties sur ${possible}`}>
+            {Array.from({ length: total }, (_, i) => (
+                <span
+                    key={i}
+                    className={`${dim} ${i < rides ? 'bg-vert dark:bg-vert-vif' : 'border border-line-strong dark:border-night-line-strong'}`}
+                />
+            ))}
+        </span>
+    );
+};
 
 // Vector Medal Badge Component for Podiums
 const PodiumMedalBadge = ({
@@ -78,8 +104,8 @@ const PodiumMedalBadge = ({
         return (
             <div className={`flex h-7 w-7 items-center justify-center rounded-md shrink-0 ${
                 variant === 'hof'
-                    ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 ring-1 ring-amber-500/30'
-                    : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 ring-1 ring-emerald-500/30'
+                    ? 'bg-ambre/15 text-ambre-ink dark:text-ambre ring-1 ring-ambre/40'
+                    : 'bg-vert text-white ring-1 ring-vert'
             }`}>
                 <CrownIcon className="h-4 w-4" aria-hidden="true" />
             </div>
@@ -87,13 +113,13 @@ const PodiumMedalBadge = ({
     }
     if (rank === 2) {
         return (
-            <div className="flex h-7 w-7 items-center justify-center rounded-md shrink-0 bg-slate-100 text-slate-700 dark:bg-slate-800/80 dark:text-slate-300 ring-1 ring-slate-400/30">
+            <div className="flex h-7 w-7 items-center justify-center rounded-md shrink-0 bg-paper-2 text-ink dark:bg-night-3 dark:text-snow ring-1 ring-line-strong dark:ring-night-line-strong">
                 <PodiumMedalIcon className="h-4 w-4" aria-hidden="true" />
             </div>
         );
     }
     return (
-        <div className="flex h-7 w-7 items-center justify-center rounded-md shrink-0 bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 ring-1 ring-amber-700/30">
+        <div className="flex h-7 w-7 items-center justify-center rounded-md shrink-0 bg-bistre-soft/25 text-bistre-ink dark:text-bistre-soft ring-1 ring-bistre/40">
             <PodiumMedalIcon className="h-4 w-4" aria-hidden="true" />
         </div>
     );
@@ -108,26 +134,26 @@ const FidelityGradeBadge = ({
     label: string;
 }): React.ReactElement => {
     const styles = {
-        legend: 'bg-amber-50 text-amber-800 ring-amber-600/20 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-500/30',
-        pillar: 'bg-emerald-50 text-emerald-800 ring-emerald-600/20 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-500/30',
-        veteran: 'bg-blue-50 text-blue-800 ring-blue-600/20 dark:bg-blue-950/40 dark:text-blue-300 dark:ring-blue-500/30',
-        faithful: 'bg-purple-50 text-purple-800 ring-purple-600/20 dark:bg-purple-950/40 dark:text-purple-300 dark:ring-purple-500/30',
-        newcomer: 'bg-[#f2efe9] text-[#5c6370] ring-gray-500/10 dark:bg-[#1c202a] dark:text-[#a7adbb] dark:ring-white/10',
+        legend: 'bg-ambre/15 text-ambre-ink ring-ambre/30 dark:text-ambre',
+        pillar: 'bg-vert-tint text-vert-strong ring-vert/25 dark:bg-vert/15 dark:text-vert-vif',
+        veteran: 'bg-hydro-tint text-hydro ring-hydro/25 dark:bg-hydro/15 dark:text-hydro-soft',
+        faithful: 'bg-bistre-soft/25 text-bistre-ink ring-bistre/30 dark:text-bistre-soft',
+        newcomer: 'bg-paper-2 text-ink-3 ring-gray-500/10 dark:bg-night-3 dark:text-snow-3 dark:ring-white/10',
     }[grade];
 
     const renderIcon = () => {
         switch (grade) {
             case 'legend':
-                return <CrownIcon className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />;
+                return <CrownIcon className="h-3.5 w-3.5 shrink-0 text-ambre-ink dark:text-ambre" aria-hidden="true" />;
             case 'pillar':
-                return <ShieldCheckIcon className="h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />;
+                return <ShieldCheckIcon className="h-3.5 w-3.5 shrink-0 text-vert dark:text-vert-vif" aria-hidden="true" />;
             case 'veteran':
-                return <BicycleIcon className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-blue-400" aria-hidden="true" />;
+                return <BicycleIcon className="h-3.5 w-3.5 shrink-0 text-hydro dark:text-hydro-soft" aria-hidden="true" />;
             case 'faithful':
-                return <StarIcon className="h-3.5 w-3.5 shrink-0 text-purple-600 dark:text-purple-400" aria-hidden="true" />;
+                return <StarIcon className="h-3.5 w-3.5 shrink-0 text-bistre-ink dark:text-bistre-soft" aria-hidden="true" />;
             case 'newcomer':
             default:
-                return <SparklesIcon className="h-3.5 w-3.5 shrink-0 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />;
+                return <SparklesIcon className="h-3.5 w-3.5 shrink-0 text-ink-3 dark:text-snow-3" aria-hidden="true" />;
         }
     };
 
@@ -141,8 +167,8 @@ const FidelityGradeBadge = ({
 
 // Honors Badge Component (strictly vector SVG)
 const HonorsBadge = ({ text }: { text: string }): React.ReactElement => (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 dark:bg-amber-950/50 px-2.5 py-0.5 text-[11px] font-bold text-amber-800 dark:text-amber-300 ring-1 ring-inset ring-amber-600/20">
-        <TrophyIcon className="h-3 w-3 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-ambre/15 px-2.5 py-0.5 text-[11px] font-bold text-ambre-ink dark:text-ambre ring-1 ring-inset ring-ambre/30">
+        <TrophyIcon className="h-3 w-3 shrink-0 text-ambre-ink dark:text-ambre" aria-hidden="true" />
         <span className="tabular-nums">{text}</span>
     </span>
 );
@@ -161,10 +187,10 @@ const SeasonalPodiumCard = ({
     totalPossibleRides: number;
     selectedYear: number;
 }): React.ReactElement => {
-    const titleColor = rank === 1 ? "text-emerald-700 dark:text-emerald-400" : "text-[#101216] dark:text-white";
+    const titleColor = rank === 1 ? "text-vert dark:text-vert-vif" : "text-ink dark:text-white";
     const borderStyle = rank === 1
-        ? "border-2 border-emerald-600/70 dark:border-emerald-500/70 bg-white dark:bg-[#161922] shadow-2xs hover:shadow-md"
-        : "border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5]/80 dark:bg-[#101216] shadow-2xs hover:shadow-xs";
+        ? "neatline [--nl:var(--color-vert)] bg-white dark:bg-night-2 hover:shadow-md"
+        : "border border-line dark:border-night-line bg-white dark:bg-night-2 hover:border-ink dark:hover:border-snow-3";
     const lastDate = entry.dates.length > 0 ? formatFrenchDate(entry.dates[entry.dates.length - 1], selectedYear) : "Aucune";
 
     const fidelity = totalPossibleRides > 0
@@ -183,7 +209,7 @@ const SeasonalPodiumCard = ({
                     onSelect(entry.id);
                 }
             }}
-            className={`rounded-lg p-6 sm:p-8 ${borderStyle} flex flex-col justify-between transition-[transform,box-shadow] duration-150 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-[0.99] motion-reduce:transition-none motion-reduce:transform-none`}
+            className={`rounded-lg p-6 sm:p-8 ${borderStyle} flex flex-col justify-between transition-[transform,box-shadow] duration-150 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand active:scale-[0.99] motion-reduce:transition-none motion-reduce:transform-none`}
         >
             <div>
                 <div className="flex items-center justify-between gap-2">
@@ -196,19 +222,23 @@ const SeasonalPodiumCard = ({
                     <GroupBadge group={entry.group} />
                 </div>
 
-                <p className="mt-4 text-xl font-bold tracking-tight text-[#101216] dark:text-white truncate">{entry.name}</p>
+                <p className="mt-4 text-xl font-bold tracking-tight text-ink dark:text-white truncate">{entry.name}</p>
 
                 <div className="mt-6 flex items-baseline gap-x-2">
-                    <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#101216] dark:text-white tabular-nums">{entry.rides}</span>
-                    <span className="text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb]">sorties</span>
+                    <span className="font-narrow text-4xl sm:text-5xl font-extrabold text-ink dark:text-white tabular-nums">{entry.rides}</span>
+                    <span className="text-sm font-semibold text-ink-3 dark:text-snow-3">sorties</span>
                 </div>
 
-                <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-[#3a3f4a] dark:text-[#a7adbb]">
+                <div className="mt-4">
+                    <CarreStrip rides={entry.rides} possible={totalPossibleRides} size="md" />
+                </div>
+
+                <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-ink-2 dark:text-snow-3">
                     <li className="flex gap-x-3 tabular-nums">
-                        <span className="font-semibold text-[#101216] dark:text-white">Fidélité :</span> {fidelity}&nbsp;%
+                        <span className="font-semibold text-ink dark:text-white">Fidélité :</span> {fidelity}&nbsp;%
                     </li>
                     <li className="flex gap-x-3">
-                        <span className="font-semibold text-[#101216] dark:text-white">Dernière :</span> {lastDate}
+                        <span className="font-semibold text-ink dark:text-white">Dernière :</span> {lastDate}
                     </li>
                 </ul>
             </div>
@@ -226,10 +256,10 @@ const HofPodiumCard = ({
     rank: number;
     onSelect: (id: string) => void;
 }): React.ReactElement => {
-    const titleColor = rank === 1 ? "text-amber-600 dark:text-amber-400" : "text-[#101216] dark:text-white";
+    const titleColor = rank === 1 ? "text-ambre-ink dark:text-ambre" : "text-ink dark:text-white";
     const borderStyle = rank === 1
-        ? "border-2 border-amber-500/80 dark:border-amber-400/80 bg-white dark:bg-[#161922] shadow-2xs hover:shadow-md"
-        : "border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5]/80 dark:bg-[#101216] shadow-2xs hover:shadow-xs";
+        ? "border-2 border-amber-500/80 dark:border-amber-400/80 bg-white dark:bg-night-2 shadow-2xs hover:shadow-md"
+        : "border border-line dark:border-night-line bg-paper/80 dark:bg-ink shadow-2xs hover:shadow-xs";
 
     return (
         <div
@@ -243,7 +273,7 @@ const HofPodiumCard = ({
                     onSelect(member.id);
                 }
             }}
-            className={`rounded-lg p-6 sm:p-8 ${borderStyle} flex flex-col justify-between transition-[transform,box-shadow] duration-150 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-[0.99] motion-reduce:transition-none motion-reduce:transform-none`}
+            className={`rounded-lg p-6 sm:p-8 ${borderStyle} flex flex-col justify-between transition-[transform,box-shadow] duration-150 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand active:scale-[0.99] motion-reduce:transition-none motion-reduce:transform-none`}
         >
             <div>
                 <div className="flex items-center justify-between gap-2">
@@ -256,23 +286,23 @@ const HofPodiumCard = ({
                     <GroupBadge group={member.group} />
                 </div>
 
-                <p className="mt-4 text-xl font-bold tracking-tight text-[#101216] dark:text-white truncate">{member.name}</p>
+                <p className="mt-4 text-xl font-bold tracking-tight text-ink dark:text-white truncate">{member.name}</p>
                 <div className="mt-2.5">
                     <FidelityGradeBadge grade={member.fidelityGrade} label={member.fidelityGradeLabel} />
                 </div>
 
                 <div className="mt-6 flex items-baseline gap-x-2">
-                    <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#101216] dark:text-white tabular-nums">{member.totalCarres}</span>
-                    <span className="text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb]">Carrés Verts cumulés</span>
+                    <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-ink dark:text-white tabular-nums">{member.totalCarres}</span>
+                    <span className="text-sm font-semibold text-ink-3 dark:text-snow-3">Carrés Verts cumulés</span>
                 </div>
 
-                <ul role="list" className="mt-6 space-y-2.5 text-sm leading-6 text-[#3a3f4a] dark:text-[#a7adbb]">
+                <ul role="list" className="mt-6 space-y-2.5 text-sm leading-6 text-ink-2 dark:text-snow-3">
                     <li className="flex gap-x-2 tabular-nums">
-                        <span className="font-semibold text-[#101216] dark:text-white">Saisons actives :</span>
+                        <span className="font-semibold text-ink dark:text-white">Saisons actives :</span>
                         <span>{member.activeSeasons.length} ({member.activeSeasons.join(', ') || 'Aucune'})</span>
                     </li>
                     <li className="flex gap-x-2 tabular-nums">
-                        <span className="font-semibold text-[#101216] dark:text-white">Sorties physiques :</span>
+                        <span className="font-semibold text-ink dark:text-white">Sorties physiques :</span>
                         <span>{member.totalPhysicalRides} participations</span>
                     </li>
                     {member.honors.length > 0 && (
@@ -478,195 +508,93 @@ export default function LeaderboardView({
 
     return (
         <>
-            <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] transition-colors duration-200">
-                {/* ──── Editorial Cover Hero ──── */}
-                <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
-                    {/* Atmospheric Background Watermark */}
-                    <div className="absolute top-32 sm:top-44 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
-                        <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
-                            BLANMONT
-                        </span>
-                    </div>
-
-                    <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8 z-10">
-                        {/* Title row */}
-                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-                            <div className="space-y-3 max-w-3xl">
-                                <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-[#101216] dark:text-white">
-                                    {isHallOfFame ? (
-                                        <>
-                                            Hall of <span className="text-amber-600 dark:text-amber-400 italic">Fame</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            Le Carré <span className="text-emerald-500 dark:text-emerald-400 italic">Vert</span> {selectedYear}
-                                        </>
-                                    )}
-                                </h1>
-
-                                <p className="max-w-2xl text-base text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-                                    {isHallOfFame
-                                        ? "Le panthéon et classement historique cumulé récompensant la fidélité, l'engagement et l'assiduité des cyclistes de Blanmont au fil des saisons."
-                                        : `Le classement officiel d'assiduité récompensant la régularité et l'engagement des cyclistes de Blanmont tout au long de la saison ${selectedYear}.`}
-                                </p>
-                            </div>
-
-                            {/* Multi-Season & Hall of Fame Navigation Selector */}
-                            <nav
-                                aria-label="Sélection de la saison ou Hall of Fame"
-                                className="inline-flex max-w-full items-center gap-1 rounded-lg bg-white dark:bg-[#161922] p-1 border border-[#e4e0d8] dark:border-[#262b38] shrink-0 shadow-2xs overflow-x-auto no-scrollbar scroll-smooth"
-                            >
-                                {availableYears.map((year) => {
-                                    const isSelected = !isHallOfFame && year === selectedYear;
-                                    return (
-                                        <Link
-                                            key={year}
-                                            href={`/leaderboard?year=${year}`}
-                                            prefetch={true}
-                                            aria-current={isSelected ? 'page' : undefined}
-                                            className={`min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md px-3.5 py-2 text-xs font-bold uppercase tracking-wider tabular-nums cursor-pointer transition-[color,background-color,transform] duration-150 motion-reduce:transition-none ${
-                                                isSelected
-                                                    ? 'bg-emerald-600 text-white shadow-2xs'
-                                                    : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 active:scale-95'
-                                            }`}
-                                        >
-                                            {year}
-                                        </Link>
-                                    );
-                                })}
-
-                                <span className="w-px h-6 bg-[#e4e0d8] dark:bg-[#262b38] mx-0.5" aria-hidden="true" />
-
+            <main className="min-h-screen bg-paper dark:bg-night transition-colors duration-200">
+                <SheetHeader
+                    sheet={isHallOfFame ? 'Hall of Fame' : `Carré Vert ${selectedYear}`}
+                    focus={{ x: 62, y: 52 }}
+                    tone={isHallOfFame ? 'nuit' : 'vert'}
+                    title={isHallOfFame ? 'Hall of Fame' : `Le Carré Vert ${selectedYear}`}
+                    description={
+                        isHallOfFame
+                            ? "Le panthéon et classement historique cumulé récompensant la fidélité, l'engagement et l'assiduité des cyclistes de Blanmont au fil des saisons."
+                            : `Le classement officiel d'assiduité récompensant la régularité et l'engagement des cyclistes de Blanmont tout au long de la saison ${selectedYear}.`
+                    }
+                    legend={
+                        isHallOfFame
+                            ? [
+                                  {
+                                      term: 'En tête du palmarès',
+                                      value: hofTop3[0]?.name || 'En cours',
+                                      hint: `Grand Pilier (${hofTop3[0] ? `${hofTop3[0].totalCarres} carrés` : '0 carré'})`,
+                                  },
+                                  { term: 'Membres au palmarès', value: String(activeHofMembers.length) },
+                                  {
+                                      term: 'Saisons archivées',
+                                      value: String(availableYears.length),
+                                      hint: `Saisons (${availableYears[0]} – ${availableYears[availableYears.length - 1]})`,
+                                  },
+                              ]
+                            : [
+                                  {
+                                      term: 'En tête de la saison',
+                                      value: seasonalTop3[0]?.name || 'En cours',
+                                      hint: `Leader (${seasonalTop3[0] ? `${seasonalTop3[0].rides} sorties` : '0 sortie'})`,
+                                  },
+                                  { term: 'Membres classés', value: String(activeSeasonalEntries.length) },
+                                  { term: 'Sorties éligibles', value: String(totalPossibleRides) },
+                              ]
+                    }
+                >
+                    <nav
+                        aria-label="Sélection de la saison ou Hall of Fame"
+                        className="no-scrollbar inline-flex max-w-full items-center gap-1 overflow-x-auto border border-white/40 p-1"
+                    >
+                        {availableYears.map((year) => {
+                            const isSelected = !isHallOfFame && year === selectedYear;
+                            return (
                                 <Link
-                                    href="/leaderboard?year=all"
+                                    key={year}
+                                    href={`/leaderboard?year=${year}`}
                                     prefetch={true}
-                                    aria-current={isHallOfFame ? 'page' : undefined}
-                                    className={`min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-2 text-xs font-bold uppercase tracking-wider cursor-pointer transition-[color,background-color,transform] duration-150 motion-reduce:transition-none ${
-                                        isHallOfFame
-                                            ? 'bg-amber-600 text-white shadow-2xs'
-                                            : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 active:scale-95'
+                                    aria-current={isSelected ? 'page' : undefined}
+                                    className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm px-3.5 font-narrow text-sm font-bold tabular-nums transition-colors duration-150 ${
+                                        isSelected ? 'bg-white text-vert-strong' : 'text-white hover:bg-white/15'
                                     }`}
                                 >
-                                    <TrophySquareIcon className="h-4 w-4" aria-hidden="true" />
-                                    <span>Hall of Fame</span>
+                                    {year}
                                 </Link>
-                            </nav>
-                        </div>
-
-                        {/* Stat Strip on Hero */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-8 sm:pt-10">
-                            {isHallOfFame ? (
-                                <>
-                                    {/* All-Time Leader */}
-                                    <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-amber-600 shrink-0 shadow-2xs">
-                                            <TrophySquareIcon className="h-5 w-5" aria-hidden="true" />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tracking-tight truncate">
-                                                {hofTop3[0]?.name || 'En cours'}
-                                            </div>
-                                            <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold tabular-nums">
-                                                Grand Pilier ({hofTop3[0] ? `${hofTop3[0].totalCarres} carrés` : '0 carré'})
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* All-time Ranked Members */}
-                                    <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
-                                            <BicycleIcon className="h-5 w-5" aria-hidden="true" />
-                                        </div>
-                                        <div>
-                                            <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                                                {activeHofMembers.length}
-                                            </div>
-                                            <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                                                Membres au palmarès
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Archived Seasons */}
-                                    <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
-                                            <CalendarDaysIcon className="h-5 w-5" aria-hidden="true" />
-                                        </div>
-                                        <div>
-                                            <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                                                {availableYears.length}
-                                            </div>
-                                            <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                                                Saisons ({availableYears[0]} – {availableYears[availableYears.length - 1]})
-                                            </div>
-                                        </div>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    {/* Seasonal Leader */}
-                                    <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shrink-0 shadow-2xs">
-                                            <TrophySquareIcon className="h-5 w-5" aria-hidden="true" />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tracking-tight truncate">
-                                                {seasonalTop3[0]?.name || 'En cours'}
-                                            </div>
-                                            <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold tabular-nums">
-                                                Leader ({seasonalTop3[0] ? `${seasonalTop3[0].rides} sorties` : '0 sortie'})
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Seasonal Members Ranked */}
-                                    <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
-                                            <BicycleIcon className="h-5 w-5" aria-hidden="true" />
-                                        </div>
-                                        <div>
-                                            <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                                                {activeSeasonalEntries.length}
-                                            </div>
-                                            <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                                                Membres classés
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Seasonal Total Rides */}
-                                    <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white shrink-0 shadow-2xs">
-                                            <FlagIcon className="h-5 w-5" aria-hidden="true" />
-                                        </div>
-                                        <div>
-                                            <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                                                {totalPossibleRides}
-                                            </div>
-                                            <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                                                Sorties éligibles
-                                            </div>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </section>
+                            );
+                        })}
+                
+                        <span className="mx-0.5 h-6 w-px bg-white/35" aria-hidden="true" />
+                
+                        <Link
+                            href="/leaderboard?year=all"
+                            prefetch={true}
+                            aria-current={isHallOfFame ? 'page' : undefined}
+                            className={`inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-sm px-3.5 font-narrow text-sm font-bold uppercase tracking-[0.06em] transition-colors duration-150 ${
+                                isHallOfFame ? 'bg-white text-ink' : 'text-white hover:bg-white/15'
+                            }`}
+                        >
+                            <TrophySquareIcon className="size-4" aria-hidden="true" />
+                            <span>Hall of Fame</span>
+                        </Link>
+                    </nav>
+                </SheetHeader>
 
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
                     {/* ──── HALL OF FAME VIEW ──── */}
                     {isHallOfFame ? (
                         <>
                             {activeHofMembers.length === 0 ? (
-                                <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-12 text-center shadow-2xs">
-                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-amber-600 dark:text-amber-400 mb-5">
+                                <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 sm:p-12 text-center shadow-2xs">
+                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-paper dark:bg-ink border border-line dark:border-night-line text-ambre-ink dark:text-ambre mb-5">
                                         <TrophySquareIcon className="h-7 w-7" aria-hidden="true" />
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight text-[#101216] dark:text-white">
+                                    <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight text-ink dark:text-white">
                                         Aucun historique de présence répertorié
                                     </h3>
-                                    <p className="mt-2 text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-md mx-auto leading-relaxed">
+                                    <p className="mt-2 text-sm text-ink-3 dark:text-snow-3 max-w-md mx-auto leading-relaxed">
                                         Le Hall of Fame agrège les participations enregistrées sur toutes les saisons officielles.
                                     </p>
                                 </div>
@@ -712,32 +640,32 @@ export default function LeaderboardView({
 
                                     {/* Hall of Fame Table (from #4 onwards) */}
                                     {hofOthers.length > 0 && (
-                                        <div className="mt-16 sm:mt-20 overflow-hidden shadow-2xs ring-1 ring-[#e4e0d8] dark:ring-[#262b38] sm:rounded-lg bg-white dark:bg-[#101216] transition-colors">
+                                        <div className="mt-16 overflow-hidden border-t-2 border-ink bg-white transition-colors sm:mt-20 dark:border-snow-2 dark:bg-night-2">
                                             <div className="overflow-x-auto">
-                                                <table className="min-w-full divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
-                                                    <thead className="bg-[#f2efe9] dark:bg-[#161922]">
+                                                <table className="min-w-full divide-y divide-line dark:divide-night-line">
+                                                    <thead className="bg-paper-2 dark:bg-night-2">
                                                         <tr>
-                                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] sm:pl-6">
+                                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3 sm:pl-6">
                                                                 Rang
                                                             </th>
-                                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                                 Cycliste & Titre
                                                             </th>
-                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                                 Groupe
                                                             </th>
-                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                                 Saisons
                                                             </th>
-                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                                 Carrés Verts
                                                             </th>
-                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                            <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                                 Sorties
                                                             </th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody className="divide-y divide-[#e4e0d8] dark:divide-[#262b38] bg-white dark:bg-[#101216]">
+                                                    <tbody className="divide-y divide-line dark:divide-night-line bg-white dark:bg-ink">
                                                         {hofOthers.map((member) => {
                                                             const rank = hofGlobalRanks[member.id];
                                                             return (
@@ -753,14 +681,14 @@ export default function LeaderboardView({
                                                                             handleSelectMember(member.id);
                                                                         }
                                                                     }}
-                                                                    className="hover:bg-[#f2efe9] dark:hover:bg-[#161922] focus:outline-hidden focus-visible:bg-[#f2efe9] dark:focus-visible:bg-[#161922] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#e03e3e] transition-colors cursor-pointer"
+                                                                    className="hover:bg-paper-2 dark:hover:bg-night-2 focus:outline-hidden focus-visible:bg-paper-2 dark:focus-visible:bg-night-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand transition-colors cursor-pointer"
                                                                 >
-                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-[#101216] dark:text-white tabular-nums sm:pl-6">
+                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-ink dark:text-white tabular-nums sm:pl-6">
                                                                         #{rank}
                                                                     </td>
                                                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
                                                                         <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
-                                                                            <span className="font-bold text-[#101216] dark:text-white">
+                                                                            <span className="font-bold text-ink dark:text-white">
                                                                                 {member.name}
                                                                             </span>
                                                                             <div className="flex items-center gap-1">
@@ -779,7 +707,7 @@ export default function LeaderboardView({
                                                                             {member.activeSeasons.map((y) => (
                                                                                 <span
                                                                                     key={y}
-                                                                                    className="inline-flex items-center rounded-sm bg-[#f2efe9] dark:bg-[#1c202a] px-1.5 py-0.5 text-[11px] font-semibold text-[#3a3f4a] dark:text-[#a7adbb] tabular-nums"
+                                                                                    className="inline-flex items-center rounded-sm bg-paper-2 dark:bg-night-3 px-1.5 py-0.5 text-[11px] font-semibold text-ink-2 dark:text-snow-3 tabular-nums"
                                                                                 >
                                                                                     {y}
                                                                                 </span>
@@ -789,7 +717,7 @@ export default function LeaderboardView({
                                                                     <td className="whitespace-nowrap px-3 py-4 text-sm font-extrabold text-emerald-700 dark:text-emerald-400 tabular-nums">
                                                                         {member.totalCarres}
                                                                     </td>
-                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
+                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-ink-3 dark:text-snow-3 tabular-nums">
                                                                         {member.totalPhysicalRides}
                                                                     </td>
                                                                 </tr>
@@ -808,26 +736,26 @@ export default function LeaderboardView({
                         <>
                             {/* Empty State when season has no recorded rides */}
                             {activeSeasonalEntries.length === 0 && (
-                                <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-12 text-center shadow-2xs">
-                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-emerald-600 dark:text-emerald-400 mb-5">
+                                <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 sm:p-12 text-center shadow-2xs">
+                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-paper dark:bg-ink border border-line dark:border-night-line text-vert dark:text-vert-vif mb-5">
                                         <TrophySquareIcon className="h-7 w-7" aria-hidden="true" />
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight text-[#101216] dark:text-white">
+                                    <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight text-ink dark:text-white">
                                         Aucun classement pour la saison {selectedYear}
                                     </h3>
-                                    <p className="mt-2 text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-md mx-auto leading-relaxed">
+                                    <p className="mt-2 text-sm text-ink-3 dark:text-snow-3 max-w-md mx-auto leading-relaxed">
                                         Les points du Carré Vert sont enregistrés à l&apos;issue de chaque sortie officielle du peloton. Consultez les saisons précédentes ou explorez le calendrier.
                                     </p>
                                     <div className="mt-6 flex flex-wrap justify-center gap-3">
                                         <Link
                                             href="/calendrier"
-                                            className="min-h-[44px] inline-flex items-center justify-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
+                                            className="min-h-[44px] inline-flex items-center justify-center rounded-md bg-brand hover:bg-brand-strong px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
                                         >
                                             Voir le calendrier
                                         </Link>
                                         <Link
                                             href="/leaderboard?year=all"
-                                            className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white shadow-2xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
+                                            className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink hover:bg-paper-2 dark:hover:bg-night-3 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ink dark:text-white shadow-2xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
                                         >
                                             Consulter le Hall of Fame
                                         </Link>
@@ -835,7 +763,7 @@ export default function LeaderboardView({
                                             <Link
                                                 key={fallbackYear}
                                                 href={`/leaderboard?year=${fallbackYear}`}
-                                                className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white shadow-2xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
+                                                className="min-h-[44px] inline-flex items-center justify-center rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink hover:bg-paper-2 dark:hover:bg-night-3 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ink dark:text-white shadow-2xs transition-[background-color,transform] duration-150 active:scale-95 motion-reduce:transition-none"
                                             >
                                                 Saison {fallbackYear}
                                             </Link>
@@ -890,26 +818,29 @@ export default function LeaderboardView({
 
                             {/* Seasonal Table (from #4 onwards) */}
                             {seasonalOthers.length > 0 && (
-                                <div className="mt-16 sm:mt-20 overflow-hidden shadow-2xs ring-1 ring-[#e4e0d8] dark:ring-[#262b38] sm:rounded-lg bg-white dark:bg-[#101216] transition-colors">
+                                <div className="mt-16 sm:mt-20 overflow-hidden shadow-2xs ring-1 ring-line dark:ring-night-line sm:rounded-lg bg-white dark:bg-ink transition-colors">
                                     <div className="overflow-x-auto">
-                                        <table className="min-w-full divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
-                                            <thead className="bg-[#f2efe9] dark:bg-[#161922]">
+                                        <table className="min-w-full divide-y divide-line dark:divide-night-line">
+                                            <thead className="bg-paper-2 dark:bg-night-2">
                                                 <tr>
-                                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] sm:pl-6">
+                                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3 sm:pl-6">
                                                         Rang
                                                     </th>
-                                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                         Nom
                                                     </th>
-                                                    <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                    <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                         Groupe
                                                     </th>
-                                                    <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                                                    <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                                                         Sorties
+                                                    </th>
+                                                    <th scope="col" className="hidden px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 md:table-cell dark:text-snow-3">
+                                                        Carrés verts
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="divide-y divide-[#e4e0d8] dark:divide-[#262b38] bg-white dark:bg-[#101216]">
+                                            <tbody className="divide-y divide-line dark:divide-night-line bg-white dark:bg-ink">
                                                 {seasonalOthers.map((person) => {
                                                     const globalRank = seasonalGlobalRanks[person.id];
                                                     const groupRank = seasonalGroupRanks[person.id];
@@ -928,21 +859,24 @@ export default function LeaderboardView({
                                                                     handleSelectMember(person.id);
                                                                 }
                                                             }}
-                                                            className="hover:bg-[#f2efe9] dark:hover:bg-[#161922] focus:outline-hidden focus-visible:bg-[#f2efe9] dark:focus-visible:bg-[#161922] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#e03e3e] transition-colors cursor-pointer"
+                                                            className="hover:bg-paper-2 dark:hover:bg-night-2 focus:outline-hidden focus-visible:bg-paper-2 dark:focus-visible:bg-night-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand transition-colors cursor-pointer"
                                                         >
-                                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-[#101216] dark:text-white tabular-nums sm:pl-6">
+                                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-ink dark:text-white tabular-nums sm:pl-6">
                                                                 #{globalRank}
                                                             </td>
-                                                            <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-[#101216] dark:text-white' : 'font-medium text-[#3a3f4a] dark:text-[#d1d5db]'}`}>
+                                                            <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-ink dark:text-white' : 'font-medium text-ink-2 dark:text-snow-2'}`}>
                                                                 {person.name}
                                                             </td>
                                                             <td className="whitespace-nowrap px-3 py-4 text-sm">
                                                                 <GroupBadge group={person.group} />
                                                             </td>
                                                             <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                                                <div className={`font-bold tabular-nums ${isGroupTop3 ? 'text-[#101216] dark:text-white' : 'text-[#3a3f4a] dark:text-[#d1d5db]'}`}>
+                                                                <div className={`font-bold tabular-nums ${isGroupTop3 ? 'text-ink dark:text-white' : 'text-ink-2 dark:text-snow-2'}`}>
                                                                     {person.rides}
                                                                 </div>
+                                                            </td>
+                                                            <td className="hidden px-3 py-4 md:table-cell">
+                                                                <CarreStrip rides={person.rides} possible={totalPossibleRides} />
                                                             </td>
                                                         </tr>
                                                     );
@@ -975,18 +909,18 @@ export default function LeaderboardView({
                     <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
                         <div
                             ref={drawerRef}
-                            className="w-screen max-w-md bg-white dark:bg-[#101216] border-l border-[#e4e0d8] dark:border-[#262b38] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 motion-reduce:animate-none transition-colors"
+                            className="w-screen max-w-md bg-white dark:bg-ink border-l border-line dark:border-night-line shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 motion-reduce:animate-none transition-colors"
                         >
                             {/* Header: Editorial Dark Panel */}
-                            <div className="bg-[#161922] border-b border-[#262b38] text-white p-6">
+                            <div className="bg-night-2 border-b border-night-line text-white p-6">
                                 <div className="flex items-center justify-between mb-4">
-                                    <span className="text-xs font-semibold uppercase tracking-wider text-[#a7adbb]">
+                                    <span className="text-xs font-semibold uppercase tracking-wider text-snow-3">
                                         {isHallOfFame ? 'Dossier Palmarès' : `Saison ${selectedYear}`}
                                     </span>
                                     <button
                                         ref={closeButtonRef}
                                         onClick={handleClose}
-                                        className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                                        className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md text-snow-3 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                                         aria-label="Fermer le panneau de détails"
                                     >
                                         <XMarkIcon className="h-5 w-5" />
@@ -1003,14 +937,14 @@ export default function LeaderboardView({
                                         />
                                     )}
                                     {isHallOfFame ? (
-                                        <p className="text-xs font-medium text-[#a7adbb]">
+                                        <p className="text-xs font-medium text-snow-3">
                                             Rang All-Time :{' '}
                                             <span className="text-amber-400 font-bold tabular-nums">
                                                 #{selectedMemberId ? hofGlobalRanks[selectedMemberId] || '—' : '—'}
                                             </span>
                                         </p>
                                     ) : (
-                                        <p className="text-xs font-medium text-[#a7adbb]">
+                                        <p className="text-xs font-medium text-snow-3">
                                             Rang saison {selectedYear} :{' '}
                                             <span className="text-emerald-400 font-bold tabular-nums">
                                                 #{selectedMemberId ? seasonalGlobalRanks[selectedMemberId] || '—' : '—'}
@@ -1026,27 +960,27 @@ export default function LeaderboardView({
                                     /* ──── Hall of Fame Details ──── */
                                     <>
                                         <div className="grid grid-cols-2 gap-3">
-                                            <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Groupe habituel</div>
+                                            <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Groupe habituel</div>
                                                 <div className="mt-1">
                                                     <GroupBadge group={selectedHofMember.group} />
                                                 </div>
                                             </div>
-                                            <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Carrés Verts cumulés</div>
-                                                <div className="mt-1 text-xl font-extrabold text-amber-600 dark:text-amber-400 tabular-nums">
+                                            <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Carrés Verts cumulés</div>
+                                                <div className="mt-1 text-xl font-extrabold text-ambre-ink dark:text-ambre tabular-nums">
                                                     {selectedHofMember.totalCarres}
                                                 </div>
                                             </div>
-                                            <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Saisons actives</div>
-                                                <div className="mt-1 text-xl font-extrabold text-[#101216] dark:text-white tabular-nums">
+                                            <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Saisons actives</div>
+                                                <div className="mt-1 text-xl font-extrabold text-ink dark:text-white tabular-nums">
                                                     {selectedHofMember.activeSeasons.length}
                                                 </div>
                                             </div>
-                                            <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Sorties physiques</div>
-                                                <div className="mt-1 text-xl font-extrabold text-[#101216] dark:text-white tabular-nums">
+                                            <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Sorties physiques</div>
+                                                <div className="mt-1 text-xl font-extrabold text-ink dark:text-white tabular-nums">
                                                     {selectedHofMember.totalPhysicalRides}
                                                 </div>
                                             </div>
@@ -1066,8 +1000,8 @@ export default function LeaderboardView({
                                         )}
 
                                         {/* Multi-Season Breakdown Cards */}
-                                        <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-6 space-y-4">
-                                            <h3 className="text-sm font-bold text-[#101216] dark:text-white">
+                                        <div className="border-t border-line dark:border-night-line pt-6 space-y-4">
+                                            <h3 className="text-sm font-bold text-ink dark:text-white">
                                                 Ventilation par saison
                                             </h3>
 
@@ -1079,27 +1013,27 @@ export default function LeaderboardView({
                                                     return (
                                                         <div
                                                             key={year}
-                                                            className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] p-3.5"
+                                                            className="rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night-2 p-3.5"
                                                         >
                                                             <div className="flex items-center justify-between">
                                                                 <div className="flex items-center gap-2">
-                                                                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white tabular-nums">
+                                                                    <span className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white tabular-nums">
                                                                         Saison {year}
                                                                     </span>
                                                                     {s?.isChampion && (
                                                                         <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-amber-500/20">
-                                                                            <CrownIcon className="h-3 w-3 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+                                                                            <CrownIcon className="h-3 w-3 shrink-0 text-ambre-ink dark:text-ambre" aria-hidden="true" />
                                                                             <span>Champion</span>
                                                                         </span>
                                                                     )}
                                                                 </div>
-                                                                <span className="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                                                <span className="text-xs font-extrabold text-vert dark:text-vert-vif tabular-nums">
                                                                     {hasRides ? `${s.carres} Carrés Verts` : '0 sortie'}
                                                                 </span>
                                                             </div>
 
                                                             {hasRides && s.dates.length > 0 && (
-                                                                <div className="mt-3 flex flex-wrap gap-1.5 pt-2 border-t border-[#e4e0d8]/60 dark:border-[#262b38]">
+                                                                <div className="mt-3 flex flex-wrap gap-1.5 pt-2 border-t border-line/60 dark:border-night-line">
                                                                     {s.dates.map((date) => {
                                                                         const parsed = parseDateInfo(date, year);
                                                                         const isoDate = parsed ? parsed.isoDate : date;
@@ -1130,27 +1064,27 @@ export default function LeaderboardView({
                                     selectedSeasonalEntry && (
                                         <>
                                             <div className="grid grid-cols-2 gap-3">
-                                                <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                    <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Groupe</div>
+                                                <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                    <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Groupe</div>
                                                     <div className="mt-1">
                                                         <GroupBadge group={selectedSeasonalEntry.group} />
                                                     </div>
                                                 </div>
-                                                <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                    <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Sorties {selectedYear}</div>
-                                                    <div className="mt-1 text-xl font-extrabold text-[#101216] dark:text-white tabular-nums">
+                                                <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                    <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Sorties {selectedYear}</div>
+                                                    <div className="mt-1 text-xl font-extrabold text-ink dark:text-white tabular-nums">
                                                         {selectedSeasonalEntry.rides}
                                                     </div>
                                                 </div>
-                                                <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                    <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Taux de Fidélité</div>
-                                                    <div className="mt-1 text-xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                                <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                    <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Taux de Fidélité</div>
+                                                    <div className="mt-1 text-xl font-extrabold text-vert dark:text-vert-vif tabular-nums">
                                                         {totalPossibleRides > 0 ? Math.round((selectedSeasonalEntry.rides / totalPossibleRides) * 100) : 0}%
                                                     </div>
                                                 </div>
-                                                <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922] p-4">
-                                                    <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">Dernière sortie</div>
-                                                    <div className="mt-1 text-xs font-bold text-[#101216] dark:text-white">
+                                                <div className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2 p-4">
+                                                    <div className="text-xs font-medium text-ink-3 dark:text-snow-3">Dernière sortie</div>
+                                                    <div className="mt-1 text-xs font-bold text-ink dark:text-white">
                                                         {selectedSeasonalEntry.dates.length > 0 ? formatFrenchDate(selectedSeasonalEntry.dates[selectedSeasonalEntry.dates.length - 1], selectedYear) : "Aucune"}
                                                     </div>
                                                 </div>
@@ -1163,54 +1097,54 @@ export default function LeaderboardView({
                                                     className="min-h-[44px] flex items-center justify-between rounded-lg border border-amber-200 dark:border-amber-900/40 bg-amber-50/50 dark:bg-amber-950/20 px-4 py-2.5 text-xs font-bold text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/40 transition-colors"
                                                 >
                                                     <span className="flex items-center gap-2">
-                                                        <TrophySquareIcon className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                                                        <TrophySquareIcon className="h-4 w-4 text-ambre-ink dark:text-ambre" />
                                                         <span>Voir le palmarès de carrière au Hall of Fame</span>
                                                     </span>
                                                     <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 opacity-70" />
                                                 </Link>
                                             )}
 
-                                            <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-6 space-y-3.5">
+                                            <div className="border-t border-line dark:border-night-line pt-6 space-y-3.5">
                                                 <div className="flex items-center justify-between">
-                                                    <h3 className="text-sm font-bold text-[#101216] dark:text-white">
+                                                    <h3 className="text-sm font-bold text-ink dark:text-white">
                                                         Présences {selectedYear} ({selectedSeasonalEntry.dates.length})
                                                     </h3>
-                                                    <span className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">
+                                                    <span className="text-xs font-medium text-ink-3 dark:text-snow-3">
                                                         Cliquer pour voir la sortie
                                                     </span>
                                                 </div>
 
                                                 {/* Contextual preview box */}
-                                                <div className="min-h-[40px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3 py-2 flex items-center text-xs transition-colors">
+                                                <div className="min-h-[40px] rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3 py-2 flex items-center text-xs transition-colors">
                                                     {hoveredDateInfo ? (
                                                         hoveredDateInfo.event ? (
-                                                            <div className="flex items-center gap-2 truncate text-[#101216] dark:text-white">
+                                                            <div className="flex items-center gap-2 truncate text-ink dark:text-white">
                                                                 <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                                                                 <span className="font-bold tabular-nums">{formatFrenchDate(hoveredDateInfo.dateStr, selectedYear)}</span>
-                                                                <span className="text-[#5c6370] dark:text-[#a7adbb]">·</span>
+                                                                <span className="text-ink-3 dark:text-snow-3">·</span>
                                                                 <span className="flex items-center gap-1 font-semibold truncate">
-                                                                    <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
+                                                                    <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-ink-3 dark:text-snow-3" aria-hidden="true" />
                                                                     <span className="truncate">{hoveredDateInfo.event.location}</span>
                                                                 </span>
                                                                 {hoveredDateInfo.event.distances && (
                                                                     <>
-                                                                        <span className="text-[#5c6370] dark:text-[#a7adbb]">·</span>
-                                                                        <span className="tabular-nums font-medium text-[#5c6370] dark:text-[#a7adbb]">
+                                                                        <span className="text-ink-3 dark:text-snow-3">·</span>
+                                                                        <span className="tabular-nums font-medium text-ink-3 dark:text-snow-3">
                                                                             {hoveredDateInfo.event.distances} km
                                                                         </span>
                                                                     </>
                                                                 )}
                                                             </div>
                                                         ) : (
-                                                            <div className="flex items-center gap-2 text-[#5c6370] dark:text-[#a7adbb]">
+                                                            <div className="flex items-center gap-2 text-ink-3 dark:text-snow-3">
                                                                 <span className="h-2 w-2 rounded-full bg-slate-400 shrink-0" />
-                                                                <span className="font-bold tabular-nums text-[#101216] dark:text-white">{formatFrenchDate(hoveredDateInfo.dateStr, selectedYear)}</span>
+                                                                <span className="font-bold tabular-nums text-ink dark:text-white">{formatFrenchDate(hoveredDateInfo.dateStr, selectedYear)}</span>
                                                                 <span>· Voir dans le calendrier</span>
                                                             </div>
                                                         )
                                                     ) : (
-                                                        <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1.5 truncate">
-                                                            <CalendarDaysIcon className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                                                        <p className="text-xs text-ink-3 dark:text-snow-3 flex items-center gap-1.5 truncate">
+                                                            <CalendarDaysIcon className="h-3.5 w-3.5 text-vert dark:text-vert-vif shrink-0" />
                                                             <span>Cliquez sur une date pour ouvrir la sortie dans le calendrier.</span>
                                                         </p>
                                                     )}
@@ -1234,7 +1168,7 @@ export default function LeaderboardView({
                                                                 onBlur={() => setHoveredDateInfo(null)}
                                                                 title={event ? `${formattedDate} - ${event.location} (cliquer pour voir dans le calendrier)` : `${formattedDate} (cliquer pour voir dans le calendrier)`}
                                                                 aria-label={`Sortie du ${formattedDate}${event ? ` : ${event.location}` : ''}`}
-                                                                className="group min-h-[44px] inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 px-3.5 py-2 text-xs font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 dark:hover:bg-emerald-500 dark:hover:text-[#0a0c10] dark:hover:border-emerald-500 transition-[color,background-color,border-color,transform] duration-150 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 motion-reduce:transition-none motion-reduce:transform-none"
+                                                                className="group min-h-[44px] inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 px-3.5 py-2 text-xs font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 dark:hover:bg-emerald-500 dark:hover:text-night dark:hover:border-emerald-500 transition-[color,background-color,border-color,transform] duration-150 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 motion-reduce:transition-none motion-reduce:transform-none"
                                                             >
                                                                 <span className="tabular-nums font-semibold">{formattedDate}</span>
                                                                 <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform motion-reduce:transition-none shrink-0" />
@@ -1242,8 +1176,8 @@ export default function LeaderboardView({
                                                         );
                                                     })}
                                                     {selectedSeasonalEntry.dates.length === 0 && (
-                                                        <div className="w-full rounded-md border border-dashed border-[#e4e0d8] dark:border-[#262b38] p-4 text-center">
-                                                            <p className="text-xs italic text-[#5c6370] dark:text-[#a7adbb]">
+                                                        <div className="w-full rounded-md border border-dashed border-line dark:border-night-line p-4 text-center">
+                                                            <p className="text-xs italic text-ink-3 dark:text-snow-3">
                                                                 Aucune sortie enregistrée pour cette saison.
                                                             </p>
                                                         </div>
@@ -1256,10 +1190,10 @@ export default function LeaderboardView({
                             </div>
 
                             {/* Footer */}
-                            <div className="p-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex justify-end">
+                            <div className="p-4 border-t border-line dark:border-night-line flex justify-end">
                                 <button
                                     onClick={handleClose}
-                                    className="min-h-[44px] px-6 py-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] text-xs font-semibold text-[#3a3f4a] dark:text-[#f5f6f8] hover:bg-[#f2efe9] dark:hover:bg-[#202533] transition-colors cursor-pointer motion-reduce:transition-none"
+                                    className="min-h-[44px] px-6 py-2.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 text-xs font-semibold text-ink-2 dark:text-snow hover:bg-paper-2 dark:hover:bg-night-3 transition-colors cursor-pointer motion-reduce:transition-none"
                                 >
                                     Fermer
                                 </button>

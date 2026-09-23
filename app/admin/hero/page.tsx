@@ -334,8 +334,8 @@ export default function AdminHeroPage(): React.ReactElement {
   if (isLoading) {
     return (
       <div className="py-20 flex flex-col items-center justify-center space-y-4">
-        <ArrowPathIcon className="h-8 w-8 md:h-8 md:w-8 text-[#e03e3e] animate-spin" />
-        <p className="text-xs uppercase tracking-widest text-[#5c6370] font-bold">
+        <ArrowPathIcon className="h-8 w-8 md:h-8 md:w-8 text-brand animate-spin" />
+        <p className="text-xs uppercase tracking-widest text-ink-3 font-bold">
           Chargement des paramètres du Hero...
         </p>
       </div>
@@ -345,16 +345,16 @@ export default function AdminHeroPage(): React.ReactElement {
   return (
     <div className="space-y-10 pb-16">
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <PhotoIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
+            <PhotoIcon className="h-3.5 w-3.5 text-brand" />
             <span>Page d&apos;Accueil</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
             Bannière Hero &amp; Télémétrie
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
+          <p className="mt-1 text-xs sm:text-sm text-ink-3">
             Gérez les photos du slider, ajustez précisément leur cadrage et configurez les 4 cartes d&apos;informations sous l&apos;image.
           </p>
         </div>
@@ -364,7 +364,7 @@ export default function AdminHeroPage(): React.ReactElement {
             type="button"
             onClick={handleResetDefaults}
             disabled={isSaving}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#5c6370] hover:text-[#101216] hover:bg-[#f2efe9] transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-3 hover:text-ink hover:bg-paper-2 transition-colors"
           >
             <ArrowPathIcon className="h-3.5 w-3.5" />
             <span>Rétablir défaut</span>
@@ -376,8 +376,8 @@ export default function AdminHeroPage(): React.ReactElement {
             disabled={isSaving}
             className={`inline-flex items-center gap-2 rounded-md px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-all shadow-xs ${
               hasChanges
-                ? 'bg-[#e03e3e] hover:bg-[#c93434] ring-2 ring-[#e03e3e]/30'
-                : 'bg-[#101216] hover:bg-[#262b38]'
+                ? 'bg-brand hover:bg-brand-strong ring-2 ring-brand/30'
+                : 'bg-ink hover:bg-night-line'
             }`}
           >
             {isSaving ? (
@@ -400,35 +400,35 @@ export default function AdminHeroPage(): React.ReactElement {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216]">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-ink">
               Aperçu en direct (Rendu public)
             </h2>
           </div>
-          <span className="text-xs text-[#5c6370]">
+          <span className="text-xs text-ink-3">
             Le cadrage et les positions s&apos;ajustent en temps réel ci-dessous
           </span>
         </div>
 
-        <div className="rounded-xl border border-[#e4e0d8] bg-[#0a0c10] p-4 sm:p-6 shadow-sm">
+        <div className="rounded-xl border border-line bg-night p-4 sm:p-6 shadow-sm">
           <HeroTelemetryFrame settings={formData} isPreview />
         </div>
       </section>
 
       {/* ── Section 2 : Gestion du Slider Photo & Cadrage ── */}
-      <section className="space-y-6 rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs">
-        <div className="border-b border-[#e4e0d8] pb-4">
-          <h2 className="text-lg font-bold text-[#101216] flex items-center gap-2">
-            <PhotoIcon className="h-5 w-5 text-[#e03e3e]" />
+      <section className="space-y-6 rounded-lg border border-line bg-white p-6 shadow-xs">
+        <div className="border-b border-line pb-4">
+          <h2 className="text-lg font-bold text-ink flex items-center gap-2">
+            <PhotoIcon className="h-5 w-5 text-brand" />
             <span>Photos du Slider &amp; Cadrage Panoramique</span>
           </h2>
-          <p className="mt-1 text-xs text-[#5c6370]">
+          <p className="mt-1 text-xs text-ink-3">
             Vous pouvez ajuster l&apos;alignement vertical de chaque photo (pour bien voir les visages ou les vélos) ou utiliser l&apos;outil de recadrage panoramique 21:9.
           </p>
         </div>
 
         {/* Badge sur la photo */}
         <div className="space-y-1.5 max-w-lg">
-          <label htmlFor="hero-badge" className="block text-xs font-bold uppercase tracking-wider text-[#101216]">
+          <label htmlFor="hero-badge" className="block text-xs font-bold uppercase tracking-wider text-ink">
             Texte du badge sur l&apos;image
           </label>
           <input
@@ -437,14 +437,14 @@ export default function AdminHeroPage(): React.ReactElement {
             value={formData.badge}
             onChange={(e) => updateSettings((prev) => ({ ...prev, badge: e.target.value }))}
             placeholder="Peloton CC Saint-Martin · Blanmont"
-            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-3.5 py-2 text-xs sm:text-sm text-[#101216] focus:border-[#e03e3e] focus:outline-none transition-colors"
+            className="w-full rounded-md border border-line bg-paper px-3.5 py-2 text-xs sm:text-sm text-ink focus:border-brand focus:outline-none transition-colors"
           />
         </div>
 
         {/* Liste des photos actuelles */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#101216]">
+            <label className="block text-xs font-bold uppercase tracking-wider text-ink">
               Photos enregistrées ({formData.slides.length})
             </label>
           </div>
@@ -457,17 +457,18 @@ export default function AdminHeroPage(): React.ReactElement {
               return (
                 <div
                   key={slide.id || index}
-                  className="rounded-lg border border-[#e4e0d8] bg-[#faf8f5] overflow-hidden transition-all shadow-xs"
+                  className="rounded-lg border border-line bg-paper overflow-hidden transition-all shadow-xs"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-3.5">
                     {/* Visual thumbnail with current position */}
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-md border border-[#262b38] bg-[#101216]">
+                      <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-md border border-night-line bg-ink">
                         <Image
                           src={failedThumbnails[slide.id || index] ? '/images/home-hero.jpg' : slide.url}
                           alt={slide.alt || 'Slide miniature'}
                           fill
                           unoptimized
+                          referrerPolicy="no-referrer"
                           sizes="112px"
                           style={{ objectPosition: slide.position || 'center center' }}
                           onError={() => {
@@ -478,13 +479,13 @@ export default function AdminHeroPage(): React.ReactElement {
                         <span className="absolute bottom-1 left-1 rounded bg-black/80 px-1.5 py-0.5 text-xs font-bold text-white">
                           #{index + 1}
                         </span>
-                        <span className="absolute top-1 right-1 rounded bg-[#e03e3e]/90 px-1 py-0.2 text-xs font-mono font-bold text-white">
+                        <span className="absolute top-1 right-1 rounded bg-brand/90 px-1 py-0.2 text-xs font-mono font-bold text-white">
                           {currentY}%
                         </span>
                       </div>
 
                       <div className="min-w-0 flex-1 space-y-1">
-                        <p className="text-xs font-mono text-[#5c6370] truncate max-w-sm sm:max-w-md">
+                        <p className="text-xs font-mono text-ink-3 truncate max-w-sm sm:max-w-md">
                           {slide.url}
                         </p>
                         <input
@@ -501,7 +502,7 @@ export default function AdminHeroPage(): React.ReactElement {
                             });
                           }}
                           placeholder="Texte descriptif (alt)..."
-                          className="w-full text-xs bg-white border border-[#e4e0d8] rounded px-2 py-1 text-[#101216] focus:border-[#e03e3e] focus:outline-none"
+                          className="w-full text-xs bg-white border border-line rounded px-2 py-1 text-ink focus:border-brand focus:outline-none"
                         />
                       </div>
                     </div>
@@ -513,12 +514,12 @@ export default function AdminHeroPage(): React.ReactElement {
                         onClick={() => setExpandedPositionIndex(isPanelOpen ? null : index)}
                         className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors border ${
                           isPanelOpen
-                            ? 'bg-[#101216] text-white border-[#101216]'
-                            : 'bg-white text-[#101216] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                            ? 'bg-ink text-white border-ink'
+                            : 'bg-white text-ink border-line hover:bg-paper-2'
                         }`}
                         title="Ajuster l'alignement et le cadrage"
                       >
-                        <AdjustmentsHorizontalIcon className="h-4 w-4 text-[#e03e3e]" />
+                        <AdjustmentsHorizontalIcon className="h-4 w-4 text-brand" />
                         <span>Ajuster cadrage</span>
                       </button>
 
@@ -526,7 +527,7 @@ export default function AdminHeroPage(): React.ReactElement {
                         type="button"
                         onClick={() => moveSlide(index, 'up')}
                         disabled={index === 0}
-                        className="rounded p-1.5 text-[#5c6370] hover:bg-white hover:text-[#101216] disabled:opacity-30 disabled:pointer-events-none transition-colors border border-transparent hover:border-[#e4e0d8]"
+                        className="rounded p-1.5 text-ink-3 hover:bg-white hover:text-ink disabled:opacity-30 disabled:pointer-events-none transition-colors border border-transparent hover:border-line"
                         title="Monter"
                       >
                         <ArrowUpIcon className="h-4 w-4" />
@@ -535,7 +536,7 @@ export default function AdminHeroPage(): React.ReactElement {
                         type="button"
                         onClick={() => moveSlide(index, 'down')}
                         disabled={index === formData.slides.length - 1}
-                        className="rounded p-1.5 text-[#5c6370] hover:bg-white hover:text-[#101216] disabled:opacity-30 disabled:pointer-events-none transition-colors border border-transparent hover:border-[#e4e0d8]"
+                        className="rounded p-1.5 text-ink-3 hover:bg-white hover:text-ink disabled:opacity-30 disabled:pointer-events-none transition-colors border border-transparent hover:border-line"
                         title="Descendre"
                       >
                         <ArrowDownIcon className="h-4 w-4" />
@@ -543,7 +544,7 @@ export default function AdminHeroPage(): React.ReactElement {
                       <button
                         type="button"
                         onClick={() => removeSlide(index)}
-                        className="rounded p-1.5 text-[#5c6370] hover:bg-rose-50 hover:text-rose-600 transition-colors border border-transparent hover:border-rose-200"
+                        className="rounded p-1.5 text-ink-3 hover:bg-rose-50 hover:text-rose-600 transition-colors border border-transparent hover:border-rose-200"
                         title="Supprimer cette photo"
                       >
                         <TrashIcon className="h-4 w-4" />
@@ -553,14 +554,14 @@ export default function AdminHeroPage(): React.ReactElement {
 
                   {/* ── Slide Framing & Alignment Adjustment Panel ── */}
                   {isPanelOpen && (
-                    <div className="border-t border-[#e4e0d8] bg-white p-4 space-y-4 animate-in slide-in-from-top-2">
+                    <div className="border-t border-line bg-white p-4 space-y-4 animate-in slide-in-from-top-2">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div className="space-y-0.5">
-                          <p className="text-xs font-bold uppercase tracking-wider text-[#101216] flex items-center gap-1.5">
-                            <ArrowsUpDownIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                          <p className="text-xs font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                            <ArrowsUpDownIcon className="h-3.5 w-3.5 text-brand" />
                             <span>Alignement vertical dans le slider</span>
                           </p>
-                          <p className="text-xs text-[#5c6370]">
+                          <p className="text-xs text-ink-3">
                             Choisissez une zone de focalisation rapide ou déplacez le curseur pour centrer au millimètre.
                           </p>
                         </div>
@@ -568,23 +569,23 @@ export default function AdminHeroPage(): React.ReactElement {
                         <button
                           type="button"
                           onClick={() => handleOpenRecrop(index)}
-                          className="inline-flex items-center gap-1.5 rounded-md bg-[#faf8f5] hover:bg-[#efece5] border border-[#e4e0d8] px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#101216] transition-colors"
+                          className="inline-flex items-center gap-1.5 rounded-md bg-paper hover:bg-paper-2 border border-line px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink transition-colors"
                         >
-                          <PhotoIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                          <PhotoIcon className="h-3.5 w-3.5 text-brand" />
                           <span>Ouvrir l&apos;outil de recadrage visuel 21:9</span>
                         </button>
                       </div>
 
                       {/* Presets Row */}
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-xs font-semibold text-[#5c6370]">Préréglages :</span>
+                        <span className="text-xs font-semibold text-ink-3">Préréglages :</span>
                         <button
                           type="button"
                           onClick={() => handleSetSlidePosition(index, 'center 15%')}
                           className={`rounded px-3 py-1 text-xs font-semibold uppercase tracking-wider border transition-colors ${
                             currentY <= 25
-                              ? 'bg-[#e03e3e] text-white border-[#e03e3e]'
-                              : 'bg-white text-[#101216] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                              ? 'bg-brand text-white border-brand'
+                              : 'bg-white text-ink border-line hover:bg-paper-2'
                           }`}
                         >
                           Haut (Têtes / Visages)
@@ -594,8 +595,8 @@ export default function AdminHeroPage(): React.ReactElement {
                           onClick={() => handleSetSlidePosition(index, 'center center')}
                           className={`rounded px-3 py-1 text-xs font-semibold uppercase tracking-wider border transition-colors ${
                             currentY > 25 && currentY < 75
-                              ? 'bg-[#101216] text-white border-[#101216]'
-                              : 'bg-white text-[#101216] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                              ? 'bg-ink text-white border-ink'
+                              : 'bg-white text-ink border-line hover:bg-paper-2'
                           }`}
                         >
                           Centre (Standard)
@@ -605,8 +606,8 @@ export default function AdminHeroPage(): React.ReactElement {
                           onClick={() => handleSetSlidePosition(index, 'center 85%')}
                           className={`rounded px-3 py-1 text-xs font-semibold uppercase tracking-wider border transition-colors ${
                             currentY >= 75
-                              ? 'bg-[#e03e3e] text-white border-[#e03e3e]'
-                              : 'bg-white text-[#101216] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                              ? 'bg-brand text-white border-brand'
+                              : 'bg-white text-ink border-line hover:bg-paper-2'
                           }`}
                         >
                           Bas (Vélos / Route)
@@ -616,10 +617,10 @@ export default function AdminHeroPage(): React.ReactElement {
                       {/* Slider Control */}
                       <div className="space-y-1.5 pt-1">
                         <div className="flex items-center justify-between text-xs">
-                          <span className="font-semibold text-[#101216]">
-                            Ajustement fin de la hauteur : <strong className="text-[#e03e3e]">{currentY}%</strong>
+                          <span className="font-semibold text-ink">
+                            Ajustement fin de la hauteur : <strong className="text-brand">{currentY}%</strong>
                           </span>
-                          <span className="text-xs text-[#5c6370]">
+                          <span className="text-xs text-ink-3">
                             0% = Haut extrême · 100% = Bas extrême
                           </span>
                         </div>
@@ -632,7 +633,7 @@ export default function AdminHeroPage(): React.ReactElement {
                           aria-label={`Ajustement de la hauteur de la photo #${index + 1}`}
                           value={currentY}
                           onChange={(e) => handleSetSlidePosition(index, `center ${e.target.value}%`)}
-                          className="w-full accent-[#e03e3e] cursor-pointer"
+                          className="w-full accent-brand cursor-pointer"
                         />
                       </div>
                     </div>
@@ -644,15 +645,15 @@ export default function AdminHeroPage(): React.ReactElement {
         </div>
 
         {/* Ajouter une nouvelle photo */}
-        <div className="pt-4 border-t border-[#e4e0d8] grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="pt-4 border-t border-line grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Option A: Téléversement avec Cadrage Assisté */}
-          <div className="p-4 rounded-lg border border-dashed border-[#e03e3e]/40 bg-[#e03e3e]/[0.02] flex flex-col justify-between space-y-3">
+          <div className="p-4 rounded-lg border border-dashed border-brand/40 bg-brand/[0.02] flex flex-col justify-between space-y-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#101216] flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
+              <p className="text-xs font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-brand" />
                 Option 1 : Téléverser avec cadrage interactif
               </p>
-              <p className="text-xs text-[#5c6370] mt-1">
+              <p className="text-xs text-ink-3 mt-1">
                 Choisissez une photo : une fenêtre de recadrage au ratio panoramique 21:9 s&apos;ouvrira pour vous permettre de zoomer et positionner idéalement l&apos;image avant l&apos;envoi.
               </p>
             </div>
@@ -670,7 +671,7 @@ export default function AdminHeroPage(): React.ReactElement {
               />
               <label
                 htmlFor="hero-file-upload"
-                className={`inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors w-full shadow-xs ${
+                className={`inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors w-full shadow-xs ${
                   isUploading ? 'opacity-60 pointer-events-none' : ''
                 }`}
               >
@@ -690,12 +691,12 @@ export default function AdminHeroPage(): React.ReactElement {
           </div>
 
           {/* Option B: Lien URL direct */}
-          <div className="p-4 rounded-lg border border-[#e4e0d8] bg-[#faf8f5] flex flex-col justify-between space-y-3">
+          <div className="p-4 rounded-lg border border-line bg-paper flex flex-col justify-between space-y-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#101216]">
+              <p className="text-xs font-bold uppercase tracking-wider text-ink">
                 Option 2 : Ajouter via une URL d&apos;image
               </p>
-              <p className="text-xs text-[#5c6370] mt-1">
+              <p className="text-xs text-ink-3 mt-1">
                 Collez l&apos;adresse web directe d&apos;une image (ex. https://... ou /images/...).
               </p>
             </div>
@@ -708,14 +709,14 @@ export default function AdminHeroPage(): React.ReactElement {
                 placeholder="https://mon-image.jpg ou /images/photo.jpg"
                 value={newSlideUrl}
                 onChange={(e) => setNewSlideUrl(e.target.value)}
-                className="w-full rounded border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none"
+                className="w-full rounded border border-line bg-white px-3 py-1.5 text-xs text-ink focus:border-brand focus:outline-none"
               />
               <button
                 type="button"
                 onClick={handleAddSlideByUrl}
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-white border border-[#e4e0d8] hover:bg-[#f2efe9] text-[#101216] px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors w-full"
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-white border border-line hover:bg-paper-2 text-ink px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors w-full"
               >
-                <PlusIcon className="h-4 w-4 text-[#e03e3e]" />
+                <PlusIcon className="h-4 w-4 text-brand" />
                 <span>Ajouter cette URL</span>
               </button>
             </div>
@@ -724,13 +725,13 @@ export default function AdminHeroPage(): React.ReactElement {
       </section>
 
       {/* ── Section 3 : Les 4 Cartes d'Information Télémétriques ── */}
-      <section className="space-y-6 rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs">
-        <div className="border-b border-[#e4e0d8] pb-4">
-          <h2 className="text-lg font-bold text-[#101216] flex items-center gap-2">
-            <CalendarDaysIcon className="h-5 w-5 text-[#e03e3e]" />
+      <section className="space-y-6 rounded-lg border border-line bg-white p-6 shadow-xs">
+        <div className="border-b border-line pb-4">
+          <h2 className="text-lg font-bold text-ink flex items-center gap-2">
+            <CalendarDaysIcon className="h-5 w-5 text-brand" />
             <span>Informations sous l&apos;image (4 Blocs Télémétriques)</span>
           </h2>
-          <p className="mt-1 text-xs text-[#5c6370]">
+          <p className="mt-1 text-xs text-ink-3">
             Modifiez le lieu de rassemblement, les horaires du samedi et dimanche, ainsi que les allures.
           </p>
         </div>
@@ -739,31 +740,31 @@ export default function AdminHeroPage(): React.ReactElement {
           {formData.cards.map((card, index) => (
             <div
               key={card.id || index}
-              className="rounded-lg border border-[#e4e0d8] bg-[#faf8f5] p-4 flex flex-col justify-between space-y-4 shadow-xs"
+              className="rounded-lg border border-line bg-paper p-4 flex flex-col justify-between space-y-4 shadow-xs"
             >
               {/* Header card indicator */}
-              <div className="flex items-center justify-between border-b border-[#e4e0d8] pb-2.5">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
-                  <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
+              <div className="flex items-center justify-between border-b border-line pb-2.5">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-ink-3">
+                  <span className="h-2 w-2 rounded-full bg-brand" />
                   Bloc #{index + 1}
                 </span>
 
                 {/* Selected icon badge */}
-                <div className="flex items-center gap-1 text-xs text-[#101216]">
+                <div className="flex items-center gap-1 text-xs text-ink">
                   {renderCardIcon(card.icon)}
                 </div>
               </div>
 
               {/* Icon Selector */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-icon-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-icon-${index}`} className="block text-xs font-bold uppercase tracking-wider text-ink-3">
                   Icône
                 </label>
                 <select
                   id={`stat-card-icon-${index}`}
                   value={card.icon}
                   onChange={(e) => handleCardChange(index, 'icon', e.target.value as HeroIconType)}
-                  className="w-full rounded border border-[#e4e0d8] bg-white px-2.5 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none"
+                  className="w-full rounded border border-line bg-white px-2.5 py-1.5 text-xs text-ink focus:border-brand focus:outline-none"
                 >
                   {AVAILABLE_ICONS.map((item) => (
                     <option key={item.type} value={item.type}>
@@ -775,7 +776,7 @@ export default function AdminHeroPage(): React.ReactElement {
 
               {/* Label Field */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-label-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-label-${index}`} className="block text-xs font-bold uppercase tracking-wider text-ink-3">
                   Titre / Libellé
                 </label>
                 <input
@@ -784,13 +785,13 @@ export default function AdminHeroPage(): React.ReactElement {
                   value={card.label}
                   onChange={(e) => handleCardChange(index, 'label', e.target.value)}
                   placeholder="ex: Rassemblement, Samedi..."
-                  className="w-full rounded border border-[#e4e0d8] bg-white px-2.5 py-1.5 text-xs font-semibold uppercase text-[#101216] focus:border-[#e03e3e] focus:outline-none"
+                  className="w-full rounded border border-line bg-white px-2.5 py-1.5 text-xs font-semibold uppercase text-ink focus:border-brand focus:outline-none"
                 />
               </div>
 
               {/* Main Value Field */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-value-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-value-${index}`} className="block text-xs font-bold uppercase tracking-wider text-ink-3">
                   Valeur Principale (Heure ou Lieu)
                 </label>
                 <input
@@ -799,13 +800,13 @@ export default function AdminHeroPage(): React.ReactElement {
                   value={card.value}
                   onChange={(e) => handleCardChange(index, 'value', e.target.value)}
                   placeholder="ex: Place de Blanmont, 8h30..."
-                  className="w-full rounded border border-[#e4e0d8] bg-white px-2.5 py-1.5 text-xs font-bold text-[#101216] focus:border-[#e03e3e] focus:outline-none"
+                  className="w-full rounded border border-line bg-white px-2.5 py-1.5 text-xs font-bold text-ink focus:border-brand focus:outline-none"
                 />
               </div>
 
               {/* Detail / Suffix Field */}
               <div className="space-y-1">
-                <label htmlFor={`stat-card-detail-${index}`} className="block text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+                <label htmlFor={`stat-card-detail-${index}`} className="block text-xs font-bold uppercase tracking-wider text-ink-3">
                   Détail additionnel (optionnel)
                 </label>
                 <input
@@ -814,7 +815,7 @@ export default function AdminHeroPage(): React.ReactElement {
                   value={card.detail || ''}
                   onChange={(e) => handleCardChange(index, 'detail', e.target.value)}
                   placeholder="ex: · Route, · Route & VTT..."
-                  className="w-full rounded border border-[#e4e0d8] bg-white px-2.5 py-1.5 text-xs text-[#5c6370] focus:border-[#e03e3e] focus:outline-none"
+                  className="w-full rounded border border-line bg-white px-2.5 py-1.5 text-xs text-ink-3 focus:border-brand focus:outline-none"
                 />
               </div>
             </div>
@@ -829,18 +830,18 @@ export default function AdminHeroPage(): React.ReactElement {
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6"
         >
-          <div className="bg-[#101216] border border-[#262b38] rounded-xl overflow-hidden w-full max-w-4xl shadow-2xl animate-in zoom-in-95 flex flex-col max-h-[90vh]">
+          <div className="bg-ink border border-night-line rounded-xl overflow-hidden w-full max-w-4xl shadow-2xl animate-in zoom-in-95 flex flex-col max-h-[90vh]">
             {/* Modal Header */}
-            <div className="p-4 sm:p-5 border-b border-[#262b38] flex items-center justify-between bg-[#0a0c10]">
+            <div className="p-4 sm:p-5 border-b border-night-line flex items-center justify-between bg-night">
               <div className="flex items-center gap-3">
-                <div className="h-8 w-8 md:h-8 md:w-8 rounded-md bg-[#e03e3e]/20 border border-[#e03e3e]/40 flex items-center justify-center text-[#e03e3e]">
+                <div className="h-8 w-8 md:h-8 md:w-8 rounded-md bg-brand/20 border border-brand/40 flex items-center justify-center text-brand">
                   <AdjustmentsHorizontalIcon className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-sm sm:text-base font-bold text-white uppercase tracking-wider">
                     Ajuster le cadrage de la photo
                   </h3>
-                  <p className="text-xs text-[#a7adbb]">
+                  <p className="text-xs text-snow-3">
                     Format panoramique bannière (21:9) · Déplacez et zoomez pour placer le sujet
                   </p>
                 </div>
@@ -853,7 +854,7 @@ export default function AdminHeroPage(): React.ReactElement {
                   setCropImageSrc(null);
                 }}
                 disabled={isProcessingCrop}
-                className="rounded-md p-1.5 text-[#5c6370] hover:text-white hover:bg-white/10 transition-colors"
+                className="rounded-md p-1.5 text-ink-3 hover:text-white hover:bg-white/10 transition-colors"
                 title="Fermer"
               >
                 <XMarkIcon className="h-5 w-5" />
@@ -861,7 +862,7 @@ export default function AdminHeroPage(): React.ReactElement {
             </div>
 
             {/* Cropper Viewport */}
-            <div className="relative h-[340px] sm:h-[420px] w-full bg-[#050608]">
+            <div className="relative h-[340px] sm:h-[420px] w-full bg-night">
               <Cropper
                 image={cropImageSrc}
                 crop={crop}
@@ -874,16 +875,16 @@ export default function AdminHeroPage(): React.ReactElement {
             </div>
 
             {/* Modal Controls & Actions */}
-            <div className="p-4 sm:p-5 bg-[#161922] border-t border-[#262b38] space-y-4">
+            <div className="p-4 sm:p-5 bg-night-2 border-t border-night-line space-y-4">
               {/* Zoom Control Bar */}
               <div className="flex items-center gap-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb] shrink-0">
+                <span className="text-xs font-bold uppercase tracking-wider text-snow-3 shrink-0">
                   Niveau de Zoom :
                 </span>
                 <button
                   type="button"
                   onClick={() => setZoom((z) => Math.max(1, z - 0.1))}
-                  className="p-1 rounded text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1 rounded text-snow-3 hover:text-white hover:bg-white/10 transition-colors"
                   title="Zoom arrière"
                 >
                   <MagnifyingGlassMinusIcon className="h-4 w-4" />
@@ -897,12 +898,12 @@ export default function AdminHeroPage(): React.ReactElement {
                   aria-label="Niveau de zoom du recadrage photo"
                   value={zoom}
                   onChange={(e) => setZoom(Number(e.target.value))}
-                  className="w-full accent-[#e03e3e] cursor-pointer"
+                  className="w-full accent-brand cursor-pointer"
                 />
                 <button
                   type="button"
                   onClick={() => setZoom((z) => Math.min(3, z + 0.1))}
-                  className="p-1 rounded text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1 rounded text-snow-3 hover:text-white hover:bg-white/10 transition-colors"
                   title="Zoom avant"
                 >
                   <MagnifyingGlassPlusIcon className="h-4 w-4" />
@@ -913,8 +914,8 @@ export default function AdminHeroPage(): React.ReactElement {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#262b38]">
-                <p className="text-xs text-[#5c6370]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-night-line">
+                <p className="text-xs text-ink-3">
                   Astuce : Vous pouvez également glisser directement l&apos;image à la souris ou au doigt.
                 </p>
 
@@ -926,7 +927,7 @@ export default function AdminHeroPage(): React.ReactElement {
                       setCropImageSrc(null);
                     }}
                     disabled={isProcessingCrop}
-                    className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#a7adbb] hover:text-white hover:bg-white/5 rounded-md transition-colors min-h-[40px]"
+                    className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-snow-3 hover:text-white hover:bg-white/5 rounded-md transition-colors min-h-[40px]"
                   >
                     Annuler
                   </button>
@@ -935,7 +936,7 @@ export default function AdminHeroPage(): React.ReactElement {
                     type="button"
                     onClick={handleConfirmCrop}
                     disabled={isProcessingCrop}
-                    className="inline-flex items-center gap-2 px-6 py-2 bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-wider rounded-md shadow-lg shadow-[#e03e3e]/25 transition-colors disabled:opacity-50 min-h-[40px]"
+                    className="inline-flex items-center gap-2 px-6 py-2 bg-brand hover:bg-brand-strong text-white text-xs font-bold uppercase tracking-wider rounded-md shadow-lg shadow-brand/25 transition-colors disabled:opacity-50 min-h-[40px]"
                   >
                     {isProcessingCrop && <ArrowPathIcon className="h-4 w-4 animate-spin" />}
                     <span>{isProcessingCrop ? 'Envoi...' : 'Valider ce cadrage & Importer'}</span>
@@ -949,12 +950,12 @@ export default function AdminHeroPage(): React.ReactElement {
 
       {/* Floating Save Bar if changes exist */}
       {hasChanges && (
-        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3 rounded-lg border border-[#e03e3e] bg-[#101216] p-4 text-white shadow-2xl animate-bounce-short">
+        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3 rounded-lg border border-brand bg-ink p-4 text-white shadow-2xl animate-bounce-short">
           <div className="space-y-0.5">
             <p className="text-xs font-bold uppercase tracking-wider text-white">
               Modifications non enregistrées
             </p>
-            <p className="text-xs text-[#a7adbb]">
+            <p className="text-xs text-snow-3">
               Cliquez pour publier instantanément sur le site.
             </p>
           </div>
@@ -962,7 +963,7 @@ export default function AdminHeroPage(): React.ReactElement {
             type="button"
             onClick={handleSave}
             disabled={isSaving}
-            className="rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors"
+            className="rounded-md bg-brand hover:bg-brand-strong px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors"
           >
             {isSaving ? 'Enregistrement...' : 'Enregistrer'}
           </button>
@@ -976,18 +977,18 @@ function renderCardIcon(type: HeroIconType) {
   const iconClass = 'h-4 w-4';
   switch (type) {
     case 'pin':
-      return <MapPinIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <MapPinIcon className={`${iconClass} text-brand`} />;
     case 'calendar':
-      return <CalendarDaysIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <CalendarDaysIcon className={`${iconClass} text-brand`} />;
     case 'group':
-      return <UserGroupIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <UserGroupIcon className={`${iconClass} text-brand`} />;
     case 'clock':
-      return <ClockIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <ClockIcon className={`${iconClass} text-brand`} />;
     case 'trophy':
-      return <TrophyIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <TrophyIcon className={`${iconClass} text-brand`} />;
     case 'sparkles':
-      return <SparklesIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <SparklesIcon className={`${iconClass} text-brand`} />;
     default:
-      return <MapPinIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <MapPinIcon className={`${iconClass} text-brand`} />;
   }
 }

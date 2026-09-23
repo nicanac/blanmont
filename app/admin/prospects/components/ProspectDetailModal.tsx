@@ -169,21 +169,21 @@ export default function ProspectDetailModal({
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-2xl rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] text-[#101216] dark:text-white shadow-2xl overflow-hidden z-10 my-6 max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-2xl rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink text-ink dark:text-white shadow-2xl overflow-hidden z-10 my-6 max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#222730] px-6 py-4 bg-[#faf8f5] dark:bg-[#161922] shrink-0">
+        <div className="flex items-center justify-between border-b border-line dark:border-night-3 px-6 py-4 bg-paper dark:bg-night-2 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-brand/10 text-brand border border-brand/20">
               <BicycleIcon className="h-5 w-5" />
             </div>
             <div>
               <h2
                 id="prospect-modal-title"
-                className="text-lg sm:text-xl font-extrabold tracking-tight text-[#101216] dark:text-white"
+                className="text-lg sm:text-xl font-extrabold tracking-tight text-ink dark:text-white"
               >
                 {prospect.name}
               </h2>
-              <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">
+              <p className="text-xs text-ink-3 dark:text-snow-3">
                 Candidature déposée le{' '}
                 {prospect.createdAt
                   ? new Date(prospect.createdAt).toLocaleDateString('fr-BE', {
@@ -199,7 +199,7 @@ export default function ProspectDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1.5 text-[#5c6370] hover:text-[#101216] dark:text-[#9ba3af] dark:hover:text-white hover:bg-[#efece5] dark:hover:bg-[#222730] transition-colors"
+            className="rounded-md p-1.5 text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
             title="Fermer la fiche candidat"
           >
             <XMarkIcon className="h-5 w-5" />
@@ -209,8 +209,8 @@ export default function ProspectDetailModal({
         {/* Scrollable Content */}
         <div className="p-6 space-y-6 overflow-y-auto">
           {/* Quick Contact Bar & 1-Click WhatsApp Mentor */}
-          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-[#faf8f5] dark:bg-[#161922] p-4 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+          <div className="rounded-lg border border-line dark:border-night-3 bg-paper dark:bg-night-2 p-4 space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
               Prise de contact &amp; Accueil
             </div>
             <div className="flex flex-wrap items-center gap-2.5">
@@ -229,18 +229,18 @@ export default function ProspectDetailModal({
               {/* Phone Call */}
               <a
                 href={`tel:${prospect.phone}`}
-                className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#2b313d] bg-white dark:bg-[#1f232b] px-3 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#272d38] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-3 py-2 text-xs font-semibold text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
               >
-                <PhoneIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                <PhoneIcon className="h-3.5 w-3.5 text-brand" />
                 <span className="tabular-nums">{prospect.phone}</span>
               </a>
 
               {/* Email */}
               <a
                 href={`mailto:${prospect.email}?subject=Votre sortie d'essai au CC Saint-Martin Blanmont`}
-                className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#2b313d] bg-white dark:bg-[#1f232b] px-3 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#272d38] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-3 py-2 text-xs font-semibold text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
               >
-                <EnvelopeIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                <EnvelopeIcon className="h-3.5 w-3.5 text-brand" />
                 <span className="truncate max-w-[180px]">{prospect.email}</span>
               </a>
             </div>
@@ -248,38 +248,38 @@ export default function ProspectDetailModal({
 
           {/* Cycling Profile Information */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="rounded-md border border-[#e4e0d8] dark:border-[#222730] p-3 bg-white dark:bg-[#14171e]">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af] block">
+            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
                 Groupe Souhaité
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm text-[#101216] dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-white">
                 Groupe {prospect.preferredGroup}
               </span>
             </div>
 
-            <div className="rounded-md border border-[#e4e0d8] dark:border-[#222730] p-3 bg-white dark:bg-[#14171e]">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af] block">
+            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
                 Type de Vélo
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm text-[#101216] dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-white">
                 {prospect.bikeType}
               </span>
             </div>
 
-            <div className="rounded-md border border-[#e4e0d8] dark:border-[#222730] p-3 bg-white dark:bg-[#14171e]">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af] block">
+            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
                 Niveau Déclaré
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm text-[#101216] dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-white">
                 {prospect.experienceLevel}
               </span>
             </div>
 
-            <div className="rounded-md border border-[#e4e0d8] dark:border-[#222730] p-3 bg-white dark:bg-[#14171e]">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af] block">
+            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
                 1ère Sortie Voulue
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm tabular-nums text-[#101216] dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm tabular-nums text-ink dark:text-white">
                 {prospect.firstRideDate || 'Non spécifiée'}
               </span>
             </div>
@@ -287,11 +287,11 @@ export default function ProspectDetailModal({
 
           {/* Candidate Message */}
           {prospect.message && (
-            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#222730] p-4 bg-white dark:bg-[#14171e] space-y-1.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+            <div className="rounded-lg border border-line dark:border-night-3 p-4 bg-white dark:bg-night-2 space-y-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                 Message du candidat
               </span>
-              <p className="text-xs sm:text-sm text-[#101216] dark:text-[#e4e0d8] italic whitespace-pre-wrap">
+              <p className="text-xs sm:text-sm text-ink dark:text-line italic whitespace-pre-wrap">
                 &ldquo;{prospect.message}&rdquo;
               </p>
             </div>
@@ -299,7 +299,7 @@ export default function ProspectDetailModal({
 
           {/* Status Pipeline Selection */}
           <div className="space-y-2.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af] block">
+            <label className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
               Progression du Candidat (Pipeline CRM)
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -312,13 +312,13 @@ export default function ProspectDetailModal({
                     onClick={() => handleStatusClick(step.status)}
                     className={`rounded-md p-2.5 text-left border transition-all text-xs flex flex-col justify-between ${
                       isActive
-                        ? 'border-[#e03e3e] bg-[#e03e3e]/5 dark:bg-[#e03e3e]/10 text-[#101216] dark:text-white shadow-xs font-bold ring-1 ring-[#e03e3e]'
-                        : 'border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] text-[#5c6370] dark:text-[#9ba3af] hover:border-[#101216] dark:hover:border-white'
+                        ? 'border-brand bg-brand/5 dark:bg-brand/10 text-ink dark:text-white shadow-xs font-bold ring-1 ring-brand'
+                        : 'border-line dark:border-night-3 bg-white dark:bg-night-2 text-ink-3 dark:text-snow-3 hover:border-ink dark:hover:border-white'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-bold">{step.label}</span>
-                      {isActive && <CheckCircleIcon className="h-4 w-4 text-[#e03e3e]" />}
+                      {isActive && <CheckCircleIcon className="h-4 w-4 text-brand" />}
                     </div>
                     <span className="text-[11px] opacity-75 mt-1 font-normal">{step.desc}</span>
                   </button>
@@ -333,7 +333,7 @@ export default function ProspectDetailModal({
             <div className="space-y-2">
               <label
                 htmlFor="mentor-captain"
-                className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af] block"
+                className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block"
               >
                 Capitaine Mentor Attitré
               </label>
@@ -341,7 +341,7 @@ export default function ProspectDetailModal({
                 id="mentor-captain"
                 value={selectedCaptainId}
                 onChange={(e) => setSelectedCaptainId(e.target.value)}
-                className="w-full rounded-md border border-[#e4e0d8] dark:border-[#2b313d] bg-white dark:bg-[#16191f] px-3 py-2 text-xs text-[#101216] dark:text-white focus:outline-hidden focus:ring-2 focus:ring-[#e03e3e]"
+                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-3 py-2 text-xs text-ink dark:text-white focus:outline-hidden focus:ring-2 focus:ring-brand"
               >
                 <option value="">-- Aucun capitaine assigné --</option>
                 {captains.map((cap) => (
@@ -350,7 +350,7 @@ export default function ProspectDetailModal({
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-[#5c6370] dark:text-[#9ba3af]">
+              <p className="text-[11px] text-ink-3 dark:text-snow-3">
                 Le capitaine mentor prend en charge le candidat le jour de la sortie.
               </p>
             </div>
@@ -361,7 +361,7 @@ export default function ProspectDetailModal({
                 type="button"
                 onClick={handleSaveNotesAndMentor}
                 disabled={isSavingNotes}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-[#101216] hover:bg-[#222730] dark:bg-white dark:text-[#101216] dark:hover:bg-[#e4e0d8] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs disabled:opacity-50"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-ink hover:bg-night-3 dark:bg-white dark:text-ink dark:hover:bg-line text-white px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs disabled:opacity-50"
               >
                 <span>{isSavingNotes ? 'Enregistrement...' : 'Enregistrer Capitaine & Notes'}</span>
                 {saveSuccess && <CheckCircleIcon className="h-4 w-4 text-emerald-500" />}
@@ -373,7 +373,7 @@ export default function ProspectDetailModal({
           <div className="space-y-2">
             <label
               htmlFor="prospect-notes"
-              className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af] block"
+              className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block"
             >
               Notes Internes du Comité &amp; Débriefing Sorties
             </label>
@@ -383,20 +383,20 @@ export default function ProspectDetailModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Ex: Première sortie réussie le 12/09 dans le groupe B. Bonne aisance technique, souhaite commander un maillot..."
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#2b313d] bg-white dark:bg-[#16191f] p-3 text-xs text-[#101216] dark:text-white placeholder-[#9ba3af] focus:outline-hidden focus:ring-2 focus:ring-[#e03e3e]"
+              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-3 text-xs text-ink dark:text-white placeholder-ink-3 focus:outline-hidden focus:ring-2 focus:ring-brand"
             />
           </div>
 
           {/* Member Conversion Card */}
-          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-[#faf8f5] dark:bg-[#161922] p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="rounded-lg border border-line dark:border-night-3 bg-paper dark:bg-night-2 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
                 <CheckBadgeIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                <span className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
                   Intégration Officielle au Club
                 </span>
               </div>
-              <p className="text-xs text-[#5c6370] dark:text-[#9ba3af] mt-1">
+              <p className="text-xs text-ink-3 dark:text-snow-3 mt-1">
                 {prospect.status === 'converted' || convertSuccess
                   ? 'Ce candidat a déjà été converti en membre officiel du club.'
                   : 'Transforme directement ce prospect en compte membre sans ressaisie.'}
@@ -431,7 +431,7 @@ export default function ProspectDetailModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between border-t border-[#e4e0d8] dark:border-[#222730] px-6 py-4 bg-[#faf8f5] dark:bg-[#161922] shrink-0">
+        <div className="flex items-center justify-between border-t border-line dark:border-night-3 px-6 py-4 bg-paper dark:bg-night-2 shrink-0">
           <button
             type="button"
             onClick={handleDelete}
@@ -446,7 +446,7 @@ export default function ProspectDetailModal({
             <button
               type="button"
               onClick={() => handleStatusClick('archived')}
-              className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#2b313d] bg-white dark:bg-[#1f232b] px-3.5 py-2 text-xs font-semibold text-[#5c6370] dark:text-[#9ba3af] hover:text-[#101216] dark:hover:text-white hover:bg-[#efece5] dark:hover:bg-[#272d38] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-3.5 py-2 text-xs font-semibold text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
             >
               <ArchiveBoxIcon className="h-4 w-4" />
               <span>Sans suite / Archiver</span>
@@ -455,7 +455,7 @@ export default function ProspectDetailModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md bg-[#101216] hover:bg-[#222730] dark:bg-white dark:text-[#101216] dark:hover:bg-[#e4e0d8] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors"
+              className="rounded-md bg-ink hover:bg-night-3 dark:bg-white dark:text-ink dark:hover:bg-line text-white px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors"
             >
               Fermer
             </button>

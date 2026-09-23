@@ -134,27 +134,27 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4 pb-4 border-b border-[#e4e0d8]">
+      <div className="flex items-center gap-4 pb-4 border-b border-line">
         <Link
           href="/admin/members"
-          className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors shadow-xs"
+          className="rounded-md border border-line bg-white p-2 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors shadow-xs"
           title="Retour à l'annuaire des membres"
         >
           <ArrowLeftIcon className="h-4 w-4" />
         </Link>
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">Modifier le Membre</h1>
-          <p className="text-xs sm:text-sm text-[#5c6370]">Mettre à jour les informations, rôles et statuts du membre</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">Modifier le Membre</h1>
+          <p className="text-xs sm:text-sm text-ink-3">Mettre à jour les informations, rôles et statuts du membre</p>
         </div>
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs">
+        <div className="rounded-lg border border-line bg-white p-6 sm:p-8 shadow-xs">
           <div className="grid gap-6 md:grid-cols-2">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="name" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Nom complet *
               </label>
               <input
@@ -163,13 +163,13 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="email" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Email
               </label>
               <input
@@ -177,19 +177,19 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                 id="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
               />
             </div>
 
             {/* Photo URL & Placement */}
-            <div className="md:col-span-2 space-y-4 pt-2 border-t border-[#e4e0d8]">
+            <div className="md:col-span-2 space-y-4 pt-2 border-t border-line">
               <div className="flex items-center justify-between">
-                <label htmlFor="photoUrl" className="block text-xs sm:text-sm font-semibold text-[#101216]">
+                <label htmlFor="photoUrl" className="block text-xs sm:text-sm font-semibold text-ink">
                   Photo de profil &amp; Cadrage
                 </label>
                 <Link
                   href="/admin/members/photos"
-                  className="text-xs font-semibold text-[#e03e3e] hover:underline"
+                  className="text-xs font-semibold text-brand hover:underline"
                 >
                   Ouvrir l&apos;atelier de cadrage global →
                 </Link>
@@ -198,10 +198,10 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start">
                 {/* 4:5 Portrait Live Preview */}
                 <div className="sm:col-span-1">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370] mb-1.5">
+                  <p className="text-xs font-bold uppercase tracking-wider text-ink-3 mb-1.5">
                     Aperçu rendu /members (4:5)
                   </p>
-                  <div className="relative aspect-[4/5] w-full max-w-[200px] mx-auto sm:mx-0 overflow-hidden rounded-lg border border-[#e4e0d8] bg-[#161922] shadow-xs">
+                  <div className="relative aspect-[4/5] w-full max-w-[200px] mx-auto sm:mx-0 overflow-hidden rounded-lg border border-line bg-night-2 shadow-xs">
                     {formData.photoUrl ? (
                       <Image
                         src={formData.photoUrl}
@@ -213,7 +213,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                         className="object-cover"
                       />
                     ) : (
-                      <div className="h-full w-full flex items-center justify-center text-xs font-semibold text-[#a7adbb]">
+                      <div className="h-full w-full flex items-center justify-center text-xs font-semibold text-snow-3">
                         Aucune photo
                       </div>
                     )}
@@ -233,13 +233,13 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                       aria-label="Téléverser une nouvelle photo de profil"
                       onChange={handleImageSelect}
                       disabled={isImageUploading}
-                      className="block w-full text-xs text-[#5c6370] file:mr-4 file:rounded-md file:border file:border-[#e4e0d8] file:bg-[#faf8f5] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#101216] hover:file:bg-[#f2efe9] cursor-pointer"
+                      className="block w-full text-xs text-ink-3 file:mr-4 file:rounded-md file:border file:border-line file:bg-paper file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-ink hover:file:bg-paper-2 cursor-pointer"
                     />
 
                     {isImageUploading && (
-                      <div className="h-1.5 w-full rounded-full bg-[#f2efe9] overflow-hidden">
+                      <div className="h-1.5 w-full rounded-full bg-paper-2 overflow-hidden">
                         <div 
-                          className="h-full bg-[#e03e3e] transition-all duration-300" 
+                          className="h-full bg-brand transition-all duration-300" 
                           style={{ width: `${uploadProgress}%` }} 
                         />
                       </div>
@@ -252,19 +252,19 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                       placeholder="Ou entrer une URL manuelle (https://...)"
                       value={formData.photoUrl}
                       onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
-                      className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                      className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
                     />
                   </div>
 
                   {/* Positioning slider and presets */}
                   {formData.photoUrl && (
-                    <div className="rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-3.5 space-y-3">
+                    <div className="rounded-md border border-line bg-paper p-3.5 space-y-3">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-bold text-[#101216] flex items-center gap-1.5">
-                          <ArrowsUpDownIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                        <span className="font-bold text-ink flex items-center gap-1.5">
+                          <ArrowsUpDownIcon className="h-3.5 w-3.5 text-brand" />
                           <span>Alignement vertical</span>
                         </span>
-                        <span className="font-mono font-bold text-[#e03e3e]">
+                        <span className="font-mono font-bold text-brand">
                           {parseVerticalPosition(formData.photoPosition)}%
                         </span>
                       </div>
@@ -279,8 +279,8 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                             }
                             className={`rounded px-2.5 py-1 text-xs font-semibold uppercase tracking-wider border transition-colors ${
                               Math.abs(parseVerticalPosition(formData.photoPosition) - preset.percent) <= 12
-                                ? 'bg-[#101216] text-white border-[#101216]'
-                                : 'bg-white text-[#101216] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                                ? 'bg-ink text-white border-ink'
+                                : 'bg-white text-ink border-line hover:bg-paper-2'
                             }`}
                           >
                             {preset.label}
@@ -302,7 +302,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                             photoPosition: formatVerticalPosition(Number(e.target.value)),
                           }))
                         }
-                        className="w-full accent-[#e03e3e] cursor-pointer"
+                        className="w-full accent-brand cursor-pointer"
                       />
                     </div>
                   )}
@@ -312,7 +312,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
 
             {/* Strava ID */}
             <div>
-              <label htmlFor="stravaId" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="stravaId" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Strava Athlete ID
               </label>
               <input
@@ -321,13 +321,13 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                 placeholder="ex: 12345678"
                 value={formData.stravaId}
                 onChange={(e) => setFormData({ ...formData, stravaId: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
               />
             </div>
 
             {/* Bio */}
             <div className="md:col-span-2">
-              <label htmlFor="bio" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="bio" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Bio &amp; Présentation
               </label>
               <textarea
@@ -336,26 +336,26 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                 placeholder="Courte présentation, anecdotes ou parcours du cycliste..."
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
               />
             </div>
 
             {/* Affiliation, Cotisation & Sécurité (ICE) */}
-            <div className="md:col-span-2 pt-6 border-t border-[#e4e0d8] space-y-4">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-[#101216]">
+            <div className="md:col-span-2 pt-6 border-t border-line space-y-4">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-ink">
                 Cotisation 2026, Licence FFBC &amp; Sécurité (ICE)
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label htmlFor="member-edit-cotisation" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-edit-cotisation" className="mb-1.5 block text-xs font-semibold text-ink">
                     Statut Cotisation 2026
                   </label>
                   <select
                     id="member-edit-cotisation"
                     value={formData.cotisation2026Status}
                     onChange={(e) => setFormData({ ...formData, cotisation2026Status: e.target.value as any })}
-                    className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                    className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                   >
                     <option value="pending">⏳ En attente de paiement</option>
                     <option value="paid">✓ À jour (Payée)</option>
@@ -364,7 +364,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                 </div>
 
                 <div>
-                  <label htmlFor="member-edit-cotisation-date" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-edit-cotisation-date" className="mb-1.5 block text-xs font-semibold text-ink">
                     Date de règlement
                   </label>
                   <input
@@ -372,12 +372,12 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                     type="date"
                     value={formData.cotisation2026PaidAt}
                     onChange={(e) => setFormData({ ...formData, cotisation2026PaidAt: e.target.value })}
-                    className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                    className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="member-edit-licence" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-edit-licence" className="mb-1.5 block text-xs font-semibold text-ink">
                     N° Licence FFBC
                   </label>
                   <input
@@ -386,7 +386,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                     placeholder="ex: FFBC-2026-8491"
                     value={formData.ffbcLicenseNumber}
                     onChange={(e) => setFormData({ ...formData, ffbcLicenseNumber: e.target.value })}
-                    className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                    className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                   />
                 </div>
               </div>
@@ -411,7 +411,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                       placeholder="ex: Marie Dupont"
                       value={formData.iceContactName}
                       onChange={(e) => setFormData({ ...formData, iceContactName: e.target.value })}
-                      className="w-full rounded border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none shadow-2xs"
+                      className="w-full rounded border border-line bg-white px-3 py-1.5 text-xs text-ink focus:border-brand focus:outline-none shadow-2xs"
                     />
                   </div>
 
@@ -425,7 +425,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                       placeholder="ex: +32 479 98 76 54"
                       value={formData.iceContactPhone}
                       onChange={(e) => setFormData({ ...formData, iceContactPhone: e.target.value })}
-                      className="w-full rounded border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none shadow-2xs"
+                      className="w-full rounded border border-line bg-white px-3 py-1.5 text-xs text-ink focus:border-brand focus:outline-none shadow-2xs"
                     />
                   </div>
 
@@ -439,7 +439,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                       placeholder="ex: Épouse, Parent, Ami"
                       value={formData.iceRelationship}
                       onChange={(e) => setFormData({ ...formData, iceRelationship: e.target.value })}
-                      className="w-full rounded border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none shadow-2xs"
+                      className="w-full rounded border border-line bg-white px-3 py-1.5 text-xs text-ink focus:border-brand focus:outline-none shadow-2xs"
                     />
                   </div>
                 </div>
@@ -447,14 +447,14 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
 
               {/* Preferred Group */}
               <div className="max-w-xs">
-                <label htmlFor="member-edit-group" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                <label htmlFor="member-edit-group" className="mb-1.5 block text-xs font-semibold text-ink">
                   Groupe habituel d&apos;allure
                 </label>
                 <select
                   id="member-edit-group"
                   value={formData.preferredGroup}
                   onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value as any })}
-                  className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                  className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                 >
                   <option value="A">Groupe A (&gt; 30 km/h)</option>
                   <option value="B">Groupe B (25 – 28 km/h)</option>
@@ -465,7 +465,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
             </div>
 
             {/* Roles Section */}
-            <div className="md:col-span-2 pt-4 border-t border-[#e4e0d8]">
+            <div className="md:col-span-2 pt-4 border-t border-line">
               <MemberRoleSelector
                 roles={formData.role}
                 onChange={(newRoles) => setFormData({ ...formData, role: newRoles })}
@@ -478,14 +478,14 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
         <div className="flex items-center justify-end gap-3 pt-2">
           <Link
             href="/admin/members"
-            className="rounded-md border border-[#e4e0d8] bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            className="rounded-md border border-line bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors shadow-xs"
           >
             Annuler
           </Link>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-colors disabled:opacity-50"
+            className="rounded-md bg-brand hover:bg-brand-strong px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-colors disabled:opacity-50"
           >
             {isSubmitting ? 'Enregistrement...' : 'Enregistrer les modifications'}
           </button>

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Poppins } from 'next/font/google';
+import { Archivo } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/layout/Navbar';
@@ -10,11 +10,22 @@ import { Toaster } from 'sonner';
 
 import LocalClubJsonLd from './components/seo/LocalClubJsonLd';
 
-const poppins = Poppins({
+const archivo = Archivo({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-poppins',
+  axes: ['wdth'],
+  style: ['normal', 'italic'],
+  variable: '--font-archivo',
+  display: 'swap',
 });
+
+const DIRECTION_CONTRACT = `<!--
+THESIS: The club's hub printed as a topographic sheet of its own territory (real relief, rivers and roads around the Place de la Féchère), refusing the cycling-club default of a full-bleed peloton photo, stat cards and a news grid.
+OWN-WORLD: White map paper, black Archivo lettering whose width carries hierarchy, the map's spot inks (route red #e03e3e, relief bistre, hydro blue, woodland green, amber), neat-line frames, graduated scale strips, legend swatches, 2-6px sheet corners.
+STORY: A member reads Saturday's departure and the wind over the real terrain, then answers the weekend poll; a newcomer sees where the club rides and books a free trial ride.
+FIRST VIEWPORT: Full-bleed territory sheet with wind streaming from the forecast bearing; cartouche at left with the date and departure time as display, meeting place, weather and wind legend, groups as road classes, red "Je roule ce week-end" action.
+FORM: Carte IGN, candidate 6 of 7; seed e34bd4a0.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->`;
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://cc-blanmont.be'),
@@ -49,7 +60,7 @@ export const metadata: Metadata = {
     'geo.region': 'BE-WBR',
     'geo.placename': 'Blanmont, Chastre',
     'geo.position': '50.6087;4.6738',
-    'ICBM': '50.6087, 4.6738',
+    ICBM: '50.6087, 4.6738',
   },
 };
 
@@ -90,17 +101,20 @@ const themeInitScript = `
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" className={archivo.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <LocalClubJsonLd />
       </head>
-      <body className={`h-full bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200 ${poppins.variable} font-sans`}>
+      <body
+        className={`h-full bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200 ${archivo.variable} font-sans`}
+      >
+        <div hidden aria-hidden="true" dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <ThemeProvider>
           <AuthProvider>
             <Navbar />
 
-            <main className="min-h-[80vh] flex-grow">
+            <main id="contenu" className="min-h-[80vh] flex-grow">
               {children}
             </main>
 
@@ -108,11 +122,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Footer />
             </ConditionalFooter>
 
-            <Toaster position="top-right" richColors closeButton />
+            <Toaster
+              position="top-right"
+              richColors
+              closeButton
+              toastOptions={{ className: 'font-sans' }}
+            />
           </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
-

@@ -108,7 +108,7 @@ export default function InteractiveElevationScrubber() {
   const activeCoord = getCoordinates(activePoint);
 
   return (
-    <section className="py-20 sm:py-28 bg-[#0a0c10] text-white border-b border-white/[0.08] relative overflow-hidden">
+    <section className="py-20 sm:py-28 bg-night text-white border-b border-white/[0.08] relative overflow-hidden">
       {/* Background Topographic Contour Lines */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +129,7 @@ export default function InteractiveElevationScrubber() {
             <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-white text-balance">
               Le Théâtre du Dénivelé
             </h2>
-            <p className="text-base text-[#a7adbb] leading-relaxed">
+            <p className="text-base text-snow-3 leading-relaxed">
               Survolez le profil altimétrique pour explorer les crêtes, les vallons et les haltes remarquables de nos parcours phares.
             </p>
           </div>
@@ -146,8 +146,8 @@ export default function InteractiveElevationScrubber() {
                 }}
                 className={`min-h-[44px] px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all duration-300 border ${
                   selectedRoute === idx
-                    ? 'bg-[#e03e3e] text-white border-[#e03e3e] shadow-lg shadow-[#e03e3e]/30'
-                    : 'bg-white/5 text-[#a7adbb] border-white/10 hover:bg-white/10 hover:text-white'
+                    ? 'bg-brand text-white border-brand shadow-lg shadow-brand/30'
+                    : 'bg-white/5 text-snow-3 border-white/10 hover:bg-white/10 hover:text-white'
                 }`}
               >
                 {r.name.split(' ')[2] || r.name.split(' ')[1]} ({r.distance} km)
@@ -157,14 +157,14 @@ export default function InteractiveElevationScrubber() {
         </div>
 
         {/* ── Interactive Profile Stage ── */}
-        <div className="rounded-xl border border-white/15 bg-[#101216] p-6 sm:p-10 space-y-8 shadow-2xl">
+        <div className="rounded-xl border border-white/15 bg-ink p-6 sm:p-10 space-y-8 shadow-2xl">
           {/* Header Row of the selected route */}
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
             <div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 {currentRoute.name}
               </h3>
-              <p className="text-xs sm:text-sm text-[#a7adbb] mt-1 max-w-2xl">
+              <p className="text-xs sm:text-sm text-snow-3 mt-1 max-w-2xl">
                 {currentRoute.description}
               </p>
             </div>
@@ -172,21 +172,21 @@ export default function InteractiveElevationScrubber() {
             {/* Quick Stats Pill */}
             <div className="flex items-center gap-4 text-xs font-bold bg-white/5 border border-white/10 px-4 py-2 rounded-lg">
               <div>
-                <span className="text-[#a7adbb] block text-xs uppercase">Distance</span>
+                <span className="text-snow-3 block text-xs uppercase">Distance</span>
                 <span className="text-white text-base tabular-nums font-extrabold">
                   {currentRoute.distance} km
                 </span>
               </div>
               <div className="h-6 w-px bg-white/10" />
               <div>
-                <span className="text-[#a7adbb] block text-xs uppercase">Dénivelé</span>
-                <span className="text-[#e03e3e] text-base tabular-nums font-extrabold">
+                <span className="text-snow-3 block text-xs uppercase">Dénivelé</span>
+                <span className="text-brand text-base tabular-nums font-extrabold">
                   +{currentRoute.elevation} m
                 </span>
               </div>
               <div className="h-6 w-px bg-white/10" />
               <div>
-                <span className="text-[#a7adbb] block text-xs uppercase">Niveau</span>
+                <span className="text-snow-3 block text-xs uppercase">Niveau</span>
                 <span className="text-emerald-400 text-xs font-bold uppercase">
                   {currentRoute.difficulty}
                 </span>
@@ -293,9 +293,9 @@ export default function InteractiveElevationScrubber() {
             </svg>
 
             {/* Mobile Scrubber Touch / Click Bar */}
-            <div className="mt-4 flex items-center justify-between text-xs text-[#a7adbb] font-mono">
+            <div className="mt-4 flex items-center justify-between text-xs text-snow-3 font-mono">
               <span>KM 0</span>
-              <span className="text-[#a7adbb]">
+              <span className="text-snow-3">
                 ← Cliquez ou survolez les étapes du parcours →
               </span>
               <span>KM {currentRoute.distance}</span>
@@ -303,18 +303,18 @@ export default function InteractiveElevationScrubber() {
           </div>
 
           {/* ── Active Milestone Telemetry Card ── */}
-          <div className="rounded-lg bg-[#161922] border border-white/10 p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          <div className="rounded-lg bg-night-2 border border-white/10 p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
             <div className="md:col-span-6 space-y-2">
               <div className="flex items-start justify-between gap-3">
                 <h4 className="text-xl font-bold text-white tracking-tight">
                   {activePoint.landmark}
                 </h4>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-xs font-mono text-[#e03e3e] tabular-nums shrink-0">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-xs font-mono text-brand tabular-nums shrink-0">
                   <MapPinIcon className="h-3.5 w-3.5" />
                   <span>km {activePoint.km}</span>
                 </span>
               </div>
-              <p className="text-xs text-[#a7adbb]">
+              <p className="text-xs text-snow-3">
                 Sensation peloton : <em className="text-white not-italic">{activePoint.sensation}</em>
               </p>
             </div>
@@ -324,7 +324,7 @@ export default function InteractiveElevationScrubber() {
                 <span className="block text-lg font-extrabold text-white tabular-nums">
                   {activePoint.alt} m
                 </span>
-                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">
+                <span className="text-xs uppercase tracking-wider text-snow-3">
                   Altitude
                 </span>
               </div>
@@ -332,12 +332,12 @@ export default function InteractiveElevationScrubber() {
               <div className="bg-black/30 rounded p-2.5 border border-white/5">
                 <span
                   className={`block text-lg font-extrabold tabular-nums ${
-                    activePoint.grade > 0 ? 'text-[#e03e3e]' : 'text-emerald-400'
+                    activePoint.grade > 0 ? 'text-brand' : 'text-emerald-400'
                   }`}
                 >
                   {activePoint.grade > 0 ? `+${activePoint.grade}%` : `${activePoint.grade}%`}
                 </span>
-                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">
+                <span className="text-xs uppercase tracking-wider text-snow-3">
                   Pente
                 </span>
               </div>
@@ -346,7 +346,7 @@ export default function InteractiveElevationScrubber() {
                 <span className="block text-lg font-extrabold text-white tabular-nums">
                   {Math.round((activePoint.km / currentRoute.distance) * 100)}%
                 </span>
-                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">
+                <span className="text-xs uppercase tracking-wider text-snow-3">
                   Avancée
                 </span>
               </div>
@@ -357,7 +357,7 @@ export default function InteractiveElevationScrubber() {
           <div className="pt-2 flex flex-wrap items-center justify-between gap-4">
             <Link
               href="/traces"
-              className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3 text-xs font-bold uppercase tracking-[0.08em] transition-all shadow-lg shadow-[#e03e3e]/20"
+              className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-6 py-3 text-xs font-bold uppercase tracking-[0.08em] transition-all shadow-lg shadow-brand/20"
             >
               <span>Accéder à la Bibliothèque des 250+ Traces</span>
               <ArrowRightIcon className="h-4 w-4" />
@@ -365,7 +365,7 @@ export default function InteractiveElevationScrubber() {
 
             <Link
               href="/calendrier"
-              className="inline-flex items-center gap-1.5 text-xs text-[#a7adbb] hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-snow-3 hover:text-white transition-colors"
             >
               <span>Voir les tracés de la saison</span>
               <ArrowRightIcon className="h-3 w-3" />

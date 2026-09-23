@@ -8,11 +8,13 @@ import { revalidatePath } from 'next/cache';
 import { Suspense } from 'react';
 import FeedbackForm from './FeedbackForm';
 import FeedbackList from './FeedbackList';
+import { SheetHeader } from '../../components/carte/SheetHeader';
 import {
   MapIcon,
   PhotoIcon,
   PencilSquareIcon,
   SparklesIcon,
+  ArrowLeftIcon,
 } from '@heroicons/react/24/outline';
 
 // Revalidate every minute
@@ -62,11 +64,55 @@ export default async function TraceDetailPage(props: {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-      {/* Hero Section */}
-      <div className="relative mb-8 h-[300px] sm:h-[400px] overflow-hidden rounded-lg bg-slate-900 flex flex-col justify-end shadow-xl">
+    <main className="min-h-screen bg-paper text-ink transition-colors duration-200 dark:bg-night dark:text-snow">
+      <SheetHeader
+        sheet="Parcours &amp; GPX"
+        focus={{ x: 50, y: 50 }}
+        title={trace.name}
+        description={
+          trace.description ||
+          'Trace officielle du Club Cyclo Saint-Martin de Blanmont. Consultez le profil altimétrique, téléchargez le fichier GPX et partagez vos impressions.'
+        }
+        legend={[
+          { term: 'Distance', value: `${trace.distance} km` },
+          { term: 'Dénivelé', value: trace.elevation ? `${trace.elevation} m D+` : '—' },
+          { term: 'Revêtement', value: trace.surface || 'Route' },
+          ...(trace.direction ? [{ term: 'Direction', value: trace.direction }] : []),
+          ...(trace.start ? [{ term: 'Départ', value: trace.start }] : []),
+        ]}
+        actions={
+          <div className="flex flex-wrap items-center gap-3">
+            <DownloadGPXButton polyline={trace.polyline} traceName={trace.name} />
+            {trace.mapUrl && (
+              <a
+                href={trace.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-4 py-2 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink dark:text-snow hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
+              >
+                <MapIcon className="h-4 w-4 text-hydro" aria-hidden="true" />
+                <span>Carte interactive</span>
+              </a>
+            )}
+          </div>
+        }
+      />
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        {/* Navigation Breadcrumb */}
+        <div className="mb-6">
+          <Link
+            href="/traces"
+            className="inline-flex min-h-[44px] items-center gap-2 font-narrow text-xs font-bold uppercase tracking-[0.1em] text-ink-2 transition-colors hover:text-ink dark:text-snow-2 dark:hover:text-snow"
+          >
+            <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
+            <span>Retour aux parcours</span>
+          </Link>
+        </div>
+
+        {/* Hero Photo Plate (if available) */}
         {trace.photoUrl && (
-          <div className="absolute inset-0 opacity-60">
+          <div className="relative mb-8 h-[260px] sm:h-[380px] overflow-hidden rounded-lg border border-line dark:border-night-line shadow-xs">
             <Image
               src={trace.photoUrl}
               alt={trace.name}
@@ -74,96 +120,64 @@ export default async function TraceDetailPage(props: {
               className="object-cover object-center"
               priority
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
+              <span className="rounded-full bg-brand px-3 py-1 font-narrow font-bold uppercase tracking-[0.08em]">
+                {trace.surface}
+              </span>
+              <span className="font-narrow font-bold uppercase tracking-[0.08em] tabular-nums text-white/90">
+                {trace.distance} km · {trace.elevation || 0} m D+
+              </span>
+            </div>
           </div>
         )}
-        <div className="relative z-10 p-6 sm:p-8 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent">
-          <div className="flex flex-wrap gap-2 mb-2">
-            <span className="rounded-full bg-[#e03e3e] px-3 py-1 text-xs font-semibold text-white shadow-xs">
-              {trace.surface}
-            </span>
-            {trace.start && (
-              <span className="rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-xs">
-                Départ : {trace.start}
-              </span>
-            )}
-            {trace.end && (
-              <span className="rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-xs">
-                Arrivée : {trace.end}
-              </span>
-            )}
-            {trace.direction && (
-              <span className="rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-xs">
-                Dir : {trace.direction}
-              </span>
-            )}
-          </div>
 
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight text-balance">
-            {trace.name}
-          </h1>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+          {/* Main Content */}
+          <div className="lg:col-span-8 space-y-8">
+            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-8 shadow-xs space-y-6">
+              <div className="text-base text-ink-2 dark:text-snow-2 leading-relaxed whitespace-pre-line">
+                {trace.description || 'Aucune description fournie.'}
+              </div>
 
-          <div className="mt-3 flex items-center gap-4 text-white text-sm font-bold">
-            <span className="text-lg tabular-nums">{trace.distance} km</span>
-            <span className="text-white/40">•</span>
-            {trace.elevation && (
-              <>
-                <span className="text-lg tabular-nums">{trace.elevation} m D+</span>
-                <span className="text-white/40">•</span>
-              </>
-            )}
-            <span className="text-amber-400 text-lg">
-              {'★'.repeat(trace.quality || 5)}
-            </span>
-          </div>
-        </div>
-      </div>
+              <div className="flex flex-wrap gap-3 pt-2">
+                {trace.mapUrl && (
+                  <a
+                    href={trace.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-brand px-6 py-3 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-xs hover:bg-brand-strong transition-colors"
+                  >
+                    <MapIcon className="h-4 w-4" aria-hidden="true" />
+                    <span>Voir la carte interactive</span>
+                  </a>
+                )}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-        {/* Main Content */}
-        <div className="lg:col-span-8 space-y-8">
-          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-8 shadow-xs space-y-6">
-            <div className="text-base text-[#3a3f4a] dark:text-[#d1d5db] leading-relaxed whitespace-pre-line">
-              {trace.description || 'Aucune description fournie.'}
-            </div>
+                <DownloadGPXButton polyline={trace.polyline} traceName={trace.name} />
 
-            <div className="flex flex-wrap gap-3 pt-2">
-              {trace.mapUrl && (
-                <a
-                  href={trace.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-[#e03e3e] px-6 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:bg-[#c93434] transition-colors"
-                >
-                  <MapIcon className="h-4 w-4" aria-hidden="true" />
-                  <span>Voir la carte interactive</span>
-                </a>
-              )}
+                {trace.photoAlbumUrl && (
+                  <a
+                    href={trace.photoAlbumUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-6 py-3 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink dark:text-snow hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
+                  >
+                    <PhotoIcon className="h-4 w-4 text-hydro" aria-hidden="true" />
+                    <span>Voir l&apos;album photo</span>
+                  </a>
+                )}
+              </div>
 
-              <DownloadGPXButton polyline={trace.polyline} traceName={trace.name} />
-
-              {trace.photoAlbumUrl && (
-                <a
-                  href={trace.photoAlbumUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:bg-blue-700 transition-colors"
-                >
-                  <PhotoIcon className="h-4 w-4" aria-hidden="true" />
-                  <span>Voir l&apos;album photo</span>
-                </a>
-              )}
-            </div>
-
-            {/* Photo Previews */}
-            {trace.photoPreviews && trace.photoPreviews.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-4 border-t border-[#efece5] dark:border-[#262b38]">
-                {trace.photoPreviews.map((url, i) => (
+              {/* Photo Previews */}
+              {trace.photoPreviews && trace.photoPreviews.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-4 border-t border-line dark:border-night-line">
+                  {trace.photoPreviews.map((url, i) => (
                   <a
                     key={i}
                     href={trace.photoAlbumUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative aspect-square overflow-hidden rounded-md bg-[#f2efe9] dark:bg-[#101216] hover:opacity-90 transition-opacity"
+                    className="relative aspect-square overflow-hidden rounded-md bg-paper-2 dark:bg-ink hover:opacity-90 transition-opacity"
                   >
                     <Image
                       src={url}
@@ -181,7 +195,7 @@ export default async function TraceDetailPage(props: {
 
           {/* Feedback Section */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-[#101216] dark:text-white">
+            <h3 className="text-xl font-bold text-ink dark:text-white">
               Commentaires de la communauté
             </h3>
             <FeedbackList feedbackList={feedbackList} members={members} />
@@ -191,14 +205,14 @@ export default async function TraceDetailPage(props: {
         {/* Sidebar */}
         <div className="lg:col-span-4 space-y-6">
           {/* Feedback Form Card */}
-          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
+          <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs space-y-4">
             <div>
-              <h3 className="text-lg font-bold text-[#101216] dark:text-white">Donnez votre avis</h3>
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] mt-1">
+              <h3 className="text-lg font-bold text-ink dark:text-white">Donnez votre avis</h3>
+              <p className="text-xs text-ink-3 dark:text-snow-3 mt-1">
                 Vous avez roulé ce parcours ? Partagez votre expérience avec le club.
               </p>
             </div>
-            <Suspense fallback={<div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Chargement...</div>}>
+            <Suspense fallback={<div className="text-xs text-ink-3 dark:text-snow-3">Chargement...</div>}>
               <FeedbackForm
                 traceId={trace.id}
                 members={members}
@@ -209,22 +223,22 @@ export default async function TraceDetailPage(props: {
           </div>
 
           {/* Admin Tools Card */}
-          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#161922]/70 p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-[#a7adbb]">
+          <div className="rounded-lg border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-2/70 p-6 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-ink-2 dark:text-snow-3">
               Outils Administrateur
             </h3>
 
             {/* Edit Trace Button */}
             <Link
               href={`/traces/${trace.id}/edit`}
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 w-full rounded-md bg-[#101216] dark:bg-white dark:text-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#262b38] dark:hover:bg-gray-200 transition-colors"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 w-full rounded-md bg-ink dark:bg-white dark:text-ink px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-night-line dark:hover:bg-gray-200 transition-colors"
             >
               <PencilSquareIcon className="h-4 w-4" aria-hidden="true" />
               <span>Modifier le parcours</span>
             </Link>
 
-            <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-3 space-y-3">
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+            <div className="border-t border-line dark:border-night-line pt-3 space-y-3">
+              <p className="text-xs text-ink-3 dark:text-snow-3">
                 Mettre à jour l&apos;aperçu de la carte (URL de l&apos;image)
               </p>
 
@@ -235,27 +249,27 @@ export default async function TraceDetailPage(props: {
                   name="imageUrl"
                   placeholder="https://example.com/map.jpg"
                   required
-                  className="w-full min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1c202a] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder:text-[#5c6370] dark:placeholder:text-gray-500 focus:border-[#e03e3e] focus:outline-hidden"
+                  className="w-full min-h-[44px] rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-3 py-2 text-xs text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-gray-500 focus:border-brand focus:outline-hidden"
                 />
                 <button
                   type="submit"
-                  className="min-h-[44px] w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1c202a] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors"
+                  className="min-h-[44px] w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-4 py-2 text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-white hover:bg-paper-2 dark:hover:bg-night-line transition-colors"
                 >
                   Mettre à jour l&apos;image
                 </button>
               </form>
 
               <div className="relative flex py-1 items-center">
-                <div className="flex-grow border-t border-[#e4e0d8] dark:border-[#262b38]" />
-                <span className="shrink mx-2 text-xs text-[#5c6370] dark:text-[#a7adbb] font-semibold uppercase tracking-wider">ou</span>
-                <div className="flex-grow border-t border-[#e4e0d8] dark:border-[#262b38]" />
+                <div className="flex-grow border-t border-line dark:border-night-line" />
+                <span className="shrink mx-2 text-xs text-ink-3 dark:text-snow-3 font-semibold uppercase tracking-wider">ou</span>
+                <div className="flex-grow border-t border-line dark:border-night-line" />
               </div>
 
               <form action={generateMapPreview}>
                 <input type="hidden" name="traceId" value={trace.id} />
                 <button
                   type="submit"
-                  className="min-h-[44px] inline-flex items-center justify-center gap-1.5 w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1c202a] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#262b38] transition-colors"
+                  className="min-h-[44px] inline-flex items-center justify-center gap-1.5 w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-4 py-2 text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-white hover:bg-paper-2 dark:hover:bg-night-line transition-colors"
                 >
                   <SparklesIcon className="h-3.5 w-3.5 text-amber-500" aria-hidden="true" />
                   <span>Générer depuis Komoot</span>
@@ -265,6 +279,7 @@ export default async function TraceDetailPage(props: {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </main>
   );
 }

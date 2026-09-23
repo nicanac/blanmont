@@ -19,6 +19,8 @@ interface HeroTelemetryFrameProps {
   settings: HeroSettings;
   className?: string;
   isPreview?: boolean;
+  /** Render the telemetry cards bar under the photos (the home prints the cards in its cover). */
+  showCards?: boolean;
 }
 
 function renderCardIcon(type: HeroIconType): React.ReactElement {
@@ -27,15 +29,15 @@ function renderCardIcon(type: HeroIconType): React.ReactElement {
     case 'pin':
       return <MapPinIcon className={iconClass} />;
     case 'calendar':
-      return <CalendarDaysIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <CalendarDaysIcon className={`${iconClass} text-brand`} />;
     case 'group':
-      return <UserGroupIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <UserGroupIcon className={`${iconClass} text-brand`} />;
     case 'clock':
-      return <ClockIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <ClockIcon className={`${iconClass} text-brand`} />;
     case 'trophy':
-      return <TrophyIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <TrophyIcon className={`${iconClass} text-brand`} />;
     case 'sparkles':
-      return <SparklesIcon className={`${iconClass} text-[#e03e3e]`} />;
+      return <SparklesIcon className={`${iconClass} text-brand`} />;
     default:
       return <MapPinIcon className={iconClass} />;
   }
@@ -45,6 +47,7 @@ export default function HeroTelemetryFrame({
   settings,
   className = '',
   isPreview: _isPreview = false,
+  showCards = true,
 }: HeroTelemetryFrameProps): React.ReactElement {
   const slides = settings?.slides?.length ? settings.slides : [{ id: '1', url: '/images/home-hero.jpg', alt: 'Club de Blanmont' }];
   const cards = settings?.cards?.length ? settings.cards : [];
@@ -136,14 +139,14 @@ export default function HeroTelemetryFrame({
 
   return (
     <div
-      className={`overflow-hidden rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xl dark:shadow-2xl transition-colors duration-200 ${className}`}
+      className={`overflow-hidden rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink transition-colors duration-200 ${className}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* ── Hard-cropped photo / Slider viewport with parallax ── */}
       <div
         ref={frameRef}
-        className="relative aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] w-full overflow-hidden bg-[#0a0c10]"
+        className="relative aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] w-full overflow-hidden bg-night"
       >
         <div
           className="absolute -top-10 -bottom-10 left-0 right-0 scale-[1.02] will-change-transform transition-transform duration-75 ease-out motion-reduce:transform-none motion-reduce:top-0 motion-reduce:bottom-0 motion-reduce:scale-100"
@@ -163,6 +166,7 @@ export default function HeroTelemetryFrame({
                   alt={slide.alt || 'Club de Blanmont – peloton cycliste'}
                   fill
                   unoptimized
+                  referrerPolicy="no-referrer"
                   priority={index === 0}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
                   style={{ objectPosition: slide.position || 'center center' }}
@@ -180,8 +184,8 @@ export default function HeroTelemetryFrame({
 
         {/* Top-left editorial pill */}
         <div className="absolute top-4 left-4 z-20">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#0a0c10]/80 backdrop-blur-sm border border-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e] animate-pulse" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-night/85 border border-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-white">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand animate-pulse" />
             <span>{badge}</span>
           </div>
         </div>
@@ -189,12 +193,12 @@ export default function HeroTelemetryFrame({
         {/* Carousel controls */}
         {slides.length > 1 && (
           <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2">
-            <div className="flex items-center bg-[#0a0c10]/70 backdrop-blur-sm border border-white/10 rounded-full p-0.5">
+            <div className="flex items-center bg-night/85 border border-white/15 rounded-lg p-0.5">
               <button
                 type="button"
                 onClick={goToPrev}
                 aria-label="Photo précédente"
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <ChevronLeftIcon className="h-4 w-4" />
               </button>
@@ -211,7 +215,7 @@ export default function HeroTelemetryFrame({
                     <span
                       className={`h-1.5 rounded-full transition-all duration-300 block ${
                         activeSlideIndex === idx
-                          ? 'w-5 bg-[#e03e3e]'
+                          ? 'w-5 bg-brand'
                           : 'w-1.5 bg-white/40 hover:bg-white/70'
                       }`}
                     />
@@ -223,7 +227,7 @@ export default function HeroTelemetryFrame({
                 type="button"
                 onClick={goToNext}
                 aria-label="Photo suivante"
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <ChevronRightIcon className="h-4 w-4" />
               </button>
@@ -233,37 +237,39 @@ export default function HeroTelemetryFrame({
       </div>
 
       {/* ── Seamless Telemetry Bar (4 Cards) ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 border-t border-[#e4e0d8] dark:border-white/10 bg-[#f7f5f0] dark:bg-[#161922] transition-colors duration-200">
-        {cards.map((card, idx) => {
-          const isFirst = idx === 0;
-          return (
-            <div key={card.id || idx} className="p-4 sm:p-5 flex items-center gap-3.5">
-              <div
-                className={`rounded-md p-2 shrink-0 ${
-                  isFirst
-                    ? 'bg-[#e03e3e]/10 border border-[#e03e3e]/25 text-[#e03e3e]'
-                    : 'bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[#101216] dark:text-[#f5f6f8]'
-                }`}
-              >
-                {renderCardIcon(card.icon)}
-              </div>
-              <div className="min-w-0">
-                <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] truncate">
-                  {card.label}
+      {showCards && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-line dark:divide-white/10 border-t border-line dark:border-white/10 bg-paper dark:bg-night-2 transition-colors duration-200">
+          {cards.map((card, idx) => {
+            const isFirst = idx === 0;
+            return (
+              <div key={card.id || idx} className="p-4 sm:p-5 flex items-center gap-3.5">
+                <div
+                  className={`rounded-md p-2 shrink-0 ${
+                    isFirst
+                      ? 'bg-brand/10 border border-brand/25 text-brand'
+                      : 'bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-ink dark:text-snow'
+                  }`}
+                >
+                  {renderCardIcon(card.icon)}
                 </div>
-                <div className="mt-0.5 text-sm font-bold text-[#101216] dark:text-white tabular-nums leading-tight truncate">
-                  {card.value}
-                  {card.detail && (
-                    <span className="text-xs font-normal text-[#5c6370] dark:text-[#a7adbb] ml-1">
-                      {card.detail}
-                    </span>
-                  )}
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3 truncate">
+                    {card.label}
+                  </div>
+                  <div className="mt-0.5 text-sm font-bold text-ink dark:text-white tabular-nums leading-tight truncate">
+                    {card.value}
+                    {card.detail && (
+                      <span className="text-xs font-normal text-ink-3 dark:text-snow-3 ml-1">
+                        {card.detail}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

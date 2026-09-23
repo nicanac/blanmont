@@ -1,34 +1,23 @@
 import React from 'react';
+import { SheetHeaderSkeleton } from '@/app/components/carte/SheetHeaderSkeleton';
 
 export default function SondageLoading(): React.ReactElement {
   return (
-    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] animate-pulse transition-colors duration-200">
-      {/* Cover Skeleton */}
-      <section className="editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] py-14 sm:py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto space-y-6">
-          <div className="h-6 w-48 rounded-full bg-black/10 dark:bg-white/10" />
-          <div className="h-12 w-96 max-w-full rounded-md bg-black/10 dark:bg-white/10" />
-          <div className="h-4 w-128 max-w-full rounded-md bg-black/5 dark:bg-white/5" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
-            <div className="h-24 rounded-lg bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10" />
-            <div className="h-24 rounded-lg bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10" />
-            <div className="h-24 rounded-lg bg-black/5 dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10" />
-          </div>
-        </div>
-      </section>
+    <main className="min-h-screen bg-paper dark:bg-night animate-pulse transition-colors duration-200">
+      <SheetHeaderSkeleton />
 
       {/* Main Grid Skeleton */}
       <section className="max-w-7xl mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-5 h-96 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6" />
+          <div className="lg:col-span-5 h-96 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink p-6" />
           <div className="lg:col-span-7 space-y-6">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="h-20 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216]" />
+                <div key={i} className="h-20 rounded-md border border-line dark:border-night-line bg-white dark:bg-ink" />
               ))}
             </div>
-            <div className="h-48 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216]" />
-            <div className="h-64 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216]" />
+            <div className="h-48 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink" />
+            <div className="h-64 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink" />
           </div>
         </div>
       </section>

@@ -110,7 +110,7 @@ export default function AdminDeleteButton({
         </button>
         <button
           onClick={() => setShowConfirm(false)}
-          className="rounded-md px-2.5 py-1 text-xs font-semibold text-[#5c6370] bg-[#f2efe9] hover:bg-[#e4e0d8] transition-colors cursor-pointer"
+          className="rounded-md px-2.5 py-1 text-xs font-semibold text-ink-3 bg-paper-2 hover:bg-line transition-colors cursor-pointer"
         >
           Non
         </button>
@@ -122,7 +122,7 @@ export default function AdminDeleteButton({
     <button
       onClick={() => setShowConfirm(true)}
       className={cn(
-        'rounded-md p-2 text-[#5c6370] hover:bg-red-50 hover:text-red-600 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-red-500 transition-colors cursor-pointer',
+        'rounded-md p-2 text-ink-3 hover:bg-red-50 hover:text-red-600 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-red-500 transition-colors cursor-pointer',
         className
       )}
       title={ariaLabel}

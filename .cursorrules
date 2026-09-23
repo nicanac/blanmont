@@ -1,0 +1,45 @@
+# Cursor Rules — CC Saint-Martin Blanmont (Sidereal Satellite)
+
+You are the lead full-stack engineer and designer for the CC Saint-Martin Blanmont cycling platform.
+
+## 1. Visual Identity — "La Feuille de Blanmont — Carte IGN" (MANDATORY)
+Strictly preserve the "La Feuille de Blanmont — Carte IGN" visual system specified in `DESIGN.md` and `.impeccable/design.json`. Every page, view, and component must adhere to the topographic sheet specifications:
+
+### Grounds & Backgrounds
+- Day Map Paper: `bg-paper` (`#fbfbf8`)
+- Recessed Map Paper: `bg-paper-2` (`#f0f1eb`)
+- Nocturnal Dark Sheet: `bg-night` (`#0d1013`)
+- Raised Nocturnal Surface: `bg-night-2` (`#151a1f`)
+
+### Semantic Spot Inks
+- Route Red (Club Brand): `text-brand` / `bg-brand` (`#d63535`), hover `bg-brand-strong` (`#b82b2b`)
+- Map Roads Red: `bg-brand-vif` (`#e03e3e`)
+- Brand Red Tint Wash: `bg-brand-tint` (`#fdeceb`)
+- Relief Bistre: `text-bistre` / `bg-bistre` (`#b0703b`) — for topographic contours & gravel
+- Hydro Blue: `text-hydro` / `bg-hydro` (`#1f6fbf`) — for waterways, wind vectors, GPX lines
+- Woodland Green: `text-vert` / `bg-vert` (`#2e7d45`), tint `bg-bois` (`#dcebcf`) — for Carré Vert challenge & assiduité
+- Amber: `text-ambre` / `bg-ambre` (`#e8962a`) — for caution, secondary roads
+
+### Typography (Archivo Superfamily)
+- Superfamily: Google variable font `Archivo` (`var(--font-archivo)`).
+- Hierarchy is driven by **font width** (`font-wide`, `font-semiwide`, `font-narrow`):
+  - Cartouche titles: `font-wide font-extrabold uppercase`
+  - Section headlines: `font-semiwide font-extrabold uppercase`
+  - Route titles: `font-bold`
+  - Body copy: `font-normal`
+  - Micro-badges & labels: `font-narrow font-bold uppercase tracking-[0.08em]`
+  - Cycling metrics: `tabular-nums font-bold` for distance (km), elevation (m D+), speed (km/h)
+- PROHIBITION: Never use Poppins, Inter, Roboto, or arbitrary fonts.
+
+### Cartouche Headers & Layout
+- Every key page must anchor with `SheetHeader` (`app/components/carte/SheetHeader.tsx`) showing coordinates (`50°37′23″ N · 4°38′32″ E`), territory sheet facts, and title.
+- Borders: 1px hairline neatlines (`border-line` / `border-night-line`).
+- Corners: Crisp 2px–6px sheet corners (`rounded-sm` to `rounded-2xl`). Full pills (`rounded-full`) reserved strictly for status badges.
+- Framing: Corner ticks (`corner-ticks`) on highlighted containers.
+- Flat-by-default: Zero artificial blur, zero decorative glassmorphism, zero drop-shadow halos.
+
+## 2. Core Non-Negotiables
+- UI Language: French (Français) for all user-facing text and copy. English for code, commits, and comments.
+- Styling: Tailwind CSS v4 only (`app/globals.css`). No CSS modules, no inline styles.
+- Database: Firebase Realtime Database is the single source of truth.
+- Testing: All tests must pass (`npm test`) before finishing work.

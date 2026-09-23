@@ -189,14 +189,14 @@ export function TelemetryTimelineChart({
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
           color: '#5c6370',
-          font: { family: 'Poppins', size: 11 },
+          font: { family: 'Archivo', size: 11 },
         },
       },
       x: {
         grid: { display: false },
         ticks: {
           color: '#5c6370',
-          font: { family: 'Poppins', size: 11 },
+          font: { family: 'Archivo', size: 11 },
           maxRotation: 45,
           autoSkip: true,
           maxTicksLimit: 14,
@@ -206,28 +206,28 @@ export function TelemetryTimelineChart({
   };
 
   return (
-    <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#e4e0d8] pb-4 mb-4">
+    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-line pb-4 mb-4">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="font-extrabold uppercase tracking-tight text-[#101216]">
+            <h3 className="font-extrabold uppercase tracking-tight text-ink">
               Affluence &amp; Volume Kilométrique du Peloton
             </h3>
-            <span className="rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2 py-0.5 text-xs font-bold uppercase tracking-wider border border-[#e03e3e]/20">
+            <span className="rounded-full bg-brand/10 text-brand px-2 py-0.5 text-xs font-bold uppercase tracking-wider border border-brand/20">
               Saison {selectedYear}
             </span>
           </div>
-          <p className="text-xs text-[#5c6370]">
+          <p className="text-xs text-ink-3">
             Évolution continue de la participation et de l&apos;effort collectif
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-0.5 text-xs">
+        <div className="flex flex-wrap items-center rounded-md border border-line bg-paper p-0.5 text-xs">
           <button
             type="button"
             onClick={() => setMode('sortie')}
             className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'sortie' ? 'bg-white text-[#101216] shadow-xs' : 'text-[#5c6370] hover:text-[#101216]'
+              mode === 'sortie' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
             }`}
           >
             Sortie
@@ -236,7 +236,7 @@ export function TelemetryTimelineChart({
             type="button"
             onClick={() => setMode('mois')}
             className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'mois' ? 'bg-white text-[#101216] shadow-xs' : 'text-[#5c6370] hover:text-[#101216]'
+              mode === 'mois' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
             }`}
           >
             Mois
@@ -245,7 +245,7 @@ export function TelemetryTimelineChart({
             type="button"
             onClick={() => setMode('km')}
             className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'km' ? 'bg-white text-[#101216] shadow-xs' : 'text-[#5c6370] hover:text-[#101216]'
+              mode === 'km' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
             }`}
           >
             Km-Peloton
@@ -254,7 +254,7 @@ export function TelemetryTimelineChart({
             type="button"
             onClick={() => setMode('cumul')}
             className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'cumul' ? 'bg-white text-[#101216] shadow-xs' : 'text-[#5c6370] hover:text-[#101216]'
+              mode === 'cumul' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
             }`}
           >
             Cumul
@@ -267,7 +267,7 @@ export function TelemetryTimelineChart({
           <Line data={chartData} options={options} />
         </div>
       ) : (
-        <div className="flex h-60 items-center justify-center text-xs font-semibold text-[#5c6370]">
+        <div className="flex h-60 items-center justify-center text-xs font-semibold text-ink-3">
           Aucune sortie enregistrée pour cette année
         </div>
       )}
@@ -319,7 +319,7 @@ export function RidesHistogramChart({
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
           color: '#5c6370',
-          font: { family: 'Poppins', size: 11 },
+          font: { family: 'Archivo', size: 11 },
           stepSize: 1,
         },
       },
@@ -327,27 +327,27 @@ export function RidesHistogramChart({
         grid: { display: false },
         ticks: {
           color: '#5c6370',
-          font: { family: 'Poppins', size: 11 },
+          font: { family: 'Archivo', size: 11 },
         },
       },
     },
   };
 
   return (
-    <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-[#e4e0d8] pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-[#101216]">
+    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
+      <div className="border-b border-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink">
           Distribution de l&apos;Assiduité
         </h3>
-        <p className="text-xs text-[#5c6370]">
+        <p className="text-xs text-ink-3">
           Répartition des cyclos selon leur volume de sorties validées
         </p>
       </div>
       <div className="h-64 w-full">
         <Bar data={data} options={options} />
       </div>
-      <div className="mt-3 flex items-center justify-center gap-2 text-xs text-[#5c6370]">
-        <span className="h-2.5 w-2.5 rounded-xs bg-[#e03e3e]" />
+      <div className="mt-3 flex items-center justify-center gap-2 text-xs text-ink-3">
+        <span className="h-2.5 w-2.5 rounded-xs bg-brand" />
         <span>Nombre de cyclistes par tranche de carrés</span>
       </div>
     </div>
@@ -407,12 +407,12 @@ export function GroupCompositionChart({
   };
 
   return (
-    <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-[#e4e0d8] pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-[#101216]">
+    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
+      <div className="border-b border-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink">
           Répartition de l&apos;Affluence par Groupe
         </h3>
-        <p className="text-xs text-[#5c6370]">
+        <p className="text-xs text-ink-3">
           Part de chaque peloton d&apos;allure dans le volume total de sorties
         </p>
       </div>
@@ -423,10 +423,10 @@ export function GroupCompositionChart({
             <Doughnut data={data} options={options} />
           </div>
           <div className="pointer-events-none absolute flex flex-col items-center justify-center text-center">
-            <span className="text-2xl font-extrabold text-[#101216] tabular-nums">
+            <span className="text-2xl font-extrabold text-ink tabular-nums">
               {total}
             </span>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
               Présences
             </span>
           </div>
@@ -436,20 +436,20 @@ export function GroupCompositionChart({
           {groupDynamics.groupStats.map((g) => (
             <div
               key={g.group}
-              className="flex items-center justify-between rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-2.5 text-xs"
+              className="flex items-center justify-between rounded-md border border-line bg-paper p-2.5 text-xs"
             >
               <div className="flex items-center gap-2">
                 <span
                   className="h-2.5 w-2.5 rounded-full"
                   style={{ backgroundColor: getGroupColor(g.group) }}
                 />
-                <span className="font-bold text-[#101216]">{g.group}</span>
+                <span className="font-bold text-ink">{g.group}</span>
               </div>
               <div className="text-right">
-                <span className="font-extrabold text-[#101216] tabular-nums">
+                <span className="font-extrabold text-ink tabular-nums">
                   {g.totalAttendances}
                 </span>{' '}
-                <span className="text-xs text-[#5c6370]">({g.percentOfTotal}%)</span>
+                <span className="text-xs text-ink-3">({g.percentOfTotal}%)</span>
               </div>
             </div>
           ))}
@@ -496,7 +496,7 @@ export function TracesDistanceChart({
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
           color: '#5c6370',
-          font: { family: 'Poppins', size: 11 },
+          font: { family: 'Archivo', size: 11 },
           stepSize: 1,
         },
       },
@@ -504,29 +504,29 @@ export function TracesDistanceChart({
         grid: { display: false },
         ticks: {
           color: '#5c6370',
-          font: { family: 'Poppins', size: 11 },
+          font: { family: 'Archivo', size: 11 },
         },
       },
     },
   };
 
   return (
-    <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-[#e4e0d8] pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-[#101216]">
+    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
+      <div className="border-b border-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink">
           Profils Kilométriques du Catalogue
         </h3>
-        <p className="text-xs text-[#5c6370]">
+        <p className="text-xs text-ink-3">
           Distribution des {tracesStats.totalTraces} traces selon leur distance
         </p>
       </div>
       <div className="h-64 w-full">
         <Bar data={data} options={options} />
       </div>
-      <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-xs text-[#5c6370]">
+      <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-xs text-ink-3">
         {tracesStats.distanceBuckets.map((b) => (
           <span key={b.label} className="inline-flex items-center gap-1">
-            <span className="font-bold text-[#101216]">{b.label} :</span>
+            <span className="font-bold text-ink">{b.label} :</span>
             <span>{b.description}</span>
           </span>
         ))}
@@ -569,12 +569,12 @@ export function TracesDirectionChart({
   };
 
   return (
-    <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-[#e4e0d8] pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-[#101216]">
+    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
+      <div className="border-b border-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink">
           Orientation &amp; Terroirs Explorés
         </h3>
-        <p className="text-xs text-[#5c6370]">
+        <p className="text-xs text-ink-3">
           Répartition géographique des parcours du club
         </p>
       </div>
@@ -590,10 +590,10 @@ export function TracesDirectionChart({
           {tracesStats.directionDistribution.map((d) => (
             <div
               key={d.direction}
-              className="flex items-center justify-between rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-2 text-xs"
+              className="flex items-center justify-between rounded-md border border-line bg-paper p-2 text-xs"
             >
-              <span className="font-semibold text-[#101216]">{d.direction}</span>
-              <span className="font-extrabold text-[#101216] tabular-nums">
+              <span className="font-semibold text-ink">{d.direction}</span>
+              <span className="font-extrabold text-ink tabular-nums">
                 {d.count} parcours
               </span>
             </div>
@@ -644,7 +644,7 @@ export function DemocracyPopularChart({
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
           color: '#5c6370',
-          font: { family: 'Poppins', size: 11 },
+          font: { family: 'Archivo', size: 11 },
           stepSize: 1,
         },
       },
@@ -652,19 +652,19 @@ export function DemocracyPopularChart({
         grid: { display: false },
         ticks: {
           color: '#101216',
-          font: { family: 'Poppins', size: 11, weight: 'bold' as const },
+          font: { family: 'Archivo', size: 11, weight: 'bold' as const },
         },
       },
     },
   };
 
   return (
-    <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-[#e4e0d8] pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-[#101216]">
+    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
+      <div className="border-b border-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink">
           Tracés Plébiscités par le Club
         </h3>
-        <p className="text-xs text-[#5c6370]">
+        <p className="text-xs text-ink-3">
           Parcours ayant recueilli le plus de votes lors des sorties du samedi
         </p>
       </div>
@@ -674,7 +674,7 @@ export function DemocracyPopularChart({
           <Bar data={data} options={options} />
         </div>
       ) : (
-        <div className="flex h-48 items-center justify-center text-xs text-[#5c6370]">
+        <div className="flex h-48 items-center justify-center text-xs text-ink-3">
           Aucun vote enregistré pour cette saison
         </div>
       )}

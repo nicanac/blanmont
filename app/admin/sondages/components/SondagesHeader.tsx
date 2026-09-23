@@ -82,7 +82,7 @@ export default function SondagesHeader({
             type="button"
             disabled={isPending}
             onClick={handleAutoGenerate}
-            className="inline-flex items-center gap-2 rounded-md border border-[#e03e3e]/30 bg-[#e03e3e]/5 hover:bg-[#e03e3e]/10 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#e03e3e] transition-colors shadow-xs shrink-0 disabled:opacity-50 min-h-[44px] cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-md border border-brand/30 bg-brand/5 hover:bg-brand/10 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-brand transition-colors shadow-xs shrink-0 disabled:opacity-50 min-h-[44px] cursor-pointer"
             title="Déclencher manuellement la création automatique pour le weekend à venir"
           >
             {isPending ? <Spinner size="xs" variant="brand" /> : <SparklesIcon className="h-4 w-4" />}
