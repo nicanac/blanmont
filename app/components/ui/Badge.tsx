@@ -22,26 +22,17 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  brand:
-    'bg-[#e03e3e]/15 text-[#e03e3e] dark:text-red-400 border border-[#e03e3e]/30',
-  'brand-solid':
-    'bg-[#e03e3e] text-white shadow-2xs font-bold uppercase tracking-wider',
-  neutral:
-    'bg-[#101216] dark:bg-[#1d2128] text-white',
-  paper:
-    'bg-[#f2efe9] dark:bg-white/5 text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-[#262b38]',
-  success:
-    'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20',
-  warning:
-    'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20',
-  danger:
-    'bg-red-500/10 text-red-700 dark:text-red-400 border border-red-500/20',
-  outline:
-    'border border-[#e4e0d8] dark:border-[#262b38] bg-transparent text-[#101216] dark:text-white',
-  'pill-active':
-    'bg-[#101216] dark:bg-white text-white dark:text-[#101216] shadow-xs cursor-pointer',
+  brand: 'bg-brand-tint text-brand-strong border border-brand/30 dark:bg-brand/15 dark:text-brand-soft',
+  'brand-solid': 'bg-brand text-white font-bold',
+  neutral: 'bg-ink dark:bg-night-3 text-white',
+  paper: 'bg-paper-2 dark:bg-night-3 text-ink dark:text-snow border border-line dark:border-night-line',
+  success: 'bg-vert-tint text-vert-strong border border-vert/25 dark:bg-vert/15 dark:text-vert-vif dark:border-vert-vif/25',
+  warning: 'bg-ambre/15 text-ambre-ink border border-ambre/30 dark:text-ambre',
+  danger: 'bg-brand-tint text-brand-strong border border-brand/30 dark:bg-brand/15 dark:text-brand-soft',
+  outline: 'border border-ink dark:border-snow-3 bg-transparent text-ink dark:text-snow',
+  'pill-active': 'bg-ink dark:bg-snow text-white dark:text-night cursor-pointer',
   'pill-inactive':
-    'bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] border border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/30 dark:hover:border-white/30 cursor-pointer',
+    'bg-white dark:bg-night-2 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line hover:border-ink dark:hover:border-snow-3 cursor-pointer',
 };
 
 const sizeStyles = {
@@ -63,7 +54,7 @@ export default function Badge({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full font-bold uppercase tracking-wider transition-colors shrink-0',
+        'inline-flex items-center rounded-full font-narrow font-bold uppercase tracking-[0.08em] transition-colors shrink-0',
         variantStyles[variant],
         sizeStyles[size],
         interactive && 'cursor-pointer select-none',

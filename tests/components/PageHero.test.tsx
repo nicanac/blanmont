@@ -19,17 +19,11 @@ describe('PageHero Component (app/components/ui/PageHero.tsx)', () => {
     expect(screen.getByText('Découvrez les plus belles routes du Brabant Wallon.')).toBeDefined();
   });
 
-  it('renders badge and watermark when provided', () => {
-    render(
-      <PageHero
-        title="Équipements"
-        badge="Boutique Officielle"
-        watermark="KITS"
-      />
-    );
+  it('renders badge and sheet name when provided', () => {
+    render(<PageHero title="Équipements" badge="Boutique Officielle" watermark="KITS" />);
 
     expect(screen.getByText('Boutique Officielle')).toBeDefined();
-    expect(screen.getByText('KITS')).toBeDefined();
+    expect(screen.getByText(/KITS/)).toBeDefined();
   });
 
   it('renders custom children within hero content', () => {
@@ -43,16 +37,17 @@ describe('PageHero Component (app/components/ui/PageHero.tsx)', () => {
     expect(screen.getByText('Rejoindre le peloton')).toBeDefined();
   });
 
-  it('applies variant styling correctly', () => {
+  it('prints the green variant on the woodland-green cartouche', () => {
     const { container } = render(
-      <PageHero
-        title="Variante Verte"
-        variant="green"
-        badge="Catégorie"
-      />
+      <PageHero title="Variante Verte" variant="green" badge="Catégorie" />
     );
 
-    // green badge / accent classes
-    expect(container.innerHTML).toContain('emerald');
+    expect(container.innerHTML).toContain('bg-vert');
+  });
+
+  it('opens every page on a band of the territory map', () => {
+    const { container } = render(<PageHero title="Galerie" />);
+    expect(container.querySelector('.carte-relief')).not.toBeNull();
+    expect(container.querySelector('h1')?.textContent).toBe('Galerie');
   });
 });

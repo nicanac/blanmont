@@ -112,7 +112,7 @@ export default function ImportForm() {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://www.strava.com/activities/123456789"
-                    className="flex-1 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-4 py-2 text-[#101216] dark:text-[#f5f6f8] shadow-xs placeholder:text-[#5c6370] focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm transition-colors duration-150"
+                    className="flex-1 rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-4 py-2 text-ink dark:text-snow shadow-xs placeholder:text-ink-3 focus:border-[#fc4c02] focus:ring-1 focus:ring-[#fc4c02] focus:outline-hidden text-sm transition-colors duration-150"
                 />
                 <button
                     onClick={handlePreview}
@@ -141,7 +141,7 @@ export default function ImportForm() {
                                     <div className="mt-3 flex items-center gap-4 text-xs font-semibold">
                                         <Link
                                             href={`/traces/${createdTraceId}`}
-                                            className="text-[#e03e3e] dark:text-[#ff6b6b] hover:underline transition-colors duration-150"
+                                            className="text-brand dark:text-brand-soft hover:underline transition-colors duration-150"
                                         >
                                             Consulter le parcours →
                                         </Link>

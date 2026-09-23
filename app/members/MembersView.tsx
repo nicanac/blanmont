@@ -57,21 +57,21 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
   return (
     <div className="space-y-8">
       {/* ──── Controls Bar: Search & Role Filter Tabs ──── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-line bg-white dark:border-night-line dark:bg-night-2 shadow-xs">
         {/* Search input */}
         <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un membre, un rôle..."
-            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] dark:border-[#262b38] dark:bg-[#0a0c10] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#101216] dark:text-[#f5f6f8] placeholder:text-[#5c6370] dark:placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white dark:focus:bg-[#12151d] focus:outline-none transition-colors"
+            className="w-full rounded-md border border-line bg-paper dark:border-night-line dark:bg-night pl-10 pr-4 py-2 text-xs sm:text-sm text-ink dark:text-snow placeholder:text-ink-3 dark:placeholder:text-ink-3 focus:border-brand focus:bg-white dark:focus:bg-night focus:outline-none transition-colors"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-white"
             >
               Effacer
             </button>
@@ -84,12 +84,12 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             onClick={() => setSelectedFilter('all')}
             className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'all'
-                ? 'bg-[#101216] text-white dark:bg-[#262b38] dark:text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:bg-[#262b38] dark:hover:text-white'
+                ? 'bg-ink text-white dark:bg-night-line dark:text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink dark:bg-night-3 dark:text-snow-3 dark:hover:bg-night-line dark:hover:text-white'
             }`}
           >
             <span>Tous</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}>
+            <span className={`text-xs tabular-nums ${selectedFilter === 'all' ? 'text-snow-3' : 'text-ink-3 dark:text-snow-3'}`}>
               ({members.length})
             </span>
           </button>
@@ -98,12 +98,12 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             onClick={() => setSelectedFilter('bureau')}
             className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'bureau'
-                ? 'bg-[#e03e3e] text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:bg-[#262b38] dark:hover:text-white'
+                ? 'bg-brand text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink dark:bg-night-3 dark:text-snow-3 dark:hover:bg-night-line dark:hover:text-white'
             }`}
           >
             <span>Bureau &amp; Comité</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'bureau' ? 'text-white/80' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}>
+            <span className={`text-xs tabular-nums ${selectedFilter === 'bureau' ? 'text-white/80' : 'text-ink-3 dark:text-snow-3'}`}>
               ({bureauCount})
             </span>
           </button>
@@ -113,11 +113,11 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
             className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 min-h-[44px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               selectedFilter === 'capitaines'
                 ? 'bg-sky-600 text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216] dark:bg-[#1e222d] dark:text-[#a7adbb] dark:hover:bg-[#262b38] dark:hover:text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink dark:bg-night-3 dark:text-snow-3 dark:hover:bg-night-line dark:hover:text-white'
             }`}
           >
             <span>Capitaines de Route</span>
-            <span className={`text-xs tabular-nums ${selectedFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370] dark:text-[#a7adbb]'}`}>
+            <span className={`text-xs tabular-nums ${selectedFilter === 'capitaines' ? 'text-white/80' : 'text-ink-3 dark:text-snow-3'}`}>
               ({captainsCount})
             </span>
           </button>
@@ -133,10 +133,10 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
         </ul>
       ) : (
         /* Empty State */
-        <div className="rounded-lg border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] p-12 text-center space-y-3">
-          <UsersIcon className="mx-auto h-12 w-12 text-[#5c6370] dark:text-[#a7adbb]" />
-          <h3 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">Aucun membre trouvé</h3>
-          <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto">
+        <div className="rounded-lg border border-line bg-white dark:border-night-line dark:bg-night-2 p-12 text-center space-y-3">
+          <UsersIcon className="mx-auto h-12 w-12 text-ink-3 dark:text-snow-3" />
+          <h3 className="text-base font-bold text-ink dark:text-snow">Aucun membre trouvé</h3>
+          <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3 max-w-sm mx-auto">
             Aucun membre ne correspond à votre recherche « {search} ». Essayez de réinitialiser vos filtres.
           </p>
           <button
@@ -144,7 +144,7 @@ export default function MembersView({ members }: MembersViewProps): React.ReactE
               setSearch('');
               setSelectedFilter('all');
             }}
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] text-white px-5 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider hover:bg-[#c93434] transition-colors cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-brand text-white px-5 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider hover:bg-brand-strong transition-colors cursor-pointer"
           >
             Réinitialiser les filtres
           </button>

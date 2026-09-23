@@ -32,19 +32,19 @@ export default function EmptyState({
   return (
     <div
       className={cn(
-        'rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-12 text-center shadow-xs space-y-6',
+        'corner-ticks border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 sm:p-12 text-center space-y-6 dark:[--tick:var(--color-snow-3)]',
         className
       )}
     >
       {/* Icon */}
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-[#e03e3e]/10 border border-[#e03e3e]/20 text-[#e03e3e]">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow">
         <Icon className="h-7 w-7" />
       </div>
 
       {/* Content */}
       <div className="space-y-2 max-w-md mx-auto">
-        <h3 className="text-lg font-bold text-[#101216] dark:text-white tracking-tight">{title}</h3>
-        <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+        <h3 className="font-semiwide text-lg font-extrabold uppercase text-ink dark:text-white">{title}</h3>
+        <p className="text-sm text-ink-2 dark:text-snow-2 leading-relaxed">
           {description}
         </p>
       </div>
@@ -56,7 +56,7 @@ export default function EmptyState({
             (primaryAction.href ? (
               <Link
                 href={primaryAction.href}
-                className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white transition-colors"
               >
                 {primaryAction.icon && <primaryAction.icon className="h-4 w-4" />}
                 <span>{primaryAction.label}</span>
@@ -65,7 +65,7 @@ export default function EmptyState({
               <button
                 type="button"
                 onClick={primaryAction.onClick}
-                className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white transition-colors"
               >
                 {primaryAction.icon && <primaryAction.icon className="h-4 w-4" />}
                 <span>{primaryAction.label}</span>
@@ -76,10 +76,10 @@ export default function EmptyState({
             (secondaryAction.href ? (
               <Link
                 href={secondaryAction.href}
-                className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white transition-colors"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-ink dark:border-snow-2 px-4 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink dark:text-white transition-colors hover:bg-ink hover:text-white dark:hover:bg-snow dark:hover:text-night"
               >
                 {secondaryAction.icon && (
-                  <secondaryAction.icon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
+                  <secondaryAction.icon className="h-4 w-4 text-ink-3 dark:text-snow-3" />
                 )}
                 <span>{secondaryAction.label}</span>
               </Link>
@@ -87,10 +87,10 @@ export default function EmptyState({
               <button
                 type="button"
                 onClick={secondaryAction.onClick}
-                className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white transition-colors"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-ink dark:border-snow-2 px-4 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink dark:text-white transition-colors hover:bg-ink hover:text-white dark:hover:bg-snow dark:hover:text-night"
               >
                 {secondaryAction.icon && (
-                  <secondaryAction.icon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
+                  <secondaryAction.icon className="h-4 w-4 text-ink-3 dark:text-snow-3" />
                 )}
                 <span>{secondaryAction.label}</span>
               </button>
@@ -100,10 +100,10 @@ export default function EmptyState({
 
       {/* Contextual Tip */}
       {tip && (
-        <div className="mx-auto max-w-lg rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#0a0c10] p-3 text-left flex items-start gap-2.5 text-xs text-[#5c6370] dark:text-[#a7adbb]">
-          <LightBulbIcon className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
+        <div className="mx-auto flex max-w-lg items-start gap-2.5 rounded-sm border border-line bg-paper p-3 text-left text-xs text-ink-2 dark:border-night-line dark:bg-night dark:text-snow-2">
+          <LightBulbIcon className="h-4 w-4 text-ambre shrink-0 mt-0.5" />
           <div>
-            <span className="font-semibold text-[#101216] dark:text-white">Conseil pratique : </span>
+            <span className="font-semibold text-ink dark:text-white">Conseil pratique : </span>
             {tip}
           </div>
         </div>

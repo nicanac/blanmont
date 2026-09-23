@@ -1,7 +1,12 @@
 import Link from 'next/link';
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { getCalendarEvents, getNextScheduledRide } from '../../lib/firebase/calendar';
 import NextRideCard from './NextRideCard';
 import ThemeToggle from './ThemeToggle';
+import { Wordmark } from '../brand/Wordmark';
+import TerritoryMap from '../carte/TerritoryMap';
+import { ScaleBar, NorthArrow } from '../carte/ScaleBar';
+import { DEPARTURE_POINT, MAP_CREDITS } from '../carte/territory';
 
 const navigation = {
   club: [
@@ -29,113 +34,119 @@ const navigation = {
   ],
 };
 
+function FooterColumn({
+  title,
+  items,
+}: {
+  title: string;
+  items: { name: string; href: string }[];
+}) {
+  return (
+    <div>
+      <h3 className="border-b border-ink pb-2 font-narrow text-xs font-bold uppercase tracking-[0.1em] text-ink dark:border-snow-3 dark:text-snow">
+        {title}
+      </h3>
+      <ul role="list" className="mt-3 space-y-2.5">
+        {items.map((item) => (
+          <li key={item.name}>
+            <Link
+              href={item.href}
+              className="text-sm leading-6 text-ink-2 underline-offset-[0.3em] transition-colors hover:text-brand hover:underline dark:text-snow-2 dark:hover:text-brand-soft"
+            >
+              {item.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default async function Footer(): Promise<React.JSX.Element> {
   const events = await getCalendarEvents();
   const nextRide = getNextScheduledRide(events);
 
   return (
-    <footer className="bg-[#f2efe9] dark:bg-[#0a0c10] border-t border-[#e4e0d8] dark:border-white/10 transition-colors duration-200" aria-labelledby="footer-heading">
+    <footer
+      className="border-t border-ink bg-paper transition-colors duration-200 dark:border-night-line dark:bg-night"
+      aria-labelledby="footer-heading"
+    >
       <h2 id="footer-heading" className="sr-only">
         Pied de page
       </h2>
-      <div className="mx-auto max-w-7xl px-6 pb-12 pt-16 sm:pt-20 lg:px-8">
-        {/* Top Section: Brand/Info on the left, Next ride card on the right */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12 pb-12 border-b border-[#e4e0d8] dark:border-white/10">
-          {/* Brand & Club identity */}
-          <div className="space-y-5 max-w-lg">
-            <Link href="/" className="inline-flex items-baseline gap-2.5">
-              <span className="text-3xl font-extrabold uppercase tracking-[-0.02em] text-[#101216] dark:text-white font-sans">
-                Blan<span className="text-[#e03e3e]">mont</span>
-              </span>
-              <span className="text-xs font-semibold tracking-[0.14em] uppercase text-[#5c6370]">
-                CC St-Martin
-              </span>
-            </Link>
-            <p className="text-sm leading-relaxed text-[#5c6370] dark:text-[#a7adbb]">
+
+      {/* Carte de situation: the meeting point on the real territory */}
+      <div className="relative h-60 overflow-hidden border-b border-line [--sheet:1700px] sm:h-64 sm:[--sheet:2100px] dark:border-night-line">
+        <TerritoryMap
+          labels={2}
+          marker="point"
+          sheetClassName="w-(--sheet) left-[calc(62%-var(--sheet)/2)] top-[calc(46%-var(--sheet)/2)] sm:left-[calc(64%-var(--sheet)/2)]"
+        />
+        <div className="relative mx-auto flex h-full max-w-7xl items-end justify-between gap-6 px-4 pb-5 sm:px-6 lg:px-8">
+          <div className="neatline max-w-sm bg-white/95 p-5 pl-6 dark:bg-night-2/95">
+            <p className="font-wide text-lg font-extrabold uppercase leading-tight text-ink dark:text-snow">
+              {DEPARTURE_POINT.clubName}
+            </p>
+            <p className="mt-1 text-sm text-ink-2 dark:text-snow-2">
+              Rendez-vous de toutes les sorties ·{' '}
+              <span className="italic">{DEPARTURE_POINT.name}</span>, {DEPARTURE_POINT.postcode}{' '}
+              {DEPARTURE_POINT.commune}
+            </p>
+            <p className="mt-2 font-narrow text-xs tabular-nums text-ink-3 dark:text-snow-3">
+              {DEPARTURE_POINT.coordinates}
+            </p>
+            <a
+              href={DEPARTURE_POINT.osmUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex min-h-[44px] items-center gap-1.5 text-sm font-semibold text-brand underline-offset-[0.3em] hover:underline dark:text-brand-soft"
+            >
+              Voir sur la carte
+              <ArrowUpRightIcon className="size-3.5" aria-hidden="true" />
+            </a>
+          </div>
+          <div className="hidden items-end gap-4 bg-paper/85 px-3 py-2 sm:flex dark:bg-night/85">
+            <ScaleBar km={5} />
+            <NorthArrow />
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="space-y-5 lg:col-span-4">
+            <Wordmark size="lg" withSubline={false} />
+            <p className="max-w-sm text-sm leading-relaxed text-ink-2 dark:text-snow-2">
               Cyclo Club Saint-Martin Blanmont. Convivialité, passion du cyclisme sur route et
               esprit d&apos;équipe au cœur du Brabant wallon.
             </p>
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370]">
-              Fondé en 1978 &bull; Brabant wallon, Belgique
+            <p className="font-narrow text-xs font-bold uppercase tracking-[0.1em] text-ink-3 dark:text-snow-3">
+              Fondé en 1978 · Brabant wallon, Belgique
             </p>
           </div>
 
-          {/* Dynamic Next Rendez-vous card linked to Calendar (Expandable, hidden on homepage) */}
-          <div className="w-full lg:max-w-md">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-5">
+            <FooterColumn title="Le Club" items={navigation.club} />
+            <FooterColumn title="Parcours & Sorties" items={navigation.routes} />
+            <div className="col-span-2 sm:col-span-1">
+              <FooterColumn title="Vie du Club" items={navigation.newsAndAccount} />
+            </div>
+          </div>
+
+          <div className="lg:col-span-3">
             <NextRideCard nextRide={nextRide} />
           </div>
         </div>
 
-        {/* Navigation Columns in 3 parts */}
-        <div className="pt-10 grid grid-cols-2 gap-8 sm:grid-cols-3">
-          <div>
-            <h3 className="text-xs font-semibold text-[#101216] dark:text-white uppercase tracking-[0.08em]">
-              Le Club
-            </h3>
-            <ul role="list" className="mt-4 space-y-3">
-              {navigation.club.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm leading-6 text-[#3a3f4a] dark:text-[#a7adbb] hover:text-[#e03e3e] dark:hover:text-[#e03e3e] transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-xs font-semibold text-[#101216] dark:text-white uppercase tracking-[0.08em]">
-              Parcours &amp; Sorties
-            </h3>
-            <ul role="list" className="mt-4 space-y-3">
-              {navigation.routes.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm leading-6 text-[#3a3f4a] dark:text-[#a7adbb] hover:text-[#e03e3e] dark:hover:text-[#e03e3e] transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="col-span-2 sm:col-span-1">
-            <h3 className="text-xs font-semibold text-[#101216] dark:text-white uppercase tracking-[0.08em]">
-              Vie du Club
-            </h3>
-            <ul role="list" className="mt-4 space-y-3">
-              {navigation.newsAndAccount.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm leading-6 text-[#3a3f4a] dark:text-[#a7adbb] hover:text-[#e03e3e] dark:hover:text-[#e03e3e] transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Bar with Copyright and Theme Switcher */}
-        <div className="mt-12 border-t border-[#e4e0d8] dark:border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs leading-5 text-[#5c6370] text-center sm:text-left">
-            &copy; {new Date().getFullYear()} Cyclo Club Saint-Martin Blanmont. Tous droits
-            réservés.
-          </p>
-
-          <div className="flex items-center gap-4">
-            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] hidden md:inline">
-              Fait avec passion pour le cyclisme à Blanmont
+        <div className="mt-12 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between dark:border-night-line">
+          <div className="space-y-1">
+            <p className="text-xs text-ink-3 dark:text-snow-3">
+              &copy; {new Date().getFullYear()} Cyclo Club Saint-Martin Blanmont. Tous droits
+              réservés.
             </p>
-            <ThemeToggle variant="pill" />
+            <p className="text-[11px] leading-snug text-ink-3 dark:text-snow-3">{MAP_CREDITS}</p>
           </div>
+          <ThemeToggle variant="pill" />
         </div>
       </div>
     </footer>

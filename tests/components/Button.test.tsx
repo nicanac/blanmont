@@ -23,7 +23,11 @@ describe('Button component', () => {
 
   it('respects disabled state', () => {
     const handleClick = vi.fn();
-    render(<Button disabled onClick={handleClick}>Désactivé</Button>);
+    render(
+      <Button disabled onClick={handleClick}>
+        Désactivé
+      </Button>
+    );
 
     const button = screen.getByRole('button', { name: /désactivé/i });
     expect(button).toBeDisabled();
@@ -33,13 +37,13 @@ describe('Button component', () => {
 
   it('applies variant classes accurately', () => {
     const { rerender } = render(<Button variant="destructive">Supprimer</Button>);
-    expect(screen.getByRole('button')).toHaveClass('bg-red-500');
+    expect(screen.getByRole('button')).toHaveClass('bg-brand-strong');
 
     rerender(<Button variant="outline">Contour</Button>);
     expect(screen.getByRole('button')).toHaveClass('border');
 
     rerender(<Button variant="ghost">Fantôme</Button>);
-    expect(screen.getByRole('button')).toHaveClass('hover:bg-[#f2efe9]');
+    expect(screen.getByRole('button')).toHaveClass('hover:bg-paper-2');
   });
 
   it('applies size classes accurately', () => {
@@ -47,6 +51,6 @@ describe('Button component', () => {
     expect(screen.getByRole('button')).toHaveClass('sm:h-9');
 
     rerender(<Button size="lg">Grand</Button>);
-    expect(screen.getByRole('button')).toHaveClass('h-11');
+    expect(screen.getByRole('button')).toHaveClass('h-12');
   });
 });

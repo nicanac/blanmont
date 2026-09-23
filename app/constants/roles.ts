@@ -18,7 +18,7 @@ export const CLUB_ROLES: RoleDefinition[] = [
     key: 'Président',
     label: 'Président',
     description: 'Direction générale du club, représentation officielle et assemblées.',
-    badgeStyle: 'bg-[#e03e3e]/10 text-[#e03e3e] border-[#e03e3e]/30',
+    badgeStyle: 'bg-brand/10 text-brand border-brand/30',
     synonyms: ['président', 'president'],
   },
   {
@@ -39,14 +39,14 @@ export const CLUB_ROLES: RoleDefinition[] = [
     key: 'Admin',
     label: 'Administrateur',
     description: 'Accès intégral au back-office, gestion des utilisateurs et configuration.',
-    badgeStyle: 'bg-[#101216] text-white border-white/10',
+    badgeStyle: 'bg-ink text-white border-white/10',
     synonyms: ['admin', 'administrateur', 'webmaster'],
   },
   {
     key: 'Member',
     label: 'Membre',
     description: 'Cycliste adhérent du club participant aux sorties et rituels.',
-    badgeStyle: 'bg-[#f2efe9] text-[#5c6370] border-[#e4e0d8]',
+    badgeStyle: 'bg-paper-2 text-ink-3 border-line',
     synonyms: ['member', 'membre', 'cycliste', 'adhérent', 'adherent'],
   },
 ];

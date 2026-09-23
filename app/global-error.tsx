@@ -12,9 +12,9 @@ export default function GlobalError({
 }) {
   return (
     <html lang="fr">
-      <body className="min-h-screen bg-[#0a0c10] text-[#f5f6f8] flex flex-col items-center justify-center p-6 font-sans antialiased">
-        <div className="w-full max-w-md text-center space-y-6 rounded-lg border border-[#262b38] bg-[#161922] p-8 shadow-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#e03e3e]/15 border border-[#e03e3e]/30 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
+      <body className="min-h-screen bg-night text-snow flex flex-col items-center justify-center p-6 font-sans antialiased">
+        <div className="w-full max-w-md text-center space-y-6 rounded-lg border border-night-line bg-night-2 p-8 shadow-2xl">
+          <div className="inline-flex items-center gap-2 rounded-full bg-brand/15 border border-brand/30 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-brand">
             <span>CC Saint-Martin Blanmont</span>
           </div>
 
@@ -22,7 +22,7 @@ export default function GlobalError({
             <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
               Erreur Critique
             </h1>
-            <p className="text-xs sm:text-sm text-[#a7adbb] leading-relaxed">
+            <p className="text-xs sm:text-sm text-snow-3 leading-relaxed">
               Une erreur inattendue a interrompu l&apos;application. Veuillez recharger la page.
             </p>
           </div>
@@ -31,13 +31,13 @@ export default function GlobalError({
             <button
               type="button"
               onClick={() => reset()}
-              className="w-full inline-flex items-center justify-center rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors shadow-md"
+              className="w-full inline-flex items-center justify-center rounded-md bg-brand hover:bg-brand-strong text-white px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors shadow-md"
             >
               Recharger l&apos;application
             </button>
             <a
               href="/"
-              className="w-full inline-flex items-center justify-center rounded-md border border-[#262b38] bg-white/5 hover:bg-white/10 text-[#f5f6f8] px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors"
+              className="w-full inline-flex items-center justify-center rounded-md border border-night-line bg-white/5 hover:bg-white/10 text-snow px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors"
             >
               Retour au site
             </a>

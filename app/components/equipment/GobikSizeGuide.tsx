@@ -58,20 +58,20 @@ export default function GobikSizeGuide({
         />
 
         {/* Modal Window */}
-        <div className="relative w-full max-w-2xl overflow-hidden rounded-lg bg-white dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] shadow-2xl z-10 transition-colors p-6 sm:p-8">
+        <div className="relative w-full max-w-2xl overflow-hidden rounded-lg bg-white dark:bg-ink border border-line dark:border-night-line shadow-2xl z-10 transition-colors p-6 sm:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between pb-4 border-b border-[#e4e0d8] dark:border-[#262b38]">
+          <div className="flex items-start justify-between pb-4 border-b border-line dark:border-night-line">
             <div className="space-y-1">
-              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-brand">
                 Guide Technique Gobik Spain
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] dark:text-white">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-ink dark:text-white">
                 Guide des tailles &amp; Mensurations
               </h2>
             </div>
             <button
               onClick={onClose}
-              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-full p-2 text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] transition-colors"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-full p-2 text-ink-3 hover:text-ink dark:hover:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
               aria-label="Fermer le guide des tailles"
             >
               <XMarkIcon className="h-5 w-5" />
@@ -85,8 +85,8 @@ export default function GobikSizeGuide({
               onClick={() => setGender('men')}
               className={`min-h-[44px] flex-1 py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-wider transition-colors border ${
                 gender === 'men'
-                  ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
-                  : 'bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
+                  ? 'bg-ink text-white border-ink dark:bg-white dark:text-ink dark:border-white'
+                  : 'bg-paper dark:bg-night-2 text-ink-3 dark:text-snow-3 border-line dark:border-night-line hover:border-ink/40 dark:hover:border-white/40'
               }`}
             >
               Coupe Homme (Men Fit)
@@ -96,8 +96,8 @@ export default function GobikSizeGuide({
               onClick={() => setGender('women')}
               className={`min-h-[44px] flex-1 py-2.5 px-4 rounded-md text-xs font-bold uppercase tracking-wider transition-colors border ${
                 gender === 'women'
-                  ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
-                  : 'bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
+                  ? 'bg-ink text-white border-ink dark:bg-white dark:text-ink dark:border-white'
+                  : 'bg-paper dark:bg-night-2 text-ink-3 dark:text-snow-3 border-line dark:border-night-line hover:border-ink/40 dark:hover:border-white/40'
               }`}
             >
               Coupe Femme (Women Fit)
@@ -105,9 +105,9 @@ export default function GobikSizeGuide({
           </div>
 
           {/* Sizing Table */}
-          <div className="mt-5 overflow-x-auto rounded-lg border border-[#e4e0d8] dark:border-[#262b38]">
+          <div className="mt-5 overflow-x-auto rounded-lg border border-line dark:border-night-line">
             <table className="w-full text-left text-xs tabular-nums">
-              <thead className="bg-[#faf8f5] dark:bg-[#161922] border-b border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white uppercase font-bold tracking-wider">
+              <thead className="bg-paper dark:bg-night-2 border-b border-line dark:border-night-line text-ink dark:text-white uppercase font-bold tracking-wider">
                 <tr>
                   <th className="px-4 py-3">Taille</th>
                   <th className="px-4 py-3">Poitrine (cm)</th>
@@ -116,21 +116,21 @@ export default function GobikSizeGuide({
                   {onSelectSize && <th className="px-4 py-3 text-right">Action</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#e4e0d8] dark:divide-[#262b38] text-[#3a3f4a] dark:text-[#c4cad4]">
+              <tbody className="divide-y divide-line dark:divide-night-line text-ink-2 dark:text-snow-2">
                 {chart.map((row) => {
                   const isCurrent = currentSize === row.size;
                   return (
                     <tr
                       key={row.size}
-                      className={`hover:bg-[#faf8f5] dark:hover:bg-[#161922] transition-colors ${
-                        isCurrent ? 'bg-[#e03e3e]/5 dark:bg-[#e03e3e]/10' : ''
+                      className={`hover:bg-paper dark:hover:bg-night-2 transition-colors ${
+                        isCurrent ? 'bg-brand/5 dark:bg-brand/10' : ''
                       }`}
                     >
-                      <td className="px-4 py-3 font-bold text-[#101216] dark:text-white">
+                      <td className="px-4 py-3 font-bold text-ink dark:text-white">
                         <div className="flex items-center gap-2">
                           <span>{row.size}</span>
                           {isCurrent && (
-                            <span className="text-xs uppercase font-bold text-[#e03e3e]">
+                            <span className="text-xs uppercase font-bold text-brand">
                               (actuel)
                             </span>
                           )}
@@ -149,8 +149,8 @@ export default function GobikSizeGuide({
                             }}
                             className={`min-h-[44px] px-3.5 py-2 inline-flex items-center justify-center rounded text-xs font-bold uppercase transition-colors cursor-pointer ${
                               isCurrent
-                                ? 'bg-[#e03e3e] text-white'
-                                : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#101216] dark:text-[#f5f6f8] hover:bg-[#101216] hover:text-white dark:hover:bg-white dark:hover:text-[#101216]'
+                                ? 'bg-brand text-white'
+                                : 'bg-paper-2 dark:bg-night-3 text-ink dark:text-snow hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-ink'
                             }`}
                           >
                             {isCurrent ? 'Sélectionné' : 'Choisir'}
@@ -165,13 +165,13 @@ export default function GobikSizeGuide({
           </div>
 
           {/* Advice Callout */}
-          <div className="mt-5 flex gap-3 p-4 rounded-lg bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-xs">
-            <InformationCircleIcon className="h-5 w-5 text-[#e03e3e] shrink-0 mt-0.5" />
+          <div className="mt-5 flex gap-3 p-4 rounded-lg bg-paper dark:bg-night-2 border border-line dark:border-night-line text-xs">
+            <InformationCircleIcon className="h-5 w-5 text-brand shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <div className="font-bold text-[#101216] dark:text-white">
+              <div className="font-bold text-ink dark:text-white">
                 Conseil d&apos;ajustement Gobik Performance
               </div>
-              <p className="text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <p className="text-ink-3 dark:text-snow-3 leading-relaxed">
                 Les tenues Gobik adoptent une <strong>coupe anatomique ajustée (Slim / Aero)</strong>. Si vous êtes entre deux tailles ou préférez un porter plus décontracté pour les longues sorties d&apos;endurance, nous vous conseillons de <strong>choisir la taille supérieure</strong>.
               </p>
             </div>
@@ -182,7 +182,7 @@ export default function GobikSizeGuide({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-[44px] px-5 py-2.5 inline-flex items-center justify-center rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer"
+              className="min-h-[44px] px-5 py-2.5 inline-flex items-center justify-center rounded-md bg-ink dark:bg-white text-white dark:text-ink text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer"
             >
               Fermer le guide
             </button>

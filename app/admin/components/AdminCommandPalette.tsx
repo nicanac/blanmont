@@ -303,10 +303,10 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-2xl rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-white shadow-2xl overflow-hidden z-10">
+      <div className="relative w-full max-w-2xl rounded-xl border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-white shadow-2xl overflow-hidden z-10">
         {/* Search Header */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216]">
-          <MagnifyingGlassIcon className="h-5 w-5 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-line dark:border-night-line bg-paper dark:bg-ink">
+          <MagnifyingGlassIcon className="h-5 w-5 text-ink-3 dark:text-snow-3 shrink-0" />
           <input
             id="admin-command-palette-input"
             ref={inputRef}
@@ -318,25 +318,25 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
               setSelectedIndex(0);
             }}
             placeholder="Rechercher une section, une action, un module... (ou taper 'sondage', 'trace')"
-            className="w-full bg-transparent border-none text-sm font-medium text-[#101216] dark:text-white placeholder-[#5c6370] focus:outline-hidden focus:ring-0"
+            className="w-full bg-transparent border-none text-sm font-medium text-ink dark:text-white placeholder-ink-3 focus:outline-hidden focus:ring-0"
           />
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-md text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            className="p-1 rounded-md text-ink-3 hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
 
         {/* Results List */}
-        <div className="max-h-96 overflow-y-auto p-2 divide-y divide-[#f2efe9] dark:divide-[#161922]">
+        <div className="max-h-96 overflow-y-auto p-2 divide-y divide-paper-2 dark:divide-night-2">
           {filteredItems.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-sm font-semibold text-[#5c6370] dark:text-[#a7adbb]">
+              <p className="text-sm font-semibold text-ink-3 dark:text-snow-3">
                 Aucun résultat pour &ldquo;{query}&rdquo;
               </p>
-              <p className="mt-1 text-xs text-[#5c6370]">
+              <p className="mt-1 text-xs text-ink-3">
                 Essayez des mots-clés comme &ldquo;sondage&rdquo;, &ldquo;membres&rdquo;, &ldquo;parcours&rdquo; ou &ldquo;sortie&rdquo;.
               </p>
             </div>
@@ -354,30 +354,30 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
                     onMouseEnter={() => setSelectedIndex(idx)}
                     className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-lg text-left transition-colors text-xs ${
                       isSelected
-                        ? 'bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-white font-semibold'
-                        : 'text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5'
+                        ? 'bg-brand/10 text-brand dark:bg-brand/20 dark:text-white font-semibold'
+                        : 'text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5'
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div
                         className={`flex h-8 w-8 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-md ${
                           isSelected
-                            ? 'bg-[#e03e3e] text-white'
-                            : 'bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb]'
+                            ? 'bg-brand text-white'
+                            : 'bg-paper-2 dark:bg-night-2 text-ink-3 dark:text-snow-3'
                         }`}
                       >
                         <Icon className="h-4 w-4" />
                       </div>
                       <div className="truncate">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm text-[#101216] dark:text-white truncate">
+                          <span className="font-bold text-sm text-ink dark:text-white truncate">
                             {item.name}
                           </span>
-                          <span className="text-xs font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370]">
+                          <span className="text-xs font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-paper-2 dark:bg-night-2 text-ink-3">
                             {item.category}
                           </span>
                         </div>
-                        <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] truncate mt-0.5">
+                        <p className="text-xs text-ink-3 dark:text-snow-3 truncate mt-0.5">
                           {item.description}
                         </p>
                       </div>
@@ -385,7 +385,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
 
                     <div className="flex items-center gap-2 shrink-0">
                       {isSelected && (
-                        <ArrowRightIcon className="h-3.5 w-3.5 text-[#e03e3e] dark:text-white" />
+                        <ArrowRightIcon className="h-3.5 w-3.5 text-brand dark:text-white" />
                       )}
                     </div>
                   </button>
@@ -396,23 +396,23 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
         </div>
 
         {/* Footer shortcuts hint */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-xs text-[#5c6370]">
+        <div className="flex items-center justify-between px-4 py-2.5 border-t border-line dark:border-night-line bg-paper dark:bg-ink text-xs text-ink-3">
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">↑</kbd>
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">↓</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-night-line border border-line dark:border-night-line-strong font-mono text-xs">↑</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-night-line border border-line dark:border-night-line-strong font-mono text-xs">↓</kbd>
               Naviguer
             </span>
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">↵</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-night-line border border-line dark:border-night-line-strong font-mono text-xs">↵</kbd>
               Ouvrir
             </span>
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs">Esc</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-white dark:bg-night-line border border-line dark:border-night-line-strong font-mono text-xs">Esc</kbd>
               Fermer
             </span>
           </div>
-          <span className="font-semibold text-[#5c6370] dark:text-[#a7adbb]">CC Blanmont Command</span>
+          <span className="font-semibold text-ink-3 dark:text-snow-3">CC Blanmont Command</span>
         </div>
       </div>
     </div>

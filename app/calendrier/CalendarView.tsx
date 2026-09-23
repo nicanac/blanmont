@@ -129,10 +129,10 @@ function AgendaItem({
       className={cn(
         'group relative rounded-lg border transition-all duration-200 flex flex-col md:flex-row md:items-center justify-between gap-5 p-4 sm:p-5',
         isNextRide
-          ? 'bg-white dark:bg-[#161922] border-[#e03e3e]/40 dark:border-[#e03e3e]/50 shadow-xs hover:border-[#e03e3e] hover:shadow-md'
+          ? 'bg-white dark:bg-night-2 border-brand/40 dark:border-brand/50 shadow-xs hover:border-brand hover:shadow-md'
           : isPast
-          ? 'bg-[#faf8f5]/90 dark:bg-[#12151c] border-[#e4e0d8] dark:border-[#222733] hover:border-[#101216]/20 dark:hover:border-white/20'
-          : 'bg-white dark:bg-[#161922] border-[#e4e0d8] dark:border-[#262b38] shadow-xs hover:border-[#e03e3e]/40 hover:shadow-md'
+          ? 'bg-paper/90 dark:bg-night border-line dark:border-night-line hover:border-ink/20 dark:hover:border-white/20'
+          : 'bg-white dark:bg-night-2 border-line dark:border-night-line shadow-xs hover:border-brand/40 hover:shadow-md'
       )}
     >
       {/* Primary Click Target / Accessible Trigger */}
@@ -140,29 +140,29 @@ function AgendaItem({
         type="button"
         onClick={() => onSelectEvent(event)}
         aria-label={`Détails de la sortie ${event.location} le ${fullDateStr}`}
-        className="w-full flex items-start sm:items-center gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] -m-1.5 p-1.5 cursor-pointer min-h-[44px]"
+        className="w-full flex items-start sm:items-center gap-4 sm:gap-5 flex-1 min-w-0 text-left rounded-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand -m-1.5 p-1.5 cursor-pointer min-h-[44px]"
       >
         {/* Date Block: Editorial High-Contrast Badge */}
         <div
           className={cn(
             'flex-none rounded-md w-16 sm:w-20 py-2.5 px-2 text-center flex flex-col items-center justify-center border transition-colors shrink-0',
             isNextRide
-              ? 'bg-[#e03e3e]/10 border-[#e03e3e]/30 text-[#101216] dark:text-white'
+              ? 'bg-brand/10 border-brand/30 text-ink dark:text-white'
               : isToday
-              ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
+              ? 'bg-ink text-white border-ink dark:bg-white dark:text-ink dark:border-white'
               : isWeekend
-              ? 'bg-[#f2efe9] dark:bg-[#1d2128] border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white'
-              : 'bg-[#faf8f5] dark:bg-[#161922] border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb]'
+              ? 'bg-paper-2 dark:bg-night-3 border-line dark:border-night-line text-ink dark:text-white'
+              : 'bg-paper dark:bg-night-2 border-line dark:border-night-line text-ink-3 dark:text-snow-3'
           )}
         >
           <span
             className={cn(
               'text-xs font-extrabold uppercase tracking-wider',
               isToday
-                ? 'text-[#ff6b6b] dark:text-[#e03e3e]'
+                ? 'text-brand-soft dark:text-brand'
                 : isWeekend
-                ? 'text-[#e03e3e]'
-                : 'text-[#5c6370] dark:text-[#a7adbb]'
+                ? 'text-brand'
+                : 'text-ink-3 dark:text-snow-3'
             )}
           >
             {weekdayStr.slice(0, 3)}
@@ -173,7 +173,7 @@ function AgendaItem({
           <span
             className={cn(
               'text-xs font-bold uppercase tracking-wider truncate',
-              isToday ? 'opacity-90' : 'text-[#5c6370] dark:text-[#a7adbb]'
+              isToday ? 'opacity-90' : 'text-ink-3 dark:text-snow-3'
             )}
           >
             {monthStr}
@@ -186,7 +186,7 @@ function AgendaItem({
           <div className="flex flex-wrap items-center gap-2">
             {isNextRide && (
               <span
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e] text-white px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em] shadow-2xs"
+                className="inline-flex items-center gap-1.5 rounded-full bg-brand text-white px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em] shadow-2xs"
                 title="Prochaine sortie officielle au calendrier"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
@@ -196,7 +196,7 @@ function AgendaItem({
 
             {isToday && !isNextRide && (
               <span
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]"
+                className="inline-flex items-center gap-1.5 rounded-full bg-ink dark:bg-white text-white dark:text-ink px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]"
                 title="Sortie programmée aujourd'hui"
               >
                 Aujourd&apos;hui
@@ -205,7 +205,7 @@ function AgendaItem({
 
             {isPast ? (
               <span
-                className="inline-flex items-center rounded-full bg-[#f2efe9] dark:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold"
+                className="inline-flex items-center rounded-full bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-semibold"
                 title="Sortie terminée. Débriefings et statistiques disponibles."
               >
                 Sortie terminée
@@ -213,10 +213,10 @@ function AgendaItem({
             ) : (
               !isNextRide && (
                 <span
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#ff8080] border border-[#e03e3e]/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 text-brand dark:bg-brand/20 dark:text-brand-soft border border-brand/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]"
                   title={isWeekend ? 'Sortie club officielle' : 'Événement spécial / Randonnée extérieure'}
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand" />
                   {isWeekend ? 'Sortie Club' : 'Événement'}
                 </span>
               )
@@ -224,7 +224,7 @@ function AgendaItem({
 
             {event.group && (
               <span
-                className="inline-flex items-center rounded-full bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-medium"
+                className="inline-flex items-center rounded-full bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-medium"
                 title={`Peloton : ${event.group}`}
               >
                 {event.group}
@@ -233,18 +233,18 @@ function AgendaItem({
           </div>
 
           {/* Location Title */}
-          <h3 className="text-base sm:text-lg font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors leading-snug truncate">
+          <h3 className="text-base sm:text-lg font-bold text-ink dark:text-white group-hover:text-brand transition-colors leading-snug truncate">
             {event.location}
           </h3>
 
           {/* Micro-Telemetry Row */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5c6370] dark:text-[#a7adbb]">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-3 dark:text-snow-3">
             <span
               className="inline-flex items-center gap-1.5 shrink-0"
               title="Heure de départ du peloton"
             >
-              <ClockIcon className="h-3.5 w-3.5 text-[#e03e3e] shrink-0" />
-              <span>Départ à <strong className="text-[#101216] dark:text-white font-bold tabular-nums">{event.departure}</strong></span>
+              <ClockIcon className="h-3.5 w-3.5 text-brand shrink-0" />
+              <span>Départ à <strong className="text-ink dark:text-white font-bold tabular-nums">{event.departure}</strong></span>
             </span>
 
             {event.distances && (
@@ -252,8 +252,8 @@ function AgendaItem({
                 className="inline-flex items-center gap-1.5 tabular-nums shrink-0"
                 title="Distance approximative du parcours officiel"
               >
-                <BicycleIcon className="h-3.5 w-3.5 text-[#101216] dark:text-white shrink-0" />
-                <strong className="text-[#101216] dark:text-white font-bold">{event.distances} km</strong>
+                <BicycleIcon className="h-3.5 w-3.5 text-ink dark:text-white shrink-0" />
+                <strong className="text-ink dark:text-white font-bold">{event.distances} km</strong>
               </span>
             )}
 
@@ -262,7 +262,7 @@ function AgendaItem({
                 className="inline-flex items-center gap-1.5 truncate max-w-[220px] sm:max-w-xs md:max-w-sm"
                 title={`Point de rassemblement précis : ${event.address}`}
               >
-                <MapPinIcon className="h-3.5 w-3.5 text-[#5c6370] shrink-0" />
+                <MapPinIcon className="h-3.5 w-3.5 text-ink-3 shrink-0" />
                 <span className="truncate min-w-0">{event.address}</span>
               </span>
             )}
@@ -272,11 +272,11 @@ function AgendaItem({
           {event.alternative && (
             <div className="pt-0.5 max-w-full">
               <span
-                className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-[#faf8f5] dark:bg-[#1d2128] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-1 text-xs text-[#5c6370] dark:text-[#a7adbb]"
+                className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-paper dark:bg-night-3 border border-line dark:border-night-line px-2.5 py-1 text-xs text-ink-3 dark:text-snow-3"
                 title={`Raccourci : ${event.alternative}`}
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500 shrink-0" />
-                <span className="font-semibold text-[#101216] dark:text-white shrink-0 whitespace-nowrap">
+                <span className="font-semibold text-ink dark:text-white shrink-0 whitespace-nowrap">
                   Raccourci&nbsp;:
                 </span>
                 <span className="truncate min-w-0 flex-1">{event.alternative}</span>
@@ -287,7 +287,7 @@ function AgendaItem({
       </button>
 
       {/* Right Deck: Weather & Independent Actions */}
-      <div className="w-full md:w-auto flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-[#e4e0d8] dark:border-[#262b38]">
+      <div className="w-full md:w-auto flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-line dark:border-night-line">
         <div>
           <RideWeatherBadge isoDate={event.isoDate} departure={event.departure} compact={true} />
         </div>
@@ -297,11 +297,11 @@ function AgendaItem({
             <button
               type="button"
               onClick={() => onJumpToMonth(event.isoDate)}
-              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] hover:bg-[#f2efe9] dark:hover:bg-[#262b38] text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold transition-colors shadow-2xs"
+              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 hover:bg-paper-2 dark:hover:bg-night-line text-ink dark:text-white px-3.5 py-2 text-xs font-semibold transition-colors shadow-2xs"
               title={`Afficher le mois complet de ${monthStr} ${dateInfo?.year ?? ''} dans l'agenda`}
               aria-label={`Afficher le mois complet de ${monthStr} ${dateInfo?.year ?? ''} dans l'agenda`}
             >
-              <CalendarDaysIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
+              <CalendarDaysIcon className="h-4 w-4 text-ink-3 dark:text-snow-3" />
               <span className="hidden sm:inline">Aller au mois</span>
             </button>
           )}
@@ -311,11 +311,11 @@ function AgendaItem({
               href={event.gpxUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:border-[#e03e3e]/40 hover:bg-[#faf8f5] dark:hover:bg-[#1f242d] text-[#101216] dark:text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.06em] transition-all shadow-2xs group/gpx"
+              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 hover:border-brand/40 hover:bg-paper dark:hover:bg-night-3 text-ink dark:text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.06em] transition-all shadow-2xs group/gpx"
               title={`Télécharger le tracé GPX pour ${event.location} (Garmin, Wahoo, Strava)`}
               aria-label={`Télécharger le tracé GPX pour ${event.location}`}
             >
-              <ArrowDownTrayIcon className="h-4 w-4 text-[#e03e3e] transition-transform duration-200 group-hover/gpx:translate-y-0.5" />
+              <ArrowDownTrayIcon className="h-4 w-4 text-brand transition-transform duration-200 group-hover/gpx:translate-y-0.5" />
               <span>Trace GPX</span>
             </a>
           )}
@@ -324,14 +324,14 @@ function AgendaItem({
             <button
               type="button"
               onClick={() => onSelectEvent(event)}
-              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-white/5 hover:bg-[#e4e0d8] dark:hover:bg-white/10 px-3 py-2 text-xs font-bold text-[#101216] dark:text-white shadow-2xs transition-colors cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-white/5 hover:bg-line dark:hover:bg-white/10 px-3 py-2 text-xs font-bold text-ink dark:text-white shadow-2xs transition-colors cursor-pointer"
               title={`${attendees.length} membre${attendees.length > 1 ? 's' : ''} inscrit${attendees.length > 1 ? 's' : ''} au départ. Cliquez pour afficher le peloton.`}
               aria-label={`${attendees.length} cycliste${attendees.length > 1 ? 's' : ''} au départ`}
             >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
-              <UserGroupIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
+              <UserGroupIcon className="h-3.5 w-3.5 text-ink-3 dark:text-snow-3" />
               <span className="tabular-nums">{attendees.length}</span>
-              <span className="hidden sm:inline text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">
+              <span className="hidden sm:inline text-xs font-normal text-ink-3 dark:text-snow-3">
                 {attendees.length === 1 ? 'inscrit' : 'inscrits'}
               </span>
             </button>
@@ -341,13 +341,13 @@ function AgendaItem({
             <button
               type="button"
               onClick={() => onSelectEvent(event)}
-              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-white/5 hover:bg-[#e4e0d8] dark:hover:bg-white/10 px-3 py-2 text-xs font-bold text-[#101216] dark:text-white shadow-2xs transition-colors cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-white/5 hover:bg-line dark:hover:bg-white/10 px-3 py-2 text-xs font-bold text-ink dark:text-white shadow-2xs transition-colors cursor-pointer"
               title={`Note moyenne : ${avgRating}/5 (${reviews.length} ${reviews.length > 1 ? 'débriefings' : 'débriefing'}). Cliquez pour consulter les avis.`}
               aria-label={`Note moyenne : ${avgRating} sur 5 (${reviews.length} débriefings)`}
             >
-              <ChatBubbleLeftRightIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+              <ChatBubbleLeftRightIcon className="h-3.5 w-3.5 text-brand" />
               <span className="tabular-nums">{avgRating}/5</span>
-              <span className="hidden sm:inline text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">
+              <span className="hidden sm:inline text-xs font-normal text-ink-3 dark:text-snow-3">
                 ({reviews.length})
               </span>
             </button>
@@ -356,7 +356,7 @@ function AgendaItem({
           {mounted && isAdmin && (
             <Link
               href={`/admin/events/${event.id}/edit`}
-              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors shadow-2xs"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-md border border-line dark:border-night-line hover:bg-paper-2 dark:hover:bg-night-3 text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors shadow-2xs"
               title="Modifier l'événement dans le panneau d'administration"
               aria-label="Modifier l'événement"
             >
@@ -657,19 +657,19 @@ export default function CalendarView({
   return (
     <div className="space-y-6">
       {/* ──── Controls & Filter Toolbar ──── */}
-      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-3.5 sm:p-5 shadow-xs space-y-3.5 sm:space-y-4">
+      <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-3.5 sm:p-5 shadow-xs space-y-3.5 sm:space-y-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Month Title & Nav */}
           <div className="w-full md:w-auto flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#101216] dark:text-white md:min-w-[180px]">
-              {MONTH_NAMES[month]} <span className="text-[#5c6370] dark:text-[#a7adbb] font-normal tabular-nums">{year}</span>
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-ink dark:text-white md:min-w-[180px]">
+              {MONTH_NAMES[month]} <span className="text-ink-3 dark:text-snow-3 font-normal tabular-nums">{year}</span>
             </h2>
 
-            <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/60 dark:bg-[#1d2128] p-0.5 shrink-0">
+            <div className="inline-flex items-center rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3 p-0.5 shrink-0">
               <button
                 type="button"
                 onClick={goToPreviousMonth}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-white dark:hover:bg-[#161922] transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white hover:bg-white dark:hover:bg-night-2 transition-colors"
                 title="Afficher le mois précédent"
                 aria-label="Afficher le mois précédent"
               >
@@ -680,7 +680,7 @@ export default function CalendarView({
                 onClick={goToToday}
                 title="Revenir au mois en cours"
                 aria-label="Revenir au mois en cours (aujourd'hui)"
-                className="min-h-[44px] px-2.5 sm:px-3.5 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-white dark:hover:bg-[#161922] rounded transition-colors flex items-center justify-center"
+                className="min-h-[44px] px-2.5 sm:px-3.5 py-2 text-xs font-semibold text-ink dark:text-white hover:bg-white dark:hover:bg-night-2 rounded transition-colors flex items-center justify-center"
               >
                 <span className="hidden sm:inline">Aujourd&apos;hui</span>
                 <span className="sm:hidden">Auj.</span>
@@ -688,7 +688,7 @@ export default function CalendarView({
               <button
                 type="button"
                 onClick={goToNextMonth}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white hover:bg-white dark:hover:bg-[#161922] transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white hover:bg-white dark:hover:bg-night-2 transition-colors"
                 title="Afficher le mois suivant"
                 aria-label="Afficher le mois suivant"
               >
@@ -701,20 +701,20 @@ export default function CalendarView({
           <div className="w-full md:w-auto flex flex-wrap items-center gap-3">
             {/* Search input across all months */}
             <div className="relative flex-1 min-w-[140px] sm:w-72 sm:flex-none">
-              <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" />
+              <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Rechercher destination, km..."
                 aria-label="Rechercher une sortie par destination, commune, distance ou mois"
-                className="w-full min-h-[44px] pl-10 pr-10 py-2 text-xs rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] focus:bg-white dark:focus:bg-[#161922] focus:outline-none focus:border-[#e03e3e] transition-colors text-[#101216] dark:text-white placeholder:text-[#5c6370] dark:placeholder:text-[#a7adbb]"
+                className="w-full min-h-[44px] pl-10 pr-10 py-2 text-xs rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-3 focus:bg-white dark:focus:bg-night-2 focus:outline-none focus:border-brand transition-colors text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-snow-3"
               />
               {isSearching && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="min-h-[44px] min-w-[44px] absolute right-0 top-0 flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white"
+                  className="min-h-[44px] min-w-[44px] absolute right-0 top-0 flex items-center justify-center text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white"
                   title="Effacer la recherche"
                   aria-label="Effacer le texte de recherche"
                 >
@@ -724,7 +724,7 @@ export default function CalendarView({
             </div>
 
             {/* View Mode Toggle */}
-            <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9]/70 dark:bg-[#1d2128] p-1 shrink-0">
+            <div className="inline-flex items-center rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-3 p-1 shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode('agenda')}
@@ -733,8 +733,8 @@ export default function CalendarView({
                 className={cn(
                   'min-h-[44px] flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold transition-all',
                   viewMode === 'agenda' || isSearching
-                    ? 'bg-white dark:bg-[#161922] text-[#101216] dark:text-white shadow-xs'
-                    : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
+                    ? 'bg-white dark:bg-night-2 text-ink dark:text-white shadow-xs'
+                    : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
                 )}
               >
                 <ListBulletIcon className="h-4 w-4" />
@@ -748,8 +748,8 @@ export default function CalendarView({
                 className={cn(
                   'min-h-[44px] flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-semibold transition-all',
                   viewMode === 'grid' && !isSearching
-                    ? 'bg-white dark:bg-[#161922] text-[#101216] dark:text-white shadow-xs'
-                    : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
+                    ? 'bg-white dark:bg-night-2 text-ink dark:text-white shadow-xs'
+                    : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
                 )}
               >
                 <Squares2X2Icon className="h-4 w-4" />
@@ -760,17 +760,17 @@ export default function CalendarView({
         </div>
 
         {/* Filter Pills */}
-        <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
+        <div className="pt-3 border-t border-line dark:border-night-line space-y-2.5">
           {/* Mobile Filter Header & Reset */}
           <div className="flex items-center justify-between sm:hidden">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
               Filtrer les sorties
             </span>
             {filterType !== 'all' && (
               <button
                 type="button"
                 onClick={() => setFilterType('all')}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline cursor-pointer"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline cursor-pointer"
               >
                 <span>Tous les parcours</span>
                 <XMarkIcon className="h-3.5 w-3.5" />
@@ -779,7 +779,7 @@ export default function CalendarView({
           </div>
 
           <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
-            <span className="hidden sm:inline-block text-xs font-semibold uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] mr-1 shrink-0">
+            <span className="hidden sm:inline-block text-xs font-semibold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3 mr-1 shrink-0">
               Filtrer :
             </span>
 
@@ -791,8 +791,8 @@ export default function CalendarView({
               className={cn(
                 'min-h-[44px] px-3 sm:px-4 py-2 rounded-md text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer border',
                 filterType === 'all'
-                  ? 'bg-[#101216] dark:bg-white text-white dark:text-[#101216] border-[#101216] dark:border-white shadow-xs'
-                  : 'bg-[#faf8f5] dark:bg-[#1d2128] border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white hover:border-[#101216]/30 dark:hover:border-white/30'
+                  ? 'bg-ink dark:bg-white text-white dark:text-ink border-ink dark:border-white shadow-xs'
+                  : 'bg-paper dark:bg-night-3 border-line dark:border-night-line text-ink dark:text-white hover:border-ink/30 dark:hover:border-white/30'
               )}
             >
               <span>Toutes</span>
@@ -800,8 +800,8 @@ export default function CalendarView({
                 className={cn(
                   'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'all'
-                    ? 'bg-white/20 dark:bg-black/20 text-white dark:text-[#101216]'
-                    : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
+                    ? 'bg-white/20 dark:bg-black/20 text-white dark:text-ink'
+                    : 'bg-ink/5 dark:bg-white/10 text-ink-3 dark:text-snow-3'
                 )}
               >
                 {filterCounts.all}
@@ -817,8 +817,8 @@ export default function CalendarView({
               className={cn(
                 'min-h-[44px] px-3 sm:px-4 py-2 rounded-md text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer border',
                 filterType === 'saturday'
-                  ? 'bg-[#e03e3e] text-white border-[#e03e3e] shadow-2xs'
-                  : 'bg-[#faf8f5] dark:bg-[#1d2128] border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white hover:border-[#101216]/30 dark:hover:border-white/30',
+                  ? 'bg-brand text-white border-brand shadow-2xs'
+                  : 'bg-paper dark:bg-night-3 border-line dark:border-night-line text-ink dark:text-white hover:border-ink/30 dark:hover:border-white/30',
                 filterCounts.saturday === 0 && 'opacity-40 cursor-not-allowed'
               )}
             >
@@ -829,7 +829,7 @@ export default function CalendarView({
                   'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'saturday'
                     ? 'bg-white/20 text-white'
-                    : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
+                    : 'bg-ink/5 dark:bg-white/10 text-ink-3 dark:text-snow-3'
                 )}
               >
                 {filterCounts.saturday}
@@ -845,8 +845,8 @@ export default function CalendarView({
               className={cn(
                 'min-h-[44px] px-3 sm:px-4 py-2 rounded-md text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer border',
                 filterType === 'sunday'
-                  ? 'bg-[#e03e3e] text-white border-[#e03e3e] shadow-2xs'
-                  : 'bg-[#faf8f5] dark:bg-[#1d2128] border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white hover:border-[#101216]/30 dark:hover:border-white/30',
+                  ? 'bg-brand text-white border-brand shadow-2xs'
+                  : 'bg-paper dark:bg-night-3 border-line dark:border-night-line text-ink dark:text-white hover:border-ink/30 dark:hover:border-white/30',
                 filterCounts.sunday === 0 && 'opacity-40 cursor-not-allowed'
               )}
             >
@@ -857,7 +857,7 @@ export default function CalendarView({
                   'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'sunday'
                     ? 'bg-white/20 text-white'
-                    : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
+                    : 'bg-ink/5 dark:bg-white/10 text-ink-3 dark:text-snow-3'
                 )}
               >
                 {filterCounts.sunday}
@@ -874,7 +874,7 @@ export default function CalendarView({
                 'min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 rounded-md text-xs font-semibold transition-all cursor-pointer border',
                 filterType === 'gpx'
                   ? 'bg-sky-600 text-white border-sky-600 shadow-2xs'
-                  : 'bg-[#faf8f5] dark:bg-[#1d2128] border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white hover:border-[#101216]/30 dark:hover:border-white/30',
+                  : 'bg-paper dark:bg-night-3 border-line dark:border-night-line text-ink dark:text-white hover:border-ink/30 dark:hover:border-white/30',
                 filterCounts.gpx === 0 && 'opacity-40 cursor-not-allowed'
               )}
             >
@@ -886,7 +886,7 @@ export default function CalendarView({
                   'tabular-nums font-bold px-1.5 py-0.5 rounded-full text-xs sm:text-xs',
                   filterType === 'gpx'
                     ? 'bg-white/20 text-white'
-                    : 'bg-[#101216]/5 dark:bg-white/10 text-[#5c6370] dark:text-[#a7adbb]'
+                    : 'bg-ink/5 dark:bg-white/10 text-ink-3 dark:text-snow-3'
                 )}
               >
                 {filterCounts.gpx}
@@ -898,7 +898,7 @@ export default function CalendarView({
               <button
                 type="button"
                 onClick={() => setFilterType('all')}
-                className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline ml-2 cursor-pointer"
+                className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline ml-2 cursor-pointer"
                 title="Réinitialiser tous les filtres"
               >
                 <span>Effacer le filtre</span>
@@ -912,21 +912,21 @@ export default function CalendarView({
       {/* ──── Active Search Mode: Global Results Across All Months ──── */}
       {isSearching ? (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-lg bg-white dark:bg-night-2 border border-line dark:border-night-line shadow-xs">
             <div className="flex items-center gap-2.5">
-              <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse shrink-0" />
-              <p className="text-xs sm:text-sm text-[#101216] dark:text-white">
-                Recherche globale sur <strong className="font-bold">toute la saison</strong> pour « <span className="font-semibold text-[#e03e3e]">{searchQuery}</span> »
+              <span className="h-2 w-2 rounded-full bg-brand animate-pulse shrink-0" />
+              <p className="text-xs sm:text-sm text-ink dark:text-white">
+                Recherche globale sur <strong className="font-bold">toute la saison</strong> pour « <span className="font-semibold text-brand">{searchQuery}</span> »
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 tabular-nums">
                 {searchedEvents.length} résultat{searchedEvents.length !== 1 ? 's' : ''} trouvé{searchedEvents.length !== 1 ? 's' : ''}
               </span>
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="min-h-[44px] inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline cursor-pointer"
+                className="min-h-[44px] inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline cursor-pointer"
               >
                 <span>Effacer</span>
                 <XMarkIcon className="h-3.5 w-3.5" />
@@ -938,12 +938,12 @@ export default function CalendarView({
             <div className="space-y-8">
               {groupedSearchedEvents.map((grp) => (
                 <div key={grp.monthKey} className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-2">
-                    <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#101216] dark:text-white flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-[#e03e3e]" />
+                  <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-2">
+                    <h3 className="text-xs font-extrabold uppercase tracking-wider text-ink dark:text-white flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-brand" />
                       <span>{grp.monthLabel}</span>
                     </h3>
-                    <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
+                    <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 tabular-nums">
                       {grp.events.length} {grp.events.length === 1 ? 'sortie' : 'sorties'}
                     </span>
                   </div>
@@ -969,19 +969,19 @@ export default function CalendarView({
               ))}
             </div>
           ) : (
-            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-10 sm:p-12 text-center space-y-3 shadow-2xs">
-              <CalendarDaysIcon className="mx-auto h-10 w-10 text-[#5c6370] dark:text-[#a7adbb]" />
-              <h3 className="text-base font-bold text-[#101216] dark:text-white">
+            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-10 sm:p-12 text-center space-y-3 shadow-2xs">
+              <CalendarDaysIcon className="mx-auto h-10 w-10 text-ink-3 dark:text-snow-3" />
+              <h3 className="text-base font-bold text-ink dark:text-white">
                 Aucune sortie ne correspond à votre recherche
               </h3>
-              <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-md mx-auto leading-relaxed">
-                Aucune sortie ne correspond à « <strong className="text-[#101216] dark:text-white font-semibold">{searchQuery}</strong> » sur l&apos;ensemble de la saison 2026. Essayez de chercher un nom de commune (ex : Villers, Namur, Wavre), une distance en km, ou vérifiez l&apos;orthographe.
+              <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3 max-w-md mx-auto leading-relaxed">
+                Aucune sortie ne correspond à « <strong className="text-ink dark:text-white font-semibold">{searchQuery}</strong> » sur l&apos;ensemble de la saison 2026. Essayez de chercher un nom de commune (ex : Villers, Namur, Wavre), une distance en km, ou vérifiez l&apos;orthographe.
               </p>
               <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs cursor-pointer"
                 >
                   <XMarkIcon className="h-4 w-4" />
                   <span>Effacer la recherche</span>
@@ -994,15 +994,15 @@ export default function CalendarView({
         /* ──── Regular Month View (Grid or Agenda) ──── */
         <>
           {viewMode === 'grid' && (
-            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] shadow-xs overflow-hidden">
+            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 shadow-xs overflow-hidden">
               {/* Weekday Header Row */}
-              <div className="grid grid-cols-7 border-b border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] text-center text-xs font-bold uppercase tracking-[0.06em] text-[#5c6370] dark:text-[#a7adbb]">
+              <div className="grid grid-cols-7 border-b border-line dark:border-night-line bg-paper-2 dark:bg-night-3 text-center text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">
                 {WEEKDAY_NAMES.map((wd, i) => (
                   <div
                     key={i}
                     className={cn(
-                      'py-2 sm:py-3 border-r border-[#e4e0d8] dark:border-[#262b38] last:border-r-0',
-                      wd.isWeekend ? 'text-[#e03e3e] bg-[#ede8e1] dark:bg-[#222734]' : ''
+                      'py-2 sm:py-3 border-r border-line dark:border-night-line last:border-r-0',
+                      wd.isWeekend ? 'text-brand bg-paper-2 dark:bg-night-3' : ''
                     )}
                   >
                     <span className="hidden sm:inline">{wd.full}</span>
@@ -1012,7 +1012,7 @@ export default function CalendarView({
               </div>
 
               {/* Month Calendar Grid (7 columns) */}
-              <div className="grid grid-cols-7 divide-x divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
+              <div className="grid grid-cols-7 divide-x divide-y divide-line dark:divide-night-line">
                 {allCalendarDays.map((cell, idx) => {
                   const dayEvents = cell.currentMonth
                     ? monthEvents.filter((e) => e.isoDate === cell.dateStr)
@@ -1026,9 +1026,9 @@ export default function CalendarView({
                         'min-h-[85px] sm:min-h-[135px] p-1 sm:p-2.5 transition-colors flex flex-col justify-between',
                         cell.currentMonth
                           ? cell.isWeekend
-                            ? 'bg-[#fbf9f6] dark:bg-[#161922]/90'
-                            : 'bg-white dark:bg-[#161922]'
-                          : 'bg-[#f5f3ef]/60 dark:bg-[#0a0c10]/50 opacity-40 select-none'
+                            ? 'bg-paper dark:bg-night-2/90'
+                            : 'bg-white dark:bg-night-2'
+                          : 'bg-paper/60 dark:bg-night/50 opacity-40 select-none'
                       )}
                     >
                       {/* Day number header */}
@@ -1037,17 +1037,17 @@ export default function CalendarView({
                           className={cn(
                             'text-xs font-bold tabular-nums inline-flex items-center justify-center',
                             isToday
-                              ? 'h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#e03e3e] text-white shadow-xs text-xs sm:text-xs'
+                              ? 'h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-brand text-white shadow-xs text-xs sm:text-xs'
                               : cell.isWeekend
-                              ? 'text-[#101216] dark:text-white'
-                              : 'text-[#5c6370] dark:text-[#a7adbb]'
+                              ? 'text-ink dark:text-white'
+                              : 'text-ink-3 dark:text-snow-3'
                           )}
                         >
                           {cell.day}
                         </span>
 
                         {dayEvents.length > 0 && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-brand" />
                         )}
                       </div>
 
@@ -1061,7 +1061,7 @@ export default function CalendarView({
                               type="button"
                               onClick={() => setSelectedEvent(event)}
                               aria-label={`Détails de la sortie ${event.location} à ${event.departure}`}
-                              className="w-full text-left rounded p-2 sm:p-1.5 min-h-[44px] sm:min-h-0 bg-[#f2efe9] dark:bg-[#1d2128] text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#e03e3e] hover:text-white hover:border-[#e03e3e] transition-colors group/ev flex flex-col justify-center shadow-2xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] cursor-pointer"
+                              className="w-full text-left rounded p-2 sm:p-1.5 min-h-[44px] sm:min-h-0 bg-paper-2 dark:bg-night-3 text-ink dark:text-white border border-line dark:border-night-line hover:bg-brand hover:text-white hover:border-brand transition-colors group/ev flex flex-col justify-center shadow-2xs focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand cursor-pointer"
                             >
                               <div className="flex items-center justify-between gap-1">
                                 <span className="font-bold text-xs sm:text-xs truncate leading-tight">
@@ -1117,12 +1117,12 @@ export default function CalendarView({
                   ))}
                 </ul>
               ) : (
-                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-10 sm:p-12 text-center space-y-3 shadow-2xs">
-                  <CalendarDaysIcon className="mx-auto h-10 w-10 text-[#5c6370] dark:text-[#a7adbb]" />
-                  <h3 className="text-base font-bold text-[#101216] dark:text-white">
+                <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-10 sm:p-12 text-center space-y-3 shadow-2xs">
+                  <CalendarDaysIcon className="mx-auto h-10 w-10 text-ink-3 dark:text-snow-3" />
+                  <h3 className="text-base font-bold text-ink dark:text-white">
                     {filterType !== 'all' ? 'Aucune sortie pour ce filtre' : 'Aucune sortie programmée ce mois-ci'}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-md mx-auto leading-relaxed">
+                  <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3 max-w-md mx-auto leading-relaxed">
                     {filterType !== 'all'
                       ? `Aucune sortie ne correspond au filtre sélectionné pour ${MONTH_NAMES[month]} ${year}. Réinitialisez les filtres pour consulter l'ensemble des rendez-vous.`
                       : `Aucun rassemblement n'est encore inscrit au calendrier officiel pour ${MONTH_NAMES[month]} ${year}.`}
@@ -1132,7 +1132,7 @@ export default function CalendarView({
                       <button
                         type="button"
                         onClick={() => setFilterType('all')}
-                        className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] hover:border-[#e03e3e] text-xs font-semibold text-[#e03e3e] transition-colors cursor-pointer"
+                        className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-3 hover:border-brand text-xs font-semibold text-brand transition-colors cursor-pointer"
                       >
                         Afficher toutes les sorties de {MONTH_NAMES[month]} {year}
                       </button>
@@ -1142,7 +1142,7 @@ export default function CalendarView({
                       <button
                         type="button"
                         onClick={goToToday}
-                        className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+                        className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-md bg-ink dark:bg-white text-white dark:text-ink text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                       >
                         Revenir au mois en cours
                       </button>

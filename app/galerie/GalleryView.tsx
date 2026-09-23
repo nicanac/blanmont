@@ -198,56 +198,56 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
   return (
     <div className="space-y-8">
       {/* ── Editorial Telemetry Strip ── */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 sm:p-6 bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] shadow-xs">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 sm:p-6 bg-white dark:bg-night-2 rounded-[10px] border border-line dark:border-night-line shadow-xs">
         <div className="space-y-1">
-          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
             Clichés Numérisés
           </span>
-          <p className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums">
+          <p className="text-2xl sm:text-3xl font-extrabold text-ink dark:text-white tabular-nums">
             {stats.totalPhotos.toLocaleString('fr-FR')}
           </p>
         </div>
 
-        <div className="space-y-1 md:border-l md:border-[#e4e0d8] dark:md:border-[#262b38] md:pl-6">
-          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+        <div className="space-y-1 md:border-l md:border-line dark:md:border-night-line md:pl-6">
+          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
             Chroniques &amp; Albums
           </span>
-          <p className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums">
+          <p className="text-2xl sm:text-3xl font-extrabold text-ink dark:text-white tabular-nums">
             {stats.totalAlbums}
           </p>
         </div>
 
-        <div className="space-y-1 border-t border-[#e4e0d8] pt-3 sm:pt-0 sm:border-t-0 md:border-l md:border-[#e4e0d8] dark:border-[#262b38] dark:md:border-[#262b38] md:pl-6">
-          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+        <div className="space-y-1 border-t border-line pt-3 sm:pt-0 sm:border-t-0 md:border-l md:border-line dark:border-night-line dark:md:border-night-line md:pl-6">
+          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
             Saisons Archivées
           </span>
-          <p className="text-2xl sm:text-3xl font-extrabold text-[#e03e3e] tabular-nums">
-            {stats.seasonsCount} <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] uppercase">saisons</span>
+          <p className="text-2xl sm:text-3xl font-extrabold text-brand tabular-nums">
+            {stats.seasonsCount} <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 uppercase">saisons</span>
           </p>
         </div>
 
-        <div className="space-y-1 border-t border-[#e4e0d8] pt-3 sm:pt-0 sm:border-t-0 md:border-l md:border-[#e4e0d8] dark:border-[#262b38] dark:md:border-[#262b38] md:pl-6">
-          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+        <div className="space-y-1 border-t border-line pt-3 sm:pt-0 sm:border-t-0 md:border-l md:border-line dark:border-night-line dark:md:border-night-line md:pl-6">
+          <span className="text-[0.75rem] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
             Événements Clés
           </span>
-          <p className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums">
-            {stats.featuredCount} <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] uppercase">à la une</span>
+          <p className="text-2xl sm:text-3xl font-extrabold text-ink dark:text-white tabular-nums">
+            {stats.featuredCount} <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 uppercase">à la une</span>
           </p>
         </div>
       </div>
 
       {/* ── Multi-Filter & Search Toolbar ── */}
-      <div className="p-5 sm:p-6 bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] shadow-xs space-y-5">
+      <div className="p-5 sm:p-6 bg-white dark:bg-night-2 rounded-[10px] border border-line dark:border-night-line shadow-xs space-y-5">
         {/* Row 1: Search & Sort */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full">
           <div className="relative flex-1 w-full">
-            <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] pointer-events-none" />
+            <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder="Rechercher une sortie, un col, un lieu, un mot-clé (ex. Riccione, Blanmontoise, Bastogne)..."
-              className="w-full pl-10 pr-10 py-2.5 min-h-[44px] text-xs sm:text-sm bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] rounded-md text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:outline-none focus:ring-2 focus:ring-[#e03e3e]/20 focus:border-[#e03e3e] transition-colors"
+              className="w-full pl-10 pr-10 py-2.5 min-h-[44px] text-xs sm:text-sm bg-paper dark:bg-night border border-line dark:border-night-line rounded-md text-ink dark:text-white placeholder-ink-3 dark:placeholder-snow-3 focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
             />
             {searchQuery && (
               <button
@@ -257,7 +257,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   setVisibleCount(PAGE_SIZE);
                 }}
                 aria-label="Effacer la recherche"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white transition-colors cursor-pointer"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-white transition-colors cursor-pointer"
               >
                 <XMarkIcon className="h-4 w-4" />
               </button>
@@ -265,15 +265,15 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <div className="flex items-center gap-2 px-3 py-1 bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] rounded-md min-h-[44px] w-full sm:w-auto">
-              <ArrowsUpDownIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
-              <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] shrink-0">
+            <div className="flex items-center gap-2 px-3 py-1 bg-paper dark:bg-night border border-line dark:border-night-line rounded-md min-h-[44px] w-full sm:w-auto">
+              <ArrowsUpDownIcon className="h-4 w-4 text-ink-3 dark:text-snow-3 shrink-0" />
+              <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 shrink-0">
                 Trier :
               </span>
               <select
                 value={sortBy}
                 onChange={handleSortChange}
-                className="py-1.5 pr-2 text-xs font-semibold bg-transparent text-[#101216] dark:text-white focus:outline-none cursor-pointer"
+                className="py-1.5 pr-2 text-xs font-semibold bg-transparent text-ink dark:text-white focus:outline-none cursor-pointer"
               >
                 <option value="recent">Plus récents d&apos;abord</option>
                 <option value="oldest">Plus anciens d&apos;abord</option>
@@ -284,9 +284,9 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
         </div>
 
         {/* Row 2: Seasons */}
-        <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-            <CalendarDaysIcon className="h-4 w-4 text-[#e03e3e]" />
+        <div className="pt-4 border-t border-line dark:border-night-line space-y-2.5">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
+            <CalendarDaysIcon className="h-4 w-4 text-brand" />
             <span>Saison :</span>
           </div>
 
@@ -296,16 +296,16 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               onClick={() => handleSelectYear('all')}
               className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold shrink-0 transition-all cursor-pointer ${
                 selectedYear === 'all'
-                  ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216] shadow-xs'
-                  : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#0a0c10] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
+                  ? 'bg-ink text-white dark:bg-white dark:text-ink shadow-xs'
+                  : 'bg-paper text-ink-3 hover:text-ink border border-line dark:bg-night dark:text-snow-3 dark:hover:text-white dark:border-night-line'
               }`}
             >
               <span>Toutes les saisons</span>
               <span
                 className={`px-1.5 py-0.5 rounded-xs text-[0.65rem] tabular-nums font-bold ${
                   selectedYear === 'all'
-                    ? 'bg-white/20 text-white dark:bg-black/10 dark:text-[#101216]'
-                    : 'bg-[#efece5] dark:bg-[#1e222d] text-[#5c6370] dark:text-[#a7adbb]'
+                    ? 'bg-white/20 text-white dark:bg-black/10 dark:text-ink'
+                    : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3'
                 }`}
               >
                 {stats.totalAlbums}
@@ -322,8 +322,8 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   onClick={() => handleSelectYear(yr)}
                   className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold shrink-0 transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#e03e3e] text-white shadow-xs'
-                      : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#0a0c10] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
+                      ? 'bg-brand text-white shadow-xs'
+                      : 'bg-paper text-ink-3 hover:text-ink border border-line dark:bg-night dark:text-snow-3 dark:hover:text-white dark:border-night-line'
                   }`}
                 >
                   <span>{yr}</span>
@@ -331,7 +331,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                     className={`px-1.5 py-0.5 rounded-xs text-[0.65rem] tabular-nums font-bold ${
                       isSelected
                         ? 'bg-black/20 text-white'
-                        : 'bg-[#efece5] dark:bg-[#1e222d] text-[#5c6370] dark:text-[#a7adbb]'
+                        : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3'
                     }`}
                   >
                     {yrCount}
@@ -343,9 +343,9 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
         </div>
 
         {/* Row 3: Categories */}
-        <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-            <TagIcon className="h-4 w-4 text-[#e03e3e]" />
+        <div className="pt-4 border-t border-line dark:border-night-line space-y-2.5">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
+            <TagIcon className="h-4 w-4 text-brand" />
             <span>Thème :</span>
           </div>
 
@@ -360,16 +360,16 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   onClick={() => handleSelectCategory(cat)}
                   className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-semibold shrink-0 transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216] shadow-xs'
-                      : 'bg-[#faf8f5] text-[#5c6370] hover:text-[#101216] border border-[#e4e0d8] dark:bg-[#0a0c10] dark:text-[#a7adbb] dark:hover:text-white dark:border-[#262b38]'
+                      ? 'bg-ink text-white dark:bg-white dark:text-ink shadow-xs'
+                      : 'bg-paper text-ink-3 hover:text-ink border border-line dark:bg-night dark:text-snow-3 dark:hover:text-white dark:border-night-line'
                   }`}
                 >
                   <span>{cat === 'all' ? 'Tous les thèmes' : cat}</span>
                   <span
                     className={`px-1.5 py-0.5 rounded-xs text-[0.65rem] tabular-nums font-bold ${
                       isSelected
-                        ? 'bg-white/20 text-white dark:bg-black/10 dark:text-[#101216]'
-                        : 'bg-[#efece5] dark:bg-[#1e222d] text-[#5c6370] dark:text-[#a7adbb]'
+                        ? 'bg-white/20 text-white dark:bg-black/10 dark:text-ink'
+                        : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3'
                     }`}
                   >
                     {count}
@@ -382,19 +382,19 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
         {/* Active Filters Pill Bar */}
         {(selectedYear !== 'all' || selectedCategory !== 'all' || searchQuery) && (
-          <div className="pt-4 border-t border-[#e4e0d8] dark:border-[#262b38] flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="pt-4 border-t border-line dark:border-night-line flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-bold text-[#5c6370] dark:text-[#a7adbb] uppercase tracking-wider text-[0.7rem]">
+              <span className="font-bold text-ink-3 dark:text-snow-3 uppercase tracking-wider text-[0.7rem]">
                 Filtres actifs :
               </span>
 
               {selectedYear !== 'all' && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#e03e3e]/10 text-[#e03e3e] font-semibold border border-[#e03e3e]/20">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand/10 text-brand font-semibold border border-brand/20">
                   <span>Saison {selectedYear}</span>
                   <button
                     type="button"
                     onClick={() => handleSelectYear('all')}
-                    className="hover:text-[#c93434] p-0.5 cursor-pointer"
+                    className="hover:text-brand-strong p-0.5 cursor-pointer"
                     aria-label="Retirer le filtre de saison"
                   >
                     <XMarkIcon className="h-3.5 w-3.5" />
@@ -403,7 +403,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               )}
 
               {selectedCategory !== 'all' && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#101216]/10 dark:bg-white/10 text-[#101216] dark:text-white font-semibold border border-[#101216]/20 dark:border-white/20">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ink/10 dark:bg-white/10 text-ink dark:text-white font-semibold border border-ink/20 dark:border-white/20">
                   <span>{selectedCategory}</span>
                   <button
                     type="button"
@@ -417,7 +417,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               )}
 
               {searchQuery && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#101216]/10 dark:bg-white/10 text-[#101216] dark:text-white font-semibold border border-[#101216]/20 dark:border-white/20">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ink/10 dark:bg-white/10 text-ink dark:text-white font-semibold border border-ink/20 dark:border-white/20">
                   <span>&ldquo;{searchQuery}&rdquo;</span>
                   <button
                     type="button"
@@ -437,7 +437,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
             <button
               type="button"
               onClick={handleResetFilters}
-              className="text-xs font-bold uppercase tracking-wider text-[#e03e3e] hover:text-[#c93434] hover:underline cursor-pointer min-h-[44px] inline-flex items-center"
+              className="text-xs font-bold uppercase tracking-wider text-brand hover:text-brand-strong hover:underline cursor-pointer min-h-[44px] inline-flex items-center"
             >
               Réinitialiser tous les filtres
             </button>
@@ -446,20 +446,20 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       </div>
 
       {/* ── Active Filters Summary ── */}
-      <div className="flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb] px-1">
+      <div className="flex items-center justify-between text-xs text-ink-3 dark:text-snow-3 px-1">
         <p>
-          Affichage de <span className="font-bold text-[#101216] dark:text-white tabular-nums">{visibleAlbums.length}</span> sur{' '}
-          <span className="font-bold text-[#101216] dark:text-white tabular-nums">{filteredAlbums.length}</span> chroniques
-          {selectedYear !== 'all' && <> · Saison <strong className="text-[#e03e3e]">{selectedYear}</strong></>}
-          {selectedCategory !== 'all' && <> · Thème <strong className="text-[#101216] dark:text-white">{selectedCategory}</strong></>}
-          {searchQuery && <> · Recherche : &ldquo;<strong className="text-[#101216] dark:text-white">{searchQuery}</strong>&rdquo;</>}
+          Affichage de <span className="font-bold text-ink dark:text-white tabular-nums">{visibleAlbums.length}</span> sur{' '}
+          <span className="font-bold text-ink dark:text-white tabular-nums">{filteredAlbums.length}</span> chroniques
+          {selectedYear !== 'all' && <> · Saison <strong className="text-brand">{selectedYear}</strong></>}
+          {selectedCategory !== 'all' && <> · Thème <strong className="text-ink dark:text-white">{selectedCategory}</strong></>}
+          {searchQuery && <> · Recherche : &ldquo;<strong className="text-ink dark:text-white">{searchQuery}</strong>&rdquo;</>}
         </p>
 
         {(selectedYear !== 'all' || selectedCategory !== 'all' || searchQuery) && (
           <button
             type="button"
             onClick={handleResetFilters}
-            className="font-semibold text-[#e03e3e] hover:underline cursor-pointer min-h-[44px] inline-flex items-center"
+            className="font-semibold text-brand hover:underline cursor-pointer min-h-[44px] inline-flex items-center"
           >
             Réinitialiser les filtres
           </button>
@@ -468,20 +468,20 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
       {/* ── Albums Grid ── */}
       {filteredAlbums.length === 0 ? (
-        <div className="bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] p-12 text-center space-y-4">
-          <FunnelIcon className="h-10 w-10 text-[#a7adbb] dark:text-[#5c6370] mx-auto" />
+        <div className="bg-white dark:bg-night-2 rounded-[10px] border border-line dark:border-night-line p-12 text-center space-y-4">
+          <FunnelIcon className="h-10 w-10 text-snow-3 dark:text-ink-3 mx-auto" />
           <div className="space-y-1">
-            <p className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">
+            <p className="text-base font-bold text-ink dark:text-snow">
               Aucun album ne correspond à votre recherche.
             </p>
-            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-md mx-auto">
+            <p className="text-xs text-ink-3 dark:text-snow-3 max-w-md mx-auto">
               Modifiez vos mots-clés ou sélectionnez une autre saison pour explorer les 149 chroniques du club.
             </p>
           </div>
           <button
             type="button"
             onClick={handleResetFilters}
-            className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] rounded-md bg-[#101216] hover:bg-[#242938] dark:bg-[#e03e3e] dark:hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] rounded-md bg-ink hover:bg-night-3 dark:bg-brand dark:hover:bg-brand-strong text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
           >
             Voir tous les albums
           </button>
@@ -491,11 +491,11 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
           {visibleAlbums.map((album) => (
             <article
               key={album.id}
-              className="group bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden flex flex-col shadow-xs hover:border-[#cfc9be] dark:hover:border-[#3a3f4a] hover:shadow-md transition-all duration-300"
+              className="group bg-white dark:bg-night-2 rounded-[10px] border border-line dark:border-night-line overflow-hidden flex flex-col shadow-xs hover:border-line-strong dark:hover:border-ink-2 hover:shadow-md transition-all duration-300"
             >
               {/* Cover Image Container */}
               <div
-                className="relative aspect-16/10 w-full bg-[#161922] overflow-hidden cursor-pointer"
+                className="relative aspect-16/10 w-full bg-night-2 overflow-hidden cursor-pointer"
                 onClick={() => setActiveModalAlbum(album)}
               >
                 <Image
@@ -509,10 +509,10 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
                 {/* Overlays: Year & Category */}
                 <div className="absolute top-3 left-3 flex items-center gap-1.5 z-10">
-                  <span className="px-2 py-0.5 rounded-full bg-[#101216]/90 backdrop-blur-xs text-white text-[0.7rem] font-bold tracking-wider uppercase">
+                  <span className="px-2 py-0.5 rounded-full bg-ink/90 backdrop-blur-xs text-white text-[0.7rem] font-bold tracking-wider uppercase">
                     {album.year}
                   </span>
-                  <span className="px-2 py-0.5 rounded-full bg-white/90 dark:bg-[#161922]/90 backdrop-blur-xs text-[#101216] dark:text-white text-[0.7rem] font-bold tracking-wider">
+                  <span className="px-2 py-0.5 rounded-full bg-white/90 dark:bg-night-2/90 backdrop-blur-xs text-ink dark:text-white text-[0.7rem] font-bold tracking-wider">
                     {album.category}
                   </span>
                 </div>
@@ -527,7 +527,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
                 {album.featured && (
                   <div className="absolute bottom-3 left-3 z-10">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#e03e3e] text-white text-[0.7rem] font-bold uppercase tracking-wider shadow-sm">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-brand text-white text-[0.7rem] font-bold uppercase tracking-wider shadow-sm">
                       <SparklesIcon className="h-3 w-3" />
                       À la Une
                     </span>
@@ -539,21 +539,21 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
               <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
                   <h2
-                    className="text-base font-bold text-[#101216] dark:text-[#f5f6f8] leading-snug cursor-pointer group-hover:text-[#e03e3e] transition-colors"
+                    className="text-base font-bold text-ink dark:text-snow leading-snug cursor-pointer group-hover:text-brand transition-colors"
                     onClick={() => setActiveModalAlbum(album)}
                   >
                     {album.title}
                   </h2>
-                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-ink-3 dark:text-snow-3 line-clamp-2 leading-relaxed">
                     {album.description}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-[#efece5] dark:border-[#262b38] flex items-center justify-between gap-2">
+                <div className="pt-3 border-t border-paper-2 dark:border-night-line flex items-center justify-between gap-2">
                   <button
                     type="button"
                     onClick={() => setActiveModalAlbum(album)}
-                    className="inline-flex items-center justify-center px-3.5 py-2 min-h-[44px] rounded-md bg-[#faf8f5] hover:bg-[#f2efe9] dark:bg-[#1e222d] dark:hover:bg-[#262b38] text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] border border-[#e4e0d8] dark:border-[#262b38] transition-colors cursor-pointer"
+                    className="inline-flex items-center justify-center px-3.5 py-2 min-h-[44px] rounded-md bg-paper hover:bg-paper-2 dark:bg-night-3 dark:hover:bg-night-line text-xs font-semibold text-ink dark:text-snow border border-line dark:border-night-line transition-colors cursor-pointer"
                   >
                     Explorer ({album.photoCount})
                   </button>
@@ -563,7 +563,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                       href={album.externalAlbumUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-bold text-[#e03e3e] hover:underline px-2 py-2 min-h-[44px]"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline px-2 py-2 min-h-[44px]"
                     >
                       <span>Google Photos</span>
                       <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
@@ -582,7 +582,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
           <button
             type="button"
             onClick={handleLoadMore}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-md bg-white dark:bg-[#161922] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-[#262b38] text-xs font-bold uppercase tracking-wider shadow-xs hover:border-[#cfc9be] dark:hover:border-[#3a3f4a] transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-md bg-white dark:bg-night-2 hover:bg-paper dark:hover:bg-night-3 text-ink dark:text-white border border-line dark:border-night-line text-xs font-bold uppercase tracking-wider shadow-xs hover:border-line-strong dark:hover:border-ink-2 transition-all cursor-pointer"
           >
             <span>Afficher plus d&apos;albums ({filteredAlbums.length - visibleCount} restants)</span>
             <ChevronDownIcon className="h-4 w-4" />
@@ -591,19 +591,19 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       )}
 
       {/* ── Community Contribution Callout ── */}
-      <div className="rounded-[10px] border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div className="rounded-[10px] border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">
+          <h3 className="text-base font-bold text-ink dark:text-snow">
             Vous avez immortalisé une sortie du peloton ?
           </h3>
-          <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed max-w-2xl">
+          <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed max-w-2xl">
             Partagez vos photos avec le club. Les clichés sélectionnés enrichiront les archives officielles de la saison
             et seront mis à l&apos;honneur sur les réseaux du CC Saint-Martin Blanmont.
           </p>
         </div>
         <a
           href="mailto:contact@cc-blanmont.be?subject=Photos%20Sortie%20CC%20Blanmont"
-          className="inline-flex items-center justify-center px-5 py-2.5 rounded-md bg-[#101216] hover:bg-[#242938] dark:bg-[#e03e3e] dark:hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-xs min-h-[44px]"
+          className="inline-flex items-center justify-center px-5 py-2.5 rounded-md bg-ink hover:bg-night-3 dark:bg-brand dark:hover:bg-brand-strong text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-xs min-h-[44px]"
         >
           Transmettre des photos
         </a>
@@ -616,27 +616,27 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-3 sm:p-6"
         >
-          <div className="bg-white dark:bg-[#161922] rounded-[10px] border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl animate-in zoom-in-95">
+          <div className="bg-white dark:bg-night-2 rounded-[10px] border border-line dark:border-night-line overflow-hidden w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl animate-in zoom-in-95">
             {/* Modal Header */}
-            <div className="p-4 sm:p-6 border-b border-[#e4e0d8] dark:border-[#262b38] flex items-start justify-between gap-4">
+            <div className="p-4 sm:p-6 border-b border-line dark:border-night-line flex items-start justify-between gap-4">
               <div className="space-y-1.5 max-w-3xl">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#e03e3e]/10 text-[#e03e3e] text-xs font-bold uppercase tracking-wider">
+                  <span className="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
                     Saison {activeModalAlbum.year}
                   </span>
-                  <span className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1">
+                  <span className="text-xs font-medium text-ink-3 dark:text-snow-3 flex items-center gap-1">
                     <CalendarDaysIcon className="h-3.5 w-3.5" />
                     {activeModalAlbum.category}
                   </span>
-                  <span className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
+                  <span className="text-xs font-medium text-ink-3 dark:text-snow-3 tabular-nums">
                     · {activeImages.length} clichés
                   </span>
                 </div>
-                <h3 className="text-lg sm:text-2xl font-bold text-[#101216] dark:text-[#f5f6f8] leading-tight">
+                <h3 className="text-lg sm:text-2xl font-bold text-ink dark:text-snow leading-tight">
                   {activeModalAlbum.title}
                 </h3>
                 {activeModalAlbum.description && (
-                  <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed line-clamp-2">
+                  <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3 leading-relaxed line-clamp-2">
                     {activeModalAlbum.description}
                   </p>
                 )}
@@ -646,7 +646,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 type="button"
                 onClick={() => setActiveModalAlbum(null)}
                 aria-label="Fermer l'album"
-                className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md bg-[#faf8f5] hover:bg-[#f2efe9] dark:bg-[#1e222d] dark:hover:bg-[#262b38] text-[#101216] dark:text-white border border-[#e4e0d8] dark:border-[#262b38] transition-colors cursor-pointer shrink-0"
+                className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md bg-paper hover:bg-paper-2 dark:bg-night-3 dark:hover:bg-night-line text-ink dark:text-white border border-line dark:border-night-line transition-colors cursor-pointer shrink-0"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -656,7 +656,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
             <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {activeImages.length > 0 ? (
                 <div>
-                  <p className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-3">
+                  <p className="text-xs font-semibold text-ink-3 dark:text-snow-3 mb-3">
                     Cliquez sur une photo pour l&apos;agrandir en plein écran :
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3">
@@ -664,7 +664,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                       <div
                         key={imgUrl + idx}
                         onClick={() => setLightboxIndex(idx)}
-                        className="group relative aspect-4/3 rounded-md overflow-hidden bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] cursor-pointer hover:border-[#e03e3e] transition-colors"
+                        className="group relative aspect-4/3 rounded-md overflow-hidden bg-night border border-line dark:border-night-line cursor-pointer hover:border-brand transition-colors"
                       >
                         <Image
                           src={imgUrl}
@@ -684,15 +684,15 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12 text-sm text-[#5c6370]">
+                <div className="text-center py-12 text-sm text-ink-3">
                   Aucune photo supplémentaire dans cet album.
                 </div>
               )}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 sm:p-6 border-t border-[#e4e0d8] dark:border-[#262b38] flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#faf8f5] dark:bg-[#101216]">
-              <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] order-2 sm:order-1">
+            <div className="p-4 sm:p-6 border-t border-line dark:border-night-line flex flex-col sm:flex-row items-center justify-between gap-3 bg-paper dark:bg-ink">
+              <span className="text-xs text-ink-3 dark:text-snow-3 order-2 sm:order-1">
                 Archives officielles du CC Saint-Martin Blanmont
               </span>
 
@@ -700,7 +700,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 <button
                   type="button"
                   onClick={() => setActiveModalAlbum(null)}
-                  className="px-4 py-2 min-h-[44px] inline-flex items-center justify-center text-xs font-semibold text-[#5c6370] hover:text-[#101216] dark:text-[#a7adbb] dark:hover:text-white cursor-pointer"
+                  className="px-4 py-2 min-h-[44px] inline-flex items-center justify-center text-xs font-semibold text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-white cursor-pointer"
                 >
                   Fermer
                 </button>
@@ -710,7 +710,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                     href={activeModalAlbum.externalAlbumUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-colors min-h-[44px]"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-brand hover:bg-brand-strong text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-colors min-h-[44px]"
                   >
                     <span>Ouvrir sur Google Photos HD</span>
                     <ArrowTopRightOnSquareIcon className="h-4 w-4" />
@@ -815,7 +815,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                     aria-label={`Aller à la photo ${i + 1}`}
                     className={`relative w-12 h-9 sm:w-16 sm:h-11 rounded-xs overflow-hidden shrink-0 transition-all cursor-pointer min-h-[36px] ${
                       lightboxIndex === i
-                        ? 'ring-2 ring-[#e03e3e] scale-105 opacity-100'
+                        ? 'ring-2 ring-brand scale-105 opacity-100'
                         : 'opacity-40 hover:opacity-80'
                     }`}
                   >

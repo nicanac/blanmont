@@ -24,6 +24,7 @@ import EquipmentIllustration from '@/app/(public)/le-club/equipement/EquipmentIl
 import GobikSizeGuide from '@/app/components/equipment/GobikSizeGuide';
 import { useAuth } from '@/app/context/AuthContext';
 import { toast } from 'sonner';
+import { SheetHeader } from '@/app/components/carte/SheetHeader';
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -126,49 +127,46 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
   const mailtoUrl = `mailto:info@blanmont.be?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(getOrderSummaryText())}`;
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
-      {/* ──── Header & Breadcrumb ──── */}
-      <header className="relative border-b border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] transition-colors">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="space-y-1">
-              <Link
-                href="/le-club/equipement"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-[#e03e3e] dark:hover:text-[#e03e3e] transition-colors mb-2"
-              >
-                <ArrowLeftIcon className="h-3.5 w-3.5" />
-                <span>Retour au catalogue des tenues</span>
-              </Link>
-              <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-[#101216] dark:text-white">
-                Bon de Commande &amp; <span className="text-[#e03e3e] italic">Checkout Club</span>
-              </h1>
-              <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">
-                Réservation des équipements officiels Gobik Spain du Cyclo Club Saint-Martin Blanmont.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleShareLink}
-                className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2 min-h-[44px] text-xs font-semibold text-[#101216] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
-              >
-                {copiedLink ? (
-                  <>
-                    <ClipboardDocumentCheckIcon className="h-4 w-4 text-[#e03e3e]" />
-                    <span className="text-[#e03e3e]">Lien copié</span>
-                  </>
-                ) : (
-                  <>
-                    <ShareIcon className="h-4 w-4 text-[#5c6370]" />
-                    <span>Partager le lien</span>
-                  </>
-                )}
-              </button>
-            </div>
+    <main className="min-h-screen bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200">
+      <SheetHeader
+        sheet="Bon de Commande"
+        focus={{ x: 55, y: 44 }}
+        title="Bon de commande club"
+        description="Réservation des équipements officiels Gobik Spain du Cyclo Club Saint-Martin Blanmont."
+        legend={[
+          { term: 'Catalogue', value: `${equipmentList.length} articles` },
+          { term: 'Partenaire', value: 'GOBIK Spain' },
+          { term: 'Distribution', value: 'Place de Blanmont' },
+        ]}
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/le-club/equipement"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3.5 py-2 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink dark:text-snow hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
+            >
+              <ArrowLeftIcon className="h-3.5 w-3.5" />
+              <span>Catalogue</span>
+            </Link>
+            <button
+              type="button"
+              onClick={handleShareLink}
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3.5 py-2 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink dark:text-snow hover:bg-paper-2 dark:hover:bg-night-3 transition-colors cursor-pointer"
+            >
+              {copiedLink ? (
+                <>
+                  <ClipboardDocumentCheckIcon className="h-4 w-4 text-brand" />
+                  <span className="text-brand">Lien copié</span>
+                </>
+              ) : (
+                <>
+                  <ShareIcon className="h-4 w-4 text-ink-3 dark:text-snow-3" />
+                  <span>Partager le lien</span>
+                </>
+              )}
+            </button>
           </div>
-        </div>
-      </header>
+        }
+      />
 
       {/* ──── Main Content Spread ──── */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -176,25 +174,25 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
           {/* Left Column: Equipment Selector, Sizing, Member Info */}
           <div className="lg:col-span-7 space-y-8">
             {/* Step 1: Product Selection */}
-            <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 shadow-xs space-y-5">
-              <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
+            <section className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink p-6 shadow-xs space-y-5">
+              <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
+                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-ink dark:bg-white text-white dark:text-ink text-xs font-bold">
                     1
                   </span>
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-white">
                     Sélection de l&apos;article
                   </h2>
                 </div>
 
-                <span className="text-xs font-semibold text-[#e03e3e]">
+                <span className="text-xs font-semibold text-brand">
                   {selectedProduct.category}
                 </span>
               </div>
 
               {/* Product Card Selector Dropdown */}
               <div>
-                <label className="block text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1.5">
+                <label className="block text-xs font-semibold text-ink-3 dark:text-snow-3 mb-1.5">
                   Choisir un modèle dans le catalogue :
                 </label>
                 <select
@@ -207,7 +205,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                       setSelectedSize(prod.sizes[2] || prod.sizes[0] || 'M');
                     }
                   }}
-                  className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-[#101216] dark:text-white focus:border-[#e03e3e] focus:outline-hidden cursor-pointer"
+                  className="w-full rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-ink dark:text-white focus:border-brand focus:outline-hidden cursor-pointer"
                 >
                   {equipmentList.map((item) => (
                     <option key={item.id} value={item.id}>
@@ -218,8 +216,8 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
               </div>
 
               {/* Highlight of Selected Product */}
-              <div className="flex flex-col sm:flex-row gap-5 p-4 rounded-lg bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38]">
-                <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md bg-[#161922] dark:bg-[#1c202a] border border-[#e4e0d8] dark:border-[#262b38] self-center sm:self-start">
+              <div className="flex flex-col sm:flex-row gap-5 p-4 rounded-lg bg-paper dark:bg-night-2 border border-line dark:border-night-line">
+                <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md bg-night-2 dark:bg-night-3 border border-line dark:border-night-line self-center sm:self-start">
                   {selectedProduct.imageUrl ? (
                     <Image
                       src={selectedProduct.imageUrl}
@@ -240,21 +238,21 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
 
                 <div className="space-y-2 min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-base font-bold text-[#101216] dark:text-white">
+                    <h3 className="text-base font-bold text-ink dark:text-white">
                       {selectedProduct.name}
                     </h3>
-                    <span className="text-lg font-extrabold text-[#101216] dark:text-white tabular-nums">
+                    <span className="text-lg font-extrabold text-ink dark:text-white tabular-nums">
                       {unitPrice.toFixed(2)}&nbsp;€
                     </span>
                   </div>
 
                   {selectedProduct.gobikReference && (
-                    <div className="text-xs font-mono text-[#5c6370] dark:text-[#a7adbb] uppercase">
+                    <div className="text-xs font-mono text-ink-3 dark:text-snow-3 uppercase">
                       Réf: {selectedProduct.gobikReference}
                     </div>
                   )}
 
-                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed line-clamp-2">
+                  <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed line-clamp-2">
                     {selectedProduct.description}
                   </p>
                 </div>
@@ -262,13 +260,13 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             </section>
 
             {/* Step 2: Size & Quantity */}
-            <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 shadow-xs space-y-6">
-              <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
+            <section className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink p-6 shadow-xs space-y-6">
+              <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
+                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-ink dark:bg-white text-white dark:text-ink text-xs font-bold">
                     2
                   </span>
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-white">
                     Taille &amp; Quantité
                   </h2>
                 </div>
@@ -276,7 +274,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                 <button
                   type="button"
                   onClick={() => setIsSizeGuideOpen(true)}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline cursor-pointer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline cursor-pointer"
                 >
                   <QuestionMarkCircleIcon className="h-4 w-4" />
                   <span>Guide des tailles Gobik</span>
@@ -285,7 +283,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
 
               {/* Size Buttons */}
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-[#101216] dark:text-white uppercase tracking-wider">
+                <label className="block text-xs font-semibold text-ink dark:text-white uppercase tracking-wider">
                   Sélectionnez votre taille ({effectiveSize}) :
                 </label>
                 <div className="flex flex-wrap gap-2.5">
@@ -296,8 +294,8 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                       onClick={() => setSelectedSize(sz)}
                       className={`min-w-[3.25rem] min-h-[44px] rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer inline-flex items-center justify-center ${
                         effectiveSize === sz
-                          ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white shadow-xs'
-                          : 'bg-[#faf8f5] dark:bg-[#161922] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
+                          ? 'bg-ink text-white border-ink dark:bg-white dark:text-ink dark:border-white shadow-xs'
+                          : 'bg-paper dark:bg-night-2 text-ink dark:text-snow border-line dark:border-night-line hover:border-ink/40 dark:hover:border-white/40'
                       }`}
                     >
                       {sz}
@@ -307,27 +305,27 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
               </div>
 
               {/* Quantity Stepper */}
-              <div className="flex items-center justify-between pt-4 border-t border-[#e4e0d8] dark:border-[#262b38]">
+              <div className="flex items-center justify-between pt-4 border-t border-line dark:border-night-line">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white mb-1.5">
+                  <div className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white mb-1.5">
                     Quantité souhaitée :
                   </div>
-                  <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922]">
+                  <div className="inline-flex items-center rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2">
                     <button
                       type="button"
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                      className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                      className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
                       aria-label="Moins"
                     >
                       <MinusIcon className="h-4 w-4" />
                     </button>
-                    <span className="w-12 text-center text-sm font-bold tabular-nums text-[#101216] dark:text-white">
+                    <span className="w-12 text-center text-sm font-bold tabular-nums text-ink dark:text-white">
                       {quantity}
                     </span>
                     <button
                       type="button"
                       onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                      className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                      className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
                       aria-label="Plus"
                     >
                       <PlusIcon className="h-4 w-4" />
@@ -336,10 +334,10 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                 </div>
 
                 <div className="text-right">
-                  <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                  <div className="text-xs text-ink-3 dark:text-snow-3">
                     Sous-total ({quantity} article{quantity > 1 ? 's' : ''}) :
                   </div>
-                  <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                  <div className="text-2xl font-extrabold text-ink dark:text-white tabular-nums tracking-tight">
                     {totalPrice}&nbsp;€
                   </div>
                 </div>
@@ -347,19 +345,19 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             </section>
 
             {/* Step 3: Member Coordinates */}
-            <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 shadow-xs space-y-5">
-              <div className="flex items-center gap-2.5 border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
-                <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#101216] dark:bg-white text-white dark:text-[#101216] text-xs font-bold">
+            <section className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink p-6 shadow-xs space-y-5">
+              <div className="flex items-center gap-2.5 border-b border-line dark:border-night-line pb-3">
+                <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-ink dark:bg-white text-white dark:text-ink text-xs font-bold">
                   3
                 </span>
-                <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-white">
                   Coordonnées du membre
                 </h2>
               </div>
 
               <div className="space-y-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                  <label className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                     Prénom &amp; Nom de famille *
                   </label>
                   <input
@@ -367,13 +365,13 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     value={effectiveMemberName}
                     onChange={(e) => setMemberName(e.target.value)}
                     placeholder="Ex: Jean Martin"
-                    className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2.5 text-xs sm:text-sm text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                    className="w-full rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3.5 py-2.5 text-xs sm:text-sm text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                    <label className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                       Adresse email *
                     </label>
                     <input
@@ -381,11 +379,11 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                       value={effectiveMemberEmail}
                       onChange={(e) => setMemberEmail(e.target.value)}
                       placeholder="votre.email@domaine.be"
-                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2.5 text-xs sm:text-sm text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                      className="w-full rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3.5 py-2.5 text-xs sm:text-sm text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden"
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                    <label className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                       Numéro de téléphone (pour notification SMS)
                     </label>
                     <input
@@ -393,13 +391,13 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                       value={memberPhone}
                       onChange={(e) => setMemberPhone(e.target.value)}
                       placeholder="0470 12 34 56"
-                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2.5 text-xs sm:text-sm text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                      className="w-full rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3.5 py-2.5 text-xs sm:text-sm text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                  <label className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                     Remarque ou essayage préalable (optionnel)
                   </label>
                   <textarea
@@ -407,7 +405,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     value={orderNotes}
                     onChange={(e) => setOrderNotes(e.target.value)}
                     placeholder="Ex: Je souhaite essayer la veste d'un membre du comité avant validation définitive..."
-                    className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3.5 py-2.5 text-xs sm:text-sm text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden resize-none"
+                    className="w-full rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3.5 py-2.5 text-xs sm:text-sm text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden resize-none"
                   />
                 </div>
               </div>
@@ -417,16 +415,16 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
           {/* Right Column: Ticket Receipt & Submission Deck */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
             {/* Paper Ticket Summary */}
-            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-6 shadow-md space-y-6">
+            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink p-6 shadow-md space-y-6">
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-4">
+              <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-4">
                 <div className="flex items-center gap-2">
-                  <ShoppingBagIcon className="h-5 w-5 text-[#e03e3e]" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                  <ShoppingBagIcon className="h-5 w-5 text-brand" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
                     Bon de Commande
                   </span>
                 </div>
-                <span className="text-xs font-mono text-[#5c6370] dark:text-[#a7adbb]">
+                <span className="text-xs font-mono text-ink-3 dark:text-snow-3">
                   CC SAINT-MARTIN
                 </span>
               </div>
@@ -435,55 +433,55 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between items-start gap-3">
                   <div>
-                    <div className="font-bold text-[#101216] dark:text-white">
+                    <div className="font-bold text-ink dark:text-white">
                       {quantity}&times; {selectedProduct.name}
                     </div>
-                    <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
-                      Taille : <span className="font-bold text-[#101216] dark:text-white">{effectiveSize}</span> · {unitPrice.toFixed(2)}&nbsp;€ / pièce
+                    <div className="text-xs text-ink-3 dark:text-snow-3">
+                      Taille : <span className="font-bold text-ink dark:text-white">{effectiveSize}</span> · {unitPrice.toFixed(2)}&nbsp;€ / pièce
                     </div>
                   </div>
-                  <div className="font-bold text-[#101216] dark:text-white tabular-nums">
+                  <div className="font-bold text-ink dark:text-white tabular-nums">
                     {totalPrice}&nbsp;€
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center text-[#5c6370] dark:text-[#a7adbb] pt-2 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                <div className="flex justify-between items-center text-ink-3 dark:text-snow-3 pt-2 border-t border-line dark:border-night-line">
                   <span>Frais de port &amp; conditionnement</span>
                   <span className="font-semibold text-emerald-600 dark:text-emerald-400">
                     Gratuit (0,00 €)
                   </span>
                 </div>
 
-                <div className="flex justify-between items-center text-[#5c6370] dark:text-[#a7adbb]">
+                <div className="flex justify-between items-center text-ink-3 dark:text-snow-3">
                   <span>Lieu de distribution</span>
-                  <span className="font-semibold text-[#101216] dark:text-white">
+                  <span className="font-semibold text-ink dark:text-white">
                     Place de Blanmont
                   </span>
                 </div>
               </div>
 
               {/* Grand Total */}
-              <div className="pt-4 border-t-2 border-dashed border-[#e4e0d8] dark:border-[#262b38] flex items-baseline justify-between">
+              <div className="pt-4 border-t-2 border-dashed border-line dark:border-night-line flex items-baseline justify-between">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                  <div className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
                     Total TTC à régler
                   </div>
-                  <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                  <div className="text-xs text-ink-3 dark:text-snow-3">
                     TVA et personnalisation incluses
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-[#e03e3e] tabular-nums tracking-tight">
+                <div className="text-3xl font-extrabold text-brand tabular-nums tracking-tight">
                   {totalPrice}&nbsp;€
                 </div>
               </div>
 
               {/* Payment Info */}
-              <div className="p-4 rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2 text-xs">
-                <div className="font-bold text-[#101216] dark:text-white flex items-center gap-1.5">
-                  <CheckBadgeIcon className="h-4 w-4 text-[#e03e3e]" />
+              <div className="p-4 rounded-md bg-paper dark:bg-night-2 border border-line dark:border-night-line space-y-2 text-xs">
+                <div className="font-bold text-ink dark:text-white flex items-center gap-1.5">
+                  <CheckBadgeIcon className="h-4 w-4 text-brand" />
                   <span>Modalités de règlement &amp; distribution</span>
                 </div>
-                <p className="text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+                <p className="text-ink-3 dark:text-snow-3 leading-relaxed">
                   Le paiement s&apos;effectue par virement bancaire sur le compte du club ou en espèces lors de la remise en main propre. La distribution des tenues a lieu sur la Place de Blanmont avant les sorties du club.
                 </p>
               </div>
@@ -492,7 +490,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
               <div className="space-y-3">
                 <a
                   href={mailtoUrl}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-3.5 text-xs font-bold uppercase tracking-[0.06em] transition-all active:scale-[0.98] shadow-md cursor-pointer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-6 py-3.5 text-xs font-bold uppercase tracking-[0.06em] transition-all active:scale-[0.98] shadow-md cursor-pointer"
                 >
                   <JerseyIcon className="h-4 w-4" />
                   <span>Confirmer la commande par email</span>
@@ -501,16 +499,16 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                 <button
                   type="button"
                   onClick={handleCopyOrder}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:bg-[#faf8f5] dark:hover:bg-[#1c202a] text-[#101216] dark:text-white px-4 py-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 hover:bg-paper dark:hover:bg-night-3 text-ink dark:text-white px-4 py-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   {copiedOrder ? (
                     <>
-                      <ClipboardDocumentCheckIcon className="h-4 w-4 text-[#e03e3e]" />
-                      <span className="text-[#e03e3e]">Récapitulatif copié !</span>
+                      <ClipboardDocumentCheckIcon className="h-4 w-4 text-brand" />
+                      <span className="text-brand">Récapitulatif copié !</span>
                     </>
                   ) : (
                     <>
-                      <ClipboardDocumentIcon className="h-4 w-4 text-[#5c6370]" />
+                      <ClipboardDocumentIcon className="h-4 w-4 text-ink-3" />
                       <span>Copier le récapitulatif (Presse-papiers)</span>
                     </>
                   )}
@@ -519,14 +517,14 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
             </div>
 
             {/* Quality Commitment strip */}
-            <div className="grid grid-cols-2 gap-3 text-xs text-[#5c6370] dark:text-[#a7adbb]">
-              <div className="p-3 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] flex items-center gap-2.5">
-                <ShieldCheckIcon className="h-5 w-5 text-[#e03e3e] shrink-0" />
-                <span className="font-semibold text-[#101216] dark:text-white">GOBIK Custom Spain</span>
+            <div className="grid grid-cols-2 gap-3 text-xs text-ink-3 dark:text-snow-3">
+              <div className="p-3 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink flex items-center gap-2.5">
+                <ShieldCheckIcon className="h-5 w-5 text-brand shrink-0" />
+                <span className="font-semibold text-ink dark:text-white">GOBIK Custom Spain</span>
               </div>
-              <div className="p-3 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] flex items-center gap-2.5">
-                <TruckIcon className="h-5 w-5 text-[#e03e3e] shrink-0" />
-                <span className="font-semibold text-[#101216] dark:text-white">Remise sans frais</span>
+              <div className="p-3 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink flex items-center gap-2.5">
+                <TruckIcon className="h-5 w-5 text-brand shrink-0" />
+                <span className="font-semibold text-ink dark:text-white">Remise sans frais</span>
               </div>
             </div>
           </div>
@@ -549,8 +547,8 @@ export default function CheckoutPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-white">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+        <div className="min-h-screen flex items-center justify-center bg-paper dark:bg-night text-ink dark:text-white">
+          <div className="text-xs font-bold uppercase tracking-wider text-ink-3">
             Chargement du bon de commande...
           </div>
         </div>

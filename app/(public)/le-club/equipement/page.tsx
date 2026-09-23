@@ -23,6 +23,7 @@ import EquipmentIllustration from './EquipmentIllustration';
 import GobikSizeGuide from '@/app/components/equipment/GobikSizeGuide';
 import { useAuth } from '@/app/context/AuthContext';
 import { toast } from 'sonner';
+import { SheetHeader } from '@/app/components/carte/SheetHeader';
 
 export default function EquipementPage() {
   const { user } = useAuth();
@@ -117,98 +118,39 @@ MODALITÉS CLUB :
   const totalPieces = equipment.length;
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] transition-colors duration-200">
-      {/* ──── Editorial Cover Hero (Adaptive Light / Dark) ──── */}
-      <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
-        {/* Atmospheric Background Watermark */}
-        <div className="absolute top-32 sm:top-44 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
-          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
-            BLANMONT
-          </span>
-        </div>
-
-        <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8 z-10">
-          {/* Top row: Title */}
-          <div className="space-y-3 max-w-3xl">
-            <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
-              Tenues &amp; <span className="text-[#e03e3e] italic">Équipements</span>
-            </h1>
-
-            <p className="max-w-2xl text-base text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-              Portez les couleurs officielles du CC Saint-Martin Blanmont. Vêtements cyclistes haute performance développés par Gobik pour le confort et la vitesse en peloton.
-            </p>
-          </div>
-
-          {/* Stat Strip on Hero (Horizontal Hairline Structure) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-8 sm:pt-10">
-            {/* Pieces in collection */}
-            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4 group">
-              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
-                <JerseyIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                  {totalPieces} articles
-                </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Catalogue officiel
-                </div>
-              </div>
-            </div>
-
-            {/* Technical partner */}
-            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4 group">
-              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
-                <ShieldCheckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
-              </div>
-              <div>
-                <div className="text-lg sm:text-xl font-bold text-[#101216] dark:text-white tracking-tight">
-                  GOBIK Spain
-                </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Partenaire technique
-                </div>
-              </div>
-            </div>
-
-            {/* Pickup & orders */}
-            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4 group">
-              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
-                <TruckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
-              </div>
-              <div>
-                <div className="text-lg sm:text-xl font-bold text-[#101216] dark:text-white tracking-tight">
-                  Distribution club
-                </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Remise le samedi
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <main className="min-h-screen bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200">
+      <SheetHeader
+        sheet="Équipement officiel"
+        focus={{ x: 55, y: 44 }}
+        title="Tenues & équipements"
+        description="Portez les couleurs officielles du CC Saint-Martin Blanmont. Vêtements cyclistes haute performance développés par Gobik pour le confort et la vitesse en peloton."
+        legend={[
+          { term: 'Catalogue officiel', value: `${totalPieces} articles` },
+          { term: 'Partenaire technique', value: 'GOBIK Spain' },
+          { term: 'Distribution club', value: 'Remise le samedi' },
+        ]}
+      />
 
       {/* ──── Main Content Spread (Adaptive Surface) ──── */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 space-y-10">
         {/* Direct Checkout Hub Banner */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xs">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shrink-0">
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-paper dark:bg-night-2 border border-line dark:border-night-line text-brand shrink-0">
               <ShoppingBagIcon className="h-5 w-5" />
             </div>
             <div>
-              <div className="text-sm font-bold text-[#101216] dark:text-white">
+              <div className="text-sm font-bold text-ink dark:text-white">
                 Bon de commande direct &amp; Checkout Club
               </div>
-              <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+              <div className="text-xs text-ink-3 dark:text-snow-3">
                 Générez votre récapitulatif de commande, vérifiez les mensurations Gobik et réservez votre équipement officiel.
               </div>
             </div>
           </div>
           <Link
             href="/checkout"
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap min-h-[44px]"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-ink dark:bg-white text-white dark:text-ink px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap min-h-[44px]"
           >
             <span>Accéder au Checkout</span>
             <ArrowRightIcon className="h-3.5 w-3.5" />
@@ -216,9 +158,9 @@ MODALITÉS CLUB :
         </div>
 
         {/* Category Filter Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] shadow-xs transition-colors">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
-            <CheckBadgeIcon className="h-4 w-4 text-[#e03e3e]" />
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink shadow-xs transition-colors">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
+            <CheckBadgeIcon className="h-4 w-4 text-brand" />
             <span>Catégories :</span>
           </div>
 
@@ -229,8 +171,8 @@ MODALITÉS CLUB :
                 onClick={() => setSelectedCategory(category)}
                 className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors min-h-[44px] ${
                   selectedCategory === category
-                    ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216]'
-                    : 'bg-[#f2efe9] dark:bg-[#1c202a] text-[#5c6370] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38] hover:text-[#101216] dark:hover:text-white'
+                    ? 'bg-ink text-white dark:bg-white dark:text-ink'
+                    : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 hover:bg-line dark:hover:bg-night-line hover:text-ink dark:hover:text-white'
                 }`}
               >
                 <span>{category}</span>
@@ -238,7 +180,7 @@ MODALITÉS CLUB :
             ))}
           </div>
 
-          <span className="text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
+          <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 tabular-nums">
             {filteredEquipment.length} article{filteredEquipment.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -252,10 +194,10 @@ MODALITÉS CLUB :
               <article
                 key={item.id}
                 onClick={() => openProductDetail(item)}
-                className="group cursor-pointer flex flex-col rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] overflow-hidden transition-all duration-300 hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-1"
+                className="group cursor-pointer flex flex-col rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink overflow-hidden transition-all duration-300 hover:border-brand/40 hover:shadow-lg hover:-translate-y-1"
               >
                 {/* Product Apparel Image / Fallback Container */}
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922] dark:bg-[#1c202a]">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-night-2 dark:bg-night-3">
                   {hasPhoto ? (
                     <Image
                       src={item.imageUrl}
@@ -276,7 +218,7 @@ MODALITÉS CLUB :
 
                   {/* Category Pill Tag */}
                   <div className="absolute top-3 left-3 z-10">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#101216]/85 dark:bg-black/85 backdrop-blur-md px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/20">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-ink/85 dark:bg-black/85 backdrop-blur-md px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/20">
                       {item.category}
                     </span>
                   </div>
@@ -284,7 +226,7 @@ MODALITÉS CLUB :
                   {/* Availability Badge */}
                   {!item.isAvailable && (
                     <div className="absolute top-3 right-3 z-10">
-                      <span className="inline-flex rounded-full bg-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
+                      <span className="inline-flex rounded-full bg-brand px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
                         Épuisé
                       </span>
                     </div>
@@ -292,28 +234,28 @@ MODALITÉS CLUB :
                 </div>
 
                 {/* Card Body */}
-                <div className="p-5 flex flex-col flex-grow justify-between space-y-4 bg-white dark:bg-[#101216]">
+                <div className="p-5 flex flex-col flex-grow justify-between space-y-4 bg-white dark:bg-ink">
                   <div className="space-y-1">
-                    <h3 className="text-base font-bold tracking-tight text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors leading-snug">
+                    <h3 className="text-base font-bold tracking-tight text-ink dark:text-white group-hover:text-brand transition-colors leading-snug">
                       {item.name}
                     </h3>
-                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-ink-3 dark:text-snow-3 line-clamp-2 leading-relaxed">
                       {item.gobikReference || item.description}
                     </p>
                   </div>
 
                   {/* Price & Sizes Strip */}
-                  <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-end justify-between">
+                  <div className="pt-3 border-t border-line dark:border-night-line flex items-end justify-between">
                     <div>
-                      <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                      <div className="text-2xl font-extrabold text-ink dark:text-white tabular-nums tracking-tight">
                         {item.price.toFixed(2)}&nbsp;€
                       </div>
-                      <div className="text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] mt-0.5">
+                      <div className="text-xs font-medium text-ink-3 dark:text-snow-3 mt-0.5">
                         Tailles : {item.sizes.join(' · ')}
                       </div>
                     </div>
 
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-[#e03e3e] group-hover:underline">
+                    <span className="inline-flex items-center gap-1 text-xs font-bold text-brand group-hover:underline">
                       <span>Commander</span>
                       <ArrowRightIcon className="h-3 w-3" />
                     </span>
@@ -325,46 +267,46 @@ MODALITÉS CLUB :
         </div>
 
         {/* ──── Technical & Quality Club Manifesto ──── */}
-        <section className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] text-[#101216] dark:text-white p-8 sm:p-10 mt-16 shadow-xs transition-colors">
+        <section className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink text-ink dark:text-white p-8 sm:p-10 mt-16 shadow-xs transition-colors">
           <div className="max-w-3xl space-y-2 mb-8">
-            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e03e3e]">
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-brand">
               Qualité &amp; Engagement
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] text-[#101216] dark:text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.015em] text-ink dark:text-white">
               Une tenue club pensée pour durer
             </h2>
-            <p className="text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+            <p className="text-sm text-ink-3 dark:text-snow-3 leading-relaxed">
               Le Club Cyclo Saint-Martin de Blanmont a sélectionné le fabriquant GOBIK pour équiper ses membres avec des matériaux professionnels.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#e4e0d8] dark:border-[#262b38]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-line dark:border-night-line">
             <div className="space-y-3 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#171a21] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink dark:text-white transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                 <ShieldCheckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
               </div>
-              <h3 className="text-base font-bold text-[#101216] dark:text-white">Peaux de Chamois K10 &amp; K9</h3>
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <h3 className="text-base font-bold text-ink dark:text-white">Peaux de Chamois K10 &amp; K9</h3>
+              <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                 Inserts ergonomiques conçus pour plus de 8 heures en selle, éliminant les frottements lors des longues sorties d&apos;endurance.
               </p>
             </div>
 
             <div className="space-y-3 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#171a21] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink dark:text-white transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                 <TruckIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
               </div>
-              <h3 className="text-base font-bold text-[#101216] dark:text-white">Distribution Locale Gratuite</h3>
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <h3 className="text-base font-bold text-ink dark:text-white">Distribution Locale Gratuite</h3>
+              <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                 Toutes les commandes sont remises en mains propres sur la Place de Blanmont au départ des sorties du club, sans frais de port.
               </p>
             </div>
 
             <div className="space-y-3 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#171a21] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-white transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink dark:text-white transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                 <CheckBadgeIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
               </div>
-              <h3 className="text-base font-bold text-[#101216] dark:text-white">Essayage &amp; Échantillons</h3>
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <h3 className="text-base font-bold text-ink dark:text-white">Essayage &amp; Échantillons</h3>
+              <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                 Des tenues témoins sont disponibles auprès des membres du comité pour essayer votre taille avant de passer commande.
               </p>
             </div>
@@ -383,18 +325,18 @@ MODALITÉS CLUB :
             />
 
             {/* Modal Box */}
-            <div className="relative w-full max-w-4xl overflow-hidden rounded-xl bg-white dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] shadow-2xl z-10 transition-colors">
+            <div className="relative w-full max-w-4xl overflow-hidden rounded-xl bg-white dark:bg-ink border border-line dark:border-night-line shadow-2xl z-10 transition-colors">
               {/* Header Bar */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#14171f]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-line dark:border-night-line bg-paper dark:bg-night-2">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded bg-[#e03e3e]/10 text-[#e03e3e]">
+                  <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded bg-brand/10 text-brand">
                     <ShoppingBagIcon className="h-4 w-4" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-bold text-[#101216] dark:text-white uppercase tracking-wider">
+                    <h2 className="text-sm font-bold text-ink dark:text-white uppercase tracking-wider">
                       Bon de Commande &amp; Réservation Équipement
                     </h2>
-                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                    <p className="text-xs text-ink-3 dark:text-snow-3">
                       CC Saint-Martin Blanmont · Partenaire GOBIK Custom
                     </p>
                   </div>
@@ -402,7 +344,7 @@ MODALITÉS CLUB :
 
                 <button
                   onClick={closeModal}
-                  className="rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] hover:text-[#101216] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                  className="rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-ink-3 hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
                   aria-label="Fermer"
                 >
                   <XMarkIcon className="h-5 w-5" />
@@ -415,7 +357,7 @@ MODALITÉS CLUB :
                 <div className="lg:col-span-6 space-y-6">
                   <div className="flex gap-4 items-start">
                     {/* Visual thumbnail */}
-                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-[#161922] dark:bg-[#1c202a] border border-[#e4e0d8] dark:border-[#262b38]">
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-night-2 dark:bg-night-3 border border-line dark:border-night-line">
                       {Boolean(selectedProduct.imageUrl) && !imgErrors[selectedProduct.id] ? (
                         <Image
                           src={selectedProduct.imageUrl}
@@ -435,13 +377,13 @@ MODALITÉS CLUB :
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-xs font-bold uppercase tracking-wider text-[#e03e3e] mb-1">
+                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-paper dark:bg-night-2 border border-line dark:border-night-line text-xs font-bold uppercase tracking-wider text-brand mb-1">
                         {selectedProduct.category}
                       </div>
-                      <h3 className="text-lg font-bold text-[#101216] dark:text-white tracking-tight">
+                      <h3 className="text-lg font-bold text-ink dark:text-white tracking-tight">
                         {selectedProduct.name}
                       </h3>
-                      <div className="text-xs text-[#5c6370] dark:text-[#a7adbb] font-mono mt-0.5">
+                      <div className="text-xs text-ink-3 dark:text-snow-3 font-mono mt-0.5">
                         Ref. {selectedProduct.id.toUpperCase()} · Coupe {selectedProduct.cut || 'Standard'}
                       </div>
                     </div>
@@ -450,14 +392,14 @@ MODALITÉS CLUB :
                   {/* Size Selector */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                      <div className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
                         Taille sélectionnée :&nbsp;
-                        <span className="text-[#e03e3e] font-black">{selectedSize}</span>
+                        <span className="text-brand font-black">{selectedSize}</span>
                       </div>
                       <button
                         type="button"
                         onClick={() => setIsSizeGuideOpen(true)}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline cursor-pointer min-h-[44px] py-2"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline cursor-pointer min-h-[44px] py-2"
                       >
                         <QuestionMarkCircleIcon className="h-4 w-4" />
                         <span>Guide des tailles Gobik</span>
@@ -472,8 +414,8 @@ MODALITÉS CLUB :
                           onClick={() => setSelectedSize(size)}
                           className={`min-w-[2.75rem] min-h-[44px] rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors border cursor-pointer inline-flex items-center justify-center ${
                             selectedSize === size
-                              ? 'bg-[#101216] text-white border-[#101216] dark:bg-white dark:text-[#101216] dark:border-white'
-                              : 'bg-[#faf8f5] dark:bg-[#161922] text-[#101216] dark:text-[#f5f6f8] border-[#e4e0d8] dark:border-[#262b38] hover:border-[#101216]/40 dark:hover:border-white/40'
+                              ? 'bg-ink text-white border-ink dark:bg-white dark:text-ink dark:border-white'
+                              : 'bg-paper dark:bg-night-2 text-ink dark:text-snow border-line dark:border-night-line hover:border-ink/40 dark:hover:border-white/40'
                           }`}
                         >
                           {size}
@@ -483,27 +425,27 @@ MODALITÉS CLUB :
                   </div>
 
                   {/* Quantity Stepper & Price Breakdown */}
-                  <div className="flex items-center justify-between pt-3 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                  <div className="flex items-center justify-between pt-3 border-t border-line dark:border-night-line">
                     <div>
-                      <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white mb-1.5">
+                      <div className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white mb-1.5">
                         Quantité :
                       </div>
-                      <div className="inline-flex items-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922]">
+                      <div className="inline-flex items-center rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2">
                         <button
                           type="button"
                           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                          className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                          className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
                           aria-label="Diminuer la quantité"
                         >
                           <MinusIcon className="h-3.5 w-3.5" />
                         </button>
-                        <span className="w-9 text-center text-xs font-bold tabular-nums text-[#101216] dark:text-white">
+                        <span className="w-9 text-center text-xs font-bold tabular-nums text-ink dark:text-white">
                           {quantity}
                         </span>
                         <button
                           type="button"
                           onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                          className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors cursor-pointer"
+                          className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
                           aria-label="Augmenter la quantité"
                         >
                           <PlusIcon className="h-3.5 w-3.5" />
@@ -512,10 +454,10 @@ MODALITÉS CLUB :
                     </div>
 
                     <div className="text-right">
-                      <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                      <div className="text-xs text-ink-3 dark:text-snow-3">
                         Prix unitaire : {selectedProduct.price.toFixed(2)}&nbsp;€
                       </div>
-                      <div className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                      <div className="text-2xl font-extrabold text-ink dark:text-white tabular-nums tracking-tight">
                         {(selectedProduct.price * quantity).toFixed(2)}&nbsp;€
                       </div>
                     </div>
@@ -523,15 +465,15 @@ MODALITÉS CLUB :
                 </div>
 
                 {/* Right Column: Member Details & Order Receipt Ticket */}
-                <div className="lg:col-span-6 flex flex-col justify-between space-y-5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#14171f] p-5">
+                <div className="lg:col-span-6 flex flex-col justify-between space-y-5 rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5">
                   <div className="space-y-4">
-                    <div className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white border-b border-[#e4e0d8] dark:border-[#262b38] pb-2">
+                    <div className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white border-b border-line dark:border-night-line pb-2">
                       Coordonnées de commande
                     </div>
 
                     <div className="space-y-3 text-xs">
                       <div>
-                        <label htmlFor="equip-order-name" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                        <label htmlFor="equip-order-name" className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                           Nom &amp; Prénom
                         </label>
                         <input
@@ -540,13 +482,13 @@ MODALITÉS CLUB :
                           value={effectiveMemberName}
                           onChange={(e) => setMemberName(e.target.value)}
                           placeholder="Ex: Laurent Martin"
-                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3 py-2 text-xs text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden"
                         />
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         <div>
-                          <label htmlFor="equip-order-email" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                          <label htmlFor="equip-order-email" className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                             Email
                           </label>
                           <input
@@ -555,11 +497,11 @@ MODALITÉS CLUB :
                             value={effectiveMemberEmail}
                             onChange={(e) => setMemberEmail(e.target.value)}
                             placeholder="nom@example.be"
-                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                            className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3 py-2 text-xs text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden"
                           />
                         </div>
                         <div>
-                          <label htmlFor="equip-order-phone" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                          <label htmlFor="equip-order-phone" className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                             Téléphone (optionnel)
                           </label>
                           <input
@@ -568,13 +510,13 @@ MODALITÉS CLUB :
                             value={memberPhone}
                             onChange={(e) => setMemberPhone(e.target.value)}
                             placeholder="0470 12 34 56"
-                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                            className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3 py-2 text-xs text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label htmlFor="equip-order-notes" className="block font-semibold text-[#5c6370] dark:text-[#a7adbb] mb-1">
+                        <label htmlFor="equip-order-notes" className="block font-semibold text-ink-3 dark:text-snow-3 mb-1">
                           Remarque ou demande d&apos;essayage
                         </label>
                         <input
@@ -583,30 +525,30 @@ MODALITÉS CLUB :
                           value={orderNotes}
                           onChange={(e) => setOrderNotes(e.target.value)}
                           placeholder="Ex: souhait d'essayer avant validation..."
-                          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#9aa0a6] focus:border-[#e03e3e] focus:outline-hidden"
+                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3 py-2 text-xs text-ink dark:text-white placeholder-ink-3 focus:border-brand focus:outline-hidden"
                         />
                       </div>
                     </div>
 
                     {/* Receipt Summary Card */}
-                    <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] p-3.5 space-y-2 text-xs">
-                      <div className="flex justify-between items-center text-[#5c6370] dark:text-[#a7adbb]">
+                    <div className="rounded-md border border-line dark:border-night-line bg-white dark:bg-ink p-3.5 space-y-2 text-xs">
+                      <div className="flex justify-between items-center text-ink-3 dark:text-snow-3">
                         <span>
                           {quantity}&times; {selectedProduct.name} ({selectedSize || 'Taille ?'})
                         </span>
-                        <span className="font-semibold text-[#101216] dark:text-white tabular-nums">
+                        <span className="font-semibold text-ink dark:text-white tabular-nums">
                           {(selectedProduct.price * quantity).toFixed(2)}&nbsp;€
                         </span>
                       </div>
-                      <div className="flex justify-between items-center text-[#5c6370] dark:text-[#a7adbb]">
+                      <div className="flex justify-between items-center text-ink-3 dark:text-snow-3">
                         <span>Retrait Place de Blanmont</span>
-                        <span className="font-semibold text-[#101216] dark:text-white">Gratuit (0,00 €)</span>
+                        <span className="font-semibold text-ink dark:text-white">Gratuit (0,00 €)</span>
                       </div>
-                      <div className="border-t border-[#e4e0d8] dark:border-[#262b38] pt-2 flex justify-between items-baseline">
-                        <span className="font-bold text-[#101216] dark:text-white uppercase tracking-wider text-xs">
+                      <div className="border-t border-line dark:border-night-line pt-2 flex justify-between items-baseline">
+                        <span className="font-bold text-ink dark:text-white uppercase tracking-wider text-xs">
                           Total TTC :
                         </span>
-                        <span className="text-xl font-extrabold text-[#e03e3e] tabular-nums tracking-tight">
+                        <span className="text-xl font-extrabold text-brand tabular-nums tracking-tight">
                           {(selectedProduct.price * quantity).toFixed(2)}&nbsp;€
                         </span>
                       </div>
@@ -619,7 +561,7 @@ MODALITÉS CLUB :
                       href={`mailto:info@blanmont.be?subject=${encodeURIComponent(
                         `[Commande Équipement] ${selectedProduct.name} (${selectedSize || 'Taille à préciser'}) - ${effectiveMemberName || 'Membre'}`
                       )}&body=${encodeURIComponent(getOrderSummaryText(selectedProduct, selectedSize, quantity))}`}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] shadow-xs cursor-pointer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.06em] transition-colors active:scale-[0.98] shadow-xs cursor-pointer"
                     >
                       <JerseyIcon className="h-4 w-4" />
                       <span>Confirmer la commande par email</span>
@@ -629,16 +571,16 @@ MODALITÉS CLUB :
                       <button
                         type="button"
                         onClick={handleCopyOrder}
-                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#101216] dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer min-h-[44px]"
+                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-line dark:border-night-line bg-white dark:bg-ink hover:bg-paper-2 dark:hover:bg-night-3 text-ink dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer min-h-[44px]"
                       >
                         {copied ? (
                           <>
-                            <ClipboardDocumentCheckIcon className="h-4 w-4 text-[#e03e3e]" />
-                            <span className="text-[#e03e3e]">Copié !</span>
+                            <ClipboardDocumentCheckIcon className="h-4 w-4 text-brand" />
+                            <span className="text-brand">Copié !</span>
                           </>
                         ) : (
                           <>
-                            <ClipboardDocumentIcon className="h-4 w-4 text-[#5c6370]" />
+                            <ClipboardDocumentIcon className="h-4 w-4 text-ink-3" />
                             <span>Copier le bon</span>
                           </>
                         )}
@@ -646,7 +588,7 @@ MODALITÉS CLUB :
 
                       <Link
                         href={`/checkout?product=${encodeURIComponent(selectedProduct.id)}&size=${encodeURIComponent(selectedSize)}&qty=${quantity}`}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] hover:bg-[#f2efe9] dark:hover:bg-[#1c202a] text-[#5c6370] dark:text-[#a7adbb] px-3.5 py-2.5 text-xs font-semibold transition-colors whitespace-nowrap min-h-[44px]"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-ink hover:bg-paper-2 dark:hover:bg-night-3 text-ink-3 dark:text-snow-3 px-3.5 py-2.5 text-xs font-semibold transition-colors whitespace-nowrap min-h-[44px]"
                         title="Ouvrir la page de commande dédiée"
                       >
                         <span>Page checkout</span>
@@ -654,7 +596,7 @@ MODALITÉS CLUB :
                       </Link>
                     </div>
 
-                    <p className="text-center text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                    <p className="text-center text-xs text-ink-3 dark:text-snow-3">
                       Paiement par virement ou à la remise en main propre le samedi.
                     </p>
                   </div>

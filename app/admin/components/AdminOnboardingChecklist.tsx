@@ -224,24 +224,24 @@ export default function AdminOnboardingChecklist({
   }
 
   return (
-    <section aria-labelledby="onboarding-guide-heading" className="rounded-xl border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] shadow-xs overflow-hidden transition-all">
+    <section aria-labelledby="onboarding-guide-heading" className="rounded-xl border border-line dark:border-night-3 bg-white dark:bg-night-2 shadow-xs overflow-hidden transition-all">
       {/* Header Band */}
-      <div className="bg-[#101216] dark:bg-[#0d0f14] text-white p-5 sm:p-6">
+      <div className="bg-ink dark:bg-night text-white p-5 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-brand" />
                 <span>Guide de Prise en Main</span>
               </span>
-              <span className="text-xs text-[#5c6370] font-semibold uppercase tracking-wider">
+              <span className="text-xs text-ink-3 font-semibold uppercase tracking-wider">
                 Administration du Club
               </span>
             </div>
             <h2 id="onboarding-guide-heading" className="text-lg sm:text-xl font-extrabold tracking-tight text-white">
               Prise en main des opérations de CC Saint-Martin Blanmont
             </h2>
-            <p className="text-xs text-[#a7adbb] max-w-2xl">
+            <p className="text-xs text-snow-3 max-w-2xl">
               Suivez ces étapes clés pour coordonner le peloton, gérer les présences et animer la saison.
             </p>
           </div>
@@ -254,7 +254,7 @@ export default function AdminOnboardingChecklist({
                 className="inline-flex items-center gap-1.5 rounded-md border border-white/20 bg-white/5 hover:bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors"
                 title="Consulter le guide complet"
               >
-                <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
+                <AcademicCapIcon className="h-4 w-4 text-brand" />
                 <span>Aide &amp; Rituels</span>
               </button>
             )}
@@ -262,7 +262,7 @@ export default function AdminOnboardingChecklist({
             <button
               type="button"
               onClick={toggleCollapse}
-              className="rounded-md p-1.5 text-[#5c6370] hover:bg-white/10 hover:text-white transition-colors"
+              className="rounded-md p-1.5 text-ink-3 hover:bg-white/10 hover:text-white transition-colors"
               title={isCollapsed ? 'Développer' : 'Réduire'}
             >
               {isCollapsed ? (
@@ -275,7 +275,7 @@ export default function AdminOnboardingChecklist({
             <button
               type="button"
               onClick={handleDismiss}
-              className="rounded-md p-1.5 text-[#5c6370] hover:bg-white/10 hover:text-white transition-colors"
+              className="rounded-md p-1.5 text-ink-3 hover:bg-white/10 hover:text-white transition-colors"
               title="Masquer le guide"
             >
               <XMarkIcon className="h-5 w-5" />
@@ -286,7 +286,7 @@ export default function AdminOnboardingChecklist({
         {/* Progress Bar */}
         <div className="mt-5 space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold">
-            <span className="text-[#a7adbb]">
+            <span className="text-snow-3">
               Progression globale :{' '}
               <span className="text-white font-bold tabular-nums">
                 {completedCount} sur {steps.length} étapes
@@ -294,17 +294,17 @@ export default function AdminOnboardingChecklist({
             </span>
             <span
               className={`font-bold tabular-nums ${
-                isAllComplete ? 'text-emerald-400' : 'text-[#e03e3e]'
+                isAllComplete ? 'text-emerald-400' : 'text-brand'
               }`}
             >
               {progressPercent}%
             </span>
           </div>
 
-          <div className="h-2 w-full overflow-hidden rounded-full bg-[#262b38]">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-night-line">
             <div
               className={`h-full transition-all duration-500 ease-out ${
-                isAllComplete ? 'bg-emerald-500' : 'bg-[#e03e3e]'
+                isAllComplete ? 'bg-emerald-500' : 'bg-brand'
               }`}
               style={{ width: `${progressPercent}%` }}
             />
@@ -314,7 +314,7 @@ export default function AdminOnboardingChecklist({
 
       {/* Checklist Items (Collapsible) */}
       {!isCollapsed && (
-        <div className="divide-y divide-[#e4e0d8] dark:divide-[#222730] bg-[#faf8f5] dark:bg-[#16191f]">
+        <div className="divide-y divide-line dark:divide-night-3 bg-paper dark:bg-night-2">
           {steps.map((step, index) => {
             const completed = isTaskCompleted(step);
 
@@ -322,7 +322,7 @@ export default function AdminOnboardingChecklist({
               <div
                 key={step.id}
                 className={`p-4 sm:p-5 transition-colors flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${
-                  completed ? 'bg-white/80 dark:bg-[#16191f]/80' : 'bg-white dark:bg-[#16191f] hover:bg-[#faf8f5] dark:hover:bg-[#1d2128]'
+                  completed ? 'bg-white/80 dark:bg-night-2/80' : 'bg-white dark:bg-night-2 hover:bg-paper dark:hover:bg-night-3'
                 }`}
               >
                 <div className="flex items-start gap-3.5">
@@ -330,13 +330,13 @@ export default function AdminOnboardingChecklist({
                   <button
                     type="button"
                     onClick={(e) => toggleTask(step.id, e)}
-                    className="mt-0.5 shrink-0 rounded text-[#5c6370] hover:text-[#e03e3e] transition-colors focus:outline-none"
+                    className="mt-0.5 shrink-0 rounded text-ink-3 hover:text-brand transition-colors focus:outline-none"
                     title={completed ? 'Marquer comme non fait' : 'Marquer comme complété'}
                   >
                     {completed ? (
                       <CheckCircleSolidIcon className="h-6 w-6 md:h-6 md:w-6 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <div className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full border-2 border-[#e4e0d8] dark:border-[#2e3542] hover:border-[#e03e3e] text-xs font-bold text-[#5c6370] dark:text-[#9ba3af]">
+                      <div className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full border-2 border-line dark:border-night-line-strong hover:border-brand text-xs font-bold text-ink-3 dark:text-snow-3">
                         {index + 1}
                       </div>
                     )}
@@ -346,26 +346,26 @@ export default function AdminOnboardingChecklist({
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
                         className={`text-sm font-bold ${
-                          completed ? 'text-[#3a3f4a] dark:text-[#a7adbb] line-through decoration-[#5c6370]' : 'text-[#101216] dark:text-white'
+                          completed ? 'text-ink-2 dark:text-snow-3 line-through decoration-ink-3' : 'text-ink dark:text-white'
                         }`}
                       >
                         {step.title}
                       </span>
-                      <span className="text-xs font-bold uppercase tracking-wider rounded-sm bg-[#f2efe9] dark:bg-[#222730] text-[#5c6370] dark:text-[#9ba3af] px-2 py-0.5 border border-[#e4e0d8] dark:border-[#2e3542]">
+                      <span className="text-xs font-bold uppercase tracking-wider rounded-sm bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 px-2 py-0.5 border border-line dark:border-night-line-strong">
                         {step.category}
                       </span>
-                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2 py-0.5 rounded-xs border border-[#e4e0d8] dark:border-[#2e3542] bg-[#faf8f5] dark:bg-[#16191f] text-[#101216] dark:text-[#f5f6f8]">
-                        <span className={`h-1.5 w-1.5 rounded-full ${completed ? 'bg-emerald-500' : 'bg-[#e03e3e]'}`} />
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2 py-0.5 rounded-xs border border-line dark:border-night-line-strong bg-paper dark:bg-night-2 text-ink dark:text-snow">
+                        <span className={`h-1.5 w-1.5 rounded-full ${completed ? 'bg-emerald-500' : 'bg-brand'}`} />
                         {step.statusBadge}
                       </span>
                     </div>
 
-                    <p className="text-xs text-[#5c6370] dark:text-[#9ba3af] max-w-2xl leading-relaxed">
+                    <p className="text-xs text-ink-3 dark:text-snow-3 max-w-2xl leading-relaxed">
                       {step.description}
                     </p>
 
-                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] italic">
-                      <span className="font-semibold text-[#5c6370] dark:text-[#9ba3af] not-italic">Conseil :</span> {step.tip}
+                    <p className="text-xs text-ink-3 dark:text-snow-3 italic">
+                      <span className="font-semibold text-ink-3 dark:text-snow-3 not-italic">Conseil :</span> {step.tip}
                     </p>
                   </div>
                 </div>
@@ -375,8 +375,8 @@ export default function AdminOnboardingChecklist({
                     href={step.href}
                     className={`inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs ${
                       completed
-                        ? 'border border-[#e4e0d8] dark:border-[#2e3542] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#262b38]'
-                        : 'bg-[#e03e3e] hover:bg-[#c93434] text-white'
+                        ? 'border border-line dark:border-night-line-strong bg-white dark:bg-night-3 text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-line'
+                        : 'bg-brand hover:bg-brand-strong text-white'
                     }`}
                   >
                     <span>{step.actionLabel}</span>
@@ -388,9 +388,9 @@ export default function AdminOnboardingChecklist({
           })}
 
           {/* Footer note */}
-          <div className="p-4 bg-[#f2efe9]/70 dark:bg-[#111318]/70 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#5c6370] dark:text-[#9ba3af]">
+          <div className="p-4 bg-paper-2/70 dark:bg-night/70 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-3 dark:text-snow-3">
             <div className="flex items-center gap-2">
-              <CheckCircleIcon className="h-4 w-4 text-[#e03e3e]" />
+              <CheckCircleIcon className="h-4 w-4 text-brand" />
               <span>
                 Ce guide reste accessible à tout moment depuis le bouton <strong>&laquo; Guide &amp; Raccourcis &raquo;</strong> du menu latéral.
               </span>
@@ -399,7 +399,7 @@ export default function AdminOnboardingChecklist({
             <button
               type="button"
               onClick={handleDismiss}
-              className="text-xs font-semibold text-[#5c6370] dark:text-[#9ba3af] hover:text-[#101216] dark:hover:text-white hover:underline"
+              className="text-xs font-semibold text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white hover:underline"
             >
               Masquer pour l&apos;instant
             </button>
