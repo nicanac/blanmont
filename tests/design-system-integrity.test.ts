@@ -90,4 +90,52 @@ describe('Design System & AI Agent Alignment Integrity', () => {
     }
     checkDir(appDir);
   });
+
+  it('Impeccable skill documentation is aligned with La Feuille de Blanmont and Git workflow', () => {
+    const skillPath = path.join(rootDir, '.agents', 'skills', 'impeccable', 'SKILL.md');
+    const craftFloorPath = path.join(rootDir, '.agents', 'skills', 'impeccable', 'reference', 'craft-floor.md');
+    const documentPath = path.join(rootDir, '.agents', 'skills', 'impeccable', 'reference', 'document.md');
+
+    expect(fs.existsSync(skillPath)).toBe(true);
+    expect(fs.existsSync(craftFloorPath)).toBe(true);
+    expect(fs.existsSync(documentPath)).toBe(true);
+
+    const skillContent = fs.readFileSync(skillPath, 'utf8');
+    expect(skillContent).toContain('La Feuille de Blanmont — Carte IGN');
+    expect(skillContent).toContain('Archivo');
+    expect(skillContent).toContain('docs/git-workflow.md');
+    expect(skillContent).toContain('SheetHeader');
+
+    const craftFloorContent = fs.readFileSync(craftFloorPath, 'utf8');
+    expect(craftFloorContent).toContain('La Feuille de Blanmont — Carte IGN');
+    expect(craftFloorContent).toContain('crisp 2px–6px');
+    expect(craftFloorContent).not.toContain('Card radii stay at 12–16px');
+
+    const documentContent = fs.readFileSync(documentPath, 'utf8');
+    expect(documentContent).toContain('La Feuille de Blanmont (Carte IGN)');
+    expect(documentContent).toContain('Step 6: Automated Git Workflow');
+    expect(documentContent).toContain('npm test');
+  });
+
+  it('Impeccable documenter and reviewer agent definitions enforce La Feuille de Blanmont and Git automation', () => {
+    const docAgentToml = path.join(rootDir, '.agents', 'skills', 'impeccable', 'agents', 'impeccable_documenter.toml');
+    const docCursorAgent = path.join(rootDir, '.cursor', 'agents', 'impeccable-documenter.md');
+    const docGithubAgent = path.join(rootDir, '.github', 'agents', 'impeccable-documenter.agent.md');
+    const reviewerToml = path.join(rootDir, '.agents', 'skills', 'impeccable', 'agents', 'impeccable_finish_reviewer.toml');
+
+    const files = [docAgentToml, docCursorAgent, docGithubAgent];
+    for (const f of files) {
+      expect(fs.existsSync(f), `File ${f} should exist`).toBe(true);
+      const content = fs.readFileSync(f, 'utf8');
+      expect(content).toContain('La Feuille de Blanmont — Carte IGN');
+      expect(content).toContain('Automated Git Workflow');
+      expect(content).toContain('npm test');
+    }
+
+    const reviewerContent = fs.readFileSync(reviewerToml, 'utf8');
+    expect(reviewerContent).toContain('La Feuille de Blanmont — Carte IGN');
+    expect(reviewerContent).toContain('Archivo');
+    expect(reviewerContent).toContain('SheetHeader');
+  });
 });
+

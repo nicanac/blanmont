@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-23T12:00:00.000Z",
+  "generatedAt": "2026-09-23T13:35:00.000Z",
   "title": "Design System: CC Saint-Martin Blanmont",
   "extensions": {
     "colorMeta": {
@@ -27,6 +27,12 @@
         "displayName": "Brand Tint Wash",
         "canonical": "#fdeceb",
         "tonalRamp": ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5", "#fdeceb"]
+      },
+      "brand-soft": {
+        "role": "primary",
+        "displayName": "Brand Soft Crimson Highlight (Night)",
+        "canonical": "#ff7b72",
+        "tonalRamp": ["#4a0d0d", "#7a1a1a", "#b82b2b", "#d63535", "#ff7b72", "#ffa39c", "#ffd1cd", "#fff0ef"]
       },
       "paper": {
         "role": "neutral",
