@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRightIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import GeodeticMark from '@/app/components/carte/GeodeticMark';
 import TerritoryMap from '@/app/components/carte/TerritoryMap';
 import WindField from '@/app/components/carte/WindField';
 import { WindRose } from '@/app/components/carte/WindRose';
@@ -55,7 +56,7 @@ export default function HomeCover({
       className="relative isolate border-b border-ink bg-(--map-paper) dark:border-night-line-strong"
     >
       {/* The territory sheet */}
-      <div className="relative h-[46svh] min-h-[300px] overflow-hidden [--ax:57%] [--ay:50%] [--sheet:1400px] sm:[--sheet:1900px] lg:absolute lg:inset-0 lg:h-auto lg:[--ax:71%] lg:[--ay:46%] lg:[--sheet:max(2700px,calc(var(--ax)*2+100px))]">
+      <div className="relative h-[38svh] min-h-[260px] overflow-hidden [--ax:50%] [--ay:48%] [--sheet:1400px] sm:h-[44svh] sm:[--sheet:1900px] lg:absolute lg:inset-0 lg:h-auto lg:[--ax:73%] lg:[--ay:48%] lg:[--sheet:max(2700px,calc(var(--ax)*2+100px))]">
         <TerritoryMap
           develop
           labels={3}
@@ -79,18 +80,31 @@ export default function HomeCover({
       </div>
 
       {/* Title cartouche */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:flex lg:min-h-[calc(100svh-4rem-5.5rem)] lg:items-center lg:px-8 lg:py-12">
-        <div className="neatline relative -mt-12 w-full max-w-[37rem] bg-white/[0.97] p-6 shadow-lg sm:p-9 lg:mt-0 dark:bg-night-2/[0.97]">
-          <h1 id="depart-title" className="text-ink dark:text-snow">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:flex lg:min-h-[calc(100svh-4rem-5.5rem)] lg:items-center lg:px-8 lg:py-10">
+        <div className="neatline relative -mt-8 w-full max-w-[32.5rem] bg-white/[0.98] p-5 sm:-mt-10 sm:p-7 lg:mt-0 dark:bg-night-2/[0.98]">
+          {/* Cartouche geodetic header */}
+          <div className="flex items-center justify-between border-b border-line pb-2.5 dark:border-night-line">
+            <div className="flex items-center gap-2 text-brand dark:text-brand-soft">
+              <GeodeticMark className="size-3.5" />
+              <span className="font-narrow text-[11px] font-bold uppercase tracking-[0.1em] text-ink-3 dark:text-snow-3">
+                {DEPARTURE_POINT.coordinates}
+              </span>
+            </div>
+            <span className="font-narrow text-[10.5px] font-bold uppercase tracking-[0.12em] text-brand dark:text-brand-soft">
+              Prochain départ
+            </span>
+          </div>
+
+          <h1 id="depart-title" className="mt-3.5 text-ink dark:text-snow">
             <span className="sr-only">Prochain départ du CC Saint-Martin Blanmont : </span>
-            <span className="block font-wide text-[clamp(1.35rem,2.5vw,2rem)] font-extrabold uppercase leading-none tracking-[0.01em]">
+            <span className="block font-narrow text-xs font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
               {date.weekday} {date.dayMonth}
             </span>
-            <span className="mt-2 block text-balance font-wide text-[clamp(2.75rem,6.4vw,5.5rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.015em] tabular-nums">
+            <span className="mt-1 block text-balance font-wide text-[clamp(2.2rem,4.5vw,3.75rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.015em] tabular-nums">
               Départ {nextRide.departure}
             </span>
           </h1>
-          <p className="mt-4 text-base text-ink-2 dark:text-snow-2">
+          <p className="mt-2 text-sm text-ink-2 dark:text-snow-2">
             {atClubSquare ? (
               <>
                 <span className="font-semibold text-ink dark:text-snow">
@@ -106,17 +120,17 @@ export default function HomeCover({
             )}
           </p>
 
-          <dl className="mt-6 grid grid-cols-1 border-t border-ink sm:grid-cols-2 dark:border-snow-3">
-            <div className="flex items-center gap-3 border-b border-line py-3.5 sm:border-r sm:pr-4 dark:border-night-line">
+          <dl className="mt-4 grid grid-cols-1 border-t border-ink sm:grid-cols-2 dark:border-snow-3">
+            <div className="flex items-center gap-3 border-b border-line py-2.5 sm:border-r sm:pr-3.5 dark:border-night-line">
               <WeatherGlyph
                 code={forecast?.weatherCode}
-                className="size-8 text-ink dark:text-snow"
+                className="size-7 shrink-0 text-ink dark:text-snow"
               />
               <div className="min-w-0">
-                <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
+                <dt className="font-narrow text-[10.5px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                   Météo au départ
                 </dt>
-                <dd className="text-sm font-semibold text-ink dark:text-snow">
+                <dd className="truncate text-xs font-semibold text-ink dark:text-snow">
                   {forecast ? (
                     <>
                       <span className="tabular-nums">{forecast.temperature} °C</span> ·{' '}
@@ -130,23 +144,23 @@ export default function HomeCover({
                     </>
                   ) : (
                     <span className="font-normal text-ink-3 dark:text-snow-3">
-                      Prévisions disponibles à J-14
+                      Prévisions à J-14
                     </span>
                   )}
                 </dd>
               </div>
             </div>
-            <div className="flex items-center gap-3 border-b border-line py-3.5 sm:pl-4 dark:border-night-line">
+            <div className="flex items-center gap-3 border-b border-line py-2.5 sm:pl-3.5 dark:border-night-line">
               {forecast ? (
-                <WindRose fromDeg={forecast.windDirection} />
+                <WindRose fromDeg={forecast.windDirection} className="size-6 shrink-0" />
               ) : (
-                <WindRose fromDeg={0} className="opacity-40" />
+                <WindRose fromDeg={0} className="size-6 shrink-0 opacity-40" />
               )}
               <div className="min-w-0">
-                <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
+                <dt className="font-narrow text-[10.5px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                   Vent
                 </dt>
-                <dd className="text-sm font-semibold text-ink dark:text-snow">
+                <dd className="truncate text-xs font-semibold text-ink dark:text-snow">
                   {forecast ? (
                     <>
                       De {cardinalName(forecast.windCardinal)} ·{' '}
@@ -159,23 +173,23 @@ export default function HomeCover({
               </div>
             </div>
             {advice && (
-              <div className="border-b border-line py-3 sm:col-span-2 dark:border-night-line">
+              <div className="border-b border-line py-2 sm:col-span-2 dark:border-night-line">
                 <dt className="sr-only">Conseil de route</dt>
-                <dd className="text-sm italic text-ink-2 dark:text-snow-2">{advice}</dd>
+                <dd className="text-xs italic text-ink-2 dark:text-snow-2">{advice}</dd>
               </div>
             )}
-            <div className="py-3.5 sm:col-span-2">
-              <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
+            <div className="py-2.5 sm:col-span-2">
+              <dt className="font-narrow text-[10.5px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                 Groupes{distance ? ` · ${distance}` : ''}
               </dt>
-              <dd className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-4">
+              <dd className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1.5 sm:grid-cols-4">
                 {PACE_GROUPS.map((g) => (
-                  <span key={g.id} className="flex items-center gap-2">
-                    <RoadSwatch group={g.id} className="w-8" />
-                    <span className="font-narrow text-sm font-bold text-ink dark:text-snow">
+                  <span key={g.id} className="flex items-center gap-1.5 min-w-0">
+                    <RoadSwatch group={g.id} className="w-6 shrink-0" />
+                    <span className="font-narrow text-xs font-bold text-ink dark:text-snow">
                       {g.id}
                     </span>
-                    <span className="font-narrow text-xs tabular-nums text-ink-3 dark:text-snow-3">
+                    <span className="font-narrow text-[11px] tabular-nums text-ink-3 dark:text-snow-3 truncate">
                       {g.speed.replace(' km/h', '')}
                     </span>
                   </span>
@@ -184,26 +198,26 @@ export default function HomeCover({
             </div>
           </dl>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-4 flex flex-wrap items-center gap-2.5">
             {pollOpen ? (
               <Link
                 href="/sondage"
-                className="group inline-flex min-h-[48px] items-center gap-2.5 rounded-md bg-brand px-6 font-narrow text-sm font-bold uppercase tracking-[0.08em] text-white shadow-[inset_0_-2px_0_rgb(0_0_0/0.18)] transition-colors hover:bg-brand-strong"
+                className="group inline-flex min-h-[44px] items-center gap-2 rounded-md bg-brand px-5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-[inset_0_-2px_0_rgb(0_0_0/0.18)] transition-colors hover:bg-brand-strong"
               >
                 Je roule ce week-end
                 <ArrowRightIcon
-                  className="size-4 transition-transform duration-300 ease-(--ease-plot) group-hover:translate-x-1"
+                  className="size-3.5 transition-transform duration-300 ease-(--ease-plot) group-hover:translate-x-1"
                   aria-hidden="true"
                 />
               </Link>
             ) : (
               <Link
                 href="/calendrier"
-                className="group inline-flex min-h-[48px] items-center gap-2.5 rounded-md bg-brand px-6 font-narrow text-sm font-bold uppercase tracking-[0.08em] text-white shadow-[inset_0_-2px_0_rgb(0_0_0/0.18)] transition-colors hover:bg-brand-strong"
+                className="group inline-flex min-h-[44px] items-center gap-2 rounded-md bg-brand px-5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-[inset_0_-2px_0_rgb(0_0_0/0.18)] transition-colors hover:bg-brand-strong"
               >
                 Voir le calendrier
                 <ArrowRightIcon
-                  className="size-4 transition-transform duration-300 ease-(--ease-plot) group-hover:translate-x-1"
+                  className="size-3.5 transition-transform duration-300 ease-(--ease-plot) group-hover:translate-x-1"
                   aria-hidden="true"
                 />
               </Link>
@@ -213,21 +227,21 @@ export default function HomeCover({
                 href={nextRide.gpxUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[48px] items-center gap-2 rounded-md border border-ink px-5 font-narrow text-sm font-bold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-ink px-4 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night"
               >
-                <ArrowDownTrayIcon className="size-4" aria-hidden="true" />
+                <ArrowDownTrayIcon className="size-3.5" aria-hidden="true" />
                 {gpxLabel(nextRide.gpxUrl)}
               </a>
             )}
             {pollOpen && ridersAnnounced > 0 && (
-              <span className="font-narrow text-sm text-ink-3 dark:text-snow-3">
+              <span className="font-narrow text-xs text-ink-3 dark:text-snow-3">
                 <strong className="tabular-nums text-ink dark:text-snow">{ridersAnnounced}</strong>{' '}
                 déjà annoncé{ridersAnnounced > 1 ? 's' : ''}
               </span>
             )}
           </div>
 
-          <p className="mt-6 border-t border-line pt-4 text-sm text-ink-2 dark:border-night-line dark:text-snow-2">
+          <p className="mt-3.5 border-t border-line pt-2.5 text-xs text-ink-2 dark:border-night-line dark:text-snow-2">
             Première sortie avec nous ? Trois sorties d&apos;essai offertes, sans engagement.{' '}
             <Link
               href="/rejoindre"

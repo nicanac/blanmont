@@ -25,9 +25,9 @@ import { tallyPoll, upcomingEvents, localTodayIso } from './components/home/home
 
 /**
  * Home — La Feuille de Blanmont: the next departure printed as the title of the
- * club's own topographic sheet, the club's photo slider, then the weekend survey,
- * the groups as the map legend, the season timetable, the Carré Vert, the photo
- * plates and the logbook.
+ * club's own topographic sheet, immediately followed by the weekend survey and
+ * pace groups, the peloton photo slider, the season timetable, the Carré Vert,
+ * the gazette, the photo plates, and the join route.
  */
 export default async function Home(): Promise<React.ReactElement> {
   const [posts, activePoll, events, heroSettings, albums, rawEntries, allAttendance] =
@@ -73,18 +73,18 @@ export default async function Home(): Promise<React.ReactElement> {
         activePoll={activePoll}
         ridersAnnounced={tally.riders}
       />
-      <HomeSlider heroSettings={heroSettings} />
       <WeekendBoard poll={activePoll} tally={tally} />
       <GroupRoads />
+      <HomeSlider heroSettings={heroSettings} />
       <SeasonTimetable events={upcoming} totalThisSeason={seasonTotal} />
       <CarreVertBand year={year} possible={possible} riders={riders} />
+      <HomeBlogSection posts={posts} />
       <PhotoPlates
         albums={albums}
         slides={heroSettings.slides}
         albumCount={albums.length}
         photoCount={photoTotal}
       />
-      <HomeBlogSection posts={posts} />
       <JoinRoute />
     </div>
   );
