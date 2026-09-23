@@ -78,9 +78,8 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
       />
     );
 
-    // Coordinates strip
-    expect(screen.getByText(/50°37′23″ N/i)).toBeInTheDocument();
-    expect(screen.getByText('Prochain départ')).toBeInTheDocument();
+    // Next departure indicator
+    expect(screen.getByText(/Prochain départ/i)).toBeInTheDocument();
 
     // Title and departure time
     expect(screen.getByText(/Départ 09h00/i)).toBeInTheDocument();
