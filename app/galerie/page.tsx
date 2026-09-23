@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Galerie & Chroniques Photos | CC Saint-Martin Blanmont',
   description:
-    'Archives photographiques officielles du CC Saint-Martin Blanmont : 149 albums et plus de 3 870 clichés retraçant les sorties, séjours ardennais et moments forts du club de 2022 à 2026.',
+    'Archives photographiques officielles du CC Saint-Martin Blanmont : albums et clichés retraçant les sorties, séjours ardennais et moments forts du club.',
 };
 
 export default async function GaleriePage(): Promise<React.ReactElement> {
@@ -20,20 +20,20 @@ export default async function GaleriePage(): Promise<React.ReactElement> {
   return (
     <main className="min-h-screen bg-paper transition-colors duration-200 dark:bg-night">
       <SheetHeader
-        sheet="Galerie"
+        sheet="Archives photographiques"
         focus={{ x: 36, y: 40 }}
         title="Galerie & chroniques"
         description="La mémoire vive du peloton : les albums, les clichés et les saisons d'aventures cyclistes sur les routes brabançonnes, ardennaises et internationales."
         legend={[
-          { term: 'Albums', value: `${albums.length}` },
+          { term: 'Albums répertoriés', value: `${albums.length}` },
           { term: 'Clichés numérisés', value: photoTotal.toLocaleString('fr-BE') },
-          { term: 'Saisons archivées', value: `${seasons}` },
+          { term: 'Saisons archivées', value: `${seasons} saisons` },
         ]}
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
         <GalleryView initialAlbums={albums} />
-      </div>
+      </section>
     </main>
   );
 }

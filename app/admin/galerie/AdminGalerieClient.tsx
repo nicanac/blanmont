@@ -164,7 +164,7 @@ export default function AdminGalerieClient({
       </div>
 
       {/* Albums Table */}
-      <div className="rounded-[10px] border border-line bg-white overflow-hidden shadow-xs">
+      <div className="rounded-sm border border-line bg-white overflow-hidden shadow-2xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-paper text-xs font-bold uppercase tracking-wider text-ink-3 border-b border-line">
@@ -266,9 +266,9 @@ export default function AdminGalerieClient({
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
         >
-          <div className="bg-white rounded-[10px] border border-line w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95">
+          <div className="bg-white rounded-md border-2 border-ink w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95">
             <div className="p-4 border-b border-paper-2 flex items-center justify-between">
               <h3 className="text-sm font-bold text-ink uppercase tracking-wider">
                 Ajouter un album photo
