@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { ArrowRightIcon, ArrowDownTrayIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import RideWeatherBadge from '../ui/RideWeatherBadge';
 import { useTheme } from '../../context/ThemeContext';
-import { GeodeticMark } from '../carte/GeodeticMark';
+import { HeartLineMark } from '../brand/HeartLineMark';
 import { cn } from '../../utils/cn';
 
 export interface ScheduledRideInfo {
@@ -60,7 +60,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
           aria-expanded={isExpanded}
         >
           <span className="flex items-center gap-2">
-            <GeodeticMark className="size-3.5 text-brand-vif" />
+            <HeartLineMark className="size-3.5 text-brand-vif" />
             <span className="font-narrow text-xs font-bold uppercase tracking-[0.1em] text-ink dark:text-snow">
               Prochain Rendez-vous
             </span>

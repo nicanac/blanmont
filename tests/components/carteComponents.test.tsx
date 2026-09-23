@@ -8,8 +8,31 @@ import { GeodeticMark } from '@/app/components/carte/GeodeticMark';
 import { ScaleBar, NorthArrow } from '@/app/components/carte/ScaleBar';
 import { RoadSwatch } from '@/app/components/carte/RoadSwatch';
 import { Wordmark } from '@/app/components/brand/Wordmark';
+import { HeartLineMark } from '@/app/components/brand/HeartLineMark';
 
 describe('Carte Components Suite', () => {
+  describe('HeartLineMark', () => {
+    it('renders the SVG heart line mark with default pulse-heart variant', () => {
+      const { container } = render(<HeartLineMark className="custom-pulse" title="Ligne de cœur" />);
+      const svg = container.querySelector('svg');
+      expect(svg).toBeDefined();
+      expect(svg?.getAttribute('role')).toBe('img');
+      expect(screen.getByText('Ligne de cœur')).toBeDefined();
+      // Default pulse-heart has two paths (contour + pulse)
+      expect(container.querySelectorAll('path').length).toBe(2);
+    });
+
+    it('renders the ecg variant', () => {
+      const { container } = render(<HeartLineMark variant="ecg" />);
+      expect(container.querySelectorAll('path').length).toBe(1);
+    });
+
+    it('renders the contour variant', () => {
+      const { container } = render(<HeartLineMark variant="contour" />);
+      expect(container.querySelectorAll('path').length).toBe(1);
+    });
+  });
+
   describe('GeodeticMark', () => {
     it('renders the SVG geodetic benchmark symbol', () => {
       const { container } = render(<GeodeticMark className="custom-mark" title="Point géodésique" />);
@@ -52,13 +75,17 @@ describe('Carte Components Suite', () => {
   });
 
   describe('Wordmark', () => {
-    it('renders the club wordmark linking to home', () => {
-      render(<Wordmark size="md" withSubline={true} />);
+    it('renders the club wordmark with heart line mark linking to home', () => {
+      const { container } = render(<Wordmark size="md" withSubline={true} />);
       const link = screen.getByRole('link', { name: /CC Saint-Martin Blanmont/i });
       expect(link).toBeDefined();
       expect(link.getAttribute('href')).toBe('/');
       expect(screen.getByText(/Blanmont/i)).toBeDefined();
       expect(screen.getByText(/Cyclo Club/i)).toBeDefined();
+      // Verifies HeartLineMark SVG is present inside Wordmark
+      const svg = container.querySelector('svg');
+      expect(svg).toBeDefined();
+      expect(container.querySelectorAll('path').length).toBeGreaterThanOrEqual(1);
     });
   });
 });

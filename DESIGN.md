@@ -254,7 +254,9 @@ Form language is characterized by crisp rectilinear sheet corners, sharp neatlin
 - **`TerritoryMap` (`app/components/carte/TerritoryMap.tsx`):**
   Vector map layer preview rendering the club territory SVG masks (roads, rail, relief contours, hydrography).
 - **`Wordmark` (`app/components/brand/Wordmark.tsx`):**
-  Club wordmark combining the geodetic benchmark mark (`GeodeticMark`) with expanded Archivo capitals.
+  Club wordmark combining the heart line mark (`HeartLineMark`) with expanded Archivo capitals.
+- **`HeartLineMark` (`app/components/brand/HeartLineMark.tsx`):**
+  Brand mark symbolizing the cardiac effort, peloton passion, and heart of the cycling club.
 - **`ScaleBar` (`app/components/carte/ScaleBar.tsx`):**
   Topographic scale bar and cardinal north arrow.
 - **`WindField` & `WindRose` (`app/components/carte/WindField.tsx`, `WindRose.tsx`):**
