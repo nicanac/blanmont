@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { HeartLineMark } from '../brand/HeartLineMark';
 
 export default function FirstArrivalLoader() {
   const [isVisible, setIsVisible] = useState(false);
@@ -121,6 +122,7 @@ export default function FirstArrivalLoader() {
         {/* Brand Wordmark & Typography */}
         <div className="space-y-1.5">
           <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/10 text-brand text-xs font-bold uppercase tracking-widest border border-white/10">
+            <HeartLineMark className="size-3.5 text-brand" />
             CC Saint-Martin
           </div>
 

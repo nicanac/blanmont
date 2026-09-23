@@ -1,24 +1,26 @@
 import React from 'react';
 import Link from 'next/link';
 import { cn } from '@/app/utils/cn';
-import { GeodeticMark } from '@/app/components/carte/GeodeticMark';
+import { HeartLineMark, type HeartLineMarkProps } from './HeartLineMark';
 
 interface WordmarkProps {
   className?: string;
   size?: 'md' | 'lg';
   withSubline?: boolean;
   onDark?: boolean;
+  variant?: HeartLineMarkProps['variant'];
 }
 
 /**
- * Club wordmark: the geodetic point (the Place de la Féchère, where every ride
- * starts) set beside BLANMONT in expanded map capitals.
+ * Club wordmark: the heart line (cardiac rhythm & peloton passion)
+ * set beside BLANMONT in expanded map capitals.
  */
 export function Wordmark({
   className,
   size = 'md',
   withSubline = true,
   onDark = false,
+  variant = 'pulse-heart',
 }: WordmarkProps): React.ReactElement {
   return (
     <Link
@@ -29,9 +31,10 @@ export function Wordmark({
       )}
       aria-label="CC Saint-Martin Blanmont — accueil"
     >
-      <GeodeticMark
+      <HeartLineMark
+        variant={variant}
         className={cn(
-          'text-brand-vif transition-transform duration-300 ease-(--ease-stamp) group-hover:-translate-y-0.5',
+          'text-brand-vif transition-transform duration-300 ease-(--ease-stamp) group-hover:-translate-y-0.5 group-hover:scale-105',
           size === 'lg' ? 'size-7' : 'size-[1.15rem]'
         )}
       />
