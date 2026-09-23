@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@/app/utils/cn';
-import { GeodeticMark } from './GeodeticMark';
+import { HeartLineMark } from '@/app/components/brand/HeartLineMark';
 import { getMapLabels, getRiverLabels } from './territory';
 
 const FULL_LAYERS = [
@@ -118,7 +118,7 @@ export default function TerritoryMap({
             {marker === 'hero' && (
               <span className="pulse-ring absolute left-1/2 top-[58%] -ml-5 -mt-5 size-10 rounded-full border border-brand-vif" />
             )}
-            <GeodeticMark
+            <HeartLineMark
               className={cn('relative text-brand-vif', marker === 'hero' ? 'size-6' : 'size-4')}
             />
           </span>

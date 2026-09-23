@@ -6,7 +6,7 @@ import { Trace } from '../../../types';
 import { stripSuffix } from '../../../utils/string.utils';
 import { parseDirection } from '../../../utils/direction';
 import { ArrowDownTrayIcon, StarIcon } from '@heroicons/react/20/solid';
-import { GeodeticMark } from '../../../components/carte/GeodeticMark';
+import { HeartLineMark } from '../../../components/brand/HeartLineMark';
 
 interface TraceCardProps {
   trace: Trace;
@@ -55,7 +55,7 @@ export default function TraceCard({ trace, ...props }: TraceCardProps) {
           />
         ) : (
           <div className="flex size-full items-center justify-center bg-paper-2 dark:bg-night-3">
-            <GeodeticMark className="size-7 text-brand-vif" title="Aperçu de carte indisponible" />
+            <HeartLineMark className="size-7 text-brand-vif" title="Aperçu de parcours indisponible" />
           </div>
         )}
         <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1 rounded-sm bg-ink/85 px-2 py-1 font-narrow text-xs font-bold tabular-nums text-white">
