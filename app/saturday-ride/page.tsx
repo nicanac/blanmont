@@ -9,10 +9,10 @@ export const revalidate = 60;
 
 function SaturdayRideLoading(): React.ReactElement {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center p-8 text-center bg-[#faf8f5] dark:bg-[#0a0c10]">
+    <div className="min-h-[60vh] flex items-center justify-center p-8 text-center bg-paper dark:bg-night">
       <div className="space-y-4">
         <Spinner size="lg" />
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+        <p className="text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
           Chargement des parcours et votes du samedi...
         </p>
       </div>

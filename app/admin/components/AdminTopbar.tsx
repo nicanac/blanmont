@@ -170,14 +170,14 @@ export default function AdminTopbar({
   ];
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] bg-white/95 dark:bg-[#0a0c10]/95 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-line dark:border-night-line bg-white/95 dark:bg-night/95 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       {/* Left: Mobile Toggle / Desktop Collapse & Breadcrumbs */}
       <div className="flex items-center gap-3 min-w-0">
         {/* Mobile menu trigger */}
         <button
           type="button"
           onClick={onOpenMobileSidebar}
-          className="md:hidden p-2 rounded-md text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+          className="md:hidden p-2 rounded-md text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
           title="Ouvrir la navigation"
         >
           <span className="sr-only">Ouvrir le menu</span>
@@ -188,7 +188,7 @@ export default function AdminTopbar({
         <button
           type="button"
           onClick={onToggleSidebar}
-          className="hidden md:flex items-center justify-center h-8 w-8 rounded-md text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+          className="hidden md:flex items-center justify-center h-8 w-8 rounded-md text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
           title={isSidebarCollapsed ? 'Déplier la barre latérale (Ctrl+B)' : 'Replier la barre latérale (Ctrl+B)'}
         >
           {isSidebarCollapsed ? (
@@ -199,7 +199,7 @@ export default function AdminTopbar({
         </button>
 
         {/* Separator on desktop */}
-        <div className="hidden md:block h-4 w-px bg-[#e4e0d8] dark:bg-[#262b38]" />
+        <div className="hidden md:block h-4 w-px bg-line dark:bg-night-line" />
 
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-1.5 text-xs font-semibold overflow-hidden" aria-label="Breadcrumb">
@@ -208,21 +208,21 @@ export default function AdminTopbar({
             return (
               <React.Fragment key={crumb.label + idx}>
                 {idx > 0 && (
-                  <ChevronRightIcon className="h-3 w-3 text-[#5c6370] shrink-0" />
+                  <ChevronRightIcon className="h-3 w-3 text-ink-3 shrink-0" />
                 )}
                 {isLast ? (
-                  <span className="font-bold text-[#101216] dark:text-white truncate">
+                  <span className="font-bold text-ink dark:text-white truncate">
                     {crumb.label}
                   </span>
                 ) : crumb.href ? (
                   <Link
                     href={crumb.href}
-                    className="text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors truncate"
+                    className="text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors truncate"
                   >
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-[#5c6370] truncate hidden sm:inline">
+                  <span className="text-ink-3 truncate hidden sm:inline">
                     {crumb.label}
                   </span>
                 )}
@@ -238,12 +238,12 @@ export default function AdminTopbar({
         <button
           type="button"
           onClick={onOpenCommandPalette}
-          className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] text-xs font-medium text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30 hover:text-[#101216] dark:hover:text-white transition-all shadow-2xs"
+          className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night-2 text-xs font-medium text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30 hover:text-ink dark:hover:text-white transition-all shadow-2xs"
           title="Rechercher (⌘K)"
         >
-          <MagnifyingGlassIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+          <MagnifyingGlassIcon className="h-3.5 w-3.5 text-ink-3" />
           <span className="hidden sm:inline">Rechercher...</span>
-          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-white dark:bg-[#262b38] border border-[#e4e0d8] dark:border-[#3a4152] font-mono text-xs text-[#5c6370]">
+          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-white dark:bg-night-line border border-line dark:border-night-line-strong font-mono text-xs text-ink-3">
             ⌘K
           </kbd>
         </button>
@@ -253,7 +253,7 @@ export default function AdminTopbar({
           <button
             type="button"
             onClick={() => setIsNewMenuOpen((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand hover:bg-brand-strong text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
           >
             <PlusIcon className="h-3.5 w-3.5 stroke-[2.5]" />
             <span className="hidden sm:inline">Nouveau</span>
@@ -263,8 +263,8 @@ export default function AdminTopbar({
           </button>
 
           {isNewMenuOpen && (
-            <div className="absolute right-0 mt-2 w-64 rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] shadow-xl p-1.5 z-50 text-left animate-in fade-in-50 zoom-in-95 duration-100">
-              <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+            <div className="absolute right-0 mt-2 w-64 rounded-xl border border-line dark:border-night-line bg-white dark:bg-night shadow-xl p-1.5 z-50 text-left animate-in fade-in-50 zoom-in-95 duration-100">
+              <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-ink-3">
                 Création Rapide
               </div>
               <div className="space-y-0.5">
@@ -273,16 +273,16 @@ export default function AdminTopbar({
                     key={action.name}
                     href={action.href}
                     onClick={() => setIsNewMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs hover:bg-[#f2efe9] dark:hover:bg-[#161922] transition-colors group"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs hover:bg-paper-2 dark:hover:bg-night-2 transition-colors group"
                   >
-                    <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] group-hover:text-[#e03e3e] group-hover:border-[#e03e3e]/30 transition-colors">
+                    <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-md bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 group-hover:text-brand group-hover:border-brand/30 transition-colors">
                       <action.icon className="h-3.5 w-3.5" />
                     </div>
                     <div>
-                      <div className="font-bold text-[#101216] dark:text-white">
+                      <div className="font-bold text-ink dark:text-white">
                         {action.name}
                       </div>
-                      <div className="text-xs text-[#5c6370]">
+                      <div className="text-xs text-ink-3">
                         {action.desc}
                       </div>
                     </div>
@@ -294,40 +294,40 @@ export default function AdminTopbar({
         </div>
 
         {/* Separator */}
-        <div className="h-4 w-px bg-[#e4e0d8] dark:bg-[#262b38]" />
+        <div className="h-4 w-px bg-line dark:bg-night-line" />
 
         {/* Guide & Raccourcis */}
         <button
           type="button"
           onClick={onOpenHelpModal}
-          className="p-1.5 rounded-lg text-[#5c6370] dark:text-[#a7adbb] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#101216] dark:hover:text-white transition-colors"
+          className="p-1.5 rounded-lg text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
           title="Guide & Raccourcis d'administration"
         >
-          <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
+          <AcademicCapIcon className="h-4 w-4 text-brand" />
         </button>
 
         {/* Public Site Link */}
         <Link
           href="/"
           target="_blank"
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] text-xs font-semibold text-[#101216] dark:text-white hover:bg-[#faf8f5] dark:hover:bg-[#202533] transition-colors"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 text-xs font-semibold text-ink dark:text-white hover:bg-paper dark:hover:bg-night-3 transition-colors"
           title="Ouvrir le site public dans un nouvel onglet"
         >
           <span className="hidden lg:inline">Voir le site</span>
-          <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+          <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-ink-3" />
         </Link>
 
         {/* User Pill / Role */}
         {user && (
           <div className="hidden xl:flex items-center gap-2 pl-1">
-            <div className="flex h-7 w-7 md:h-7 md:w-7 items-center justify-center rounded-full bg-[#101216] text-white font-bold text-xs border border-white/20">
+            <div className="flex h-7 w-7 md:h-7 md:w-7 items-center justify-center rounded-full bg-ink text-white font-bold text-xs border border-white/20">
               {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
             </div>
             <div className="text-left leading-tight">
-              <div className="text-xs font-bold text-[#101216] dark:text-white max-w-[90px] truncate">
+              <div className="text-xs font-bold text-ink dark:text-white max-w-[90px] truncate">
                 {user.name || 'Admin'}
               </div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-[#e03e3e]">
+              <div className="text-xs font-semibold uppercase tracking-wider text-brand">
                 {user.role || 'Admin'}
               </div>
             </div>

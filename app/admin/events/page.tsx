@@ -32,17 +32,17 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
       <EventsHeader upcomingCount={upcomingEvents.length} />
 
       {/* Upcoming Events Container */}
-      <div id="events-table-section" className="rounded-lg border border-[#e4e0d8] bg-white shadow-xs overflow-hidden">
-        <div className="border-b border-[#e4e0d8] px-6 py-4 bg-[#f2efe9] flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[#101216]">
+      <div id="events-table-section" className="rounded-lg border border-line bg-white shadow-xs overflow-hidden">
+        <div className="border-b border-line px-6 py-4 bg-paper-2 flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-ink">
             Prochaines Sorties Programmées
           </h2>
-          <span className="text-xs font-semibold text-[#5c6370] tabular-nums">
+          <span className="text-xs font-semibold text-ink-3 tabular-nums">
             {upcomingEvents.length} sorties
           </span>
         </div>
 
-        <div className="divide-y divide-[#efece5]">
+        <div className="divide-y divide-paper-2">
           {upcomingEvents.length === 0 ? (
             <div className="p-6">
               <AdminEmptyState
@@ -66,30 +66,30 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
             upcomingEvents.map((event) => (
               <div
                 key={event.id}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-5 sm:px-6 gap-4 hover:bg-[#faf8f5] transition-colors"
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-5 sm:px-6 gap-4 hover:bg-paper transition-colors"
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/20 mt-0.5">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-brand/10 text-brand border border-brand/20 mt-0.5">
                     <CalendarDaysIcon className="h-5 w-5" />
                   </div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-bold text-sm text-[#101216]">
+                      <span className="font-bold text-sm text-ink">
                         {formatFrenchDate(event.isoDate)}
                       </span>
-                      <span className="rounded-full bg-white border border-[#e4e0d8] px-2.5 py-0.5 text-xs font-semibold text-[#5c6370] tabular-nums">
+                      <span className="rounded-full bg-white border border-line px-2.5 py-0.5 text-xs font-semibold text-ink-3 tabular-nums">
                         {event.isoDate}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs text-[#5c6370] flex-wrap">
-                      <span className="inline-flex items-center gap-1 font-medium text-[#101216]">
-                        <MapPinIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                    <div className="flex items-center gap-3 text-xs text-ink-3 flex-wrap">
+                      <span className="inline-flex items-center gap-1 font-medium text-ink">
+                        <MapPinIcon className="h-3.5 w-3.5 text-brand" />
                         {event.location}
                       </span>
                       {event.departure && (
                         <span className="inline-flex items-center gap-1">
-                          <ClockIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+                          <ClockIcon className="h-3.5 w-3.5 text-ink-3" />
                           Départ {event.departure}
                         </span>
                       )}
@@ -105,7 +105,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
                     )}
 
                     {event.gpxUrl && (
-                      <p className="text-xs text-[#e03e3e] truncate max-w-md">
+                      <p className="text-xs text-brand truncate max-w-md">
                         <span className="font-semibold">Trace GPS :</span>{' '}
                         <a
                           href={event.gpxUrl}
@@ -123,7 +123,7 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
                 <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
                   <Link
                     href={`/admin/events/${event.id}/edit`}
-                    className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs font-semibold text-[#101216] hover:bg-[#f2efe9] transition-colors"
+                    className="inline-flex items-center gap-1 rounded-md border border-line bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:bg-paper-2 transition-colors"
                     title="Modifier"
                   >
                     <PencilIcon className="h-3.5 w-3.5" />
@@ -139,23 +139,23 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
 
       {/* Past Events */}
       {pastEvents.length > 0 && (
-        <div className="rounded-lg border border-[#e4e0d8] bg-white shadow-xs overflow-hidden opacity-80">
-          <div className="border-b border-[#e4e0d8] px-6 py-3.5 bg-[#f2efe9]">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+        <div className="rounded-lg border border-line bg-white shadow-xs overflow-hidden opacity-80">
+          <div className="border-b border-line px-6 py-3.5 bg-paper-2">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-ink-3">
               Dernières Sorties Passées
             </h2>
           </div>
-          <div className="divide-y divide-[#efece5]">
+          <div className="divide-y divide-paper-2">
             {pastEvents.map((event) => (
               <div
                 key={event.id}
-                className="flex items-center justify-between px-6 py-3.5 hover:bg-[#faf8f5]"
+                className="flex items-center justify-between px-6 py-3.5 hover:bg-paper"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-semibold text-[#101216]">
+                  <span className="text-xs font-semibold text-ink">
                     {formatFrenchDate(event.isoDate)}
                   </span>
-                  <span className="text-xs text-[#5c6370]">• {event.location}</span>
+                  <span className="text-xs text-ink-3">• {event.location}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <DeleteEventButton eventId={event.id} eventDate={event.isoDate} />

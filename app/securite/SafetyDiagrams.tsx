@@ -6,17 +6,17 @@ import React from 'react';
  */
 export function PelotonRoadDiagram(): React.ReactElement {
   return (
-    <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#101216] p-5 sm:p-6 text-white shadow-xs">
+    <div className="rounded-lg border border-line dark:border-night-line bg-ink p-5 sm:p-6 text-white shadow-xs">
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-white/10 mb-4">
         <h3 className="text-base font-bold text-white tracking-tight">
           Formation en double file sur chaussée
         </h3>
-        <span className="text-xs text-[#a7adbb]">
+        <span className="text-xs text-snow-3">
           Art. 43bis · Voie de droite exclusive
         </span>
       </div>
 
-      <div className="relative w-full aspect-16/10 bg-[#161922] rounded-md border border-white/10 overflow-hidden select-none">
+      <div className="relative w-full aspect-16/10 bg-night-2 rounded-md border border-white/10 overflow-hidden select-none">
         <svg
           viewBox="0 0 640 360"
           className="w-full h-full"
@@ -178,20 +178,20 @@ export function PelotonRoadDiagram(): React.ReactElement {
       {/* Legend */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 text-xs">
         <div className="flex items-start gap-2">
-          <span className="flex h-2.5 w-2.5 rounded-full bg-[#e03e3e] shrink-0 mt-1" />
-          <p className="text-xs text-[#a7adbb] leading-normal">
+          <span className="flex h-2.5 w-2.5 rounded-full bg-brand shrink-0 mt-1" />
+          <p className="text-xs text-snow-3 leading-normal">
             <strong className="text-white font-semibold">Capitaines de route (C) :</strong> encadrent en tête et en queue avec brassard tricolore et disque C3.
           </p>
         </div>
         <div className="flex items-start gap-2">
-          <span className="flex h-2.5 w-2.5 rounded-full bg-[#3a3f4a] border border-white/30 shrink-0 mt-1" />
-          <p className="text-xs text-[#a7adbb] leading-normal">
+          <span className="flex h-2.5 w-2.5 rounded-full bg-ink-2 border border-white/30 shrink-0 mt-1" />
+          <p className="text-xs text-snow-3 leading-normal">
             <strong className="text-white font-semibold">Deux de front stricts :</strong> maintien permanent sur la voie de droite sans franchir la ligne médiane.
           </p>
         </div>
         <div className="flex items-start gap-2">
           <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0 mt-1" />
-          <p className="text-xs text-[#a7adbb] leading-normal">
+          <p className="text-xs text-snow-3 leading-normal">
             <strong className="text-white font-semibold">Peloton de 15 à 50 :</strong> dispense légale de piste cyclable inadaptée pour la sécurité du groupe.
           </p>
         </div>
@@ -205,12 +205,12 @@ export function PelotonRoadDiagram(): React.ReactElement {
  */
 export function HalfWheelingDiagram(): React.ReactElement {
   return (
-    <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-4">
+    <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs space-y-4">
       <div className="space-y-1">
-        <h3 className="text-xl font-bold text-[#101216] dark:text-white">
+        <h3 className="text-xl font-bold text-ink dark:text-white">
           Le Risque de la Roue Croisée (Half-Wheeling)
         </h3>
-        <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+        <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3 leading-relaxed">
           Croiser sa roue avant avec la roue arrière du cycliste qui précède est la cause n°1 de chute en peloton.
           Si le coureur de tête s&apos;écarte ne serait-ce que de 5 cm pour éviter un trou ou un gravier, sa roue arrière percute votre roue avant.
           La direction est fauchée net : le guidon tourne à 90°, et la chute est instantanée et imparable.
@@ -226,7 +226,7 @@ export function HalfWheelingDiagram(): React.ReactElement {
             <span className="text-xs uppercase tracking-wider font-semibold">Danger</span>
           </div>
 
-          <div className="h-28 bg-white dark:bg-[#0a0c10] rounded border border-rose-200 dark:border-rose-900/40 relative flex items-center justify-center overflow-hidden">
+          <div className="h-28 bg-white dark:bg-night rounded border border-rose-200 dark:border-rose-900/40 relative flex items-center justify-center overflow-hidden">
             <svg viewBox="0 0 280 110" className="w-full h-full" fill="none">
               {/* Road markings */}
               <line x1="0" y1="15" x2="280" y2="15" stroke="#e4e0d8" strokeDasharray="6 6" />
@@ -269,7 +269,7 @@ export function HalfWheelingDiagram(): React.ReactElement {
             <span className="text-xs uppercase tracking-wider font-semibold">Conforme</span>
           </div>
 
-          <div className="h-28 bg-white dark:bg-[#0a0c10] rounded border border-emerald-200 dark:border-emerald-900/40 relative flex items-center justify-center overflow-hidden">
+          <div className="h-28 bg-white dark:bg-night rounded border border-emerald-200 dark:border-emerald-900/40 relative flex items-center justify-center overflow-hidden">
             <svg viewBox="0 0 280 110" className="w-full h-full" fill="none">
               {/* Road markings */}
               <line x1="0" y1="15" x2="280" y2="15" stroke="#e4e0d8" strokeDasharray="6 6" />

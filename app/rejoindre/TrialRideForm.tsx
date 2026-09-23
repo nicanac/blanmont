@@ -76,23 +76,23 @@ export default function TrialRideForm(): React.ReactElement {
 
   if (isSubmitted) {
     return (
-      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-8 sm:p-10 shadow-xs text-center space-y-6 animate-fadeIn">
+      <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 sm:p-10 shadow-xs text-center space-y-6 animate-fadeIn">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
           <CheckCircleIcon className="h-8 w-8 md:h-8 md:w-8" />
         </div>
 
         <div className="space-y-2 max-w-md mx-auto">
-          <h3 className="text-2xl font-extrabold text-[#101216] dark:text-white tracking-tight">
+          <h3 className="text-2xl font-extrabold text-ink dark:text-white tracking-tight">
             Demande d&apos;essai bien reçue !
           </h3>
-          <p className="text-sm text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-            Merci <strong className="text-[#101216] dark:text-white">{formData.name}</strong>. Un capitaine de route du {formData.preferredGroup === 'VTT' ? 'Groupe VTT' : `Groupe ${formData.preferredGroup}`} prendra contact avec vous par email ou téléphone avant votre première sortie.
+          <p className="text-sm text-ink-3 dark:text-snow-3 leading-relaxed">
+            Merci <strong className="text-ink dark:text-white">{formData.name}</strong>. Un capitaine de route du {formData.preferredGroup === 'VTT' ? 'Groupe VTT' : `Groupe ${formData.preferredGroup}`} prendra contact avec vous par email ou téléphone avant votre première sortie.
           </p>
         </div>
 
-        <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] p-5 max-w-lg mx-auto text-left space-y-3 text-xs text-[#3a3f4a] dark:text-[#c4cad4]">
-          <div className="font-bold uppercase tracking-wider text-[#101216] dark:text-white flex items-center gap-1.5">
-            <MapPinIcon className="h-4 w-4 text-[#e03e3e]" />
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink p-5 max-w-lg mx-auto text-left space-y-3 text-xs text-ink-2 dark:text-snow-2">
+          <div className="font-bold uppercase tracking-wider text-ink dark:text-white flex items-center gap-1.5">
+            <MapPinIcon className="h-4 w-4 text-brand" />
             <span>Rappel du rendez-vous</span>
           </div>
           <p>
@@ -121,7 +121,7 @@ export default function TrialRideForm(): React.ReactElement {
               message: '',
             });
           }}
-          className="inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-5 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1f242d] transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-5 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
         >
           <span>Envoyer une autre demande</span>
         </button>
@@ -132,20 +132,20 @@ export default function TrialRideForm(): React.ReactElement {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-10 shadow-xs space-y-8"
+      className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-10 shadow-xs space-y-8"
     >
-      <div className="space-y-1.5 border-b border-[#e4e0d8] dark:border-[#262b38] pb-6">
-        <h3 className="text-xl sm:text-2xl font-bold text-[#101216] dark:text-white tracking-tight">
+      <div className="space-y-1.5 border-b border-line dark:border-night-line pb-6">
+        <h3 className="text-xl sm:text-2xl font-bold text-ink dark:text-white tracking-tight">
           Réservez votre première sortie d&apos;essai gratuite
         </h3>
-        <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">
+        <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3">
           Sans engagement &bull; 3 sorties test gratuites &bull; Encadré par un capitaine de route
         </p>
       </div>
 
       {/* Speed Group Selector */}
       <div className="space-y-3">
-        <div id="trial-group-label" className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <div id="trial-group-label" className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
           1. Quel groupe d&apos;allure souhaitez-vous tester ? *
         </div>
         <div role="radiogroup" aria-labelledby="trial-group-label" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -160,18 +160,18 @@ export default function TrialRideForm(): React.ReactElement {
                 onClick={() => setFormData({ ...formData, preferredGroup: g.id })}
                 className={`flex flex-col text-left p-3.5 rounded-md border transition-all cursor-pointer min-h-[44px] ${
                   isSelected
-                    ? 'border-[#e03e3e] bg-[#e03e3e]/5 dark:bg-[#e03e3e]/10 text-[#101216] dark:text-white shadow-xs'
-                    : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30'
+                    ? 'border-brand bg-brand/5 dark:bg-brand/10 text-ink dark:text-white shadow-xs'
+                    : 'border-line dark:border-night-line bg-paper dark:bg-ink text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-bold text-sm text-[#101216] dark:text-white">{g.name}</span>
+                  <span className="font-bold text-sm text-ink dark:text-white">{g.name}</span>
                   <span
-                    className={`h-2 w-2 rounded-full ${isSelected ? 'bg-[#e03e3e]' : 'bg-transparent'}`}
+                    className={`h-2 w-2 rounded-full ${isSelected ? 'bg-brand' : 'bg-transparent'}`}
                   />
                 </div>
-                <span className="text-xs font-semibold text-[#e03e3e] tabular-nums">{g.speed}</span>
-                <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] mt-0.5">{g.desc}</span>
+                <span className="text-xs font-semibold text-brand tabular-nums">{g.speed}</span>
+                <span className="text-xs text-ink-3 dark:text-snow-3 mt-0.5">{g.desc}</span>
               </button>
             );
           })}
@@ -181,7 +181,7 @@ export default function TrialRideForm(): React.ReactElement {
       {/* Bike Type & Level */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <div id="trial-bike-label" className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+          <div id="trial-bike-label" className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
             2. Type de vélo utilisé
           </div>
           <div role="radiogroup" aria-labelledby="trial-bike-label" className="grid grid-cols-2 gap-2">
@@ -196,8 +196,8 @@ export default function TrialRideForm(): React.ReactElement {
                   onClick={() => setFormData({ ...formData, bikeType: b })}
                   className={`px-3 py-2.5 text-xs font-semibold rounded-md border text-center transition-colors cursor-pointer min-h-[44px] flex items-center justify-center ${
                     isSelected
-                      ? 'border-[#e03e3e] bg-[#e03e3e] text-white'
-                      : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#3a3f4a] dark:text-[#c4cad4] hover:bg-[#f2efe9]'
+                      ? 'border-brand bg-brand text-white'
+                      : 'border-line dark:border-night-line bg-paper dark:bg-ink text-ink-2 dark:text-snow-2 hover:bg-paper-2'
                   }`}
                 >
                   {b}
@@ -208,7 +208,7 @@ export default function TrialRideForm(): React.ReactElement {
         </div>
 
         <div className="space-y-2">
-          <div id="trial-level-label" className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+          <div id="trial-level-label" className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
             3. Votre niveau / habitude
           </div>
           <div role="radiogroup" aria-labelledby="trial-level-label" className="grid grid-cols-2 gap-2">
@@ -223,8 +223,8 @@ export default function TrialRideForm(): React.ReactElement {
                   onClick={() => setFormData({ ...formData, experienceLevel: lvl })}
                   className={`px-3 py-2.5 text-xs font-semibold rounded-md border text-center transition-colors cursor-pointer min-h-[44px] flex items-center justify-center ${
                     isSelected
-                      ? 'border-[#e03e3e] bg-[#e03e3e] text-white'
-                      : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#101216] text-[#3a3f4a] dark:text-[#c4cad4] hover:bg-[#f2efe9]'
+                      ? 'border-brand bg-brand text-white'
+                      : 'border-line dark:border-night-line bg-paper dark:bg-ink text-ink-2 dark:text-snow-2 hover:bg-paper-2'
                   }`}
                 >
                   {lvl}
@@ -237,13 +237,13 @@ export default function TrialRideForm(): React.ReactElement {
 
       {/* Date & Contact Information */}
       <div className="space-y-4 pt-2">
-        <div className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <div className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
           4. Vos coordonnées pour vous accueillir
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="trial-name" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-name" className="block text-xs text-ink-3 dark:text-snow-3 mb-1">
               Nom et Prénom *
             </label>
             <input
@@ -253,12 +253,12 @@ export default function TrialRideForm(): React.ReactElement {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="ex: Jean Dupont"
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
+              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3.5 py-2.5 text-xs text-ink dark:text-white placeholder-ink-3 dark:placeholder-snow-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand caret-brand min-h-[44px]"
             />
           </div>
 
           <div>
-            <label htmlFor="trial-email" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-email" className="block text-xs text-ink-3 dark:text-snow-3 mb-1">
               Adresse Email *
             </label>
             <input
@@ -268,12 +268,12 @@ export default function TrialRideForm(): React.ReactElement {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="ex: jean.dupont@email.be"
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
+              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3.5 py-2.5 text-xs text-ink dark:text-white placeholder-ink-3 dark:placeholder-snow-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand caret-brand min-h-[44px]"
             />
           </div>
 
           <div>
-            <label htmlFor="trial-phone" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-phone" className="block text-xs text-ink-3 dark:text-snow-3 mb-1">
               Numéro de Téléphone / GSM *
             </label>
             <input
@@ -283,12 +283,12 @@ export default function TrialRideForm(): React.ReactElement {
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               placeholder="ex: +32 470 12 34 56"
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
+              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3.5 py-2.5 text-xs text-ink dark:text-white placeholder-ink-3 dark:placeholder-snow-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand caret-brand min-h-[44px]"
             />
           </div>
 
           <div>
-            <label htmlFor="trial-firstRideDate" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+            <label htmlFor="trial-firstRideDate" className="block text-xs text-ink-3 dark:text-snow-3 mb-1">
               Date envisagée pour votre premier samedi (optionnel)
             </label>
             <input
@@ -296,13 +296,13 @@ export default function TrialRideForm(): React.ReactElement {
               type="date"
               value={formData.firstRideDate}
               onChange={(e) => setFormData({ ...formData, firstRideDate: e.target.value })}
-              className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e] min-h-[44px]"
+              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3.5 py-2.5 text-xs text-ink dark:text-white placeholder-ink-3 dark:placeholder-snow-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand caret-brand min-h-[44px]"
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="trial-message" className="block text-xs text-[#5c6370] dark:text-[#a7adbb] mb-1">
+          <label htmlFor="trial-message" className="block text-xs text-ink-3 dark:text-snow-3 mb-1">
             Remarques ou questions éventuelles pour les capitaines
           </label>
           <textarea
@@ -311,7 +311,7 @@ export default function TrialRideForm(): React.ReactElement {
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             placeholder="Ex : Je roule habituellement seul à 27 km/h, j'aimerais tester le peloton en groupe B..."
-            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-3.5 py-2.5 text-xs text-[#101216] dark:text-white placeholder-[#5c6370] dark:placeholder-[#a7adbb] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] caret-[#e03e3e]"
+            className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3.5 py-2.5 text-xs text-ink dark:text-white placeholder-ink-3 dark:placeholder-snow-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand caret-brand"
           />
         </div>
       </div>
@@ -321,7 +321,7 @@ export default function TrialRideForm(): React.ReactElement {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-8 py-3.5 min-h-[44px] text-xs font-semibold uppercase tracking-[0.06em] transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-[#e03e3e]/20"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-md bg-brand hover:bg-brand-strong text-white px-8 py-3.5 min-h-[44px] text-xs font-semibold uppercase tracking-[0.06em] transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-brand/20"
         >
           {isSubmitting ? (
             <>

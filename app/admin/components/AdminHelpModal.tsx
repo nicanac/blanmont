@@ -51,18 +51,18 @@ export default function AdminHelpModal({
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-3xl rounded-xl border border-[#262b38] bg-[#0a0c10] text-white shadow-2xl overflow-hidden z-10 my-8">
+      <div className="relative w-full max-w-3xl rounded-xl border border-night-line bg-night text-white shadow-2xl overflow-hidden z-10 my-8">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#262b38] px-6 py-4 bg-[#161922]">
+        <div className="flex items-center justify-between border-b border-night-line px-6 py-4 bg-night-2">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40">
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-brand/20 text-brand border border-brand/40">
               <AcademicCapIcon className="h-5 w-5" />
             </div>
             <div>
               <h2 id="admin-help-title" className="text-base font-extrabold uppercase tracking-tight text-white">
                 Centre d&apos;Aide &amp; Raccourcis Admin
               </h2>
-              <p className="text-xs text-[#a7adbb]">
+              <p className="text-xs text-snow-3">
                 Guide d&apos;exploitation du CC Saint-Martin Blanmont
               </p>
             </div>
@@ -72,21 +72,21 @@ export default function AdminHelpModal({
             type="button"
             onClick={onClose}
             aria-label="Fermer l'aide"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:bg-white/10 hover:text-white transition-colors duration-150"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-snow-3 hover:bg-white/10 hover:text-white transition-colors duration-150"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-[#262b38] bg-[#101216] px-6 overflow-x-auto">
+        <div className="flex border-b border-night-line bg-ink px-6 overflow-x-auto">
           <button
             type="button"
             onClick={() => setActiveTab('ritual')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'ritual'
-                ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#5c6370] hover:text-white'
+                ? 'border-brand text-white'
+                : 'border-transparent text-ink-3 hover:text-white'
             }`}
           >
             <CalendarDaysIcon className="h-4 w-4" />
@@ -97,8 +97,8 @@ export default function AdminHelpModal({
             onClick={() => setActiveTab('roles')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'roles'
-                ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#5c6370] hover:text-white'
+                ? 'border-brand text-white'
+                : 'border-transparent text-ink-3 hover:text-white'
             }`}
           >
             <ShieldCheckIcon className="h-4 w-4" />
@@ -109,8 +109,8 @@ export default function AdminHelpModal({
             onClick={() => setActiveTab('shortcuts')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'shortcuts'
-                ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#5c6370] hover:text-white'
+                ? 'border-brand text-white'
+                : 'border-transparent text-ink-3 hover:text-white'
             }`}
           >
             <CommandLineIcon className="h-4 w-4" />
@@ -121,8 +121,8 @@ export default function AdminHelpModal({
             onClick={() => setActiveTab('guide')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'guide'
-                ? 'border-[#e03e3e] text-white'
-                : 'border-transparent text-[#5c6370] hover:text-white'
+                ? 'border-brand text-white'
+                : 'border-transparent text-ink-3 hover:text-white'
             }`}
           >
             <ArrowPathIcon className="h-4 w-4" />
@@ -135,19 +135,19 @@ export default function AdminHelpModal({
           {/* TAB 1: RITUAL */}
           {activeTab === 'ritual' && (
             <div className="space-y-6">
-              <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-[#a7adbb] leading-relaxed">
+              <div className="rounded-lg border border-night-line bg-night-2 p-4 text-snow-3 leading-relaxed">
                 Le fonctionnement du club s&apos;articule autour d&apos;un rythme hebdomadaire bien rodé. Voici le calendrier des actions attendues des administrateurs et capitaines de route.
               </div>
 
               <div className="space-y-4">
-                <div className="relative pl-6 border-l border-[#e03e3e] space-y-1">
+                <div className="relative pl-6 border-l border-brand space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-extrabold uppercase tracking-wider text-white text-xs bg-[#e03e3e] px-2 py-0.5 rounded-xs">
+                    <span className="font-extrabold uppercase tracking-wider text-white text-xs bg-brand px-2 py-0.5 rounded-xs">
                       Mardi
                     </span>
                     <h4 className="font-bold text-white text-sm">Ouverture du Sondage Weekend</h4>
                   </div>
-                  <p className="text-[#a7adbb] text-xs">
+                  <p className="text-snow-3 text-xs">
                     Création du sondage du weekend sur <span className="text-white font-mono">/admin/sondages/new</span>. Les membres reçoivent la notification et votent pour leur présence (Samedi / Dimanche) et leur groupe de vitesse (A, B, C, VTT).
                   </p>
                 </div>
@@ -159,7 +159,7 @@ export default function AdminHelpModal({
                     </span>
                     <h4 className="font-bold text-white text-sm">Synthèse &amp; Traces GPS</h4>
                   </div>
-                  <p className="text-[#a7adbb] text-xs">
+                  <p className="text-snow-3 text-xs">
                     Consultation des effectifs, attribution des capitaines par groupe et partage du résumé WhatsApp via le bouton &laquo; Exporter WhatsApp &raquo; sur la fiche du sondage.
                   </p>
                 </div>
@@ -171,7 +171,7 @@ export default function AdminHelpModal({
                     </span>
                     <h4 className="font-bold text-white text-sm">Départ &amp; Enregistrement Carré Vert</h4>
                   </div>
-                  <p className="text-[#a7adbb] text-xs">
+                  <p className="text-snow-3 text-xs">
                     Rassemblement au local. Après la sortie, pointage des présences sur <span className="text-white font-mono">/admin/carre-vert</span> pour incrémenter les points du challenge annuel de régularité.
                   </p>
                 </div>
@@ -183,7 +183,7 @@ export default function AdminHelpModal({
                     </span>
                     <h4 className="font-bold text-white text-sm">Compte-rendu &amp; Nouvelles</h4>
                   </div>
-                  <p className="text-[#a7adbb] text-xs">
+                  <p className="text-snow-3 text-xs">
                     Publication des photos et d&apos;un article sur le blog pour relater les exploits du weekend et annoncer les dates des prochains brevets ou événements.
                   </p>
                 </div>
@@ -195,14 +195,14 @@ export default function AdminHelpModal({
           {activeTab === 'roles' && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 space-y-2">
+                <div className="rounded-lg border border-night-line bg-night-2 p-4 space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/40 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
+                    <span className="rounded-full bg-brand/20 text-brand border border-brand/40 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
                       Administrateur / Président
                     </span>
                   </div>
                   <h4 className="font-bold text-white text-sm">Gestion complète</h4>
-                  <ul className="text-xs text-[#a7adbb] space-y-1 list-disc list-inside">
+                  <ul className="text-xs text-snow-3 space-y-1 list-disc list-inside">
                     <li>Création et gestion des sondages</li>
                     <li>Ajout et modification de membres &amp; rôles</li>
                     <li>Publication d&apos;articles sur le blog</li>
@@ -211,14 +211,14 @@ export default function AdminHelpModal({
                   </ul>
                 </div>
 
-                <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 space-y-2">
+                <div className="rounded-lg border border-night-line bg-night-2 p-4 space-y-2">
                   <div className="flex items-center gap-2">
                     <span className="rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
                       Capitaine de Route
                     </span>
                   </div>
                   <h4 className="font-bold text-white text-sm">Animation &amp; Sécurité</h4>
-                  <ul className="text-xs text-[#a7adbb] space-y-1 list-disc list-inside">
+                  <ul className="text-xs text-snow-3 space-y-1 list-disc list-inside">
                     <li>Pointage des présences Carré Vert</li>
                     <li>Sélection des traces et groupes</li>
                     <li>Partage des résumés WhatsApp aux cyclistes</li>
@@ -227,7 +227,7 @@ export default function AdminHelpModal({
                 </div>
               </div>
 
-              <div className="rounded-lg border border-[#262b38] bg-[#101216] p-4 text-xs text-[#5c6370] flex items-start gap-2.5">
+              <div className="rounded-lg border border-night-line bg-ink p-4 text-xs text-ink-3 flex items-start gap-2.5">
                 <ShieldCheckIcon className="h-5 w-5 text-sky-400 shrink-0 mt-0.5" />
                 <p>
                   Les droits sont attribués dans l&apos;onglet <Link href="/admin/members" onClick={onClose} className="text-white font-semibold underline">Membres</Link>. Chaque membre peut posséder des rôles multiples (ex. Trésorier + Administrateur).
@@ -243,70 +243,70 @@ export default function AdminHelpModal({
                 <Link
                   href="/admin/sondages/new"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-night-line bg-night-2 hover:border-brand hover:bg-night-3 transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
-                    <ChatBubbleLeftRightIcon className="h-5 w-5 text-[#e03e3e]" />
+                    <ChatBubbleLeftRightIcon className="h-5 w-5 text-brand" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Nouveau Sondage</div>
-                      <div className="text-xs text-[#5c6370]">Lancer le vote de présence</div>
+                      <div className="text-xs text-ink-3">Lancer le vote de présence</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-ink-3 group-hover:text-white transition-colors duration-150" />
                 </Link>
 
                 <Link
                   href="/admin/events/import"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-night-line bg-night-2 hover:border-brand hover:bg-night-3 transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
                     <ArrowUpTrayIcon className="h-5 w-5 text-sky-400" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Importer Calendrier PDF</div>
-                      <div className="text-xs text-[#5c6370]">Ingestion automatique du calendrier</div>
+                      <div className="text-xs text-ink-3">Ingestion automatique du calendrier</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-ink-3 group-hover:text-white transition-colors duration-150" />
                 </Link>
 
                 <Link
                   href="/admin/blog/new"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-night-line bg-night-2 hover:border-brand hover:bg-night-3 transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
                     <DocumentTextIcon className="h-5 w-5 text-emerald-400" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Nouvel Article News</div>
-                      <div className="text-xs text-[#5c6370]">Rédiger un article ou mot du club</div>
+                      <div className="text-xs text-ink-3">Rédiger un article ou mot du club</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-ink-3 group-hover:text-white transition-colors duration-150" />
                 </Link>
 
                 <Link
                   href="/admin/members/new"
                   onClick={onClose}
-                  className="flex items-center justify-between p-3.5 rounded-lg border border-[#262b38] bg-[#161922] hover:border-[#e03e3e] hover:bg-[#1a1e2a] transition-all duration-200 ease-out group"
+                  className="flex items-center justify-between p-3.5 rounded-lg border border-night-line bg-night-2 hover:border-brand hover:bg-night-3 transition-all duration-200 ease-out group"
                 >
                   <div className="flex items-center gap-3">
                     <UsersIcon className="h-5 w-5 text-amber-400" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-white">Ajouter un Membre</div>
-                      <div className="text-xs text-[#5c6370]">Créer un compte cycliste</div>
+                      <div className="text-xs text-ink-3">Créer un compte cycliste</div>
                     </div>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-[#5c6370] group-hover:text-white transition-colors duration-150" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 text-ink-3 group-hover:text-white transition-colors duration-150" />
                 </Link>
               </div>
 
-              <div className="rounded-lg border border-[#262b38] bg-[#161922] p-4 text-xs text-[#a7adbb] space-y-2">
+              <div className="rounded-lg border border-night-line bg-night-2 p-4 text-xs text-snow-3 space-y-2">
                 <div className="font-bold text-white uppercase tracking-wider">Abonnement iCalendar direct :</div>
-                <p className="font-mono text-xs bg-[#0a0c10] p-2 rounded border border-[#262b38] text-emerald-400 select-all">
+                <p className="font-mono text-xs bg-night p-2 rounded border border-night-line text-emerald-400 select-all">
                   /api/calendar/subscribe.ics
                 </p>
-                <p className="text-[#5c6370]">
+                <p className="text-ink-3">
                   Ce flux synchronise automatiquement les sorties avec Apple Calendar, Google Calendar et Outlook des membres.
                 </p>
               </div>
@@ -316,13 +316,13 @@ export default function AdminHelpModal({
           {/* TAB 4: GUIDE RESET */}
           {activeTab === 'guide' && (
             <div className="space-y-4 text-center py-4">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#e03e3e]/10 text-[#e03e3e] border border-[#e03e3e]/30">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 text-brand border border-brand/30">
                 <ArrowPathIcon className="h-6 w-6 md:h-6 md:w-6" />
               </div>
 
               <div className="max-w-md mx-auto space-y-2">
                 <h4 className="text-base font-bold text-white">Guide de Démarrage Administrateur</h4>
-                <p className="text-xs text-[#a7adbb]">
+                <p className="text-xs text-snow-3">
                   Le guide interactif sur le tableau de bord vous accompagne pas à pas pour configurer le sondage, le calendrier et les membres.
                 </p>
               </div>
@@ -336,7 +336,7 @@ export default function AdminHelpModal({
                     }
                     onClose();
                   }}
-                  className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors duration-150 shadow-xs"
+                  className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors duration-150 shadow-xs"
                 >
                   <CheckCircleIcon className="h-4 w-4" />
                   <span>Réafficher le Guide sur le Tableau de Bord</span>
@@ -347,14 +347,14 @@ export default function AdminHelpModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-[#262b38] bg-[#161922] px-6 py-3">
-          <div className="text-xs text-[#5c6370]">
+        <div className="flex items-center justify-between border-t border-night-line bg-night-2 px-6 py-3">
+          <div className="text-xs text-ink-3">
             CC Saint-Martin Blanmont • Système d&apos;exploitation club
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-[#262b38] bg-[#0a0c10] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-white/5 transition-colors duration-150"
+            className="rounded-md border border-night-line bg-night px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-white/5 transition-colors duration-150"
           >
             Fermer
           </button>

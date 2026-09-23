@@ -20,7 +20,7 @@ export default function EquipmentIllustration({
   const isWomen = /femme|women/i.test(name);
 
   return (
-    <div className={`relative h-full w-full bg-gradient-to-br from-[#12151d] via-[#1a1f2c] to-[#0a0c10] flex flex-col items-center justify-between p-6 select-none overflow-hidden ${className}`}>
+    <div className={`relative h-full w-full bg-gradient-to-br from-night via-night-3 to-night flex flex-col items-center justify-between p-6 select-none overflow-hidden ${className}`}>
       {/* Background watermark club crest */}
       <svg
         className="pointer-events-none absolute -right-12 -bottom-12 h-64 w-64 text-white/[0.03] transform rotate-12"
@@ -35,10 +35,10 @@ export default function EquipmentIllustration({
 
       {/* Top Brand Label */}
       <div className="w-full flex items-center justify-between z-10">
-        <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#5c6370]">
+        <span className="text-xs font-bold uppercase tracking-[0.15em] text-ink-3">
           GOBIK CUSTOM
         </span>
-        <span className="text-xs font-extrabold uppercase tracking-[0.1em] text-[#e03e3e]">
+        <span className="text-xs font-extrabold uppercase tracking-[0.1em] text-brand">
           {isWomen ? 'COUPE FEMME' : 'COUPE HOMME'}
         </span>
       </div>
@@ -158,11 +158,11 @@ export default function EquipmentIllustration({
 
       {/* Bottom Footer Info Strip */}
       <div className="w-full flex items-center justify-between pt-3 border-t border-white/10 z-10">
-        <span className="text-xs font-mono uppercase text-[#a7adbb]">
+        <span className="text-xs font-mono uppercase text-snow-3">
           {productCode || 'REF-2026'}
         </span>
-        <span className="text-xs font-semibold text-[#f5f6f8] flex items-center gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#10b981]" />
+        <span className="text-xs font-semibold text-snow flex items-center gap-1">
+          <span className="h-1.5 w-1.5 rounded-full bg-vert-vif" />
           Design Officiel
         </span>
       </div>

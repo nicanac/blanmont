@@ -155,12 +155,12 @@ export default function SecuriteInteractive(): React.ReactElement {
     <div className="space-y-16">
       {/* ──── Section : Lexique Scannable des Signaux ──── */}
       <section id="signaux" className="space-y-6 scroll-mt-28">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-4 border-b border-[#e4e0d8] dark:border-[#262b38]">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-4 border-b border-line dark:border-night-line">
           <div className="space-y-1">
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216] dark:text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-white">
               Signaux Vocaux &amp; Gestuels
             </h2>
-            <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">
+            <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3">
               Tout signal visuel est doublé immédiatement par une annonce vocale forte.
             </p>
           </div>
@@ -172,8 +172,8 @@ export default function SecuriteInteractive(): React.ReactElement {
               onClick={() => setActiveCategory('all')}
               className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'all'
-                  ? 'bg-[#101216] text-white dark:bg-white dark:text-[#101216]'
-                  : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'
+                  ? 'bg-ink text-white dark:bg-white dark:text-ink'
+                  : 'bg-white dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:border-line-strong'
               }`}
             >
               Tous ({SIGNALS_DATA.length})
@@ -183,8 +183,8 @@ export default function SecuriteInteractive(): React.ReactElement {
               onClick={() => setActiveCategory('sol')}
               className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'sol'
-                  ? 'bg-[#e03e3e] text-white'
-                  : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'
+                  ? 'bg-brand text-white'
+                  : 'bg-white dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:border-line-strong'
               }`}
             >
               Chaussée
@@ -194,8 +194,8 @@ export default function SecuriteInteractive(): React.ReactElement {
               onClick={() => setActiveCategory('trafic')}
               className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'trafic'
-                  ? 'bg-[#e03e3e] text-white'
-                  : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'
+                  ? 'bg-brand text-white'
+                  : 'bg-white dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:border-line-strong'
               }`}
             >
               Trafic
@@ -205,8 +205,8 @@ export default function SecuriteInteractive(): React.ReactElement {
               onClick={() => setActiveCategory('groupe')}
               className={`px-3 py-1.5 min-h-[44px] inline-flex items-center justify-center rounded-md font-semibold transition-colors shrink-0 ${
                 activeCategory === 'groupe'
-                  ? 'bg-[#e03e3e] text-white'
-                  : 'bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#cfc9be]'
+                  ? 'bg-brand text-white'
+                  : 'bg-white dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:border-line-strong'
               }`}
             >
               Peloton
@@ -221,29 +221,29 @@ export default function SecuriteInteractive(): React.ReactElement {
             return (
               <div
                 key={item.id}
-                className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 flex flex-col justify-between space-y-3 shadow-xs"
+                className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-4 flex flex-col justify-between space-y-3 shadow-xs"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e]">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-md bg-paper dark:bg-ink border border-line dark:border-night-line text-brand">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-xs font-bold text-[#e03e3e] tracking-tight">
+                    <span className="text-xs font-bold text-brand tracking-tight">
                       {item.voice}
                     </span>
                   </div>
 
-                  <h3 className="text-sm font-bold text-[#101216] dark:text-white leading-tight">
+                  <h3 className="text-sm font-bold text-ink dark:text-white leading-tight">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-normal">
+                  <p className="text-xs text-ink-3 dark:text-snow-3 leading-normal">
                     {item.gesture}
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-[#efece5] dark:border-white/5">
-                  <p className="text-xs font-medium text-[#101216] dark:text-[#f5f6f8] leading-tight">
+                <div className="pt-2 border-t border-paper-2 dark:border-white/5">
+                  <p className="text-xs font-medium text-ink dark:text-snow leading-tight">
                     {item.action}
                   </p>
                 </div>
@@ -256,10 +256,10 @@ export default function SecuriteInteractive(): React.ReactElement {
       {/* ──── Section : Déroulé Linéaire du Relais (Paceline) ──── */}
       <section id="relais" className="space-y-6 scroll-mt-28">
         <div className="space-y-1 max-w-2xl">
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216] dark:text-white">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-white">
             Rotation du Relais en 4 Temps
           </h2>
-          <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">
+          <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3">
             La double file permet d&apos;économiser jusqu&apos;à 35 % d&apos;énergie. Les passages s&apos;enchaînent avec une vitesse strictement régulière.
           </p>
         </div>
@@ -269,22 +269,22 @@ export default function SecuriteInteractive(): React.ReactElement {
           {PACELINE_STEPS.map((s) => (
             <div
               key={s.step}
-              className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-5 space-y-3 shadow-xs"
+              className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-5 space-y-3 shadow-xs"
             >
               <div className="flex items-center justify-between">
-                <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-md bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-xs font-bold text-[#e03e3e]">
+                <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-md bg-paper dark:bg-ink border border-line dark:border-night-line text-xs font-bold text-brand">
                   {s.step}
                 </span>
-                <span className="text-xs uppercase font-bold text-[#5c6370]">
+                <span className="text-xs uppercase font-bold text-ink-3">
                   Temps {s.step}/4
                 </span>
               </div>
 
-              <h3 className="text-sm font-bold text-[#101216] dark:text-white leading-snug">
+              <h3 className="text-sm font-bold text-ink dark:text-white leading-snug">
                 {s.title}
               </h3>
 
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                 {s.summary}
               </p>
             </div>
@@ -294,12 +294,12 @@ export default function SecuriteInteractive(): React.ReactElement {
 
       {/* ──── Section : Protocole Chute & Urgence 112 ──── */}
       <section id="urgence" className="space-y-6 scroll-mt-28">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-4 border-b border-[#e4e0d8] dark:border-[#262b38]">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-4 border-b border-line dark:border-night-line">
           <div className="space-y-1">
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216] dark:text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-white">
               Protocole en Cas de Chute
             </h2>
-            <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb]">
+            <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3">
               Les 4 priorités réflexes en cas de sinistre sur la chaussée.
             </p>
           </div>
@@ -316,16 +316,16 @@ export default function SecuriteInteractive(): React.ReactElement {
           {EMERGENCY_STEPS.map((item) => (
             <div
               key={item.step}
-              className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-5 space-y-2.5 shadow-xs"
+              className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-5 space-y-2.5 shadow-xs"
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-rose-600">{item.step}</span>
-                <span className="text-xs uppercase font-bold text-[#5c6370]">{item.label}</span>
+                <span className="text-xs uppercase font-bold text-ink-3">{item.label}</span>
               </div>
-              <h3 className="text-sm font-bold text-[#101216] dark:text-white">
+              <h3 className="text-sm font-bold text-ink dark:text-white">
                 {item.label}
               </h3>
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                 {item.instruction}
               </p>
             </div>
@@ -333,13 +333,13 @@ export default function SecuriteInteractive(): React.ReactElement {
         </div>
 
         {/* ICE Action Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] shadow-xs">
-          <span className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-lg bg-white dark:bg-night-2 border border-line dark:border-night-line shadow-xs">
+          <span className="text-xs text-ink-3 dark:text-snow-3">
             Vos coordonnées d&apos;urgence ICE doivent être tenues à jour sur votre profil membre.
           </span>
           <Link
             href="/profile"
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors shrink-0 min-h-[44px]"
+            className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors shrink-0 min-h-[44px]"
           >
             <span>Vérifier ma fiche ICE</span>
             <ArrowRightIcon className="h-3.5 w-3.5" />

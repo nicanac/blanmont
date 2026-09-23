@@ -132,9 +132,9 @@ export default function EventAttendancePanel({
   );
 
   return (
-    <div className="bg-white dark:bg-[#161922] shadow-xs rounded-lg overflow-hidden border border-[#e4e0d8] dark:border-[#262b38]">
+    <div className="bg-white dark:bg-night-2 shadow-xs rounded-lg overflow-hidden border border-line dark:border-night-line">
       {/* Event Header */}
-      <div className={`p-6 ${isPast ? 'bg-emerald-700 dark:bg-emerald-900' : 'bg-[#101216] dark:bg-[#0a0c10] border-b border-[#e4e0d8] dark:border-[#262b38]'} text-white`}>
+      <div className={`p-6 ${isPast ? 'bg-emerald-700 dark:bg-emerald-900' : 'bg-ink dark:bg-night border-b border-line dark:border-night-line'} text-white`}>
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold">{event.location}</h2>
@@ -151,7 +151,7 @@ export default function EventAttendancePanel({
       </div>
 
       {/* Filters */}
-      <div className="p-4 border-b border-[#e4e0d8] dark:border-[#262b38] space-y-3">
+      <div className="p-4 border-b border-line dark:border-night-line space-y-3">
         <input
           id="attendance-member-search"
           type="text"
@@ -159,15 +159,15 @@ export default function EventAttendancePanel({
           placeholder="Rechercher un membre..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] text-[#101216] dark:text-white px-3 py-2 text-sm placeholder-[#a7adbb] focus:border-[#e03e3e] focus:ring-1 focus:ring-[#e03e3e] focus:outline-hidden transition-colors duration-150"
+          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 text-ink dark:text-white px-3 py-2 text-sm placeholder-ink-3 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-hidden transition-colors duration-150"
         />
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => setGroupFilter('all')}
             className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors duration-150 min-h-[32px] cursor-pointer ${
               groupFilter === 'all'
-                ? 'bg-[#101216] dark:bg-white text-white dark:text-[#101216]'
-                : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38]'
+                ? 'bg-ink dark:bg-white text-white dark:text-ink'
+                : 'bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-3 hover:bg-line dark:hover:bg-night-line'
             }`}
           >
             Tous ({members.length})
@@ -178,8 +178,8 @@ export default function EventAttendancePanel({
               onClick={() => setGroupFilter(g)}
               className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors duration-150 min-h-[32px] cursor-pointer ${
                 groupFilter === g
-                  ? 'bg-[#101216] dark:bg-white text-white dark:text-[#101216]'
-                  : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#3a3f4a] dark:text-[#a7adbb] hover:bg-[#e4e0d8] dark:hover:bg-[#262b38]'
+                  ? 'bg-ink dark:bg-white text-white dark:text-ink'
+                  : 'bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-3 hover:bg-line dark:hover:bg-night-line'
               }`}
             >
               {g} ({members.filter((m) => m.group === g).length})
@@ -189,7 +189,7 @@ export default function EventAttendancePanel({
       </div>
 
       {/* Members List */}
-      <div className="max-h-[calc(100vh-480px)] overflow-y-auto divide-y divide-[#e4e0d8] dark:divide-[#262b38]">
+      <div className="max-h-[calc(100vh-480px)] overflow-y-auto divide-y divide-line dark:divide-night-line">
         {filteredMembers.map((member) => {
           const isPresent = !!attendees[member.id];
           const isLoading = !!loading[member.id];
@@ -198,7 +198,7 @@ export default function EventAttendancePanel({
             <div
               key={member.id}
               className={`flex items-center justify-between p-4 transition-colors duration-150 ${
-                isPresent ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : 'hover:bg-[#faf8f5] dark:hover:bg-[#1d2128]'
+                isPresent ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : 'hover:bg-paper dark:hover:bg-night-3'
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
@@ -208,14 +208,14 @@ export default function EventAttendancePanel({
                   disabled={isLoading}
                   className={`flex-shrink-0 h-6 w-6 md:h-6 md:w-6 rounded-md border flex items-center justify-center transition-colors duration-150 ${
                     isLoading
-                      ? 'border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#1d2128] cursor-wait'
+                      ? 'border-line dark:border-night-line bg-paper-2 dark:bg-night-3 cursor-wait'
                       : isPresent
                       ? 'border-emerald-600 bg-emerald-600 hover:bg-emerald-700 cursor-pointer'
-                      : 'border-[#e4e0d8] dark:border-[#262b38] hover:border-emerald-500 cursor-pointer'
+                      : 'border-line dark:border-night-line hover:border-emerald-500 cursor-pointer'
                   }`}
                 >
                   {isLoading ? (
-                    <svg className="animate-spin h-3 w-3 text-[#a7adbb]" viewBox="0 0 24 24">
+                    <svg className="animate-spin h-3 w-3 text-snow-3" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
@@ -232,7 +232,7 @@ export default function EventAttendancePanel({
 
                 {/* Name and group */}
                 <div className="min-w-0">
-                  <p className={`text-sm truncate ${isPresent ? 'font-bold text-[#101216] dark:text-white' : 'font-medium text-[#3a3f4a] dark:text-[#d1d5db]'}`}>
+                  <p className={`text-sm truncate ${isPresent ? 'font-bold text-ink dark:text-white' : 'font-medium text-ink-2 dark:text-snow-2'}`}>
                     {member.name}
                   </p>
                 </div>
@@ -242,12 +242,12 @@ export default function EventAttendancePanel({
                 <span
                   className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset ${
                     member.group.startsWith('A')
-                      ? 'bg-red-50 dark:bg-red-950/30 text-[#e03e3e] dark:text-red-300 ring-red-600/20'
+                      ? 'bg-red-50 dark:bg-red-950/30 text-brand dark:text-red-300 ring-red-600/20'
                       : member.group.startsWith('B')
                       ? 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 ring-blue-600/20'
                       : member.group.startsWith('C')
                       ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 ring-emerald-600/20'
-                      : 'bg-[#f2efe9] dark:bg-[#1d2128] text-[#5c6370] dark:text-[#a7adbb] ring-[#e4e0d8] dark:ring-[#262b38]'
+                      : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 ring-line dark:ring-night-line'
                   }`}
                 >
                   {member.group}

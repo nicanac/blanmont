@@ -57,10 +57,10 @@ function getAvatarGradient(name: string): string {
     hash |= 0;
   }
   const gradients = [
-    'from-[#161922] to-[#0a0c10]',
-    'from-[#2e1216] to-[#101216]',
-    'from-[#112233] to-[#0a0c10]',
-    'from-[#14261c] to-[#0a0c10]',
+    'from-night-2 to-night',
+    'from-[#2e1216] to-ink',
+    'from-[#112233] to-night',
+    'from-[#14261c] to-night',
   ];
   return gradients[Math.abs(hash) % gradients.length];
 }
@@ -147,7 +147,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
   const getRoleBadgeStyle = (role: string): string => {
     const r = role.toLowerCase();
     if (r.includes('président') || r.includes('president')) {
-      return 'bg-[#e03e3e]/10 text-[#e03e3e] border-[#e03e3e]/30 font-bold';
+      return 'bg-brand/10 text-brand border-brand/30 font-bold';
     }
     if (r.includes('trésorier') || r.includes('tresorier') || r.includes('treasurer')) {
       return 'bg-amber-50 text-amber-700 border-amber-200 font-semibold';
@@ -156,26 +156,26 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
       return 'bg-sky-50 text-sky-700 border-sky-200 font-semibold';
     }
     if (r.includes('admin') || r.includes('webmaster')) {
-      return 'bg-[#101216] text-white border-white/10 font-bold';
+      return 'bg-ink text-white border-white/10 font-bold';
     }
     if (r.includes('capitaine')) {
       return 'bg-emerald-50 text-emerald-800 border-emerald-300 font-bold';
     }
-    return 'bg-[#f2efe9] text-[#5c6370] border-[#e4e0d8]';
+    return 'bg-paper-2 text-ink-3 border-line';
   };
 
   return (
     <div className="space-y-4">
       {/* Controls Bar: Search & Quick Role Filters */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-3.5 sm:p-4 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-3.5 sm:p-4 rounded-lg border border-line bg-white shadow-xs">
         {/* Search Input Bar */}
         <div id="members-search-bar" className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3" />
           <input
             id="admin-members-search-input"
             type="text"
             aria-label="Rechercher par nom, rôle ou email"
-            className="block w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] py-2 pl-10 pr-4 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+            className="block w-full rounded-md border border-line bg-paper py-2 pl-10 pr-4 text-xs sm:text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:bg-white focus:outline-none transition-colors"
             placeholder="Rechercher par nom, rôle ou email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -183,7 +183,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#5c6370] hover:text-[#101216]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-ink-3 hover:text-ink"
             >
               Effacer
             </button>
@@ -197,12 +197,12 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             onClick={() => setTabFilter('all')}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               tabFilter === 'all'
-                ? 'bg-[#101216] text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                ? 'bg-ink text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
             <span>Tous</span>
-            <span className={`text-xs tabular-nums ${tabFilter === 'all' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${tabFilter === 'all' ? 'text-snow-3' : 'text-ink-3'}`}>
               ({initialMembers.length})
             </span>
           </button>
@@ -213,12 +213,12 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               tabFilter === 'capitaines'
                 ? 'bg-emerald-700 text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
-            <BicycleIcon className={`h-3.5 w-3.5 ${tabFilter === 'capitaines' ? 'text-white' : 'text-[#e03e3e]'}`} />
+            <BicycleIcon className={`h-3.5 w-3.5 ${tabFilter === 'capitaines' ? 'text-white' : 'text-brand'}`} />
             <span>Capitaines</span>
-            <span className={`text-xs tabular-nums ${tabFilter === 'capitaines' ? 'text-white/80' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${tabFilter === 'capitaines' ? 'text-white/80' : 'text-ink-3'}`}>
               ({captainsCount})
             </span>
           </button>
@@ -260,8 +260,8 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             onClick={() => setTabFilter('no-ice')}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               tabFilter === 'no-ice'
-                ? 'bg-[#e03e3e] text-white'
-                : 'bg-[#fdecec] text-[#e03e3e] border border-[#e03e3e]/30 hover:bg-[#fbdada]'
+                ? 'bg-brand text-white'
+                : 'bg-brand-tint text-brand border border-brand/30 hover:bg-brand-tint'
             }`}
           >
             <ExclamationTriangleIcon className="h-3.5 w-3.5" />
@@ -276,13 +276,13 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             onClick={() => setTabFilter('admin')}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               tabFilter === 'admin'
-                ? 'bg-[#101216] text-white ring-1 ring-white/20'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                ? 'bg-ink text-white ring-1 ring-white/20'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
             <KeyIcon className="h-3.5 w-3.5" />
             <span>Admins</span>
-            <span className={`text-xs tabular-nums ${tabFilter === 'admin' ? 'text-white/80' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${tabFilter === 'admin' ? 'text-white/80' : 'text-ink-3'}`}>
               ({adminCount})
             </span>
           </button>
@@ -290,32 +290,32 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
       </div>
 
       {/* Table Container */}
-      <div id="members-table-section" className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+      <div id="members-table-section" className="overflow-hidden rounded-lg border border-line bg-white shadow-xs">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-[#e4e0d8]">
-            <thead className="bg-[#f2efe9]">
+          <table className="min-w-full divide-y divide-line">
+            <thead className="bg-paper-2">
               <tr>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Membre
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Email &amp; Tél
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Rôle(s)
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Cotisation 2026
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Sécurité ICE
                 </th>
-                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#efece5] bg-white text-xs">
+            <tbody className="divide-y divide-paper-2 bg-white text-xs">
               {filteredMembers.map((member) => {
                 const hasPhoto = isValidPhotoUrl(member.photoUrl) && !imgErrors[member.id];
                 const initials = getInitials(member.name);
@@ -325,11 +325,11 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                 const hasIce = Boolean(member.iceContactPhone);
 
                 return (
-                  <tr key={member.id} className="hover:bg-[#faf8f5] transition-colors">
+                  <tr key={member.id} className="hover:bg-paper transition-colors">
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center gap-3">
                         {/* Avatar with fallback initials */}
-                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] flex items-center justify-center font-bold text-xs text-white">
+                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-night-2 border border-line flex items-center justify-center font-bold text-xs text-white">
                           {hasPhoto ? (
                             <Image
                               src={member.photoUrl}
@@ -348,18 +348,18 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                           )}
                         </div>
                         <div>
-                          <p className="font-bold text-[#101216]">{member.name}</p>
+                          <p className="font-bold text-ink">{member.name}</p>
                           {member.bio && (
-                            <p className="text-xs text-[#5c6370] line-clamp-1 max-w-xs">{member.bio}</p>
+                            <p className="text-xs text-ink-3 line-clamp-1 max-w-xs">{member.bio}</p>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-[#5c6370]">
+                    <td className="whitespace-nowrap px-6 py-4 text-ink-3">
                       <div className="space-y-0.5">
                         <p>{member.email || '-'}</p>
                         {member.phone && (
-                          <p className="text-xs text-[#5c6370] font-mono">{member.phone}</p>
+                          <p className="text-xs text-ink-3 font-mono">{member.phone}</p>
                         )}
                       </div>
                     </td>
@@ -375,7 +375,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                                 roleStr
                               )}`}
                             >
-                              {isCaptain && <BicycleIcon className="h-3 w-3 shrink-0 text-[#e03e3e]" />}
+                              {isCaptain && <BicycleIcon className="h-3 w-3 shrink-0 text-brand" />}
                               <span>{roleStr}</span>
                             </span>
                           );
@@ -389,7 +389,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                           <span>À jour</span>
                         </span>
                       ) : isCotisationExempt ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[#f2efe9] dark:bg-[#1e222d] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-medium">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-medium">
                           <span>Exempté</span>
                         </span>
                       ) : (
@@ -411,7 +411,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                           <span>{member.iceContactName || 'ICE renseigné'}</span>
                         </button>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-xs text-[#5c6370]">
+                        <span className="inline-flex items-center gap-1 text-xs text-ink-3">
                           <ExclamationTriangleIcon className="h-3.5 w-3.5 text-amber-500" />
                           <span>Non renseigné</span>
                         </span>
@@ -421,21 +421,21 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                       <div className="flex items-center justify-end gap-1">
                         <Link
                           href="/admin/members/photos"
-                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#e03e3e] transition-colors"
+                          className="rounded-md p-1.5 text-ink-3 hover:bg-paper-2 hover:text-brand transition-colors"
                           title="Cadrage et positionnement photo"
                         >
                           <PhotoIcon className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/admin/members/${member.id}/edit`}
-                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                          className="rounded-md p-1.5 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors"
                           title="Modifier"
                         >
                           <PencilIcon className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/admin/members/${member.id}/reset-password`}
-                          className="rounded-md p-1.5 text-[#5c6370] hover:bg-sky-50 hover:text-sky-600 transition-colors"
+                          className="rounded-md p-1.5 text-ink-3 hover:bg-sky-50 hover:text-sky-600 transition-colors"
                           title="Réinitialiser mot de passe"
                         >
                           <KeyIcon className="h-4 w-4" />
@@ -455,11 +455,11 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
 
         {filteredMembers.length === 0 && (
           <div className="py-12 px-4 text-center space-y-2">
-            <UsersIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#5c6370]" />
-            <p className="text-sm font-semibold text-[#101216]">
+            <UsersIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-ink-3" />
+            <p className="text-sm font-semibold text-ink">
               Aucun membre trouvé
             </p>
-            <p className="text-xs text-[#5c6370] max-w-sm mx-auto">
+            <p className="text-xs text-ink-3 max-w-sm mx-auto">
               {tabFilter === 'capitaines'
                 ? 'Aucun membre n\'a actuellement le statut Capitaine de Route. Modifiez un membre pour lui assigner ce rôle.'
                 : tabFilter === 'no-ice'
@@ -475,7 +475,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                   setSearchTerm('');
                   setTabFilter('all');
                 }}
-                className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs font-semibold text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+                className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:bg-paper-2 transition-colors shadow-xs"
               >
                 Réinitialiser les filtres
               </button>
@@ -487,42 +487,42 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
       {/* ICE Emergency Modal */}
       {selectedIceMember && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="relative w-full max-w-md rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between border-b border-[#e4e0d8] pb-4">
+          <div className="relative w-full max-w-md rounded-lg border border-line bg-white p-6 shadow-2xl space-y-6">
+            <div className="flex items-center justify-between border-b border-line pb-4">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-9 w-9 items-center justify-center rounded-md bg-amber-500/10 text-amber-700">
                   <ShieldCheckIcon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#101216]">Fiche d&apos;Urgence Peloton (ICE)</h3>
-                  <p className="text-xs text-[#5c6370]">{selectedIceMember.name}</p>
+                  <h3 className="text-sm font-bold text-ink">Fiche d&apos;Urgence Peloton (ICE)</h3>
+                  <p className="text-xs text-ink-3">{selectedIceMember.name}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedIceMember(null)}
-                className="rounded p-1 text-[#5c6370] hover:text-[#101216] hover:bg-[#f2efe9]"
+                className="rounded p-1 text-ink-3 hover:text-ink hover:bg-paper-2"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="rounded-md border border-[#e4e0d8] bg-[#faf8f5] p-3.5 space-y-2">
+              <div className="rounded-md border border-line bg-paper p-3.5 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-[#5c6370]">Contact d&apos;urgence :</span>
-                  <span className="font-bold text-[#101216]">{selectedIceMember.iceContactName || 'Non précisé'}</span>
+                  <span className="text-ink-3">Contact d&apos;urgence :</span>
+                  <span className="font-bold text-ink">{selectedIceMember.iceContactName || 'Non précisé'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#5c6370]">Lien de parenté :</span>
-                  <span className="font-semibold text-[#101216]">{selectedIceMember.iceRelationship || 'Proche'}</span>
+                  <span className="text-ink-3">Lien de parenté :</span>
+                  <span className="font-semibold text-ink">{selectedIceMember.iceRelationship || 'Proche'}</span>
                 </div>
-                <div className="flex justify-between items-center pt-2 border-t border-[#e4e0d8]">
-                  <span className="text-[#5c6370]">Téléphone d&apos;urgence :</span>
+                <div className="flex justify-between items-center pt-2 border-t border-line">
+                  <span className="text-ink-3">Téléphone d&apos;urgence :</span>
                   {selectedIceMember.iceContactPhone ? (
                     <a
                       href={`tel:${selectedIceMember.iceContactPhone}`}
-                      className="inline-flex items-center gap-1.5 rounded-md bg-[#e03e3e] px-3 py-1 text-xs font-bold text-white hover:bg-[#c93434] transition-colors"
+                      className="inline-flex items-center gap-1.5 rounded-md bg-brand px-3 py-1 text-xs font-bold text-white hover:bg-brand-strong transition-colors"
                     >
                       <PhoneIcon className="h-3.5 w-3.5" />
                       <span>{selectedIceMember.iceContactPhone}</span>
@@ -533,18 +533,18 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                 </div>
               </div>
 
-              <div className="space-y-1 pt-1 text-xs text-[#5c6370]">
+              <div className="space-y-1 pt-1 text-xs text-ink-3">
                 <p>• <strong>Téléphone du membre</strong> : {selectedIceMember.phone || 'Non renseigné'}</p>
                 <p>• <strong>N° Licence FFBC</strong> : {selectedIceMember.ffbcLicenseNumber || 'Non renseigné'}</p>
                 <p>• <strong>Groupe habituel</strong> : Groupe {selectedIceMember.preferredGroup || 'B'}</p>
               </div>
             </div>
 
-            <div className="flex justify-end pt-2 border-t border-[#e4e0d8]">
+            <div className="flex justify-end pt-2 border-t border-line">
               <button
                 type="button"
                 onClick={() => setSelectedIceMember(null)}
-                className="rounded-md border border-[#e4e0d8] bg-white px-4 py-2 text-xs font-semibold text-[#101216] hover:bg-[#f2efe9]"
+                className="rounded-md border border-line bg-white px-4 py-2 text-xs font-semibold text-ink hover:bg-paper-2"
               >
                 Fermer
               </button>

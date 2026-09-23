@@ -4,17 +4,17 @@ import { useEffect, useCallback } from 'react';
 import { driver, Driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 
-// Custom CSS for Driver.js styled with Editorial Peloton aesthetic
+// Custom CSS for Driver.js styled with La Feuille de Blanmont aesthetic
 export const DRIVER_PELOTON_STYLES = `
 .driver-popover.driverjs-theme {
-  background-color: #0a0c10 !important;
-  color: #f5f6f8 !important;
-  border: 1px solid #262b38 !important;
-  border-radius: 10px !important;
+  background-color: #0d1013 !important;
+  color: #eef1f4 !important;
+  border: 1px solid #28303a !important;
+  border-radius: 4px !important;
   padding: 18px !important;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6) !important;
   max-width: 380px !important;
-  font-family: var(--font-poppins), system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif !important;
   z-index: 10000000 !important;
 }
 

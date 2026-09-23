@@ -2,312 +2,503 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   LA FEUILLE DE BLANMONT — design tokens
+   The site is printed like a topographic sheet of the club's territory:
+   white map paper, black lettering, and the map's spot inks (route red,
+   relief bistre, hydro blue, woodland green, secondary-road amber).
+   Day tokens and night tokens are static; components pair them with dark:.
+   ═══════════════════════════════════════════════════════════════════════════ */
 @theme {
-  --color-brand-primary: #e03e3e;
-  --color-brand-primary-hover: #c93434;
-  --color-brand-primary-light: #fdecec;
-  --color-brand-secondary: #ffffff;
-  --color-paper: #faf8f5;
-  --color-paper-dim: #f2efe9;
-  --color-paper-border: #e4e0d8;
-  --color-ink: #101216;
-  --color-ink-deep: #0a0c10;
-  --color-ink-panel: #161922;
-  --color-ink-border: #262b38;
-  --color-ink-body: #3a3f4a;
-  --color-ink-muted: #5c6370;
-  --color-ondark-text: #f5f6f8;
-  --color-ondark-muted: #a7adbb;
-  --font-sans:
-    var(--font-poppins), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Paper (day) */
+  --color-paper: #fbfbf8;
+  --color-paper-2: #f0f1eb;
+  --color-line: #dcddd4;
+  --color-line-strong: #b8baaf;
+
+  /* Lettering (day) */
+  --color-ink: #16181b;
+  --color-ink-2: #3c4047;
+  --color-ink-3: #5c6069;
+
+  /* Route red — the club's colour. #e03e3e prints the map's roads and large fields;
+     the UI token is calibrated so white text on it and red text on paper pass WCAG AA. */
+  --color-brand: #d63535;
+  --color-brand-strong: #b82b2b;
+  --color-brand-vif: #e03e3e;
+  --color-brand-tint: #fdeceb;
+  --color-brand-soft: #ff7b72;
+
+  /* Night sheet */
+  --color-night: #0d1013;
+  --color-night-2: #151a1f;
+  --color-night-3: #1c2228;
+  --color-night-line: #28303a;
+  --color-night-line-strong: #3a4450;
+  --color-snow: #eef1f4;
+  --color-snow-2: #c9cfd6;
+  --color-snow-3: #9aa3ad;
+
+  /* Map inks */
+  --color-bistre: #b0703b;
+  --color-bistre-soft: #ddb088;
+  --color-bistre-ink: #8a5226;
+  --color-hydro: #1f6fbf;
+  --color-hydro-soft: #9cc6ec;
+  --color-hydro-tint: #e7f0f9;
+  --color-bois: #dcebcf;
+  --color-vert: #2e7d45;
+  --color-vert-strong: #1f6434;
+  --color-vert-vif: #3fa35e;
+  --color-vert-tint: #e4f1e6;
+  --color-ambre: #e8962a;
+  --color-ambre-ink: #9a560a;
+  --color-jaune: #f2cd48;
+
+  /* Sheet geometry: printed edges stay crisp */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 5px;
+  --radius-2xl: 6px;
+  --radius-3xl: 8px;
+
+  /* Paper lifts only when it is actually raised (menus, dialogs, drawers) */
+  --shadow-2xs: 0 1px 0 rgb(22 24 27 / 0.04);
+  --shadow-xs: 0 1px 2px rgb(22 24 27 / 0.06);
+  --shadow-sm: 0 1px 3px rgb(22 24 27 / 0.08);
+  --shadow-md: 0 3px 8px -2px rgb(22 24 27 / 0.12);
+  --shadow-lg: 0 10px 24px -8px rgb(22 24 27 / 0.18);
+  --shadow-xl: 0 18px 36px -14px rgb(22 24 27 / 0.24);
+  --shadow-2xl: 0 28px 56px -20px rgb(13 16 19 / 0.38);
+
+  --ease-plot: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-stamp: cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+/* Lettering: one grotesk superfamily, width is the hierarchy.
+   Inline so the next/font variable resolves on the element that carries it. */
+@theme inline {
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  /* Notion Colors - kept for compatibility if needed */
-  --color-brown: #64473a;
-  --color-orange: #d9730d;
-  --color-yellow: #dfab01;
-  --color-green: #0f7b6c;
-  --color-blue: #0b6e99;
-  --color-purple: #6940a5;
-  --color-pink: #ad1a72;
-  --color-red: #e03e3e;
+  --ease-editorial: var(--ease-plot);
+  --neat: var(--color-ink);
+  --strip: var(--color-ink);
 
-  /* Editorial motion signature: fast, exponential ease-out */
-  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Map layer inks (day) */
+  --map-paper: #fbfbf8;
+  --map-woods: #dcebcf;
+  --map-contour: #dfb68e;
+  --map-contour-index: #b77a44;
+  --map-water: #2b78c2;
+  --map-lake: #a9cdef;
+  --map-road-major: #b8322f;
+  --map-road-primary: #e03e3e;
+  --map-road-secondary: #ec9f36;
+  --map-road-tertiary: #c9c3b6;
+  --map-rail: #2a2c30;
+  --map-grid: rgb(31 111 191 / 0.16);
+  --map-label: #16181b;
+  --map-halo: #fbfbf8;
+  --map-wind: rgb(31 111 191 / 0.55);
 }
 
+.dark {
+  --neat: var(--color-snow-3);
+  --strip: var(--color-snow-2);
+  --map-paper: #0d1013;
+  --map-woods: #16231a;
+  --map-contour: #4a3a2b;
+  --map-contour-index: #74553a;
+  --map-water: #3f86cf;
+  --map-lake: #1d3b58;
+  --map-road-major: #b8403d;
+  --map-road-primary: #c94a47;
+  --map-road-secondary: #9c6b2d;
+  --map-road-tertiary: #3b3f45;
+  --map-rail: #8b939c;
+  --map-grid: rgb(77 149 220 / 0.14);
+  --map-label: #eef1f4;
+  --map-halo: #0d1013;
+  --map-wind: rgb(125 182 238 / 0.55);
+}
+
+/* ── Browser surfaces ──────────────────────────────────────────────────── */
 html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  font-synthesis-weight: none;
 }
 
 body {
-  background-color: #faf8f5;
-  color: #101216;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
 }
 
 html.dark body {
-  background-color: #0a0c10;
-  color: #f5f6f8;
+  background-color: var(--color-night);
+  color: var(--color-snow);
 }
 
-/* Editorial adaptive hero surfaces (guarantees zero background-image leak in dark mode) */
-.editorial-hero-surface {
-  background-color: #faf8f5;
-  background-image: linear-gradient(to bottom, #f5f2eb 0%, #faf8f5 60%, #faf8f5 100%);
-  color: #101216;
-}
-
-html.dark .editorial-hero-surface,
-.dark .editorial-hero-surface {
-  background-color: #0a0c10 !important;
-  background-image: none !important;
-  color: #ffffff !important;
-}
-
-.editorial-hero-surface-red {
-  background-color: #faf8f5;
-  background-image: linear-gradient(to bottom, #fdf2f2 0%, #faf8f5 60%, #faf8f5 100%);
-  color: #101216;
-}
-
-html.dark .editorial-hero-surface-red,
-.dark .editorial-hero-surface-red {
-  background-color: #0a0c10 !important;
-  background-image: none !important;
-  color: #ffffff !important;
-}
-
-/* Editorial text selection: brand red ink on paper */
 ::selection {
-  background-color: #e03e3e;
+  background-color: var(--color-brand);
   color: #ffffff;
 }
 
-/* Brand caret for inputs and textareas */
 input,
 textarea,
 select,
 [contenteditable] {
-  caret-color: #e03e3e;
+  caret-color: var(--color-brand);
 }
 
-/* Tabular numerals for cycling distance, elevation, time and ranking stats */
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-}
-
-/* Smooth Focus Ring */
 :focus-visible {
-  outline: 2px solid #e03e3e;
+  outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
 
-/* Custom Sleek Scrollbar — ink on paper */
+a {
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+.tabular-nums,
+table td,
+table th,
+time {
+  font-variant-numeric: tabular-nums;
+}
+
 @media (pointer: fine) {
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #f2efe9;
+    background: var(--color-paper-2);
   }
   ::-webkit-scrollbar-thumb {
-    background: #c9c4ba;
-    border-radius: 9999px;
-    border: 2px solid #f2efe9;
+    background: var(--color-line-strong);
+    border: 3px solid var(--color-paper-2);
+    border-radius: 1px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #5c6370;
+    background: var(--color-ink-3);
+  }
+  html.dark ::-webkit-scrollbar-track {
+    background: var(--color-night);
+  }
+  html.dark ::-webkit-scrollbar-thumb {
+    background: var(--color-night-line-strong);
+    border-color: var(--color-night);
   }
 }
 
-/* ── Editorial cover reveal ─────────────────────────────────────────────
-   The one authored moment of a cover page: masked line reveal on the
-   display headline + soft rise on supporting elements. CSS-only, instant
-   fallback under prefers-reduced-motion. */
-@keyframes cover-line-up {
+/* ── Lettering utilities ───────────────────────────────────────────────── */
+@utility font-wide {
+  font-stretch: 125%;
+}
+@utility font-semiwide {
+  font-stretch: 112.5%;
+}
+@utility font-narrow {
+  font-stretch: 87.5%;
+}
+@utility font-condensed {
+  font-stretch: 75%;
+}
+
+/* Map lettering halo: a paper glow so names read over any ink */
+@utility map-label {
+  font-stretch: 112.5%;
+  text-shadow:
+    0 0 2px var(--map-halo),
+    0 0 2px var(--map-halo),
+    0 0 4px var(--map-halo);
+}
+
+/* ── Sheet primitives ──────────────────────────────────────────────────── */
+
+/* The graduated scale strip: alternating ink/paper segments, as on a map frame */
+@utility scale-strip {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--strip) 0 var(--seg, 24px),
+    transparent var(--seg, 24px) calc(var(--seg, 24px) * 2)
+  );
+}
+
+/* Neat line: the printed frame of a map sheet — a hairline, then a graduated band
+   (alternating ink segments between two fine rules) along the top and bottom edges.
+   Set --nl on the element for another ink. */
+@utility neatline {
+  position: relative;
+  border: 1px solid var(--nl, var(--neat));
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    height: 5px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--nl, var(--neat)) 0 0) top left / 100% 1px no-repeat,
+      linear-gradient(var(--nl, var(--neat)) 0 0) bottom left / 100% 1px no-repeat,
+      repeating-linear-gradient(90deg, var(--nl, var(--neat)) 0 32px, transparent 32px 64px) left
+        1px / 100% 3px no-repeat;
+    opacity: 0.75;
+  }
+  &::before {
+    top: 3px;
+  }
+  &::after {
+    bottom: 3px;
+  }
+}
+
+/* Kilometric grid printed on the sheet: always sized from --sheet so each cell is 2 km */
+/* impeccable-disable-next-line codex-grid-background -- kilometric map grid aligned to the sheet scale */
+@utility map-grid {
+  background-image:
+    linear-gradient(var(--map-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--map-grid) 1px, transparent 1px);
+  background-size: var(--grid, 96px) var(--grid, 96px);
+  background-position: var(--grid-x, 0) var(--grid-y, 0);
+}
+
+/* Corner ticks: the sheet's registration corners on any framed panel */
+@utility corner-ticks {
+  background-image:
+    linear-gradient(var(--tick, var(--color-ink)) 0 0),
+    linear-gradient(var(--tick, var(--color-ink)) 0 0),
+    linear-gradient(var(--tick, var(--color-ink)) 0 0),
+    linear-gradient(var(--tick, var(--color-ink)) 0 0),
+    linear-gradient(var(--tick, var(--color-ink)) 0 0),
+    linear-gradient(var(--tick, var(--color-ink)) 0 0),
+    linear-gradient(var(--tick, var(--color-ink)) 0 0),
+    linear-gradient(var(--tick, var(--color-ink)) 0 0);
+  background-repeat: no-repeat;
+  background-size:
+    10px 1px,
+    1px 10px,
+    10px 1px,
+    1px 10px,
+    10px 1px,
+    1px 10px,
+    10px 1px,
+    1px 10px;
+  background-position:
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    0 100%,
+    0 100%,
+    100% 100%,
+    100% 100%;
+}
+
+/* ── Territory map layers (CSS masks tinted by the map inks) ───────────── */
+.carte-layer {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.carte-woods {
+  background: var(--map-woods);
+  -webkit-mask-image: url('/carte/woods.svg');
+  mask-image: url('/carte/woods.svg');
+}
+.carte-lakes {
+  background: var(--map-lake);
+  -webkit-mask-image: url('/carte/lakes.svg');
+  mask-image: url('/carte/lakes.svg');
+}
+.carte-relief {
+  background: var(--map-contour);
+  -webkit-mask-image: url('/carte/relief.svg');
+  mask-image: url('/carte/relief.svg');
+}
+.carte-relief-index {
+  background: var(--map-contour-index);
+  -webkit-mask-image: url('/carte/relief-index.svg');
+  mask-image: url('/carte/relief-index.svg');
+}
+.carte-water {
+  background: var(--map-water);
+  -webkit-mask-image: url('/carte/water.svg');
+  mask-image: url('/carte/water.svg');
+}
+.carte-road-tertiary {
+  background: var(--map-road-tertiary);
+  -webkit-mask-image: url('/carte/roads-tertiary.svg');
+  mask-image: url('/carte/roads-tertiary.svg');
+}
+.carte-road-secondary {
+  background: var(--map-road-secondary);
+  -webkit-mask-image: url('/carte/roads-secondary.svg');
+  mask-image: url('/carte/roads-secondary.svg');
+}
+.carte-road-primary {
+  background: var(--map-road-primary);
+  -webkit-mask-image: url('/carte/roads-primary.svg');
+  mask-image: url('/carte/roads-primary.svg');
+}
+.carte-road-major {
+  background: var(--map-road-major);
+  -webkit-mask-image: url('/carte/roads-major.svg');
+  mask-image: url('/carte/roads-major.svg');
+}
+.carte-rail {
+  background: var(--map-rail);
+  -webkit-mask-image: url('/carte/rail.svg');
+  mask-image: url('/carte/rail.svg');
+}
+
+/* The sheet develops outward from the Place de la Féchère on first load */
+@property --develop {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 150%;
+}
+
+.carte-develop {
+  -webkit-mask-image: radial-gradient(
+    circle at var(--origin-x, 50%) var(--origin-y, 50%),
+    #000 calc(var(--develop) - 12%),
+    transparent var(--develop)
+  );
+  mask-image: radial-gradient(
+    circle at var(--origin-x, 50%) var(--origin-y, 50%),
+    #000 calc(var(--develop) - 12%),
+    transparent var(--develop)
+  );
+}
+
+@keyframes develop-sheet {
   from {
-    transform: translateY(110%);
+    --develop: 0%;
   }
   to {
-    transform: translateY(0);
+    --develop: 150%;
   }
 }
 
-@keyframes cover-fade-rise {
+.carte-develop.is-developing {
+  animation: develop-sheet 2.4s var(--ease-plot) both;
+}
+
+/* ── Motion vocabulary ─────────────────────────────────────────────────── */
+@keyframes plot-in {
   from {
-    opacity: 0;
-    transform: translateY(14px);
+    stroke-dashoffset: var(--len, 1000);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    stroke-dashoffset: 0;
   }
 }
 
-.cover-line {
-  display: block;
-  overflow: hidden;
-}
-
-.cover-line > span {
-  display: block;
-  transform: translateY(110%);
-  animation: cover-line-up 0.9s var(--ease-editorial) forwards;
-}
-
-.cover-line:nth-child(2) > span {
-  animation-delay: 0.08s;
-}
-.cover-line:nth-child(3) > span {
-  animation-delay: 0.16s;
-}
-
-.cover-rise {
-  opacity: 0;
-  animation: cover-fade-rise 0.7s var(--ease-editorial) forwards;
-}
-
-.cover-rise-1 {
-  animation-delay: 0.24s;
-}
-.cover-rise-2 {
-  animation-delay: 0.34s;
-}
-.cover-rise-3 {
-  animation-delay: 0.44s;
-}
-
-/* ── Surreal Editorial Animations & Luxury Utilities ── */
-@keyframes slow-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes slow-rotate-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes float-subtle {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(0.5deg);
-  }
-}
-
-@keyframes float-subtle-alt {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(8px) rotate(-0.5deg);
-  }
-}
-
-@keyframes ticker-slide {
+@keyframes stamp-in {
   0% {
-    transform: translateX(0%);
+    opacity: 0;
+    transform: scale(1.35);
+  }
+  60% {
+    opacity: 1;
   }
   100% {
-    transform: translateX(-50%);
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
-.animate-slow-rotate {
-  animation: slow-rotate 45s linear infinite;
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
 
-.animate-slow-rotate-reverse {
-  animation: slow-rotate-reverse 60s linear infinite;
+.stamp-in {
+  animation: stamp-in 0.55s var(--ease-stamp) both;
 }
 
-.animate-float-subtle {
-  animation: float-subtle 7s ease-in-out infinite;
+.pulse-ring {
+  animation: pulse-ring 2.4s var(--ease-plot) infinite;
 }
 
-.animate-float-subtle-alt {
-  animation: float-subtle-alt 8.5s ease-in-out infinite;
+/* The compass arrow swings from north to the forecast bearing */
+@keyframes rose-turn {
+  from {
+    rotate: 0deg;
+  }
+}
+.rose-turn {
+  animation: rose-turn 1.6s var(--ease-plot) 0.4s both;
 }
 
-.animate-ticker {
-  animation: ticker-slide 32s linear infinite;
+/* Scroll position printed as the scale strip under the masthead (CSS scroll timeline) */
+@keyframes scale-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.scroll-scale {
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-scale {
+    animation: scale-progress linear both;
+    animation-timeline: scroll(root block);
+  }
 }
 
-.animate-ticker:hover {
-  animation-play-state: paused;
+/* Legacy cover surfaces now print as a plain sheet */
+.editorial-hero-surface,
+.editorial-hero-surface-red {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+html.dark .editorial-hero-surface,
+html.dark .editorial-hero-surface-red {
+  background-color: var(--color-night);
+  color: var(--color-snow);
 }
 
-/* ── Prefers-reduced-motion: reduce — Absolute and immediate stoppage ────────────────────────
-   Guarantees complete halt of continuous rotations, floatings, and continuous tickers,
-   while preserving layout transforms (e.g. -translate-x-1/2 -translate-y-1/2) and
-   providing accessible fallback for tickers. */
 @media (prefers-reduced-motion: reduce) {
-  /* 1. Complete halt of continuous rotations */
-  .animate-slow-rotate,
-  .animate-slow-rotate-reverse {
-    animation: none !important;
-    animation-play-state: paused !important;
+  html {
+    scroll-behavior: auto !important;
   }
-
-  /* 2. Complete halt of continuous floatings and breathing pulses */
-  .animate-float-subtle,
-  .animate-float-subtle-alt {
-    animation: none !important;
-    animation-play-state: paused !important;
-  }
-
-  /* 3. Complete halt of continuous tickers, with accessible horizontal swipe/scroll fallback */
-  .animate-ticker {
-    animation: none !important;
-    animation-play-state: paused !important;
-    transform: none !important;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .animate-ticker::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* 4. Instant display of masked headline lines and supporting cover content */
-  .cover-line > span {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  .cover-rise {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  /* 5. Halt ambient pinging and pulsing indicators */
+  .carte-develop.is-developing,
+  .stamp-in,
+  .pulse-ring,
   .animate-ping,
   .animate-pulse {
     animation: none !important;
-    opacity: 1 !important;
   }
-
-  /* 6. Universal motion damping: disable smooth scrolling and collapse transitions */
+  .carte-develop {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
   *,
   *::before,
   *::after {
@@ -316,269 +507,222 @@ select,
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
-  html {
-    scroll-behavior: auto !important;
+  .scroll-scale {
+    animation-duration: auto !important;
   }
 }
 
-/* ── Editorial Prose & Blog Typography ───────────────────────────────────────
-   Full typography specification for rich-text articles and WYSIWYG editor,
-   embodying the "Editorial Peloton" design tokens (Poppins, ink, crimson). */
-
+/* ── Carnet de route: article typography ───────────────────────────────── */
 .prose {
-  color: #3a3f4a;
+  color: var(--color-ink-2);
   font-family: var(--font-sans);
-  line-height: 1.7;
+  font-size: 1.0625rem;
+  line-height: 1.72;
 }
-
 html.dark .prose {
-  color: #d1d5db;
+  color: var(--color-snow-2);
 }
 
-/* Headings */
-.prose h1 {
-  color: #101216;
-  font-size: clamp(2rem, 4.5vw, 2.75rem);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  margin-top: 2.25rem;
-  margin-bottom: 1.25rem;
-}
-
-.prose h1:first-child {
-  margin-top: 0;
-}
-
-.prose h2 {
-  color: #101216;
-  font-size: clamp(1.4rem, 2.8vw, 1.875rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: -0.015em;
-  line-height: 1.2;
-  margin-top: 2.25rem;
-  margin-bottom: 0.85rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e4e0d8;
-}
-
-.prose h2:first-child {
-  margin-top: 0;
-}
-
-.prose h3 {
-  color: #101216;
-  font-size: 1.25rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-  margin-top: 1.75rem;
-  margin-bottom: 0.65rem;
-}
-
+.prose h1,
+.prose h2,
+.prose h3,
 .prose h4 {
-  color: #101216;
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
+  color: var(--color-ink);
+  text-wrap: balance;
 }
-
 html.dark .prose h1,
 html.dark .prose h2,
 html.dark .prose h3,
 html.dark .prose h4 {
-  color: #ffffff;
+  color: var(--color-snow);
 }
 
+.prose h1 {
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  font-stretch: 112.5%;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  margin: 2.5rem 0 1.25rem;
+}
+.prose h2 {
+  font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+  font-weight: 750;
+  font-stretch: 112.5%;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 2.75rem 0 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--color-line);
+}
 html.dark .prose h2 {
-  border-bottom-color: #262b38;
+  border-top-color: var(--color-night-line);
+}
+.prose h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 2rem 0 0.6rem;
+}
+.prose h4 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 1.5rem 0 0.5rem;
+}
+.prose h1:first-child,
+.prose h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 
-/* Paragraphs */
 .prose p {
   margin-bottom: 1.25rem;
-  line-height: 1.75;
 }
-
 .prose p:last-child {
   margin-bottom: 0;
 }
-
-/* Bold, Italic & Underline */
 .prose strong,
 .prose b {
   font-weight: 700;
-  color: #101216;
+  color: var(--color-ink);
 }
-
 html.dark .prose strong,
 html.dark .prose b {
-  color: #ffffff;
+  color: var(--color-snow);
 }
-
 .prose em,
 .prose i {
   font-style: italic;
 }
-
 .prose u {
   text-decoration: underline;
-  text-decoration-color: #e03e3e;
+  text-decoration-color: var(--color-brand);
   text-underline-offset: 3px;
 }
 
-/* Lists */
-.prose ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
-  margin-top: 0.75rem;
-  margin-bottom: 1.25rem;
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+  margin: 0.75rem 0 1.25rem;
 }
-
+.prose ul {
+  list-style-type: square;
+}
 .prose ol {
   list-style-type: decimal;
-  padding-left: 1.5rem;
-  margin-top: 0.75rem;
-  margin-bottom: 1.25rem;
 }
-
 .prose li {
-  margin-top: 0.35rem;
-  margin-bottom: 0.35rem;
+  margin: 0.35rem 0;
   padding-left: 0.25rem;
-  line-height: 1.65;
 }
-
 .prose ul > li::marker,
 .prose ol > li::marker {
-  color: #e03e3e;
+  color: var(--color-brand);
   font-weight: 700;
 }
 
-/* Links */
 .prose a {
-  color: #e03e3e;
+  color: var(--color-brand-strong);
   font-weight: 600;
   text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-brand) 40%, transparent);
   text-underline-offset: 3px;
-  text-decoration-color: rgba(224, 62, 62, 0.35);
-  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  transition:
+    text-decoration-color 0.15s ease,
+    color 0.15s ease;
 }
-
 .prose a:hover {
-  text-decoration-color: #e03e3e;
-  color: #c93434;
+  text-decoration-color: var(--color-brand);
+}
+html.dark .prose a {
+  color: var(--color-brand-soft);
 }
 
-/* Blockquotes */
 .prose blockquote {
-  border-left: 3px solid #e03e3e;
-  background-color: #f2efe9;
-  padding: 1rem 1.25rem;
-  margin: 1.5rem 0;
-  border-radius: 0 6px 6px 0;
+  margin: 1.75rem 0;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  border-left: 1px solid var(--color-ink);
   font-style: italic;
-  color: #5c6370;
+  font-size: 1.125rem;
+  color: var(--color-ink);
 }
-
 html.dark .prose blockquote {
-  background-color: #161922;
-  color: #a7adbb;
+  border-left-color: var(--color-snow-3);
+  color: var(--color-snow);
 }
 
-/* Images */
 .prose img {
-  border-radius: 8px;
-  border: 1px solid #e4e0d8;
-  margin: 1.75rem auto;
+  display: block;
   max-width: 100%;
   height: auto;
-  display: block;
-  box-shadow: 0 2px 8px -1px rgba(16, 18, 22, 0.06);
+  margin: 2rem auto;
+  border: 1px solid var(--color-line);
 }
-
 html.dark .prose img {
-  border-color: #262b38;
+  border-color: var(--color-night-line);
 }
 
-/* Horizontal Rule */
 .prose hr {
   border: 0;
-  border-top: 1px solid #e4e0d8;
-  margin: 2.25rem 0;
+  height: 3px;
+  margin: 2.5rem 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-ink) 0 18px,
+    transparent 18px 36px
+  );
+  opacity: 0.8;
 }
 
-html.dark .prose hr {
-  border-top-color: #262b38;
-}
-
-/* Inline code & pre */
 .prose code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.875em;
-  background-color: #f2efe9;
-  color: #e03e3e;
+  background-color: var(--color-paper-2);
+  color: var(--color-brand-strong);
   padding: 0.15em 0.4em;
-  border-radius: 4px;
+  border-radius: 2px;
 }
-
 html.dark .prose code {
-  background-color: #161922;
+  background-color: var(--color-night-2);
+  color: var(--color-brand-soft);
 }
-
 .prose pre {
-  background-color: #101216;
-  color: #f5f6f8;
+  background-color: var(--color-ink);
+  color: var(--color-snow);
   padding: 1rem 1.25rem;
-  border-radius: 8px;
+  border-radius: 3px;
   overflow-x: auto;
   margin: 1.25rem 0;
   font-size: 0.875rem;
   line-height: 1.6;
 }
 
-/* ── WYSIWYG Editor Scope ───────────────────────────────────────────────────
-   Ensures the in-editor editing area has clear, natural boundaries and typing
-   flow without overriding necessary form controls. */
+/* WYSIWYG editor scope (admin) */
 .prose-editor {
   min-height: 280px;
   outline: none;
 }
-
 .prose-editor:empty::before {
-  content: 'Rédigez le contenu de votre article ici... Utilisez la barre d\'outils ci-dessus pour structurer vos sections et intégrer des photos.';
-  color: #a7adbb;
+  content: "Rédigez le contenu de votre article ici… Utilisez la barre d'outils ci-dessus pour structurer vos sections et intégrer des photos.";
+  color: var(--color-ink-3);
   pointer-events: none;
   font-style: italic;
 }
-
 .prose-sm h1 {
   font-size: 1.75rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+  margin: 1.5rem 0 0.75rem;
 }
-
 .prose-sm h2 {
   font-size: 1.35rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0.65rem;
+  margin: 1.5rem 0 0.65rem;
 }
-
 .prose-sm h3 {
   font-size: 1.15rem;
-  margin-top: 1.25rem;
-  margin-bottom: 0.5rem;
+  margin: 1.25rem 0 0.5rem;
 }
-
 .prose-sm p {
   margin-bottom: 0.9rem;
   font-size: 0.9375rem;
 }
-
-

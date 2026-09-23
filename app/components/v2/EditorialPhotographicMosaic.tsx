@@ -57,14 +57,14 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
   ];
 
   return (
-    <section className="py-24 sm:py-32 bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] border-b border-[#e4e0d8] dark:border-[#262b38] relative overflow-hidden transition-colors duration-200">
+    <section className="py-24 sm:py-32 bg-paper dark:bg-night text-ink dark:text-snow border-b border-line dark:border-night-line relative overflow-hidden transition-colors duration-200">
       {/* Editorial Giant Background Typography Layer */}
       <ParallaxLayer
         speed={-0.2}
         maxOffset={100}
         className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center"
       >
-        <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
+        <span className="text-[clamp(6rem,18vw,22rem)] font-extrabold uppercase tracking-tighter text-ink dark:text-white whitespace-nowrap">
           PELOTON
         </span>
       </ParallaxLayer>
@@ -73,15 +73,15 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
+            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-ink dark:text-white text-balance">
               La Traversée des Éléments
             </h2>
-            <p className="text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
+            <p className="text-base text-ink-2 dark:text-snow-3 leading-relaxed">
               Le vélo à Blanmont n&apos;est pas une collection d&apos;images : c&apos;est une symphonie de briques rouges, de ciels mouvants, d&apos;asphalte rugueux et de sourires complices.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
             <span>Archives Vivantes · 1978–2026</span>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
           {items.map((item) => (
             <div
               key={item.id}
-              className={`group relative overflow-hidden rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-[#0a0c10] shadow-xl transition-all duration-200 ease-out hover:shadow-2xl hover:border-[#e03e3e]/60 ${item.span}`}
+              className={`group relative overflow-hidden rounded-xl border border-line dark:border-night-line bg-night shadow-xl transition-all duration-200 ease-out hover:shadow-2xl hover:border-brand/60 ${item.span}`}
             >
 
               {/* Image with zoom, window parallax and soft color grade */}
@@ -107,14 +107,14 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
 
 
                 {/* Dark luxury gradient overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-200" />
+                <div className="absolute inset-0 bg-gradient-to-t from-night via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-200" />
 
                 {/* Bottom Story Reveal */}
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-10 space-y-1.5 transform transition-transform duration-200 ease-out group-hover:-translate-y-1">
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight group-hover:text-[#e03e3e] transition-colors duration-150">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight group-hover:text-brand transition-colors duration-150">
                     {item.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#a7adbb] line-clamp-2 max-w-xl leading-relaxed">
+                  <p className="text-xs sm:text-sm text-snow-3 line-clamp-2 max-w-xl leading-relaxed">
                     {item.subtitle}
                   </p>
                 </div>
@@ -124,51 +124,51 @@ export default function EditorialPhotographicMosaic(): React.ReactElement {
         </div>
 
         {/* ── 4 Historical Pillars Manifesto Strip ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-[#e4e0d8] dark:border-[#262b38]">
-          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
-            <span className="text-2xl font-extrabold text-[#e03e3e] tabular-nums">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-line dark:border-night-line">
+          <div className="p-6 rounded-lg bg-white dark:bg-night-2 border border-line dark:border-night-line space-y-2">
+            <span className="text-2xl font-extrabold text-brand tabular-nums">
               1978
             </span>
-            <div className="text-sm font-bold text-[#101216] dark:text-white">
+            <div className="text-sm font-bold text-ink dark:text-white">
               Fondation du Club
             </div>
-            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+            <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
               Près d&apos;un demi-siècle d&apos;héritage cycliste ininterrompu au cœur du Brabant wallon.
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
-            <span className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums">
+          <div className="p-6 rounded-lg bg-white dark:bg-night-2 border border-line dark:border-night-line space-y-2">
+            <span className="text-2xl font-extrabold text-ink dark:text-white tabular-nums">
               0 Abandon
             </span>
-            <div className="text-sm font-bold text-[#101216] dark:text-white">
+            <div className="text-sm font-bold text-ink dark:text-white">
               Pacte de Solidarité
             </div>
-            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+            <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
               En cas de coup de pompe ou de crevaison, le peloton s&apos;arrête. Personne ne rentre seul.
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
-            <span className="text-2xl font-extrabold text-[#101216] dark:text-white tabular-nums">
+          <div className="p-6 rounded-lg bg-white dark:bg-night-2 border border-line dark:border-night-line space-y-2">
+            <span className="text-2xl font-extrabold text-ink dark:text-white tabular-nums">
               250+ Traces
             </span>
-            <div className="text-sm font-bold text-[#101216] dark:text-white">
+            <div className="text-sm font-bold text-ink dark:text-white">
               Bibliothèque GPX
             </div>
-            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+            <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
               Des centaines d&apos;itinéraires soignés avec dénivelés, profils et panoramas vérifiés.
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] space-y-2">
+          <div className="p-6 rounded-lg bg-white dark:bg-night-2 border border-line dark:border-night-line space-y-2">
             <span className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums">
               100% Plaisir
             </span>
-            <div className="text-sm font-bold text-[#101216] dark:text-white">
+            <div className="text-sm font-bold text-ink dark:text-white">
               Troisième Mi-temps
             </div>
-            <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+            <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
               Le plaisir de débriefer la sortie autour d&apos;une boisson fraîche sur la Place de Blanmont.
             </p>
           </div>

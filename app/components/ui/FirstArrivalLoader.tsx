@@ -67,7 +67,7 @@ export default function FirstArrivalLoader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0a0c10] text-white select-none transition-all duration-500 ease-out ${
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-night text-white select-none transition-all duration-500 ease-out ${
         isExiting
           ? 'opacity-0 scale-105 pointer-events-none backdrop-blur-md'
           : 'opacity-100 scale-100 pointer-events-auto'
@@ -76,7 +76,7 @@ export default function FirstArrivalLoader() {
       role="status"
     >
       {/* Background kinetic ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#e03e3e]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
       {/* Main Kinetic Centerpiece */}
       <div className="relative z-10 flex flex-col items-center space-y-6 text-center px-4">
@@ -110,7 +110,7 @@ export default function FirstArrivalLoader() {
             </svg>
 
             {/* Inner aerodynamic hub */}
-            <div className="h-10 w-10 rounded-full bg-[#e03e3e] flex items-center justify-center shadow-lg shadow-red-500/30 transform transition-transform animate-pulse">
+            <div className="h-10 w-10 rounded-full bg-brand flex items-center justify-center shadow-lg shadow-red-500/30 transform transition-transform animate-pulse">
               <span className="text-white font-extrabold text-xs tracking-wider">
                 CCB
               </span>
@@ -120,12 +120,12 @@ export default function FirstArrivalLoader() {
 
         {/* Brand Wordmark & Typography */}
         <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/10 text-[#e03e3e] text-xs font-bold uppercase tracking-widest border border-white/10">
+          <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/10 text-brand text-xs font-bold uppercase tracking-widest border border-white/10">
             CC Saint-Martin
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans">
-            BLAN<span className="text-[#e03e3e]">MONT</span>
+            BLAN<span className="text-brand">MONT</span>
           </h1>
 
           <p className="text-xs font-medium text-slate-400 tracking-wider uppercase">
@@ -135,13 +135,13 @@ export default function FirstArrivalLoader() {
 
         {/* Athletic Progress Bar */}
         <div className="w-48 sm:w-64 space-y-2 pt-2">
-          <div className="h-1.5 w-full bg-[#161922] rounded-full overflow-hidden p-0.5 border border-[#262b38]">
+          <div className="h-1.5 w-full bg-night-2 rounded-full overflow-hidden p-0.5 border border-night-line">
             <div
-              className="h-full bg-gradient-to-r from-red-600 to-[#e03e3e] rounded-full transition-all duration-300 ease-out"
+              className="h-full bg-gradient-to-r from-red-600 to-brand rounded-full transition-all duration-300 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="flex items-center justify-between text-xs font-medium text-[#5c6370] uppercase tracking-wider tabular-nums">
+          <div className="flex items-center justify-between text-xs font-medium text-ink-3 uppercase tracking-wider tabular-nums">
             <span>Mise en route</span>
             <span className="font-semibold text-slate-300">{progress}%</span>
           </div>
@@ -151,7 +151,7 @@ export default function FirstArrivalLoader() {
       {/* Skip button */}
       <button
         onClick={handleSkip}
-        className="absolute bottom-6 right-6 text-xs text-[#5c6370] hover:text-white px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#262b38] hover:bg-[#161922] transition-colors duration-150 z-20 cursor-pointer"
+        className="absolute bottom-6 right-6 text-xs text-ink-3 hover:text-white px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md border border-night-line hover:bg-night-2 transition-colors duration-150 z-20 cursor-pointer"
       >
         Passer l&apos;intro ✕
       </button>

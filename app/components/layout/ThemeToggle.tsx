@@ -19,7 +19,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
       return (
         <div
           className={cn(
-            'inline-flex h-9 w-9 min-h-[44px] min-w-[44px] sm:min-h-[36px] sm:min-w-[36px] items-center justify-center rounded-full border border-[#e4e0d8] dark:border-white/10 bg-black/5 dark:bg-white/5 opacity-50',
+            'inline-flex size-10 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] items-center justify-center rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 opacity-50',
             className
           )}
           aria-hidden="true"
@@ -28,8 +28,8 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
     }
     if (variant === 'pill') {
       return (
-        <div className={cn('inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/15 px-3 py-1.5 text-xs text-muted-foreground', className)}>
-          <span className="h-4 w-4 rounded-full bg-black/10 dark:bg-white/10 animate-pulse" />
+        <div className={cn('inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line px-3 py-1.5 text-xs text-ink-3 dark:text-snow-3', className)}>
+          <span className="h-4 w-4 rounded-sm bg-paper-2 dark:bg-night-3 animate-pulse" />
           <span className="text-xs font-semibold uppercase tracking-wider">Thème</span>
         </div>
       );
@@ -46,7 +46,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         type="button"
         onClick={toggleTheme}
         className={cn(
-          'group relative inline-flex h-9 w-9 min-h-[44px] min-w-[44px] sm:min-h-[36px] sm:min-w-[36px] items-center justify-center rounded-full border border-[#e4e0d8] dark:border-white/10 bg-black/5 dark:bg-white/[0.04] hover:bg-black/10 dark:hover:bg-white/[0.08] text-[#101216] dark:text-white transition-all duration-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] active:scale-95 cursor-pointer',
+          'group relative inline-flex size-10 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] items-center justify-center rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 hover:border-ink/40 dark:hover:border-snow-3 text-ink dark:text-snow transition-colors duration-200 active:translate-y-px cursor-pointer',
           className
         )}
         title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
@@ -56,9 +56,9 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
           {isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
         </span>
         {isDark ? (
-          <SunIcon className="h-4.5 w-4.5 text-amber-400 group-hover:text-amber-300 group-hover:rotate-45 transition-transform duration-300" />
+          <SunIcon className="h-[18px] w-[18px] text-ambre group-hover:rotate-45 transition-transform duration-500 ease-(--ease-plot)" />
         ) : (
-          <MoonIcon className="h-4.5 w-4.5 text-[#5c6370] group-hover:text-[#101216] group-hover:-rotate-12 transition-transform duration-300" />
+          <MoonIcon className="h-[18px] w-[18px] text-ink-2 group-hover:text-ink group-hover:-rotate-12 transition-transform duration-500 ease-(--ease-plot)" />
         )}
       </button>
     );
@@ -70,13 +70,13 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
       {
         value: 'light',
         title: 'Mode Clair',
-        desc: 'Fond papier chaud (#faf8f5), typographie encre et esthétique aérée',
+        desc: 'Carte de jour : papier blanc, lettrage noir et encres de la carte, lisible en plein soleil',
         icon: SunIcon,
       },
       {
         value: 'dark',
         title: 'Mode Sombre',
-        desc: 'Fond encre profonde (#0a0c10), couverture magazine et accents rouges',
+        desc: 'Carte de nuit : fond nuit et encres atténuées pour consulter le soir sans éblouissement',
         icon: MoonIcon,
       },
       {
@@ -99,35 +99,35 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
               type="button"
               onClick={() => setTheme(opt.value)}
               className={cn(
-                'group relative flex flex-col justify-between rounded-xl border p-5 text-left transition-all cursor-pointer',
+                'group relative flex flex-col justify-between rounded-md border p-5 text-left transition-colors cursor-pointer',
                 isSelected
-                  ? 'border-[#e03e3e] bg-[#e03e3e]/5 ring-2 ring-[#e03e3e]/20 shadow-sm'
-                  : 'border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:border-[#101216]/30 dark:hover:border-white/30'
+                  ? 'border-brand bg-brand-tint dark:bg-brand/10 ring-1 ring-brand'
+                  : 'border-line dark:border-night-line bg-white dark:bg-night-2 hover:border-ink/30 dark:hover:border-white/30'
               )}
             >
               <div className="flex items-center justify-between mb-4">
                 <div
                   className={cn(
-                    'flex h-10 w-10 items-center justify-center rounded-lg border transition-colors',
+                    'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors',
                     isSelected
-                      ? 'border-[#e03e3e]/30 bg-[#e03e3e] text-white'
-                      : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#f2efe9] dark:bg-[#0a0c10] text-[#101216] dark:text-[#a7adbb] group-hover:text-[#e03e3e]'
+                      ? 'border-brand/30 bg-brand text-white'
+                      : 'border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-3 group-hover:text-brand'
                   )}
                 >
                   <Icon className="h-5 w-5" />
                 </div>
                 {isSelected && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#e03e3e] px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-white">
                     Actif
                   </span>
                 )}
               </div>
 
               <div>
-                <h4 className="text-sm font-bold uppercase tracking-tight text-[#101216] dark:text-white">
+                <h4 className="font-semiwide text-sm font-bold uppercase tracking-[0.04em] text-ink dark:text-white">
                   {opt.title}
                 </h4>
-                <p className="mt-1 text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+                <p className="mt-1 text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                   {opt.desc}
                 </p>
               </div>
@@ -150,8 +150,8 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         aria-label="Basculer le thème clair ou sombre"
         onClick={toggleTheme}
         className={cn(
-          'relative inline-flex min-h-[44px] min-w-[44px] h-8 w-14 sm:h-7 sm:w-14 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e03e3e]',
-          isDark ? 'bg-[#161922] border-[#262b38]' : 'bg-[#e4e0d8]',
+          'relative inline-flex min-h-[44px] min-w-[44px] h-8 w-14 sm:h-7 sm:w-14 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand',
+          isDark ? 'bg-night-2 border-night-line' : 'bg-line',
           className
         )}
       >
@@ -159,13 +159,13 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         <span
           className={cn(
             'pointer-events-none flex h-6 w-6 md:h-6 md:w-6 transform items-center justify-center rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out',
-            isDark ? 'translate-x-7 bg-[#0a0c10] text-[#f5f6f8]' : 'translate-x-0 text-[#101216]'
+            isDark ? 'translate-x-7 bg-night text-snow' : 'translate-x-0 text-ink'
           )}
         >
           {isDark ? (
-            <MoonIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+            <MoonIcon className="h-3.5 w-3.5 text-brand" />
           ) : (
-            <SunIcon className="h-3.5 w-3.5 text-amber-500" />
+            <SunIcon className="h-3.5 w-3.5 text-ambre" />
           )}
         </span>
       </button>
@@ -176,8 +176,8 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-full p-1 border transition-colors',
-        'bg-white/80 dark:bg-[#161922] border-[#e4e0d8] dark:border-[#262b38] shadow-xs',
+        'inline-flex items-center rounded-md p-0.5 border transition-colors',
+        'bg-white dark:bg-night-2 border-line dark:border-night-line',
         className
       )}
       role="group"
@@ -187,14 +187,14 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         type="button"
         onClick={() => setTheme('light')}
         className={cn(
-          'flex items-center gap-1.5 rounded-full px-3.5 py-2 min-h-[44px] sm:min-h-[36px] text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer',
+          'flex items-center gap-1.5 rounded-sm px-3.5 py-2 min-h-[44px] sm:min-h-[36px] font-narrow text-xs font-bold uppercase tracking-[0.08em] transition-colors cursor-pointer',
           resolvedTheme === 'light' && theme !== 'system'
-            ? 'bg-[#101216] text-white shadow-xs'
-            : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
+            ? 'bg-ink text-white shadow-xs'
+            : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
         )}
         title="Activer le mode clair"
       >
-        <SunIcon className="h-3.5 w-3.5 text-amber-500" />
+        <SunIcon className="h-3.5 w-3.5 text-ambre" />
         <span className="text-xs">Clair</span>
       </button>
 
@@ -202,10 +202,10 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         type="button"
         onClick={() => setTheme('dark')}
         className={cn(
-          'flex items-center gap-1.5 rounded-full px-3.5 py-2 min-h-[44px] sm:min-h-[36px] text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer',
+          'flex items-center gap-1.5 rounded-sm px-3.5 py-2 min-h-[44px] sm:min-h-[36px] font-narrow text-xs font-bold uppercase tracking-[0.08em] transition-colors cursor-pointer',
           resolvedTheme === 'dark' && theme !== 'system'
-            ? 'bg-[#e03e3e] text-white shadow-xs'
-            : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
+            ? 'bg-brand text-white shadow-xs'
+            : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
         )}
         title="Activer le mode sombre"
       >

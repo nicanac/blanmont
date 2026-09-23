@@ -228,41 +228,41 @@ export default function GarminImportPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-paper dark:bg-night py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <Link href="/traces" className="inline-flex items-center text-sm text-[#3a3f4a] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white mb-4">
+                    <Link href="/traces" className="inline-flex items-center text-sm text-ink-2 dark:text-snow-3 hover:text-ink dark:hover:text-white mb-4">
                         <span className="mr-1">←</span> Retour aux parcours
                     </Link>
-                    <h1 className="text-3xl font-bold text-[#101216] dark:text-[#f5f6f8]">Importer un Parcours</h1>
-                    <p className="mt-2 text-[#3a3f4a] dark:text-[#a7adbb]">
+                    <h1 className="text-3xl font-bold text-ink dark:text-snow">Importer un Parcours</h1>
+                    <p className="mt-2 text-ink-2 dark:text-snow-3">
                         Importez un fichier GPX ou entrez une URL Garmin/Komoot.
                     </p>
                 </div>
 
                 {/* Main Card */}
-                <div className="bg-white dark:bg-[#161922] rounded-xl shadow-lg border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden">
+                <div className="bg-white dark:bg-night-2 rounded-xl shadow-lg border border-line dark:border-night-line overflow-hidden">
 
                     {/* Mode Toggle - Section Header */}
                     {!preview && !successMessage && (
-                        <div className="bg-[#f2efe9] dark:bg-[#1e222d] px-6 py-4 border-b border-[#e4e0d8] dark:border-[#262b38]">
+                        <div className="bg-paper-2 dark:bg-night-3 px-6 py-4 border-b border-line dark:border-night-line">
                             <div className="flex items-center gap-4">
-                                <span className="text-sm font-medium text-[#3a3f4a] dark:text-[#d1d5db]">Méthode d&apos;import:</span>
+                                <span className="text-sm font-medium text-ink-2 dark:text-snow-2">Méthode d&apos;import:</span>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => setMode('file')}
                                         className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-150 cursor-pointer ${mode === 'file'
-                                            ? 'bg-brand-primary text-white'
-                                            : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
+                                            ? 'bg-brand text-white'
+                                            : 'bg-white dark:bg-night-2 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line hover:bg-paper-2 dark:hover:bg-night-3'}`}
                                     >
                                         📁 Fichier GPX
                                     </button>
                                     <button
                                         onClick={() => setMode('url')}
                                         className={`px-4 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-150 cursor-pointer ${mode === 'url'
-                                            ? 'bg-brand-primary text-white'
-                                            : 'bg-white dark:bg-[#161922] text-[#3a3f4a] dark:text-[#d1d5db] border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d]'}`}
+                                            ? 'bg-brand text-white'
+                                            : 'bg-white dark:bg-night-2 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line hover:bg-paper-2 dark:hover:bg-night-3'}`}
                                     >
                                         🔗 URL
                                     </button>
@@ -273,20 +273,20 @@ export default function GarminImportPage() {
 
                     {!preview && !successMessage && mode === 'file' && (
                         <div className="p-6">
-                            <div className="flex justify-center rounded-lg border border-dashed border-[#e4e0d8] dark:border-[#3a3f4a] px-6 py-10 hover:border-[#c9c4ba] dark:hover:border-[#5c6370] transition-colors duration-150">
+                            <div className="flex justify-center rounded-lg border border-dashed border-line dark:border-ink-2 px-6 py-10 hover:border-line-strong dark:hover:border-ink-3 transition-colors duration-150">
                                 <div className="text-center">
-                                    <CloudArrowUpIcon className="mx-auto h-12 w-12 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
-                                    <div className="mt-4 flex text-sm leading-6 text-[#3a3f4a] dark:text-[#d1d5db] justify-center">
+                                    <CloudArrowUpIcon className="mx-auto h-12 w-12 text-ink-3 dark:text-snow-3" aria-hidden="true" />
+                                    <div className="mt-4 flex text-sm leading-6 text-ink-2 dark:text-snow-2 justify-center">
                                         <label
                                             htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md font-semibold text-brand-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-primary focus-within:ring-offset-2 hover:opacity-80 transition-opacity duration-150"
+                                            className="relative cursor-pointer rounded-md font-semibold text-brand focus-within:outline-none focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-2 hover:opacity-80 transition-opacity duration-150"
                                         >
                                             <span>Téléverser un fichier GPX</span>
                                             <input id="file-upload" name="file-upload" type="file" className="sr-only" accept=".gpx" onChange={handleFileChange} />
                                         </label>
                                         <p className="pl-1">ou glisser-déposer</p>
                                     </div>
-                                    <p className="text-xs leading-5 text-[#5c6370] dark:text-[#a7adbb] mt-1">Fichier .GPX jusqu&apos;à 10MB</p>
+                                    <p className="text-xs leading-5 text-ink-3 dark:text-snow-3 mt-1">Fichier .GPX jusqu&apos;à 10MB</p>
                                 </div>
                             </div>
                         </div>
@@ -294,24 +294,24 @@ export default function GarminImportPage() {
 
                     {!preview && !successMessage && mode === 'url' && (
                         <div className="p-6">
-                            <label className="block text-sm font-medium text-[#101216] dark:text-[#f5f6f8] mb-2">URL de l&apos;activité</label>
+                            <label className="block text-sm font-medium text-ink dark:text-snow mb-2">URL de l&apos;activité</label>
                             <div className="flex gap-4">
                                 <input
                                     type="text"
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
                                     placeholder="https://connect.garmin.com/modern/activity/... ou https://www.komoot.com/tour/..."
-                                    className="flex-1 rounded-md border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] shadow-sm focus:border-brand-primary focus:ring-brand-primary sm:text-sm p-2 border placeholder:text-[#5c6370] dark:placeholder:text-[#5c6370] transition-colors duration-150"
+                                    className="flex-1 rounded-md border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow shadow-sm focus:border-brand focus:ring-brand sm:text-sm p-2 border placeholder:text-ink-3 dark:placeholder:text-ink-3 transition-colors duration-150"
                                 />
                                 <button
                                     onClick={handleUrlSubmit}
                                     disabled={loading || !url}
-                                    className="bg-brand-primary text-white px-6 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md hover:opacity-90 transition-opacity duration-150 disabled:opacity-50 font-medium cursor-pointer"
+                                    className="bg-brand text-white px-6 py-2 min-h-[44px] inline-flex items-center justify-center rounded-md hover:opacity-90 transition-opacity duration-150 disabled:opacity-50 font-medium cursor-pointer"
                                 >
                                     {loading ? 'Chargement...' : 'Charger'}
                                 </button>
                             </div>
-                            <p className="mt-2 text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                            <p className="mt-2 text-xs text-ink-3 dark:text-snow-3">
                                 Note: Les données seront récupérées si l&apos;activité est publique. Sinon, utilisez un fichier GPX.
                             </p>
                         </div>
@@ -319,8 +319,8 @@ export default function GarminImportPage() {
 
                     {loading && (
                         <div className="p-6 text-center">
-                            <div className="animate-spin h-8 w-8 md:h-8 md:w-8 border-2 border-brand-primary border-t-transparent rounded-full mx-auto"></div>
-                            <p className="mt-2 text-[#3a3f4a] dark:text-[#a7adbb]">Traitement en cours...</p>
+                            <div className="animate-spin h-8 w-8 md:h-8 md:w-8 border-2 border-brand border-t-transparent rounded-full mx-auto"></div>
+                            <p className="mt-2 text-ink-2 dark:text-snow-3">Traitement en cours...</p>
                         </div>
                     )}
 
@@ -362,7 +362,7 @@ export default function GarminImportPage() {
                                     </Link>
                                     <Link
                                         href={`/traces/${createdTraceId}/edit`}
-                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-green-700 dark:text-emerald-300 bg-white dark:bg-[#161922] border border-green-300 dark:border-emerald-800 rounded-md hover:bg-green-50 dark:hover:bg-emerald-950/50 transition-colors duration-150"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-green-700 dark:text-emerald-300 bg-white dark:bg-night-2 border border-green-300 dark:border-emerald-800 rounded-md hover:bg-green-50 dark:hover:bg-emerald-950/50 transition-colors duration-150"
                                     >
                                         <PencilIcon className="h-4 w-4 mr-1.5" />
                                         Modifier
@@ -370,7 +370,7 @@ export default function GarminImportPage() {
                                     <button
                                         onClick={handleDelete}
                                         disabled={loading}
-                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-red-700 dark:text-red-300 bg-white dark:bg-[#161922] border border-red-300 dark:border-red-800 rounded-md hover:bg-red-50 dark:hover:bg-red-950/50 disabled:opacity-50 transition-colors duration-150 cursor-pointer"
+                                        className="inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-red-700 dark:text-red-300 bg-white dark:bg-night-2 border border-red-300 dark:border-red-800 rounded-md hover:bg-red-50 dark:hover:bg-red-950/50 disabled:opacity-50 transition-colors duration-150 cursor-pointer"
                                     >
                                         <TrashIcon className="h-4 w-4 mr-1.5" />
                                         Supprimer

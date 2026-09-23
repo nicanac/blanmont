@@ -11,10 +11,12 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 - **Database**: Firebase Realtime Database (via Admin SDK & Client SDK) — See [database.md](database.md)
 - **Authentication**: Firebase Authentication (Email/Password, Custom Admin Claims)
 - **Storage**: Cloudinary (Image uploads) & Firebase Storage
-- **Styling**: Tailwind CSS (Primary), Headless UI, Heroicons.
-- **Fonts**: Google Fonts (Poppins) via `next/font/google`.
+- **Styling**: Tailwind CSS v4 (semantic tokens in `app/globals.css`), Headless UI, Heroicons.
+- **Fonts**: Archivo variable font (`wdth` axis) via `next/font/google`; width utilities `font-wide`, `font-semiwide`, `font-narrow`, `font-condensed`.
 - **Icons**: Heroicons (Solid & Outline)
-- **Theme**: Light Mode default, Red/Black (Eco/Ciseco aesthetic).
+- **Theme**: "Carte IGN" world — the site is printed as a topographic sheet of the club's territory (map paper, spot inks, neat-line frames). Light sheet by default, night sheet in dark mode. See [DESIGN.md](../DESIGN.md).
+- **Motion**: GSAP + ScrollTrigger, dynamically imported after hydration (`app/lib/useSheetMotion.ts`); canvas wind field (`app/components/carte/WindField.tsx`); all motion respects `prefers-reduced-motion`.
+- **Map assets**: `public/carte/*.svg` and `app/data/territory.json`, generated from AWS Terrain Tiles and OpenStreetMap by `node scripts/generate-territory-map.mjs` (cached in `scripts/.cache/`, `--refresh` to re-download). Attribution is shown in the footer.
 - **Hosting environment**: Node.js (Vercel-compatible)
 
 ## Architecture & Folder Structure
@@ -124,8 +126,9 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 
 3.  **Styling & UI**:
     - **Tailwind First**: All new components should use Tailwind CSS classes.
-    - **Aesthetics**: "Ciseco/Eco" style - Clean, White/Gray backgrounds, Rounded corners (xl/2xl), Black/Red accents.
-    - **Fonts**: Use `var(--font-poppins)` (Poppins).
+    - **Aesthetics**: "Carte IGN" topographic sheet — map paper, black Archivo lettering, spot inks (route red, relief bistre, hydro blue, woodland green, amber), 2–6px sheet corners. Use the semantic tokens (`bg-paper`, `text-ink`, `bg-brand`, `border-line`…), never raw hex classes.
+    - **Page headers**: Use `SheetHeader` (`app/components/carte/SheetHeader.tsx`); `PageHero` is a compatibility wrapper around it.
+    - **Fonts**: Archivo via `font-sans` (`--font-archivo`); hierarchy is carried by width (`font-wide`) and weight, not uppercase tracking.
     - **Responsive**: Mobile-first approach is mandatory.
 
 4.  **Localization**:

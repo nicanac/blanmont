@@ -74,7 +74,7 @@ export default function MapPreview({
     return (
       <div
         className={cn(
-          'h-48 bg-[#f2efe9] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] flex items-center justify-center text-xs font-semibold uppercase tracking-wider rounded-lg',
+          'h-48 bg-paper-2 dark:bg-night-2 text-ink-3 dark:text-snow-3 flex items-center justify-center text-xs font-semibold uppercase tracking-wider rounded-lg',
           className
         )}
       >

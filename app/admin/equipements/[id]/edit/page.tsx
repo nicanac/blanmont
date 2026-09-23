@@ -237,13 +237,13 @@ export default function EditEquipmentPage() {
 
     if (!formData.name && !isLoading) {
         return (
-            <div className="rounded-xl bg-white dark:bg-[#161922] p-12 text-center shadow-sm border border-[#e4e0d8] dark:border-[#262b38]">
-                <JerseyIcon className="mx-auto h-16 w-16 text-gray-300 dark:text-[#5c6370]" />
+            <div className="rounded-xl bg-white dark:bg-night-2 p-12 text-center shadow-sm border border-line dark:border-night-line">
+                <JerseyIcon className="mx-auto h-16 w-16 text-gray-300 dark:text-ink-3" />
                 <h2 className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Équipement non trouvé</h2>
-                <p className="mt-2 text-gray-500 dark:text-[#a7adbb]">L&apos;équipement demandé n&apos;existe pas.</p>
+                <p className="mt-2 text-gray-500 dark:text-snow-3">L&apos;équipement demandé n&apos;existe pas.</p>
                 <Link
                     href="/admin/equipements"
-                    className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#e03e3e] px-4 py-2 text-white hover:bg-[#c93434] transition-colors duration-150"
+                    className="mt-6 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-white hover:bg-brand-strong transition-colors duration-150"
                 >
                     <ArrowLeftIcon className="h-4 w-4" />
                     Retour à la liste
@@ -289,7 +289,7 @@ export default function EditEquipmentPage() {
                     {/* Left Column - Image Upload (Sticky) */}
                     <div className="xl:col-span-4">
                         <div className="xl:sticky xl:top-6">
-                            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs">
+                            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs">
                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Image du produit</h2>
 
                                 {/* Hidden file input */}
@@ -310,10 +310,10 @@ export default function EditEquipmentPage() {
                                     onDragOver={handleDragOver}
                                     onDragLeave={handleDragLeave}
                                     className={`relative aspect-square rounded-lg overflow-hidden transition-all duration-200 ${formData.imageUrl
-                                        ? 'bg-[#f8f7f5] dark:bg-[#101216]'
+                                        ? 'bg-paper dark:bg-ink'
                                         : isDragOver
-                                             ? 'bg-red-50 dark:bg-red-950/20 border border-dashed border-[#e03e3e] cursor-pointer'
-                                             : 'bg-[#f8f7f5] dark:bg-[#101216] border border-dashed border-[#e4e0d8] dark:border-[#3a3f4a] cursor-pointer hover:border-[#e03e3e] hover:bg-red-50/20 transition-colors duration-150'
+                                             ? 'bg-red-50 dark:bg-red-950/20 border border-dashed border-brand cursor-pointer'
+                                             : 'bg-paper dark:bg-ink border border-dashed border-line dark:border-ink-2 cursor-pointer hover:border-brand hover:bg-red-50/20 transition-colors duration-150'
                                         }`}
                                 >
                                     {formData.imageUrl ? (
@@ -331,31 +331,31 @@ export default function EditEquipmentPage() {
                                                     e.stopPropagation();
                                                     removeImage();
                                                 }}
-                                                className="absolute top-3 right-3 rounded-full bg-[#e03e3e] p-1.5 text-white shadow-lg hover:bg-[#c93434] transition-colors duration-150"
+                                                className="absolute top-3 right-3 rounded-full bg-brand p-1.5 text-white shadow-lg hover:bg-brand-strong transition-colors duration-150"
                                             >
                                                 <XMarkIcon className="h-4 w-4" />
                                             </button>
                                         </>
                                     ) : isUploading ? (
                                         <div className="flex flex-col items-center justify-center h-full p-6">
-                                            <div className="w-12 h-12 rounded-full border-2 border-[#e03e3e]/20 border-t-[#e03e3e] animate-spin mb-4"></div>
-                                            <p className="text-sm font-medium text-gray-600 dark:text-[#a7adbb]">Upload en cours...</p>
-                                            <div className="w-full max-w-[200px] mt-3 h-1.5 bg-[#e4e0d8] dark:bg-[#262b38] rounded-full overflow-hidden">
+                                            <div className="w-12 h-12 rounded-full border-2 border-brand/20 border-t-brand animate-spin mb-4"></div>
+                                            <p className="text-sm font-medium text-gray-600 dark:text-snow-3">Upload en cours...</p>
+                                            <div className="w-full max-w-[200px] mt-3 h-1.5 bg-line dark:bg-night-line rounded-full overflow-hidden">
                                                 <div
-                                                    className="h-full bg-[#e03e3e] transition-all duration-200"
+                                                    className="h-full bg-brand transition-all duration-200"
                                                     style={{ width: `${progress}%` }}
                                                 ></div>
                                             </div>
-                                            <p className="mt-2 text-xs text-gray-500 dark:text-[#5c6370]">{progress}%</p>
+                                            <p className="mt-2 text-xs text-gray-500 dark:text-ink-3">{progress}%</p>
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                                            <CloudArrowUpIcon className={`h-16 w-16 mb-4 transition-colors duration-150 ${isDragOver ? 'text-[#e03e3e]' : 'text-gray-300 dark:text-[#5c6370]'}`} />
+                                            <CloudArrowUpIcon className={`h-16 w-16 mb-4 transition-colors duration-150 ${isDragOver ? 'text-brand' : 'text-gray-300 dark:text-ink-3'}`} />
                                             <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                                 {isDragOver ? 'Déposez l\'image ici' : 'Glissez une image ici'}
                                             </p>
-                                            <p className="text-xs text-gray-500 dark:text-[#5c6370] mb-4">ou cliquez pour sélectionner</p>
-                                            <span className="inline-flex items-center gap-1.5 rounded-md bg-[#e03e3e] px-4 py-2 text-sm font-medium text-white hover:bg-[#c93434] transition-colors duration-150">
+                                            <p className="text-xs text-gray-500 dark:text-ink-3 mb-4">ou cliquez pour sélectionner</p>
+                                            <span className="inline-flex items-center gap-1.5 rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-strong transition-colors duration-150">
                                                 <PhotoIcon className="h-4 w-4" />
                                                 Choisir une image
                                             </span>
@@ -368,7 +368,7 @@ export default function EditEquipmentPage() {
                                     <button
                                         type="button"
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="mt-4 w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#101216] px-4 py-2 text-sm font-medium text-gray-700 dark:text-[#f5f6f8] hover:bg-[#f8f7f5] dark:hover:bg-[#1d2128] transition-colors duration-150"
+                                        className="mt-4 w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-4 py-2 text-sm font-medium text-gray-700 dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors duration-150"
                                     >
                                         Changer l&apos;image
                                     </button>
@@ -380,7 +380,7 @@ export default function EditEquipmentPage() {
                     {/* Right Column - Form Fields */}
                     <div className="xl:col-span-8 space-y-6">
                         {/* Basic Info Card */}
-                        <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs">
+                        <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs">
                             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informations générales</h2>
                             <div className="space-y-4">
                                 {/* Name */}
@@ -395,7 +395,7 @@ export default function EditEquipmentPage() {
                                         required
                                         value={formData.name || ''}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
+                                        className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-4 py-2.5 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                                         placeholder="Nom du produit"
                                     />
                                 </div>
@@ -412,7 +412,7 @@ export default function EditEquipmentPage() {
                                             required
                                             value={formData.category || 'Maillot'}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
+                                            className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-4 py-2.5 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                                         >
                                             {EQUIPMENT_CATEGORIES.filter(c => c !== 'Tous').map(cat => (
                                                 <option key={cat} value={cat}>{cat}</option>
@@ -432,7 +432,7 @@ export default function EditEquipmentPage() {
                                             step="0.01"
                                             value={formData.price || ''}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
+                                            className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-4 py-2.5 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                                             placeholder="0.00"
                                         />
                                     </div>
@@ -450,7 +450,7 @@ export default function EditEquipmentPage() {
                                             name="productCode"
                                             value={formData.productCode || ''}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
+                                            className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-4 py-2.5 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                                             placeholder="Ex: MaiCXPRO"
                                         />
                                     </div>
@@ -464,7 +464,7 @@ export default function EditEquipmentPage() {
                                             name="gobikReference"
                                             value={formData.gobikReference || ''}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
+                                            className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-4 py-2.5 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                                             placeholder="Ex: SHORT SLEEVE JERSEY CX PRO"
                                         />
                                     </div>
@@ -481,21 +481,21 @@ export default function EditEquipmentPage() {
                                         rows={3}
                                         value={formData.description || ''}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-4 py-2.5 focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150 resize-none"
+                                        className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-4 py-2.5 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150 resize-none"
                                         placeholder="Description du produit"
                                     />
                                 </div>
 
                                 {/* Availability Toggle */}
-                                <div className="flex items-center justify-between rounded-lg bg-[#f8f7f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] p-4">
+                                <div className="flex items-center justify-between rounded-lg bg-paper dark:bg-ink border border-line dark:border-night-line p-4">
                                     <div>
                                         <p className="font-medium text-gray-900 dark:text-white">Disponibilité</p>
-                                        <p className="text-sm text-gray-500 dark:text-[#5c6370]">Produit disponible à la commande</p>
+                                        <p className="text-sm text-gray-500 dark:text-ink-3">Produit disponible à la commande</p>
                                     </div>
                                     <button
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, isAvailable: !prev.isAvailable }))}
-                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-150 ${formData.isAvailable ? 'bg-[#e03e3e]' : 'bg-gray-300 dark:bg-[#262b38]'
+                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-150 ${formData.isAvailable ? 'bg-brand' : 'bg-gray-300 dark:bg-night-line'
                                             }`}
                                     >
                                         <span
@@ -508,7 +508,7 @@ export default function EditEquipmentPage() {
                         </div>
 
                         {/* Sizes & Stock Card */}
-                        <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs">
+                        <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs">
                             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tailles et Stock</h2>
 
                             {/* Size Selection */}
@@ -523,8 +523,8 @@ export default function EditEquipmentPage() {
                                             type="button"
                                             onClick={() => handleSizeToggle(size)}
                                             className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-150 ${formData.sizes?.includes(size)
-                                                ? 'bg-[#e03e3e] text-white shadow-xs'
-                                                : 'bg-[#f8f7f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-gray-700 dark:text-[#a7adbb] hover:border-[#c9c4ba]'
+                                                ? 'bg-brand text-white shadow-xs'
+                                                : 'bg-paper dark:bg-ink border border-line dark:border-night-line text-gray-700 dark:text-snow-3 hover:border-line-strong'
                                                 }`}
                                         >
                                             {size}
@@ -543,9 +543,9 @@ export default function EditEquipmentPage() {
                                         {formData.sizes.map(size => (
                                             <div
                                                 key={size}
-                                                className="flex items-center gap-2 rounded-md bg-[#f8f7f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] px-3 py-2"
+                                                className="flex items-center gap-2 rounded-md bg-paper dark:bg-ink border border-line dark:border-night-line px-3 py-2"
                                             >
-                                                <label htmlFor={`stock-${size}`} className="text-sm font-semibold text-gray-700 dark:text-[#f5f6f8] min-w-[2rem] cursor-pointer">{size}</label>
+                                                <label htmlFor={`stock-${size}`} className="text-sm font-semibold text-gray-700 dark:text-snow min-w-[2rem] cursor-pointer">{size}</label>
                                                 <input
                                                     id={`stock-${size}`}
                                                     type="number"
@@ -553,7 +553,7 @@ export default function EditEquipmentPage() {
                                                     onChange={(e) => handleStockChange(size, e.target.value)}
                                                     min="0"
                                                     aria-label={`Stock taille ${size}`}
-                                                    className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] px-2 py-1 text-sm text-center focus:border-[#e03e3e] focus:outline-hidden focus:ring-1 focus:ring-[#e03e3e] transition-colors duration-150"
+                                                    className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-2 py-1 text-sm text-center focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                                                 />
                                             </div>
                                         ))}
@@ -566,14 +566,14 @@ export default function EditEquipmentPage() {
                         <div className="flex justify-end gap-3">
                             <Link
                                 href="/admin/equipements"
-                                className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-[#f5f6f8] hover:bg-[#f8f7f5] dark:hover:bg-[#1d2128] transition-colors duration-150"
+                                className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors duration-150"
                             >
                                 Annuler
                             </Link>
                             <button
                                 type="submit"
                                 disabled={isSaving || isUploading}
-                                className="rounded-md bg-[#e03e3e] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#c93434] disabled:opacity-50 transition-colors duration-150"
+                                className="rounded-md bg-brand px-6 py-2.5 text-sm font-medium text-white hover:bg-brand-strong disabled:opacity-50 transition-colors duration-150"
                             >
                                 {isSaving ? 'Enregistrement...' : isUploading ? 'Upload en cours...' : 'Enregistrer'}
                             </button>

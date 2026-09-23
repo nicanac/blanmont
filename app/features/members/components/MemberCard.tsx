@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Member } from '../../../types';
 import { ShieldCheckIcon, UserIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import Badge from '@/app/components/ui/Badge';
+import TerritoryMap from '@/app/components/carte/TerritoryMap';
 
 interface MemberCardProps {
   member: Member;
@@ -23,22 +24,16 @@ function getInitials(name: string): string {
 }
 
 /**
- * Deterministically generates an editorial gradient based on the member's name.
+ * Deterministically picks the patch of the territory printed behind a member's monogram.
  */
-function getAvatarGradient(name: string): string {
+function getSheetFocus(name: string): { x: number; y: number } {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = (hash << 5) - hash + name.charCodeAt(i);
     hash |= 0;
   }
-  const gradients = [
-    'from-[#161922] via-[#242938] to-[#0a0c10]', // Deep Ink
-    'from-[#2e1216] via-[#3d181d] to-[#101216]', // Crimson Garnet
-    'from-[#112233] via-[#1a324a] to-[#0a0c10]', // Royal Navy
-    'from-[#14261c] via-[#1e3b2b] to-[#0a0c10]', // Forest Racing
-    'from-[#2a1e12] via-[#3d2c1a] to-[#101216]', // Amber Ochre
-  ];
-  return gradients[Math.abs(hash) % gradients.length];
+  const h = Math.abs(hash);
+  return { x: 30 + (h % 40), y: 30 + (Math.floor(h / 40) % 40) };
 }
 
 /**
@@ -78,14 +73,14 @@ function isValidPhotoUrl(url?: string): boolean {
 export default function MemberCard({ member }: MemberCardProps) {
   const [imgError, setImgError] = useState(false);
   const initials = getInitials(member.name);
-  const gradient = getAvatarGradient(member.name);
+  const focus = getSheetFocus(member.name);
   const roles = normalizeRoles(member.role);
   const hasValidPhoto = isValidPhotoUrl(member.photoUrl) && !imgError;
 
   return (
-    <li className="group flex flex-col rounded-lg border border-[#e4e0d8] bg-white dark:border-[#262b38] dark:bg-[#161922] overflow-hidden transition-all duration-200 ease-out hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-0.5">
+    <li className="group flex flex-col overflow-hidden border border-line bg-white transition-colors duration-200 ease-out hover:border-ink dark:border-night-line dark:bg-night-2 dark:hover:border-snow-3">
       {/* ──── Portrait / Fallback Avatar Container ──── */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922]">
+      <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-line bg-paper-2 dark:border-night-line dark:bg-night-3">
         {hasValidPhoto ? (
           <Image
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -98,27 +93,22 @@ export default function MemberCard({ member }: MemberCardProps) {
             onError={() => setImgError(true)}
           />
         ) : (
-          /* High-craft editorial monogram fallback when photo is missing or broken */
-          <div className={`relative h-full w-full bg-gradient-to-br ${gradient} flex flex-col items-center justify-center select-none overflow-hidden p-6`}>
-            {/* Watermark cycling chainring / crest background */}
-            <svg
-              className="pointer-events-none absolute -right-6 -bottom-6 h-40 w-40 text-white/5 transform rotate-12"
-              viewBox="0 0 100 100"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="4" fill="none" />
-              <circle cx="50" cy="50" r="20" stroke="currentColor" strokeWidth="3" fill="none" />
-              <path d="M50 10 L50 90 M10 50 L90 50 M22 22 L78 78 M22 78 L78 22" stroke="currentColor" strokeWidth="2" />
-            </svg>
-
-            <div className="relative z-10 flex flex-col items-center text-center space-y-2">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 border border-white/15 backdrop-blur-sm shadow-inner">
-                <span className="text-xl font-extrabold uppercase tracking-tight text-white">
-                  {initials}
-                </span>
-              </div>
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#a7adbb]/80">
+          /* Monogram printed on a patch of the club's territory when no portrait exists */
+          <div
+            className="relative flex size-full select-none flex-col items-center justify-center overflow-hidden p-6 [--sheet:1400px]"
+            style={{ '--fx': String(focus.x / 100), '--fy': String(focus.y / 100) } as React.CSSProperties}
+          >
+            <TerritoryMap
+              labels={0}
+              marker="none"
+              layers="relief"
+              sheetClassName="w-(--sheet) left-[calc(50%-var(--sheet)*var(--fx))] top-[calc(50%-var(--sheet)*var(--fy))]"
+            />
+            <div className="relative z-10 flex flex-col items-center space-y-2 text-center">
+              <span className="flex size-20 items-center justify-center border border-ink bg-white font-wide text-2xl font-extrabold uppercase text-ink dark:border-snow-3 dark:bg-night-2 dark:text-snow">
+                {initials}
+              </span>
+              <span className="bg-white/90 px-2 py-0.5 font-narrow text-xs font-bold uppercase tracking-[0.12em] text-ink-2 dark:bg-night-2/90 dark:text-snow-2">
                 CC Saint-Martin
               </span>
             </div>
@@ -149,27 +139,27 @@ export default function MemberCard({ member }: MemberCardProps) {
       </div>
 
       {/* ──── Member Details Card Body ──── */}
-      <div className="p-5 flex flex-col flex-grow justify-between space-y-3 bg-white dark:bg-[#161922]">
+      <div className="p-5 flex flex-col flex-grow justify-between space-y-3 bg-white dark:bg-night-2">
         <div>
-          <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#101216] dark:text-[#f5f6f8] group-hover:text-[#e03e3e] transition-colors duration-150 truncate">
+          <h3 className="truncate font-semiwide text-base font-extrabold text-ink transition-colors duration-150 group-hover:text-brand sm:text-lg dark:text-snow dark:group-hover:text-brand-soft">
             {member.name}
           </h3>
 
           {member.bio ? (
-            <p className="mt-1.5 text-xs text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
+            <p className="mt-1.5 text-xs text-ink-3 dark:text-snow-3 line-clamp-2 leading-relaxed">
               {member.bio}
             </p>
           ) : (
-            <p className="mt-1.5 text-xs text-[#5c6370] dark:text-[#a7adbb] italic">
+            <p className="mt-1.5 text-xs text-ink-3 dark:text-snow-3 italic">
               Membre actif du peloton de Blanmont
             </p>
           )}
         </div>
 
         {/* Bottom Metadata & Social / Strava links */}
-        <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
+        <div className="pt-3 border-t border-line dark:border-night-line flex items-center justify-between text-xs text-ink-3 dark:text-snow-3">
           <span className="inline-flex items-center gap-1">
-            <UserIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" />
+            <UserIcon className="h-3.5 w-3.5 text-ink-3 dark:text-snow-3" />
             <span>Club de Blanmont</span>
           </span>
 

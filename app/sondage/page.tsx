@@ -2,110 +2,54 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { getActiveWeekendPoll, getPollResponses, getMembers } from '../lib/firebase';
 import WeekendPollView from '../features/sondage/components/WeekendPollView';
-import {
-  CalendarDaysIcon,
-  UserGroupIcon,
-  ClockIcon,
-} from '@heroicons/react/24/outline';
+import { SheetHeader } from '../components/carte/SheetHeader';
 
 export const revalidate = 30; // Revalidate every 30 seconds for live poll counts
 
 export const metadata: Metadata = {
   title: 'Sondage du Weekend | Club de Blanmont',
-  description: 'Indiquez vos disponibilités et votre groupe de niveau pour les sorties vélo du weekend.',
+  description:
+    'Indiquez vos disponibilités et votre groupe de niveau pour les sorties vélo du weekend.',
 };
 
 export default async function SondagePage(): Promise<React.ReactElement> {
-  const [activePoll, members] = await Promise.all([
-    getActiveWeekendPoll(),
-    getMembers(),
-  ]);
+  const [activePoll, members] = await Promise.all([getActiveWeekendPoll(), getMembers()]);
 
   const responses = activePoll ? await getPollResponses(activePoll.id) : [];
 
   const saturdayCount = responses.filter(
     (r) => r.dayChoice === 'samedi' || r.dayChoice === 'les-deux'
   ).length;
-
   const sundayCount = responses.filter(
     (r) => r.dayChoice === 'dimanche' || r.dayChoice === 'les-deux'
   ).length;
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10]">
-      {/* ──── Editorial Cover Hero ──── */}
-      <section className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]">
-        {/* Atmospheric Background Watermark */}
-        <div className="absolute top-32 sm:top-44 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
-          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
-            BLANMONT
-          </span>
-        </div>
+    <main className="min-h-screen bg-paper dark:bg-night">
+      <SheetHeader
+        sheet="Sondage du week-end"
+        focus={{ x: 50, y: 50 }}
+        title="Sondage du week-end"
+        description={
+          activePoll?.description ||
+          'Qui vient rouler ce week-end ? Choisissez votre jour, votre groupe de niveau et découvrez les pelotons en direct.'
+        }
+        legend={[
+          {
+            term: 'Réponses',
+            value: `${responses.length} membre${responses.length > 1 ? 's' : ''}`,
+          },
+          {
+            term: 'Samedi · 8h30',
+            value: `${saturdayCount} cycliste${saturdayCount > 1 ? 's' : ''}`,
+          },
+          {
+            term: 'Dimanche · 9h00',
+            value: `${sundayCount} cycliste${sundayCount > 1 ? 's' : ''}`,
+          },
+        ]}
+      />
 
-        <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-12 lg:px-8 z-10">
-          {/* Title row */}
-          <div className="space-y-3 max-w-3xl">
-            <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-balance text-[#101216] dark:text-white">
-              Sondage du <span className="text-[#e03e3e] italic">Weekend</span>
-            </h1>
-
-            <p className="max-w-2xl text-base text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-              {activePoll?.description ||
-                'Qui vient rouler ce weekend ? Choisissez votre jour, votre groupe de niveau et découvrez les pelotons en direct.'}
-            </p>
-          </div>
-
-          {/* Stat Strip (Horizontal Hairline Structure) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e4e0d8] dark:divide-white/10 pt-8 sm:pt-10">
-            {/* Total Votes */}
-            <div className="py-3 sm:py-0 sm:px-6 first:sm:pl-0 flex items-center gap-4 group">
-              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
-                <UserGroupIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                  {responses.length}
-                </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Membres inscrits
-                </div>
-              </div>
-            </div>
-
-            {/* Saturday Pelotons */}
-            <div className="py-3 sm:py-0 sm:px-6 flex items-center gap-4 group">
-              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
-                <CalendarDaysIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                  {saturdayCount}
-                </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Samedi · 8h30
-                </div>
-              </div>
-            </div>
-
-            {/* Sunday Pelotons */}
-            <div className="py-3 sm:py-0 sm:px-6 last:sm:pr-0 flex items-center gap-4 group">
-              <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8] shrink-0 transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
-                <ClockIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" aria-hidden="true" />
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
-                  {sundayCount}
-                </div>
-                <div className="text-xs uppercase tracking-[0.08em] text-[#5c6370] dark:text-[#a7adbb] font-semibold">
-                  Dimanche · 9h00
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ──── Poll Body (Paper) ──── */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <WeekendPollView poll={activePoll} responses={responses} members={members} />
       </section>

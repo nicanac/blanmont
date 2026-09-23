@@ -97,18 +97,18 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8] dark:border-[#222730]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line dark:border-night-3">
         <div>
           <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216] dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-white">
               Tableau de bord
             </h1>
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#101216] dark:bg-[#1d2128] px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-ink dark:bg-night-3 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
               <span>Espace Administration</span>
             </span>
           </div>
-          <p className="mt-1 text-xs sm:text-sm text-[#5c6370] dark:text-[#9ba3af]">
+          <p className="mt-1 text-xs sm:text-sm text-ink-3 dark:text-snow-3">
             Gestion du club, des membres, des sondages hebdomadaires et des sorties.
           </p>
         </div>
@@ -116,21 +116,21 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href="/admin/hero"
-            className="inline-flex items-center gap-2 rounded-md bg-white dark:bg-[#16191f] border border-[#e4e0d8] dark:border-[#222730] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] transition-colors"
+            className="inline-flex items-center gap-2 rounded-md bg-white dark:bg-night-2 border border-line dark:border-night-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
           >
-            <WindowIcon className="h-4 w-4 text-[#e03e3e]" />
+            <WindowIcon className="h-4 w-4 text-brand" />
             <span>Bannière Accueil</span>
           </Link>
           <Link
             href="/admin/sondages/new"
-            className="inline-flex items-center gap-2 rounded-md bg-white dark:bg-[#16191f] border border-[#e4e0d8] dark:border-[#222730] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] dark:text-white hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] transition-colors"
+            className="inline-flex items-center gap-2 rounded-md bg-white dark:bg-night-2 border border-line dark:border-night-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
           >
-            <ChatBubbleLeftRightIcon className="h-4 w-4 text-[#e03e3e]" />
+            <ChatBubbleLeftRightIcon className="h-4 w-4 text-brand" />
             <span>Nouveau Sondage</span>
           </Link>
           <Link
             href="/admin/blog/new"
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
+            className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
           >
             <PlusIcon className="h-4 w-4" />
             <span>Nouvel Article</span>
@@ -182,39 +182,39 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
           <Link
             key={stat.name}
             href={stat.href}
-            className="group rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 shadow-xs hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+            className="group rounded-lg border border-line dark:border-night-3 bg-white dark:bg-night-2 p-5 shadow-xs hover:border-brand/40 dark:hover:border-brand/40 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                 {stat.name}
               </span>
-              <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+              <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-paper dark:bg-ink border border-line dark:border-night-3 text-ink dark:text-snow transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                 <stat.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-105" />
               </div>
             </div>
 
             <div>
-              <p className="text-2xl sm:text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+              <p className="text-2xl sm:text-3xl font-extrabold text-ink dark:text-white tabular-nums tracking-tight">
                 {stat.value}
               </p>
-              <p className="text-xs text-[#5c6370] dark:text-[#9ba3af] mt-1 truncate">{stat.description}</p>
+              <p className="text-xs text-ink-3 dark:text-snow-3 mt-1 truncate">{stat.description}</p>
             </div>
           </Link>
         ))}
       </div>
 
       {/* Recent Blog Posts Table */}
-      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] shadow-xs overflow-hidden">
-        <div className="border-b border-[#e4e0d8] dark:border-[#222730] px-6 py-4 flex items-center justify-between">
+      <div className="rounded-lg border border-line dark:border-night-3 bg-white dark:bg-night-2 shadow-xs overflow-hidden">
+        <div className="border-b border-line dark:border-night-3 px-6 py-4 flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-white">
               Derniers Articles Publiés
             </h2>
-            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af] mt-0.5">Actualités et chroniques récentes</p>
+            <p className="text-xs text-ink-3 dark:text-snow-3 mt-0.5">Actualités et chroniques récentes</p>
           </div>
           <Link
             href="/admin/blog"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
           >
             <span>Voir tout le blog</span>
             <ArrowRightIcon className="h-3 w-3" />
@@ -222,51 +222,51 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-[#e4e0d8] dark:divide-[#222730]">
-            <thead className="bg-[#f2efe9] dark:bg-[#111318]">
+          <table className="min-w-full divide-y divide-line dark:divide-night-3">
+            <thead className="bg-paper-2 dark:bg-night">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                   Titre
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                   Auteur
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                   Statut
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#9ba3af]">
+                <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                   Action
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#efece5] dark:divide-[#222730] bg-white dark:bg-[#16191f] text-xs">
+            <tbody className="divide-y divide-paper-2 dark:divide-night-3 bg-white dark:bg-night-2 text-xs">
               {recentPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-[#5c6370] dark:text-[#9ba3af]">
+                  <td colSpan={5} className="px-6 py-8 text-center text-ink-3 dark:text-snow-3">
                     Aucun article publié pour le moment.{' '}
-                    <Link href="/admin/blog/new" className="text-[#e03e3e] font-semibold hover:underline">
+                    <Link href="/admin/blog/new" className="text-brand font-semibold hover:underline">
                       Créer un premier article
                     </Link>
                   </td>
                 </tr>
               ) : (
                 recentPosts.map((post) => (
-                  <tr key={post.id} className="hover:bg-[#faf8f5] dark:hover:bg-[#1d2128] transition-colors">
+                  <tr key={post.id} className="hover:bg-paper dark:hover:bg-night-3 transition-colors">
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-bold text-[#101216] dark:text-white truncate max-w-sm">
+                        <p className="font-bold text-ink dark:text-white truncate max-w-sm">
                           {post.title}
                         </p>
-                        <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">{post.category || 'Actualité'}</p>
+                        <p className="text-xs text-ink-3 dark:text-snow-3">{post.category || 'Actualité'}</p>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-[#3a3f4a] dark:text-[#c4cad4] font-medium">
+                    <td className="whitespace-nowrap px-6 py-4 text-ink-2 dark:text-snow-2 font-medium">
                       {post.author}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-[#5c6370] dark:text-[#9ba3af] tabular-nums">
+                    <td className="whitespace-nowrap px-6 py-4 text-ink-3 dark:text-snow-3 tabular-nums">
                       {formatDate(post.publishedAt)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
@@ -283,7 +283,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                     <td className="whitespace-nowrap px-6 py-4 text-right">
                       <Link
                         href={`/admin/blog/${post.id}/edit`}
-                        className="text-[#e03e3e] hover:text-[#c93434] font-semibold hover:underline"
+                        className="text-brand hover:text-brand-strong font-semibold hover:underline"
                       >
                         Modifier
                       </Link>
@@ -300,53 +300,53 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Link
           href="/admin/events/new"
-          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-line dark:border-night-3 bg-white dark:bg-night-2 p-5 hover:border-brand/40 dark:hover:border-brand/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-paper dark:bg-ink border border-line dark:border-night-3 text-ink dark:text-snow transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
             <CalendarDaysIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Nouvelle Sortie</p>
-            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Ajouter au calendrier</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">Nouvelle Sortie</p>
+            <p className="text-xs text-ink-3 dark:text-snow-3">Ajouter au calendrier</p>
           </div>
         </Link>
 
         <Link
           href="/admin/members"
-          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-line dark:border-night-3 bg-white dark:bg-night-2 p-5 hover:border-brand/40 dark:hover:border-brand/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-paper dark:bg-ink border border-line dark:border-night-3 text-ink dark:text-snow transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
             <UsersIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Gestion Membres</p>
-            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Rôles et accès</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">Gestion Membres</p>
+            <p className="text-xs text-ink-3 dark:text-snow-3">Rôles et accès</p>
           </div>
         </Link>
 
         <Link
           href="/admin/equipements"
-          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-line dark:border-night-3 bg-white dark:bg-night-2 p-5 hover:border-brand/40 dark:hover:border-brand/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-paper dark:bg-ink border border-line dark:border-night-3 text-ink dark:text-snow transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
             <JerseyIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Équipements Club</p>
-            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Stock et catalogue</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">Équipements Club</p>
+            <p className="text-xs text-ink-3 dark:text-snow-3">Stock et catalogue</p>
           </div>
         </Link>
 
         <Link
           href="/admin/settings"
-          className="group flex items-center gap-3.5 rounded-lg border border-[#e4e0d8] dark:border-[#222730] bg-white dark:bg-[#16191f] p-5 hover:border-[#e03e3e]/40 dark:hover:border-[#e03e3e]/40 hover:shadow-sm transition-all"
+          className="group flex items-center gap-3.5 rounded-lg border border-line dark:border-night-3 bg-white dark:bg-night-2 p-5 hover:border-brand/40 dark:hover:border-brand/40 hover:shadow-sm transition-all"
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#faf8f5] dark:bg-[#101216] border border-[#e4e0d8] dark:border-[#222730] text-[#101216] dark:text-[#f5f6f8] transition-colors group-hover:border-[#e03e3e] group-hover:bg-[#e03e3e] group-hover:text-white">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-paper dark:bg-ink border border-line dark:border-night-3 text-ink dark:text-snow transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
             <Cog6ToothIcon className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">Paramètres & Thème</p>
-            <p className="text-xs text-[#5c6370] dark:text-[#9ba3af]">Clair, sombre ou auto</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">Paramètres & Thème</p>
+            <p className="text-xs text-ink-3 dark:text-snow-3">Clair, sombre ou auto</p>
           </div>
         </Link>
       </div>

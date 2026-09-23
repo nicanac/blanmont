@@ -65,7 +65,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
   return (
     <section
       ref={heroRef}
-      className="relative overflow-hidden bg-[#08090c] text-white pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-white/[0.08]"
+      className="relative overflow-hidden bg-night text-white pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-white/[0.08]"
     >
       {/* ── Background Celestial Coordinate Grid & Astrolabe Atmosphere ── */}
       <div className="absolute inset-0 pointer-events-none select-none opacity-20">
@@ -105,18 +105,18 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10">
         {/* Top Colophon / Coordinates Pill */}
         <div className="cover-rise flex flex-wrap items-center justify-between gap-4 pb-8 border-b border-white/[0.08]">
-          <div className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase text-[#a7adbb]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e] animate-ping" />
+          <div className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase text-snow-3">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand animate-ping" />
             <span className="text-white font-bold">CC Saint-Martin Blanmont</span>
             <span className="text-white/20">|</span>
             <span className="text-white/70">50°36&apos;34&quot; N · 04°41&apos;00&quot; E</span>
           </div>
 
-          <div className="flex items-center gap-3 text-xs tracking-wider text-[#a7adbb]">
+          <div className="flex items-center gap-3 text-xs tracking-wider text-snow-3">
             <span className="hidden sm:inline-block px-2.5 py-1 rounded border border-white/10 bg-white/[0.03] text-xs font-mono">
               HORLOGE DU PELOTON · 08:30:00
             </span>
-            <span className="inline-flex items-center gap-1 text-[#e03e3e] font-semibold text-xs uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1 text-brand font-semibold text-xs uppercase tracking-wider">
               <SparklesIcon className="h-3.5 w-3.5" />
               Saison 2026
             </span>
@@ -136,18 +136,18 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                   <span>du Peloton</span>
                 </span>
                 <span className="cover-line">
-                  <span className="text-[#e03e3e] italic font-serif lowercase tracking-normal text-[0.95em]">
+                  <span className="text-brand italic font-serif lowercase tracking-normal text-[0.95em]">
                     de Blanmont.
                   </span>
                 </span>
               </h1>
             </div>
 
-            <p className="cover-rise cover-rise-1 text-base sm:text-lg text-[#a7adbb] leading-relaxed max-w-xl font-light">
+            <p className="cover-rise cover-rise-1 text-base sm:text-lg text-snow-3 leading-relaxed max-w-xl font-light">
               Chaque weekend au départ de la Place de Blanmont, le cyclisme sur route s&apos;élève au rang de{' '}
               <strong className="text-white font-medium">rituel partagé</strong>. Trois pelotons d&apos;allures,
               des routes brabançonnes envoûtantes, et une promesse indéfectible :{' '}
-              <em className="text-[#f5f6f8] not-italic underline decoration-[#e03e3e]/60 underline-offset-4">
+              <em className="text-snow not-italic underline decoration-brand/60 underline-offset-4">
                 « On part ensemble, on rentre ensemble. »
               </em>
             </p>
@@ -156,7 +156,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
             <div className="cover-rise cover-rise-2 flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="/le-club"
-                className="group relative inline-flex items-center gap-3 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.1em] transition-all duration-300 shadow-xl shadow-[#e03e3e]/25 hover:shadow-2xl hover:shadow-[#e03e3e]/40 hover:-translate-y-0.5"
+                className="group relative inline-flex items-center gap-3 rounded-md bg-brand hover:bg-brand-strong text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.1em] transition-all duration-300 shadow-xl shadow-brand/25 hover:shadow-2xl hover:shadow-brand/40 hover:-translate-y-0.5"
               >
                 <span>Rejoindre le Peloton</span>
                 <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -166,37 +166,37 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 href="/sondage"
                 className="inline-flex items-center gap-2.5 rounded-md border border-white/20 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/40 text-white px-6 py-4 text-xs font-bold uppercase tracking-[0.1em] transition-all duration-300"
               >
-                <ChatBubbleLeftRightIcon className="h-4 w-4 text-[#e03e3e]" />
+                <ChatBubbleLeftRightIcon className="h-4 w-4 text-brand" />
                 <span>Sondage Présence</span>
                 {activePoll && (
-                  <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" />
+                  <span className="h-2 w-2 rounded-full bg-brand animate-pulse" />
                 )}
               </Link>
 
               <Link
                 href="/traces"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] hover:text-white uppercase tracking-wider transition-colors duration-150 px-3 py-2 min-h-[44px]"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-snow-3 hover:text-white uppercase tracking-wider transition-colors duration-150 px-3 py-2 min-h-[44px]"
               >
                 <span>250+ Parcours GPX</span>
-                <span className="text-[#e03e3e]">→</span>
+                <span className="text-brand">→</span>
               </Link>
             </div>
 
             {/* Micro-Telemetry Badge */}
-            <div className="cover-rise cover-rise-3 pt-4 border-t border-white/[0.08] flex items-center gap-6 text-xs text-[#a7adbb]">
+            <div className="cover-rise cover-rise-3 pt-4 border-t border-white/[0.08] flex items-center gap-6 text-xs text-snow-3">
               <div>
                 <span className="block text-white font-bold tabular-nums text-sm">48 Ans</span>
-                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">De Passion (1978)</span>
+                <span className="text-xs uppercase tracking-wider text-snow-3">De Passion (1978)</span>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>
                 <span className="block text-white font-bold tabular-nums text-sm">3 Allures + VTT</span>
-                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Tous Niveaux</span>
+                <span className="text-xs uppercase tracking-wider text-snow-3">Tous Niveaux</span>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div>
                 <span className="block text-emerald-400 font-bold tabular-nums text-sm">100%</span>
-                <span className="text-xs uppercase tracking-wider text-[#a7adbb]">Entraide &amp; Sécurité</span>
+                <span className="text-xs uppercase tracking-wider text-snow-3">Entraide &amp; Sécurité</span>
               </div>
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
               }}
             >
               {/* Primary Cinematic Viewport */}
-              <div className="relative overflow-hidden rounded-lg aspect-[4/3] sm:aspect-[16/11] bg-[#101216]">
+              <div className="relative overflow-hidden rounded-lg aspect-[4/3] sm:aspect-[16/11] bg-ink">
                 <Image
                   src={photos[activeFrame].src}
                   alt={photos[activeFrame].alt}
@@ -222,7 +222,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 />
 
                 {/* Editorial dark vignettes & gradients */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-transparent to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-black/20" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
 
                 {/* Bottom Photo Metadata */}
@@ -231,13 +231,13 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                     <div className="text-sm sm:text-base font-bold text-white tracking-tight">
                       {photos[activeFrame].caption}
                     </div>
-                    <div className="text-xs font-mono text-[#a7adbb]">
+                    <div className="text-xs font-mono text-snow-3">
                       {photos[activeFrame].coord}
                     </div>
                   </div>
 
                   {/* Frame Navigator Dots */}
-                  <div className="flex items-center gap-0.5 bg-[#08090c]/80 backdrop-blur px-2 py-0.5 rounded-full border border-white/10">
+                  <div className="flex items-center gap-0.5 bg-night/80 backdrop-blur px-2 py-0.5 rounded-full border border-white/10">
                     {photos.map((_, idx) => (
                       <button
                         key={idx}
@@ -249,7 +249,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                         <span
                           className={`h-2 rounded-full transition-all duration-300 block ${
                             activeFrame === idx
-                              ? 'w-6 bg-[#e03e3e]'
+                              ? 'w-6 bg-brand'
                               : 'w-2 bg-white/30 hover:bg-white/60'
                           }`}
                         />
@@ -264,7 +264,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 type="button"
                 onClick={() => setActiveFrame((activeFrame + 1) % photos.length)}
                 aria-label="Afficher la photo suivante"
-                className="hidden sm:block absolute -bottom-6 -right-6 w-44 lg:w-52 aspect-[4/3] rounded-lg overflow-hidden border border-white/20 bg-[#161922] shadow-2xl cursor-pointer transition-all duration-200 ease-out hover:scale-105 hover:border-[#e03e3e] z-30 animate-float-subtle text-left"
+                className="hidden sm:block absolute -bottom-6 -right-6 w-44 lg:w-52 aspect-[4/3] rounded-lg overflow-hidden border border-white/20 bg-night-2 shadow-2xl cursor-pointer transition-all duration-200 ease-out hover:scale-105 hover:border-brand z-30 animate-float-subtle text-left"
               >
                 <Image
                   src={photos[(activeFrame + 1) % photos.length].src}
@@ -276,7 +276,7 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-2 left-2 right-2 text-xs font-semibold text-white/90 truncate flex items-center justify-between">
                   <span>{photos[(activeFrame + 1) % photos.length].label}</span>
-                  <span className="text-[#e03e3e]">↻</span>
+                  <span className="text-brand">↻</span>
                 </div>
               </button>
             </div>
@@ -285,24 +285,24 @@ export default function HomeV2Hero({ activePoll }: HomeV2HeroProps) {
 
         {/* ── Seamless Marquee Ticker ── */}
         <div className="relative overflow-hidden py-3 border-y border-white/[0.08] bg-white/[0.02]">
-          <div className="flex whitespace-nowrap animate-ticker text-xs uppercase tracking-[0.2em] font-semibold text-[#a7adbb]/80">
+          <div className="flex whitespace-nowrap animate-ticker text-xs uppercase tracking-[0.2em] font-semibold text-snow-3/80">
             <span className="inline-flex items-center gap-4 mx-4">
-              <span className="text-[#e03e3e]">✦</span> BRABANT WALLON
-              <span className="text-[#e03e3e]">✦</span> DÉPART PLACE DE BLANMONT
-              <span className="text-[#e03e3e]">✦</span> GROUPES A, B, C &amp; VTT
-              <span className="text-[#e03e3e]">✦</span> ON PART ENSEMBLE, ON RENTRE ENSEMBLE
-              <span className="text-[#e03e3e]">✦</span> 250+ PARCOURS GPX CATALOGUÉS
-              <span className="text-[#e03e3e]">✦</span> CHALLENGE ASSIDUITÉ CARRÉ VERT
-              <span className="text-[#e03e3e]">✦</span> ESSAI GRATUIT SANS ENGAGEMENT
+              <span className="text-brand">✦</span> BRABANT WALLON
+              <span className="text-brand">✦</span> DÉPART PLACE DE BLANMONT
+              <span className="text-brand">✦</span> GROUPES A, B, C &amp; VTT
+              <span className="text-brand">✦</span> ON PART ENSEMBLE, ON RENTRE ENSEMBLE
+              <span className="text-brand">✦</span> 250+ PARCOURS GPX CATALOGUÉS
+              <span className="text-brand">✦</span> CHALLENGE ASSIDUITÉ CARRÉ VERT
+              <span className="text-brand">✦</span> ESSAI GRATUIT SANS ENGAGEMENT
             </span>
             <span className="inline-flex items-center gap-4 mx-4" aria-hidden="true">
-              <span className="text-[#e03e3e]">✦</span> BRABANT WALLON
-              <span className="text-[#e03e3e]">✦</span> DÉPART PLACE DE BLANMONT
-              <span className="text-[#e03e3e]">✦</span> GROUPES A, B, C &amp; VTT
-              <span className="text-[#e03e3e]">✦</span> ON PART ENSEMBLE, ON RENTRE ENSEMBLE
-              <span className="text-[#e03e3e]">✦</span> 250+ PARCOURS GPX CATALOGUÉS
-              <span className="text-[#e03e3e]">✦</span> CHALLENGE ASSIDUITÉ CARRÉ VERT
-              <span className="text-[#e03e3e]">✦</span> ESSAI GRATUIT SANS ENGAGEMENT
+              <span className="text-brand">✦</span> BRABANT WALLON
+              <span className="text-brand">✦</span> DÉPART PLACE DE BLANMONT
+              <span className="text-brand">✦</span> GROUPES A, B, C &amp; VTT
+              <span className="text-brand">✦</span> ON PART ENSEMBLE, ON RENTRE ENSEMBLE
+              <span className="text-brand">✦</span> 250+ PARCOURS GPX CATALOGUÉS
+              <span className="text-brand">✦</span> CHALLENGE ASSIDUITÉ CARRÉ VERT
+              <span className="text-brand">✦</span> ESSAI GRATUIT SANS ENGAGEMENT
             </span>
           </div>
         </div>

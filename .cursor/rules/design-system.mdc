@@ -1,0 +1,32 @@
+---
+description: Design System Rules for CC Saint-Martin Blanmont (La Feuille de Blanmont - Carte IGN)
+globs: app/**/*.{tsx,ts,jsx,js,css}, tests/**/*.{tsx,ts}
+alwaysApply: true
+---
+
+# Design System Invariants — La Feuille de Blanmont (Carte IGN)
+
+When creating, editing, or styling any component or view:
+
+1. **Colors & Grounds**:
+   - Use semantic Tailwind tokens only: `bg-paper` (`#fbfbf8`), `bg-paper-2` (`#f0f1eb`), `bg-night` (`#0d1013`), `bg-night-2` (`#151a1f`).
+   - Use spot inks: `text-brand` / `bg-brand` (`#d63535`), `bg-brand-vif` (`#e03e3e`), `text-bistre` / `bg-bistre` (`#b0703b`), `text-hydro` / `bg-hydro` (`#1f6fbf`), `text-vert` / `bg-vert` (`#2e7d45`), `text-ambre` / `bg-ambre` (`#e8962a`).
+   - Never use arbitrary hex colors, SaaS blues, or pastel washes.
+
+2. **Typography**:
+   - Google Font `Archivo` (`var(--font-archivo)`) is the sole typeface.
+   - Hierarchy is driven by font width (`font-wide` for cartouche display, `font-semiwide` for headlines, `font-narrow` for labels and status pills).
+   - All cycling data and metrics must use `tabular-nums font-bold`.
+   - Never use Poppins, Inter, or arbitrary fonts.
+
+3. **Cartouche Headers**:
+   - Every page header must use `<SheetHeader />` from `app/components/carte/SheetHeader.tsx`.
+
+4. **Shapes & Elevation**:
+   - 1px hairline rules (`border-line`, `border-night-line`).
+   - Crisp 2px–6px sheet corners (`rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-2xl`).
+   - `rounded-full` is strictly reserved for status chips and tags (never buttons).
+   - Flat-by-default: no artificial drop-shadow blur halos or glassmorphism.
+
+5. **Language**:
+   - User-facing copy is strictly French (Français).

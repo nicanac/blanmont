@@ -17,9 +17,9 @@ const sizeClasses = {
 };
 
 const variantClasses = {
-  brand: 'border-[#e03e3e] border-t-transparent',
+  brand: 'border-brand border-t-transparent',
   white: 'border-white border-t-transparent',
-  muted: 'border-[#5c6370] dark:border-[#a7adbb] border-t-transparent',
+  muted: 'border-ink-3 dark:border-snow-3 border-t-transparent',
   current: 'border-current border-t-transparent',
 };
 

@@ -64,7 +64,7 @@ export default function GpxStatsDisplay({ url }: GpxStatsDisplayProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 text-xs text-[#5c6370] dark:text-[#a7adbb] animate-pulse">
+      <div className="flex items-center gap-2 text-xs text-ink-3 dark:text-snow-3 animate-pulse">
         <div className="h-3.5 w-3.5 rounded-full bg-black/10 dark:bg-white/10" />
         <span>Analyse de la trace...</span>
       </div>
@@ -76,15 +76,15 @@ export default function GpxStatsDisplay({ url }: GpxStatsDisplayProps) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-[#101216] dark:text-white bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 px-3 py-2 rounded-md">
+    <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-ink dark:text-white bg-paper-2 dark:bg-white/5 border border-line dark:border-white/10 px-3 py-2 rounded-md">
       <div className="flex items-center gap-1.5" title="Distance et Dénivelé">
-        <ChartBarIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+        <ChartBarIcon className="h-3.5 w-3.5 text-brand" />
         <span>
-          {stats.distance} km <span className="text-[#5c6370] dark:text-[#a7adbb] px-1">•</span> D+ {stats.elevation}m
+          {stats.distance} km <span className="text-ink-3 dark:text-snow-3 px-1">•</span> D+ {stats.elevation}m
         </span>
       </div>
       <div className="flex items-center gap-1.5" title="Temps estimé (base 25km/h)">
-        <ClockIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+        <ClockIcon className="h-3.5 w-3.5 text-brand" />
         <span>~ {stats.estimatedTime}</span>
       </div>
     </div>

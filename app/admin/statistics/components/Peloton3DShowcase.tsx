@@ -478,15 +478,15 @@ export default function Peloton3DShowcase({
     totalPossibleCarres > 0 ? Math.round((maxRides / totalPossibleCarres) * 100) : 0;
 
   return (
-    <div className="relative overflow-hidden rounded-lg border border-[#262b38] bg-[#0a0c10] text-white shadow-md">
+    <div className="relative overflow-hidden rounded-lg border border-night-line bg-night text-white shadow-md">
       {/* Background Ambience Gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(224,62,62,0.12),transparent_60%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(16,185,129,0.09),transparent_60%)] pointer-events-none" />
 
       {/* Top Telemetry & Controls Toolbar */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-[#262b38] bg-[#161922]/90 px-5 py-3.5 backdrop-blur-xs">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-night-line bg-night-2/90 px-5 py-3.5 backdrop-blur-xs">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#e03e3e]/20 text-[#e03e3e] border border-[#e03e3e]/30">
+          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-brand/20 text-brand border border-brand/30">
             <TrophySquareIcon className="h-5 w-5" />
           </div>
           <div>
@@ -494,11 +494,11 @@ export default function Peloton3DShowcase({
               <h2 className="text-sm sm:text-base font-extrabold uppercase tracking-tight text-white">
                 Trophée Carré Vert 3D &amp; Télémétrie
               </h2>
-              <span className="rounded-full bg-[#10b981]/20 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-[#10b981] border border-[#10b981]/30">
+              <span className="rounded-full bg-vert-vif/20 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-vert-vif border border-vert-vif/30">
                 Saison {selectedYear}
               </span>
             </div>
-            <p className="text-xs text-[#a7adbb]">
+            <p className="text-xs text-snow-3">
               Concours officiel de régularité du CC Saint-Martin Blanmont (depuis 1978)
             </p>
           </div>
@@ -507,14 +507,14 @@ export default function Peloton3DShowcase({
         {/* View Switcher & Action Buttons */}
         <div className="flex items-center gap-2">
           {/* Segmented Mode Control */}
-          <div className="flex items-center rounded-md border border-[#262b38] bg-[#0a0c10] p-0.5 text-xs">
+          <div className="flex items-center rounded-md border border-night-line bg-night p-0.5 text-xs">
             <button
               type="button"
               onClick={() => setMode('trophee')}
               className={`rounded-sm px-3 py-1 font-semibold uppercase tracking-wider transition-all ${
                 mode === 'trophee'
-                  ? 'bg-[#e03e3e] text-white shadow-xs'
-                  : 'text-[#a7adbb] hover:text-white'
+                  ? 'bg-brand text-white shadow-xs'
+                  : 'text-snow-3 hover:text-white'
               }`}
             >
               Trophée d'Or
@@ -524,8 +524,8 @@ export default function Peloton3DShowcase({
               onClick={() => setMode('relief')}
               className={`rounded-sm px-3 py-1 font-semibold uppercase tracking-wider transition-all ${
                 mode === 'relief'
-                  ? 'bg-[#e03e3e] text-white shadow-xs'
-                  : 'text-[#a7adbb] hover:text-white'
+                  ? 'bg-brand text-white shadow-xs'
+                  : 'text-snow-3 hover:text-white'
               }`}
             >
               Relief Affluence
@@ -537,7 +537,7 @@ export default function Peloton3DShowcase({
             type="button"
             onClick={handleResetCamera}
             title="Recentrer la vue 3D"
-            className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md border border-[#262b38] bg-[#161922] text-[#a7adbb] hover:bg-[#262b38] hover:text-white transition-colors"
+            className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md border border-night-line bg-night-2 text-snow-3 hover:bg-night-line hover:text-white transition-colors"
           >
             <ArrowPathIcon className="h-4 w-4" />
           </button>
@@ -547,7 +547,7 @@ export default function Peloton3DShowcase({
             type="button"
             onClick={handleCelebrate}
             disabled={isCelebrating || championName === '-'}
-            className="inline-flex items-center gap-1.5 rounded-md bg-[#f59e0b] hover:bg-[#d97706] text-[#101216] px-3 py-1.5 text-xs font-bold uppercase tracking-wider shadow-sm transition-transform active:scale-95 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md bg-ambre hover:bg-ambre text-ink px-3 py-1.5 text-xs font-bold uppercase tracking-wider shadow-sm transition-transform active:scale-95 disabled:opacity-50"
           >
             <SparklesIcon className="h-4 w-4" />
             <span>Célébrer</span>
@@ -567,30 +567,30 @@ export default function Peloton3DShowcase({
         />
 
         {/* Live HUD Floating Card - Champion Telemetry */}
-        <div className="absolute bottom-4 left-4 z-10 max-w-xs rounded-lg border border-[#262b38]/90 bg-[#161922]/95 p-4 shadow-xl backdrop-blur-md">
+        <div className="absolute bottom-4 left-4 z-10 max-w-xs rounded-lg border border-night-line/90 bg-night-2/95 p-4 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#10b981] animate-pulse" />
-            <p className="text-xs font-bold uppercase tracking-wider text-[#10b981]">
+            <span className="h-2 w-2 rounded-full bg-vert-vif animate-pulse" />
+            <p className="text-xs font-bold uppercase tracking-wider text-vert-vif">
               Leader au Classement
             </p>
           </div>
           <p className="mt-1 text-lg font-bold text-white tracking-tight truncate">
             {championName !== '-' ? championName : 'Aucun pointage'}
           </p>
-          <div className="mt-2.5 flex items-center justify-between border-t border-[#262b38] pt-2 text-xs">
+          <div className="mt-2.5 flex items-center justify-between border-t border-night-line pt-2 text-xs">
             <div>
-              <span className="text-[#a7adbb]">Carrés validés:</span>{' '}
+              <span className="text-snow-3">Carrés validés:</span>{' '}
               <span className="font-bold text-white tabular-nums">{maxRides}</span>
             </div>
             <div>
-              <span className="text-[#a7adbb]">Présence:</span>{' '}
-              <span className="font-bold text-[#f59e0b] tabular-nums">{attendancePercent}%</span>
+              <span className="text-snow-3">Présence:</span>{' '}
+              <span className="font-bold text-ambre tabular-nums">{attendancePercent}%</span>
             </div>
           </div>
         </div>
 
         {/* Interaction Hint (Discreet bottom right) */}
-        <div className="pointer-events-none absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-1.5 rounded-md border border-[#262b38]/60 bg-[#0a0c10]/80 px-2.5 py-1 text-xs font-medium text-[#a7adbb] backdrop-blur-xs">
+        <div className="pointer-events-none absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-1.5 rounded-md border border-night-line/60 bg-night/80 px-2.5 py-1 text-xs font-medium text-snow-3 backdrop-blur-xs">
           <span>Glisser pour pivoter à 360°</span>
         </div>
       </div>

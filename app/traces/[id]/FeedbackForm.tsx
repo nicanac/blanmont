@@ -34,14 +34,14 @@ export default function FeedbackForm({
 
   if (!isAuthenticated) {
     return (
-      <div className="rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 text-center space-y-3">
-        <h4 className="text-sm font-bold text-[#101216] dark:text-white">Connexion Requise</h4>
-        <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+      <div className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 text-center space-y-3">
+        <h4 className="text-sm font-bold text-ink dark:text-white">Connexion Requise</h4>
+        <p className="text-xs text-ink-3 dark:text-snow-3">
           Veuillez vous connecter pour laisser votre avis sur ce parcours.
         </p>
         <Link
           href="/login"
-          className="inline-flex items-center justify-center rounded-md bg-[#e03e3e] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs hover:bg-[#c93434] transition-colors min-h-[44px] max-w-xs mx-auto"
+          className="inline-flex items-center justify-center rounded-md bg-brand px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs hover:bg-brand-strong transition-colors min-h-[44px] max-w-xs mx-auto"
         >
           Se connecter
         </Link>
@@ -70,14 +70,14 @@ export default function FeedbackForm({
       {existingFeedback && <input type="hidden" name="feedbackId" value={existingFeedback.id} />}
       <input type="hidden" name="rating" value={rating} />
 
-      <div className="flex items-center gap-1.5 text-xs text-[#3a3f4a] dark:text-[#a7adbb]">
+      <div className="flex items-center gap-1.5 text-xs text-ink-2 dark:text-snow-3">
         <span>Publié en tant que :</span>
-        <strong className="text-[#101216] dark:text-white">{user?.name}</strong>
+        <strong className="text-ink dark:text-white">{user?.name}</strong>
       </div>
 
       {/* Star Rating Selector */}
       <div className="space-y-1.5">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-[#a7adbb]">
+        <label className="block text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-3">
           Votre note
         </label>
         <div className="flex items-center gap-1">
@@ -96,7 +96,7 @@ export default function FeedbackForm({
               />
             </button>
           ))}
-          <span className="ml-2 text-xs font-bold text-[#3a3f4a] dark:text-[#a7adbb] tabular-nums">{rating} / 5</span>
+          <span className="ml-2 text-xs font-bold text-ink-2 dark:text-snow-3 tabular-nums">{rating} / 5</span>
         </div>
       </div>
 
@@ -105,11 +105,11 @@ export default function FeedbackForm({
         <div className="flex items-center justify-between">
           <label
             htmlFor="comment"
-            className="block text-xs font-bold uppercase tracking-wider text-[#3a3f4a] dark:text-[#a7adbb]"
+            className="block text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-3"
           >
             Commentaire
           </label>
-          <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
+          <span className="text-xs text-ink-3 dark:text-snow-3 tabular-nums">
             {commentText.length}/1000
           </span>
         </div>
@@ -122,7 +122,7 @@ export default function FeedbackForm({
           onChange={(e) => setCommentText(e.target.value)}
           required
           placeholder="Qualité du revêtement, sécurité, points d'eau, paysages, braquets recommandés..."
-          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1c202a] p-3 text-xs text-[#101216] dark:text-white placeholder:text-[#5c6370] dark:placeholder:text-gray-500 focus:border-[#e03e3e] focus:outline-hidden"
+          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 p-3 text-xs text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-gray-500 focus:border-brand focus:outline-hidden"
         />
       </div>
 
@@ -136,7 +136,7 @@ export default function FeedbackForm({
       <button
         type="submit"
         disabled={isPending || !commentText.trim()}
-        className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+        className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
       >
         {isPending
           ? 'Envoi en cours...'

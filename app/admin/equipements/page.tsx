@@ -90,16 +90,16 @@ export default function AdminEquipementsPage() {
       />
       
       {/* Header */}
-      <div id="equipements-header-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
+      <div id="equipements-header-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <JerseyIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
+            <JerseyIcon className="h-3.5 w-3.5 text-brand" />
             <span>Catalogue Officiel</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
             Équipements Gobik
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
+          <p className="mt-1 text-xs sm:text-sm text-ink-3">
             Gérez le stock, les tailles et les articles officiels du club.
           </p>
         </div>
@@ -108,17 +108,17 @@ export default function AdminEquipementsPage() {
           <button
             type="button"
             onClick={() => setTutorialOpen(true)}
-            className="inline-flex items-center gap-2 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors shadow-xs"
             title="Ouvrir le guide des équipements"
           >
-            <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
+            <AcademicCapIcon className="h-4 w-4 text-brand" />
             <span>Tutoriel &amp; Guide</span>
           </button>
 
           <Link
             id="equipements-new-btn"
             href="/admin/equipements/new"
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
+            className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
           >
             <PlusIcon className="h-4 w-4" />
             <span>Ajouter un équipement</span>
@@ -130,7 +130,7 @@ export default function AdminEquipementsPage() {
       <div id="equipements-search-filter" className="flex flex-col sm:flex-row sm:items-center gap-4">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3" />
           <input
             id="equipements-search-input"
             type="text"
@@ -138,7 +138,7 @@ export default function AdminEquipementsPage() {
             aria-label="Rechercher un équipement"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-md border border-[#e4e0d8] bg-white py-2 pl-10 pr-4 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none transition-colors shadow-xs"
+            className="w-full rounded-md border border-line bg-white py-2 pl-10 pr-4 text-xs sm:text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none transition-colors shadow-xs"
           />
         </div>
 
@@ -148,8 +148,8 @@ export default function AdminEquipementsPage() {
             onClick={() => setSelectedCategory('Tous')}
             className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               selectedCategory === 'Tous'
-                ? 'bg-[#101216] text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                ? 'bg-ink text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
             Tous
@@ -160,8 +160,8 @@ export default function AdminEquipementsPage() {
               onClick={() => setSelectedCategory(category)}
               className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
                 selectedCategory === category
-                  ? 'bg-[#101216] text-white'
-                  : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                  ? 'bg-ink text-white'
+                  : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
               }`}
             >
               {category}
@@ -172,62 +172,62 @@ export default function AdminEquipementsPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Total Articles</p>
-          <p className="mt-1 text-2xl font-extrabold text-[#101216] tabular-nums">{equipment.length}</p>
+        <div className="rounded-lg border border-line bg-white p-5 shadow-xs">
+          <p className="text-xs font-bold uppercase tracking-wider text-ink-3">Total Articles</p>
+          <p className="mt-1 text-2xl font-extrabold text-ink tabular-nums">{equipment.length}</p>
         </div>
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Disponibles</p>
+        <div className="rounded-lg border border-line bg-white p-5 shadow-xs">
+          <p className="text-xs font-bold uppercase tracking-wider text-ink-3">Disponibles</p>
           <p className="mt-1 text-2xl font-extrabold text-emerald-600 tabular-nums">
             {equipment.filter((e) => e.isAvailable).length}
           </p>
         </div>
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Stock Total</p>
-          <p className="mt-1 text-2xl font-extrabold text-[#101216] tabular-nums">
+        <div className="rounded-lg border border-line bg-white p-5 shadow-xs">
+          <p className="text-xs font-bold uppercase tracking-wider text-ink-3">Stock Total</p>
+          <p className="mt-1 text-2xl font-extrabold text-ink tabular-nums">
             {equipment.reduce((sum, e) => sum + getTotalStock(e.stock), 0)} pièces
           </p>
         </div>
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">Valeur Stock</p>
-          <p className="mt-1 text-2xl font-extrabold text-[#101216] tabular-nums">
+        <div className="rounded-lg border border-line bg-white p-5 shadow-xs">
+          <p className="text-xs font-bold uppercase tracking-wider text-ink-3">Valeur Stock</p>
+          <p className="mt-1 text-2xl font-extrabold text-ink tabular-nums">
             {equipment.reduce((sum, e) => sum + e.price * getTotalStock(e.stock), 0).toLocaleString('fr-BE')} €
           </p>
         </div>
       </div>
 
       {/* Equipment Table */}
-      <div id="equipements-grid-section" className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+      <div id="equipements-grid-section" className="overflow-hidden rounded-lg border border-line bg-white shadow-xs">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-[#e4e0d8]">
-            <thead className="bg-[#f2efe9]">
+          <table className="min-w-full divide-y divide-line">
+            <thead className="bg-paper-2">
               <tr>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Équipement
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Catégorie
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Prix
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Stock
                 </th>
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Statut
                 </th>
-                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-ink-3">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#efece5] bg-white text-xs">
+            <tbody className="divide-y divide-paper-2 bg-white text-xs">
               {filteredEquipment.map((item) => (
-                <tr key={item.id} className="hover:bg-[#faf8f5] transition-colors">
+                <tr key={item.id} className="hover:bg-paper transition-colors">
                   <td className="whitespace-nowrap px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-[#161922] border border-[#e4e0d8] flex items-center justify-center text-white">
+                      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-night-2 border border-line flex items-center justify-center text-white">
                         {item.imageUrl ? (
                           <Image
                             src={item.imageUrl}
@@ -238,27 +238,27 @@ export default function AdminEquipementsPage() {
                             className="object-cover"
                           />
                         ) : (
-                          <JerseyIcon className="h-5 w-5 text-[#5c6370]" />
+                          <JerseyIcon className="h-5 w-5 text-ink-3" />
                         )}
                       </div>
                       <div>
-                        <p className="font-bold text-[#101216]">{item.name}</p>
-                        <p className="text-xs text-[#5c6370] line-clamp-1 max-w-xs">
+                        <p className="font-bold text-ink">{item.name}</p>
+                        <p className="text-xs text-ink-3 line-clamp-1 max-w-xs">
                           {item.description}
                         </p>
                       </div>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    <span className="inline-flex rounded-full bg-[#f2efe9] border border-[#e4e0d8] px-2.5 py-0.5 text-xs font-semibold text-[#5c6370]">
+                    <span className="inline-flex rounded-full bg-paper-2 border border-line px-2.5 py-0.5 text-xs font-semibold text-ink-3">
                       {item.category}
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-xs font-bold text-[#101216] tabular-nums">
+                  <td className="whitespace-nowrap px-6 py-4 text-xs font-bold text-ink tabular-nums">
                     {item.price.toFixed(2)} €
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    <div className="text-xs font-bold text-[#101216] tabular-nums">
+                    <div className="text-xs font-bold text-ink tabular-nums">
                       {getTotalStock(item.stock)} pièces
                     </div>
                     <div className="mt-1 flex flex-wrap gap-1">
@@ -291,21 +291,21 @@ export default function AdminEquipementsPage() {
                     <div className="flex items-center justify-end gap-1">
                       <Link
                         href={`/admin/equipements/${item.id}`}
-                        className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                        className="rounded-md p-1.5 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors"
                         title="Voir"
                       >
                         <EyeIcon className="h-4 w-4" />
                       </Link>
                       <Link
                         href={`/admin/equipements/${item.id}/edit`}
-                        className="rounded-md p-1.5 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+                        className="rounded-md p-1.5 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors"
                         title="Modifier"
                       >
                         <PencilIcon className="h-4 w-4" />
                       </Link>
                       <button
                         onClick={() => handleDelete(item.id)}
-                        className="rounded-md p-1.5 text-[#5c6370] hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                        className="rounded-md p-1.5 text-ink-3 hover:bg-rose-50 hover:text-rose-600 transition-colors"
                         title="Supprimer"
                         disabled={isLoading}
                       >
@@ -320,7 +320,7 @@ export default function AdminEquipementsPage() {
         </div>
 
         {filteredEquipment.length === 0 && (
-          <div className="px-6 py-12 text-center text-xs text-[#5c6370]">
+          <div className="px-6 py-12 text-center text-xs text-ink-3">
             Aucun équipement trouvé.
           </div>
         )}

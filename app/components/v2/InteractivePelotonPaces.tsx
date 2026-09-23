@@ -21,7 +21,7 @@ export default function InteractivePelotonPaces() {
       distance: '85 – 110 km',
       elevation: '700 – 1200 m D+',
       accentColor: '#e03e3e',
-      borderColor: 'border-[#e03e3e]',
+      borderColor: 'border-brand',
       tag: 'Rythme Soutenu & Relais',
       image: '/images/home-hero.jpg',
       quote: '« La vitesse pure fendant le vent sur les plateaux du Brabant. »',
@@ -102,21 +102,21 @@ export default function InteractivePelotonPaces() {
   const current = groups[activeGroup];
 
   return (
-    <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-white border-b border-[#e4e0d8] dark:border-[#262b38] transition-colors duration-200">
+    <section className="py-20 sm:py-28 bg-paper dark:bg-night text-ink dark:text-white border-b border-line dark:border-night-line transition-colors duration-200">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* Section Masthead */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#e4e0d8] dark:border-[#262b38] pb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-line dark:border-night-line pb-8">
           <div className="space-y-3 max-w-2xl">
-            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-[#101216] dark:text-white text-balance">
+            <h2 className="text-[clamp(2.25rem,5vw,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[0.98] text-ink dark:text-white text-balance">
               Le Miroir des Allures
             </h2>
-            <p className="text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
+            <p className="text-base text-ink-2 dark:text-snow-3 leading-relaxed">
               Une harmonie sportive où chacun trouve son peloton d&apos;élection. Cliquez pour explorer l&apos;esprit et les caractéristiques de chaque groupe.
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-4 py-2.5 rounded-md shadow-xs">
-            <ShieldCheckIcon className="h-4 w-4 text-[#e03e3e]" />
+          <div className="flex items-center gap-2.5 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 bg-white dark:bg-night-2 border border-line dark:border-night-line px-4 py-2.5 rounded-md shadow-xs">
+            <ShieldCheckIcon className="h-4 w-4 text-brand" />
             <span>Capitaine dédié par peloton</span>
           </div>
         </div>
@@ -132,8 +132,8 @@ export default function InteractivePelotonPaces() {
                 onClick={() => setActiveGroup(index)}
                 className={`relative p-4 sm:p-6 rounded-lg text-left transition-all duration-300 flex flex-col justify-between border min-h-[44px] ${
                   isSelected
-                    ? 'bg-white dark:bg-[#161922] shadow-xl -translate-y-1 ' + grp.borderColor
-                    : 'bg-white/60 dark:bg-[#161922]/60 hover:bg-white dark:hover:bg-[#161922] border-[#e4e0d8] dark:border-[#262b38] opacity-80 hover:opacity-100'
+                    ? 'bg-white dark:bg-night-2 shadow-xl -translate-y-1 ' + grp.borderColor
+                    : 'bg-white/60 dark:bg-night-2/60 hover:bg-white dark:hover:bg-night-2 border-line dark:border-night-line opacity-80 hover:opacity-100'
                 }`}
               >
                 {/* Active Indicator Top Bar */}
@@ -146,7 +146,7 @@ export default function InteractivePelotonPaces() {
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="text-xs font-bold text-ink-3 dark:text-snow-3">
                       Allure {grp.speed}
                     </span>
                     <span
@@ -155,16 +155,16 @@ export default function InteractivePelotonPaces() {
                     />
                   </div>
 
-                  <div className="text-lg sm:text-xl font-extrabold text-[#101216] dark:text-white tracking-tight">
+                  <div className="text-lg sm:text-xl font-extrabold text-ink dark:text-white tracking-tight">
                     Groupe {grp.letter} · {grp.name}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#e4e0d8]/80 dark:border-[#262b38] flex items-center justify-between text-xs">
-                  <span className="font-extrabold tabular-nums text-[#101216] dark:text-white">
+                <div className="mt-4 pt-3 border-t border-line/80 dark:border-night-line flex items-center justify-between text-xs">
+                  <span className="font-extrabold tabular-nums text-ink dark:text-white">
                     {grp.speed}
                   </span>
-                  <span className="text-[#5c6370] dark:text-[#a7adbb] text-xs uppercase tracking-wider">
+                  <span className="text-ink-3 dark:text-snow-3 text-xs uppercase tracking-wider">
                     {grp.distance.split(' ')[0]} km
                   </span>
                 </div>
@@ -174,7 +174,7 @@ export default function InteractivePelotonPaces() {
         </div>
 
         {/* ── Dynamic Morphing Stage for Selected Peloton ── */}
-        <div className="relative overflow-hidden rounded-xl border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] shadow-xl">
+        <div className="relative overflow-hidden rounded-xl border border-line dark:border-night-line bg-white dark:bg-night-2 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
             {/* Left: Deep Story & Specs */}
             <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between space-y-8">
@@ -185,34 +185,34 @@ export default function InteractivePelotonPaces() {
                       className="h-3 w-3 rounded-full"
                       style={{ backgroundColor: current.accentColor }}
                     />
-                    <h3 className="text-3xl sm:text-4xl font-extrabold text-[#101216] dark:text-white tracking-tight">
+                    <h3 className="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-tight">
                       Groupe {current.letter} — {current.name}
                     </h3>
                   </div>
-                  <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-[#5c6370] dark:text-[#a7adbb]">
-                    <span className="font-semibold text-[#101216] dark:text-white">{current.tag}</span>
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-ink-3 dark:text-snow-3">
+                    <span className="font-semibold text-ink dark:text-white">{current.tag}</span>
                     <span>•</span>
                     <span>{current.speed}</span>
                     <span>•</span>
                     <span>{current.distance}</span>
                   </div>
-                  <blockquote className="text-base sm:text-lg italic font-serif text-[#e03e3e] pt-1">
+                  <blockquote className="text-base sm:text-lg italic font-serif text-brand pt-1">
                     {current.quote}
                   </blockquote>
                 </div>
 
-                <p className="text-sm sm:text-base text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed">
+                <p className="text-sm sm:text-base text-ink-2 dark:text-snow-3 leading-relaxed">
                   {current.philosophy}
                 </p>
 
                 {/* Technical Specifications Grid */}
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#e4e0d8] dark:border-[#262b38]">
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-line dark:border-night-line">
                   {current.specs.map((spec, i) => (
                     <div key={i} className="space-y-1">
-                      <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                      <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                         {spec.label}
                       </div>
-                      <div className="text-xs sm:text-sm font-semibold text-[#101216] dark:text-white">
+                      <div className="text-xs sm:text-sm font-semibold text-ink dark:text-white">
                         {spec.value}
                       </div>
                     </div>
@@ -221,24 +221,24 @@ export default function InteractivePelotonPaces() {
               </div>
 
               {/* Action Banner */}
-              <div className="pt-6 border-t border-[#e4e0d8] dark:border-[#262b38] flex flex-wrap items-center justify-between gap-4">
+              <div className="pt-6 border-t border-line dark:border-night-line flex flex-wrap items-center justify-between gap-4">
                 <Link
                   href="/le-club"
-                  className="inline-flex items-center gap-2 rounded-md bg-[#101216] dark:bg-white dark:text-[#101216] hover:bg-[#e03e3e] dark:hover:bg-[#e03e3e] text-white dark:hover:text-white px-6 py-3 text-xs font-bold uppercase tracking-[0.08em] transition-all duration-300 min-h-[44px]"
+                  className="inline-flex items-center gap-2 rounded-md bg-ink dark:bg-white dark:text-ink hover:bg-brand dark:hover:bg-brand text-white dark:hover:text-white px-6 py-3 text-xs font-bold uppercase tracking-[0.08em] transition-all duration-300 min-h-[44px]"
                 >
                   <span>Venir tester ce groupe</span>
                   <ArrowRightIcon className="h-3.5 w-3.5" />
                 </Link>
 
-                <div className="text-xs text-[#5c6370] dark:text-[#a7adbb] flex items-center gap-1.5">
-                  <UserGroupIcon className="h-4 w-4 text-[#e03e3e]" />
+                <div className="text-xs text-ink-3 dark:text-snow-3 flex items-center gap-1.5">
+                  <UserGroupIcon className="h-4 w-4 text-brand" />
                   <span>2 sorties d&apos;essai libres</span>
                 </div>
               </div>
             </div>
 
             {/* Right: Rich Hard-Cropped Imagery & Live Telemetry Overlay */}
-            <div className="lg:col-span-5 relative min-h-[340px] sm:min-h-[420px] bg-[#0a0c10] overflow-hidden">
+            <div className="lg:col-span-5 relative min-h-[340px] sm:min-h-[420px] bg-night overflow-hidden">
               <Image
                 src={current.image}
                 alt={current.name}
@@ -247,12 +247,12 @@ export default function InteractivePelotonPaces() {
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-black/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-night via-black/30 to-transparent" />
 
               {/* Floating Speed & Distance Telemetry Card */}
-              <div className="absolute bottom-6 left-6 right-6 z-10 p-4 rounded-lg bg-[#08090c]/85 backdrop-blur-md border border-white/15 text-white space-y-3">
+              <div className="absolute bottom-6 left-6 right-6 z-10 p-4 rounded-lg bg-night/85 backdrop-blur-md border border-white/15 text-white space-y-3">
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                  <span className="text-xs uppercase tracking-widest text-[#a7adbb] font-mono">
+                  <span className="text-xs uppercase tracking-widest text-snow-3 font-mono">
                     TÉLÉMÉTRIE DU GROUPE
                   </span>
                   <span
@@ -266,7 +266,7 @@ export default function InteractivePelotonPaces() {
                     <span className="block text-xl font-extrabold text-white tabular-nums">
                       {current.distance.split(' ')[0]}
                     </span>
-                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">
+                    <span className="text-xs uppercase tracking-wider text-snow-3">
                       Distance moy.
                     </span>
                   </div>
@@ -277,7 +277,7 @@ export default function InteractivePelotonPaces() {
                     >
                       {current.speed}
                     </span>
-                    <span className="text-xs uppercase tracking-wider text-[#a7adbb]">
+                    <span className="text-xs uppercase tracking-wider text-snow-3">
                       Allure visée
                     </span>
                   </div>

@@ -68,3 +68,8 @@ nul
 test-results/
 playwright-report/
 
+
+# territory map generator raw downloads
+scripts/.cache/
+
+scratch/

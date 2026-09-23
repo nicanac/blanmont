@@ -56,27 +56,27 @@ export default function NewMemberPage(): React.ReactElement {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4 pb-4 border-b border-[#e4e0d8]">
+      <div className="flex items-center gap-4 pb-4 border-b border-line">
         <Link
           href="/admin/members"
-          className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors shadow-xs"
+          className="rounded-md border border-line bg-white p-2 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors shadow-xs"
           title="Retour à l'annuaire des membres"
         >
           <ArrowLeftIcon className="h-4 w-4" />
         </Link>
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">Nouveau Membre</h1>
-          <p className="text-xs sm:text-sm text-[#5c6370]">Ajouter un nouveau cycliste ou encadrant au club</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">Nouveau Membre</h1>
+          <p className="text-xs sm:text-sm text-ink-3">Ajouter un nouveau cycliste ou encadrant au club</p>
         </div>
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 sm:p-8 shadow-xs">
+        <div className="rounded-lg border border-line bg-white p-6 sm:p-8 shadow-xs">
           <div className="grid gap-6 md:grid-cols-2">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="name" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Nom complet *
               </label>
               <input
@@ -85,14 +85,14 @@ export default function NewMemberPage(): React.ReactElement {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
                 placeholder="ex: Lucien Szustak"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="email" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Email
               </label>
               <input
@@ -100,14 +100,14 @@ export default function NewMemberPage(): React.ReactElement {
                 id="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
                 placeholder="membre@blanmont.be"
               />
             </div>
 
             {/* Phone */}
             <div>
-              <label htmlFor="phone" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="phone" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Téléphone / GSM
               </label>
               <input
@@ -115,14 +115,14 @@ export default function NewMemberPage(): React.ReactElement {
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
                 placeholder="+32 470 12 34 56"
               />
             </div>
 
             {/* Photo URL */}
             <div>
-              <label htmlFor="photoUrl" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="photoUrl" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Photo URL
               </label>
               <input
@@ -130,14 +130,14 @@ export default function NewMemberPage(): React.ReactElement {
                 id="photoUrl"
                 value={formData.photoUrl}
                 onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
                 placeholder="https://..."
               />
             </div>
 
             {/* Strava ID */}
             <div>
-              <label htmlFor="stravaId" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="stravaId" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Strava Athlete ID
               </label>
               <input
@@ -145,14 +145,14 @@ export default function NewMemberPage(): React.ReactElement {
                 id="stravaId"
                 value={formData.stravaId}
                 onChange={(e) => setFormData({ ...formData, stravaId: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
                 placeholder="ex: 12345678"
               />
             </div>
 
             {/* Bio */}
             <div className="md:col-span-2">
-              <label htmlFor="bio" className="mb-1.5 block text-xs sm:text-sm font-semibold text-[#101216]">
+              <label htmlFor="bio" className="mb-1.5 block text-xs sm:text-sm font-semibold text-ink">
                 Bio &amp; Présentation
               </label>
               <textarea
@@ -160,27 +160,27 @@ export default function NewMemberPage(): React.ReactElement {
                 rows={3}
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] transition-colors shadow-xs"
+                className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors shadow-xs"
                 placeholder="Quelques mots sur le cycliste, ses allures favorites..."
               />
             </div>
 
             {/* Affiliation, Cotisation & Sécurité (ICE) */}
-            <div className="md:col-span-2 pt-6 border-t border-[#e4e0d8] space-y-4">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-[#101216]">
+            <div className="md:col-span-2 pt-6 border-t border-line space-y-4">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-ink">
                 Cotisation 2026, Licence FFBC &amp; Sécurité (ICE)
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label htmlFor="member-new-cotisation" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-new-cotisation" className="mb-1.5 block text-xs font-semibold text-ink">
                     Statut Cotisation 2026
                   </label>
                   <select
                     id="member-new-cotisation"
                     value={formData.cotisation2026Status}
                     onChange={(e) => setFormData({ ...formData, cotisation2026Status: e.target.value as any })}
-                    className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                    className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                   >
                     <option value="pending">⏳ En attente de paiement</option>
                     <option value="paid">✓ À jour (Payée)</option>
@@ -189,7 +189,7 @@ export default function NewMemberPage(): React.ReactElement {
                 </div>
 
                 <div>
-                  <label htmlFor="member-new-cotisation-date" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-new-cotisation-date" className="mb-1.5 block text-xs font-semibold text-ink">
                     Date de règlement
                   </label>
                   <input
@@ -197,12 +197,12 @@ export default function NewMemberPage(): React.ReactElement {
                     type="date"
                     value={formData.cotisation2026PaidAt}
                     onChange={(e) => setFormData({ ...formData, cotisation2026PaidAt: e.target.value })}
-                    className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                    className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="member-new-licence" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                  <label htmlFor="member-new-licence" className="mb-1.5 block text-xs font-semibold text-ink">
                     N° Licence FFBC
                   </label>
                   <input
@@ -211,7 +211,7 @@ export default function NewMemberPage(): React.ReactElement {
                     placeholder="ex: FFBC-2026-8491"
                     value={formData.ffbcLicenseNumber}
                     onChange={(e) => setFormData({ ...formData, ffbcLicenseNumber: e.target.value })}
-                    className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                    className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                   />
                 </div>
               </div>
@@ -236,7 +236,7 @@ export default function NewMemberPage(): React.ReactElement {
                       placeholder="ex: Marie Dupont"
                       value={formData.iceContactName}
                       onChange={(e) => setFormData({ ...formData, iceContactName: e.target.value })}
-                      className="w-full rounded border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none shadow-2xs"
+                      className="w-full rounded border border-line bg-white px-3 py-1.5 text-xs text-ink focus:border-brand focus:outline-none shadow-2xs"
                     />
                   </div>
 
@@ -250,7 +250,7 @@ export default function NewMemberPage(): React.ReactElement {
                       placeholder="ex: +32 479 98 76 54"
                       value={formData.iceContactPhone}
                       onChange={(e) => setFormData({ ...formData, iceContactPhone: e.target.value })}
-                      className="w-full rounded border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none shadow-2xs"
+                      className="w-full rounded border border-line bg-white px-3 py-1.5 text-xs text-ink focus:border-brand focus:outline-none shadow-2xs"
                     />
                   </div>
 
@@ -264,7 +264,7 @@ export default function NewMemberPage(): React.ReactElement {
                       placeholder="ex: Épouse, Parent, Ami"
                       value={formData.iceRelationship}
                       onChange={(e) => setFormData({ ...formData, iceRelationship: e.target.value })}
-                      className="w-full rounded border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs text-[#101216] focus:border-[#e03e3e] focus:outline-none shadow-2xs"
+                      className="w-full rounded border border-line bg-white px-3 py-1.5 text-xs text-ink focus:border-brand focus:outline-none shadow-2xs"
                     />
                   </div>
                 </div>
@@ -272,14 +272,14 @@ export default function NewMemberPage(): React.ReactElement {
 
               {/* Preferred Group */}
               <div className="max-w-xs">
-                <label htmlFor="member-new-group" className="mb-1.5 block text-xs font-semibold text-[#101216]">
+                <label htmlFor="member-new-group" className="mb-1.5 block text-xs font-semibold text-ink">
                   Groupe habituel d&apos;allure
                 </label>
                 <select
                   id="member-new-group"
                   value={formData.preferredGroup}
                   onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value as any })}
-                  className="w-full rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold text-[#101216] focus:border-[#e03e3e] focus:outline-none focus:ring-1 focus:ring-[#e03e3e] shadow-xs"
+                  className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                 >
                   <option value="A">Groupe A (&gt; 30 km/h)</option>
                   <option value="B">Groupe B (25 – 28 km/h)</option>
@@ -290,7 +290,7 @@ export default function NewMemberPage(): React.ReactElement {
             </div>
 
             {/* Roles Section */}
-            <div className="md:col-span-2 pt-4 border-t border-[#e4e0d8]">
+            <div className="md:col-span-2 pt-4 border-t border-line">
               <MemberRoleSelector
                 roles={formData.role}
                 onChange={(newRoles) => setFormData({ ...formData, role: newRoles })}
@@ -303,14 +303,14 @@ export default function NewMemberPage(): React.ReactElement {
         <div className="flex items-center justify-end gap-3 pt-2">
           <Link
             href="/admin/members"
-            className="rounded-md border border-[#e4e0d8] bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            className="rounded-md border border-line bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors shadow-xs"
           >
             Annuler
           </Link>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-colors disabled:opacity-50"
+            className="rounded-md bg-brand hover:bg-brand-strong px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-colors disabled:opacity-50"
           >
             {isSubmitting ? 'Création...' : 'Créer le membre'}
           </button>

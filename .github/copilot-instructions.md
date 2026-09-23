@@ -29,7 +29,8 @@ You are the lead full-stack software engineer and UI/UX designer for **Sidereal 
 - **Media & Storage**: Cloudinary for responsive image management & uploads (`app/lib/cloudinary.ts`).
 - **Maps & Geo**: Leaflet & React-Leaflet (`react-leaflet`, `@mapbox/polyline`, `@tmcw/togeojson`, `togpx`).
 - **Validation**: Zod v4 schemas (`app/lib/validation.ts`) for strict request and model validation.
-- **Typography**: Google Font `Poppins` (`var(--font-poppins)`) via `next/font/google`.
+- **Typography**: Google Font `Archivo` variable (`var(--font-archivo)`, `wdth` axis) via `next/font/google`; hierarchy by width (`font-wide`) and weight.
+- **Motion**: GSAP + ScrollTrigger loaded after hydration via `app/lib/useSheetMotion.ts`; always honor `prefers-reduced-motion`.
 
 ---
 
@@ -46,7 +47,7 @@ Always leverage Graft for codebase exploration, API inspection, and blast-radius
 ### B. Impeccable Design Skill
 Use Impeccable commands and guidelines for UI/UX work:
 - Skills located in `.agents/skills/impeccable/`, `.github/agents/`, `.claude/skills/impeccable/`.
-- Consult `DESIGN.md` for exact color values (Brand Red `#e03e3e`, Dark Slate `#0f172a`, Off-White surfaces `#f8fafc`), pill shapes (`rounded-full`), and card styling (`rounded-2xl`).
+- Consult `DESIGN.md` for the "Carte IGN" topographic-sheet world: semantic tokens in `app/globals.css` (map paper `paper`, ink `ink`, UI red `brand` `#d63535`, club red `brand-vif` `#e03e3e` for map marks, night sheet `night`), spot inks (bistre, hydro, bois, vert, ambre), neat-line frames and 2–6px sheet corners on panels and buttons (pills only for small status badges).
 - High-contrast, mobile-first responsive interfaces with minimum 44px touch targets.
 
 ---

@@ -37,11 +37,11 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
 
       {/* Overview Stats */}
       <div id="sondages-overview-cards" className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs space-y-2">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+        <div className="rounded-lg border border-line bg-white p-5 shadow-xs space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-ink-3">
             Sondage en cours
           </div>
-          <div className="text-lg font-bold text-[#101216] truncate">
+          <div className="text-lg font-bold text-ink truncate">
             {activePoll ? activePoll.title : 'Aucun sondage actif'}
           </div>
           {activePoll ? (
@@ -49,45 +49,45 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
               ✓ {activePoll.attendeeCount} cyclistes inscrits
             </p>
           ) : (
-            <p className="text-xs text-[#5c6370]">Prêt pour la prochaine session</p>
+            <p className="text-xs text-ink-3">Prêt pour la prochaine session</p>
           )}
         </div>
 
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs space-y-2">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+        <div className="rounded-lg border border-line bg-white p-5 shadow-xs space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-ink-3">
             Historique Total
           </div>
-          <div className="text-2xl font-extrabold text-[#101216] tabular-nums">
+          <div className="text-2xl font-extrabold text-ink tabular-nums">
             {polls.length}
           </div>
-          <p className="text-xs text-[#5c6370]">Sondages enregistrés</p>
+          <p className="text-xs text-ink-3">Sondages enregistrés</p>
         </div>
 
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-5 shadow-xs space-y-2">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370]">
+        <div className="rounded-lg border border-line bg-white p-5 shadow-xs space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-ink-3">
             Page Publique
           </div>
           <div className="pt-1">
             <Link
               href="/sondage"
               target="_blank"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#e03e3e] hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-brand hover:underline"
             >
               <span>Accéder à /sondage</span>
               <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
             </Link>
           </div>
-          <p className="text-xs text-[#5c6370]">Vue des membres en direct</p>
+          <p className="text-xs text-ink-3">Vue des membres en direct</p>
         </div>
       </div>
 
       {/* Polls List */}
-      <div id="sondages-list-section" className="rounded-lg border border-[#e4e0d8] bg-white shadow-xs overflow-hidden">
-        <div className="px-6 py-4 border-b border-[#e4e0d8] bg-[#f2efe9] flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[#101216]">
+      <div id="sondages-list-section" className="rounded-lg border border-line bg-white shadow-xs overflow-hidden">
+        <div className="px-6 py-4 border-b border-line bg-paper-2 flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-ink">
             Historique des sondages
           </h2>
-          <span className="text-xs font-semibold text-[#5c6370] tabular-nums">
+          <span className="text-xs font-semibold text-ink-3 tabular-nums">
             {pollsWithCounts.length} sessions
           </span>
         </div>
@@ -112,11 +112,11 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
             />
           </div>
         ) : (
-          <div className="divide-y divide-[#efece5]">
+          <div className="divide-y divide-paper-2">
             {pollsWithCounts.map((p) => (
               <div
                 key={p.id}
-                className="p-5 sm:px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-[#faf8f5] transition-colors"
+                className="p-5 sm:px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-paper transition-colors"
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -126,7 +126,7 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
                           ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                           : p.status === 'draft'
                           ? 'bg-amber-50 text-amber-700 border-amber-200'
-                          : 'bg-[#f2efe9] text-[#5c6370] border-[#e4e0d8]'
+                          : 'bg-paper-2 text-ink-3 border-line'
                       }`}
                     >
                       {p.status === 'active'
@@ -135,21 +135,21 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
                         ? 'Brouillon'
                         : 'Clôturé'}
                     </span>
-                    <span className="text-xs text-[#5c6370] font-mono tabular-nums">
+                    <span className="text-xs text-ink-3 font-mono tabular-nums">
                       Weekend du {p.weekendIsoDate}
                     </span>
                   </div>
 
                   <Link
                     href={`/admin/sondages/${p.id}`}
-                    className="text-base font-bold text-[#101216] hover:text-[#e03e3e] transition-colors block"
+                    className="text-base font-bold text-ink hover:text-brand transition-colors block"
                   >
                     {p.title}
                   </Link>
 
-                  <div className="flex items-center gap-3 text-xs text-[#5c6370] flex-wrap">
+                  <div className="flex items-center gap-3 text-xs text-ink-3 flex-wrap">
                     <span>
-                      <strong className="text-[#101216] font-bold tabular-nums">{p.attendeeCount}</strong> participants déclarés
+                      <strong className="text-ink font-bold tabular-nums">{p.attendeeCount}</strong> participants déclarés
                     </span>
                     <span>•</span>
                     <span className="tabular-nums">{p.responseCount} réponses totales</span>
@@ -167,15 +167,15 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
 
                   <Link
                     href={`/admin/sondages/${p.id}`}
-                    className="inline-flex items-center gap-1 rounded-md border border-[#e4e0d8] bg-white px-3 py-1.5 text-xs font-semibold text-[#101216] hover:bg-[#f2efe9] transition-colors"
+                    className="inline-flex items-center gap-1 rounded-md border border-line bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:bg-paper-2 transition-colors"
                   >
-                    <EyeIcon className="h-3.5 w-3.5 text-[#5c6370]" />
+                    <EyeIcon className="h-3.5 w-3.5 text-ink-3" />
                     <span>Réponses</span>
                   </Link>
 
                   <Link
                     href={`/admin/sondages/${p.id}/edit`}
-                    className="rounded-md p-1.5 text-[#5c6370] hover:text-[#e03e3e] hover:bg-[#f2efe9] transition-colors"
+                    className="rounded-md p-1.5 text-ink-3 hover:text-brand hover:bg-paper-2 transition-colors"
                     title="Modifier les paramètres"
                   >
                     <PencilSquareIcon className="h-4 w-4" />

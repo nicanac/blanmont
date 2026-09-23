@@ -106,18 +106,18 @@ export default function AdminGalerieClient({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
               Galeries Photos &amp; Chroniques
             </h1>
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#101216] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
-              <CameraIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-ink px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
+              <CameraIcon className="h-3.5 w-3.5 text-brand" />
               <span>{albums.length} albums</span>
             </span>
           </div>
-          <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
+          <p className="mt-1 text-xs sm:text-sm text-ink-3">
             Gestion des albums photos du peloton, liens Google Photos et mise en avant des saisons.
           </p>
         </div>
@@ -125,7 +125,7 @@ export default function AdminGalerieClient({
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs shrink-0 min-h-[44px]"
+          className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs shrink-0 min-h-[44px]"
         >
           <PlusIcon className="h-4 w-4 stroke-[2.5]" />
           <span>Nouvel Album</span>
@@ -133,23 +133,23 @@ export default function AdminGalerieClient({
       </div>
 
       {/* Search & Season Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-[#faf8f5] rounded-md border border-[#e4e0d8]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-paper rounded-md border border-line">
         <div className="relative flex-1">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Rechercher par titre, description, lieu..."
-            className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-[#e4e0d8] rounded-md text-[#101216] focus:outline-none focus:border-[#e03e3e]"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-line rounded-md text-ink focus:outline-none focus:border-brand"
           />
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-[#5c6370]">Saison :</span>
+          <span className="text-xs font-semibold text-ink-3">Saison :</span>
           <select
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(e.target.value === 'all' ? 'all' : Number(e.target.value))}
-            className="px-2.5 py-2 text-xs font-semibold bg-white border border-[#e4e0d8] rounded-md text-[#101216] focus:outline-none focus:border-[#e03e3e]"
+            className="px-2.5 py-2 text-xs font-semibold bg-white border border-line rounded-md text-ink focus:outline-none focus:border-brand"
           >
             <option value="all">Toutes les saisons</option>
             {Array.from(new Set(albums.map((a) => a.year)))
@@ -164,10 +164,10 @@ export default function AdminGalerieClient({
       </div>
 
       {/* Albums Table */}
-      <div className="rounded-[10px] border border-[#e4e0d8] bg-white overflow-hidden shadow-xs">
+      <div className="rounded-[10px] border border-line bg-white overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#faf8f5] text-xs font-bold uppercase tracking-wider text-[#5c6370] border-b border-[#e4e0d8]">
+            <thead className="bg-paper text-xs font-bold uppercase tracking-wider text-ink-3 border-b border-line">
               <tr>
                 <th className="py-3 px-4">Couverture</th>
                 <th className="py-3 px-4">Titre &amp; Description</th>
@@ -178,7 +178,7 @@ export default function AdminGalerieClient({
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#efece5]">
+            <tbody className="divide-y divide-paper-2">
               {albums
                 .filter((album) => {
                   if (selectedSeason !== 'all' && album.year !== selectedSeason) return false;
@@ -193,9 +193,9 @@ export default function AdminGalerieClient({
                   return true;
                 })
                 .map((album) => (
-                <tr key={album.id} className="hover:bg-[#faf8f5]/60 transition-colors">
+                <tr key={album.id} className="hover:bg-paper/60 transition-colors">
                   <td className="py-3 px-4">
-                    <div className="h-12 w-20 rounded-md overflow-hidden bg-[#161922] border border-[#e4e0d8] relative shrink-0">
+                    <div className="h-12 w-20 rounded-md overflow-hidden bg-night-2 border border-line relative shrink-0">
                       <Image
                         src={album.coverUrl}
                         alt={album.title}
@@ -212,20 +212,20 @@ export default function AdminGalerieClient({
                     </div>
                   </td>
                   <td className="py-3 px-4 max-w-xs">
-                    <p className="font-bold text-[#101216]">{album.title}</p>
-                    <p className="text-xs text-[#5c6370] line-clamp-1 mt-0.5">
+                    <p className="font-bold text-ink">{album.title}</p>
+                    <p className="text-xs text-ink-3 line-clamp-1 mt-0.5">
                       {album.description}
                     </p>
                   </td>
-                  <td className="py-3 px-4 font-bold text-[#101216] tabular-nums">
+                  <td className="py-3 px-4 font-bold text-ink tabular-nums">
                     {album.year}
                   </td>
                   <td className="py-3 px-4">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#faf8f5] border border-[#e4e0d8] text-[#3a3f4a]">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-paper border border-line text-ink-2">
                       {album.category}
                     </span>
                   </td>
-                  <td className="py-3 px-4 tabular-nums font-semibold text-[#101216]">
+                  <td className="py-3 px-4 tabular-nums font-semibold text-ink">
                     {album.photoCount}
                   </td>
                   <td className="py-3 px-4">
@@ -234,13 +234,13 @@ export default function AdminGalerieClient({
                         href={album.externalAlbumUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[#e03e3e] font-semibold hover:underline"
+                        className="inline-flex items-center gap-1 text-brand font-semibold hover:underline"
                       >
                         <span>Ouvrir</span>
                         <ArrowTopRightOnSquareIcon className="h-3 w-3" />
                       </a>
                     ) : (
-                      <span className="text-[#a7adbb]">—</span>
+                      <span className="text-snow-3">—</span>
                     )}
                   </td>
                   <td className="py-3 px-4 text-right">
@@ -248,7 +248,7 @@ export default function AdminGalerieClient({
                       type="button"
                       onClick={() => handleDelete(album.id, album.title)}
                       disabled={deletingId === album.id}
-                      className="p-1.5 rounded-md text-[#5c6370] hover:text-[#e03e3e] hover:bg-[#e03e3e]/10 transition-colors"
+                      className="p-1.5 rounded-md text-ink-3 hover:text-brand hover:bg-brand/10 transition-colors"
                       title="Supprimer l'album"
                     >
                       <TrashIcon className="h-4 w-4" />
@@ -268,15 +268,15 @@ export default function AdminGalerieClient({
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4"
         >
-          <div className="bg-white rounded-[10px] border border-[#e4e0d8] w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95">
-            <div className="p-4 border-b border-[#efece5] flex items-center justify-between">
-              <h3 className="text-sm font-bold text-[#101216] uppercase tracking-wider">
+          <div className="bg-white rounded-[10px] border border-line w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95">
+            <div className="p-4 border-b border-paper-2 flex items-center justify-between">
+              <h3 className="text-sm font-bold text-ink uppercase tracking-wider">
                 Ajouter un album photo
               </h3>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-md text-[#5c6370] hover:text-[#101216]"
+                className="p-1 rounded-md text-ink-3 hover:text-ink"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -284,7 +284,7 @@ export default function AdminGalerieClient({
 
             <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs">
               <div>
-                <label htmlFor="galerie-album-title" className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-title" className="block font-semibold text-ink-2 mb-1">
                   Titre de l&apos;album *
                 </label>
                 <input
@@ -294,13 +294,13 @@ export default function AdminGalerieClient({
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   placeholder="ex: Sortie de rentrée · Saison 2026"
-                  className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
+                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="galerie-album-year" className="block font-semibold text-[#3a3f4a] mb-1">
+                  <label htmlFor="galerie-album-year" className="block font-semibold text-ink-2 mb-1">
                     Saison (Année) *
                   </label>
                   <input
@@ -309,12 +309,12 @@ export default function AdminGalerieClient({
                     required
                     value={form.year}
                     onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}
-                    className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
+                    className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="galerie-album-category" className="block font-semibold text-[#3a3f4a] mb-1">
+                  <label htmlFor="galerie-album-category" className="block font-semibold text-ink-2 mb-1">
                     Thème / Catégorie *
                   </label>
                   <select
@@ -330,7 +330,7 @@ export default function AdminGalerieClient({
                           | 'Équipements',
                       })
                     }
-                    className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-[#101216] bg-white focus:border-[#e03e3e] focus:outline-hidden"
+                    className="w-full rounded-md border border-line px-3 py-2 text-ink bg-white focus:border-brand focus:outline-hidden"
                   >
                     <option value="Sorties">Sorties</option>
                     <option value="Ardennes & Stages">Ardennes &amp; Stages</option>
@@ -341,7 +341,7 @@ export default function AdminGalerieClient({
               </div>
 
               <div>
-                <label htmlFor="galerie-album-cover" className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-cover" className="block font-semibold text-ink-2 mb-1">
                   URL de l&apos;image de couverture *
                 </label>
                 <input
@@ -351,12 +351,12 @@ export default function AdminGalerieClient({
                   value={form.coverUrl}
                   onChange={(e) => setForm({ ...form, coverUrl: e.target.value })}
                   placeholder="/images/home-hero.jpg ou https://..."
-                  className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-[#101216] focus:border-[#e03e3e] focus:outline-hidden font-mono"
+                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden font-mono"
                 />
               </div>
 
               <div>
-                <label htmlFor="galerie-album-external-url" className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-external-url" className="block font-semibold text-ink-2 mb-1">
                   Lien de l&apos;album externe (Google Photos, OneDrive...)
                 </label>
                 <input
@@ -365,13 +365,13 @@ export default function AdminGalerieClient({
                   value={form.externalAlbumUrl}
                   onChange={(e) => setForm({ ...form, externalAlbumUrl: e.target.value })}
                   placeholder="https://photos.google.com/..."
-                  className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-[#101216] focus:border-[#e03e3e] focus:outline-hidden font-mono"
+                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden font-mono"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="galerie-album-photo-count" className="block font-semibold text-[#3a3f4a] mb-1">
+                  <label htmlFor="galerie-album-photo-count" className="block font-semibold text-ink-2 mb-1">
                     Nombre estimé de photos
                   </label>
                   <input
@@ -379,7 +379,7 @@ export default function AdminGalerieClient({
                     type="number"
                     value={form.photoCount}
                     onChange={(e) => setForm({ ...form, photoCount: Number(e.target.value) })}
-                    className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
+                    className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
                   />
                 </div>
 
@@ -390,15 +390,15 @@ export default function AdminGalerieClient({
                       type="checkbox"
                       checked={form.featured}
                       onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-                      className="rounded border-[#e4e0d8] text-[#e03e3e] focus:ring-[#e03e3e]"
+                      className="rounded border-line text-brand focus:ring-brand"
                     />
-                    <span className="font-semibold text-[#101216]">Mettre à la Une</span>
+                    <span className="font-semibold text-ink">Mettre à la Une</span>
                   </label>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="galerie-album-description" className="block font-semibold text-[#3a3f4a] mb-1">
+                <label htmlFor="galerie-album-description" className="block font-semibold text-ink-2 mb-1">
                   Description / Récit de la sortie
                 </label>
                 <textarea
@@ -407,23 +407,23 @@ export default function AdminGalerieClient({
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   placeholder="Quelques phrases pour situer le contexte, la météo, le parcours..."
-                  className="w-full rounded-md border border-[#e4e0d8] px-3 py-2 text-[#101216] focus:border-[#e03e3e] focus:outline-hidden"
+                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
                 />
               </div>
 
-              <div className="flex justify-end gap-2.5 pt-4 border-t border-[#efece5]">
+              <div className="flex justify-end gap-2.5 pt-4 border-t border-paper-2">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   disabled={isSubmitting}
-                  className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#3a3f4a] hover:bg-[#f2efe9] rounded-md transition-colors"
+                  className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink-2 hover:bg-paper-2 rounded-md transition-colors"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-semibold uppercase tracking-wider rounded-md shadow-xs transition-colors disabled:opacity-50 min-h-[40px]"
+                  className="px-5 py-2 bg-brand hover:bg-brand-strong text-white text-xs font-semibold uppercase tracking-wider rounded-md shadow-xs transition-colors disabled:opacity-50 min-h-[40px]"
                 >
                   {isSubmitting ? 'Enregistrement...' : 'Créer l’album'}
                 </button>

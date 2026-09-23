@@ -2,12 +2,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { getRideWeather, type RideWeather } from '@/app/lib/weather';
+import { WeatherGlyph, WindArrow } from '@/app/components/carte/WeatherGlyph';
+import { cn } from '@/app/utils/cn';
 
 interface RideWeatherBadgeProps {
   isoDate?: string;
   departure?: string;
   compact?: boolean;
   theme?: 'paper' | 'dark';
+}
+
+function windLabel(speed: number): string {
+  if (speed < 15) return 'Vent faible';
+  if (speed < 30) return 'Vent modéré';
+  return 'Vent soutenu';
 }
 
 export default function RideWeatherBadge({
@@ -41,16 +49,19 @@ export default function RideWeatherBadge({
     };
   }, [isoDate, departure]);
 
+  const onDark = theme === 'dark';
+
   if (!isoDate || loading) {
     return (
       <div
-        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs animate-pulse ${
-          theme === 'dark'
-            ? 'bg-white/5 border border-white/10 text-[#a7adbb]'
-            : 'bg-[#f2efe9] text-[#5c6370] dark:bg-[#1e222d] dark:text-[#a7adbb]'
-        }`}
+        className={cn(
+          'inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1 text-xs animate-pulse',
+          onDark
+            ? 'border-night-line bg-night-3 text-snow-3'
+            : 'border-line bg-paper-2 text-ink-3 dark:border-night-line dark:bg-night-3 dark:text-snow-3'
+        )}
       >
-        <span>🌤️</span>
+        <WeatherGlyph className="size-4" />
         <span className="text-xs">Météo...</span>
       </div>
     );
@@ -60,161 +71,141 @@ export default function RideWeatherBadge({
     if (compact) return null;
     return (
       <div
-        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium border ${
-          theme === 'dark'
-            ? 'bg-white/5 border-white/10 text-[#a7adbb]'
-            : 'bg-[#f2efe9] border-[#e4e0d8] text-[#5c6370] dark:bg-[#1e222d] dark:border-[#262b38] dark:text-[#a7adbb]'
-        }`}
+        className={cn(
+          'inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1 text-xs font-medium',
+          onDark
+            ? 'border-night-line bg-night-3 text-snow-3'
+            : 'border-line bg-paper-2 text-ink-3 dark:border-night-line dark:bg-night-3 dark:text-snow-3'
+        )}
       >
-        <span>📅</span>
+        <WeatherGlyph className="size-4" />
         <span>Météo disponible J-14</span>
       </div>
     );
   }
 
-  // Wind direction arrow rotation:
-  // Formula: (windDirection + 180) % 360
-  const arrowAngle = (weather.windDirection + 180) % 360;
+  const summary = `${weather.condition} • ${weather.temperature}°C • ${weather.windDescription} à ${weather.windSpeed} km/h • Pluie: ${weather.precipitationProb}%`;
 
   if (compact) {
-    if (theme === 'dark') {
-      return (
-        <div
-          className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-2.5 py-1 text-xs text-white font-medium"
-          title={`${weather.condition} • ${weather.temperature}°C • ${weather.windDescription} à ${weather.windSpeed} km/h • Pluie: ${weather.precipitationProb}%`}
-        >
-          <span>{weather.icon}</span>
-          <span className="font-bold tabular-nums">{weather.temperature}°C</span>
-          <span className="text-white/20">•</span>
-          <span className="flex items-center gap-0.5 text-[#a7adbb]">
-            <span
-              className="inline-block transition-transform text-sky-400 font-black text-xs"
-              style={{ transform: `rotate(${arrowAngle}deg)` }}
-            >
-              ↑
-            </span>
-            <span className="tabular-nums">{weather.windSpeed} km/h</span>
-          </span>
-        </div>
-      );
-    }
-
     return (
       <div
-        className="inline-flex items-center gap-2 rounded-md bg-[#faf8f5] dark:bg-[#161922] px-2.5 py-1 text-xs text-[#101216] dark:text-[#f5f6f8] border border-[#e4e0d8] dark:border-[#262b38] font-medium"
-        title={`${weather.condition} • ${weather.temperature}°C • ${weather.windDescription} à ${weather.windSpeed} km/h • Pluie: ${weather.precipitationProb}%`}
+        className={cn(
+          'inline-flex items-center gap-2 rounded-sm border px-2.5 py-1 text-xs font-medium',
+          onDark
+            ? 'border-night-line bg-night-3 text-snow'
+            : 'border-line bg-white text-ink dark:border-night-line dark:bg-night-2 dark:text-snow'
+        )}
+        title={summary}
       >
-        <span>{weather.icon}</span>
-        <span className="font-bold tabular-nums text-[#101216] dark:text-[#f5f6f8]">{weather.temperature}°C</span>
-        <span className="text-[#e4e0d8] dark:text-[#262b38]">•</span>
-        <span className="flex items-center gap-1 text-[#3a3f4a] dark:text-[#d1d5db]">
-          <span
-            className="inline-block transition-transform text-[#3b82f6] font-black text-xs"
-            style={{ transform: `rotate(${arrowAngle}deg)` }}
-          >
-            ↑
+        <WeatherGlyph
+          code={weather.weatherCode}
+          className={cn('size-4', onDark ? 'text-snow' : 'text-ink dark:text-snow')}
+        />
+        <span className="font-bold tabular-nums">{weather.temperature}°C</span>
+        <span
+          className={
+            onDark ? 'text-night-line-strong' : 'text-line-strong dark:text-night-line-strong'
+          }
+          aria-hidden="true"
+        >
+          |
+        </span>
+        <span
+          className={cn(
+            'flex items-center gap-1',
+            onDark ? 'text-snow-2' : 'text-ink-2 dark:text-snow-2'
+          )}
+        >
+          <WindArrow fromDeg={weather.windDirection} className="text-hydro dark:text-hydro-soft" />
+          <span className="font-semibold tabular-nums">
+            {weather.windSpeed} km/h {weather.windCardinal}
           </span>
-          <span className="tabular-nums font-semibold">{weather.windSpeed} km/h {weather.windCardinal}</span>
         </span>
       </div>
     );
   }
 
-  if (theme === 'dark') {
-    return (
-      <div className="rounded-md bg-white/[0.04] border border-white/10 p-3.5 space-y-2.5 text-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="text-xl">{weather.icon}</span>
-            <div>
-              <div className="text-xs font-bold text-white">
-                {weather.condition}
-              </div>
-              <div className="text-xs text-[#a7adbb]">
-                Prévisions pour le départ {departure ? `(${departure})` : ''}
-              </div>
-            </div>
-          </div>
-          <div className="text-right">
-            <span className="text-lg font-extrabold text-white tabular-nums">
-              {weather.temperature}°C
-            </span>
-            {weather.precipitationProb > 10 && (
-              <div className="text-xs font-semibold text-sky-400">
-                💧 {weather.precipitationProb}% pluie
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Wind & Riding Strategy */}
-        <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
-          <div className="flex items-center gap-1.5 font-medium text-[#a7adbb]">
-            <span className="text-sm">💨</span>
-            <span>
-              Vent : <strong className="text-white tabular-nums">{weather.windSpeed} km/h</strong> ({weather.windCardinal})
-            </span>
-            <span
-              className="inline-block text-sky-400 font-bold text-xs"
-              style={{ transform: `rotate(${arrowAngle}deg)` }}
-              title={`Direction du vent: ${weather.windDirection}° (${weather.windCardinal})`}
-            >
-              ↑
-            </span>
-          </div>
-
-          <span className="text-xs font-semibold text-white bg-white/10 px-2 py-0.5 rounded-full border border-white/10">
-            {weather.windSpeed < 15 ? 'Vent faible' : weather.windSpeed < 30 ? 'Vent modéré' : 'Vent soutenu ⚠️'}
-          </span>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="rounded-lg bg-white dark:bg-[#161922] p-3.5 border border-[#e4e0d8] dark:border-[#262b38] space-y-2.5">
-      <div className="flex items-center justify-between">
+    <div
+      className={cn(
+        'space-y-2.5 rounded-md border p-3.5',
+        onDark
+          ? 'border-night-line bg-night-3 text-snow'
+          : 'border-line bg-white dark:border-night-line dark:bg-night-2'
+      )}
+    >
+      <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="text-xl">{weather.icon}</span>
+          <WeatherGlyph
+            code={weather.weatherCode}
+            className={cn('size-7', onDark ? 'text-snow' : 'text-ink dark:text-snow')}
+          />
           <div>
-            <div className="text-xs font-bold text-[#101216] dark:text-[#f5f6f8]">
+            <div
+              className={cn('text-xs font-bold', onDark ? 'text-snow' : 'text-ink dark:text-snow')}
+            >
               {weather.condition}
             </div>
-            <div className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+            <div className={cn('text-xs', onDark ? 'text-snow-3' : 'text-ink-3 dark:text-snow-3')}>
               Prévisions pour le départ {departure ? `(${departure})` : ''}
             </div>
           </div>
         </div>
         <div className="text-right">
-          <span className="text-lg font-bold text-[#101216] dark:text-[#f5f6f8] tabular-nums">
+          <span
+            className={cn(
+              'font-narrow text-lg font-extrabold tabular-nums',
+              onDark ? 'text-snow' : 'text-ink dark:text-snow'
+            )}
+          >
             {weather.temperature}°C
           </span>
           {weather.precipitationProb > 10 && (
-            <div className="text-xs font-semibold text-[#3b82f6]">
-              💧 {weather.precipitationProb}% pluie
+            <div
+              className={cn(
+                'text-xs font-semibold',
+                onDark ? 'text-hydro-soft' : 'text-hydro dark:text-hydro-soft'
+              )}
+            >
+              {weather.precipitationProb}% pluie
             </div>
           )}
         </div>
       </div>
 
-      {/* Wind & Riding Strategy */}
-      <div className="flex items-center justify-between pt-2 border-t border-[#e4e0d8] dark:border-[#262b38] text-xs">
-        <div className="flex items-center gap-1.5 font-medium text-[#3a3f4a] dark:text-[#d1d5db]">
-          <span className="text-sm">💨</span>
-          <span>
-            Vent : <strong className="text-[#101216] dark:text-[#f5f6f8] tabular-nums">{weather.windSpeed} km/h</strong> ({weather.windCardinal})
-          </span>
-          <span
-            className="inline-block text-[#3b82f6] font-bold text-xs"
-            style={{ transform: `rotate(${arrowAngle}deg)` }}
-            title={`Direction du vent: ${weather.windDirection}° (${weather.windCardinal})`}
-          >
-            ↑
+      <div
+        className={cn(
+          'flex items-center justify-between gap-2 border-t pt-2 text-xs',
+          onDark ? 'border-night-line' : 'border-line dark:border-night-line'
+        )}
+      >
+        <div
+          className={cn(
+            'flex items-center gap-1.5 font-medium',
+            onDark ? 'text-snow-2' : 'text-ink-2 dark:text-snow-2'
+          )}
+        >
+          <WindArrow fromDeg={weather.windDirection} className="text-hydro dark:text-hydro-soft" />
+          <span title={`Direction du vent: ${weather.windDirection}° (${weather.windCardinal})`}>
+            Vent :{' '}
+            <strong
+              className={cn('tabular-nums', onDark ? 'text-snow' : 'text-ink dark:text-snow')}
+            >
+              {weather.windSpeed} km/h
+            </strong>{' '}
+            ({weather.windCardinal})
           </span>
         </div>
 
-        <span className="text-xs font-semibold text-[#3a3f4a] dark:text-[#d1d5db] bg-[#faf8f5] dark:bg-[#1e222d] px-2 py-0.5 rounded-full border border-[#e4e0d8] dark:border-[#262b38]">
-          {weather.windSpeed < 15 ? 'Vent faible' : weather.windSpeed < 30 ? 'Vent modéré' : 'Vent soutenu ⚠️'}
+        <span
+          className={cn(
+            'rounded-full border px-2 py-0.5 text-xs font-semibold',
+            onDark
+              ? 'border-night-line text-snow-2'
+              : 'border-line bg-paper text-ink-2 dark:border-night-line dark:bg-night-3 dark:text-snow-2'
+          )}
+        >
+          {windLabel(weather.windSpeed)}
         </span>
       </div>
     </div>

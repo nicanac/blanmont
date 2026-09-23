@@ -62,13 +62,13 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group flex flex-col rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] overflow-hidden transition-all duration-200 ease-out hover:border-[#e03e3e]/40 hover:shadow-lg hover:-translate-y-0.5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#e03e3e] ${
+      className={`group flex flex-col rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 overflow-hidden transition-all duration-200 ease-out hover:border-brand/40 hover:shadow-lg hover:-translate-y-0.5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand ${
         featured ? 'lg:col-span-2' : ''
       }`}
     >
       {/* ──── Cover Image / Graphic Fallback ──── */}
       <div
-        className={`relative w-full overflow-hidden bg-[#161922] ${
+        className={`relative w-full overflow-hidden bg-night-2 ${
           featured ? 'aspect-[16/9] sm:aspect-[2/1]' : 'aspect-[16/10]'
         }`}
       >
@@ -84,7 +84,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
           />
         ) : (
           /* High-craft editorial article fallback */
-          <div className="relative h-full w-full bg-gradient-to-br from-[#161922] via-[#242938] to-[#0a0c10] flex flex-col justify-between p-6 select-none overflow-hidden">
+          <div className="relative h-full w-full bg-gradient-to-br from-night-2 via-night-3 to-night flex flex-col justify-between p-6 select-none overflow-hidden">
             {/* Background watermark */}
             <svg
               className="pointer-events-none absolute -right-8 -bottom-8 h-48 w-48 text-white/5 transform rotate-12"
@@ -97,10 +97,10 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
             </svg>
 
             <div className="relative z-10 flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#a7adbb]">
+              <span className="text-xs font-mono uppercase tracking-widest text-snow-3">
                 CC SAINT-MARTIN
               </span>
-              <NewspaperIcon className="h-6 w-6 md:h-6 md:w-6 text-[#e03e3e]/50" aria-hidden="true" />
+              <NewspaperIcon className="h-6 w-6 md:h-6 md:w-6 text-brand/50" aria-hidden="true" />
             </div>
 
             <div className="relative z-10 space-y-1">
@@ -124,26 +124,26 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
       </div>
 
       {/* ──── Card Content ──── */}
-      <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between space-y-4 bg-white dark:bg-[#161922]">
+      <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between space-y-4 bg-white dark:bg-night-2">
         <div className="space-y-2">
           <h3
-            className={`font-bold text-[#101216] dark:text-white group-hover:text-[#e03e3e] transition-colors duration-150 leading-snug line-clamp-2 ${
+            className={`font-bold text-ink dark:text-white group-hover:text-brand transition-colors duration-150 leading-snug line-clamp-2 ${
               featured ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'
             }`}
           >
             {post.title}
           </h3>
 
-          <p className="text-xs sm:text-sm text-[#5c6370] dark:text-[#a7adbb] line-clamp-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-ink-3 dark:text-snow-3 line-clamp-2 leading-relaxed">
             {post.excerpt}
           </p>
         </div>
 
         {/* Author & Date Footer */}
-        <div className="pt-3 border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb]">
+        <div className="pt-3 border-t border-line dark:border-night-line flex items-center justify-between text-xs text-ink-3 dark:text-snow-3">
           <div className="flex items-center gap-2.5 min-w-0">
             {/* Author Avatar with initials fallback */}
-            <div className="relative h-7 w-7 md:h-7 md:w-7 shrink-0 overflow-hidden rounded-full bg-[#161922] dark:bg-[#262b38] border border-[#e4e0d8] dark:border-white/10 flex items-center justify-center text-xs font-bold text-white">
+            <div className="relative h-7 w-7 md:h-7 md:w-7 shrink-0 overflow-hidden rounded-full bg-night-2 dark:bg-night-line border border-line dark:border-white/10 flex items-center justify-center text-xs font-bold text-white">
               {hasAvatar ? (
                 <Image
                   src={post.authorAvatar!}
@@ -158,13 +158,13 @@ export default function BlogCard({ post, featured = false }: BlogCardProps): Rea
                 <span>{getInitials(post.author)}</span>
               )}
             </div>
-            <span className="font-semibold text-[#101216] dark:text-white truncate max-w-[120px]">
+            <span className="font-semibold text-ink dark:text-white truncate max-w-[120px]">
               {post.author}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 tabular-nums text-[#5c6370] dark:text-[#a7adbb]">
-            <CalendarDaysIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
+          <div className="flex items-center gap-1.5 shrink-0 tabular-nums text-ink-3 dark:text-snow-3">
+            <CalendarDaysIcon className="h-3.5 w-3.5 text-ink-3 dark:text-snow-3" aria-hidden="true" />
             <span>{formatDate(post.publishedAt)}</span>
           </div>
         </div>

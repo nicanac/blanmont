@@ -65,11 +65,11 @@ function getAvatarGradient(name: string): string {
     hash |= 0;
   }
   const gradients = [
-    'from-[#161922] via-[#242938] to-[#0a0c10]',
-    'from-[#2e1216] via-[#3d181d] to-[#101216]',
-    'from-[#112233] via-[#1a324a] to-[#0a0c10]',
-    'from-[#14261c] via-[#1e3b2b] to-[#0a0c10]',
-    'from-[#2a1e12] via-[#3d2c1a] to-[#101216]',
+    'from-night-2 via-night-3 to-night',
+    'from-[#2e1216] via-[#3d181d] to-ink',
+    'from-[#112233] via-[#1a324a] to-night',
+    'from-[#14261c] via-[#1e3b2b] to-night',
+    'from-[#2a1e12] via-[#3d2c1a] to-ink',
   ];
   return gradients[Math.abs(hash) % gradients.length];
 }
@@ -328,28 +328,28 @@ export default function MemberPhotosManager({
       />
 
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
         <div>
           <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#101216] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-              <PhotoIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+              <PhotoIcon className="h-3.5 w-3.5 text-brand" />
               <span>Cadrage &amp; Portraits</span>
             </span>
             <Link
               href="/members"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#5c6370] hover:text-[#e03e3e] transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-ink-3 hover:text-brand transition-colors"
               title="Voir la page publique /members"
             >
               <span>Voir /members</span>
               <ArrowTopRightOnSquareIcon className="h-3 w-3" />
             </Link>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
             Cadrage des Photos Membres
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#5c6370]">
+          <p className="mt-1 text-xs sm:text-sm text-ink-3">
             Ajustez précisément la position verticale et le cadrage des photos de tous les membres. Les modifications se répercutent instantanément sur la page publique.
           </p>
         </div>
@@ -357,7 +357,7 @@ export default function MemberPhotosManager({
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           <Link
             href="/admin/members"
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#5c6370] hover:text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-3 hover:text-ink hover:bg-paper-2 transition-colors shadow-xs"
           >
             <span>Annuaire Membres</span>
           </Link>
@@ -368,8 +368,8 @@ export default function MemberPhotosManager({
             disabled={modifiedIds.size === 0 || isSavingAll}
             className={`inline-flex items-center gap-2 rounded-md px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-all shadow-xs ${
               modifiedIds.size > 0
-                ? 'bg-[#e03e3e] hover:bg-[#c93434] ring-2 ring-[#e03e3e]/30 cursor-pointer'
-                : 'bg-[#101216] opacity-60 cursor-not-allowed'
+                ? 'bg-brand hover:bg-brand-strong ring-2 ring-brand/30 cursor-pointer'
+                : 'bg-ink opacity-60 cursor-not-allowed'
             }`}
           >
             {isSavingAll ? (
@@ -392,10 +392,10 @@ export default function MemberPhotosManager({
       </div>
 
       {/* ── Controls Bar: Filters, Search, View Switcher ── */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-4 rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-4 rounded-lg border border-line bg-white shadow-xs">
         {/* Search input */}
         <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5c6370]" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3" />
           <input
             id="member-photos-search-input"
             type="text"
@@ -403,12 +403,12 @@ export default function MemberPhotosManager({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un membre par nom ou rôle..."
-            className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] pl-10 pr-4 py-2 text-xs sm:text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+            className="w-full rounded-md border border-line bg-paper pl-10 pr-4 py-2 text-xs sm:text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:bg-white focus:outline-none transition-colors"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#5c6370] hover:text-[#101216]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-ink-3 hover:text-ink"
             >
               Effacer
             </button>
@@ -422,12 +422,12 @@ export default function MemberPhotosManager({
             onClick={() => setRoleFilter('with-photo')}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               roleFilter === 'with-photo'
-                ? 'bg-[#101216] text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                ? 'bg-ink text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
             <span>Avec photo</span>
-            <span className={`text-xs tabular-nums ${roleFilter === 'with-photo' ? 'text-[#a7adbb]' : 'text-[#5c6370]'}`}>
+            <span className={`text-xs tabular-nums ${roleFilter === 'with-photo' ? 'text-snow-3' : 'text-ink-3'}`}>
               ({withPhotoCount})
             </span>
           </button>
@@ -437,8 +437,8 @@ export default function MemberPhotosManager({
             onClick={() => setRoleFilter('bureau')}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               roleFilter === 'bureau'
-                ? 'bg-[#e03e3e] text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                ? 'bg-brand text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
             <ShieldCheckIcon className="h-3.5 w-3.5" />
@@ -451,10 +451,10 @@ export default function MemberPhotosManager({
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               roleFilter === 'capitaines'
                 ? 'bg-emerald-700 text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
-            <BicycleIcon className={`h-3.5 w-3.5 ${roleFilter === 'capitaines' ? 'text-white' : 'text-[#e03e3e]'}`} />
+            <BicycleIcon className={`h-3.5 w-3.5 ${roleFilter === 'capitaines' ? 'text-white' : 'text-brand'}`} />
             <span>Capitaines</span>
           </button>
 
@@ -463,8 +463,8 @@ export default function MemberPhotosManager({
             onClick={() => setRoleFilter('all')}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               roleFilter === 'all'
-                ? 'bg-[#101216] text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                ? 'bg-ink text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
             <span>Tous ({memberList.length})</span>
@@ -475,22 +475,22 @@ export default function MemberPhotosManager({
             onClick={() => setRoleFilter('without-photo')}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               roleFilter === 'without-photo'
-                ? 'bg-[#101216] text-white'
-                : 'bg-[#f2efe9] text-[#5c6370] hover:bg-[#e4e0d8] hover:text-[#101216]'
+                ? 'bg-ink text-white'
+                : 'bg-paper-2 text-ink-3 hover:bg-line hover:text-ink'
             }`}
           >
             <span>Sans photo ({memberList.length - withPhotoCount})</span>
           </button>
 
           {/* View mode toggle */}
-          <div className="ml-2 pl-2 border-l border-[#e4e0d8] flex items-center gap-1">
+          <div className="ml-2 pl-2 border-l border-line flex items-center gap-1">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
               className={`p-1.5 rounded border transition-colors ${
                 viewMode === 'grid'
-                  ? 'bg-[#101216] text-white border-[#101216]'
-                  : 'bg-white text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                  ? 'bg-ink text-white border-ink'
+                  : 'bg-white text-ink-3 border-line hover:bg-paper-2'
               }`}
               title="Vue Cartes Réelles (Ratio 4:5)"
             >
@@ -501,8 +501,8 @@ export default function MemberPhotosManager({
               onClick={() => setViewMode('table')}
               className={`p-1.5 rounded border transition-colors ${
                 viewMode === 'table'
-                  ? 'bg-[#101216] text-white border-[#101216]'
-                  : 'bg-white text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                  ? 'bg-ink text-white border-ink'
+                  : 'bg-white text-ink-3 border-line hover:bg-paper-2'
               }`}
               title="Vue Liste Compacte"
             >
@@ -529,12 +529,12 @@ export default function MemberPhotosManager({
                 key={member.id}
                 className={`flex flex-col rounded-lg border bg-white overflow-hidden shadow-xs transition-all duration-200 ${
                   isModified
-                    ? 'border-[#e03e3e] ring-2 ring-[#e03e3e]/20'
-                    : 'border-[#e4e0d8] hover:border-[#101216]/40'
+                    ? 'border-brand ring-2 ring-brand/20'
+                    : 'border-line hover:border-ink/40'
                 }`}
               >
                 {/* ──── Portrait Preview Container (Identical 4:5 ratio as /members) ──── */}
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#161922] group">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-night-2 group">
                   {hasPhoto ? (
                     <>
                       <Image
@@ -553,7 +553,7 @@ export default function MemberPhotosManager({
                           {currentY}% Y
                         </span>
                         {isModified && (
-                          <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-pulse" title="Modifié" />
+                          <span className="h-2 w-2 rounded-full bg-brand animate-pulse" title="Modifié" />
                         )}
                       </div>
                     </>
@@ -565,7 +565,7 @@ export default function MemberPhotosManager({
                           {initials}
                         </span>
                       </div>
-                      <span className="mt-2 text-xs font-semibold uppercase tracking-wider text-[#a7adbb]">
+                      <span className="mt-2 text-xs font-semibold uppercase tracking-wider text-snow-3">
                         Pas de photo
                       </span>
                     </div>
@@ -577,7 +577,7 @@ export default function MemberPhotosManager({
                       {roles.slice(0, 1).map((r, i) => (
                         <span
                           key={i}
-                          className="rounded-full bg-[#101216]/85 backdrop-blur-md px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/15 truncate"
+                          className="rounded-full bg-ink/85 backdrop-blur-md px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white border border-white/15 truncate"
                         >
                           {r}
                         </span>
@@ -591,7 +591,7 @@ export default function MemberPhotosManager({
                       <button
                         type="button"
                         onClick={() => handleOpenRecrop(member.id)}
-                        className="inline-flex items-center gap-1.5 rounded-md bg-[#101216] border border-white/20 text-white px-3 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#e03e3e] transition-colors shadow-lg"
+                        className="inline-flex items-center gap-1.5 rounded-md bg-ink border border-white/20 text-white px-3 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-brand transition-colors shadow-lg"
                       >
                         <AdjustmentsHorizontalIcon className="h-4 w-4" />
                         <span>Recadrer 4:5</span>
@@ -601,14 +601,14 @@ export default function MemberPhotosManager({
                 </div>
 
                 {/* ──── Controls Panel ──── */}
-                <div className="p-4 flex flex-col flex-grow justify-between space-y-3.5 bg-white border-t border-[#e4e0d8]">
+                <div className="p-4 flex flex-col flex-grow justify-between space-y-3.5 bg-white border-t border-line">
                   {/* Name and email */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <h3 className="text-sm font-bold text-[#101216] truncate">
+                      <h3 className="text-sm font-bold text-ink truncate">
                         {member.name}
                       </h3>
-                      <p className="text-xs text-[#5c6370] truncate">
+                      <p className="text-xs text-ink-3 truncate">
                         {member.email || 'Membre actif'}
                       </p>
                     </div>
@@ -625,11 +625,11 @@ export default function MemberPhotosManager({
                       {/* Vertical Alignment Presets */}
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between text-xs">
-                          <span className="font-semibold text-[#5c6370] flex items-center gap-1">
-                            <ArrowsUpDownIcon className="h-3 w-3 text-[#e03e3e]" />
+                          <span className="font-semibold text-ink-3 flex items-center gap-1">
+                            <ArrowsUpDownIcon className="h-3 w-3 text-brand" />
                             <span>Alignement vertical</span>
                           </span>
-                          <span className="font-mono font-bold text-[#101216]">{currentY}%</span>
+                          <span className="font-mono font-bold text-ink">{currentY}%</span>
                         </div>
 
                         {/* Presets Row */}
@@ -643,8 +643,8 @@ export default function MemberPhotosManager({
                                 onClick={() => handleSetPosition(member.id, preset.position)}
                                 className={`rounded px-2 py-1 text-xs font-bold uppercase tracking-wider border transition-colors text-center truncate ${
                                   isSelected
-                                    ? 'bg-[#101216] text-white border-[#101216]'
-                                    : 'bg-[#faf8f5] text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9] hover:text-[#101216]'
+                                    ? 'bg-ink text-white border-ink'
+                                    : 'bg-paper text-ink-3 border-line hover:bg-paper-2 hover:text-ink'
                                 }`}
                                 title={preset.label}
                               >
@@ -666,18 +666,18 @@ export default function MemberPhotosManager({
                           onChange={(e) =>
                             handleSetPosition(member.id, formatVerticalPosition(Number(e.target.value)))
                           }
-                          className="w-full accent-[#e03e3e] cursor-pointer mt-1"
+                          className="w-full accent-brand cursor-pointer mt-1"
                         />
                       </div>
 
                       {/* Card Action Buttons */}
-                      <div className="pt-2 border-t border-[#e4e0d8] flex items-center justify-between gap-2">
+                      <div className="pt-2 border-t border-line flex items-center justify-between gap-2">
                         <button
                           type="button"
                           onClick={() => handleOpenRecrop(member.id)}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#5c6370] hover:text-[#101216] transition-colors"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-ink-3 hover:text-ink transition-colors"
                         >
-                          <AdjustmentsHorizontalIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                          <AdjustmentsHorizontalIcon className="h-3.5 w-3.5 text-brand" />
                           <span>Recadrer</span>
                         </button>
 
@@ -685,7 +685,7 @@ export default function MemberPhotosManager({
                           type="button"
                           onClick={() => triggerUploadForMember(member.id)}
                           disabled={isUploading}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#5c6370] hover:text-[#101216] transition-colors"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-ink-3 hover:text-ink transition-colors"
                         >
                           <ArrowUpTrayIcon className="h-3.5 w-3.5" />
                           <span>Changer</span>
@@ -697,8 +697,8 @@ export default function MemberPhotosManager({
                           disabled={!isModified || isSaving}
                           className={`inline-flex items-center gap-1 rounded px-2.5 py-1 text-xs font-bold uppercase tracking-wider transition-colors ${
                             isModified
-                              ? 'bg-[#e03e3e] hover:bg-[#c93434] text-white shadow-xs'
-                              : 'bg-[#f2efe9] text-[#a7adbb] cursor-not-allowed'
+                              ? 'bg-brand hover:bg-brand-strong text-white shadow-xs'
+                              : 'bg-paper-2 text-snow-3 cursor-not-allowed'
                           }`}
                         >
                           {isSaving ? (
@@ -712,17 +712,17 @@ export default function MemberPhotosManager({
                     </>
                   ) : (
                     /* If no photo: upload trigger */
-                    <div className="pt-2 border-t border-[#e4e0d8] space-y-2">
-                      <p className="text-xs text-[#5c6370]">
+                    <div className="pt-2 border-t border-line space-y-2">
+                      <p className="text-xs text-ink-3">
                         Ce membre n&apos;a pas encore de photo de profil.
                       </p>
                       <button
                         type="button"
                         onClick={() => triggerUploadForMember(member.id)}
                         disabled={isUploading}
-                        className="w-full inline-flex items-center justify-center gap-1.5 rounded-md bg-[#101216] hover:bg-[#262b38] text-white px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors"
+                        className="w-full inline-flex items-center justify-center gap-1.5 rounded-md bg-ink hover:bg-night-line text-white px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors"
                       >
-                        <ArrowUpTrayIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                        <ArrowUpTrayIcon className="h-3.5 w-3.5 text-brand" />
                         <span>Téléverser &amp; Cadrer</span>
                       </button>
                     </div>
@@ -734,26 +734,26 @@ export default function MemberPhotosManager({
         </div>
       ) : (
         /* ── Compact Table View ── */
-        <div className="overflow-hidden rounded-lg border border-[#e4e0d8] bg-white shadow-xs">
+        <div className="overflow-hidden rounded-lg border border-line bg-white shadow-xs">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-[#e4e0d8]">
-              <thead className="bg-[#f2efe9]">
+            <table className="min-w-full divide-y divide-line">
+              <thead className="bg-paper-2">
                 <tr>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                     Portrait &amp; Membre
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
                     Positionnement Vertical
                   </th>
-                  <th className="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                  <th className="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-ink-3">
                     Valeur
                   </th>
-                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-[#5c6370]">
+                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-ink-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#efece5] bg-white text-xs">
+              <tbody className="divide-y divide-paper-2 bg-white text-xs">
                 {filteredMembers.map((member) => {
                   const hasPhoto = isValidPhotoUrl(member.photoUrl) && !brokenImages[member.id];
                   const initials = getInitials(member.name);
@@ -763,10 +763,10 @@ export default function MemberPhotosManager({
                   const isSaving = savingIds.has(member.id);
 
                   return (
-                    <tr key={member.id} className="hover:bg-[#faf8f5] transition-colors">
+                    <tr key={member.id} className="hover:bg-paper transition-colors">
                       <td className="whitespace-nowrap px-6 py-3.5">
                         <div className="flex items-center gap-3">
-                          <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded border border-[#262b38] bg-[#101216]">
+                          <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded border border-night-line bg-ink">
                             {hasPhoto ? (
                               <Image
                                 src={member.photoUrl}
@@ -785,8 +785,8 @@ export default function MemberPhotosManager({
                           </div>
 
                           <div>
-                            <p className="font-bold text-[#101216]">{member.name}</p>
-                            <p className="text-xs text-[#5c6370]">{member.email || '-'}</p>
+                            <p className="font-bold text-ink">{member.name}</p>
+                            <p className="text-xs text-ink-3">{member.email || '-'}</p>
                           </div>
                         </div>
                       </td>
@@ -802,8 +802,8 @@ export default function MemberPhotosManager({
                                 onClick={() => handleSetPosition(member.id, preset.position)}
                                 className={`rounded px-2 py-0.5 text-xs font-bold uppercase tracking-wider border transition-colors ${
                                   Math.abs(currentY - preset.percent) <= 12
-                                    ? 'bg-[#101216] text-white border-[#101216]'
-                                    : 'bg-[#faf8f5] text-[#5c6370] border-[#e4e0d8] hover:bg-[#f2efe9]'
+                                    ? 'bg-ink text-white border-ink'
+                                    : 'bg-paper text-ink-3 border-line hover:bg-paper-2'
                                 }`}
                               >
                                 {preset.shortLabel}
@@ -821,15 +821,15 @@ export default function MemberPhotosManager({
                             onChange={(e) =>
                               handleSetPosition(member.id, formatVerticalPosition(Number(e.target.value)))
                             }
-                            className="w-full accent-[#e03e3e] cursor-pointer"
+                            className="w-full accent-brand cursor-pointer"
                           />
                         </div>
                       ) : (
-                        <span className="text-xs text-[#5c6370] italic">Pas de photo</span>
+                        <span className="text-xs text-ink-3 italic">Pas de photo</span>
                       )}
                     </td>
 
-                    <td className="whitespace-nowrap px-6 py-3.5 text-center font-mono font-bold text-xs text-[#101216]">
+                    <td className="whitespace-nowrap px-6 py-3.5 text-center font-mono font-bold text-xs text-ink">
                       {hasPhoto ? `${currentY}%` : '-'}
                     </td>
 
@@ -839,7 +839,7 @@ export default function MemberPhotosManager({
                           <button
                             type="button"
                             onClick={() => handleOpenRecrop(member.id)}
-                            className="rounded-md border border-[#e4e0d8] bg-white px-2.5 py-1 text-xs font-semibold text-[#101216] hover:bg-[#f2efe9] transition-colors"
+                            className="rounded-md border border-line bg-white px-2.5 py-1 text-xs font-semibold text-ink hover:bg-paper-2 transition-colors"
                             title="Recadrer l'image"
                           >
                             Recadrer 4:5
@@ -848,7 +848,7 @@ export default function MemberPhotosManager({
                         <button
                           type="button"
                           onClick={() => triggerUploadForMember(member.id)}
-                          className="rounded-md border border-[#e4e0d8] bg-white px-2.5 py-1 text-xs font-semibold text-[#101216] hover:bg-[#f2efe9] transition-colors"
+                          className="rounded-md border border-line bg-white px-2.5 py-1 text-xs font-semibold text-ink hover:bg-paper-2 transition-colors"
                           title="Changer l'image"
                         >
                           Téléverser
@@ -859,8 +859,8 @@ export default function MemberPhotosManager({
                           disabled={!isModified || isSaving}
                           className={`rounded-md px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white transition-colors ${
                             isModified
-                              ? 'bg-[#e03e3e] hover:bg-[#c93434]'
-                              : 'bg-[#101216] opacity-40 cursor-not-allowed'
+                              ? 'bg-brand hover:bg-brand-strong'
+                              : 'bg-ink opacity-40 cursor-not-allowed'
                           }`}
                         >
                           {isSaving ? '...' : 'Sauver'}
@@ -878,10 +878,10 @@ export default function MemberPhotosManager({
 
       {/* Empty State */}
       {filteredMembers.length === 0 && (
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-12 text-center space-y-3">
-          <PhotoIcon className="mx-auto h-12 w-12 text-[#5c6370]" />
-          <h3 className="text-base font-bold text-[#101216]">Aucun membre trouvé</h3>
-          <p className="text-xs sm:text-sm text-[#5c6370] max-w-sm mx-auto">
+        <div className="rounded-lg border border-line bg-white p-12 text-center space-y-3">
+          <PhotoIcon className="mx-auto h-12 w-12 text-ink-3" />
+          <h3 className="text-base font-bold text-ink">Aucun membre trouvé</h3>
+          <p className="text-xs sm:text-sm text-ink-3 max-w-sm mx-auto">
             Aucun membre ne correspond aux critères de filtre ou de recherche sélectionnés.
           </p>
           <button
@@ -890,7 +890,7 @@ export default function MemberPhotosManager({
               setSearch('');
               setRoleFilter('all');
             }}
-            className="inline-flex items-center gap-2 rounded-md bg-[#e03e3e] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#c93434] transition-colors"
+            className="inline-flex items-center gap-2 rounded-md bg-brand text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-brand-strong transition-colors"
           >
             Réinitialiser les filtres
           </button>
@@ -913,13 +913,13 @@ export default function MemberPhotosManager({
 
       {/* ── Floating Save Bar if changes exist ── */}
       {modifiedIds.size > 0 && (
-        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-4 rounded-lg border border-[#e03e3e] bg-[#101216] p-4 text-white shadow-2xl animate-in slide-in-from-bottom-5">
+        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-4 rounded-lg border border-brand bg-ink p-4 text-white shadow-2xl animate-in slide-in-from-bottom-5">
           <div className="space-y-0.5">
             <p className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-[#e03e3e] animate-ping" />
+              <span className="h-2 w-2 rounded-full bg-brand animate-ping" />
               <span>{modifiedIds.size} modification(s) en attente</span>
             </p>
-            <p className="text-xs text-[#a7adbb]">
+            <p className="text-xs text-snow-3">
               Cliquez pour publier instantanément sur le site.
             </p>
           </div>
@@ -927,7 +927,7 @@ export default function MemberPhotosManager({
             type="button"
             onClick={handleSaveAll}
             disabled={isSavingAll}
-            className="rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors cursor-pointer"
+            className="rounded-md bg-brand hover:bg-brand-strong px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors cursor-pointer"
           >
             {isSavingAll ? 'Enregistrement...' : 'Enregistrer tout'}
           </button>

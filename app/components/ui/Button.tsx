@@ -4,29 +4,26 @@ import { cn } from '@/app/utils/cn';
 import Spinner from './Spinner';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-white dark:ring-offset-[#0a0c10] cursor-pointer',
+  'inline-flex items-center justify-center gap-2 rounded-md font-narrow font-bold uppercase tracking-[0.07em] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-50 disabled:pointer-events-none cursor-pointer active:translate-y-px',
   {
     variants: {
       variant: {
-        default: 'bg-brand-primary text-white hover:bg-brand-primary/90',
-        destructive: 'bg-red-500 text-white hover:bg-red-600',
+        default: 'bg-brand text-white hover:bg-brand-strong shadow-[inset_0_-2px_0_rgb(0_0_0/0.16)]',
+        destructive: 'bg-brand-strong text-white hover:bg-ink',
         outline:
-          'border border-[#e4e0d8] dark:border-[#262b38] hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] text-[#101216] dark:text-[#f5f6f8]',
-        secondary: 'bg-brand-secondary text-white hover:bg-brand-secondary/80',
-        ghost:
-          'hover:bg-[#f2efe9] dark:hover:bg-[#1e222d] text-[#101216] dark:text-[#f5f6f8]',
-        link: 'underline-offset-4 hover:underline text-brand-primary',
-        'admin-primary':
-          'bg-[#e03e3e] hover:bg-[#c93434] text-white shadow-xs font-semibold uppercase tracking-wider',
+          'border border-ink text-ink hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night',
+        secondary: 'bg-ink text-white hover:bg-ink-2 dark:bg-snow dark:text-night dark:hover:bg-snow-2',
+        ghost: 'hover:bg-paper-2 dark:hover:bg-night-3 text-ink dark:text-snow',
+        link: 'normal-case tracking-normal font-semibold underline-offset-4 hover:underline text-brand dark:text-brand-soft',
+        'admin-primary': 'bg-brand hover:bg-brand-strong text-white',
         'admin-secondary':
-          'border border-[#e4e0d8] bg-white hover:bg-[#f2efe9] text-[#101216] font-semibold uppercase tracking-wider shadow-xs',
-        'admin-danger':
-          'border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 font-semibold',
+          'border border-line bg-white hover:bg-paper-2 text-ink dark:border-night-line dark:bg-night-2 dark:text-snow dark:hover:bg-night-3',
+        'admin-danger': 'border border-brand/30 bg-brand-tint text-brand-strong hover:bg-brand hover:text-white',
       },
       size: {
-        default: 'min-h-[44px] sm:min-h-0 h-11 sm:h-10 py-2 px-4 text-sm',
-        sm: 'min-h-[44px] sm:min-h-[36px] h-11 sm:h-9 px-3 rounded-md text-xs',
-        lg: 'min-h-[44px] h-11 px-8 rounded-md text-base',
+        default: 'min-h-[44px] sm:min-h-0 h-11 sm:h-10 py-2 px-4 text-[0.8125rem]',
+        sm: 'min-h-[44px] sm:min-h-[36px] h-11 sm:h-9 px-3 text-xs',
+        lg: 'min-h-[44px] h-12 px-7 text-sm',
         icon: 'h-9 w-9 p-0 min-h-[36px] min-w-[36px]',
       },
     },

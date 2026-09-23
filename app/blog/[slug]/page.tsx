@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeftIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, CalendarDaysIcon, ClockIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getBlogPostBySlug, getBlogPosts } from '../../lib/firebase';
@@ -10,6 +10,7 @@ import { getBlogPostBySlug, getBlogPosts } from '../../lib/firebase';
 import Image from 'next/image';
 import { parseDateInfo } from '@/app/lib/carreVert';
 import { sanitizeBlogHtml, isHtmlContent } from '@/app/lib/sanitizeHtml';
+import TerritoryMap from '@/app/components/carte/TerritoryMap';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -107,77 +108,50 @@ export default async function BlogPostPage({
   );
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10]">
-      {/* ──── Editorial Article Header ──── */}
-      <header className="relative overflow-hidden editorial-hero-surface border-b border-[#e4e0d8] dark:border-[#262b38]">
-        {/* Atmospheric Background Watermark */}
-        <div className="absolute top-32 sm:top-44 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.035] dark:opacity-[0.025] leading-none text-center">
-          <span className="text-[clamp(6rem,22vw,28rem)] font-extrabold uppercase tracking-tighter text-[#101216] dark:text-white whitespace-nowrap">
-            BLANMONT
-          </span>
+    <main className="min-h-screen bg-paper dark:bg-night">
+      <header className="border-b border-line bg-paper dark:border-night-line dark:bg-night">
+        <div className="relative h-20 overflow-hidden border-b border-line [--sheet:1500px] sm:h-24 sm:[--sheet:2300px] dark:border-night-line">
+          <TerritoryMap labels={0} marker="none" layers="relief" sheetClassName="w-(--sheet) left-[calc(50%-var(--sheet)*0.56)] top-[calc(50%-var(--sheet)*0.42)]" />
         </div>
-
-        <div className="relative mx-auto max-w-4xl px-4 pt-8 pb-10 sm:px-6 sm:pt-12 sm:pb-14 lg:px-8 space-y-6 z-10">
-          {/* Back Navigation & Category row */}
+        <div className="mx-auto max-w-4xl space-y-6 px-4 pb-10 pt-8 sm:px-6 sm:pb-14 sm:pt-10 lg:px-8">
           <div className="flex items-center justify-between gap-4">
             <Link
               href="/blog"
-              className="min-h-[44px] inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-[#e03e3e] focus:outline-hidden rounded-md"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-sm font-narrow text-xs font-bold uppercase tracking-[0.1em] text-ink-2 transition-colors hover:text-ink dark:text-snow-2 dark:hover:text-snow"
             >
-              <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
+              <ArrowLeftIcon className="size-4" aria-hidden="true" />
               <span>Retour aux actualités</span>
             </Link>
-
-            <span className="inline-flex items-center rounded-full bg-[#e03e3e]/10 dark:bg-[#e03e3e]/15 border border-[#e03e3e]/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#e03e3e]">
+            <span className="inline-flex items-center rounded-full border border-brand/40 px-3 py-1 font-narrow text-xs font-bold uppercase tracking-[0.1em] text-brand dark:text-brand-soft">
               {post.category || 'Actualité'}
             </span>
           </div>
-
-          {/* Headline */}
-          <h1 className="text-[clamp(2.25rem,5.5vw,3.75rem)] font-extrabold uppercase tracking-tight leading-[1.02] text-balance text-[#101216] dark:text-white">
+      
+          <h1 className="text-balance font-semiwide text-[clamp(2.1rem,5vw,3.6rem)] font-extrabold leading-[1.02] tracking-[-0.01em] text-ink dark:text-snow">
             {post.title}
           </h1>
-
-          {/* Excerpt */}
-          {post.excerpt && (
-            <p className="text-base sm:text-lg text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
-              {post.excerpt}
-            </p>
-          )}
-
-          {/* Author & Meta Strip */}
-          <div className="pt-6 border-t border-[#e4e0d8] dark:border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
+      
+          {post.excerpt && <p className="max-w-[62ch] text-lg leading-relaxed text-ink-2 dark:text-snow-2">{post.excerpt}</p>}
+      
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t-2 border-ink pt-5 text-xs dark:border-snow-2">
             <div className="flex items-center gap-3">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#161922] border border-[#e4e0d8] dark:border-white/15 flex items-center justify-center font-bold text-xs text-white shadow-xs">
-                {post.authorAvatar ? (
-                  <Image
-                    src={post.authorAvatar}
-                    alt=""
-                    fill
-                    unoptimized
-                    sizes="40px"
-                    className="object-cover"
-                  />
-                ) : (
-                  <span>{initials}</span>
-                )}
+              <div className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-ink text-xs font-bold text-white dark:bg-night-3">
+                {post.authorAvatar ? <Image src={post.authorAvatar} alt="" fill unoptimized sizes="40px" className="object-cover" /> : <span>{initials}</span>}
               </div>
               <div>
-                <p className="font-bold text-[#101216] dark:text-white">{post.author}</p>
-                <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Membre du Club de Blanmont</p>
+                <p className="text-sm font-bold text-ink dark:text-snow">{post.author}</p>
+                <p className="text-xs text-ink-3 dark:text-snow-3">Membre du Club de Blanmont</p>
               </div>
             </div>
-
-            <div className="flex flex-wrap items-center gap-3 text-[#5c6370] dark:text-[#a7adbb]">
-              <div className="flex items-center gap-1.5 tabular-nums bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 px-3 py-1.5 rounded-full">
-                <CalendarDaysIcon className="h-4 w-4 text-[#5c6370] dark:text-[#a7adbb]" aria-hidden="true" />
-                <span>Publié le {formatDate(post.publishedAt)}</span>
-              </div>
-
-              <div className="flex items-center gap-1.5 tabular-nums bg-[#f2efe9] dark:bg-white/5 border border-[#e4e0d8] dark:border-white/10 px-3 py-1.5 rounded-full">
-                <span>⏱️</span>
-                <span>{readingTimeMinutes} min de lecture</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-narrow text-xs font-semibold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
+              <span className="inline-flex items-center gap-1.5 tabular-nums">
+                <CalendarDaysIcon className="size-4" aria-hidden="true" />
+                Publié le {formatDate(post.publishedAt)}
+              </span>
+              <span className="inline-flex items-center gap-1.5 tabular-nums">
+                <ClockIcon className="size-4" aria-hidden="true" />
+                {readingTimeMinutes} min de lecture
+              </span>
             </div>
           </div>
         </div>
@@ -187,21 +161,23 @@ export default async function BlogPostPage({
       <article className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
         {/* Cover Photo if present */}
         {hasCoverImage && (
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg shadow-md mb-12 border border-[#e4e0d8] dark:border-[#262b38] bg-[#161922]">
-            <Image
-              src={post.coverImage}
-              alt={post.title}
-              fill
-              unoptimized
-              priority
-              sizes="(max-width: 1024px) 100vw, 896px"
-              className="object-cover"
-            />
-          </div>
+          <figure className="mb-12">
+            <div className="relative aspect-[16/9] w-full overflow-hidden border border-ink bg-paper-2 dark:border-night-line-strong dark:bg-night-3">
+              <Image
+                src={post.coverImage}
+                alt={post.title}
+                fill
+                unoptimized
+                priority
+                sizes="(max-width: 1024px) 100vw, 896px"
+                className="object-cover"
+              />
+            </div>
+          </figure>
         )}
 
-        {/* Editorial Article Content */}
-        <div className="prose max-w-none">
+        {/* Article content set to a comfortable reading measure */}
+        <div className="prose mx-auto max-w-[68ch]">
           {isHtmlContent(post.content) ? (
             <div
               dangerouslySetInnerHTML={{
@@ -216,36 +192,35 @@ export default async function BlogPostPage({
         </div>
 
         {/* Share & Footer Strip */}
-        <footer className="mt-14 pt-8 border-t border-[#e4e0d8] dark:border-[#262b38] space-y-6">
-          {/* Social Share Bar */}
-          <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <footer className="mx-auto mt-14 max-w-[68ch] space-y-6 border-t-2 border-ink pt-8 dark:border-snow-2">
+          <div className="flex flex-col gap-3 border border-line bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5 dark:border-night-line dark:bg-night-2">
             <div>
-              <h3 className="text-sm font-bold text-[#101216] dark:text-white">Partager cette chronique</h3>
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">Partagez le récit avec le groupe et vos amis cyclistes.</p>
+              <h3 className="text-sm font-bold text-ink dark:text-white">Partager cette chronique</h3>
+              <p className="text-xs text-ink-3 dark:text-snow-3">Partagez le récit avec le groupe et vos amis cyclistes.</p>
             </div>
             <a
               href={`https://api.whatsapp.com/send?text=${encodedShareText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
+              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-md bg-vert px-5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-vert-strong"
             >
-              <span>💬 Partager sur WhatsApp</span>
+              <ChatBubbleLeftRightIcon className="size-4" aria-hidden="true" />
+              <span>Partager sur WhatsApp</span>
             </a>
           </div>
 
-          {/* Navigation CTAs */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <Link
               href="/blog"
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-brand px-6 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-brand-strong"
             >
-              <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
+              <ArrowLeftIcon className="size-4" aria-hidden="true" />
               <span>Tous les articles</span>
             </Link>
 
             <Link
               href="/calendrier"
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] hover:bg-[#f2efe9] dark:hover:bg-[#1d2128] text-[#101216] dark:text-white px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md border border-ink px-6 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night"
             >
               <span>Consulter le calendrier des sorties</span>
             </Link>

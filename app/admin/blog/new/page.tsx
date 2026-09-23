@@ -29,7 +29,7 @@ const RichTextEditor: ComponentType<RichTextEditorProps> = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-64 animate-pulse rounded-md border border-[#e4e0d8] bg-[#f2efe9]" />
+      <div className="h-64 animate-pulse rounded-md border border-line bg-paper-2" />
     ),
   }
 );
@@ -112,24 +112,24 @@ export default function NewBlogPostPage(): React.ReactElement {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#e4e0d8]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
         <div className="flex items-center gap-3">
           <Link
             href="/admin/blog"
-            className="rounded-md border border-[#e4e0d8] bg-white p-2 text-[#5c6370] hover:bg-[#f2efe9] hover:text-[#101216] transition-colors"
+            className="rounded-md border border-line bg-white p-2 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors"
             title="Retour à la liste des articles"
           >
             <ArrowLeftIcon className="h-5 w-5" />
           </Link>
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#101216] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white mb-1">
-              <DocumentTextIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white mb-1">
+              <DocumentTextIcon className="h-3.5 w-3.5 text-brand" />
               <span>Rédaction</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216]">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
               Nouvel Article
             </h1>
-            <p className="mt-0.5 text-xs sm:text-sm text-[#5c6370]">
+            <p className="mt-0.5 text-xs sm:text-sm text-ink-3">
               Rédigez et publiez une actualité ou un récit pour les membres du club.
             </p>
           </div>
@@ -139,16 +139,16 @@ export default function NewBlogPostPage(): React.ReactElement {
           <button
             type="button"
             onClick={startEditorTour}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors shadow-xs"
             title="Démarrer la visite guidée interactive du formulaire"
           >
-            <AcademicCapIcon className="h-4 w-4 text-[#e03e3e]" />
+            <AcademicCapIcon className="h-4 w-4 text-brand" />
             <span>Visite Guidée</span>
           </button>
           <button
             type="button"
             onClick={() => setTutorialOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#e4e0d8] bg-white px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors shadow-xs"
             title="Ouvrir le guide complet de rédaction"
           >
             <span>Guide Rédaction</span>
@@ -158,10 +158,10 @@ export default function NewBlogPostPage(): React.ReactElement {
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="rounded-lg border border-[#e4e0d8] bg-white p-6 shadow-xs space-y-6">
+        <div className="rounded-lg border border-line bg-white p-6 shadow-xs space-y-6">
           {/* Title */}
           <div id="post-title-field">
-            <label htmlFor="title" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#101216]">
+            <label htmlFor="title" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-ink">
               Titre de l&apos;Article *
             </label>
             <input
@@ -170,14 +170,14 @@ export default function NewBlogPostPage(): React.ReactElement {
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2.5 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+              className="w-full rounded-md border border-line bg-paper px-4 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:bg-white focus:outline-none transition-colors"
               placeholder="Ex: Sortie d'automne en Brabant wallon & pause café"
             />
           </div>
 
           {/* Category */}
           <div id="post-category-field">
-            <label htmlFor="category" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#101216]">
+            <label htmlFor="category" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-ink">
               Catégorie *
             </label>
             <select
@@ -185,7 +185,7 @@ export default function NewBlogPostPage(): React.ReactElement {
               required
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2.5 text-sm text-[#101216] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+              className="w-full rounded-md border border-line bg-paper px-4 py-2.5 text-sm text-ink focus:border-brand focus:bg-white focus:outline-none transition-colors"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>{cat}</option>
@@ -195,7 +195,7 @@ export default function NewBlogPostPage(): React.ReactElement {
 
           {/* Excerpt */}
           <div id="post-excerpt-field">
-            <label htmlFor="excerpt" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#101216]">
+            <label htmlFor="excerpt" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-ink">
               Extrait (Chapeau d&apos;accroche) *
             </label>
             <textarea
@@ -204,14 +204,14 @@ export default function NewBlogPostPage(): React.ReactElement {
               rows={2}
               value={formData.excerpt}
               onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-              className="w-full rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2.5 text-sm text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors leading-relaxed"
+              className="w-full rounded-md border border-line bg-paper px-4 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:bg-white focus:outline-none transition-colors leading-relaxed"
               placeholder="1 à 2 phrases résumant l'article, affichées sur la page d'accueil et les partages..."
             />
           </div>
 
           {/* Cover Image */}
           <div id="post-cover-field">
-            <label htmlFor="coverImage" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#101216]">
+            <label htmlFor="coverImage" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-ink">
               Image de Couverture
             </label>
             <div className="space-y-3">
@@ -224,7 +224,7 @@ export default function NewBlogPostPage(): React.ReactElement {
                     aria-label="Téléverser une image de couverture"
                     onChange={handleImageSelect}
                     disabled={isImageUploading}
-                    className="block w-full text-xs text-[#5c6370] file:mr-4 file:rounded-md file:border-0 file:bg-[#101216] file:px-4 file:py-2 file:text-xs file:font-semibold file:text-white hover:file:bg-[#262b38] file:transition-colors file:cursor-pointer"
+                    className="block w-full text-xs text-ink-3 file:mr-4 file:rounded-md file:border-0 file:bg-ink file:px-4 file:py-2 file:text-xs file:font-semibold file:text-white hover:file:bg-night-line file:transition-colors file:cursor-pointer"
                   />
                 </div>
                 <input
@@ -233,15 +233,15 @@ export default function NewBlogPostPage(): React.ReactElement {
                   aria-label="URL de l'image de couverture"
                   value={formData.coverImage}
                   onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  className="flex-1 rounded-md border border-[#e4e0d8] bg-[#faf8f5] px-4 py-2 text-xs text-[#101216] placeholder:text-[#5c6370] focus:border-[#e03e3e] focus:bg-white focus:outline-none transition-colors"
+                  className="flex-1 rounded-md border border-line bg-paper px-4 py-2 text-xs text-ink placeholder:text-ink-3 focus:border-brand focus:bg-white focus:outline-none transition-colors"
                   placeholder="Ou collez directement une URL d'image (https://...)"
                 />
               </div>
 
               {isImageUploading && (
-                <div className="h-1.5 w-full rounded-full bg-[#f2efe9] overflow-hidden">
+                <div className="h-1.5 w-full rounded-full bg-paper-2 overflow-hidden">
                   <div 
-                    className="h-full bg-[#e03e3e] transition-all duration-300" 
+                    className="h-full bg-brand transition-all duration-300" 
                     style={{ width: `${uploadProgress}%` }} 
                   />
                 </div>
@@ -249,7 +249,7 @@ export default function NewBlogPostPage(): React.ReactElement {
 
               {formData.coverImage && (
                 <div className="mt-2 relative group w-fit">
-                  <div className="relative h-48 w-72 rounded-md overflow-hidden border border-[#e4e0d8] shadow-xs">
+                  <div className="relative h-48 w-72 rounded-md overflow-hidden border border-line shadow-xs">
                     <Image
                       src={formData.coverImage}
                       alt="Prévisualisation couverture"
@@ -262,7 +262,7 @@ export default function NewBlogPostPage(): React.ReactElement {
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, coverImage: '' })}
-                    className="absolute top-2 right-2 bg-[#e03e3e] text-white p-1.5 rounded-full opacity-90 hover:opacity-100 hover:bg-[#c93434] transition-all shadow-xs"
+                    className="absolute top-2 right-2 bg-brand text-white p-1.5 rounded-full opacity-90 hover:opacity-100 hover:bg-brand-strong transition-all shadow-xs"
                     title="Supprimer l'image"
                   >
                     <TrashIcon className="h-4 w-4" />
@@ -274,7 +274,7 @@ export default function NewBlogPostPage(): React.ReactElement {
 
           {/* Content */}
           <div id="post-content-field">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#101216]">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-ink">
               Contenu de l&apos;Article *
             </label>
             <RichTextEditor
@@ -284,15 +284,15 @@ export default function NewBlogPostPage(): React.ReactElement {
           </div>
 
           {/* Published Toggle */}
-          <div id="post-status-field" className="flex items-center gap-3 pt-2 border-t border-[#f2efe9]">
+          <div id="post-status-field" className="flex items-center gap-3 pt-2 border-t border-paper-2">
             <input
               type="checkbox"
               id="isPublished"
               checked={formData.isPublished}
               onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
-              className="h-4 w-4 rounded border-[#e4e0d8] text-[#e03e3e] focus:ring-[#e03e3e]"
+              className="h-4 w-4 rounded border-line text-brand focus:ring-brand"
             />
-            <label htmlFor="isPublished" className="text-xs font-bold uppercase tracking-wider text-[#101216] cursor-pointer">
+            <label htmlFor="isPublished" className="text-xs font-bold uppercase tracking-wider text-ink cursor-pointer">
               Publier immédiatement (visible sur le site dès enregistrement)
             </label>
           </div>
@@ -302,7 +302,7 @@ export default function NewBlogPostPage(): React.ReactElement {
         <div className="flex items-center justify-end gap-3">
           <Link
             href="/admin/blog"
-            className="rounded-md border border-[#e4e0d8] bg-white px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#101216] hover:bg-[#f2efe9] transition-colors"
+            className="rounded-md border border-line bg-white px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors"
           >
             Annuler
           </Link>
@@ -310,7 +310,7 @@ export default function NewBlogPostPage(): React.ReactElement {
             id="post-submit-button"
             type="submit"
             disabled={isSubmitting}
-            className="rounded-md bg-[#e03e3e] hover:bg-[#c93434] px-7 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs disabled:opacity-50"
+            className="rounded-md bg-brand hover:bg-brand-strong px-7 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs disabled:opacity-50"
           >
             {isSubmitting ? 'Création en cours...' : 'Créer et Enregistrer l\'Article'}
           </button>

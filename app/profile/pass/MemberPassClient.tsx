@@ -275,10 +275,10 @@ END:VCARD`;
 
   if (isAuthLoading || (isLoading && !memberData)) {
     return (
-      <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] flex items-center justify-center p-8">
+      <main className="min-h-screen bg-paper dark:bg-night flex items-center justify-center p-8">
         <div className="flex flex-col items-center gap-4">
           <Spinner size="lg" />
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
             Chargement de votre pass officiel...
           </p>
         </div>
@@ -288,18 +288,18 @@ END:VCARD`;
 
   if (!memberData) {
     return (
-      <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] flex items-center justify-center p-6">
-        <div className="max-w-md w-full rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 text-center space-y-4">
-          <ExclamationTriangleIcon className="h-10 w-10 text-[#e03e3e] mx-auto" />
-          <h1 className="text-lg font-bold text-[#101216] dark:text-[#f5f6f8]">
+      <main className="min-h-screen bg-paper dark:bg-night flex items-center justify-center p-6">
+        <div className="max-w-md w-full rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 text-center space-y-4">
+          <ExclamationTriangleIcon className="h-10 w-10 text-brand mx-auto" />
+          <h1 className="text-lg font-bold text-ink dark:text-snow">
             Pass Membre Introuvable
           </h1>
-          <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+          <p className="text-xs text-ink-3 dark:text-snow-3">
             Veuillez vous reconnecter pour accéder à votre carte officielle du club.
           </p>
           <Link
             href="/login"
-            className="inline-flex items-center justify-center px-4 py-2 bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-semibold uppercase tracking-wider rounded-md min-h-[44px]"
+            className="inline-flex items-center justify-center px-4 py-2 bg-brand hover:bg-brand-strong text-white text-xs font-semibold uppercase tracking-wider rounded-md min-h-[44px]"
           >
             Se connecter
           </Link>
@@ -318,13 +318,13 @@ END:VCARD`;
     : memberData.role || 'Membre actif';
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] dark:bg-[#0a0c10] text-[#101216] dark:text-[#f5f6f8] pb-24">
+    <main className="min-h-screen bg-paper dark:bg-night text-ink dark:text-snow pb-24">
       {/* Top Wayfinding & Actions Bar */}
-      <header className="border-b border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] sticky top-0 z-30">
+      <header className="border-b border-line dark:border-night-line bg-white dark:bg-night-2 sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
           <Link
             href="/profile"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-[#f5f6f8] transition-colors min-h-[44px]"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow transition-colors min-h-[44px]"
           >
             <ArrowLeftIcon className="h-4 w-4" />
             <span>Mon Profil</span>
@@ -340,9 +340,9 @@ END:VCARD`;
             <button
               type="button"
               onClick={() => setIsEditingData(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-colors min-h-[44px]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-line dark:border-night-line text-xs font-semibold text-ink dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors min-h-[44px]"
             >
-              <PencilSquareIcon className="h-4 w-4 text-[#e03e3e]" />
+              <PencilSquareIcon className="h-4 w-4 text-brand" />
               <span className="hidden sm:inline">Modifier Coordonnées</span>
               <span className="sm:hidden">Éditer</span>
             </button>
@@ -351,7 +351,7 @@ END:VCARD`;
               type="button"
               onClick={handleShare}
               aria-label="Partager la carte de membre"
-              className="inline-flex items-center justify-center p-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-[#f5f6f8] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-colors min-h-[44px] min-w-[44px]"
+              className="inline-flex items-center justify-center p-2 rounded-md border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors min-h-[44px] min-w-[44px]"
             >
               <ShareIcon className="h-4 w-4" />
             </button>
@@ -363,11 +363,11 @@ END:VCARD`;
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
         {/* Page Title & Mission */}
         <div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#101216] dark:text-[#f5f6f8]">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-ink dark:text-snow">
             Pass Sécurité &amp; Carte de Membre{' '}
-            <span className="text-[#e03e3e] italic">Digitale</span>
+            Digitale
           </h1>
-          <p className="mt-2 text-sm text-[#5c6370] dark:text-[#a7adbb] max-w-2xl leading-relaxed">
+          <p className="mt-2 text-sm text-ink-3 dark:text-snow-3 max-w-2xl leading-relaxed">
             Votre carte officielle d&apos;adhésion au CC Saint-Martin Blanmont pour la saison 2026,
             incluant le numéro de licence FFBC, l&apos;appel direct du contact d&apos;urgence (ICE)
             et le QR code de pointage express au départ.
@@ -379,25 +379,25 @@ END:VCARD`;
           {/* LEFT: Official Membership Card (Front & Details) */}
           <div className="lg:col-span-7 space-y-6">
             {/* The Official Digital Card Container */}
-            <div className="relative rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 sm:p-7 shadow-xs overflow-hidden">
+            <div className="relative rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-7 shadow-xs overflow-hidden">
               {/* Official Federation & Club Crest Top Band */}
-              <div className="flex items-center justify-between pb-5 border-b border-[#efece5] dark:border-[#262b38]">
+              <div className="flex items-center justify-between pb-5 border-b border-paper-2 dark:border-night-line">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-md bg-[#e03e3e]/10 dark:bg-[#e03e3e]/20 text-[#e03e3e] flex items-center justify-center border border-[#e03e3e]/20 shrink-0">
+                  <div className="h-10 w-10 rounded-md bg-brand/10 dark:bg-brand/20 text-brand flex items-center justify-center border border-brand/20 shrink-0">
                     <ClubCrestIcon className="h-6 w-6" />
                   </div>
                   <div>
-                    <span className="block text-xs font-bold uppercase tracking-[0.12em] text-[#101216] dark:text-[#f5f6f8]">
+                    <span className="block text-xs font-bold uppercase tracking-[0.12em] text-ink dark:text-snow">
                       CC Saint-Martin Blanmont
                     </span>
-                    <span className="block text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                    <span className="block text-xs text-ink-3 dark:text-snow-3">
                       Club Cyclo fondé en 1978 &bull; Affiliation FFBC
                     </span>
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <span className="inline-block font-mono text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] text-[#101216] dark:text-[#f5f6f8]">
+                  <span className="inline-block font-mono text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-paper dark:bg-night border border-line dark:border-night-line text-ink dark:text-snow">
                     Saison 2026
                   </span>
                 </div>
@@ -406,7 +406,7 @@ END:VCARD`;
               {/* Card Body: Member Photo + Identity Info */}
               <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
                 {/* Official Member Photo */}
-                <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-lg bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] overflow-hidden shrink-0">
+                <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-lg bg-night border border-line dark:border-night-line overflow-hidden shrink-0">
                   {hasPhoto ? (
                     <Image
                       src={memberData.photoUrl!}
@@ -418,9 +418,9 @@ END:VCARD`;
                       className="object-cover object-center"
                     />
                   ) : (
-                    <div className="h-full w-full flex flex-col items-center justify-center text-center p-2 bg-[#161922] select-none">
+                    <div className="h-full w-full flex flex-col items-center justify-center text-center p-2 bg-night-2 select-none">
                       <span className="text-2xl font-black text-white">{initials}</span>
-                      <span className="mt-1 text-xs font-bold uppercase tracking-wider text-[#a7adbb]">
+                      <span className="mt-1 text-xs font-bold uppercase tracking-wider text-snow-3">
                         CCSM
                       </span>
                     </div>
@@ -437,25 +437,25 @@ END:VCARD`;
                 {/* Identity Information */}
                 <div className="flex-1 min-w-0 space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center rounded-full bg-[#e03e3e]/10 text-[#e03e3e] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
+                    <span className="inline-flex items-center rounded-full bg-brand/10 text-brand px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
                       {roles}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-[#faf8f5] dark:bg-[#0a0c10] text-[#5c6370] dark:text-[#a7adbb] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
+                    <span className="inline-flex items-center rounded-full bg-paper dark:bg-night text-ink-3 dark:text-snow-3 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
                       Chastre / Blanmont
                     </span>
                   </div>
 
-                  <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#101216] dark:text-[#f5f6f8] truncate">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-snow truncate">
                     {memberData.name}
                   </h2>
 
-                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] truncate">
+                  <p className="text-xs text-ink-3 dark:text-snow-3 truncate">
                     {memberData.email || 'Email non renseigné'}
                   </p>
 
-                  <div className="pt-1 flex items-center gap-2 text-xs font-mono font-medium text-[#3a3f4a] dark:text-[#d1d5db]">
+                  <div className="pt-1 flex items-center gap-2 text-xs font-mono font-medium text-ink-2 dark:text-snow-2">
                     <span>ID Membre :</span>
-                    <span className="text-[#101216] dark:text-[#f5f6f8] tabular-nums font-semibold">
+                    <span className="text-ink dark:text-snow tabular-nums font-semibold">
                       {memberData.id.slice(0, 8)}...
                     </span>
                   </div>
@@ -463,10 +463,10 @@ END:VCARD`;
               </div>
 
               {/* Status Row: Cotisation 2026 & FFBC License */}
-              <div className="mt-6 pt-5 border-t border-[#efece5] dark:border-[#262b38] grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="mt-6 pt-5 border-t border-paper-2 dark:border-night-line grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 {/* Cotisation 2026 */}
-                <div className="p-3.5 rounded-md bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] space-y-1.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                <div className="p-3.5 rounded-md bg-paper dark:bg-night border border-line dark:border-night-line space-y-1.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Cotisation 2026
                   </span>
                   <div>
@@ -476,8 +476,8 @@ END:VCARD`;
                         <span>En règle pour la saison</span>
                       </div>
                     ) : cotisationStatus === 'exempt' ? (
-                      <div className="flex items-center gap-1.5 text-[#3a3f4a] dark:text-[#d1d5db] font-bold">
-                        <CheckCircleIcon className="h-4 w-4 shrink-0 text-[#5c6370]" />
+                      <div className="flex items-center gap-1.5 text-ink-2 dark:text-snow-2 font-bold">
+                        <CheckCircleIcon className="h-4 w-4 shrink-0 text-ink-3" />
                         <span>Statut : Exempté</span>
                       </div>
                     ) : (
@@ -488,43 +488,43 @@ END:VCARD`;
                     )}
                   </div>
                   {memberData.cotisation2026PaidAt && (
-                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] tabular-nums">
+                    <p className="text-xs text-ink-3 dark:text-snow-3 tabular-nums">
                       Enregistrée le {memberData.cotisation2026PaidAt}
                     </p>
                   )}
                 </div>
 
                 {/* FFBC License */}
-                <div className="p-3.5 rounded-md bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] space-y-1.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                <div className="p-3.5 rounded-md bg-paper dark:bg-night border border-line dark:border-night-line space-y-1.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Licence Fédérale FFBC
                   </span>
                   <div>
                     {hasLicense ? (
-                      <span className="font-mono font-bold text-sm text-[#101216] dark:text-[#f5f6f8] tracking-wider select-all">
+                      <span className="font-mono font-bold text-sm text-ink dark:text-snow tracking-wider select-all">
                         {memberData.ffbcLicenseNumber}
                       </span>
                     ) : (
                       <button
                         type="button"
                         onClick={() => setIsEditingData(true)}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#e03e3e] hover:underline"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
                       >
                         <PencilSquareIcon className="h-3.5 w-3.5" />
                         <span>Renseigner mon n° de licence</span>
                       </button>
                     )}
                   </div>
-                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                  <p className="text-xs text-ink-3 dark:text-snow-3">
                     Fédération Francophone Belge du Cyclisme
                   </p>
                 </div>
               </div>
 
               {/* Official Card Footer Security Stamp */}
-              <div className="mt-5 pt-4 border-t border-[#efece5] dark:border-[#262b38] flex flex-wrap items-center justify-between text-xs text-[#5c6370] dark:text-[#a7adbb] gap-2">
+              <div className="mt-5 pt-4 border-t border-paper-2 dark:border-night-line flex flex-wrap items-center justify-between text-xs text-ink-3 dark:text-snow-3 gap-2">
                 <span className="inline-flex items-center gap-1 font-medium">
-                  <IdentificationIcon className="h-4 w-4 text-[#e03e3e]" />
+                  <IdentificationIcon className="h-4 w-4 text-brand" />
                   Carte Numérique d&apos;Adhérent
                 </span>
                 <span className="font-mono tabular-nums">Valide au 31/12/2026</span>
@@ -532,16 +532,16 @@ END:VCARD`;
             </div>
 
             {/* In Case of Emergency (ICE) Safety Card */}
-            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-5">
+            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs space-y-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <ShieldCheckIcon className="h-5 w-5 text-[#e03e3e]" />
-                    <h3 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">
+                    <ShieldCheckIcon className="h-5 w-5 text-brand" />
+                    <h3 className="text-base font-bold text-ink dark:text-snow">
                       Sécurité Peloton &amp; Contact d&apos;Urgence (ICE)
                     </h3>
                   </div>
-                  <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+                  <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                     Accessible aux capitaines de route, secouristes et membres du peloton en cas
                     d&apos;incident ou chute.
                   </p>
@@ -550,9 +550,9 @@ END:VCARD`;
                 <button
                   type="button"
                   onClick={() => setIsEditingData(true)}
-                  className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-colors min-h-[44px]"
+                  className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-line dark:border-night-line text-xs font-semibold text-ink dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors min-h-[44px]"
                 >
-                  <PencilSquareIcon className="h-3.5 w-3.5 text-[#e03e3e]" />
+                  <PencilSquareIcon className="h-3.5 w-3.5 text-brand" />
                   <span>Modifier</span>
                 </button>
               </div>
@@ -560,26 +560,26 @@ END:VCARD`;
               {hasIce ? (
                 <div className="space-y-4">
                   {/* ICE Contact Details */}
-                  <div className="rounded-md bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                  <div className="rounded-md bg-paper dark:bg-night border border-line dark:border-night-line p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                     <div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                      <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                         Personne à contacter (ICE)
                       </span>
-                      <p className="text-sm font-bold text-[#101216] dark:text-[#f5f6f8] mt-0.5">
+                      <p className="text-sm font-bold text-ink dark:text-snow mt-0.5">
                         {memberData.iceContactName}
                       </p>
                       {memberData.iceRelationship && (
-                        <p className="text-[#5c6370] dark:text-[#a7adbb] mt-0.5">
+                        <p className="text-ink-3 dark:text-snow-3 mt-0.5">
                           Lien : {memberData.iceRelationship}
                         </p>
                       )}
                     </div>
 
                     <div className="text-left sm:text-right">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                      <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                         Numéro de téléphone
                       </span>
-                      <p className="text-sm font-mono font-bold text-[#101216] dark:text-[#f5f6f8] mt-0.5 tabular-nums select-all">
+                      <p className="text-sm font-mono font-bold text-ink dark:text-snow mt-0.5 tabular-nums select-all">
                         {memberData.iceContactPhone}
                       </p>
                     </div>
@@ -588,7 +588,7 @@ END:VCARD`;
                   {/* 1-TAP DIRECT CALL BUTTON */}
                   <a
                     href={`tel:${memberData.iceContactPhone}`}
-                    className="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-md bg-[#e03e3e] hover:bg-[#c93434] active:scale-[0.99] text-white text-sm font-bold uppercase tracking-wider shadow-sm transition-all min-h-[48px]"
+                    className="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-md bg-brand hover:bg-brand-strong active:scale-[0.99] text-white text-sm font-bold uppercase tracking-wider shadow-sm transition-all min-h-[48px]"
                   >
                     <PhoneIcon className="h-5 w-5 animate-pulse" />
                     <span>Appel Direct ICE : {memberData.iceContactPhone}</span>
@@ -598,13 +598,13 @@ END:VCARD`;
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
                     <a
                       href="tel:112"
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-colors min-h-[44px]"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md border border-line dark:border-night-line text-xs font-semibold text-ink dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors min-h-[44px]"
                     >
-                      <ShieldCheckIcon className="h-4 w-4 text-[#e03e3e]" />
+                      <ShieldCheckIcon className="h-4 w-4 text-brand" />
                       <span>Appeler le 112 (Secours Européens)</span>
                     </a>
 
-                    <span className="text-xs text-[#5c6370] dark:text-[#a7adbb] text-center sm:text-right">
+                    <span className="text-xs text-ink-3 dark:text-snow-3 text-center sm:text-right">
                       Protocole : Protéger &bull; Alerter &bull; Secourir
                     </span>
                   </div>
@@ -622,7 +622,7 @@ END:VCARD`;
                   <button
                     type="button"
                     onClick={() => setIsEditingData(true)}
-                    className="mt-2 inline-flex items-center justify-center px-4 py-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-semibold uppercase tracking-wider transition-colors min-h-[44px]"
+                    className="mt-2 inline-flex items-center justify-center px-4 py-2 rounded-md bg-brand hover:bg-brand-strong text-white text-xs font-semibold uppercase tracking-wider transition-colors min-h-[44px]"
                   >
                     Renseigner mon contact d&apos;urgence maintenant
                   </button>
@@ -633,36 +633,36 @@ END:VCARD`;
 
           {/* RIGHT: Pointage Express QR Code & Rapid Check-in */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-6 shadow-xs space-y-5">
+            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs space-y-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center justify-center h-7 w-7 rounded-md bg-[#e03e3e]/10 text-[#e03e3e]">
+                  <span className="inline-flex items-center justify-center h-7 w-7 rounded-md bg-brand/10 text-brand">
                     <BoltIcon className="h-4 w-4" />
                   </span>
-                  <h3 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">
+                  <h3 className="text-base font-bold text-ink dark:text-snow">
                     Pointage Express Départ
                   </h3>
                 </div>
 
-                <span className="text-xs font-mono font-semibold text-[#5c6370] dark:text-[#a7adbb] uppercase">
+                <span className="text-xs font-mono font-semibold text-ink-3 dark:text-snow-3 uppercase">
                   Scan Rapide
                 </span>
               </div>
 
-              <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                 Présentez ce QR code aux capitaines de route ou organisateurs à Blanmont le samedi /
                 dimanche matin pour enregistrer instantanément votre présence au peloton.
               </p>
 
               {/* QR Mode Selector Tabs */}
-              <div className="grid grid-cols-2 gap-1 rounded-md bg-[#faf8f5] dark:bg-[#0a0c10] p-1 border border-[#e4e0d8] dark:border-[#262b38]">
+              <div className="grid grid-cols-2 gap-1 rounded-md bg-paper dark:bg-night p-1 border border-line dark:border-night-line">
                 <button
                   type="button"
                   onClick={() => setQrMode('pointage')}
                   className={`px-3 py-2 text-xs font-semibold uppercase tracking-wider rounded transition-colors min-h-[40px] ${
                     qrMode === 'pointage'
-                      ? 'bg-white dark:bg-[#161922] text-[#e03e3e] shadow-2xs font-bold'
-                      : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-[#f5f6f8]'
+                      ? 'bg-white dark:bg-night-2 text-brand shadow-2xs font-bold'
+                      : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow'
                   }`}
                 >
                   Pointage Départ
@@ -672,8 +672,8 @@ END:VCARD`;
                   onClick={() => setQrMode('ice')}
                   className={`px-3 py-2 text-xs font-semibold uppercase tracking-wider rounded transition-colors min-h-[40px] ${
                     qrMode === 'ice'
-                      ? 'bg-white dark:bg-[#161922] text-[#e03e3e] shadow-2xs font-bold'
-                      : 'text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-[#f5f6f8]'
+                      ? 'bg-white dark:bg-night-2 text-brand shadow-2xs font-bold'
+                      : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow'
                   }`}
                 >
                   Fiche Secours ICE
@@ -681,7 +681,7 @@ END:VCARD`;
               </div>
 
               {/* The QR Code Container */}
-              <div className="relative flex flex-col items-center justify-center p-6 rounded-lg bg-[#ffffff] border border-[#e4e0d8] text-center">
+              <div className="relative flex flex-col items-center justify-center p-6 rounded-lg bg-white border border-line text-center">
                 {qrSvg ? (
                   <div
                     className="w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer select-none transition-transform hover:scale-[1.02]"
@@ -690,18 +690,18 @@ END:VCARD`;
                     dangerouslySetInnerHTML={{ __html: qrSvg }}
                   />
                 ) : (
-                  <div className="w-52 h-52 flex items-center justify-center text-xs text-[#5c6370]">
+                  <div className="w-52 h-52 flex items-center justify-center text-xs text-ink-3">
                     Génération du QR Code...
                   </div>
                 )}
 
                 <div className="mt-3 text-center">
-                  <span className="text-xs font-mono font-bold text-[#101216] tracking-wider uppercase">
+                  <span className="text-xs font-mono font-bold text-ink tracking-wider uppercase">
                     {qrMode === 'pointage'
                       ? 'Embarquement Sortie Club'
                       : 'Carte Secours vCard Numérique'}
                   </span>
-                  <p className="text-xs text-[#5c6370] mt-0.5">
+                  <p className="text-xs text-ink-3 mt-0.5">
                     {qrMode === 'pointage'
                       ? 'Scannable avec tout smartphone ou lecteur club'
                       : 'Compose automatiquement le contact ICE'}
@@ -714,24 +714,24 @@ END:VCARD`;
                 <button
                   type="button"
                   onClick={() => setIsFullscreenQr(true)}
-                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-colors min-h-[44px]"
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-line dark:border-night-line text-xs font-semibold text-ink dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors min-h-[44px]"
                 >
-                  <ArrowsPointingOutIcon className="h-4 w-4 text-[#e03e3e]" />
+                  <ArrowsPointingOutIcon className="h-4 w-4 text-brand" />
                   <span>Plein Écran</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleDownloadQr}
-                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] text-xs font-semibold text-[#101216] dark:text-[#f5f6f8] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] transition-colors min-h-[44px]"
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-line dark:border-night-line text-xs font-semibold text-ink dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors min-h-[44px]"
                 >
-                  <ArrowDownTrayIcon className="h-4 w-4 text-[#e03e3e]" />
+                  <ArrowDownTrayIcon className="h-4 w-4 text-brand" />
                   <span>Télécharger</span>
                 </button>
               </div>
 
               {/* Offline usage hint */}
-              <div className="rounded-md bg-[#faf8f5] dark:bg-[#0a0c10] border border-[#e4e0d8] dark:border-[#262b38] p-3 text-xs text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+              <div className="rounded-md bg-paper dark:bg-night border border-line dark:border-night-line p-3 text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                 <strong>Conseil Cyclo :</strong> Ajoutez cette page à l&apos;écran d&apos;accueil de
                 votre téléphone (PWA). Le pass et le QR code restent disponibles même sans réseau
                 4G/5G en pleine campagne brabançonne.
@@ -757,36 +757,36 @@ END:VCARD`;
               type="button"
               onClick={() => setIsFullscreenQr(false)}
               aria-label="Fermer le plein écran"
-              className="absolute top-3 right-3 p-2 rounded-md text-[#5c6370] hover:text-[#101216] hover:bg-[#faf8f5] transition-colors min-h-[44px] min-w-[44px] inline-flex items-center justify-center"
+              className="absolute top-3 right-3 p-2 rounded-md text-ink-3 hover:text-ink hover:bg-paper transition-colors min-h-[44px] min-w-[44px] inline-flex items-center justify-center"
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
 
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.1em] text-[#e03e3e]">
+              <span className="text-xs font-bold uppercase tracking-[0.1em] text-brand">
                 CC Saint-Martin Blanmont
               </span>
-              <h2 className="text-lg font-bold text-[#101216] mt-0.5">
+              <h2 className="text-lg font-bold text-ink mt-0.5">
                 {qrMode === 'pointage' ? 'Pointage Express Départ' : 'Fiche Urgence ICE'}
               </h2>
-              <p className="text-xs text-[#5c6370] mt-1">{memberData.name}</p>
+              <p className="text-xs text-ink-3 mt-1">{memberData.name}</p>
             </div>
 
-            <div className="p-4 bg-white rounded-md border border-[#e4e0d8] flex items-center justify-center">
+            <div className="p-4 bg-white rounded-md border border-line flex items-center justify-center">
               <div
                 className="w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center"
                 dangerouslySetInnerHTML={{ __html: qrSvg }}
               />
             </div>
 
-            <p className="text-xs text-[#5c6370]">
+            <p className="text-xs text-ink-3">
               Luminosité maximale recommandée pour le scan en extérieur.
             </p>
 
             <button
               type="button"
               onClick={() => setIsFullscreenQr(false)}
-              className="w-full py-2.5 bg-[#101216] text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-[#262b38] transition-colors min-h-[44px]"
+              className="w-full py-2.5 bg-ink text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-night-line transition-colors min-h-[44px]"
             >
               Fermer
             </button>
@@ -801,16 +801,16 @@ END:VCARD`;
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4 animate-in fade-in duration-200"
         >
-          <div className="bg-white dark:bg-[#161922] rounded-lg border border-[#e4e0d8] dark:border-[#262b38] max-w-lg w-full p-6 space-y-5 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <div className="flex items-center justify-between border-b border-[#efece5] dark:border-[#262b38] pb-3">
-              <h2 className="text-base font-bold text-[#101216] dark:text-[#f5f6f8]">
+          <div className="bg-white dark:bg-night-2 rounded-lg border border-line dark:border-night-line max-w-lg w-full p-6 space-y-5 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div className="flex items-center justify-between border-b border-paper-2 dark:border-night-line pb-3">
+              <h2 className="text-base font-bold text-ink dark:text-snow">
                 Mettre à jour ma Carte &amp; Coordonnées
               </h2>
               <button
                 type="button"
                 onClick={() => setIsEditingData(false)}
                 aria-label="Fermer la fenêtre d'édition"
-                className="p-1.5 rounded-md text-[#5c6370] hover:text-[#101216] dark:hover:text-white transition-colors min-h-[44px] min-w-[44px] inline-flex items-center justify-center"
+                className="p-1.5 rounded-md text-ink-3 hover:text-ink dark:hover:text-white transition-colors min-h-[44px] min-w-[44px] inline-flex items-center justify-center"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -820,7 +820,7 @@ END:VCARD`;
               {/* Phone and FFBC License */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-bold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
+                  <label className="block font-bold text-ink-2 dark:text-snow-2 mb-1">
                     Mon GSM Personnel
                   </label>
                   <input
@@ -828,12 +828,12 @@ END:VCARD`;
                     value={editForm.phone}
                     onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
                     placeholder="+32 470 12 34 56"
-                    className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-[#101216] dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden min-h-[44px]"
+                    className="w-full rounded-md border border-line dark:border-night-line dark:bg-night px-3 py-2 text-ink dark:text-snow focus:border-brand focus:outline-hidden min-h-[44px]"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
+                  <label className="block font-bold text-ink-2 dark:text-snow-2 mb-1">
                     N° de Licence FFBC
                   </label>
                   <input
@@ -843,14 +843,14 @@ END:VCARD`;
                       setEditForm({ ...editForm, ffbcLicenseNumber: e.target.value })
                     }
                     placeholder="ex: 2026-B-12345"
-                    className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-[#101216] dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden min-h-[44px]"
+                    className="w-full rounded-md border border-line dark:border-night-line dark:bg-night px-3 py-2 text-ink dark:text-snow focus:border-brand focus:outline-hidden min-h-[44px]"
                   />
                 </div>
               </div>
 
               {/* Speed Group */}
               <div>
-                <label className="block font-bold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
+                <label className="block font-bold text-ink-2 dark:text-snow-2 mb-1">
                   Allure de peloton préférée
                 </label>
                 <select
@@ -861,7 +861,7 @@ END:VCARD`;
                       preferredGroup: e.target.value as 'A' | 'B' | 'C' | 'VTT',
                     })
                   }
-                  className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#0a0c10] px-3 py-2 text-[#101216] dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden min-h-[44px]"
+                  className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-3 py-2 text-ink dark:text-snow focus:border-brand focus:outline-hidden min-h-[44px]"
                 >
                   <option value="A">Groupe A (30-32 km/h)</option>
                   <option value="B">Groupe B (27-29 km/h)</option>
@@ -871,14 +871,14 @@ END:VCARD`;
               </div>
 
               {/* ICE Contact Info */}
-              <div className="pt-2 border-t border-[#efece5] dark:border-[#262b38] space-y-3">
-                <span className="block font-bold uppercase tracking-wider text-[#e03e3e]">
+              <div className="pt-2 border-t border-paper-2 dark:border-night-line space-y-3">
+                <span className="block font-bold uppercase tracking-wider text-brand">
                   Contact d&apos;Urgence (ICE)
                 </span>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-bold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
+                    <label className="block font-bold text-ink-2 dark:text-snow-2 mb-1">
                       Nom du contact ICE *
                     </label>
                     <input
@@ -889,12 +889,12 @@ END:VCARD`;
                         setEditForm({ ...editForm, iceContactName: e.target.value })
                       }
                       placeholder="ex: Marie Dupont"
-                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-[#101216] dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden min-h-[44px]"
+                      className="w-full rounded-md border border-line dark:border-night-line dark:bg-night px-3 py-2 text-ink dark:text-snow focus:border-brand focus:outline-hidden min-h-[44px]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
+                    <label className="block font-bold text-ink-2 dark:text-snow-2 mb-1">
                       Téléphone ICE *
                     </label>
                     <input
@@ -905,13 +905,13 @@ END:VCARD`;
                         setEditForm({ ...editForm, iceContactPhone: e.target.value })
                       }
                       placeholder="+32 470 98 76 54"
-                      className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-[#101216] dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden min-h-[44px]"
+                      className="w-full rounded-md border border-line dark:border-night-line dark:bg-night px-3 py-2 text-ink dark:text-snow focus:border-brand focus:outline-hidden min-h-[44px]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-bold text-[#3a3f4a] dark:text-[#d1d5db] mb-1">
+                  <label className="block font-bold text-ink-2 dark:text-snow-2 mb-1">
                     Lien de parenté / relation
                   </label>
                   <input
@@ -921,25 +921,25 @@ END:VCARD`;
                       setEditForm({ ...editForm, iceRelationship: e.target.value })
                     }
                     placeholder="Conjoint(e), Parent, Ami(e), etc."
-                    className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] dark:bg-[#0a0c10] px-3 py-2 text-[#101216] dark:text-[#f5f6f8] focus:border-[#e03e3e] focus:outline-hidden min-h-[44px]"
+                    className="w-full rounded-md border border-line dark:border-night-line dark:bg-night px-3 py-2 text-ink dark:text-snow focus:border-brand focus:outline-hidden min-h-[44px]"
                   />
                 </div>
               </div>
 
               {/* Form Buttons */}
-              <div className="flex justify-end gap-2.5 pt-4 border-t border-[#efece5] dark:border-[#262b38]">
+              <div className="flex justify-end gap-2.5 pt-4 border-t border-paper-2 dark:border-night-line">
                 <button
                   type="button"
                   onClick={() => setIsEditingData(false)}
                   disabled={isSaving}
-                  className="px-4 py-2 min-h-[44px] inline-flex items-center justify-center font-semibold text-[#3a3f4a] dark:text-[#d1d5db] hover:bg-[#faf8f5] dark:hover:bg-[#1e222d] rounded-md transition-colors"
+                  className="px-4 py-2 min-h-[44px] inline-flex items-center justify-center font-semibold text-ink-2 dark:text-snow-2 hover:bg-paper dark:hover:bg-night-3 rounded-md transition-colors"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2 min-h-[44px] bg-[#e03e3e] hover:bg-[#c93434] text-white font-bold uppercase tracking-wider rounded-md shadow-xs transition-colors disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2 min-h-[44px] bg-brand hover:bg-brand-strong text-white font-bold uppercase tracking-wider rounded-md shadow-xs transition-colors disabled:opacity-50"
                 >
                   {isSaving && <ArrowPathIcon className="h-4 w-4 animate-spin" />}
                   <span>{isSaving ? 'Enregistrement...' : 'Enregistrer'}</span>

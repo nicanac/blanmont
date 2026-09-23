@@ -1,0 +1,1580 @@
+{
+  "generatedAt": "2026-09-23T09:40:01.778Z",
+  "center": {
+    "lat": 50.62302,
+    "lon": 4.64223,
+    "name": "Place de la Féchère"
+  },
+  "extentKm": 32,
+  "bbox": {
+    "south": 50.47832052272686,
+    "north": 50.76771947727313,
+    "west": 4.415676945787237,
+    "east": 4.868783054212762
+  },
+  "elevation": {
+    "min": 32,
+    "max": 196,
+    "interval": 5,
+    "indexEvery": 25
+  },
+  "places": [
+    {
+      "name": "Hévillers",
+      "kind": "village",
+      "x": 44.28,
+      "y": 50.35
+    },
+    {
+      "name": "Genappe",
+      "kind": "town",
+      "x": 7.81,
+      "y": 54.2,
+      "population": 14000
+    },
+    {
+      "name": "Louvain-la-Neuve",
+      "kind": "town",
+      "x": 43.52,
+      "y": 34.39,
+      "population": 10000
+    },
+    {
+      "name": "Ottignies",
+      "kind": "village",
+      "x": 33.85,
+      "y": 35.03,
+      "population": 9000
+    },
+    {
+      "name": "Wavre",
+      "kind": "town",
+      "x": 42.98,
+      "y": 17.54,
+      "population": 33498
+    },
+    {
+      "name": "Gembloux",
+      "kind": "town",
+      "x": 61.49,
+      "y": 71.87,
+      "population": 23000
+    },
+    {
+      "name": "Mazy",
+      "kind": "village",
+      "x": 57.48,
+      "y": 88.21
+    },
+    {
+      "name": "Fleurus",
+      "kind": "town",
+      "x": 29.58,
+      "y": 98.4,
+      "population": 22000
+    },
+    {
+      "name": "Sart-Dames-Avelines",
+      "kind": "village",
+      "x": 16.98,
+      "y": 69.01
+    },
+    {
+      "name": "Villers-la-Ville",
+      "kind": "town",
+      "x": 26.17,
+      "y": 67.38,
+      "population": 9900
+    },
+    {
+      "name": "Marbais",
+      "kind": "village",
+      "x": 25.82,
+      "y": 76.92
+    },
+    {
+      "name": "Rigenée",
+      "kind": "hamlet",
+      "x": 23.72,
+      "y": 69.27
+    },
+    {
+      "name": "Baisy-Thy",
+      "kind": "village",
+      "x": 10.95,
+      "y": 60.35
+    },
+    {
+      "name": "Villers-Perwin",
+      "kind": "village",
+      "x": 13.84,
+      "y": 83.46
+    },
+    {
+      "name": "Les Bons Villers",
+      "kind": "town",
+      "x": 13.39,
+      "y": 84.68,
+      "population": 9000
+    },
+    {
+      "name": "Frasnes-lez-Gosselies",
+      "kind": "village",
+      "x": 7.61,
+      "y": 79.5
+    },
+    {
+      "name": "Mellet",
+      "kind": "village",
+      "x": 13.37,
+      "y": 91.08
+    },
+    {
+      "name": "Wagnelée",
+      "kind": "village",
+      "x": 26,
+      "y": 84.5
+    },
+    {
+      "name": "Brye",
+      "kind": "village",
+      "x": 31.18,
+      "y": 84.15
+    },
+    {
+      "name": "Saint-Amand",
+      "kind": "village",
+      "x": 29.52,
+      "y": 91.23
+    },
+    {
+      "name": "La Hulpe",
+      "kind": "town",
+      "x": 16.27,
+      "y": 12.56,
+      "population": 7000
+    },
+    {
+      "name": "Genval",
+      "kind": "village",
+      "x": 19.27,
+      "y": 15.79
+    },
+    {
+      "name": "Rixensart",
+      "kind": "town",
+      "x": 23.38,
+      "y": 19.16,
+      "population": 21000
+    },
+    {
+      "name": "Tongrinne",
+      "kind": "village",
+      "x": 45.95,
+      "y": 87.07
+    },
+    {
+      "name": "Boignée",
+      "kind": "village",
+      "x": 43.33,
+      "y": 91.87
+    },
+    {
+      "name": "Sombreffe",
+      "kind": "village",
+      "x": 40.5,
+      "y": 84.72,
+      "population": 7000
+    },
+    {
+      "name": "Saint-Denis",
+      "kind": "village",
+      "x": 80.91,
+      "y": 79.65
+    },
+    {
+      "name": "Lasne",
+      "kind": "town",
+      "x": 15.17,
+      "y": 28.24
+    },
+    {
+      "name": "Chastre",
+      "kind": "village",
+      "x": 49.19,
+      "y": 55.1,
+      "population": 7127
+    },
+    {
+      "name": "Glabais",
+      "kind": "village",
+      "x": 8.56,
+      "y": 47.56
+    },
+    {
+      "name": "Ottignies-Louvain-la-Neuve",
+      "kind": "town",
+      "x": 33.49,
+      "y": 35.35,
+      "population": 31526
+    },
+    {
+      "name": "Court-Saint-Etienne",
+      "kind": "town",
+      "x": 33.74,
+      "y": 42.64,
+      "population": 9000
+    },
+    {
+      "name": "Walhain",
+      "kind": "village",
+      "x": 61.72,
+      "y": 51.73,
+      "population": 6565
+    },
+    {
+      "name": "Chaumont-Gistoux",
+      "kind": "town",
+      "x": 62.18,
+      "y": 28.94,
+      "population": 11601
+    },
+    {
+      "name": "Grez-Doiceau",
+      "kind": "town",
+      "x": 61.92,
+      "y": 10.06,
+      "population": 12288
+    },
+    {
+      "name": "Incourt",
+      "kind": "village",
+      "x": 84.59,
+      "y": 26.23,
+      "population": 4918
+    },
+    {
+      "name": "Mellery",
+      "kind": "village",
+      "x": 33.86,
+      "y": 64.26
+    },
+    {
+      "name": "La Bruyère",
+      "kind": "village",
+      "x": 82.21,
+      "y": 1.12
+    },
+    {
+      "name": "Mont-Saint-André",
+      "kind": "village",
+      "x": 98.85,
+      "y": 38.94
+    },
+    {
+      "name": "Petit-Rosière",
+      "kind": "village",
+      "x": 98.3,
+      "y": 42.91
+    },
+    {
+      "name": "Jodoigne-Souveraine",
+      "kind": "village",
+      "x": 93.8,
+      "y": 20.62
+    },
+    {
+      "name": "Lathuy",
+      "kind": "village",
+      "x": 90.25,
+      "y": 15.45
+    },
+    {
+      "name": "Dongelberg",
+      "kind": "village",
+      "x": 89.57,
+      "y": 23.76
+    },
+    {
+      "name": "Glimes",
+      "kind": "village",
+      "x": 93.21,
+      "y": 30.29
+    },
+    {
+      "name": "Thorembais-les-Béguines",
+      "kind": "village",
+      "x": 88.86,
+      "y": 37.77
+    },
+    {
+      "name": "Thorembais-Saint-Trond",
+      "kind": "village",
+      "x": 81.27,
+      "y": 45.53
+    },
+    {
+      "name": "Opprebais",
+      "kind": "village",
+      "x": 83.89,
+      "y": 29.69
+    },
+    {
+      "name": "Malèves-Sainte-Marie-Wastines",
+      "kind": "village",
+      "x": 82.59,
+      "y": 36.19
+    },
+    {
+      "name": "Roux-Miroir",
+      "kind": "village",
+      "x": 81.47,
+      "y": 20.43
+    },
+    {
+      "name": "Sart-Risbart",
+      "kind": "village",
+      "x": 76.2,
+      "y": 29.6
+    },
+    {
+      "name": "Piétrebais",
+      "kind": "village",
+      "x": 76.96,
+      "y": 13.8
+    },
+    {
+      "name": "Longueville",
+      "kind": "village",
+      "x": 71.41,
+      "y": 22.56
+    },
+    {
+      "name": "Tourinnes-Saint-Lambert",
+      "kind": "village",
+      "x": 67.31,
+      "y": 44.27
+    },
+    {
+      "name": "Sart-lez-Walhain",
+      "kind": "hamlet",
+      "x": 67.28,
+      "y": 52.95
+    },
+    {
+      "name": "Biez",
+      "kind": "village",
+      "x": 63.5,
+      "y": 14.17
+    },
+    {
+      "name": "Chaumont",
+      "kind": "village",
+      "x": 67.71,
+      "y": 30.84
+    },
+    {
+      "name": "Bossut-Gottechain",
+      "kind": "village",
+      "x": 63.09,
+      "y": 2.37
+    },
+    {
+      "name": "Bonlez",
+      "kind": "village",
+      "x": 60.45,
+      "y": 22.68
+    },
+    {
+      "name": "Archennes",
+      "kind": "village",
+      "x": 56.51,
+      "y": 5.63
+    },
+    {
+      "name": "Dion-le-Val",
+      "kind": "village",
+      "x": 54.27,
+      "y": 17.88
+    },
+    {
+      "name": "Corroy-le-Grand",
+      "kind": "village",
+      "x": 57.17,
+      "y": 36.63
+    },
+    {
+      "name": "Nil-Saint-Vincent-Saint-Martin",
+      "kind": "village",
+      "x": 57.08,
+      "y": 43.89
+    },
+    {
+      "name": "Corbais",
+      "kind": "village",
+      "x": 52.93,
+      "y": 42.18
+    },
+    {
+      "name": "Perbais",
+      "kind": "village",
+      "x": 52.99,
+      "y": 54.71
+    },
+    {
+      "name": "Loupoigne",
+      "kind": "village",
+      "x": 5.9,
+      "y": 58.75
+    },
+    {
+      "name": "Vieux-Genappe",
+      "kind": "village",
+      "x": 5.64,
+      "y": 55.05
+    },
+    {
+      "name": "Ways",
+      "kind": "village",
+      "x": 10.39,
+      "y": 54.52
+    },
+    {
+      "name": "Bousval",
+      "kind": "village",
+      "x": 20.52,
+      "y": 52.28
+    },
+    {
+      "name": "Maransart",
+      "kind": "village",
+      "x": 10.11,
+      "y": 37.09
+    },
+    {
+      "name": "Couture-Saint-Germain",
+      "kind": "village",
+      "x": 13.88,
+      "y": 32.36
+    },
+    {
+      "name": "Marbisoux",
+      "kind": "village",
+      "x": 30.58,
+      "y": 75.76
+    },
+    {
+      "name": "Tilly",
+      "kind": "village",
+      "x": 28.92,
+      "y": 70.71
+    },
+    {
+      "name": "Saint-Géry",
+      "kind": "village",
+      "x": 43.34,
+      "y": 64.77
+    },
+    {
+      "name": "Gentinnes",
+      "kind": "village",
+      "x": 41.28,
+      "y": 64.43
+    },
+    {
+      "name": "Cortil-Noirmont",
+      "kind": "village",
+      "x": 49.66,
+      "y": 61.13
+    },
+    {
+      "name": "Ohain",
+      "kind": "village",
+      "x": 12.14,
+      "y": 24.19
+    },
+    {
+      "name": "Lasne-Chapelle-Saint-Lambert",
+      "kind": "village",
+      "x": 18.72,
+      "y": 25.91
+    },
+    {
+      "name": "Rosières",
+      "kind": "village",
+      "x": 30.27,
+      "y": 11.54
+    },
+    {
+      "name": "Bierges",
+      "kind": "village",
+      "x": 38.34,
+      "y": 19.54
+    },
+    {
+      "name": "Chevelipont",
+      "kind": "hamlet",
+      "x": 25.92,
+      "y": 58.91
+    },
+    {
+      "name": "Céroux-Mousty",
+      "kind": "village",
+      "x": 26.2,
+      "y": 36.96
+    },
+    {
+      "name": "La Roche",
+      "kind": "village",
+      "x": 27.58,
+      "y": 54.49
+    },
+    {
+      "name": "Faux",
+      "kind": "village",
+      "x": 28.98,
+      "y": 50.78
+    },
+    {
+      "name": "Limal",
+      "kind": "village",
+      "x": 34.86,
+      "y": 25.8
+    },
+    {
+      "name": "Limelette",
+      "kind": "village",
+      "x": 34.76,
+      "y": 30.14
+    },
+    {
+      "name": "Tangissart",
+      "kind": "village",
+      "x": 26.2,
+      "y": 55.57
+    },
+    {
+      "name": "Haute-Heuval",
+      "kind": "hamlet",
+      "x": 34.64,
+      "y": 59.05
+    },
+    {
+      "name": "Basse Heuval",
+      "kind": "hamlet",
+      "x": 30,
+      "y": 61.44
+    },
+    {
+      "name": "Grand-Manil",
+      "kind": "village",
+      "x": 59,
+      "y": 72.84,
+      "population": 1680
+    },
+    {
+      "name": "Sauvenière",
+      "kind": "village",
+      "x": 68.22,
+      "y": 64.5
+    },
+    {
+      "name": "Lonzée",
+      "kind": "village",
+      "x": 68.79,
+      "y": 74.07
+    },
+    {
+      "name": "Corroy-le-Château",
+      "kind": "village",
+      "x": 52.75,
+      "y": 80.08
+    },
+    {
+      "name": "Dhuy",
+      "kind": "village",
+      "x": 97.48,
+      "y": 71.89
+    },
+    {
+      "name": "Ransbeck",
+      "kind": "hamlet",
+      "x": 5.21,
+      "y": 22.3
+    },
+    {
+      "name": "Bothey",
+      "kind": "village",
+      "x": 52.26,
+      "y": 84.97
+    },
+    {
+      "name": "Domaine 1815",
+      "kind": "hamlet",
+      "x": 8.78,
+      "y": 66.81
+    },
+    {
+      "name": "Bas Jaune",
+      "kind": "hamlet",
+      "x": 18.56,
+      "y": 72.17
+    },
+    {
+      "name": "Rofessart",
+      "kind": "hamlet",
+      "x": 27.74,
+      "y": 27.1
+    },
+    {
+      "name": "Les Flamandes",
+      "kind": "hamlet",
+      "x": 6.06,
+      "y": 42.75
+    },
+    {
+      "name": "Ferooz",
+      "kind": "hamlet",
+      "x": 65.93,
+      "y": 80.58
+    },
+    {
+      "name": "Beuzet",
+      "kind": "village",
+      "x": 73.38,
+      "y": 81.11
+    },
+    {
+      "name": "Bossière",
+      "kind": "village",
+      "x": 62.09,
+      "y": 86
+    },
+    {
+      "name": "Isnes",
+      "kind": "village",
+      "x": 71.73,
+      "y": 88.87,
+      "population": 960
+    },
+    {
+      "name": "Bovesse",
+      "kind": "village",
+      "x": 80.03,
+      "y": 86.6
+    },
+    {
+      "name": "Meux",
+      "kind": "village",
+      "x": 85.22,
+      "y": 74.58
+    },
+    {
+      "name": "Liberchies",
+      "kind": "village",
+      "x": 1.12,
+      "y": 87.82
+    },
+    {
+      "name": "Bourgeois",
+      "kind": "village",
+      "x": 20.78,
+      "y": 20.3
+    },
+    {
+      "name": "Saint-Germain",
+      "kind": "village",
+      "x": 94.14,
+      "y": 67.35
+    },
+    {
+      "name": "Liernu",
+      "kind": "village",
+      "x": 91.68,
+      "y": 64.14
+    },
+    {
+      "name": "Aische-en-Refail",
+      "kind": "village",
+      "x": 92.66,
+      "y": 58.21
+    },
+    {
+      "name": "Temploux",
+      "kind": "village",
+      "x": 73.99,
+      "y": 98.39,
+      "population": 1950
+    },
+    {
+      "name": "Émines",
+      "kind": "village",
+      "x": 94.32,
+      "y": 87.4
+    },
+    {
+      "name": "Rhisnes",
+      "kind": "village",
+      "x": 85.68,
+      "y": 90.54
+    },
+    {
+      "name": "Sclage",
+      "kind": "hamlet",
+      "x": 21.99,
+      "y": 46.72
+    },
+    {
+      "name": "Profondsart",
+      "kind": "hamlet",
+      "x": 29.15,
+      "y": 24.99
+    },
+    {
+      "name": "Grandsart",
+      "kind": "hamlet",
+      "x": 30.77,
+      "y": 24.58
+    },
+    {
+      "name": "Ry Pirot",
+      "kind": "hamlet",
+      "x": 29.38,
+      "y": 58.88
+    },
+    {
+      "name": "Saint-Marc",
+      "kind": "village",
+      "x": 95.37,
+      "y": 95.22
+    },
+    {
+      "name": "Bruyère du Sart",
+      "kind": "hamlet",
+      "x": 30.06,
+      "y": 53.57
+    },
+    {
+      "name": "Petit Chenoy",
+      "kind": "hamlet",
+      "x": 36.5,
+      "y": 50.46
+    },
+    {
+      "name": "Basse-Lasne",
+      "kind": "hamlet",
+      "x": 13.61,
+      "y": 25.59
+    },
+    {
+      "name": "Piraumont",
+      "kind": "hamlet",
+      "x": 12.56,
+      "y": 72.74
+    },
+    {
+      "name": "Céroux",
+      "kind": "village",
+      "x": 21.6,
+      "y": 36.97
+    },
+    {
+      "name": "Mousty",
+      "kind": "village",
+      "x": 32.89,
+      "y": 36.95
+    },
+    {
+      "name": "Basse-Wavre",
+      "kind": "village",
+      "x": 46.06,
+      "y": 15.87
+    },
+    {
+      "name": "Ernage",
+      "kind": "village",
+      "x": 57.01,
+      "y": 59.96
+    },
+    {
+      "name": "Warisoulx",
+      "kind": "village",
+      "x": 98.32,
+      "y": 80.56
+    },
+    {
+      "name": "Villers-lez-Heest",
+      "kind": "village",
+      "x": 94.83,
+      "y": 82.34
+    },
+    {
+      "name": "Plancenoit",
+      "kind": "village",
+      "x": 3.15,
+      "y": 37.24
+    },
+    {
+      "name": "Onoz",
+      "kind": "village",
+      "x": 56.06,
+      "y": 95.16
+    },
+    {
+      "name": "Tombeek",
+      "kind": "village",
+      "x": 33.49,
+      "y": 4.77
+    },
+    {
+      "name": "Wayaux",
+      "kind": "village",
+      "x": 12.5,
+      "y": 96.09
+    },
+    {
+      "name": "Heppignies",
+      "kind": "village",
+      "x": 17.19,
+      "y": 98.83
+    },
+    {
+      "name": "Malaise",
+      "kind": "village",
+      "x": 22.96,
+      "y": 6.6
+    },
+    {
+      "name": "Gastuche",
+      "kind": "village",
+      "x": 51.74,
+      "y": 11.27
+    },
+    {
+      "name": "Dion-le-Mont",
+      "kind": "village",
+      "x": 53.85,
+      "y": 24.19
+    },
+    {
+      "name": "Champles",
+      "kind": "hamlet",
+      "x": 32.8,
+      "y": 12.58
+    },
+    {
+      "name": "Perwez",
+      "kind": "village",
+      "x": 87.79,
+      "y": 49.85,
+      "population": 8259
+    },
+    {
+      "name": "Blanmont",
+      "kind": "village",
+      "x": 49.5,
+      "y": 50.36
+    },
+    {
+      "name": "Vieille-Maison",
+      "kind": "hamlet",
+      "x": 44.39,
+      "y": 78.92
+    },
+    {
+      "name": "Thiméon",
+      "kind": "village",
+      "x": 2.75,
+      "y": 95.9
+    },
+    {
+      "name": "Villeroux",
+      "kind": "village",
+      "x": 42.12,
+      "y": 57.15
+    },
+    {
+      "name": "Walhain-Saint-Paul",
+      "kind": "village",
+      "x": 61.68,
+      "y": 52.04
+    },
+    {
+      "name": "Saint-Paul",
+      "kind": "hamlet",
+      "x": 63.59,
+      "y": 47.03
+    },
+    {
+      "name": "Wastines",
+      "kind": "hamlet",
+      "x": 85.51,
+      "y": 33.82
+    },
+    {
+      "name": "Ardenelle",
+      "kind": "hamlet",
+      "x": 46.57,
+      "y": 73.17
+    },
+    {
+      "name": "Balâtre",
+      "kind": "village",
+      "x": 49.12,
+      "y": 93.09
+    },
+    {
+      "name": "Saint-Martin",
+      "kind": "village",
+      "x": 51.11,
+      "y": 92.22
+    },
+    {
+      "name": "Grand-Leez",
+      "kind": "village",
+      "x": 77.48,
+      "y": 64.37
+    },
+    {
+      "name": "La Bruyère",
+      "kind": "village",
+      "x": 86.96,
+      "y": 80.94
+    },
+    {
+      "name": "Ottembourg",
+      "kind": "village",
+      "x": 44.07,
+      "y": 5.35
+    },
+    {
+      "name": "Ottignies",
+      "kind": "station",
+      "x": 33.74,
+      "y": 32.19
+    },
+    {
+      "name": "Beaurieux",
+      "kind": "village",
+      "x": 39.57,
+      "y": 43.71
+    },
+    {
+      "name": "Limauges",
+      "kind": "village",
+      "x": 26.3,
+      "y": 40.21
+    },
+    {
+      "name": "Wisterzée",
+      "kind": "village",
+      "x": 31.75,
+      "y": 40.11
+    },
+    {
+      "name": "Gottechain",
+      "kind": "hamlet",
+      "x": 65.83,
+      "y": 3.87
+    },
+    {
+      "name": "Bossut",
+      "kind": "village",
+      "x": 61.79,
+      "y": 2.26
+    },
+    {
+      "name": "Happeau",
+      "kind": "hamlet",
+      "x": 83.9,
+      "y": 15.94
+    },
+    {
+      "name": "Nil-Pierreux",
+      "kind": "village",
+      "x": 51.41,
+      "y": 46.61
+    },
+    {
+      "name": "Lerinnes",
+      "kind": "hamlet",
+      "x": 68.15,
+      "y": 47.77
+    },
+    {
+      "name": "Dreumont",
+      "kind": "hamlet",
+      "x": 27.13,
+      "y": 72.44
+    },
+    {
+      "name": "Les Bruyères",
+      "kind": "hamlet",
+      "x": 39.81,
+      "y": 74.58
+    },
+    {
+      "name": "Mont-Saint-Guibert",
+      "kind": "village",
+      "x": 43.48,
+      "y": 45.32,
+      "population": 6913
+    },
+    {
+      "name": "Sart-Messire-Guillaume",
+      "kind": "village",
+      "x": 31.84,
+      "y": 51.21
+    },
+    {
+      "name": "La Hulpe",
+      "kind": "station",
+      "x": 17.97,
+      "y": 10.16
+    },
+    {
+      "name": "Vieusart",
+      "kind": "village",
+      "x": 51.56,
+      "y": 32.14
+    },
+    {
+      "name": "Orbais",
+      "kind": "village",
+      "x": 76.68,
+      "y": 44.95
+    },
+    {
+      "name": "Gaillemarde",
+      "kind": "hamlet",
+      "x": 6.3,
+      "y": 15.69
+    },
+    {
+      "name": "Hèze",
+      "kind": "village",
+      "x": 67.24,
+      "y": 16.74
+    },
+    {
+      "name": "Golzinne",
+      "kind": "hamlet",
+      "x": 66.17,
+      "y": 86.06
+    },
+    {
+      "name": "Villeret",
+      "kind": "hamlet",
+      "x": 52.47,
+      "y": 89.84
+    },
+    {
+      "name": "Paradis",
+      "kind": "hamlet",
+      "x": 14.29,
+      "y": 71.49
+    },
+    {
+      "name": "Tyle",
+      "kind": "hamlet",
+      "x": 16.96,
+      "y": 72.47
+    },
+    {
+      "name": "Houlette",
+      "kind": "hamlet",
+      "x": 16.87,
+      "y": 67.54
+    },
+    {
+      "name": "Quatre-Bras de Baisy-Thy",
+      "kind": "hamlet",
+      "x": 8.31,
+      "y": 67.82
+    },
+    {
+      "name": "Ligny",
+      "kind": "village",
+      "x": 35.33,
+      "y": 88.15
+    },
+    {
+      "name": "Hattain",
+      "kind": "hamlet",
+      "x": 16.56,
+      "y": 58.51
+    },
+    {
+      "name": "Libersart",
+      "kind": "hamlet",
+      "x": 66.29,
+      "y": 39.73
+    },
+    {
+      "name": "Louvain-la-Neuve",
+      "kind": "station",
+      "x": 44.3,
+      "y": 33.77
+    },
+    {
+      "name": "Mélin",
+      "kind": "village",
+      "x": 91.14,
+      "y": 9.54
+    },
+    {
+      "name": "Saint-Rémy-Geest",
+      "kind": "village",
+      "x": 97.68,
+      "y": 7.14
+    },
+    {
+      "name": "Les 4 chênes",
+      "kind": "hamlet",
+      "x": 21.5,
+      "y": 64.42
+    },
+    {
+      "name": "La Marache",
+      "kind": "hamlet",
+      "x": 6.22,
+      "y": 30.12
+    },
+    {
+      "name": "Vert Coucou",
+      "kind": "hamlet",
+      "x": 1.01,
+      "y": 24.18
+    },
+    {
+      "name": "Jauchelette",
+      "kind": "village",
+      "x": 94.4,
+      "y": 27.97
+    },
+    {
+      "name": "Rixensart",
+      "kind": "station",
+      "x": 25.53,
+      "y": 18.89
+    },
+    {
+      "name": "Cocrou",
+      "kind": "hamlet",
+      "x": 66.7,
+      "y": 11.28
+    },
+    {
+      "name": "Wavre",
+      "kind": "station",
+      "x": 41.79,
+      "y": 17.86
+    },
+    {
+      "name": "Fleurus",
+      "kind": "station",
+      "x": 28.25,
+      "y": 98.74
+    },
+    {
+      "name": "Somville",
+      "kind": "hamlet",
+      "x": 68.72,
+      "y": 32.38
+    },
+    {
+      "name": "Suzeril",
+      "kind": "hamlet",
+      "x": 33.39,
+      "y": 46.7
+    },
+    {
+      "name": "Beaumont",
+      "kind": "hamlet",
+      "x": 17.81,
+      "y": 34.07
+    },
+    {
+      "name": "Baudecet",
+      "kind": "hamlet",
+      "x": 65.36,
+      "y": 59.31
+    },
+    {
+      "name": "Renival",
+      "kind": "hamlet",
+      "x": 16.78,
+      "y": 29.73
+    },
+    {
+      "name": "Strichon",
+      "kind": "hamlet",
+      "x": 30.93,
+      "y": 66.26
+    },
+    {
+      "name": "Papeteries",
+      "kind": "hamlet",
+      "x": 61.77,
+      "y": 31.43
+    },
+    {
+      "name": "Manipré",
+      "kind": "hamlet",
+      "x": 59.23,
+      "y": 32.55
+    },
+    {
+      "name": "Les Bruyères",
+      "kind": "hamlet",
+      "x": 64.41,
+      "y": 27.06
+    },
+    {
+      "name": "Louvrange",
+      "kind": "hamlet",
+      "x": 47.38,
+      "y": 27.08
+    },
+    {
+      "name": "Bonly",
+      "kind": "hamlet",
+      "x": 51.34,
+      "y": 22.78
+    },
+    {
+      "name": "Brocsous",
+      "kind": "hamlet",
+      "x": 50.81,
+      "y": 26.02
+    },
+    {
+      "name": "Grippelotte",
+      "kind": "hamlet",
+      "x": 56.02,
+      "y": 26.34
+    },
+    {
+      "name": "Thorembisoul",
+      "kind": "hamlet",
+      "x": 92.32,
+      "y": 32.84
+    },
+    {
+      "name": "Val Vert",
+      "kind": "hamlet",
+      "x": 50.06,
+      "y": 25.35
+    },
+    {
+      "name": "Val Villers",
+      "kind": "hamlet",
+      "x": 47.92,
+      "y": 28.28
+    },
+    {
+      "name": "Chêne Copette",
+      "kind": "hamlet",
+      "x": 49.1,
+      "y": 27.96
+    },
+    {
+      "name": "El Pirère",
+      "kind": "hamlet",
+      "x": 50.23,
+      "y": 27.5
+    },
+    {
+      "name": "Mèves",
+      "kind": "hamlet",
+      "x": 50.1,
+      "y": 30.68
+    },
+    {
+      "name": "Clos du Verger",
+      "kind": "hamlet",
+      "x": 57,
+      "y": 37.55
+    },
+    {
+      "name": "Ocquière",
+      "kind": "hamlet",
+      "x": 59.07,
+      "y": 31.08
+    },
+    {
+      "name": "La Commone",
+      "kind": "hamlet",
+      "x": 54.7,
+      "y": 27.45
+    },
+    {
+      "name": "Tout-Vent",
+      "kind": "hamlet",
+      "x": 56.73,
+      "y": 25.89
+    },
+    {
+      "name": "Inchebroux",
+      "kind": "hamlet",
+      "x": 61.43,
+      "y": 26.26
+    },
+    {
+      "name": "Pré Delcourt",
+      "kind": "hamlet",
+      "x": 66.72,
+      "y": 29.21
+    },
+    {
+      "name": "Le Tri",
+      "kind": "hamlet",
+      "x": 70.13,
+      "y": 24.18
+    },
+    {
+      "name": "Bas-Bonlez",
+      "kind": "hamlet",
+      "x": 60.18,
+      "y": 19.87
+    },
+    {
+      "name": "Colline des Sources",
+      "kind": "hamlet",
+      "x": 60.87,
+      "y": 18.59
+    },
+    {
+      "name": "Panorama",
+      "kind": "hamlet",
+      "x": 63.23,
+      "y": 18.11
+    },
+    {
+      "name": "Le Culot",
+      "kind": "hamlet",
+      "x": 47.06,
+      "y": 13.6
+    },
+    {
+      "name": "La Hutte",
+      "kind": "hamlet",
+      "x": 12.43,
+      "y": 79.9
+    },
+    {
+      "name": "Gobertange",
+      "kind": "hamlet",
+      "x": 94.33,
+      "y": 8.63
+    },
+    {
+      "name": "Doiceau",
+      "kind": "village",
+      "x": 54.79,
+      "y": 13.58
+    },
+    {
+      "name": "Sclimpré",
+      "kind": "hamlet",
+      "x": 88.36,
+      "y": 1.98
+    },
+    {
+      "name": "Journaux",
+      "kind": "hamlet",
+      "x": 12.38,
+      "y": 97.37
+    },
+    {
+      "name": "Gembloux",
+      "kind": "station",
+      "x": 60.79,
+      "y": 68.26
+    },
+    {
+      "name": "Sainte-Marie",
+      "kind": "hamlet",
+      "x": 83.01,
+      "y": 37.5
+    },
+    {
+      "name": "Malèves",
+      "kind": "hamlet",
+      "x": 80.38,
+      "y": 38.32
+    },
+    {
+      "name": "Sart-Mélin",
+      "kind": "hamlet",
+      "x": 84.79,
+      "y": 9.33
+    },
+    {
+      "name": "Chapelle Saint-Laurent",
+      "kind": "hamlet",
+      "x": 72.56,
+      "y": 12.52
+    },
+    {
+      "name": "Le Chenois",
+      "kind": "hamlet",
+      "x": 96.34,
+      "y": 47.02
+    },
+    {
+      "name": "Brocui",
+      "kind": "hamlet",
+      "x": 90.64,
+      "y": 17.12
+    },
+    {
+      "name": "Arnelle",
+      "kind": "hamlet",
+      "x": 72.54,
+      "y": 25.35
+    },
+    {
+      "name": "Odenge",
+      "kind": "hamlet",
+      "x": 77.53,
+      "y": 41.6
+    },
+    {
+      "name": "Longpré",
+      "kind": "hamlet",
+      "x": 80.81,
+      "y": 25.25
+    },
+    {
+      "name": "Vichenet",
+      "kind": "hamlet",
+      "x": 61.63,
+      "y": 80.36
+    },
+    {
+      "name": "Longpré",
+      "kind": "hamlet",
+      "x": 28.13,
+      "y": 87.14
+    },
+    {
+      "name": "Le Manoir",
+      "kind": "hamlet",
+      "x": 80.6,
+      "y": 88.47
+    },
+    {
+      "name": "La Bourse",
+      "kind": "hamlet",
+      "x": 32.54,
+      "y": 23.87
+    },
+    {
+      "name": "Les Barivaux",
+      "kind": "hamlet",
+      "x": 32.27,
+      "y": 24.97
+    },
+    {
+      "name": "Le Chateau",
+      "kind": "hamlet",
+      "x": 32.9,
+      "y": 26.19
+    },
+    {
+      "name": "Les baribants",
+      "kind": "hamlet",
+      "x": 65.86,
+      "y": 98.39
+    },
+    {
+      "name": "Quartier Louise",
+      "kind": "hamlet",
+      "x": 34.37,
+      "y": 25.45
+    },
+    {
+      "name": "Artey-Falize",
+      "kind": "hamlet",
+      "x": 88.22,
+      "y": 93.87
+    }
+  ],
+  "rivers": [
+    {
+      "name": "Dyle",
+      "x": 51.61,
+      "y": 8.42
+    },
+    {
+      "name": "Laan",
+      "x": 34.14,
+      "y": 4.99
+    },
+    {
+      "name": "L'Orneau",
+      "x": 59.9,
+      "y": 79.21
+    },
+    {
+      "name": "Thyle",
+      "x": 24.65,
+      "y": 63.66
+    },
+    {
+      "name": "La Thyle",
+      "x": 24.98,
+      "y": 62.34
+    },
+    {
+      "name": "L'Orne",
+      "x": 39.22,
+      "y": 43.46
+    },
+    {
+      "name": "Orne",
+      "x": 45.23,
+      "y": 46.75
+    },
+    {
+      "name": "Laan - Lasne",
+      "x": 37.68,
+      "y": 2.51
+    },
+    {
+      "name": "L'Orbais",
+      "x": 90.99,
+      "y": 23.48
+    },
+    {
+      "name": "La Grande Gette",
+      "x": 94.28,
+      "y": 26.01
+    },
+    {
+      "name": "Rau d'Ernage",
+      "x": 49.82,
+      "y": 61.68
+    },
+    {
+      "name": "Afleiding van de Dijle",
+      "x": 52.03,
+      "y": 2.9
+    },
+    {
+      "name": "La Dyle",
+      "x": 10.29,
+      "y": 54.38
+    },
+    {
+      "name": "Mehaigne",
+      "x": 82.73,
+      "y": 81.59
+    }
+  ],
+  "credits": {
+    "relief": "Relief : AWS Terrain Tiles (Mapzen, SRTM / EU-DEM)",
+    "data": "Hydrographie, routes et lieux : © contributeurs OpenStreetMap (ODbL)"
+  }
+}

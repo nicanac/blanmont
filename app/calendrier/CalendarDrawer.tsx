@@ -184,15 +184,15 @@ function EventReviewForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-4 sm:p-6 space-y-4 sm:space-y-5 animate-in fade-in duration-200"
+      className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-3 p-4 sm:p-6 space-y-4 sm:space-y-5 animate-in fade-in duration-200"
     >
-      <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
+      <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-3">
         <div>
-          <h4 className="text-sm font-bold text-[#101216] dark:text-white">
+          <h4 className="text-sm font-bold text-ink dark:text-white">
             {existingReview ? 'Modifier votre débrief de sortie' : 'Partager votre débrief de sortie'}
           </h4>
-          <span className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
-            Publié au nom de <strong className="text-[#101216] dark:text-white">{userName}</strong>
+          <span className="text-xs text-ink-3 dark:text-snow-3">
+            Publié au nom de <strong className="text-ink dark:text-white">{userName}</strong>
           </span>
         </div>
 
@@ -211,7 +211,7 @@ function EventReviewForm({
 
       {/* 1. Overall Star Rating */}
       <div className="space-y-1.5">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <label className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
           Note globale de la sortie
         </label>
         <div className="flex items-center gap-1">
@@ -229,23 +229,23 @@ function EventReviewForm({
                 className={`h-7 w-7 md:h-7 md:w-7 transition-colors ${
                   star <= (hoverRating ?? rating)
                     ? 'text-amber-400'
-                    : 'text-[#e4e0d8] dark:text-[#262b38]'
+                    : 'text-line dark:text-night-line'
                 }`}
               />
             </button>
           ))}
-          <span className="ml-2 text-xs font-bold text-[#101216] dark:text-white tabular-nums">
+          <span className="ml-2 text-xs font-bold text-ink dark:text-white tabular-nums">
             {rating} / 5
           </span>
         </div>
-        <p className="text-xs font-medium text-[#e03e3e]">
+        <p className="text-xs font-medium text-brand">
           {RATING_LABELS[hoverRating ?? rating]}
         </p>
       </div>
 
       {/* 2. Effort Ressenti (RPE) */}
       <div className="space-y-2">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <label className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
           Effort physique ressenti (RPE)
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -256,8 +256,8 @@ function EventReviewForm({
               onClick={() => setEffort(opt.id)}
               className={`min-h-[44px] flex flex-col items-center justify-center p-2 rounded-md border text-xs font-semibold transition-all last:col-span-2 sm:last:col-span-1 ${
                 effort === opt.id
-                  ? 'border-[#e03e3e] bg-[#e03e3e]/10 text-[#e03e3e] dark:text-white font-bold'
-                  : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30'
+                  ? 'border-brand bg-brand/10 text-brand dark:text-white font-bold'
+                  : 'border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30'
               }`}
             >
               <span className="text-base leading-none mb-1">{opt.icon}</span>
@@ -269,7 +269,7 @@ function EventReviewForm({
 
       {/* 3. Allure & Peloton */}
       <div className="space-y-2">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <label className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
           Allure & Cohésion du peloton
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -280,8 +280,8 @@ function EventReviewForm({
               onClick={() => setPace(opt.id)}
               className={`min-h-[44px] flex items-center justify-center px-3 py-2 rounded-md border text-xs font-semibold text-center transition-all ${
                 pace === opt.id
-                  ? 'border-[#e03e3e] bg-[#e03e3e]/10 text-[#e03e3e] dark:text-white font-bold'
-                  : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30'
+                  ? 'border-brand bg-brand/10 text-brand dark:text-white font-bold'
+                  : 'border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30'
               }`}
             >
               <span>{opt.label}</span>
@@ -292,7 +292,7 @@ function EventReviewForm({
 
       {/* 4. Routes & Revêtement */}
       <div className="space-y-2">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <label className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
           Qualité du tracé & de la chaussée
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -303,8 +303,8 @@ function EventReviewForm({
               onClick={() => setRoadCondition(opt.id)}
               className={`min-h-[44px] flex items-center justify-center px-3 py-2 rounded-md border text-xs font-semibold text-center transition-all ${
                 roadCondition === opt.id
-                  ? 'border-[#e03e3e] bg-[#e03e3e]/10 text-[#e03e3e] dark:text-white font-bold'
-                  : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30'
+                  ? 'border-brand bg-brand/10 text-brand dark:text-white font-bold'
+                  : 'border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30'
               }`}
             >
               <span>{opt.label}</span>
@@ -315,7 +315,7 @@ function EventReviewForm({
 
       {/* 5. Météo Rencontrée */}
       <div className="space-y-2">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+        <label className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
           Météo vécue sur le vélo
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -326,8 +326,8 @@ function EventReviewForm({
               onClick={() => setWeatherEncountered(opt.id)}
               className={`min-h-[44px] flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border text-xs font-semibold transition-all last:col-span-2 sm:last:col-span-1 ${
                 weatherEncountered === opt.id
-                  ? 'border-[#e03e3e] bg-[#e03e3e]/10 text-[#e03e3e] dark:text-white font-bold'
-                  : 'border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] text-[#5c6370] dark:text-[#a7adbb] hover:border-[#101216]/30 dark:hover:border-white/30'
+                  ? 'border-brand bg-brand/10 text-brand dark:text-white font-bold'
+                  : 'border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30'
               }`}
             >
               <span>{opt.icon}</span>
@@ -341,7 +341,7 @@ function EventReviewForm({
       <div className="space-y-1.5">
         <label
           htmlFor="debrief-comment"
-          className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white"
+          className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white"
         >
           Récit de la sortie, anecdotes & ambiance
         </label>
@@ -352,7 +352,7 @@ function EventReviewForm({
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder="Racontez vos sensations sur le vélo, l’ambiance dans le peloton, les faits marquants ou difficultés du parcours..."
-          className="w-full rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] p-3 text-xs text-[#101216] dark:text-white placeholder-[#a7adbb] focus:outline-hidden focus:ring-2 focus:ring-[#e03e3e] focus:border-transparent caret-[#e03e3e]"
+          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-3 text-xs text-ink dark:text-white placeholder-ink-3 focus:outline-hidden focus:ring-2 focus:ring-brand focus:border-transparent caret-brand"
         />
       </div>
 
@@ -360,7 +360,7 @@ function EventReviewForm({
       <div className="space-y-1.5">
         <label
           htmlFor="strava-url"
-          className="block text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white"
+          className="block text-xs font-bold uppercase tracking-wider text-ink dark:text-white"
         >
           Lien activité Strava ou Garmin Connect (optionnel)
         </label>
@@ -370,7 +370,7 @@ function EventReviewForm({
           value={stravaUrl}
           onChange={(e) => setStravaUrl(e.target.value)}
           placeholder="https://www.strava.com/activities/... ou https://connect.garmin.com/..."
-          className="w-full min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-3 py-2 text-xs text-[#101216] dark:text-white placeholder-[#a7adbb] focus:outline-hidden focus:ring-2 focus:ring-[#e03e3e] focus:border-transparent caret-[#e03e3e]"
+          className="w-full min-h-[44px] rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-3 py-2 text-xs text-ink dark:text-white placeholder-ink-3 focus:outline-hidden focus:ring-2 focus:ring-brand focus:border-transparent caret-brand"
         />
       </div>
 
@@ -379,7 +379,7 @@ function EventReviewForm({
         <button
           type="button"
           onClick={onCancel}
-          className="min-h-[44px] rounded-md border border-[#e4e0d8] dark:border-[#262b38] px-4 py-2 text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:bg-[#faf8f5] dark:hover:bg-[#262b38] cursor-pointer"
+          className="min-h-[44px] rounded-md border border-line dark:border-night-line px-4 py-2 text-xs font-semibold text-ink-3 dark:text-snow-3 hover:bg-paper dark:hover:bg-night-line cursor-pointer"
         >
           Annuler
         </button>
@@ -387,7 +387,7 @@ function EventReviewForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-5 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
+          className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-5 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
         >
           {isSubmitting
             ? 'Enregistrement en cours...'
@@ -507,9 +507,9 @@ export default function CalendarDrawer({
       />
 
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
-        <div className="w-screen max-w-full sm:max-w-xl lg:max-w-2xl bg-white dark:bg-[#161922] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 border-l border-[#e4e0d8] dark:border-[#262b38]">
+        <div className="w-screen max-w-full sm:max-w-xl lg:max-w-2xl bg-white dark:bg-night-2 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 border-l border-line dark:border-night-line">
           {/* ──── Header: Editorial Peloton Cover ──── */}
-          <div className="relative bg-[#101216] text-white p-4 sm:p-6 border-b border-[#262b38] overflow-hidden shrink-0">
+          <div className="relative bg-ink text-white p-4 sm:p-6 border-b border-night-line overflow-hidden shrink-0">
             {/* Ambient Watermark */}
             <div className="absolute right-3 -bottom-4 sm:right-4 sm:-bottom-6 pointer-events-none select-none opacity-[0.04] text-5xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white">
               PELOTON
@@ -519,8 +519,8 @@ export default function CalendarDrawer({
               <div className="space-y-1.5 sm:space-y-2 min-w-0 flex-1">
                 {/* Status Badges */}
                 <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e03e3e]/20 text-[#ff6b6b] border border-[#e03e3e]/30 px-2 sm:px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/20 text-brand-soft border border-brand/30 px-2 sm:px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.06em]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand" />
                     <span>{isWeekend ? 'Sortie Club' : 'Événement'}</span>
                     <span className="hidden sm:inline">{isWeekend ? 'officielle' : 'officiel'}</span>
                   </span>
@@ -548,8 +548,8 @@ export default function CalendarDrawer({
                 </h2>
 
                 {/* French Date Display */}
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-[#a7adbb] capitalize">
-                  <CalendarDaysIcon className="h-3.5 w-3.5 text-[#e03e3e] shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-snow-3 capitalize">
+                  <CalendarDaysIcon className="h-3.5 w-3.5 text-brand shrink-0" />
                   <span className="truncate">{dateStr}</span>
                 </div>
               </div>
@@ -558,7 +558,7 @@ export default function CalendarDrawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors shrink-0 cursor-pointer"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-snow-3 hover:text-white hover:bg-white/10 transition-colors shrink-0 cursor-pointer"
                 aria-label="Fermer la fiche de la sortie"
                 title="Fermer la fiche"
               >
@@ -568,49 +568,49 @@ export default function CalendarDrawer({
           </div>
 
           {/* ──── Key Telemetry Stat Strip (Hairline Divided) ──── */}
-          <div className="bg-[#faf8f5] dark:bg-[#101216] border-b border-[#e4e0d8] dark:border-[#262b38] grid grid-cols-2 sm:grid-cols-4 shrink-0 text-center">
+          <div className="bg-paper dark:bg-ink border-b border-line dark:border-night-line grid grid-cols-2 sm:grid-cols-4 shrink-0 text-center">
             {/* 1. Départ */}
-            <div className="py-2.5 px-3 sm:py-3 sm:px-3 border-r border-b sm:border-b-0 border-[#e4e0d8] dark:border-[#262b38] flex flex-col justify-center">
-              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+            <div className="py-2.5 px-3 sm:py-3 sm:px-3 border-r border-b sm:border-b-0 border-line dark:border-night-line flex flex-col justify-center">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block truncate">
                 <span className="hidden sm:inline">Heure de départ</span>
                 <span className="sm:hidden">Départ</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums block truncate mt-0.5">
+              <span className="text-base sm:text-lg font-extrabold text-ink dark:text-white tabular-nums block truncate mt-0.5">
                 {event.departure}
               </span>
             </div>
 
             {/* 2. Distance */}
-            <div className="py-2.5 px-3 sm:py-3 sm:px-3 sm:border-r border-b sm:border-b-0 border-[#e4e0d8] dark:border-[#262b38] flex flex-col justify-center">
-              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+            <div className="py-2.5 px-3 sm:py-3 sm:px-3 sm:border-r border-b sm:border-b-0 border-line dark:border-night-line flex flex-col justify-center">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block truncate">
                 <span className="hidden sm:inline">Distance prévue</span>
                 <span className="sm:hidden">Distance</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums block truncate mt-0.5">
+              <span className="text-base sm:text-lg font-extrabold text-ink dark:text-white tabular-nums block truncate mt-0.5">
                 {event.distances ? `${event.distances} km` : '—'}
               </span>
             </div>
 
             {/* 3. Peloton */}
-            <div className="py-2.5 px-3 sm:py-3 sm:px-3 border-r border-[#e4e0d8] dark:border-[#262b38] flex flex-col justify-center">
-              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+            <div className="py-2.5 px-3 sm:py-3 sm:px-3 border-r border-line dark:border-night-line flex flex-col justify-center">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block truncate">
                 <span className="hidden sm:inline">Groupe / Peloton</span>
                 <span className="sm:hidden">Peloton</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white truncate block mt-0.5">
+              <span className="text-base sm:text-lg font-extrabold text-ink dark:text-white truncate block mt-0.5">
                 {event.group || 'Club'}
               </span>
             </div>
 
             {/* 4. Inscrits */}
             <div className="py-2.5 px-3 sm:py-3 sm:px-3 flex flex-col justify-center">
-              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb] block truncate">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block truncate">
                 <span className="hidden sm:inline">Inscrits au départ</span>
                 <span className="sm:hidden">Inscrits</span>
               </span>
-              <span className="text-base sm:text-lg font-extrabold text-[#101216] dark:text-white tabular-nums block truncate mt-0.5">
+              <span className="text-base sm:text-lg font-extrabold text-ink dark:text-white tabular-nums block truncate mt-0.5">
                 {attendees.length}{' '}
-                <span className="text-xs font-normal text-[#5c6370] dark:text-[#a7adbb]">
+                <span className="text-xs font-normal text-ink-3 dark:text-snow-3">
                   {attendees.length === 1 ? 'cycliste' : 'cyclistes'}
                 </span>
               </span>
@@ -618,14 +618,14 @@ export default function CalendarDrawer({
           </div>
 
           {/* ──── Segmented View Tabs ──── */}
-          <div className="flex border-b border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#161922] px-3 sm:px-6 shrink-0">
+          <div className="flex border-b border-line dark:border-night-line bg-white dark:bg-night-2 px-3 sm:px-6 shrink-0">
             <button
               type="button"
               onClick={() => setActiveTab('details')}
               className={`min-h-[44px] flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
                 activeTab === 'details'
-                  ? 'border-[#e03e3e] text-[#e03e3e]'
-                  : 'border-transparent text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
+                  ? 'border-brand text-brand'
+                  : 'border-transparent text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
               }`}
             >
               <MapIcon className="h-4 w-4 shrink-0" />
@@ -640,8 +640,8 @@ export default function CalendarDrawer({
               onClick={() => setActiveTab('debrief')}
               className={`min-h-[44px] flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
                 activeTab === 'debrief'
-                  ? 'border-[#e03e3e] text-[#e03e3e]'
-                  : 'border-transparent text-[#5c6370] dark:text-[#a7adbb] hover:text-[#101216] dark:hover:text-white'
+                  ? 'border-brand text-brand'
+                  : 'border-transparent text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
               }`}
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4 shrink-0" />
@@ -650,7 +650,7 @@ export default function CalendarDrawer({
                 <span className="sm:hidden">Débriefs</span>
               </span>
               {reviews.length > 0 && (
-                <span className="rounded-full bg-[#e03e3e]/10 text-[#e03e3e] dark:bg-[#e03e3e]/20 dark:text-[#ff6b6b] px-1.5 py-0.5 text-xs font-extrabold tabular-nums">
+                <span className="rounded-full bg-brand/10 text-brand dark:bg-brand/20 dark:text-brand-soft px-1.5 py-0.5 text-xs font-extrabold tabular-nums">
                   {reviews.length}
                 </span>
               )}
@@ -674,7 +674,7 @@ export default function CalendarDrawer({
                       href={event.gpxUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="min-h-[44px] flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors text-center"
+                      className="min-h-[44px] flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-4 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors text-center"
                       title="Télécharger ou ouvrir l'itinéraire officiel"
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />
@@ -694,36 +694,36 @@ export default function CalendarDrawer({
                     href={mapsLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] hover:border-[#101216]/30 dark:hover:border-white/30 text-[#101216] dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-colors"
+                    className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-3 hover:border-ink/30 dark:hover:border-white/30 text-ink dark:text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.06em] transition-colors"
                     title="Localiser le point de départ dans Google Maps"
                   >
-                    <MapPinIcon className="h-4 w-4 text-[#e03e3e] shrink-0" />
+                    <MapPinIcon className="h-4 w-4 text-brand shrink-0" />
                     <span>Point GPS Maps</span>
-                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-[#5c6370] dark:text-[#a7adbb] shrink-0" />
+                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-ink-3 dark:text-snow-3 shrink-0" />
                   </a>
                 </div>
 
                 {/* Meeting Point Card */}
-                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-4 sm:p-5 space-y-2.5">
+                <div className="rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night-3 p-4 sm:p-5 space-y-2.5">
                   <div className="flex items-center gap-2.5">
-                    <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-white dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] text-[#e03e3e] shadow-2xs shrink-0">
+                    <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-white dark:bg-night-2 border border-line dark:border-night-line text-brand shadow-2xs shrink-0">
                       <MapPinIcon className="h-4 w-4" />
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                    <span className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
                       Point de Rassemblement &amp; Départ
                     </span>
                   </div>
 
                   <div className="space-y-1 text-xs sm:pl-10.5">
-                    <div className="font-bold text-[#101216] dark:text-white text-sm">
+                    <div className="font-bold text-ink dark:text-white text-sm">
                       {event.location}
                     </div>
                     {event.address ? (
-                      <div className="text-[#5c6370] dark:text-[#a7adbb] leading-relaxed">
+                      <div className="text-ink-3 dark:text-snow-3 leading-relaxed">
                         {event.address}
                       </div>
                     ) : (
-                      <div className="text-[#5c6370] dark:text-[#a7adbb] italic">
+                      <div className="text-ink-3 dark:text-snow-3 italic">
                         Rendez-vous habituel sur la Place de Blanmont ou selon les consignes du capitaine de route.
                       </div>
                     )}
@@ -734,12 +734,12 @@ export default function CalendarDrawer({
                 {(event.remarks || event.alternative) && (
                   <div className="space-y-2.5 sm:space-y-3">
                     {event.remarks && (
-                      <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-4 sm:p-5 space-y-2">
-                        <div className="flex items-center gap-2 text-xs font-bold text-[#101216] dark:text-white uppercase tracking-wider">
-                          <InformationCircleIcon className="h-4 w-4 text-[#e03e3e] shrink-0" />
+                      <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-3 p-4 sm:p-5 space-y-2">
+                        <div className="flex items-center gap-2 text-xs font-bold text-ink dark:text-white uppercase tracking-wider">
+                          <InformationCircleIcon className="h-4 w-4 text-brand shrink-0" />
                           <span>Consignes &amp; Remarques du club</span>
                         </div>
-                        <p className="text-xs text-[#3a3f4a] dark:text-[#a7adbb] leading-relaxed sm:pl-6">
+                        <p className="text-xs text-ink-2 dark:text-snow-3 leading-relaxed sm:pl-6">
                           {event.remarks}
                         </p>
                       </div>
@@ -751,7 +751,7 @@ export default function CalendarDrawer({
                           <span className="h-2 w-2 rounded-full bg-amber-500 shrink-0" />
                           <span>Option Alternative / Raccourci proposé</span>
                         </div>
-                        <p className="text-xs text-[#3a3f4a] dark:text-amber-200/80 leading-relaxed sm:pl-4">
+                        <p className="text-xs text-ink-2 dark:text-amber-200/80 leading-relaxed sm:pl-4">
                           {event.alternative}
                         </p>
                       </div>
@@ -760,18 +760,18 @@ export default function CalendarDrawer({
                 )}
 
                 {/* Attendees Roster */}
-                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-4 sm:p-5 space-y-3.5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#e4e0d8] dark:border-[#262b38] pb-3">
+                <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-3 p-4 sm:p-5 space-y-3.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line dark:border-night-line pb-3">
                     <div className="flex items-center gap-2">
-                      <UserGroupIcon className="h-4 w-4 text-[#101216] dark:text-white shrink-0" />
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                      <UserGroupIcon className="h-4 w-4 text-ink dark:text-white shrink-0" />
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
                         Peloton au Départ ({attendees.length})
                       </h3>
                     </div>
 
                     <Link
                       href="/sondage"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e03e3e] hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:underline"
                     >
                       <CheckCircleIcon className="h-4 w-4 shrink-0" />
                       <span>{eventDone ? 'Consulter le sondage' : 'Gérer ma présence'}</span>
@@ -783,8 +783,8 @@ export default function CalendarDrawer({
                       {Object.entries(groupedAttendees).map(([groupName, members]) => (
                         <div key={groupName} className="space-y-2">
                           <div className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 rounded-full bg-[#e03e3e]" />
-                            <span className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+                            <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                               {groupName} ({members.length})
                             </span>
                           </div>
@@ -795,9 +795,9 @@ export default function CalendarDrawer({
                               .map((att, idx) => (
                                 <div
                                   key={idx}
-                                  className="flex items-center gap-2.5 rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-3 py-2 text-xs text-[#101216] dark:text-white shadow-2xs"
+                                  className="flex items-center gap-2.5 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3 py-2 text-xs text-ink dark:text-white shadow-2xs"
                                 >
-                                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
+                                  <span className="flex h-6 w-6 md:h-6 md:w-6 items-center justify-center rounded-full bg-night-2 dark:bg-night-line text-xs font-bold text-white shrink-0 select-none">
                                     {getInitials(att.name)}
                                   </span>
                                   <span className="font-semibold truncate">{att.name}</span>
@@ -808,7 +808,7 @@ export default function CalendarDrawer({
                       ))}
                     </div>
                   ) : (
-                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] italic py-2">
+                    <p className="text-xs text-ink-3 dark:text-snow-3 italic py-2">
                       Aucun membre n&apos;a encore confirmé sa participation pour cette sortie. Rendez-vous sur le sondage hebdomadaire pour vous inscrire !
                     </p>
                   )}
@@ -820,14 +820,14 @@ export default function CalendarDrawer({
             {activeTab === 'debrief' && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 {/* Summary Scorecard */}
-                <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-4 sm:p-5">
+                <div className="rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night-3 p-4 sm:p-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="space-y-1">
-                      <div className="text-xs font-bold uppercase tracking-wider text-[#5c6370] dark:text-[#a7adbb]">
+                      <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                         Évaluation Générale du Peloton
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-3xl font-extrabold text-[#101216] dark:text-white tabular-nums tracking-tight">
+                        <span className="text-3xl font-extrabold text-ink dark:text-white tabular-nums tracking-tight">
                           {averageRating ? `${averageRating} / 5` : '—'}
                         </span>
                         {averageRating && (
@@ -838,14 +838,14 @@ export default function CalendarDrawer({
                                 className={`h-5 w-5 ${
                                   star <= Math.round(Number(averageRating))
                                     ? 'text-amber-400'
-                                    : 'text-[#e4e0d8] dark:text-[#262b38]'
+                                    : 'text-line dark:text-night-line'
                                 }`}
                               />
                             ))}
                           </div>
                         )}
                       </div>
-                      <p className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                      <p className="text-xs text-ink-3 dark:text-snow-3">
                         Basé sur {reviews.length} {reviews.length === 1 ? 'débriefing de membre' : 'débriefings de membres'}.
                       </p>
                     </div>
@@ -855,7 +855,7 @@ export default function CalendarDrawer({
                       <button
                         type="button"
                         onClick={() => setShowForm(!showForm)}
-                        className="min-h-[44px] w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md bg-[#101216] dark:bg-white text-white dark:text-[#101216] hover:bg-[#161922] dark:hover:bg-slate-200 px-4 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors shrink-0 cursor-pointer"
+                        className="min-h-[44px] w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md bg-ink dark:bg-white text-white dark:text-ink hover:bg-night-2 dark:hover:bg-slate-200 px-4 py-2 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors shrink-0 cursor-pointer"
                       >
                         <PencilSquareIcon className="h-4 w-4" />
                         <span>{existingReview ? 'Modifier mon débrief' : 'Partager mon débrief de sortie'}</span>
@@ -866,12 +866,12 @@ export default function CalendarDrawer({
 
                 {/* If Not Completed yet */}
                 {!canDebrief && (
-                  <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-6 text-center space-y-2">
-                    <ClockIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#5c6370] dark:text-[#a7adbb]" />
-                    <h4 className="text-sm font-bold text-[#101216] dark:text-white">
+                  <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-3 p-6 text-center space-y-2">
+                    <ClockIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-ink-3 dark:text-snow-3" />
+                    <h4 className="text-sm font-bold text-ink dark:text-white">
                       Sortie non encore effectuée
                     </h4>
-                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto leading-relaxed">
+                    <p className="text-xs text-ink-3 dark:text-snow-3 max-w-sm mx-auto leading-relaxed">
                       Le formulaire d&apos;évaluation et les débriefings du peloton s&apos;ouvriront automatiquement dès le départ de cette sortie.
                     </p>
                   </div>
@@ -879,17 +879,17 @@ export default function CalendarDrawer({
 
                 {/* Login Prompt if not logged in and event is done */}
                 {canDebrief && !isAuthenticated && (
-                  <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-6 text-center space-y-3">
-                    <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#e03e3e]" />
-                    <h4 className="text-sm font-bold text-[#101216] dark:text-white">
+                  <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-3 p-6 text-center space-y-3">
+                    <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-brand" />
+                    <h4 className="text-sm font-bold text-ink dark:text-white">
                       Vous avez roulé dans le peloton ?
                     </h4>
-                    <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto leading-relaxed">
+                    <p className="text-xs text-ink-3 dark:text-snow-3 max-w-sm mx-auto leading-relaxed">
                       Connectez-vous avec votre compte membre du club pour raconter votre sortie, noter l&apos;allure et associer votre activité Strava ou Garmin.
                     </p>
                     <Link
                       href="/login"
-                      className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-[#e03e3e] hover:bg-[#c93434] text-white px-6 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors"
+                      className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-6 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors"
                     >
                       <span>Se connecter pour débriefer</span>
                       <ArrowRightIcon className="h-3.5 w-3.5" />
@@ -920,8 +920,8 @@ export default function CalendarDrawer({
 
                 {/* Reviews Stream */}
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#e4e0d8] dark:border-[#262b38] pb-2">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#101216] dark:text-white">
+                  <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-2">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">
                       Récits &amp; Débriefings des Coureurs ({reviews.length})
                     </h3>
                   </div>
@@ -948,13 +948,13 @@ export default function CalendarDrawer({
                         return (
                           <div
                             key={rev.id}
-                            className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] p-4 sm:p-5 space-y-3 shadow-2xs"
+                            className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-3 p-4 sm:p-5 space-y-3 shadow-2xs"
                           >
                             {/* Author Row */}
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
                               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                                 {rev.memberPhotoUrl ? (
-                                  <div className="relative h-9 w-9 sm:h-10 sm:w-10 shrink-0 overflow-hidden rounded-full border border-[#e4e0d8] dark:border-[#262b38]">
+                                  <div className="relative h-9 w-9 sm:h-10 sm:w-10 shrink-0 overflow-hidden rounded-full border border-line dark:border-night-line">
                                     <Image
                                       src={rev.memberPhotoUrl}
                                       alt={rev.memberName}
@@ -965,23 +965,23 @@ export default function CalendarDrawer({
                                     />
                                   </div>
                                 ) : (
-                                  <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-[#161922] dark:bg-[#262b38] text-xs font-bold text-white shrink-0 select-none">
+                                  <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-night-2 dark:bg-night-line text-xs font-bold text-white shrink-0 select-none">
                                     {getInitials(rev.memberName)}
                                   </div>
                                 )}
 
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-xs font-bold text-[#101216] dark:text-white truncate">
+                                    <span className="text-xs font-bold text-ink dark:text-white truncate">
                                       {rev.memberName}
                                     </span>
                                     {rev.memberGroup && (
-                                      <span className="rounded-xs border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#161922] px-1.5 py-0.5 text-xs font-bold uppercase text-[#5c6370] dark:text-[#a7adbb] shrink-0">
+                                      <span className="rounded-xs border border-line dark:border-night-line bg-paper dark:bg-night-2 px-1.5 py-0.5 text-xs font-bold uppercase text-ink-3 dark:text-snow-3 shrink-0">
                                         {rev.memberGroup}
                                       </span>
                                     )}
                                   </div>
-                                  <span className="text-xs text-[#5c6370] dark:text-[#a7adbb]">
+                                  <span className="text-xs text-ink-3 dark:text-snow-3">
                                     {revDate}
                                   </span>
                                 </div>
@@ -995,11 +995,11 @@ export default function CalendarDrawer({
                                     className={`h-4 w-4 ${
                                       star <= rev.rating
                                         ? 'text-amber-400'
-                                        : 'text-[#e4e0d8] dark:text-[#262b38]'
+                                        : 'text-line dark:text-night-line'
                                     }`}
                                   />
                                 ))}
-                                <span className="ml-1 text-xs font-bold text-[#101216] dark:text-white tabular-nums">
+                                <span className="ml-1 text-xs font-bold text-ink dark:text-white tabular-nums">
                                   {rev.rating}/5
                                 </span>
                               </div>
@@ -1008,28 +1008,28 @@ export default function CalendarDrawer({
                             {/* Evaluation Tags Strip */}
                             <div className="flex flex-wrap items-center gap-1.5 pt-1">
                               {rev.effort && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-paper dark:bg-night-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-semibold text-ink dark:text-snow">
                                   <span>Effort :</span>
                                   <span className="capitalize">{rev.effort}</span>
                                 </span>
                               )}
 
                               {rev.pace && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-paper dark:bg-night-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-semibold text-ink dark:text-snow">
                                   <span>Allure :</span>
                                   <span className="capitalize">{rev.pace.replace('-', ' ')}</span>
                                 </span>
                               )}
 
                               {rev.roadCondition && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-paper dark:bg-night-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-semibold text-ink dark:text-snow">
                                   <span>Route :</span>
                                   <span className="capitalize">{rev.roadCondition}</span>
                                 </span>
                               )}
 
                               {rev.weatherEncountered && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#faf8f5] dark:bg-[#161922] border border-[#e4e0d8] dark:border-[#262b38] px-2.5 py-0.5 text-xs font-semibold text-[#101216] dark:text-[#f5f6f8]">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-paper dark:bg-night-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-semibold text-ink dark:text-snow">
                                   <span>Météo :</span>
                                   <span className="capitalize">{rev.weatherEncountered}</span>
                                 </span>
@@ -1037,12 +1037,12 @@ export default function CalendarDrawer({
                             </div>
 
                             {/* Comment text */}
-                            <p className="text-xs text-[#3a3f4a] dark:text-[#d1d5db] leading-relaxed whitespace-pre-line">
+                            <p className="text-xs text-ink-2 dark:text-snow-2 leading-relaxed whitespace-pre-line">
                               {rev.comment}
                             </p>
 
                             {/* Footer of Review: Strava link + Moderation */}
-                            <div className="flex items-center justify-between pt-2 border-t border-[#e4e0d8] dark:border-[#262b38] text-xs">
+                            <div className="flex items-center justify-between pt-2 border-t border-line dark:border-night-line text-xs">
                               {rev.stravaActivityUrl ? (
                                 <a
                                   href={rev.stravaActivityUrl}
@@ -1061,7 +1061,7 @@ export default function CalendarDrawer({
                                 <button
                                   type="button"
                                   onClick={() => handleDeleteReview(rev.memberId)}
-                                  className="min-h-[44px] inline-flex items-center text-xs font-semibold text-[#5c6370] dark:text-[#a7adbb] hover:text-rose-600 transition-colors cursor-pointer"
+                                  className="min-h-[44px] inline-flex items-center text-xs font-semibold text-ink-3 dark:text-snow-3 hover:text-rose-600 transition-colors cursor-pointer"
                                 >
                                   Supprimer
                                 </button>
@@ -1072,12 +1072,12 @@ export default function CalendarDrawer({
                       })}
                     </div>
                   ) : (
-                    <div className="rounded-lg border border-[#e4e0d8] dark:border-[#262b38] bg-[#faf8f5] dark:bg-[#1d2128] p-8 text-center space-y-2">
-                      <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-[#5c6370] dark:text-[#a7adbb]" />
-                      <h4 className="text-xs font-bold text-[#101216] dark:text-white uppercase tracking-wider">
+                    <div className="rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night-3 p-8 text-center space-y-2">
+                      <ChatBubbleLeftRightIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-ink-3 dark:text-snow-3" />
+                      <h4 className="text-xs font-bold text-ink dark:text-white uppercase tracking-wider">
                         Aucun débriefing enregistré pour le moment
                       </h4>
-                      <p className="text-xs text-[#5c6370] dark:text-[#a7adbb] max-w-sm mx-auto leading-relaxed">
+                      <p className="text-xs text-ink-3 dark:text-snow-3 max-w-sm mx-auto leading-relaxed">
                         Soyez le premier membre du club à raconter la sortie, partager vos sensations et évaluer le rythme du peloton !
                       </p>
                     </div>
@@ -1088,11 +1088,11 @@ export default function CalendarDrawer({
           </div>
 
           {/* ──── Footer ──── */}
-          <div className="p-3 sm:p-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-[#e4e0d8] dark:border-[#262b38] flex items-center justify-between gap-3 bg-[#faf8f5] dark:bg-[#101216] shrink-0">
+          <div className="p-3 sm:p-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-line dark:border-night-line flex items-center justify-between gap-3 bg-paper dark:bg-ink shrink-0">
             {mounted && isAdmin ? (
               <Link
                 href={`/admin/events/${event.id}/edit`}
-                className="min-h-[44px] flex-1 sm:flex-initial inline-flex items-center justify-center rounded-md bg-[#101216] dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-[#101216] hover:bg-[#161922] dark:hover:bg-slate-200 transition-colors"
+                className="min-h-[44px] flex-1 sm:flex-initial inline-flex items-center justify-center rounded-md bg-ink dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-ink hover:bg-night-2 dark:hover:bg-slate-200 transition-colors"
               >
                 <PencilSquareIcon className="h-4 w-4 mr-1.5 shrink-0" />
                 <span>Modifier dans l&apos;admin</span>
@@ -1105,7 +1105,7 @@ export default function CalendarDrawer({
               type="button"
               onClick={onClose}
               className={cn(
-                'min-h-[44px] inline-flex items-center justify-center rounded-md border border-[#e4e0d8] dark:border-[#262b38] bg-white dark:bg-[#1d2128] px-6 py-2 text-xs font-semibold text-[#101216] dark:text-white hover:bg-[#faf8f5] dark:hover:bg-[#262b38] hover:border-[#101216]/30 dark:hover:border-white/30 transition-colors cursor-pointer',
+                'min-h-[44px] inline-flex items-center justify-center rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-6 py-2 text-xs font-semibold text-ink dark:text-white hover:bg-paper dark:hover:bg-night-line hover:border-ink/30 dark:hover:border-white/30 transition-colors cursor-pointer',
                 (!mounted || !isAdmin) && 'w-full sm:w-auto'
               )}
             >

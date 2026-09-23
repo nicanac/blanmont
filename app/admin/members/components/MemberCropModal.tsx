@@ -79,18 +79,18 @@ export default function MemberCropModal({
       aria-labelledby="member-crop-title"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6"
     >
-      <div className="bg-[#101216] border border-[#262b38] rounded-xl overflow-hidden w-full max-w-3xl shadow-2xl animate-in zoom-in-95 flex flex-col max-h-[92vh]">
+      <div className="bg-ink border border-night-line rounded-xl overflow-hidden w-full max-w-3xl shadow-2xl animate-in zoom-in-95 flex flex-col max-h-[92vh]">
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-[#262b38] flex items-center justify-between bg-[#0a0c10]">
+        <div className="p-4 sm:p-5 border-b border-night-line flex items-center justify-between bg-night">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 md:h-8 md:w-8 rounded-md bg-[#e03e3e]/20 border border-[#e03e3e]/40 flex items-center justify-center text-[#e03e3e]">
+            <div className="h-8 w-8 md:h-8 md:w-8 rounded-md bg-brand/20 border border-brand/40 flex items-center justify-center text-brand">
               <AdjustmentsHorizontalIcon className="h-5 w-5" />
             </div>
             <div>
               <h3 id="member-crop-title" className="text-sm sm:text-base font-bold text-white uppercase tracking-wider">
                 Recadrage Photo · {memberName || 'Membre'}
               </h3>
-              <p className="text-xs text-[#a7adbb]">
+              <p className="text-xs text-snow-3">
                 Ratio portrait 4:5 (exactement comme sur /members) · Glissez et zoomez pour centrer le visage
               </p>
             </div>
@@ -101,14 +101,14 @@ export default function MemberCropModal({
             onClick={onClose}
             disabled={isProcessing}
             aria-label="Fermer le recadrage"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md p-2 text-snow-3 hover:text-white hover:bg-white/10 transition-colors"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
 
         {/* Cropper Viewport */}
-        <div className="relative h-[340px] sm:h-[440px] w-full bg-[#050608]">
+        <div className="relative h-[340px] sm:h-[440px] w-full bg-night">
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -121,16 +121,16 @@ export default function MemberCropModal({
         </div>
 
         {/* Modal Controls & Actions */}
-        <div className="p-4 sm:p-5 bg-[#161922] border-t border-[#262b38] space-y-4">
+        <div className="p-4 sm:p-5 bg-night-2 border-t border-night-line space-y-4">
           {/* Zoom Control Bar */}
           <div className="flex items-center gap-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#a7adbb] shrink-0">
+            <span className="text-xs font-bold uppercase tracking-wider text-snow-3 shrink-0">
               Zoom :
             </span>
             <button
               type="button"
               onClick={() => setZoom((z) => Math.max(1, z - 0.1))}
-              className="p-1 rounded text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors"
+              className="p-1 rounded text-snow-3 hover:text-white hover:bg-white/10 transition-colors"
               title="Zoom arrière"
             >
               <MagnifyingGlassMinusIcon className="h-4 w-4" />
@@ -144,12 +144,12 @@ export default function MemberCropModal({
               aria-label="Niveau de zoom du recadrage photo"
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
-              className="w-full accent-[#e03e3e] cursor-pointer"
+              className="w-full accent-brand cursor-pointer"
             />
             <button
               type="button"
               onClick={() => setZoom((z) => Math.min(3, z + 0.1))}
-              className="p-1 rounded text-[#a7adbb] hover:text-white hover:bg-white/10 transition-colors"
+              className="p-1 rounded text-snow-3 hover:text-white hover:bg-white/10 transition-colors"
               title="Zoom avant"
             >
               <MagnifyingGlassPlusIcon className="h-4 w-4" />
@@ -160,8 +160,8 @@ export default function MemberCropModal({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#262b38]">
-            <p className="text-xs text-[#5c6370]">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-night-line">
+            <p className="text-xs text-ink-3">
               Astuce : Déplacez directement le sujet à la souris ou au doigt pour un cadrage optimal.
             </p>
 
@@ -170,7 +170,7 @@ export default function MemberCropModal({
                 type="button"
                 onClick={onClose}
                 disabled={isProcessing}
-                className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#a7adbb] hover:text-white hover:bg-white/5 rounded-md transition-colors min-h-[40px]"
+                className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-snow-3 hover:text-white hover:bg-white/5 rounded-md transition-colors min-h-[40px]"
               >
                 Annuler
               </button>
@@ -179,7 +179,7 @@ export default function MemberCropModal({
                 type="button"
                 onClick={handleConfirm}
                 disabled={isProcessing}
-                className="inline-flex items-center gap-2 px-6 py-2 bg-[#e03e3e] hover:bg-[#c93434] text-white text-xs font-bold uppercase tracking-wider rounded-md shadow-lg shadow-[#e03e3e]/25 transition-colors disabled:opacity-50 min-h-[40px]"
+                className="inline-flex items-center gap-2 px-6 py-2 bg-brand hover:bg-brand-strong text-white text-xs font-bold uppercase tracking-wider rounded-md shadow-lg shadow-brand/25 transition-colors disabled:opacity-50 min-h-[40px]"
               >
                 {isProcessing && <ArrowPathIcon className="h-4 w-4 animate-spin" />}
                 <span>{isProcessing ? 'Enregistrement...' : 'Valider ce cadrage'}</span>
