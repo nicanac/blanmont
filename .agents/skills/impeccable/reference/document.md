@@ -8,35 +8,63 @@ The YAML frontmatter is the machine-readable layer. It's what Stitch's linter va
 
 ```yaml
 ---
-name: <project title>
-description: <one-line tagline>
+name: CC Saint-Martin Blanmont
+description: "Système de design pour la plateforme cycliste du CC Saint-Martin Blanmont — La Feuille de Blanmont (Carte IGN)"
 colors:
-  primary: "#b8422e"
-  neutral-bg: "#faf7f2"
-  # ...one entry per extracted color; key = descriptive slug
+  paper: "#fbfbf8"
+  paper-2: "#f0f1eb"
+  line: "#dcddd4"
+  ink: "#16181b"
+  brand: "#d63535"
+  brand-strong: "#b82b2b"
+  night: "#0d1013"
+  night-2: "#151a1f"
+  snow: "#eef1f4"
+  bistre: "#b0703b"
+  hydro: "#1f6fbf"
+  vert: "#2e7d45"
+  ambre: "#e8962a"
 typography:
   display:
-    fontFamily: "Cormorant Garamond, Georgia, serif"
-    fontSize: "clamp(2.5rem, 7vw, 4.5rem)"
-    fontWeight: 300
-    lineHeight: 1
-    letterSpacing: "normal"
+    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(2.5rem, 7vw, 5rem)"
+    fontWeight: 800
+    lineHeight: 0.92
+    letterSpacing: "-0.02em"
+  headline:
+    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(1.5rem, 3vw, 2.25rem)"
+    fontWeight: 800
+    lineHeight: 1.05
+    letterSpacing: "-0.01em"
   body:
-    # ...
+    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.6
+  label:
+    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.75rem"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "0.08em"
 rounded:
-  sm: "4px"
-  md: "8px"
+  sm: "2px"
+  md: "3px"
+  lg: "4px"
+  full: "9999px"
 spacing:
   sm: "8px"
   md: "16px"
+  lg: "24px"
 components:
   button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.neutral-bg}"
-    rounded: "{rounded.sm}"
-    padding: "16px 48px"
+    backgroundColor: "{colors.brand}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.md}"
+    padding: "12px 24px"
   button-primary-hover:
-    backgroundColor: "{colors.primary-deep}"
+    backgroundColor: "{colors.brand-strong}"
 ---
 ```
 
@@ -345,15 +373,39 @@ Do not reword. The panel shows these as secondary collapsible context; the same 
 2. Mention that `.impeccable/design.json` was also written alongside; the live panel will now render this project's actual button/input/nav primitives instead of generic approximations.
 3. Offer to refine any section: "Want me to revise a section, add component patterns I missed, or adjust the atmosphere language?"
 
-### Step 6: Automated Git Workflow (Branch, Commit, Push, PR, Merge)
+### Step 6: Automated Git Workflow (Branch, Verify, Commit, Push, PR, Merge, Sync)
 
-Immediately after documenting or updating `DESIGN.md` / `.impeccable/design.json`, execute the automated Git lifecycle:
-1. **Branch**: Create and switch to a dedicated branch (`bash scripts/git-branch.sh docs <name>` or `git checkout -b <user>/docs/<name>`).
-2. **Commit**: Stage changes (`git add DESIGN.md .impeccable/design.json .gitignore AGENTS.md GEMINI.md`) and commit using Conventional Commits (`docs(design): update DESIGN.md and design tokens`).
-3. **Push**: Push to remote (`git push -u origin <branch>`).
-4. **PR**: Create Pull Request (`gh pr create --title "docs(design): update DESIGN.md and design tokens" --body "..."`).
-5. **Merge**: Merge the PR (`gh pr merge --squash --delete-branch`).
-6. **Sync**: Return to `master` and pull latest (`git checkout master && git pull origin master`).
+Immediately after documenting or updating `DESIGN.md` / `.impeccable/design.json`, execute the automated Git lifecycle without stopping (per `docs/git-workflow.md`):
+1. **Branch**: Create and switch to a dedicated docs branch:
+   ```bash
+   bash scripts/git-branch.sh docs <name>
+   # or git checkout -b <username>/docs/<name>
+   ```
+2. **Verify**: Run the test suite to ensure design system integrity and regression-free code:
+   ```bash
+   npm test
+   ```
+3. **Commit**: Stage changes and commit using Conventional Commits:
+   ```bash
+   git add DESIGN.md .impeccable/design.json AGENTS.md GEMINI.md CLAUDE.md .cursorrules .windsurfrules tests/design-system-integrity.test.ts
+   git commit -m "docs(design): update DESIGN.md and design tokens"
+   ```
+4. **Push**: Push branch to remote:
+   ```bash
+   git push -u origin <branch>
+   ```
+5. **PR**: Create Pull Request via GitHub CLI:
+   ```bash
+   gh pr create --base master --title "docs(design): update DESIGN.md and design tokens" --body "## Summary\n\nSynchronize DESIGN.md and .impeccable/design.json design tokens with La Feuille de Blanmont specifications."
+   ```
+6. **Merge**: Merge the PR via squash and delete the remote branch:
+   ```bash
+   gh pr merge --squash --delete-branch
+   ```
+7. **Sync**: Return to `master` and pull latest changes:
+   ```bash
+   git checkout master && git pull origin master
+   ```
 
 Your own write is the freshest source; subsequent commands in this session don't need a reload.
 

@@ -42,9 +42,18 @@ Surface habits:
 - Light or dark picked by category. Pick it from the use scene: who, where, under what ambient light.
 
 - Tracking stops at -0.04em. -0.02 to -0.03em usually reads better.
-- Declare elevation once, border or shadow. A 1px border under a wide soft shadow is the ghost card. Card radii stay at 12–16px; pills are for small controls.
+- Declare elevation once, border or shadow. A 1px border under a wide soft shadow is the ghost card. In this design system ("La Feuille de Blanmont — Carte IGN"), card and container radii strictly stay at crisp 2px–6px (`rounded-sm` to `rounded-2xl`, standard 3px `rounded-md`), evoking printed topographic map sheets; full pill radii (`rounded-full`) are strictly reserved for status chips and tags (never for buttons or cards).
 - Real illustration or none. Sketch-style SVG scenes, `loose-sketch` / `doodle` class names, and `feTurbulence` grain read as amateur. This bans SVG imitating pictures, never SVG doing geometry: crisp vector shapes, diagrams, animated linework, and shader-driven effects remain first-class media. A shaded, perspectived, or figure-bearing illustration is a picture even in line-art style; geometry means shapes a session can specify exactly.
 - Backgrounds are surfaces, textured only from the subject's world. `repeating-linear-gradient` stripes and two-axis grid overlays need an actual canvas, map, blueprint, or measuring tool under them.
 - Claims and configuration come from supplied truth; label illustrative values honestly. Naming a concept and then ironizing it is not a claim.
 
+Project non-negotiable refusals ("La Feuille de Blanmont — Carte IGN"):
+
+- Generic SaaS dashboards, glassmorphism, blur halos, or purple/indigo themes. Surfaces are flat day map paper (`#fbfbf8`) or nocturnal dark sheet (`#0d1013`), bounded by 1px hairline neatlines (`border-line` / `border-night-line`).
+- Poppins, Inter, Roboto, or generic sans-serif faces. The Archivo superfamily is mandatory, with width-driven hierarchy (`font-wide` display, `font-semiwide` headlines, `font-narrow` labels/badges).
+- Non-tabular cycling figures. Every cycling metric (distance in km, elevation in m D+, speed in km/h, stopwatch splits) must use `tabular-nums` with explicit units.
+- Non-cartouche heroes on major pages. Anchor key pages with `SheetHeader` (`app/components/carte/SheetHeader.tsx`) showing geodetic mark and coordinates (`50°37′23″ N · 4°38′32″ E`).
+- English user-facing copy. All user-facing UI copy must be in idiomatic French.
+
 The floor holds the mechanics; it never picks the direction. With every check green, spend the page on the committed world, and when torn between refined and committed, commit.
+

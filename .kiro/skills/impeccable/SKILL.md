@@ -24,6 +24,34 @@ Core principles:
 - **Refinement preserves; redesign replaces.** Refinement keeps the incumbent identity, behavior, copy, and everything outside scope. Ask before replacing factual copy or adding claims. Redesign keeps product truth, content, function, native affordances, and constraints, but treats the old look as evidence and anti-reference; choose a replacement world in new-work and replace DESIGN.md. Never split the difference into polish on the discarded look.
 - **Visual authority is evidence, not a filename.** Missing DESIGN.md alone does not make a project greenfield; new-work decides whether to preserve, expand, or replace the incumbent world.
 
+## Project Design Authority — "La Feuille de Blanmont — Carte IGN"
+
+All visual work, components, and pages on this platform must strictly preserve and implement the **"La Feuille de Blanmont — Carte IGN"** visual system defined in DESIGN.md and .impeccable/design.json:
+- **Grounds**: Day Map Paper (g-paper / #fbfbf8), recessed paper (g-paper-2 / #f0f1eb), nocturnal dark sheet (g-night / #0d1013, g-night-2 / #151a1f).
+- **Spot Inks**: Route Red (rand / #d63535, roads rand-vif / #e03e3e), Relief Bistre (istre / #b0703b), Hydro Blue (hydro / #1f6fbf), Woodland Green (ert / #2e7d45, ois / #dcebcf), Amber (mbre / #e8962a). Never use arbitrary saturated colors or generic SaaS blues/purples.
+- **Typography**: Google variable font Archivo (ar(--font-archivo)) with width-driven hierarchy (ont-wide display, ont-semiwide headlines, ont-narrow labels/badges). Tabular figures (	abular-nums) for all cycling telemetry (km, m D+, km/h, stopwatch splits). Absolute prohibition of Poppins, Inter, Roboto, or arbitrary fonts.
+- **Cartouches**: Key pages must use SheetHeader (pp/components/carte/SheetHeader.tsx) with geodetic mark (GeodeticMark), coordinates (50°37′23″ N · 4°38′32″ E), and territory facts.
+- **Form Language & Precision**: Continuous 1px hairline neatlines (order-line / order-night-line), crisp 2px–6px sheet corners (ounded-sm to ounded-2xl, standard 3px ounded-md), corner ticks (corner-ticks). Full pill radii (ounded-full) are strictly reserved for status chips and tags (never for buttons or cards).
+- **Absolute Prohibitions**: No generic SaaS dashboards, no glassmorphism, no artificial drop-shadow blur halos, no gradient text, no uncalibrated inline styles.
+- **UI Copy**: Strictly idiomatic French for all user-facing copy.
+
+## Project Way of Working & Git Automation
+
+- **Tech Stack**: Next.js 16 (App Router), React 19, Tailwind CSS v4 semantic tokens only (pp/globals.css), Firebase Realtime Database as single source of truth.
+- **Codebase Navigation (Graft)**: Use pre-computed repo graph in graft/ (graft ask, graft grep, graft skeleton, graft callers) instead of brute-force source scans.
+- **Test Verification**: Whenever modifying, creating, or polishing code, run related tests and ensure all tests pass (
+pm test) before concluding work.
+- **Documentation Git Automation**: Whenever documenting or updating the design system (/impeccable document or updates to DESIGN.md / .impeccable/design.json), automatically execute the full Git flow defined in docs/git-workflow.md:
+  1. Branch: create branch (ash scripts/git-branch.sh docs <name> or git checkout -b <username>/docs/<name>).
+  2. Verify: run 
+pm test to confirm test suite integrity.
+  3. Commit: commit using Conventional Commits (docs(design): ...).
+  4. Push: push to remote (git push -u origin <branch>).
+  5. PR: create Pull Request via GitHub CLI (gh pr create).
+  6. Merge: merge via squash and delete remote branch (gh pr merge --squash --delete-branch).
+  7. Sync: return to master and pull latest (git checkout master && git pull origin master).
+
+
 ## Modes
 
 The mode names what the visitor's success looks like on this surface.
