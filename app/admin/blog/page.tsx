@@ -52,59 +52,59 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
           tip="Vous pouvez utiliser le format Markdown et insérer des photos pour enrichir la mise en page de vos chroniques."
         />
       ) : (
-        <div id="blog-table-section" className="rounded-lg border border-line bg-white shadow-xs overflow-hidden">
+        <div id="blog-table-section" className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-line">
-              <thead className="bg-paper-2">
+            <table className="min-w-full divide-y divide-line dark:divide-night-line">
+              <thead className="bg-paper-2 dark:bg-night-3">
                 <tr>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Article
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Auteur
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Catégorie
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Date
                   </th>
-                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Statut
                   </th>
-                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-ink-3">
+                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-ink-3 dark:text-snow-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-paper-2 bg-white text-xs">
+              <tbody className="divide-y divide-line dark:divide-night-line bg-paper dark:bg-night-2 text-xs">
                 {posts.map((post) => (
-                  <tr key={post.id} className="hover:bg-paper transition-colors">
+                  <tr key={post.id} className="hover:bg-paper-2/60 dark:hover:bg-night-3/60 transition-colors">
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-bold text-ink truncate max-w-xs">
+                        <p className="font-bold text-ink dark:text-white truncate max-w-xs">
                           {post.title}
                         </p>
-                        <p className="text-xs text-ink-3 truncate max-w-xs">{post.excerpt}</p>
+                        <p className="text-xs text-ink-3 dark:text-snow-3 truncate max-w-xs">{post.excerpt}</p>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-ink-2 font-medium">
+                    <td className="whitespace-nowrap px-6 py-4 text-ink-2 dark:text-snow-2 font-medium">
                       {post.author}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      <span className="inline-flex rounded-full bg-paper-2 border border-line px-2.5 py-0.5 text-xs font-semibold text-ink-3">
+                      <span className="inline-flex rounded-full bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-semibold text-ink-3 dark:text-snow-3">
                         {post.category || 'Actualité'}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-ink-3 tabular-nums">
+                    <td className="whitespace-nowrap px-6 py-4 text-ink-3 dark:text-snow-3 tabular-nums">
                       {formatDate(post.publishedAt)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <span
                         className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider border ${
                           post.isPublished
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : 'bg-amber-50 text-amber-700 border-amber-200'
+                            ? 'bg-vert/10 text-vert border-vert/30'
+                            : 'bg-ambre/10 text-ambre border-ambre/30'
                         }`}
                       >
                         {post.isPublished ? 'Publié' : 'Brouillon'}
@@ -115,14 +115,14 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                         <Link
                           href={`/blog/${post.slug}`}
                           target="_blank"
-                          className="rounded-md p-1.5 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors"
+                          className="rounded-md p-1.5 text-ink-3 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-3 hover:text-ink dark:hover:text-white transition-colors"
                           title="Voir sur le site"
                         >
                           <ArrowTopRightOnSquareIcon className="h-4 w-4" />
                         </Link>
                         <Link
                           href={`/admin/blog/${post.id}/edit`}
-                          className="rounded-md p-1.5 text-ink-3 hover:bg-paper-2 hover:text-ink transition-colors"
+                          className="rounded-md p-1.5 text-ink-3 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-3 hover:text-ink dark:hover:text-white transition-colors"
                           title="Modifier"
                         >
                           <PencilIcon className="h-4 w-4" />

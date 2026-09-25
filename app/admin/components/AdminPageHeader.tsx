@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { AcademicCapIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/app/utils/cn';
+import { SheetHeader, SheetLegendRow } from '@/app/components/carte/SheetHeader';
 
 export interface AdminHeaderAction {
   label: string;
@@ -16,12 +17,14 @@ export interface AdminHeaderAction {
 
 export interface AdminPageHeaderProps {
   id?: string;
+  sheet?: string;
   title: string;
   badge?: {
     icon: React.ComponentType<{ className?: string }>;
     label: string;
   };
   description?: string | React.ReactNode;
+  legend?: SheetLegendRow[];
   onOpenTutorial?: () => void;
   tutorialLabel?: string;
   tutorialButtonId?: string;
@@ -33,9 +36,11 @@ export interface AdminPageHeaderProps {
 
 export default function AdminPageHeader({
   id,
+  sheet,
   title,
   badge,
   description,
+  legend,
   onOpenTutorial,
   tutorialLabel = 'Tutoriel & Guide',
   tutorialButtonId,
@@ -44,93 +49,92 @@ export default function AdminPageHeader({
   children,
   className = '',
 }: AdminPageHeaderProps): React.ReactElement {
-  return (
-    <>
-      <div
-        id={id}
-        className={cn(
-          'flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line dark:border-night-line',
-          className
-        )}
-      >
-        <div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-white">
-              {title}
-            </h1>
-            {badge && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-ink dark:bg-night-3 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
-                <badge.icon className="h-3.5 w-3.5 text-brand" />
-                <span>{badge.label}</span>
-              </span>
+  const sheetName =
+    sheet || (badge?.label ? `Feuille · ${badge.label}` : 'Feuille · Administration');
+
+  const renderedTitle = (
+    <div className="flex items-center gap-2.5 flex-wrap">
+      <span className="font-wide font-extrabold tracking-tight">{title}</span>
+      {badge && (
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-paper-2 dark:bg-night-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-narrow font-bold uppercase tracking-wider text-ink dark:text-snow">
+          <badge.icon className="h-3.5 w-3.5 text-brand" />
+          <span>{badge.label}</span>
+        </span>
+      )}
+    </div>
+  );
+
+  const renderedActions = (
+    <div className="flex flex-wrap items-center gap-2.5">
+      {rightExtra}
+      {/* Tutorial Button */}
+      {onOpenTutorial && (
+        <button
+          id={tutorialButtonId}
+          type="button"
+          onClick={onOpenTutorial}
+          className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 px-3 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3 transition-colors cursor-pointer active:translate-y-px"
+          title="Ouvrir le guide et tutoriel"
+        >
+          <AcademicCapIcon className="h-4 w-4 text-brand" />
+          <span>{tutorialLabel}</span>
+        </button>
+      )}
+
+      {/* Action Buttons */}
+      {actions.map((action, idx) => {
+        const isPrimary = action.variant !== 'secondary';
+        const buttonClasses = cn(
+          'inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider transition-colors cursor-pointer shrink-0 active:translate-y-px',
+          isPrimary
+            ? 'bg-brand hover:bg-brand-strong text-white font-bold tracking-[0.07em]'
+            : 'border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3'
+        );
+
+        if (action.href) {
+          return (
+            <Link key={idx} id={action.id} href={action.href} className={buttonClasses}>
+              {action.icon && (
+                <action.icon
+                  className={cn('h-4 w-4', isPrimary ? 'text-white' : 'text-brand')}
+                />
+              )}
+              <span>{action.label}</span>
+            </Link>
+          );
+        }
+
+        return (
+          <button
+            key={idx}
+            id={action.id}
+            type="button"
+            onClick={action.onClick}
+            className={buttonClasses}
+          >
+            {action.icon && (
+              <action.icon
+                className={cn('h-4 w-4', isPrimary ? 'text-white' : 'text-brand')}
+              />
             )}
-          </div>
-          {description && (
-            <div className="mt-1 text-xs sm:text-sm text-ink-3 dark:text-snow-3">
-              {description}
-            </div>
-          )}
-        </div>
+            <span>{action.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
 
-        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-          {rightExtra}
-          {/* Tutorial Button */}
-          {onOpenTutorial && (
-            <button
-              id={tutorialButtonId}
-              type="button"
-              onClick={onOpenTutorial}
-              className="inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors shadow-xs cursor-pointer"
-              title="Ouvrir le guide et tutoriel"
-            >
-              <AcademicCapIcon className="h-4 w-4 text-brand" />
-              <span>{tutorialLabel}</span>
-            </button>
-          )}
-
-          {/* Action Buttons */}
-          {actions.map((action, idx) => {
-            const isPrimary = action.variant !== 'secondary';
-            const buttonClasses = cn(
-              'inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs cursor-pointer shrink-0',
-              isPrimary
-                ? 'bg-brand hover:bg-brand-strong text-white'
-                : 'border border-line dark:border-night-line bg-white dark:bg-night-2 text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3'
-            );
-
-            if (action.href) {
-              return (
-                <Link key={idx} id={action.id} href={action.href} className={buttonClasses}>
-                  {action.icon && (
-                    <action.icon
-                      className={cn('h-4 w-4', isPrimary ? 'text-white' : 'text-ink-3')}
-                    />
-                  )}
-                  <span>{action.label}</span>
-                </Link>
-              );
-            }
-
-            return (
-              <button
-                key={idx}
-                id={action.id}
-                type="button"
-                onClick={action.onClick}
-                className={buttonClasses}
-              >
-                {action.icon && (
-                  <action.icon
-                    className={cn('h-4 w-4', isPrimary ? 'text-white' : 'text-ink-3')}
-                  />
-                )}
-                <span>{action.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-      {children}
-    </>
+  return (
+    <div id={id} className={className}>
+      <SheetHeader
+        sheet={sheetName}
+        title={renderedTitle}
+        description={description}
+        legend={legend}
+        actions={renderedActions}
+      >
+        {children}
+      </SheetHeader>
+    </div>
   );
 }

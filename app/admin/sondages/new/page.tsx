@@ -204,13 +204,13 @@ function NewWeekendPollForm() {
       <div className="flex items-center gap-3">
         <Link
           href="/admin/sondages"
-          className="rounded-md p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/10 dark:hover:text-white transition-colors duration-150"
+          className="rounded-sm p-2 text-ink-3 hover:bg-paper-2 hover:text-ink dark:hover:bg-night-2 dark:hover:text-snow-1 transition-colors duration-150"
           title="Retour à la liste des sondages"
         >
           <ArrowLeftIcon className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-ink dark:text-snow-1 font-semiwide">
             Nouveau Sondage de Weekend
           </h1>
           <p className="text-xs text-ink-3 dark:text-snow-3">
@@ -220,14 +220,14 @@ function NewWeekendPollForm() {
       </div>
 
       {/* Saturday Sortie Detection & Autofill Card */}
-      <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-5 sm:p-6 shadow-xs space-y-4">
+      <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 sm:p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-line dark:border-night-line">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-brand/10 text-brand border border-brand/20">
+            <span className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-sm bg-brand/10 text-brand border border-brand/20">
               <SparklesIcon className="h-4 w-4" />
             </span>
             <div>
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+              <h3 className="text-sm font-bold text-ink dark:text-snow-1 font-semiwide">
                 Sortie du Samedi &amp; Distances au Calendrier
               </h3>
               <p className="text-xs text-ink-3 dark:text-snow-3">
@@ -237,8 +237,8 @@ function NewWeekendPollForm() {
           </div>
 
           {hasAppliedInfo && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 px-3 py-1 text-xs font-semibold text-emerald-800 dark:text-emerald-300 self-start sm:self-auto">
-              <CheckCircleIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-vert/10 border border-vert/30 px-3 py-1 text-xs font-semibold text-vert dark:text-vert-light self-start sm:self-auto font-mono">
+              <CheckCircleIcon className="h-4 w-4 text-vert dark:text-vert-light" />
               <span>Infos du samedi appliquées</span>
             </span>
           )}
@@ -253,31 +253,31 @@ function NewWeekendPollForm() {
           <div className="space-y-4">
             {/* Metas pill row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink p-3 flex items-start gap-2.5">
+              <div className="rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night p-3 flex items-start gap-2.5">
                 <MapPinIcon className="h-4 w-4 text-brand shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">Lieu &amp; RDV</div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white truncate">{sortieInfo.location}</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-mono">Lieu &amp; RDV</div>
+                  <div className="text-xs font-bold text-ink dark:text-snow-1 truncate">{sortieInfo.location}</div>
                   {sortieInfo.address && (
                     <div className="text-xs text-ink-3 dark:text-snow-3 truncate">{sortieInfo.address}</div>
                   )}
                 </div>
               </div>
 
-              <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink p-3 flex items-start gap-2.5">
+              <div className="rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night p-3 flex items-start gap-2.5">
                 <ClockIcon className="h-4 w-4 text-brand shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">Départ</div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">{sortieInfo.departure}</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-mono">Départ</div>
+                  <div className="text-xs font-bold text-ink dark:text-snow-1 font-mono">{sortieInfo.departure}</div>
                   <div className="text-xs text-ink-3 dark:text-snow-3">{sortieInfo.formattedDate}</div>
                 </div>
               </div>
 
-              <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink p-3 flex items-start gap-2.5">
+              <div className="rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night p-3 flex items-start gap-2.5">
                 <CalendarDaysIcon className="h-4 w-4 text-brand shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">Distances prévues</div>
-                  <div className="text-xs font-bold text-brand tabular-nums">
+                  <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-mono">Distances prévues</div>
+                  <div className="text-xs font-bold text-brand tabular-nums font-mono">
                     {sortieInfo.distancesRaw ? (
                       sortieInfo.distancesRaw.toLowerCase().includes('km')
                         ? sortieInfo.distancesRaw
@@ -294,8 +294,8 @@ function NewWeekendPollForm() {
             </div>
 
             {sortieInfo.remarks && (
-              <div className="text-xs text-amber-950/80 dark:text-amber-200/80 rounded-md bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/40 px-3 py-2">
-                <strong className="font-semibold text-amber-900 dark:text-amber-300">Note au calendrier :</strong> {sortieInfo.remarks}
+              <div className="text-xs text-ambre-dark dark:text-ambre rounded-sm bg-ambre/10 border border-ambre/30 px-3 py-2 font-mono">
+                <strong className="font-semibold text-ambre-dark dark:text-ambre">Note au calendrier :</strong> {sortieInfo.remarks}
               </div>
             )}
 
@@ -303,7 +303,7 @@ function NewWeekendPollForm() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
               <div className="text-xs text-ink-3 dark:text-snow-3">
                 Options qui seront ajoutées au sondage :{' '}
-                <span className="font-semibold text-slate-700 dark:text-gray-300">
+                <span className="font-semibold text-ink-2 dark:text-snow-2 font-mono">
                   {sortieInfo.distanceOptions.join(' • ')}
                 </span>
               </div>
@@ -311,7 +311,7 @@ function NewWeekendPollForm() {
               <button
                 type="button"
                 onClick={() => applySortieInfo(sortieInfo)}
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider shadow-xs transition-colors duration-150 shrink-0 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-sm bg-brand hover:bg-brand-strong text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-150 shrink-0 cursor-pointer min-h-[44px]"
               >
                 <SparklesIcon className="h-4 w-4" />
                 <span>Utiliser les infos de la sortie du samedi</span>
@@ -319,11 +319,11 @@ function NewWeekendPollForm() {
             </div>
           </div>
         ) : (
-          <div className="rounded-lg border border-dashed border-line dark:border-ink-2 p-4 space-y-2.5">
-            <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-gray-300">
+          <div className="rounded-sm border border-dashed border-line dark:border-night-line p-4 space-y-2.5">
+            <div className="flex items-center gap-2 text-xs text-ink-2 dark:text-snow-2">
               <InformationCircleIcon className="h-4 w-4 text-ink-3 shrink-0" />
               <span>
-                Aucune sortie spécifique enregistrée au calendrier pour le samedi <strong>{weekendIsoDate}</strong>.
+                Aucune sortie spécifique enregistrée au calendrier pour le samedi <strong className="font-mono">{weekendIsoDate}</strong>.
               </span>
             </div>
 
@@ -337,7 +337,7 @@ function NewWeekendPollForm() {
                     setTitle(`Sortie du Weekend - ${nextDate}`);
                     setHasAppliedInfo(false);
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-snow hover:bg-slate-50 dark:hover:bg-white/5 transition-colors duration-150 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-3 py-1.5 text-xs font-semibold text-ink dark:text-snow-1 hover:bg-paper-3 dark:hover:bg-night-line transition-colors duration-150 cursor-pointer"
                 >
                   <span>Sélectionner la prochaine sortie programmée ({sortieInfo.nextAvailableSaturdayIso})</span>
                 </button>
@@ -349,14 +349,14 @@ function NewWeekendPollForm() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Information Card */}
-        <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-8 shadow-xs space-y-5">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-white">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 sm:p-8 space-y-5">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-snow-1 font-mono">
             1. Informations Générales
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="poll-weekend-date" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+              <label htmlFor="poll-weekend-date" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
                 Date cible du weekend (Samedi) *
               </label>
               <input
@@ -370,19 +370,19 @@ function NewWeekendPollForm() {
                   setTitle(`Sortie du Weekend - ${val}`);
                   setHasAppliedInfo(false);
                 }}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-mono focus:border-brand focus:outline-hidden transition-colors duration-150"
+                className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs font-mono focus:border-brand focus:outline-hidden transition-colors duration-150"
               />
             </div>
 
             <div>
-              <label htmlFor="poll-status" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+              <label htmlFor="poll-status" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
                 Statut initial du sondage *
               </label>
               <select
                 id="poll-status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value as 'active' | 'draft' | 'closed')}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-semibold focus:border-brand focus:outline-hidden transition-colors duration-150"
+                className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs font-semibold focus:border-brand focus:outline-hidden transition-colors duration-150"
               >
                 <option value="active">Actif (Ouvert aux réponses immédiatement)</option>
                 <option value="draft">Brouillon (Non visible)</option>
@@ -392,7 +392,7 @@ function NewWeekendPollForm() {
           </div>
 
           <div>
-            <label htmlFor="poll-title" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+            <label htmlFor="poll-title" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
               Titre du sondage *
             </label>
             <input
@@ -401,12 +401,12 @@ function NewWeekendPollForm() {
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
+              className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
             />
           </div>
 
           <div>
-            <label htmlFor="poll-description" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+            <label htmlFor="poll-description" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
               Description / Consignes pour le peloton
             </label>
             <textarea
@@ -414,16 +414,16 @@ function NewWeekendPollForm() {
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
+              className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
             />
           </div>
         </div>
 
         {/* Custom QCM Questions Card */}
-        <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 sm:p-8 space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-white">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-snow-1 font-mono">
                 2. Questions QCM personnalisées (Facultatif)
               </h2>
               <p className="text-xs text-ink-3 dark:text-snow-3 mt-0.5">
@@ -434,7 +434,7 @@ function NewWeekendPollForm() {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink px-4 py-2 text-xs font-semibold text-slate-700 dark:text-snow hover:bg-slate-100 dark:hover:bg-white/10 transition-colors duration-150 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-4 py-2 text-xs font-semibold text-ink dark:text-snow-1 hover:bg-paper-3 dark:hover:bg-night-line transition-colors duration-150 cursor-pointer min-h-[44px]"
             >
               <PlusIcon className="h-4 w-4 text-brand" />
               <span>Ajouter une question</span>
@@ -442,7 +442,7 @@ function NewWeekendPollForm() {
           </div>
 
           {customQuestions.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-line dark:border-ink-2 p-6 text-center text-xs text-ink-3 dark:text-ink-3">
+            <div className="rounded-sm border border-dashed border-line dark:border-night-line p-6 text-center text-xs text-ink-3 dark:text-snow-3 font-mono">
               Aucune question supplémentaire. Le sondage demandera uniquement le jour (Samedi/Dimanche) et le groupe (A/B/C/VTT).
               {sortieInfo?.found && (
                 <div className="mt-2">
@@ -461,16 +461,16 @@ function NewWeekendPollForm() {
               {customQuestions.map((q, qIndex) => (
                 <div
                   key={q.id}
-                  className="rounded-lg border border-line dark:border-night-line bg-paper dark:bg-ink p-5 space-y-4"
+                  className="rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night p-5 space-y-4"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-xs font-bold text-slate-700 dark:text-gray-300">
+                    <span className="text-xs font-bold text-ink dark:text-snow-1 font-mono">
                       Question #{qIndex + 1}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleDeleteQuestion(q.id)}
-                      className="text-slate-400 hover:text-brand transition-colors duration-150 cursor-pointer"
+                      className="text-ink-3 hover:text-brand transition-colors duration-150 cursor-pointer"
                       title="Supprimer cette question"
                       aria-label="Supprimer cette question"
                     >
@@ -485,12 +485,12 @@ function NewWeekendPollForm() {
                     value={q.title}
                     onChange={(e) => handleUpdateQuestionTitle(q.id, e.target.value)}
                     placeholder="Intitulé de la question..."
-                    className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
+                    className="w-full rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink dark:text-snow-1 p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
                   />
 
                   {/* Options */}
                   <div className="space-y-2 pl-2">
-                    <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 uppercase tracking-wider block">
+                    <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 uppercase tracking-wider block font-mono">
                       Options de réponse :
                     </span>
                     {q.options.map((opt, optIdx) => (
@@ -502,13 +502,13 @@ function NewWeekendPollForm() {
                           aria-label={`Option de réponse #${optIdx + 1} pour ${q.title || 'la question'}`}
                           value={opt}
                           onChange={(e) => handleUpdateOption(q.id, optIdx, e.target.value)}
-                          className="flex-1 rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-3 py-1.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="flex-1 rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink dark:text-snow-1 px-3 py-1.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                         {q.options.length > 1 && (
                           <button
                             type="button"
                             onClick={() => handleDeleteOption(q.id, optIdx)}
-                            className="p-1 text-slate-400 hover:text-brand transition-colors duration-150 cursor-pointer"
+                            className="p-1 text-ink-3 hover:text-brand transition-colors duration-150 cursor-pointer"
                             title="Supprimer cette option"
                             aria-label="Supprimer cette option"
                           >
@@ -549,14 +549,14 @@ function NewWeekendPollForm() {
         <div className="flex items-center justify-end gap-3 pt-2">
           <Link
             href="/admin/sondages"
-            className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-6 py-2.5 text-xs font-semibold text-slate-700 dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors duration-150 min-h-[44px] inline-flex items-center"
+            className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 px-6 py-2.5 text-xs font-semibold text-ink dark:text-snow-1 hover:bg-paper-2 dark:hover:bg-night-3 transition-colors duration-150 min-h-[44px] inline-flex items-center"
           >
             Annuler
           </Link>
           <button
             type="submit"
             disabled={isPending}
-            className="rounded-md bg-brand hover:bg-brand-strong text-white px-8 py-2.5 text-xs font-semibold uppercase tracking-wider shadow-xs transition-colors duration-150 disabled:opacity-50 min-h-[44px] inline-flex items-center cursor-pointer"
+            className="rounded-sm bg-brand hover:bg-brand-strong text-white px-8 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-150 disabled:opacity-50 min-h-[44px] inline-flex items-center cursor-pointer font-mono"
           >
             {isPending ? 'Création en cours...' : 'Créer et publier le sondage'}
           </button>

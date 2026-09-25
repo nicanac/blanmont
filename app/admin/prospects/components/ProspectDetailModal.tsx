@@ -248,38 +248,38 @@ export default function ProspectDetailModal({
 
           {/* Cycling Profile Information */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
+            <div className="rounded-md border border-line dark:border-night-line p-3 bg-paper-2 dark:bg-night-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block font-narrow">
                 Groupe Souhaité
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-snow-1">
                 Groupe {prospect.preferredGroup}
               </span>
             </div>
 
-            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
+            <div className="rounded-md border border-line dark:border-night-line p-3 bg-paper-2 dark:bg-night-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block font-narrow">
                 Type de Vélo
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-snow-1">
                 {prospect.bikeType}
               </span>
             </div>
 
-            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
+            <div className="rounded-md border border-line dark:border-night-line p-3 bg-paper-2 dark:bg-night-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block font-narrow">
                 Niveau Déclaré
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-snow-1">
                 {prospect.experienceLevel}
               </span>
             </div>
 
-            <div className="rounded-md border border-line dark:border-night-3 p-3 bg-white dark:bg-night-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
+            <div className="rounded-md border border-line dark:border-night-line p-3 bg-paper-2 dark:bg-night-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block font-narrow">
                 1ère Sortie Voulue
               </span>
-              <span className="mt-1 inline-block font-extrabold text-sm tabular-nums text-ink dark:text-white">
+              <span className="mt-1 inline-block font-extrabold text-sm tabular-nums text-ink dark:text-snow-1 font-mono">
                 {prospect.firstRideDate || 'Non spécifiée'}
               </span>
             </div>
@@ -287,11 +287,11 @@ export default function ProspectDetailModal({
 
           {/* Candidate Message */}
           {prospect.message && (
-            <div className="rounded-lg border border-line dark:border-night-3 p-4 bg-white dark:bg-night-2 space-y-1.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
+            <div className="rounded-md border border-line dark:border-night-line p-4 bg-paper-2 dark:bg-night-2 space-y-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                 Message du candidat
               </span>
-              <p className="text-xs sm:text-sm text-ink dark:text-line italic whitespace-pre-wrap">
+              <p className="text-xs sm:text-sm text-ink dark:text-snow-2 italic whitespace-pre-wrap">
                 &ldquo;{prospect.message}&rdquo;
               </p>
             </div>
@@ -299,7 +299,7 @@ export default function ProspectDetailModal({
 
           {/* Status Pipeline Selection */}
           <div className="space-y-2.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block">
+            <label className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block font-narrow">
               Progression du Candidat (Pipeline CRM)
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -310,17 +310,17 @@ export default function ProspectDetailModal({
                     key={step.status}
                     type="button"
                     onClick={() => handleStatusClick(step.status)}
-                    className={`rounded-md p-2.5 text-left border transition-all text-xs flex flex-col justify-between ${
+                    className={`rounded-md p-2.5 text-left border transition-all text-xs flex flex-col justify-between cursor-pointer ${
                       isActive
-                        ? 'border-brand bg-brand/5 dark:bg-brand/10 text-ink dark:text-white shadow-xs font-bold ring-1 ring-brand'
-                        : 'border-line dark:border-night-3 bg-white dark:bg-night-2 text-ink-3 dark:text-snow-3 hover:border-ink dark:hover:border-white'
+                        ? 'border-brand bg-brand/5 dark:bg-brand/10 text-ink dark:text-snow-1 font-bold ring-1 ring-brand'
+                        : 'border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-ink-3 dark:text-snow-3 hover:border-ink dark:hover:border-white'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-bold">{step.label}</span>
                       {isActive && <CheckCircleIcon className="h-4 w-4 text-brand" />}
                     </div>
-                    <span className="text-[11px] opacity-75 mt-1 font-normal">{step.desc}</span>
+                    <span className="text-xs opacity-75 mt-1 font-normal">{step.desc}</span>
                   </button>
                 );
               })}
@@ -333,7 +333,7 @@ export default function ProspectDetailModal({
             <div className="space-y-2">
               <label
                 htmlFor="mentor-captain"
-                className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block"
+                className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 block font-narrow"
               >
                 Capitaine Mentor Attitré
               </label>
@@ -341,7 +341,7 @@ export default function ProspectDetailModal({
                 id="mentor-captain"
                 value={selectedCaptainId}
                 onChange={(e) => setSelectedCaptainId(e.target.value)}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-3 py-2 text-xs text-ink dark:text-white focus:outline-hidden focus:ring-2 focus:ring-brand"
+                className="w-full rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3 py-2 text-xs text-ink dark:text-snow-1 focus:outline-hidden focus:ring-1 focus:ring-brand"
               >
                 <option value="">-- Aucun capitaine assigné --</option>
                 {captains.map((cap) => (
@@ -350,7 +350,7 @@ export default function ProspectDetailModal({
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-ink-3 dark:text-snow-3">
+              <p className="text-xs text-ink-3 dark:text-snow-3">
                 Le capitaine mentor prend en charge le candidat le jour de la sortie.
               </p>
             </div>

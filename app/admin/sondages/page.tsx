@@ -37,34 +37,34 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
 
       {/* Overview Stats */}
       <div id="sondages-overview-cards" className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="rounded-lg border border-line bg-white p-5 shadow-xs space-y-2">
-          <div className="text-xs font-bold uppercase tracking-wider text-ink-3">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-mono">
             Sondage en cours
           </div>
-          <div className="text-lg font-bold text-ink truncate">
+          <div className="text-lg font-bold text-ink dark:text-snow-1 truncate">
             {activePoll ? activePoll.title : 'Aucun sondage actif'}
           </div>
           {activePoll ? (
-            <p className="text-xs font-semibold text-emerald-600">
+            <p className="text-xs font-semibold text-vert dark:text-vert-light font-mono">
               ✓ {activePoll.attendeeCount} cyclistes inscrits
             </p>
           ) : (
-            <p className="text-xs text-ink-3">Prêt pour la prochaine session</p>
+            <p className="text-xs text-ink-3 dark:text-snow-3">Prêt pour la prochaine session</p>
           )}
         </div>
 
-        <div className="rounded-lg border border-line bg-white p-5 shadow-xs space-y-2">
-          <div className="text-xs font-bold uppercase tracking-wider text-ink-3">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-mono">
             Historique Total
           </div>
-          <div className="text-2xl font-extrabold text-ink tabular-nums">
+          <div className="text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
             {polls.length}
           </div>
-          <p className="text-xs text-ink-3">Sondages enregistrés</p>
+          <p className="text-xs text-ink-3 dark:text-snow-3">Sondages enregistrés</p>
         </div>
 
-        <div className="rounded-lg border border-line bg-white p-5 shadow-xs space-y-2">
-          <div className="text-xs font-bold uppercase tracking-wider text-ink-3">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-mono">
             Page Publique
           </div>
           <div className="pt-1">
@@ -77,17 +77,17 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
               <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
             </Link>
           </div>
-          <p className="text-xs text-ink-3">Vue des membres en direct</p>
+          <p className="text-xs text-ink-3 dark:text-snow-3">Vue des membres en direct</p>
         </div>
       </div>
 
       {/* Polls List */}
-      <div id="sondages-list-section" className="rounded-lg border border-line bg-white shadow-xs overflow-hidden">
-        <div className="px-6 py-4 border-b border-line bg-paper-2 flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-ink">
+      <div id="sondages-list-section" className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
+        <div className="px-6 py-4 border-b border-line dark:border-night-line bg-paper-2 dark:bg-night flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-ink dark:text-snow-1 font-mono">
             Historique des sondages
           </h2>
-          <span className="text-xs font-semibold text-ink-3 tabular-nums">
+          <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 font-mono tabular-nums">
             {pollsWithCounts.length} sessions
           </span>
         </div>
@@ -112,21 +112,21 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
             />
           </div>
         ) : (
-          <div className="divide-y divide-paper-2">
+          <div className="divide-y divide-line/40 dark:divide-night-line">
             {pollsWithCounts.map((p) => (
               <div
                 key={p.id}
-                className="p-5 sm:px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-paper transition-colors"
+                className="p-5 sm:px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span
                       className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider border ${
                         p.status === 'active'
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          ? 'bg-vert/10 text-vert border-vert/30'
                           : p.status === 'draft'
-                          ? 'bg-amber-50 text-amber-700 border-amber-200'
-                          : 'bg-paper-2 text-ink-3 border-line'
+                          ? 'bg-ambre/10 text-ambre-dark dark:text-ambre border-ambre/30'
+                          : 'bg-paper-2 dark:bg-night text-ink-3 dark:text-snow-3 border-line dark:border-night-line'
                       }`}
                     >
                       {p.status === 'active'
@@ -135,21 +135,21 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
                         ? 'Brouillon'
                         : 'Clôturé'}
                     </span>
-                    <span className="text-xs text-ink-3 font-mono tabular-nums">
+                    <span className="text-xs text-ink-3 dark:text-snow-3 font-mono tabular-nums">
                       Weekend du {p.weekendIsoDate}
                     </span>
                   </div>
 
                   <Link
                     href={`/admin/sondages/${p.id}`}
-                    className="text-base font-bold text-ink hover:text-brand transition-colors block"
+                    className="text-base font-bold text-ink dark:text-snow-1 hover:text-brand dark:hover:text-brand-light transition-colors block"
                   >
                     {p.title}
                   </Link>
 
-                  <div className="flex items-center gap-3 text-xs text-ink-3 flex-wrap">
+                  <div className="flex items-center gap-3 text-xs text-ink-3 dark:text-snow-3 flex-wrap">
                     <span>
-                      <strong className="text-ink font-bold tabular-nums">{p.attendeeCount}</strong> participants déclarés
+                      <strong className="text-ink dark:text-snow-1 font-bold tabular-nums">{p.attendeeCount}</strong> participants déclarés
                     </span>
                     <span>•</span>
                     <span className="tabular-nums">{p.responseCount} réponses totales</span>
@@ -167,15 +167,15 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
 
                   <Link
                     href={`/admin/sondages/${p.id}`}
-                    className="inline-flex items-center gap-1 rounded-md border border-line bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:bg-paper-2 transition-colors"
+                    className="inline-flex items-center gap-1 rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-3 py-1.5 text-xs font-semibold text-ink dark:text-snow-1 hover:bg-paper-3 dark:hover:bg-night-line transition-colors"
                   >
-                    <EyeIcon className="h-3.5 w-3.5 text-ink-3" />
+                    <EyeIcon className="h-3.5 w-3.5 text-ink-3 dark:text-snow-3" />
                     <span>Réponses</span>
                   </Link>
 
                   <Link
                     href={`/admin/sondages/${p.id}/edit`}
-                    className="rounded-md p-1.5 text-ink-3 hover:text-brand hover:bg-paper-2 transition-colors"
+                    className="rounded-sm p-1.5 text-ink-3 dark:text-snow-3 hover:text-brand dark:hover:text-brand-light hover:bg-paper-2 dark:hover:bg-night transition-colors"
                     title="Modifier les paramètres"
                   >
                     <PencilSquareIcon className="h-4 w-4" />

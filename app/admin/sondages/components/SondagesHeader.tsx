@@ -58,10 +58,10 @@ export default function SondagesHeader({
               {sessionCount !== 1 ? 's' : ''}.
             </span>
             <span
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-semibold text-emerald-800"
+              className="inline-flex items-center gap-1.5 rounded-full bg-vert/10 border border-vert/30 px-2.5 py-0.5 text-xs font-semibold text-vert dark:text-vert-light font-mono"
               title="Le sondage est généré automatiquement chaque lundi matin via Vercel Cron"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="h-1.5 w-1.5 rounded-full bg-vert animate-pulse" />
               <span>Auto chaque lundi 8h</span>
             </span>
           </div>
@@ -82,7 +82,7 @@ export default function SondagesHeader({
             type="button"
             disabled={isPending}
             onClick={handleAutoGenerate}
-            className="inline-flex items-center gap-2 rounded-md border border-brand/30 bg-brand/5 hover:bg-brand/10 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-brand transition-colors shadow-xs shrink-0 disabled:opacity-50 min-h-[44px] cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-md border border-brand/30 bg-brand/5 hover:bg-brand/10 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-brand transition-colors shrink-0 disabled:opacity-50 min-h-[44px] cursor-pointer"
             title="Déclencher manuellement la création automatique pour le weekend à venir"
           >
             {isPending ? <Spinner size="xs" variant="brand" /> : <SparklesIcon className="h-4 w-4" />}

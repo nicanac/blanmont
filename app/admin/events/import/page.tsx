@@ -176,24 +176,24 @@ export default function ImportEventsPage() {
         </div>
 
         {/* Step Indicator */}
-        <div className="flex items-center gap-2 text-xs font-semibold">
+        <div className="flex items-center gap-2 text-xs font-semibold font-mono">
           <span
             className={`px-3 py-1 rounded-full ${
               step === 'upload'
                 ? 'bg-brand text-white'
-                : 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
+                : 'bg-vert/10 border border-vert/30 text-vert dark:text-vert-light'
             }`}
           >
             1. Sélection PDF
           </span>
-          <span className="text-slate-300 dark:text-ink-3">→</span>
+          <span className="text-ink-3 dark:text-snow-3">→</span>
           <span
             className={`px-3 py-1 rounded-full ${
               step === 'preview'
                 ? 'bg-brand text-white'
                 : step === 'success'
-                  ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
-                  : 'bg-slate-100 dark:bg-night-3 text-slate-400 dark:text-ink-3'
+                  ? 'bg-vert/10 border border-vert/30 text-vert dark:text-vert-light'
+                  : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 border border-line dark:border-night-line'
             }`}
           >
             2. Prévisualisation & Validation
@@ -202,22 +202,22 @@ export default function ImportEventsPage() {
       </div>
 
       {errorMessage && (
-        <div className="rounded-lg bg-red-50 dark:bg-red-950/30 p-4 border border-red-200 dark:border-red-900/50 flex items-start gap-3">
+        <div className="rounded-sm bg-brand/10 p-4 border border-brand/30 flex items-start gap-3">
           <ExclamationCircleIcon className="h-5 w-5 text-brand shrink-0 mt-0.5" />
-          <div className="text-sm text-red-800 dark:text-red-300 font-medium">{errorMessage}</div>
+          <div className="text-sm text-brand font-medium">{errorMessage}</div>
         </div>
       )}
 
       {/* STEP 1: UPLOAD */}
       {step === 'upload' && (
-        <div className="rounded-xl border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 sm:p-12 shadow-xs text-center">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-8 sm:p-12 text-center">
           <div className="max-w-md mx-auto space-y-6">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-brand/10 text-brand border border-brand/20">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-sm bg-brand/10 text-brand border border-brand/20">
               <DocumentArrowUpIcon className="h-8 w-8 md:h-8 md:w-8" />
             </div>
 
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+              <h2 className="text-lg font-bold text-ink dark:text-snow-1 font-semiwide">
                 Sélectionnez le fichier PDF officiel
               </h2>
               <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
@@ -225,13 +225,13 @@ export default function ImportEventsPage() {
               </p>
             </div>
 
-            <label htmlFor="events-pdf-upload" className="relative flex cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-line dark:border-ink-2 bg-paper dark:bg-ink p-8 hover:border-brand hover:bg-red-50/20 transition-colors duration-150 group">
-              <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 group-hover:text-brand transition-colors duration-150">
+            <label htmlFor="events-pdf-upload" className="relative flex cursor-pointer flex-col items-center justify-center rounded-sm border border-dashed border-line dark:border-night-line bg-paper-2 dark:bg-night p-8 hover:border-brand hover:bg-brand/5 transition-colors duration-150 group">
+              <span className="text-sm font-semibold text-ink-2 dark:text-snow-2 group-hover:text-brand transition-colors duration-150 font-mono">
                 {isProcessing
                   ? 'Extraction des événements en cours...'
                   : 'Choisir le calendrier PDF'}
               </span>
-              <span className="mt-1 text-xs text-ink-3 dark:text-ink-3">Format .pdf accepté</span>
+              <span className="mt-1 text-xs text-ink-3 dark:text-snow-3 font-mono">Format .pdf accepté</span>
               <input
                 id="events-pdf-upload"
                 type="file"
@@ -244,7 +244,7 @@ export default function ImportEventsPage() {
             </label>
 
             {isProcessing && (
-              <div className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
+              <div className="flex items-center justify-center gap-2 text-xs font-semibold text-ink-2 dark:text-snow-2 font-mono">
                 <ArrowPathIcon className="h-4 w-4 animate-spin text-brand" />
                 <span>Analyse du document et extraction des sorties...</span>
               </div>
@@ -257,7 +257,7 @@ export default function ImportEventsPage() {
       {step === 'preview' && (
         <div className="space-y-6">
           {/* Action Bar */}
-          <div className="rounded-lg bg-white dark:bg-night-2 border border-line dark:border-night-line p-4 shadow-xs flex flex-wrap items-center justify-between gap-4">
+          <div className="rounded-md bg-paper dark:bg-night-2 border border-line dark:border-night-line p-4 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="text-sm font-bold text-slate-900 dark:text-white">
                 {events.length} sorties extraites
@@ -309,33 +309,33 @@ export default function ImportEventsPage() {
           </div>
 
           {/* Table Container */}
-          <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 shadow-xs overflow-hidden">
+          <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
             <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
               <table className="min-w-full divide-y divide-line dark:divide-night-line text-left text-xs">
-                <thead className="bg-paper dark:bg-ink sticky top-0 z-10">
+                <thead className="bg-paper-2 dark:bg-night sticky top-0 z-10 font-mono text-ink-3 dark:text-snow-3">
                   <tr>
                     <th className="px-3 py-3 w-10 text-center">
                       <span className="sr-only">Sélectionner</span>
                     </th>
-                    <th className="px-3 py-3 font-bold text-slate-700 min-w-[130px]">
+                    <th className="px-3 py-3 font-bold text-ink dark:text-snow-1 min-w-[130px]">
                       Date (YYYY-MM-DD)
                     </th>
-                    <th className="px-3 py-3 font-bold text-slate-700 min-w-[180px]">
+                    <th className="px-3 py-3 font-bold text-ink dark:text-snow-1 min-w-[180px]">
                       Destination / Lieu
                     </th>
-                    <th className="px-3 py-3 font-bold text-slate-700 min-w-[100px]">
+                    <th className="px-3 py-3 font-bold text-ink dark:text-snow-1 min-w-[100px]">
                       Distances
                     </th>
-                    <th className="px-3 py-3 font-bold text-slate-700 min-w-[90px]">
+                    <th className="px-3 py-3 font-bold text-ink dark:text-snow-1 min-w-[90px]">
                       Départ
                     </th>
-                    <th className="px-3 py-3 font-bold text-slate-700 min-w-[150px]">
+                    <th className="px-3 py-3 font-bold text-ink dark:text-snow-1 min-w-[150px]">
                       Lieu RDV / Adresse
                     </th>
-                    <th className="px-3 py-3 font-bold text-slate-700 min-w-[160px]">
+                    <th className="px-3 py-3 font-bold text-ink dark:text-snow-1 min-w-[160px]">
                       Remarques
                     </th>
-                    <th className="px-3 py-3 font-bold text-slate-700 min-w-[160px]">
+                    <th className="px-3 py-3 font-bold text-ink dark:text-snow-1 min-w-[160px]">
                       Trace GPX (Lien)
                     </th>
                     <th className="px-3 py-3 w-12 text-center">
@@ -343,12 +343,12 @@ export default function ImportEventsPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line dark:divide-night-line">
+                <tbody className="divide-y divide-line/40 dark:divide-night-line">
                   {events.map((event) => (
                     <tr
                       key={event.id}
-                      className={`hover:bg-slate-50/80 dark:hover:bg-white/5 transition-colors duration-150 ${
-                        !event.selected ? 'opacity-50 bg-slate-50/40 dark:bg-ink/40' : ''
+                      className={`hover:bg-paper-2/60 dark:hover:bg-night-3/60 transition-colors duration-150 ${
+                        !event.selected ? 'opacity-40 bg-paper-2/30 dark:bg-night-3/30' : ''
                       }`}
                     >
                       {/* Checkbox */}
@@ -373,7 +373,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'isoDate', e.target.value)
                           }
-                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-2.5 py-1 text-xs font-mono text-slate-800 dark:text-snow focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-2.5 py-1 text-xs font-mono text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -387,7 +387,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'location', e.target.value)
                           }
-                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-2.5 py-1 text-xs font-medium text-slate-900 dark:text-white focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-2.5 py-1 text-xs font-medium text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -402,7 +402,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'distances', e.target.value)
                           }
-                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-2.5 py-1 text-xs text-slate-800 dark:text-snow focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-2.5 py-1 text-xs font-mono text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -417,7 +417,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'departure', e.target.value)
                           }
-                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-2.5 py-1 text-xs text-slate-800 dark:text-snow focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-2.5 py-1 text-xs font-mono text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -432,7 +432,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'address', e.target.value)
                           }
-                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-2.5 py-1 text-xs text-slate-800 dark:text-snow focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-2.5 py-1 text-xs text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -447,7 +447,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'remarks', e.target.value)
                           }
-                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-2.5 py-1 text-xs text-slate-600 dark:text-snow-3 focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-2.5 py-1 text-xs text-ink-3 dark:text-snow-3 focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -462,7 +462,7 @@ export default function ImportEventsPage() {
                           onChange={(e) =>
                             handleFieldChange(event.id, 'gpxUrl', e.target.value)
                           }
-                          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-2.5 py-1 text-xs font-mono text-slate-600 dark:text-snow-3 focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-2.5 py-1 text-xs font-mono text-ink-3 dark:text-snow-3 focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                       </td>
 
@@ -471,7 +471,7 @@ export default function ImportEventsPage() {
                         <button
                           type="button"
                           onClick={() => handleDeleteRow(event.id)}
-                          className="rounded-md p-1.5 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-white/10 transition-colors duration-150 cursor-pointer"
+                          className="rounded-sm p-1.5 text-ink-3 hover:text-brand hover:bg-paper-2 dark:hover:bg-night transition-colors duration-150 cursor-pointer"
                           title="Supprimer cette ligne"
                         >
                           <TrashIcon className="h-4 w-4" />
@@ -485,16 +485,16 @@ export default function ImportEventsPage() {
           </div>
 
           {/* Sticky Confirmation Bar */}
-          <div className="sticky bottom-4 z-20 rounded-xl bg-ink/95 border border-night-line backdrop-blur-md p-4 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="sticky bottom-4 z-20 rounded-md bg-ink border border-night-line p-4 text-snow-1 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
             <div className="text-xs sm:text-sm">
-              <span className="font-bold text-white">{selectedCount}</span> sortie{selectedCount > 1 ? 's' : ''} prête{selectedCount > 1 ? 's' : ''} à être ajoutée{selectedCount > 1 ? 's' : ''} au calendrier.
+              <span className="font-bold text-white tabular-nums">{selectedCount}</span> sortie{selectedCount > 1 ? 's' : ''} prête{selectedCount > 1 ? 's' : ''} à être ajoutée{selectedCount > 1 ? 's' : ''} au calendrier.
             </div>
 
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => setStep('upload')}
-                className="px-4 py-2 rounded-md text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 transition-colors duration-150 cursor-pointer"
+                className="px-4 py-2 rounded-sm text-xs font-semibold text-snow-3 hover:text-white hover:bg-white/10 transition-colors duration-150 cursor-pointer"
               >
                 Annuler
               </button>
@@ -502,7 +502,7 @@ export default function ImportEventsPage() {
                 type="button"
                 onClick={handleConfirmImport}
                 disabled={isSaving || selectedCount === 0}
-                className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-6 py-2.5 text-xs sm:text-sm font-semibold shadow-xs transition-colors duration-150 disabled:opacity-50 cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong text-white px-6 py-2.5 text-xs sm:text-sm font-semibold transition-colors duration-150 disabled:opacity-50 cursor-pointer uppercase tracking-wider"
               >
                 {isSaving ? (
                   <>
@@ -523,30 +523,30 @@ export default function ImportEventsPage() {
 
       {/* STEP 3: SUCCESS */}
       {step === 'success' && (
-        <div className="rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-white dark:bg-night-2 p-8 sm:p-12 shadow-xs text-center space-y-6">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+        <div className="rounded-md border border-vert/30 bg-paper dark:bg-night-2 p-8 sm:p-12 text-center space-y-6">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-sm bg-vert/10 text-vert border border-vert/30">
             <CheckCircleIcon className="h-10 w-10" />
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-2xl font-bold text-ink dark:text-snow-1 font-semiwide">
               Importation réussie !
             </h2>
-            <p className="text-sm text-slate-600 dark:text-snow-3 max-w-md mx-auto">
-              <strong className="text-emerald-700 dark:text-emerald-400">{successCount} événements</strong> ont été enregistrés dans la base de données et sont désormais visibles sur le calendrier public.
+            <p className="text-sm text-ink-2 dark:text-snow-3 max-w-md mx-auto">
+              <strong className="text-vert font-mono tabular-nums">{successCount} événements</strong> ont été enregistrés dans la base de données et sont désormais visibles sur le calendrier public.
             </p>
           </div>
 
           <div className="pt-4 flex flex-wrap justify-center gap-3">
             <Link
               href="/admin/events"
-              className="inline-flex items-center rounded-md bg-slate-900 dark:bg-white dark:text-slate-900 px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors duration-150"
+              className="inline-flex items-center rounded-sm bg-ink dark:bg-paper-2 dark:text-ink px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-ink-2 dark:hover:bg-paper-3 transition-colors duration-150 font-mono"
             >
               Voir les événements dans l&apos;admin
             </Link>
             <Link
               href="/calendrier"
-              className="inline-flex items-center rounded-md bg-brand px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-brand-strong transition-colors duration-150"
+              className="inline-flex items-center rounded-sm bg-brand px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-brand-strong transition-colors duration-150 font-mono uppercase tracking-wider"
             >
               Consulter le calendrier public
             </Link>

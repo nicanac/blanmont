@@ -242,9 +242,9 @@ export default function PointageExpressClient({
       </div>
 
       {/* Event Selector & Stats Strip */}
-      <div className="bg-white rounded-[10px] border border-line p-4 shadow-xs space-y-4">
+      <div className="bg-paper dark:bg-night-2 rounded-md border border-line dark:border-night-line p-4 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <label htmlFor="express-event-select" className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-2 cursor-pointer">
+          <label htmlFor="express-event-select" className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2 cursor-pointer font-mono">
             <CalendarDaysIcon className="h-4 w-4 text-brand" />
             <span>Sortie sélectionnée</span>
           </label>
@@ -255,7 +255,7 @@ export default function PointageExpressClient({
               aria-label="Sortie sélectionnée pour le pointage"
               value={selectedEventId}
               onChange={(e) => setSelectedEventId(e.target.value)}
-              className="w-full appearance-none rounded-md border border-line bg-paper py-2 pl-3 pr-8 text-xs font-medium text-ink focus:border-brand focus:outline-hidden"
+              className="w-full appearance-none rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night py-2 pl-3 pr-8 text-xs font-medium text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden font-mono"
             >
               {initialEvents.map((evt) => (
                 <option key={evt.id} value={evt.id}>
@@ -264,35 +264,35 @@ export default function PointageExpressClient({
                 </option>
               ))}
             </select>
-            <ChevronUpDownIcon className="pointer-events-none absolute right-2.5 top-2.5 h-4 w-4 text-ink-3" />
+            <ChevronUpDownIcon className="pointer-events-none absolute right-2.5 top-2.5 h-4 w-4 text-ink-3 dark:text-snow-3" />
           </div>
         </div>
 
         {/* Live Counters */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-paper-2">
-          <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200/60 text-center col-span-2 sm:col-span-1">
-            <div className="text-lg font-bold text-emerald-800 tabular-nums">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-line/40 dark:border-night-line">
+          <div className="p-2.5 rounded-sm bg-vert/10 border border-vert/30 text-center col-span-2 sm:col-span-1">
+            <div className="text-lg font-bold text-vert dark:text-vert-light tabular-nums font-mono">
               {stats.present} / {stats.total}
             </div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+            <div className="text-xs font-semibold uppercase tracking-wider text-vert dark:text-vert-light font-mono">
               Présents
             </div>
           </div>
-          <div className="p-2.5 rounded-lg bg-paper border border-line text-center">
-            <div className="text-base font-bold text-ink tabular-nums">{stats.groupA}</div>
-            <div className="text-xs font-medium text-ink-3">Groupe A</div>
+          <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
+            <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupA}</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">Groupe A</div>
           </div>
-          <div className="p-2.5 rounded-lg bg-paper border border-line text-center">
-            <div className="text-base font-bold text-ink tabular-nums">{stats.groupB}</div>
-            <div className="text-xs font-medium text-ink-3">Groupe B</div>
+          <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
+            <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupB}</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">Groupe B</div>
           </div>
-          <div className="p-2.5 rounded-lg bg-paper border border-line text-center">
-            <div className="text-base font-bold text-ink tabular-nums">{stats.groupC}</div>
-            <div className="text-xs font-medium text-ink-3">Groupe C</div>
+          <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
+            <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupC}</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">Groupe C</div>
           </div>
-          <div className="p-2.5 rounded-lg bg-paper border border-line text-center">
-            <div className="text-base font-bold text-ink tabular-nums">{stats.groupVTT}</div>
-            <div className="text-xs font-medium text-ink-3">VTT / Gravel</div>
+          <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
+            <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupVTT}</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">VTT / Gravel</div>
           </div>
         </div>
       </div>
@@ -301,7 +301,7 @@ export default function PointageExpressClient({
       <div className="space-y-3">
         {/* Search Input */}
         <div className="relative">
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-ink-3" />
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-ink-3 dark:text-snow-3" />
           <input
             id="express-member-search"
             type="text"
@@ -309,13 +309,13 @@ export default function PointageExpressClient({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Rechercher un coureur (nom, prénom, GSM)..."
-            className="w-full rounded-[10px] border border-line bg-white py-2.5 pl-9 pr-8 text-xs text-ink placeholder:text-snow-3 shadow-xs focus:border-brand focus:outline-hidden min-h-[44px]"
+            className="w-full rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 py-2.5 pl-9 pr-8 text-xs text-ink dark:text-snow-1 placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:outline-hidden min-h-[44px]"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-2.5 p-1 text-ink-3 hover:text-ink"
+              className="absolute right-2.5 top-2.5 p-1 text-ink-3 hover:text-ink dark:hover:text-white"
             >
               <XMarkIcon className="h-4 w-4" />
             </button>
@@ -323,14 +323,14 @@ export default function PointageExpressClient({
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs font-mono">
           <button
             type="button"
             onClick={() => setSelectedTab('all')}
             className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
               selectedTab === 'all'
-                ? 'bg-ink text-white'
-                : 'bg-white border border-line text-ink-3 hover:bg-paper'
+                ? 'bg-ink dark:bg-paper text-white dark:text-ink'
+                : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
             Tous ({members.length})
@@ -340,8 +340,8 @@ export default function PointageExpressClient({
             onClick={() => setSelectedTab('present')}
             className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
               selectedTab === 'present'
-                ? 'bg-emerald-700 text-white'
-                : 'bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100/70'
+                ? 'bg-vert text-white'
+                : 'bg-vert/10 border border-vert/30 text-vert dark:text-vert-light hover:bg-vert/20'
             }`}
           >
             Pointés ({stats.present})
@@ -351,8 +351,8 @@ export default function PointageExpressClient({
             onClick={() => setSelectedTab('absent')}
             className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
               selectedTab === 'absent'
-                ? 'bg-ink text-white'
-                : 'bg-white border border-line text-ink-3 hover:bg-paper'
+                ? 'bg-ink dark:bg-paper text-white dark:text-ink'
+                : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
             Non pointés ({members.length - stats.present})
@@ -363,7 +363,7 @@ export default function PointageExpressClient({
             className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
               selectedTab === 'A'
                 ? 'bg-brand text-white'
-                : 'bg-white border border-line text-ink-3 hover:bg-paper'
+                : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
             Groupe A
@@ -374,7 +374,7 @@ export default function PointageExpressClient({
             className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
               selectedTab === 'B'
                 ? 'bg-brand text-white'
-                : 'bg-white border border-line text-ink-3 hover:bg-paper'
+                : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
             Groupe B
@@ -385,7 +385,7 @@ export default function PointageExpressClient({
             className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
               selectedTab === 'C'
                 ? 'bg-brand text-white'
-                : 'bg-white border border-line text-ink-3 hover:bg-paper'
+                : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
             Groupe C
@@ -396,7 +396,7 @@ export default function PointageExpressClient({
       {/* Member Cards Grid */}
       <div className="space-y-2">
         {filteredMembers.length === 0 ? (
-          <div className="bg-white rounded-[10px] border border-line p-8 text-center text-xs text-ink-3">
+          <div className="bg-paper dark:bg-night-2 rounded-sm border border-line dark:border-night-line p-8 text-center text-xs text-ink-3 dark:text-snow-3 font-mono">
             Aucun coureur ne correspond à votre filtre.
           </div>
         ) : (
@@ -408,10 +408,10 @@ export default function PointageExpressClient({
             return (
               <div
                 key={member.id}
-                className={`flex items-center justify-between gap-3 p-3.5 rounded-[10px] border transition-all select-none ${
+                className={`flex items-center justify-between gap-3 p-3.5 rounded-sm border transition-all select-none ${
                   isPresent
-                    ? 'bg-emerald-50/70 border-emerald-300 shadow-xs'
-                    : 'bg-white border-line hover:border-line-strong'
+                    ? 'bg-vert/10 border-vert/40 text-ink dark:text-snow-1'
+                    : 'bg-paper dark:bg-night-2 border-line dark:border-night-line hover:border-line-strong'
                 }`}
               >
                 {/* Clickable Area for Pointage */}
@@ -419,14 +419,14 @@ export default function PointageExpressClient({
                   type="button"
                   onClick={() => handleToggleAttendance(member)}
                   disabled={isPending}
-                  className="flex-1 flex items-center gap-3 text-left focus:outline-hidden min-h-[48px]"
+                  className="flex-1 flex items-center gap-3 text-left focus:outline-hidden min-h-[48px] cursor-pointer"
                 >
                   {/* Presence Checkbox Box */}
                   <div
-                    className={`flex h-8 w-8 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
+                    className={`flex h-8 w-8 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-xs border transition-all ${
                       isPresent
-                        ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs'
-                        : 'border-line-strong bg-paper text-transparent hover:border-snow-3'
+                        ? 'bg-vert border-vert text-white'
+                        : 'border-line-strong bg-paper-2 dark:bg-night text-transparent hover:border-snow-3'
                     }`}
                   >
                     <CheckIcon className="h-5 w-5 stroke-[3]" />
@@ -437,24 +437,24 @@ export default function PointageExpressClient({
                     <div className="flex items-center gap-2">
                       <span
                         className={`text-sm font-bold tracking-tight truncate ${
-                          isPresent ? 'text-emerald-950' : 'text-ink'
+                          isPresent ? 'text-vert dark:text-vert-light' : 'text-ink dark:text-snow-1'
                         }`}
                       >
                         {member.name}
                       </span>
                       {member.cotisation2026Status === 'paid' && (
                         <span
-                          className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0"
+                          className="h-1.5 w-1.5 rounded-full bg-vert shrink-0"
                           title="Cotisation 2026 en règle"
                         />
                       )}
                     </div>
-                    <div className="flex items-center gap-2 mt-0.5 text-xs">
-                      <span className="font-semibold text-ink-3">
+                    <div className="flex items-center gap-2 mt-0.5 text-xs font-mono">
+                      <span className="font-semibold text-ink-3 dark:text-snow-3">
                         Groupe {member.preferredGroup || 'B'}
                       </span>
                       {member.phone && (
-                        <span className="text-snow-3 font-mono tabular-nums text-xs">
+                        <span className="text-ink-3 dark:text-snow-3 font-mono tabular-nums text-xs">
                           {member.phone}
                         </span>
                       )}
@@ -466,10 +466,10 @@ export default function PointageExpressClient({
                 <button
                   type="button"
                   onClick={() => setActiveIceMember(member)}
-                  className={`shrink-0 p-2.5 rounded-lg border transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center ${
+                  className={`shrink-0 p-2.5 rounded-sm border transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer ${
                     hasIce
-                      ? 'border-line bg-white text-ink-2 hover:bg-paper'
-                      : 'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100'
+                      ? 'border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink-2 dark:text-snow-2 hover:bg-paper-3'
+                      : 'border-ambre/30 bg-ambre/10 text-ambre-dark dark:text-ambre hover:bg-ambre/20 font-mono'
                   }`}
                   title={hasIce ? 'Fiche urgence ICE' : 'Aucun contact ICE renseigné'}
                 >
@@ -482,17 +482,17 @@ export default function PointageExpressClient({
       </div>
 
       {/* Sticky Bottom Bar for Mobile */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-line p-3 shadow-lg">
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-paper dark:bg-night border-t border-line dark:border-night-line p-3 shadow-2xl">
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 font-mono">
           <div className="flex items-center gap-2">
-            <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-ink">
+            <span className="flex h-2.5 w-2.5 rounded-full bg-vert animate-pulse" />
+            <span className="text-xs font-bold text-ink dark:text-snow-1 tabular-nums">
               {stats.present} au départ ({Math.round((stats.present / (stats.total || 1)) * 100)}%)
             </span>
           </div>
           <Link
             href="/admin/carre-vert"
-            className="px-4 py-2 bg-brand hover:bg-brand-strong text-white text-xs font-semibold uppercase tracking-wider rounded-md shadow-xs transition-colors min-h-[40px] flex items-center"
+            className="px-4 py-2 bg-brand hover:bg-brand-strong text-white text-xs font-semibold uppercase tracking-wider rounded-sm transition-colors min-h-[40px] flex items-center"
           >
             Valider au Carré Vert
           </Link>
@@ -504,20 +504,20 @@ export default function PointageExpressClient({
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-xs p-4"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-ink/70 dark:bg-black/80 p-4"
         >
-          <div className="bg-white rounded-t-2xl sm:rounded-[10px] border border-line w-full max-w-md overflow-hidden shadow-2xl animate-in slide-in-from-bottom-6 sm:zoom-in-95">
-            <div className="p-4 border-b border-paper-2 flex items-center justify-between">
+          <div className="bg-paper dark:bg-night-2 rounded-md border border-line dark:border-night-line w-full max-w-md overflow-hidden shadow-2xl animate-in slide-in-from-bottom-6 sm:zoom-in-95">
+            <div className="p-4 border-b border-line dark:border-night-line bg-paper-2 dark:bg-night flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ShieldCheckIcon className="h-5 w-5 text-brand" />
-                <h3 className="text-sm font-bold text-ink uppercase tracking-wider">
+                <h3 className="text-sm font-bold text-ink dark:text-snow-1 uppercase tracking-wider font-mono">
                   Contact Urgence ICE — {activeIceMember.name}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setActiveIceMember(null)}
-                className="p-1 rounded-md text-ink-3 hover:text-ink"
+                className="p-1 rounded-sm text-ink-3 hover:text-ink dark:hover:text-snow-1"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -526,22 +526,22 @@ export default function PointageExpressClient({
             <div className="p-5 space-y-4">
               {activeIceMember.iceContactPhone ? (
                 <>
-                  <div className="rounded-lg bg-paper p-4 border border-line space-y-2">
+                  <div className="rounded-sm bg-paper-2 dark:bg-night p-4 border border-line dark:border-night-line space-y-2">
                     <div className="flex justify-between text-xs">
-                      <span className="text-ink-3">Contact ICE</span>
-                      <span className="font-bold text-ink">
+                      <span className="text-ink-3 dark:text-snow-3 font-mono">Contact ICE</span>
+                      <span className="font-bold text-ink dark:text-snow-1">
                         {activeIceMember.iceContactName || 'Non spécifié'}
                       </span>
                     </div>
                     {activeIceMember.iceRelationship && (
                       <div className="flex justify-between text-xs">
-                        <span className="text-ink-3">Lien de parenté</span>
-                        <span className="text-ink">{activeIceMember.iceRelationship}</span>
+                        <span className="text-ink-3 dark:text-snow-3 font-mono">Lien de parenté</span>
+                        <span className="text-ink dark:text-snow-1">{activeIceMember.iceRelationship}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-xs">
-                      <span className="text-ink-3">Téléphone ICE</span>
-                      <span className="font-mono font-bold text-brand tabular-nums">
+                    <div className="flex justify-between text-xs font-mono">
+                      <span className="text-ink-3 dark:text-snow-3">Téléphone ICE</span>
+                      <span className="font-bold text-brand tabular-nums">
                         {activeIceMember.iceContactPhone}
                       </span>
                     </div>
@@ -549,16 +549,16 @@ export default function PointageExpressClient({
 
                   <a
                     href={`tel:${activeIceMember.iceContactPhone}`}
-                    className="w-full flex items-center justify-center gap-2 py-3 bg-brand hover:bg-brand-strong text-white rounded-lg font-bold text-xs uppercase tracking-wider shadow-md transition-colors min-h-[48px]"
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-brand hover:bg-brand-strong text-white rounded-sm font-bold text-xs uppercase tracking-wider transition-colors min-h-[48px] font-mono"
                   >
                     <PhoneIcon className="h-4 w-4" />
                     <span>Appeler le contact ICE ({activeIceMember.iceContactPhone})</span>
                   </a>
                 </>
               ) : (
-                <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-xs text-amber-900">
+                <div className="rounded-sm bg-ambre/10 border border-ambre/30 p-4 text-xs text-ambre-dark dark:text-ambre font-mono">
                   <p className="font-bold">Aucun contact ICE renseigné pour ce coureur.</p>
-                  <p className="mt-1 text-amber-800">
+                  <p className="mt-1">
                     Invitez le membre à compléter son profil dans l&apos;espace membre ou mettez-le à jour
                     dans la gestion des membres.
                   </p>
@@ -569,9 +569,9 @@ export default function PointageExpressClient({
               {activeIceMember.phone && (
                 <a
                   href={`tel:${activeIceMember.phone}`}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 bg-paper-2 hover:bg-paper-2 text-ink rounded-lg font-semibold text-xs transition-colors min-h-[44px]"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 bg-paper-2 dark:bg-night hover:bg-paper-3 dark:hover:bg-night-line text-ink dark:text-snow-1 rounded-sm font-semibold text-xs transition-colors min-h-[44px] font-mono"
                 >
-                  <PhoneIcon className="h-4 w-4 text-ink-3" />
+                  <PhoneIcon className="h-4 w-4 text-ink-3 dark:text-snow-3" />
                   <span>Appeler le coureur ({activeIceMember.phone})</span>
                 </a>
               )}
@@ -579,7 +579,7 @@ export default function PointageExpressClient({
               <button
                 type="button"
                 onClick={() => setActiveIceMember(null)}
-                className="w-full py-2.5 text-xs font-semibold text-ink-3 hover:text-ink"
+                className="w-full py-2.5 text-xs font-semibold text-ink-3 hover:text-ink dark:hover:text-snow-1 font-mono cursor-pointer"
               >
                 Fermer
               </button>

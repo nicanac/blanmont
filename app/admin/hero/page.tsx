@@ -950,9 +950,9 @@ export default function AdminHeroPage(): React.ReactElement {
 
       {/* Floating Save Bar if changes exist */}
       {hasChanges && (
-        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3 rounded-lg border border-brand bg-ink p-4 text-white shadow-2xl animate-bounce-short">
+        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3 rounded-md border border-brand bg-ink dark:bg-night-2 p-4 text-white shadow-lg transition-all">
           <div className="space-y-0.5">
-            <p className="text-xs font-bold uppercase tracking-wider text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-white font-narrow">
               Modifications non enregistrées
             </p>
             <p className="text-xs text-snow-3">
@@ -963,7 +963,7 @@ export default function AdminHeroPage(): React.ReactElement {
             type="button"
             onClick={handleSave}
             disabled={isSaving}
-            className="rounded-md bg-brand hover:bg-brand-strong px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors"
+            className="rounded-md bg-brand hover:bg-brand-strong px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors cursor-pointer"
           >
             {isSaving ? 'Enregistrement...' : 'Enregistrer'}
           </button>
