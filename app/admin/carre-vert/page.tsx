@@ -35,8 +35,11 @@ export default async function CarreVertPage(): Promise<React.ReactElement> {
 
   return (
     <div className="space-y-6">
-      {/* Header with Tutorial & Sync Button */}
-      <CarreVertHeader />
+      {/* Header with Tutorial, Legend & Sync Button */}
+      <CarreVertHeader
+        eventCount={sortedEvents.length}
+        memberCount={leaderboardEntries.length}
+      />
 
       <CarreVertView
         events={sortedEvents}

@@ -1,17 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ArrowPathIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+import Tooltip from '@/app/components/ui/Tooltip';
 
 export default function SyncCarreVertButton(): React.ReactElement {
   const [isSyncing, setIsSyncing] = useState(false);
-  const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const router = useRouter();
 
   const handleSync = async (): Promise<void> => {
     setIsSyncing(true);
-    setStatus(null);
 
     try {
       const response = await fetch('/api/admin/import-csv');
@@ -22,66 +23,43 @@ export default function SyncCarreVertButton(): React.ReactElement {
         const countMsg = stats
           ? `${stats.eventsProcessed ?? 0} sorties traitées, ${stats.membersUpdated ?? 0} membres mis à jour`
           : 'Données synchronisées avec succès';
-        setStatus({
-          type: 'success',
-          message: `Synchronisation réussie ! (${countMsg})`,
-        });
+        toast.success(`Synchronisation réussie (${countMsg})`);
         router.refresh();
       } else {
-        setStatus({
-          type: 'error',
-          message: data.error || 'Erreur lors de la synchronisation avec le Google Sheet.',
-        });
+        toast.error(data.error || 'Erreur lors de la synchronisation avec le Google Sheet.');
       }
     } catch (error) {
       console.error('Error syncing Carré Vert:', error);
-      setStatus({
-        type: 'error',
-        message:
-          error instanceof Error
-            ? error.message
-            : 'Erreur de connexion lors de la synchronisation.',
-      });
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Erreur de connexion lors de la synchronisation.'
+      );
     } finally {
       setIsSyncing(false);
     }
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-      {status && (
-        <div
-          className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
-            status.type === 'success'
-              ? 'bg-green-50 text-green-700 border border-green-200'
-              : 'bg-red-50 text-red-700 border border-red-200'
-          }`}
-        >
-          {status.type === 'success' ? (
-            <CheckCircleIcon className="h-4 w-4 shrink-0 text-green-600" />
-          ) : (
-            <XCircleIcon className="h-4 w-4 shrink-0 text-red-600" />
-          )}
-          <span>{status.message}</span>
-          <button
-            onClick={() => setStatus(null)}
-            className="ml-1 text-gray-400 hover:text-gray-600 text-xs font-bold"
-            aria-label="Fermer"
-          >
-            ×
-          </button>
-        </div>
-      )}
-
+    <Tooltip
+      content="Synchroniser les présences et le classement Carré Vert depuis le Google Sheet 2026"
+      badge="Google Sheet"
+      side="top"
+      followPointer
+    >
       <button
+        id="carre-vert-sync-btn"
+        type="button"
         onClick={handleSync}
         disabled={isSyncing}
-        className="inline-flex items-center justify-center gap-2 rounded-lg border border-green-600 bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-700 hover:border-green-700 disabled:opacity-50 transition-colors cursor-pointer"
+        className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 px-3 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer shrink-0 active:translate-y-px"
         title="Synchroniser les présences et le classement Carré Vert depuis le Google Sheet 2026"
       >
-        <ArrowPathIcon className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
+        <ArrowPathIcon
+          className={`h-4 w-4 text-vert dark:text-bois ${isSyncing ? 'animate-spin' : ''}`}
+        />
         <span>{isSyncing ? 'Synchronisation...' : 'Synchroniser Google Sheet'}</span>
       </button>
-    </div>
+    </Tooltip>
   );
 }
