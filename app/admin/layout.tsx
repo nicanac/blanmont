@@ -238,26 +238,21 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                     }
                   }}
                   className={cn(
-                    'group relative flex items-center rounded-lg transition-all text-xs font-semibold',
+                    'group relative flex items-center rounded-md transition-all text-xs font-narrow font-semibold uppercase tracking-wider',
                     isCollapsed && !isDrawer
                       ? 'justify-center p-2.5'
                       : 'gap-3 px-3 py-2.5',
                     active
-                      ? 'bg-brand/10 dark:bg-brand/20 text-brand dark:text-white font-bold'
-                      : 'text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white'
+                      ? 'bg-paper-2 dark:bg-night-2 text-brand dark:text-brand-vif font-bold border border-line dark:border-night-line'
+                      : 'text-ink-3 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-2 hover:text-ink dark:hover:text-white'
                   )}
                   aria-label={isCollapsed && !isDrawer ? item.name : undefined}
                 >
-                  {/* Left active marker */}
-                  {active && (
-                    <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-md bg-brand" />
-                  )}
-
                   <Icon
                     className={cn(
                       'h-4 w-4 shrink-0 transition-colors',
                       active
-                        ? 'text-brand dark:text-white'
+                        ? 'text-brand dark:text-brand-vif'
                         : 'text-ink-3 group-hover:text-ink dark:group-hover:text-white'
                     )}
                   />
@@ -295,21 +290,21 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         {mobileSidebarOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
             <div
-              className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+              className="fixed inset-0 bg-black/60 transition-opacity"
               onClick={closeMobileSidebar}
               aria-hidden="true"
             />
-            <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-night border-r border-line dark:border-night-line flex flex-col shadow-2xl">
+            <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-paper dark:bg-night border-r border-line dark:border-night-line flex flex-col shadow-[0_10px_25px_-5px_rgba(22,24,27,0.14)]">
               <div className="flex h-16 items-center justify-between px-5 border-b border-line dark:border-night-line">
                 <div className="flex items-center gap-3">
                   <div className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md bg-brand text-white font-extrabold text-xs">
                     CC
                   </div>
                   <div>
-                    <p className="text-sm font-extrabold uppercase tracking-tight text-ink dark:text-white">
+                    <p className="text-sm font-wide font-extrabold uppercase tracking-tight text-ink dark:text-white">
                       Blan<span className="text-brand">mont</span>
                     </p>
-                    <p className="text-xs font-bold uppercase tracking-widest text-ink-3">
+                    <p className="text-xs font-narrow font-bold uppercase tracking-widest text-ink-3">
                       Administration
                     </p>
                   </div>
@@ -354,7 +349,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         {/* Desktop Sidebar (Collapsible: 256px wide or 72px collapsed) */}
         <aside
           className={cn(
-            'hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:flex-col bg-white dark:bg-night border-r border-line dark:border-night-line transition-[width] duration-200',
+            'hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:flex md:flex-col bg-paper dark:bg-night border-r border-line dark:border-night-line transition-[width] duration-200',
             isCollapsed ? 'md:w-[72px]' : 'md:w-64'
           )}
         >
@@ -366,15 +361,15 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
             )}
           >
             <Link href="/admin" className="flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-brand shadow-xs">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-brand">
                 <span className="text-white font-extrabold text-xs">CC</span>
               </div>
               {!isCollapsed && (
                 <div className="min-w-0">
-                  <p className="text-sm font-extrabold uppercase tracking-tight text-ink dark:text-white truncate">
+                  <p className="text-sm font-wide font-extrabold uppercase tracking-tight text-ink dark:text-white truncate">
                     Blan<span className="text-brand">mont</span>
                   </p>
-                  <p className="text-xs font-bold uppercase tracking-widest text-ink-3 dark:text-snow-3">
+                  <p className="text-xs font-narrow font-bold uppercase tracking-widest text-ink-3 dark:text-snow-3">
                     Administration
                   </p>
                 </div>

@@ -154,12 +154,12 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
       <div className="flex items-center gap-3">
         <Link
           href={`/admin/sondages/${poll.id}`}
-          className="rounded-md p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/10 dark:hover:text-white transition-colors duration-150"
+          className="rounded-sm p-2 text-ink-3 hover:bg-paper-2 hover:text-ink dark:hover:bg-night-2 dark:hover:text-snow-1 transition-colors duration-150"
         >
           <ArrowLeftIcon className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-ink dark:text-snow-1 font-semiwide">
             Modifier le Sondage
           </h1>
           <p className="text-xs text-ink-3 dark:text-snow-3">
@@ -170,16 +170,16 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Information Card */}
-        <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-8 shadow-xs space-y-5">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 sm:p-8 space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-line dark:border-night-line">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-white">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-snow-1 font-mono">
               1. Informations Générales
             </h2>
             <button
               type="button"
               disabled={isSyncingSortie}
               onClick={handleSyncSortie}
-              className="inline-flex items-center gap-1.5 rounded-md border border-brand/30 bg-brand/5 hover:bg-brand/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-brand transition-colors duration-150 shadow-xs disabled:opacity-50 min-h-[44px]"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-brand/30 bg-brand/5 hover:bg-brand/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-brand transition-colors duration-150 disabled:opacity-50 min-h-[44px] cursor-pointer"
               title="Récupérer et réappliquer les informations de la sortie au calendrier pour cette date"
             >
               {isSyncingSortie ? (
@@ -193,7 +193,7 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="poll-edit-weekend-date" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+              <label htmlFor="poll-edit-weekend-date" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
                 Date cible du weekend (Samedi) *
               </label>
               <input
@@ -202,19 +202,19 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
                 required
                 value={weekendIsoDate}
                 onChange={(e) => setWeekendIsoDate(e.target.value)}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-mono focus:border-brand focus:outline-hidden transition-colors duration-150"
+                className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs font-mono focus:border-brand focus:outline-hidden transition-colors duration-150"
               />
             </div>
 
             <div>
-              <label htmlFor="poll-edit-status" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+              <label htmlFor="poll-edit-status" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
                 Statut du sondage *
               </label>
               <select
                 id="poll-edit-status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value as 'active' | 'draft' | 'closed')}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-semibold focus:border-brand focus:outline-hidden transition-colors duration-150"
+                className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs font-semibold focus:border-brand focus:outline-hidden transition-colors duration-150"
               >
                 <option value="active">Actif (Ouvert aux réponses)</option>
                 <option value="draft">Brouillon (Non visible)</option>
@@ -224,7 +224,7 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
           </div>
 
           <div>
-            <label htmlFor="poll-edit-title" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+            <label htmlFor="poll-edit-title" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
               Titre du sondage *
             </label>
             <input
@@ -233,12 +233,12 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
+              className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
             />
           </div>
 
           <div>
-            <label htmlFor="poll-edit-description" className="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1">
+            <label htmlFor="poll-edit-description" className="block text-xs font-semibold text-ink-2 dark:text-snow-2 mb-1">
               Description / Consignes pour le peloton
             </label>
             <textarea
@@ -246,16 +246,16 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
+              className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night text-ink dark:text-snow-1 p-2.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
             />
           </div>
         </div>
 
         {/* Custom QCM Questions Card */}
-        <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 sm:p-8 space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-white">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-snow-1 font-mono">
                 2. Questions QCM personnalisées
               </h2>
               <p className="text-xs text-ink-3 dark:text-snow-3 mt-0.5">
@@ -266,7 +266,7 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper dark:bg-ink px-4 py-2 text-xs font-semibold text-slate-700 dark:text-snow hover:bg-slate-100 dark:hover:bg-white/10 transition-colors duration-150 min-h-[44px]"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-4 py-2 text-xs font-semibold text-ink dark:text-snow-1 hover:bg-paper-3 dark:hover:bg-night-line transition-colors duration-150 min-h-[44px] cursor-pointer"
             >
               <PlusIcon className="h-4 w-4 text-brand" />
               <span>Ajouter une question</span>
@@ -274,7 +274,7 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
           </div>
 
           {customQuestions.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-line dark:border-ink-2 p-6 text-center text-xs text-ink-3 dark:text-ink-3">
+            <div className="rounded-sm border border-dashed border-line dark:border-night-line p-6 text-center text-xs text-ink-3 dark:text-snow-3 font-mono">
               Aucune question supplémentaire.
             </div>
           ) : (
@@ -282,16 +282,16 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
               {customQuestions.map((q, qIndex) => (
                 <div
                   key={q.id}
-                  className="rounded-lg border border-line dark:border-night-line bg-paper dark:bg-ink p-5 space-y-4"
+                  className="rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night p-5 space-y-4"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-xs font-bold text-slate-700 dark:text-gray-300">
+                    <span className="text-xs font-bold text-ink dark:text-snow-1 font-mono">
                       Question #{qIndex + 1}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleDeleteQuestion(q.id)}
-                      className="text-slate-400 hover:text-brand transition-colors duration-150 cursor-pointer"
+                      className="text-ink-3 hover:text-brand transition-colors duration-150 cursor-pointer"
                       title="Supprimer cette question"
                       aria-label="Supprimer cette question"
                     >
@@ -305,7 +305,7 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
                     aria-label={`Intitulé de la question #${qIndex + 1}`}
                     value={q.title}
                     onChange={(e) => handleUpdateQuestionTitle(q.id, e.target.value)}
-                    className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
+                    className="w-full rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink dark:text-snow-1 p-2.5 text-xs font-bold focus:border-brand focus:outline-hidden transition-colors duration-150"
                   />
 
                   {/* Options */}
@@ -319,13 +319,13 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
                           aria-label={`Option de réponse #${optIdx + 1} pour ${q.title || 'la question'}`}
                           value={opt}
                           onChange={(e) => handleUpdateOption(q.id, optIdx, e.target.value)}
-                          className="flex-1 rounded-md border border-line dark:border-night-line bg-white dark:bg-night text-ink dark:text-snow px-3 py-1.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
+                          className="flex-1 rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink dark:text-snow-1 px-3 py-1.5 text-xs focus:border-brand focus:outline-hidden transition-colors duration-150"
                         />
                         {q.options.length > 1 && (
                           <button
                             type="button"
                             onClick={() => handleDeleteOption(q.id, optIdx)}
-                            className="p-1 text-slate-400 hover:text-brand transition-colors duration-150 cursor-pointer"
+                            className="p-1 text-ink-3 hover:text-brand transition-colors duration-150 cursor-pointer"
                             title="Supprimer cette option"
                             aria-label="Supprimer cette option"
                           >
@@ -366,14 +366,14 @@ export default function EditPollForm({ poll }: EditPollFormProps): React.ReactEl
         <div className="flex items-center justify-end gap-3 pt-2">
           <Link
             href={`/admin/sondages/${poll.id}`}
-            className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-6 py-2.5 text-xs font-semibold text-slate-700 dark:text-snow hover:bg-paper dark:hover:bg-night-3 transition-colors duration-150 min-h-[44px] inline-flex items-center"
+            className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 px-6 py-2.5 text-xs font-semibold text-ink dark:text-snow-1 hover:bg-paper-2 dark:hover:bg-night-3 transition-colors duration-150 min-h-[44px] inline-flex items-center"
           >
             Annuler
           </Link>
           <button
             type="submit"
             disabled={isPending}
-            className="rounded-md bg-brand hover:bg-brand-strong text-white px-8 py-2.5 text-xs font-semibold uppercase tracking-wider shadow-xs transition-colors duration-150 disabled:opacity-50 min-h-[44px] inline-flex items-center cursor-pointer"
+            className="rounded-sm bg-brand hover:bg-brand-strong text-white px-8 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-150 disabled:opacity-50 min-h-[44px] inline-flex items-center cursor-pointer font-mono"
           >
             {isPending ? 'Enregistrement...' : 'Enregistrer les modifications'}
           </button>

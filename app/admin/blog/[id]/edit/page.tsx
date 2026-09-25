@@ -140,7 +140,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs">
+        <div className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6">
           <div className="space-y-6">
             {/* Title */}
             <div>
@@ -153,7 +153,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
                 required
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white placeholder:text-snow-3 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
+                className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white placeholder:text-snow-3 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                 placeholder="Titre de l'article"
               />
             </div>
@@ -168,7 +168,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
                 required
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
+                className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -187,7 +187,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
                 rows={2}
                 value={formData.excerpt}
                 onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white placeholder:text-snow-3 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
+                className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white placeholder:text-snow-3 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                 placeholder="Courte description de l'article"
               />
             </div>
@@ -216,7 +216,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
                     aria-label="URL de l'image de couverture"
                     value={formData.coverImage}
                     onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                    className="flex-1 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
+                    className="flex-1 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
                     placeholder="URL de l'image"
                   />
                 </div>
@@ -286,7 +286,7 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
         <div className="flex justify-end gap-3">
           <Link
             href="/admin/blog"
-            className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-6 py-2 text-sm font-medium text-ink-2 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-line transition-colors duration-150 min-h-[44px] inline-flex items-center justify-center"
+            className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-6 py-2 text-sm font-medium text-ink-2 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-line transition-colors duration-150 min-h-[44px] inline-flex items-center justify-center"
           >
             Annuler
           </Link>

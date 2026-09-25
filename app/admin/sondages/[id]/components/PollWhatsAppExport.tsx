@@ -91,19 +91,20 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
   };
 
   return (
-    <div className="rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/40 p-6 shadow-xs space-y-4">
-      <div className="flex items-center gap-2 text-emerald-950 font-bold text-sm">
-        <ShareIcon className="h-5 w-5 text-emerald-600" />
+    <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 space-y-4">
+      <div className="flex items-center gap-2 text-ink dark:text-snow-1 font-bold text-sm font-semiwide">
+        <ShareIcon className="h-5 w-5 text-vert dark:text-vert-light" />
         <span>Récapitulatif WhatsApp</span>
       </div>
 
-      <p className="text-xs text-slate-600 leading-relaxed">
+      <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
         Générez et copiez le message récapitulatif formaté pour le groupe WhatsApp des membres.
       </p>
 
       <button
+        type="button"
         onClick={handleCopy}
-        className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 text-xs shadow-xs transition-colors"
+        className="w-full inline-flex items-center justify-center gap-2 rounded-sm bg-vert hover:bg-vert-strong text-white font-semibold py-2.5 text-xs transition-colors uppercase tracking-wider font-mono cursor-pointer min-h-[44px]"
       >
         {copied ? (
           <>

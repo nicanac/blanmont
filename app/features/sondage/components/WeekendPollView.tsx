@@ -46,7 +46,7 @@ const DAY_OPTIONS: DayOption[] = [
   { id: 'samedi', label: 'Samedi matin', subtitle: 'Sortie officielle du club', Icon: BicycleIcon },
   { id: 'dimanche', label: 'Dimanche matin', subtitle: 'Sortie dominicale', Icon: RouteCalendarIcon },
   { id: 'les-deux', label: 'Les 2 jours', subtitle: 'Samedi & Dimanche', Icon: TrophySquareIcon },
-  { id: 'absent', label: 'Absent ce weekend', subtitle: 'Ne roule pas ce weekend', Icon: XMarkIcon },
+  { id: 'absent', label: 'Absent ce week-end', subtitle: 'Ne roule pas ce week-end', Icon: XMarkIcon },
 ];
 
 const GROUP_OPTIONS: { id: CyclingGroupChoice; label: string; speed: string }[] = [
@@ -84,21 +84,27 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
 
   if (!poll) {
     return (
-      <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-12 text-center shadow-xs max-w-2xl mx-auto space-y-4">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-sm bg-paper dark:bg-ink border border-line dark:border-night-line text-brand">
-          <CalendarDaysIcon className="h-8 w-8 md:h-8 md:w-8" />
+      <div className="relative corner-ticks rounded-sm border border-line bg-paper-2/40 dark:border-night-line dark:bg-night-2 p-10 sm:p-14 text-center max-w-2xl mx-auto space-y-4 dark:[--tick:var(--color-snow-3)]">
+        <div className="mx-auto flex size-14 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow">
+          <CalendarDaysIcon className="size-7 text-brand-vif" aria-hidden="true" />
         </div>
-        <h2 className="text-xl font-bold text-ink dark:text-white">Aucun sondage actif pour le moment</h2>
-        <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed max-w-md mx-auto">
-          Le prochain sondage pour les sorties du weekend sera ouvert prochainement par les capitaines de route.
-        </p>
-        <Link
-          href="/calendrier"
-          className="inline-flex items-center gap-2 rounded-md bg-brand px-6 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-brand-strong transition-colors min-h-[44px]"
-        >
-          <span>Consulter le calendrier des sorties</span>
-          <ArrowRightIcon className="h-4 w-4" />
-        </Link>
+        <div className="space-y-1.5 max-w-md mx-auto">
+          <h2 className="font-semiwide text-lg sm:text-xl font-extrabold uppercase text-ink dark:text-snow tracking-tight">
+            Aucun sondage actif pour le moment
+          </h2>
+          <p className="text-sm text-ink-2 dark:text-snow-2 leading-relaxed">
+            Le prochain sondage pour les sorties du week-end sera ouvert prochainement par les capitaines de route.
+          </p>
+        </div>
+        <div className="pt-2">
+          <Link
+            href="/calendrier"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong px-6 py-2.5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors"
+          >
+            <span>Consulter le calendrier des sorties</span>
+            <ArrowRightIcon className="size-4" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     );
   }
@@ -205,71 +211,79 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
         {/* Left Column: Member QCM Form */}
         <div className="lg:col-span-5 space-y-6">
           {!isAuthenticated ? (
-            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 text-center shadow-xs space-y-4">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-sm bg-paper dark:bg-ink border border-line dark:border-night-line text-brand">
-                <LockClosedIcon className="h-7 w-7 md:h-7 md:w-7" />
+            <div className="relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-8 text-center space-y-4 shadow-2xs dark:[--tick:var(--color-snow-3)]">
+              <div className="mx-auto flex size-12 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow">
+                <LockClosedIcon className="size-6 text-brand-vif" aria-hidden="true" />
               </div>
-              <h3 className="text-lg font-bold text-ink dark:text-white">Connexion requise</h3>
-              <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
-                Connectez-vous avec votre compte membre pour voter et indiquer vos préférences de sortie.
-              </p>
-              <Link
-                href="/login?redirect=/sondage"
-                className="inline-flex items-center gap-2 rounded-md bg-brand px-6 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-brand-strong transition-colors min-h-[44px]"
-              >
-                Se connecter pour répondre
-              </Link>
+              <div className="space-y-1.5">
+                <h3 className="font-semiwide text-base sm:text-lg font-extrabold uppercase text-ink dark:text-snow tracking-tight">
+                  Connexion requise
+                </h3>
+                <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2 leading-relaxed">
+                  Connectez-vous avec votre compte membre pour voter et indiquer vos préférences de sortie.
+                </p>
+              </div>
+              <div className="pt-2">
+                <Link
+                  href="/login?redirect=/sondage"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong px-6 py-2.5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors"
+                >
+                  Se connecter pour répondre
+                </Link>
+              </div>
             </div>
           ) : isClosed ? (
-            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 text-center shadow-xs space-y-3">
-              <InformationCircleIcon className="mx-auto h-8 w-8 md:h-8 md:w-8 text-snow-3" />
-              <h3 className="text-base font-bold text-ink dark:text-white">Les votes sont clôturés</h3>
-              <p className="text-xs text-ink-3 dark:text-snow-3">
+            <div className="relative corner-ticks rounded-sm border border-line bg-paper-2/60 dark:border-night-line dark:bg-night-2 p-6 sm:p-8 text-center space-y-3 dark:[--tick:var(--color-snow-3)]">
+              <InformationCircleIcon className="mx-auto size-8 text-ink-3 dark:text-snow-3" aria-hidden="true" />
+              <h3 className="font-semiwide text-base font-extrabold uppercase text-ink dark:text-snow tracking-tight">
+                Les votes sont clôturés
+              </h3>
+              <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2">
                 Ce sondage est désormais fermé. Rendez-vous au départ selon les groupes ci-contre !
               </p>
             </div>
           ) : myResponse && !isEditing ? (
             /* Already voted summary card */
-            <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-8 shadow-xs space-y-5">
-              <div className="flex items-center justify-between">
+            <div className="relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-7 space-y-5 shadow-2xs dark:[--tick:var(--color-snow-3)]">
+              <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  <span className="relative flex size-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vert opacity-75" />
+                    <span className="relative inline-flex rounded-full size-2.5 bg-vert" />
                   </span>
-                  <h3 className="text-base font-bold text-ink dark:text-white">
+                  <h3 className="font-semiwide text-base font-extrabold uppercase text-ink dark:text-snow tracking-tight">
                     Votre participation est confirmée
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-1 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-3.5 py-2 text-xs font-semibold text-ink-2 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-line transition-colors duration-150 min-h-[44px] cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-sm border border-line dark:border-night-line bg-paper-2 hover:bg-line dark:bg-night-3 dark:hover:bg-night-line-strong px-3.5 py-2 font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink dark:text-snow transition-colors min-h-[44px] cursor-pointer shrink-0"
                 >
-                  <PencilSquareIcon className="h-3.5 w-3.5" />
+                  <PencilSquareIcon className="size-3.5" aria-hidden="true" />
                   <span>Modifier</span>
                 </button>
               </div>
 
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between py-2 border-b border-line dark:border-night-line">
-                  <span className="text-ink-3 dark:text-snow-3">Membre :</span>
-                  <strong className="text-ink dark:text-white truncate max-w-[200px]">{user?.name}</strong>
+                  <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">Membre :</span>
+                  <strong className="font-semiwide text-ink dark:text-snow truncate max-w-[200px]">{user?.name}</strong>
                 </div>
                 <div className="flex justify-between py-2 border-b border-line dark:border-night-line">
-                  <span className="text-ink-3 dark:text-snow-3">Jour(s) :</span>
-                  <span className="font-bold text-ink dark:text-white capitalize">
+                  <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">Jour(s) :</span>
+                  <span className="font-semiwide text-ink dark:text-snow">
                     {DAY_OPTIONS.find((d) => d.id === myResponse.dayChoice)?.label}
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-line dark:border-night-line">
-                  <span className="text-ink-3 dark:text-snow-3">Groupe :</span>
-                  <span className="font-bold text-ink dark:text-white">{myResponse.groupChoice}</span>
+                  <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">Groupe :</span>
+                  <span className="font-semiwide text-ink dark:text-snow">{myResponse.groupChoice}</span>
                 </div>
                 {myResponse.comment && (
                   <div className="py-2 border-b border-line dark:border-night-line">
-                    <span className="text-ink-3 dark:text-snow-3 block mb-1">Remarque :</span>
-                    <p className="italic text-ink-2 dark:text-snow-2 bg-paper dark:bg-ink p-2.5 rounded-md border border-line dark:border-night-line break-words">
+                    <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3 block mb-1">Remarque :</span>
+                    <p className="italic text-xs text-ink-2 dark:text-snow-2 bg-paper-2 dark:bg-night-3 p-3 rounded-sm border border-line dark:border-night-line break-words">
                       &laquo; {myResponse.comment} &raquo;
                     </p>
                   </div>
@@ -281,14 +295,14 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   type="button"
                   onClick={handleDeleteResponse}
                   disabled={isPending}
-                  className="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors duration-150 py-2.5 px-3 min-h-[44px] inline-flex items-center cursor-pointer"
+                  className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-brand hover:text-brand-strong dark:text-brand-soft hover:underline transition-colors py-2.5 px-3 min-h-[44px] inline-flex items-center cursor-pointer"
                 >
                   Annuler ma participation
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="rounded-md bg-ink dark:bg-white px-5 py-2.5 text-xs font-semibold text-white dark:text-ink hover:bg-night-2 dark:hover:bg-white/90 transition-colors duration-150 min-h-[44px] inline-flex items-center justify-center cursor-pointer"
+                  className="rounded-sm bg-ink hover:bg-night-3 dark:bg-white dark:hover:bg-snow dark:text-ink text-white px-5 py-2.5 font-narrow text-xs font-bold uppercase tracking-[0.07em] transition-colors min-h-[44px] inline-flex items-center justify-center cursor-pointer shadow-2xs"
                 >
                   Modifier mon choix
                 </button>
@@ -298,22 +312,22 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
             /* Interactive QCM Voting Form */
             <form
               onSubmit={handleSubmitResponse}
-              className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 sm:p-8 shadow-xs space-y-6"
+              className="rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-7 space-y-6 shadow-2xs"
             >
               <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-4">
                 <div>
-                  <h3 className="text-lg font-bold text-ink dark:text-white">
+                  <h3 className="font-semiwide text-base sm:text-lg font-extrabold uppercase text-ink dark:text-snow tracking-tight">
                     {myResponse ? 'Modifier votre réponse' : 'Votre réponse au sondage'}
                   </h3>
                   <p className="text-xs text-ink-3 dark:text-snow-3 mt-0.5">
-                    Connecté en tant que <strong className="text-ink dark:text-white">{user?.name}</strong>
+                    Connecté en tant que <strong className="text-ink dark:text-snow">{user?.name}</strong>
                   </p>
                 </div>
                 {myResponse && (
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="text-xs text-snow-3 hover:text-ink-2 dark:hover:text-white transition-colors duration-150 px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center cursor-pointer"
+                    className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-snow transition-colors px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center cursor-pointer"
                   >
                     Fermer
                   </button>
@@ -322,8 +336,8 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
 
               {/* Question 1: Jours */}
               <div className="space-y-3">
-                <label className="block text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2">
-                  1. Quel(s) jour(s) roulez-vous ce weekend ? *
+                <label className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
+                  1. Quel(s) jour(s) roulez-vous ce week-end ? *
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {DAY_OPTIONS.map((opt) => {
@@ -334,24 +348,24 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                         key={opt.id}
                         type="button"
                         onClick={() => setSelectedDay(opt.id)}
-                        className={`group flex items-start gap-3 p-3.5 rounded-md border text-left transition-all duration-150 min-h-[54px] ${
+                        className={`group flex items-start gap-3 p-3.5 rounded-sm border text-left transition-colors min-h-[56px] cursor-pointer ${
                           isSelected
-                            ? 'border-brand bg-brand-tint dark:bg-brand/10 ring-1 ring-brand'
-                            : 'border-line dark:border-night-line hover:border-line-strong dark:hover:border-white/20 hover:bg-paper-2/60 dark:hover:bg-night-3'
+                            ? 'border-brand bg-brand-tint/60 dark:bg-brand/15 dark:border-brand-soft ring-1 ring-brand'
+                            : 'border-line dark:border-night-line bg-paper-2/40 hover:bg-paper-2 dark:bg-night-3/60 dark:hover:bg-night-3 hover:border-ink-3 dark:hover:border-snow-3'
                         }`}
                       >
                         <div
-                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border transition-colors duration-150 ${
+                          className={`flex size-9 shrink-0 items-center justify-center rounded-sm border transition-colors ${
                             isSelected
                               ? 'border-brand bg-brand text-white'
-                              : 'border-line dark:border-night-line bg-paper dark:bg-ink text-ink dark:text-snow group-hover:border-brand/40'
+                              : 'border-line dark:border-night-line bg-white dark:bg-night-2 text-ink dark:text-snow group-hover:border-brand/40'
                           }`}
                         >
-                          <DayIcon className="h-4 w-4" />
+                          <DayIcon className="size-4" aria-hidden="true" />
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-ink dark:text-white">{opt.label}</div>
-                          <div className="text-xs text-ink-3 dark:text-snow-3">{opt.subtitle}</div>
+                          <div className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{opt.label}</div>
+                          <div className="text-[11px] text-ink-3 dark:text-snow-3 mt-0.5">{opt.subtitle}</div>
                         </div>
                       </button>
                     );
@@ -362,7 +376,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               {/* Question 2: Groupe (if attending) */}
               {selectedDay !== 'absent' && (
                 <div className="space-y-3 pt-2 border-t border-line dark:border-night-line">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2">
+                  <label className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
                     2. Dans quel groupe souhaitez-vous rouler ? *
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -371,17 +385,17 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                         key={grp.id}
                         type="button"
                         onClick={() => setSelectedGroup(grp.id)}
-                        className={`flex items-center justify-between p-3 rounded-md border text-left transition-all duration-150 min-h-[44px] ${
+                        className={`flex items-center justify-between p-3 rounded-sm border text-left transition-colors min-h-[46px] cursor-pointer ${
                           selectedGroup === grp.id
-                            ? 'border-brand bg-brand-tint dark:bg-brand/10 ring-1 ring-brand font-bold'
-                            : 'border-line dark:border-night-line hover:border-line-strong dark:hover:border-white/20 hover:bg-paper-2/60 dark:hover:bg-night-3'
+                            ? 'border-brand bg-brand-tint/60 dark:bg-brand/15 dark:border-brand-soft ring-1 ring-brand font-bold'
+                            : 'border-line dark:border-night-line bg-paper-2/40 hover:bg-paper-2 dark:bg-night-3/60 dark:hover:bg-night-3 hover:border-ink-3 dark:hover:border-snow-3'
                         }`}
                       >
                         <span className="flex items-center gap-2.5">
                           {grp.id !== 'Autre' && <RoadSwatch group={grp.id.replace('Groupe ', '') as CyclingGroup} className="w-9" />}
-                          <span className="text-xs text-ink dark:text-white">{grp.label}</span>
+                          <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{grp.label}</span>
                         </span>
-                        <span className="text-xs text-ink-3 dark:text-snow-3 font-medium tabular-nums">{grp.speed}</span>
+                        <span className="font-narrow text-xs font-bold text-ink-3 dark:text-snow-3 tabular-nums">{grp.speed}</span>
                       </button>
                     ))}
                   </div>
@@ -393,7 +407,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 <div className="space-y-4 pt-2 border-t border-line dark:border-night-line">
                   {poll.customQuestions.map((q, idx) => (
                     <div key={q.id} className="space-y-2">
-                      <label className="block text-xs font-bold text-ink dark:text-white">
+                      <label className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
                         {idx + 3}. {q.title}
                       </label>
                       <div className="space-y-1.5">
@@ -412,21 +426,21 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                                   ? handleCustomCheckboxChange(q.id, opt)
                                   : handleCustomRadioChange(q.id, opt)
                               }
-                              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-md border text-xs text-left transition-all duration-150 min-h-[44px] ${
+                              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-sm border text-xs text-left transition-colors min-h-[44px] cursor-pointer ${
                                 isSelected
-                                  ? 'border-brand bg-brand-tint dark:bg-brand/10 text-ink dark:text-snow font-bold'
-                                  : 'border-line dark:border-night-line text-ink-2 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-3'
+                                  ? 'border-brand bg-brand-tint/60 dark:bg-brand/15 text-ink dark:text-snow font-bold ring-1 ring-brand'
+                                  : 'border-line dark:border-night-line text-ink-2 dark:text-snow-2 bg-paper-2/40 hover:bg-paper-2 dark:bg-night-3/60 dark:hover:bg-night-3'
                               }`}
                             >
-                              <span>{opt}</span>
+                              <span className="font-semiwide text-xs font-extrabold">{opt}</span>
                               <span
-                                className={`h-4 w-4 rounded-full border flex items-center justify-center text-xs shrink-0 ml-2 ${
+                                className={`size-4 rounded-xs border flex items-center justify-center text-xs shrink-0 ml-2 ${
                                   isSelected
                                     ? 'bg-brand border-brand text-white'
                                     : 'border-line dark:border-night-line'
                                 }`}
                               >
-                                {isSelected ? <CheckIcon className="h-3 w-3" aria-hidden="true" /> : null}
+                                {isSelected ? <CheckIcon className="size-3 stroke-[2.5]" aria-hidden="true" /> : null}
                               </span>
                             </button>
                           );
@@ -442,11 +456,11 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="poll-comment"
-                    className="block text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2"
+                    className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3"
                   >
                     Commentaire / Remarque (facultatif)
                   </label>
-                  <span className="text-xs text-ink-3 dark:text-snow-3 tabular-nums">
+                  <span className="font-narrow text-xs font-bold text-ink-3 dark:text-snow-3 tabular-nums">
                     {comment.length}/500
                   </span>
                 </div>
@@ -457,7 +471,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Ex: Je rejoins le groupe au carrefour de Corroy..."
-                  className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 p-3 text-xs text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:outline-hidden"
+                  className="w-full rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 p-3 font-sans text-xs text-ink dark:text-snow placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-hidden"
                 />
               </div>
 
@@ -465,7 +479,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full inline-flex items-center justify-center rounded-md bg-brand py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-brand-strong transition-all duration-150 disabled:opacity-50 active:scale-[0.98] min-h-[44px]"
+                className="w-full inline-flex items-center justify-center rounded-sm bg-brand hover:bg-brand-strong py-3 px-5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors disabled:opacity-50 min-h-[44px] cursor-pointer"
               >
                 {isPending
                   ? 'Enregistrement en cours...'
@@ -480,38 +494,52 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
         {/* Right Column: Live Tally & List of Participants */}
         <div className="lg:col-span-7 space-y-6">
           {/* Summary Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-4 text-center shadow-xs">
-              <div className="text-2xl font-bold text-ink dark:text-white tabular-nums">{saturdayCount}</div>
-              <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5">
-                Samedi matin
+          <section
+            aria-label="Télémétrie des pelotons"
+            className="relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-4 sm:p-5 dark:[--tick:var(--color-snow-3)]"
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-line dark:divide-night-line">
+              <div className="space-y-0.5 text-center">
+                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-ink dark:text-snow tabular-nums">
+                  {saturdayCount}
+                </div>
+                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
+                  Samedi matin
+                </div>
+              </div>
+
+              <div className="space-y-0.5 text-center sm:pl-4 pt-3 sm:pt-0">
+                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-ink dark:text-snow tabular-nums">
+                  {sundayCount}
+                </div>
+                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
+                  Dimanche matin
+                </div>
+              </div>
+
+              <div className="space-y-0.5 text-center sm:pl-4 pt-3 sm:pt-0">
+                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-vert dark:text-vert-vif tabular-nums">
+                  {responses.filter((r) => r.dayChoice === 'les-deux').length}
+                </div>
+                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-vert dark:text-vert-vif">
+                  Les 2 jours
+                </div>
+              </div>
+
+              <div className="space-y-0.5 text-center sm:pl-4 pt-3 sm:pt-0">
+                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-ink-3 dark:text-snow-3 tabular-nums">
+                  {absentCount}
+                </div>
+                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
+                  Absents
+                </div>
               </div>
             </div>
-            <div className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-4 text-center shadow-xs">
-              <div className="text-2xl font-bold text-ink dark:text-white tabular-nums">{sundayCount}</div>
-              <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5">
-                Dimanche matin
-              </div>
-            </div>
-            <div className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-4 text-center shadow-xs">
-              <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
-                {responses.filter((r) => r.dayChoice === 'les-deux').length}
-              </div>
-              <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5">
-                Les 2 jours
-              </div>
-            </div>
-            <div className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-4 text-center shadow-xs">
-              <div className="text-2xl font-bold text-snow-3 tabular-nums">{absentCount}</div>
-              <div className="text-xs font-medium text-snow-3 uppercase tracking-wider mt-0.5">
-                Absents
-              </div>
-            </div>
-          </div>
+          </section>
 
           {/* Group Breakdown Cards */}
-          <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2">
+          <div className="rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-5 sm:p-6 shadow-2xs space-y-4">
+            <h3 className="font-semiwide text-sm font-extrabold uppercase tracking-tight text-ink dark:text-snow">
               Répartition par Groupe de niveau
             </h3>
 
@@ -521,18 +549,18 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 const percentage = activeAttendees.length > 0 ? (count / activeAttendees.length) * 100 : 0;
 
                 return (
-                  <div key={grp.id} className="rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-3 p-4 space-y-2">
+                  <div key={grp.id} className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 p-3.5 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2.5">
                         <RoadSwatch group={grp.id.replace('Groupe ', '') as CyclingGroup} className="w-9" />
-                        <span className="text-xs font-bold text-ink dark:text-white">{grp.label}</span>
+                        <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{grp.label}</span>
                       </span>
-                      <span className="font-narrow text-sm font-extrabold text-ink dark:text-white tabular-nums">
+                      <span className="font-narrow text-xs font-extrabold tabular-nums text-ink dark:text-snow">
                         {count} coureur{count > 1 ? 's' : ''}
                       </span>
                     </div>
 
-                    <div className="relative h-2.5 w-full border border-ink/70 bg-white dark:border-snow-3 dark:bg-night">
+                    <div className="relative h-2 w-full border border-ink/40 dark:border-snow-3/40 bg-paper-2 dark:bg-night overflow-hidden rounded-xs">
                       <div
                         className="absolute inset-y-0 left-0 w-(--w) bg-ink transition-[width] duration-500 ease-(--ease-plot) dark:bg-snow-2"
                         style={{ '--w': `${percentage}%` } as React.CSSProperties}
@@ -545,20 +573,20 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
           </div>
 
           {/* Participants Directory */}
-          <div className="rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs space-y-4">
+          <div className="rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-5 sm:p-6 shadow-2xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-line dark:border-night-line pb-4">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-white tabular-nums">
+                <h3 className="font-semiwide text-sm font-extrabold uppercase tracking-tight text-ink dark:text-snow tabular-nums">
                   Liste des participants ({filteredResponses.length})
                 </h3>
               </div>
 
               {/* Filters */}
-              <div className="flex flex-wrap items-center gap-1.5 text-xs">
+              <div className="flex flex-wrap items-center gap-2 text-xs">
                 <select
                   value={filterDay}
                   onChange={(e) => setFilterDay(e.target.value)}
-                  className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-xs font-medium text-ink-2 dark:text-snow-3 focus:outline-hidden min-h-[44px]"
+                  className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 px-3 py-1.5 font-narrow text-xs font-bold uppercase tracking-[0.04em] text-ink dark:text-snow focus:outline-hidden min-h-[44px] cursor-pointer"
                   aria-label="Filtrer par jour"
                 >
                   <option value="all">Tous les jours</option>
@@ -570,7 +598,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 <select
                   value={filterGroup}
                   onChange={(e) => setFilterGroup(e.target.value)}
-                  className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-xs font-medium text-ink-2 dark:text-snow-3 focus:outline-hidden min-h-[44px]"
+                  className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 px-3 py-1.5 font-narrow text-xs font-bold uppercase tracking-[0.04em] text-ink dark:text-snow focus:outline-hidden min-h-[44px] cursor-pointer"
                   aria-label="Filtrer par groupe"
                 >
                   <option value="all">Tous les groupes</option>
@@ -583,7 +611,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
             </div>
 
             {filteredResponses.length === 0 ? (
-              <p className="text-xs text-center py-8 text-snow-3 italic">
+              <p className="text-xs text-center py-8 text-ink-3 dark:text-snow-3 italic">
                 Aucune réponse correspondant aux filtres sélectionnés.
               </p>
             ) : (
@@ -596,15 +624,15 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   return (
                     <div
                       key={res.id}
-                      className={`flex items-start justify-between p-3 rounded-md border transition-all duration-150 ${
+                      className={`flex items-start justify-between p-3 rounded-sm border border-line dark:border-night-line transition-colors ${
                         isAbsent
-                          ? 'border-line dark:border-night-line bg-paper-2/40 dark:bg-night-3/40 opacity-60'
-                          : 'border-line dark:border-night-line bg-paper-2/70 dark:bg-night-3 hover:bg-white dark:hover:bg-night-2/80'
+                          ? 'bg-paper-2/40 dark:bg-night-3/40 opacity-60'
+                          : 'bg-paper dark:bg-night-3 hover:border-ink dark:hover:border-snow-3'
                       }`}
                     >
                       <div className="flex items-start gap-3 min-w-0">
-                        {/* Layered Avatar Container for 100% resilient fallback */}
-                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-night-2 dark:bg-night-line border border-line dark:border-white/10 flex items-center justify-center font-bold text-xs text-white select-none">
+                        {/* Stamp avatar */}
+                        <div className="relative size-9 shrink-0 overflow-hidden rounded-sm bg-night-2 dark:bg-night-line border border-line dark:border-night-line flex items-center justify-center font-narrow font-bold text-xs text-white select-none">
                           <span>{initials}</span>
                           {res.memberPhotoUrl &&
                             !res.memberPhotoUrl.includes('placehold') &&
@@ -624,25 +652,25 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                         </div>
 
                         <div className="space-y-0.5 min-w-0 flex-1">
-                          <div className="text-xs font-bold text-ink dark:text-white truncate">
+                          <div className="font-semiwide text-xs font-extrabold text-ink dark:text-snow truncate">
                             {res.memberName}
                           </div>
-                          <div className="flex items-center gap-1.5 text-xs text-ink-3 dark:text-snow-3">
+                          <div className="flex items-center gap-1.5 font-narrow text-xs text-ink-3 dark:text-snow-3">
                             {dayBadge && (
-                              <span className="inline-flex items-center gap-1 font-medium text-ink dark:text-line truncate">
-                                <dayBadge.Icon className="h-3.5 w-3.5 text-brand shrink-0" />
+                              <span className="inline-flex items-center gap-1 font-bold text-ink dark:text-snow truncate">
+                                <dayBadge.Icon className="size-3.5 text-brand-vif shrink-0" aria-hidden="true" />
                                 <span className="truncate">{dayBadge.label}</span>
                               </span>
                             )}
                             {!isAbsent && (
                               <>
                                 <span>•</span>
-                                <span className="font-semibold text-ink-2 dark:text-snow-2 shrink-0">{res.groupChoice}</span>
+                                <span className="font-bold text-ink-2 dark:text-snow-2 shrink-0">{res.groupChoice}</span>
                               </>
                             )}
                           </div>
                           {res.comment && (
-                            <p className="text-xs text-ink-2 dark:text-snow-2 italic line-clamp-2 mt-1 break-words">
+                            <p className="text-xs italic text-ink-2 dark:text-snow-2 bg-paper-2 dark:bg-night-2 p-2 rounded-sm border border-line dark:border-night-line mt-1 line-clamp-2 break-words">
                               &laquo; {res.comment} &raquo;
                             </p>
                           )}

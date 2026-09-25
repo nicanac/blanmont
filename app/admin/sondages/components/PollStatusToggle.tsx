@@ -34,7 +34,7 @@ export default function PollStatusToggle({ pollId, currentStatus }: PollStatusTo
       value={currentStatus}
       onChange={(e) => handleStatusChange(e.target.value as 'draft' | 'active' | 'closed')}
       disabled={isPending}
-      className="rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-snow focus:border-brand focus:outline-hidden transition-colors duration-150 disabled:opacity-50 cursor-pointer"
+      className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 px-3 py-1.5 text-xs font-semibold text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden transition-colors duration-150 disabled:opacity-50 cursor-pointer"
     >
       <option value="active">Actif (ouvert)</option>
       <option value="closed">Clôturé</option>

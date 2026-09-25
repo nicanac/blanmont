@@ -132,20 +132,20 @@ export default function EventAttendancePanel({
   );
 
   return (
-    <div className="bg-white dark:bg-night-2 shadow-xs rounded-lg overflow-hidden border border-line dark:border-night-line">
+    <div className="bg-paper dark:bg-night-2 rounded-md overflow-hidden border border-line dark:border-night-line">
       {/* Event Header */}
-      <div className={`p-6 ${isPast ? 'bg-emerald-700 dark:bg-emerald-900' : 'bg-ink dark:bg-night border-b border-line dark:border-night-line'} text-white`}>
+      <div className={`p-6 ${isPast ? 'bg-vert text-white' : 'bg-ink dark:bg-night-3 border-b border-line dark:border-night-line text-snow-1'}`}>
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold">{event.location}</h2>
+            <h2 className="text-xl font-bold font-semiwide">{event.location}</h2>
             <p className="mt-1 text-sm opacity-90 capitalize">{dateStr}</p>
             {event.distances && (
               <p className="mt-1 text-sm opacity-75">{event.distances} km · Départ {event.departure}</p>
             )}
           </div>
           <div className="text-right">
-            <div className="text-3xl font-bold tabular-nums">{presentCount}</div>
-            <div className="text-sm opacity-90">présent{presentCount !== 1 ? 's' : ''}</div>
+            <div className="text-3xl font-bold tabular-nums font-mono">{presentCount}</div>
+            <div className="text-xs uppercase tracking-wider opacity-90">présent{presentCount !== 1 ? 's' : ''}</div>
           </div>
         </div>
       </div>
@@ -159,14 +159,14 @@ export default function EventAttendancePanel({
           placeholder="Rechercher un membre..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 text-ink dark:text-white px-3 py-2 text-sm placeholder-ink-3 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-hidden transition-colors duration-150"
+          className="w-full rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-3 text-ink dark:text-snow-1 px-3 py-2 text-sm placeholder-ink-3 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-hidden transition-colors duration-150"
         />
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => setGroupFilter('all')}
             className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors duration-150 min-h-[32px] cursor-pointer ${
               groupFilter === 'all'
-                ? 'bg-ink dark:bg-white text-white dark:text-ink'
+                ? 'bg-ink dark:bg-snow-1 text-paper dark:text-ink'
                 : 'bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-3 hover:bg-line dark:hover:bg-night-line'
             }`}
           >
@@ -178,7 +178,7 @@ export default function EventAttendancePanel({
               onClick={() => setGroupFilter(g)}
               className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors duration-150 min-h-[32px] cursor-pointer ${
                 groupFilter === g
-                  ? 'bg-ink dark:bg-white text-white dark:text-ink'
+                  ? 'bg-ink dark:bg-snow-1 text-paper dark:text-ink'
                   : 'bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-3 hover:bg-line dark:hover:bg-night-line'
               }`}
             >
@@ -198,7 +198,7 @@ export default function EventAttendancePanel({
             <div
               key={member.id}
               className={`flex items-center justify-between p-4 transition-colors duration-150 ${
-                isPresent ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : 'hover:bg-paper dark:hover:bg-night-3'
+                isPresent ? 'bg-bois/20 dark:bg-vert/10' : 'hover:bg-paper-2 dark:hover:bg-night-3'
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
@@ -210,8 +210,8 @@ export default function EventAttendancePanel({
                     isLoading
                       ? 'border-line dark:border-night-line bg-paper-2 dark:bg-night-3 cursor-wait'
                       : isPresent
-                      ? 'border-emerald-600 bg-emerald-600 hover:bg-emerald-700 cursor-pointer'
-                      : 'border-line dark:border-night-line hover:border-emerald-500 cursor-pointer'
+                      ? 'border-vert bg-vert hover:bg-vert/90 cursor-pointer'
+                      : 'border-line dark:border-night-line hover:border-vert cursor-pointer'
                   }`}
                 >
                   {isLoading ? (
@@ -232,7 +232,7 @@ export default function EventAttendancePanel({
 
                 {/* Name and group */}
                 <div className="min-w-0">
-                  <p className={`text-sm truncate ${isPresent ? 'font-bold text-ink dark:text-white' : 'font-medium text-ink-2 dark:text-snow-2'}`}>
+                  <p className={`text-sm truncate ${isPresent ? 'font-bold text-ink dark:text-snow-1' : 'font-medium text-ink-2 dark:text-snow-2'}`}>
                     {member.name}
                   </p>
                 </div>
@@ -240,13 +240,13 @@ export default function EventAttendancePanel({
 
               <div className="flex items-center gap-3">
                 <span
-                  className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset ${
+                  className={`inline-flex items-center rounded-sm px-2 py-0.5 text-xs font-semibold ring-1 ring-inset ${
                     member.group.startsWith('A')
-                      ? 'bg-red-50 dark:bg-red-950/30 text-brand dark:text-red-300 ring-red-600/20'
+                      ? 'bg-brand/10 dark:bg-brand/20 text-brand dark:text-red-300 ring-brand/20'
                       : member.group.startsWith('B')
-                      ? 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 ring-blue-600/20'
+                      ? 'bg-hydro/10 dark:bg-hydro/20 text-hydro dark:text-sky-300 ring-hydro/20'
                       : member.group.startsWith('C')
-                      ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 ring-emerald-600/20'
+                      ? 'bg-bois/40 dark:bg-vert/20 text-vert dark:text-bois ring-vert/20'
                       : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 ring-line dark:ring-night-line'
                   }`}
                 >

@@ -12,7 +12,7 @@ export const DRIVER_PELOTON_STYLES = `
   border: 1px solid #28303a !important;
   border-radius: 4px !important;
   padding: 18px !important;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 20px 25px -5px #0d1013 !important;
   max-width: 380px !important;
   font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif !important;
   z-index: 10000000 !important;
@@ -28,8 +28,8 @@ export const DRIVER_PELOTON_STYLES = `
 }
 
 .driver-popover.driverjs-theme .driver-popover-description {
-  font-size: 0.8125rem !important;
-  color: #a7adbb !important;
+  font-size: 0.75rem !important;
+  color: #9aa3ad !important;
   line-height: 1.55 !important;
   margin-bottom: 14px !important;
 }
@@ -37,16 +37,16 @@ export const DRIVER_PELOTON_STYLES = `
 .driver-popover.driverjs-theme .driver-popover-footer {
   margin-top: 10px !important;
   padding-top: 10px !important;
-  border-top: 1px solid #262b38 !important;
+  border-top: 1px solid #28303a !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
 }
 
 .driver-popover.driverjs-theme .driver-popover-progress-text {
-  font-size: 0.8125rem !important;
+  font-size: 0.75rem !important;
   font-weight: 700 !important;
-  color: #5c6370 !important;
+  color: #5c6069 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
 }
@@ -63,7 +63,7 @@ export const DRIVER_PELOTON_STYLES = `
   border: none !important;
   border-radius: 6px !important;
   padding: 6px 14px !important;
-  font-size: 0.8125rem !important;
+  font-size: 0.75rem !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
@@ -73,16 +73,16 @@ export const DRIVER_PELOTON_STYLES = `
 }
 
 .driver-popover.driverjs-theme .driver-popover-next-btn:hover {
-  background-color: #c93434 !important;
+  background-color: #b82b2b !important;
 }
 
 .driver-popover.driverjs-theme .driver-popover-prev-btn {
   background-color: transparent !important;
-  color: #a7adbb !important;
-  border: 1px solid #262b38 !important;
+  color: #9aa3ad !important;
+  border: 1px solid #28303a !important;
   border-radius: 6px !important;
   padding: 6px 12px !important;
-  font-size: 0.8125rem !important;
+  font-size: 0.75rem !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
@@ -91,12 +91,12 @@ export const DRIVER_PELOTON_STYLES = `
 }
 
 .driver-popover.driverjs-theme .driver-popover-prev-btn:hover {
-  background-color: rgba(255, 255, 255, 0.08) !important;
+  background-color: #151a1f !important;
   color: #ffffff !important;
 }
 
 .driver-popover.driverjs-theme .driver-popover-close-btn {
-  color: #5c6370 !important;
+  color: #5c6069 !important;
   top: 12px !important;
   right: 12px !important;
 }

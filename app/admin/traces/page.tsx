@@ -85,7 +85,7 @@ export default function AdminTracesPage(): React.ReactElement {
           <button
             type="button"
             onClick={() => setModalOpen(true)}
-            className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors shadow-xs"
+            className="inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
             title="Ouvrir le guide des parcours"
           >
             <AcademicCapIcon className="h-4 w-4 text-brand" />
@@ -95,10 +95,10 @@ export default function AdminTracesPage(): React.ReactElement {
           <Link
             href="/traces"
             target="_blank"
-            className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors"
+            className="inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
           >
             <span>Catalogue public</span>
-            <ArrowTopRightOnSquareIcon className="h-4 w-4 text-ink-3" />
+            <ArrowTopRightOnSquareIcon className="h-4 w-4 text-ink-3 dark:text-snow-3" />
           </Link>
           <Link
             href="/admin/add-trace"
@@ -116,11 +116,11 @@ export default function AdminTracesPage(): React.ReactElement {
           <Link
             key={action.name}
             href={action.href}
-            className="group rounded-lg border border-line bg-white p-6 shadow-xs hover:border-brand/40 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+            className="group rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 hover:border-brand/40 transition-all flex flex-col justify-between space-y-4"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="rounded-full bg-paper-2 text-ink-3 border border-line px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
+                <span className="rounded-full bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider">
                   {action.category}
                 </span>
                 <div className={`flex h-10 w-10 items-center justify-center rounded-md border ${action.accent}`}>
@@ -129,16 +129,16 @@ export default function AdminTracesPage(): React.ReactElement {
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-ink group-hover:text-brand transition-colors">
+                <h3 className="text-base font-bold text-ink dark:text-white group-hover:text-brand transition-colors">
                   {action.name}
                 </h3>
-                <p className="mt-1.5 text-xs text-ink-3 leading-relaxed">
+                <p className="mt-1.5 text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
                   {action.description}
                 </p>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-paper-2 flex items-center justify-between text-xs font-semibold text-ink-3 group-hover:text-ink">
+            <div className="pt-2 border-t border-line dark:border-night-line flex items-center justify-between text-xs font-semibold text-ink-3 dark:text-snow-3 group-hover:text-ink dark:group-hover:text-white">
               <span>Accéder à l&apos;outil</span>
               <ArrowRightIcon className="h-3.5 w-3.5 text-brand transition-transform group-hover:translate-x-1" />
             </div>
@@ -147,33 +147,33 @@ export default function AdminTracesPage(): React.ReactElement {
       </div>
 
       {/* Contextual Information Band */}
-      <div id="traces-info-section" className="rounded-lg border border-line bg-white p-6 shadow-xs space-y-4">
+      <div id="traces-info-section" className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 space-y-4">
         <div className="flex items-start gap-3.5">
           <div className="flex h-8 w-8 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-md bg-ink text-brand">
             <InformationCircleIcon className="h-5 w-5" />
           </div>
           <div className="space-y-1">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-ink">
+            <h4 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-white">
               Comment fonctionnent les traces pour le club ?
             </h4>
-            <p className="text-xs text-ink-3 leading-relaxed">
+            <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
               Les traces GPS constituent le patrimoine cycliste du CC Saint-Martin Blanmont. Chaque trace publiée est automatiquement cartographiée avec son profil altimétrique (dénivelé D+), sa distance en kilomètres, son type de revêtement et un bouton de téléchargement direct GPX pour les compteurs GPS.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs border-t border-paper-2">
-          <div className="p-3 rounded-md bg-paper border border-line">
-            <div className="font-bold text-ink uppercase tracking-wider mb-0.5">Format GPX</div>
-            <div className="text-ink-3">Compatible avec Garmin Connect, Wahoo ELEMNT, Hammerhead Karoo.</div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs border-t border-line dark:border-night-line">
+          <div className="p-3 rounded-md bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line">
+            <div className="font-bold text-ink dark:text-white uppercase tracking-wider mb-0.5">Format GPX</div>
+            <div className="text-ink-3 dark:text-snow-3">Compatible avec Garmin Connect, Wahoo ELEMNT, Hammerhead Karoo.</div>
           </div>
-          <div className="p-3 rounded-md bg-paper border border-line">
-            <div className="font-bold text-ink uppercase tracking-wider mb-0.5">Sondage &amp; Sortie</div>
-            <div className="text-ink-3">Les traces peuvent être associées aux choix de vote lors du sondage de la semaine.</div>
+          <div className="p-3 rounded-md bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line">
+            <div className="font-bold text-ink dark:text-white uppercase tracking-wider mb-0.5">Sondage &amp; Sortie</div>
+            <div className="text-ink-3 dark:text-snow-3">Les traces peuvent être associées aux choix de vote lors du sondage de la semaine.</div>
           </div>
-          <div className="p-3 rounded-md bg-paper border border-line">
-            <div className="font-bold text-ink uppercase tracking-wider mb-0.5">Carré Vert</div>
-            <div className="text-ink-3">Les points de participation sont enregistrés lors de chaque sortie officielle.</div>
+          <div className="p-3 rounded-md bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line">
+            <div className="font-bold text-ink dark:text-white uppercase tracking-wider mb-0.5">Carré Vert</div>
+            <div className="text-ink-3 dark:text-snow-3">Les points de participation sont enregistrés lors de chaque sortie officielle.</div>
           </div>
         </div>
       </div>

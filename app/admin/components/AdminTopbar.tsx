@@ -170,7 +170,7 @@ export default function AdminTopbar({
   ];
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-line dark:border-night-line bg-white/95 dark:bg-night/95 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-line dark:border-night-line bg-paper dark:bg-night px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       {/* Left: Mobile Toggle / Desktop Collapse & Breadcrumbs */}
       <div className="flex items-center gap-3 min-w-0">
         {/* Mobile menu trigger */}
@@ -238,12 +238,12 @@ export default function AdminTopbar({
         <button
           type="button"
           onClick={onOpenCommandPalette}
-          className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night-2 text-xs font-medium text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30 hover:text-ink dark:hover:text-white transition-all shadow-2xs"
+          className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-xs font-medium text-ink-3 dark:text-snow-3 hover:border-ink/30 dark:hover:border-white/30 hover:text-ink dark:hover:text-white transition-all"
           title="Rechercher (⌘K)"
         >
           <MagnifyingGlassIcon className="h-3.5 w-3.5 text-ink-3" />
           <span className="hidden sm:inline">Rechercher...</span>
-          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-white dark:bg-night-line border border-line dark:border-night-line-strong font-mono text-xs text-ink-3">
+          <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-sm bg-paper dark:bg-night-line border border-line dark:border-night-line-strong font-mono text-xs text-ink-3">
             ⌘K
           </kbd>
         </button>
@@ -253,7 +253,7 @@ export default function AdminTopbar({
           <button
             type="button"
             onClick={() => setIsNewMenuOpen((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand hover:bg-brand-strong text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-brand hover:bg-brand-strong text-white text-xs font-narrow font-bold uppercase tracking-[0.07em] transition-colors active:translate-y-px"
           >
             <PlusIcon className="h-3.5 w-3.5 stroke-[2.5]" />
             <span className="hidden sm:inline">Nouveau</span>
@@ -263,8 +263,8 @@ export default function AdminTopbar({
           </button>
 
           {isNewMenuOpen && (
-            <div className="absolute right-0 mt-2 w-64 rounded-xl border border-line dark:border-night-line bg-white dark:bg-night shadow-xl p-1.5 z-50 text-left animate-in fade-in-50 zoom-in-95 duration-100">
-              <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-ink-3">
+            <div className="absolute right-0 mt-2 w-64 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-1.5 z-50 text-left animate-in fade-in-50 zoom-in-95 duration-100 shadow-[0_10px_25px_-5px_rgba(22,24,27,0.14)]">
+              <div className="px-3 py-1.5 text-xs font-narrow font-bold uppercase tracking-wider text-ink-3">
                 Création Rapide
               </div>
               <div className="space-y-0.5">
@@ -273,9 +273,9 @@ export default function AdminTopbar({
                     key={action.name}
                     href={action.href}
                     onClick={() => setIsNewMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs hover:bg-paper-2 dark:hover:bg-night-2 transition-colors group"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs hover:bg-paper-2 dark:hover:bg-night-3 transition-colors group"
                   >
-                    <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-md bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 group-hover:text-brand group-hover:border-brand/30 transition-colors">
+                    <div className="flex h-7 w-7 md:h-7 md:w-7 shrink-0 items-center justify-center rounded-sm bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 group-hover:text-brand group-hover:border-brand/30 transition-colors">
                       <action.icon className="h-3.5 w-3.5" />
                     </div>
                     <div>
@@ -300,7 +300,7 @@ export default function AdminTopbar({
         <button
           type="button"
           onClick={onOpenHelpModal}
-          className="p-1.5 rounded-lg text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
+          className="p-1.5 rounded-md text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
           title="Guide & Raccourcis d'administration"
         >
           <AcademicCapIcon className="h-4 w-4 text-brand" />
@@ -310,7 +310,7 @@ export default function AdminTopbar({
         <Link
           href="/"
           target="_blank"
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-line dark:border-night-line bg-white dark:bg-night-2 text-xs font-semibold text-ink dark:text-white hover:bg-paper dark:hover:bg-night-3 transition-colors"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-xs font-narrow font-semibold uppercase tracking-wider text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3 transition-colors"
           title="Ouvrir le site public dans un nouvel onglet"
         >
           <span className="hidden lg:inline">Voir le site</span>

@@ -133,23 +133,23 @@ export default function AdminGalerieClient({
       </div>
 
       {/* Search & Season Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-paper rounded-md border border-line">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-paper-2 dark:bg-night-2 rounded-md border border-line dark:border-night-line">
         <div className="relative flex-1">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Rechercher par titre, description, lieu..."
-            className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-line rounded-md text-ink focus:outline-none focus:border-brand"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-paper dark:bg-night-3 border border-line dark:border-night-line rounded-md text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:outline-none focus:border-brand"
           />
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-ink-3">Saison :</span>
+          <span className="text-xs font-semibold text-ink-3 dark:text-snow-3">Saison :</span>
           <select
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(e.target.value === 'all' ? 'all' : Number(e.target.value))}
-            className="px-2.5 py-2 text-xs font-semibold bg-white border border-line rounded-md text-ink focus:outline-none focus:border-brand"
+            className="px-2.5 py-2 text-xs font-semibold bg-paper dark:bg-night-3 border border-line dark:border-night-line rounded-md text-ink dark:text-white focus:outline-none focus:border-brand"
           >
             <option value="all">Toutes les saisons</option>
             {Array.from(new Set(albums.map((a) => a.year)))
@@ -164,10 +164,10 @@ export default function AdminGalerieClient({
       </div>
 
       {/* Albums Table */}
-      <div className="rounded-sm border border-line bg-white overflow-hidden shadow-2xs">
+      <div className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-paper text-xs font-bold uppercase tracking-wider text-ink-3 border-b border-line">
+            <thead className="bg-paper-2 dark:bg-night-3 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 border-b border-line dark:border-night-line">
               <tr>
                 <th className="py-3 px-4">Couverture</th>
                 <th className="py-3 px-4">Titre &amp; Description</th>
@@ -178,7 +178,7 @@ export default function AdminGalerieClient({
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-paper-2">
+            <tbody className="divide-y divide-line dark:divide-night-line">
               {albums
                 .filter((album) => {
                   if (selectedSeason !== 'all' && album.year !== selectedSeason) return false;
@@ -193,9 +193,9 @@ export default function AdminGalerieClient({
                   return true;
                 })
                 .map((album) => (
-                <tr key={album.id} className="hover:bg-paper/60 transition-colors">
+                <tr key={album.id} className="hover:bg-paper-2/60 dark:hover:bg-night-3/60 transition-colors">
                   <td className="py-3 px-4">
-                    <div className="h-12 w-20 rounded-md overflow-hidden bg-night-2 border border-line relative shrink-0">
+                    <div className="h-12 w-20 rounded-md overflow-hidden bg-night-2 border border-line dark:border-night-line relative shrink-0">
                       <Image
                         src={album.coverUrl}
                         alt={album.title}
@@ -206,26 +206,26 @@ export default function AdminGalerieClient({
                       />
                       {album.featured && (
                         <div className="absolute top-1 left-1">
-                          <SparklesIcon className="h-3 w-3 text-amber-400" />
+                          <SparklesIcon className="h-3 w-3 text-ambre" />
                         </div>
                       )}
                     </div>
                   </td>
                   <td className="py-3 px-4 max-w-xs">
-                    <p className="font-bold text-ink">{album.title}</p>
-                    <p className="text-xs text-ink-3 line-clamp-1 mt-0.5">
+                    <p className="font-bold text-ink dark:text-white">{album.title}</p>
+                    <p className="text-xs text-ink-3 dark:text-snow-3 line-clamp-1 mt-0.5">
                       {album.description}
                     </p>
                   </td>
-                  <td className="py-3 px-4 font-bold text-ink tabular-nums">
+                  <td className="py-3 px-4 font-bold text-ink dark:text-white tabular-nums">
                     {album.year}
                   </td>
                   <td className="py-3 px-4">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-paper border border-line text-ink-2">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line text-ink-2 dark:text-snow-2">
                       {album.category}
                     </span>
                   </td>
-                  <td className="py-3 px-4 tabular-nums font-semibold text-ink">
+                  <td className="py-3 px-4 tabular-nums font-semibold text-ink dark:text-white">
                     {album.photoCount}
                   </td>
                   <td className="py-3 px-4">
@@ -248,7 +248,7 @@ export default function AdminGalerieClient({
                       type="button"
                       onClick={() => handleDelete(album.id, album.title)}
                       disabled={deletingId === album.id}
-                      className="p-1.5 rounded-md text-ink-3 hover:text-brand hover:bg-brand/10 transition-colors"
+                      className="p-1.5 rounded-md text-ink-3 dark:text-snow-3 hover:text-brand hover:bg-brand/10 transition-colors"
                       title="Supprimer l'album"
                     >
                       <TrashIcon className="h-4 w-4" />
@@ -268,15 +268,15 @@ export default function AdminGalerieClient({
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
         >
-          <div className="bg-white rounded-md border-2 border-ink w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95">
-            <div className="p-4 border-b border-paper-2 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-ink uppercase tracking-wider">
+          <div className="bg-paper dark:bg-night-2 rounded-md border border-line dark:border-night-line w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95">
+            <div className="p-4 border-b border-line dark:border-night-line flex items-center justify-between">
+              <h3 className="text-sm font-bold text-ink dark:text-white uppercase tracking-wider">
                 Ajouter un album photo
               </h3>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-md text-ink-3 hover:text-ink"
+                className="p-1 rounded-md text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -284,7 +284,7 @@ export default function AdminGalerieClient({
 
             <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs">
               <div>
-                <label htmlFor="galerie-album-title" className="block font-semibold text-ink-2 mb-1">
+                <label htmlFor="galerie-album-title" className="block font-semibold text-ink-2 dark:text-snow-2 mb-1">
                   Titre de l&apos;album *
                 </label>
                 <input
@@ -294,13 +294,13 @@ export default function AdminGalerieClient({
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   placeholder="ex: Sortie de rentrée · Saison 2026"
-                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
+                  className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:outline-hidden"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="galerie-album-year" className="block font-semibold text-ink-2 mb-1">
+                  <label htmlFor="galerie-album-year" className="block font-semibold text-ink-2 dark:text-snow-2 mb-1">
                     Saison (Année) *
                   </label>
                   <input
@@ -309,12 +309,12 @@ export default function AdminGalerieClient({
                     required
                     value={form.year}
                     onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}
-                    className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
+                    className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-ink dark:text-white focus:border-brand focus:outline-hidden"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="galerie-album-category" className="block font-semibold text-ink-2 mb-1">
+                  <label htmlFor="galerie-album-category" className="block font-semibold text-ink-2 dark:text-snow-2 mb-1">
                     Thème / Catégorie *
                   </label>
                   <select
@@ -330,7 +330,7 @@ export default function AdminGalerieClient({
                           | 'Équipements',
                       })
                     }
-                    className="w-full rounded-md border border-line px-3 py-2 text-ink bg-white focus:border-brand focus:outline-hidden"
+                    className="w-full rounded-md border border-line dark:border-night-line px-3 py-2 text-ink dark:text-white bg-paper-2 dark:bg-night-3 focus:border-brand focus:outline-hidden"
                   >
                     <option value="Sorties">Sorties</option>
                     <option value="Ardennes & Stages">Ardennes &amp; Stages</option>
@@ -341,7 +341,7 @@ export default function AdminGalerieClient({
               </div>
 
               <div>
-                <label htmlFor="galerie-album-cover" className="block font-semibold text-ink-2 mb-1">
+                <label htmlFor="galerie-album-cover" className="block font-semibold text-ink-2 dark:text-snow-2 mb-1">
                   URL de l&apos;image de couverture *
                 </label>
                 <input
@@ -351,12 +351,12 @@ export default function AdminGalerieClient({
                   value={form.coverUrl}
                   onChange={(e) => setForm({ ...form, coverUrl: e.target.value })}
                   placeholder="/images/home-hero.jpg ou https://..."
-                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden font-mono"
+                  className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:outline-hidden font-mono"
                 />
               </div>
 
               <div>
-                <label htmlFor="galerie-album-external-url" className="block font-semibold text-ink-2 mb-1">
+                <label htmlFor="galerie-album-external-url" className="block font-semibold text-ink-2 dark:text-snow-2 mb-1">
                   Lien de l&apos;album externe (Google Photos, OneDrive...)
                 </label>
                 <input
@@ -365,13 +365,13 @@ export default function AdminGalerieClient({
                   value={form.externalAlbumUrl}
                   onChange={(e) => setForm({ ...form, externalAlbumUrl: e.target.value })}
                   placeholder="https://photos.google.com/..."
-                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden font-mono"
+                  className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:outline-hidden font-mono"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="galerie-album-photo-count" className="block font-semibold text-ink-2 mb-1">
+                  <label htmlFor="galerie-album-photo-count" className="block font-semibold text-ink-2 dark:text-snow-2 mb-1">
                     Nombre estimé de photos
                   </label>
                   <input
@@ -379,7 +379,7 @@ export default function AdminGalerieClient({
                     type="number"
                     value={form.photoCount}
                     onChange={(e) => setForm({ ...form, photoCount: Number(e.target.value) })}
-                    className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
+                    className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-ink dark:text-white focus:border-brand focus:outline-hidden"
                   />
                 </div>
 
@@ -390,15 +390,15 @@ export default function AdminGalerieClient({
                       type="checkbox"
                       checked={form.featured}
                       onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-                      className="rounded border-line text-brand focus:ring-brand"
+                      className="rounded border-line dark:border-night-line text-brand focus:ring-brand"
                     />
-                    <span className="font-semibold text-ink">Mettre à la Une</span>
+                    <span className="font-semibold text-ink dark:text-white">Mettre à la Une</span>
                   </label>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="galerie-album-description" className="block font-semibold text-ink-2 mb-1">
+                <label htmlFor="galerie-album-description" className="block font-semibold text-ink-2 dark:text-snow-2 mb-1">
                   Description / Récit de la sortie
                 </label>
                 <textarea
@@ -407,16 +407,16 @@ export default function AdminGalerieClient({
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   placeholder="Quelques phrases pour situer le contexte, la météo, le parcours..."
-                  className="w-full rounded-md border border-line px-3 py-2 text-ink focus:border-brand focus:outline-hidden"
+                  className="w-full rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-ink dark:text-white placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:outline-hidden"
                 />
               </div>
 
-              <div className="flex justify-end gap-2.5 pt-4 border-t border-paper-2">
+              <div className="flex justify-end gap-2.5 pt-4 border-t border-line dark:border-night-line">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   disabled={isSubmitting}
-                  className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink-2 hover:bg-paper-2 rounded-md transition-colors"
+                  className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink-2 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-3 rounded-md transition-colors"
                 >
                   Annuler
                 </button>
