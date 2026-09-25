@@ -312,6 +312,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 <button
                   type="button"
                   onClick={closeMobileSidebar}
+                  aria-label="Fermer le menu de navigation"
                   className="p-1.5 rounded-md text-ink-3 hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
                 >
                   <XMarkIcon className="h-5 w-5" />
