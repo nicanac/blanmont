@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AcademicCapIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/app/utils/cn';
 import { SheetHeader, SheetLegendRow } from '@/app/components/carte/SheetHeader';
+import Tooltip from '@/app/components/ui/Tooltip';
 
 export interface AdminHeaderAction {
   label: string;
@@ -13,6 +14,8 @@ export interface AdminHeaderAction {
   icon?: React.ComponentType<{ className?: string }>;
   variant?: 'primary' | 'secondary';
   id?: string;
+  tooltip?: string;
+  badge?: string;
 }
 
 export interface AdminPageHeaderProps {
@@ -69,16 +72,22 @@ export default function AdminPageHeader({
       {rightExtra}
       {/* Tutorial Button */}
       {onOpenTutorial && (
-        <button
-          id={tutorialButtonId}
-          type="button"
-          onClick={onOpenTutorial}
-          className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 px-3 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3 transition-colors cursor-pointer active:translate-y-px"
-          title="Ouvrir le guide et tutoriel"
+        <Tooltip
+          content={tutorialLabel}
+          badge="Guide"
+          side="top"
+          followPointer
         >
-          <AcademicCapIcon className="h-4 w-4 text-brand" />
-          <span>{tutorialLabel}</span>
-        </button>
+          <button
+            id={tutorialButtonId}
+            type="button"
+            onClick={onOpenTutorial}
+            className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 px-3 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3 transition-colors cursor-pointer active:translate-y-px"
+          >
+            <AcademicCapIcon className="h-4 w-4 text-brand" />
+            <span>{tutorialLabel}</span>
+          </button>
+        </Tooltip>
       )}
 
       {/* Action Buttons */}
@@ -91,20 +100,16 @@ export default function AdminPageHeader({
             : 'border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3'
         );
 
-        if (action.href) {
-          return (
-            <Link key={idx} id={action.id} href={action.href} className={buttonClasses}>
-              {action.icon && (
-                <action.icon
-                  className={cn('h-4 w-4', isPrimary ? 'text-white' : 'text-brand')}
-                />
-              )}
-              <span>{action.label}</span>
-            </Link>
-          );
-        }
-
-        return (
+        const btnElement = action.href ? (
+          <Link key={idx} id={action.id} href={action.href} className={buttonClasses}>
+            {action.icon && (
+              <action.icon
+                className={cn('h-4 w-4', isPrimary ? 'text-white' : 'text-brand')}
+              />
+            )}
+            <span>{action.label}</span>
+          </Link>
+        ) : (
           <button
             key={idx}
             id={action.id}
@@ -120,6 +125,22 @@ export default function AdminPageHeader({
             <span>{action.label}</span>
           </button>
         );
+
+        if (action.tooltip) {
+          return (
+            <Tooltip
+              key={idx}
+              content={action.tooltip}
+              badge={action.badge}
+              side="top"
+              followPointer
+            >
+              {btnElement}
+            </Tooltip>
+          );
+        }
+
+        return btnElement;
       })}
     </div>
   );

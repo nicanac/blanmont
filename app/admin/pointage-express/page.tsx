@@ -3,6 +3,7 @@ import { getCalendarEvents } from '@/app/lib/firebase';
 import { getMembers } from '@/app/lib/firebase/members';
 import { getAllAttendance } from '@/app/lib/firebase/attendance';
 import PointageExpressClient from './PointageExpressClient';
+import PointageExpressHeader from './components/PointageExpressHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,16 +33,24 @@ export default async function PointageExpressPage(): Promise<React.ReactElement>
     }
   });
 
-  // Sort events by date: closest upcoming/recent first
-  const sortedEvents = [...events].sort((a, b) => b.isoDate.localeCompare(a.isoDate));
+  // Sort events chronologically (ascending)
+  const sortedEvents = [...events].sort((a, b) => a.isoDate.localeCompare(b.isoDate));
 
   return (
-    <div className="max-w-4xl mx-auto pb-24">
-      <PointageExpressClient
-        initialEvents={sortedEvents}
-        members={members}
-        initialAttendanceMap={attendanceMap}
+    <div className="space-y-6 pb-24">
+      {/* Topographic Sheet Header */}
+      <PointageExpressHeader
+        eventCount={sortedEvents.length}
+        memberCount={members.length}
       />
+
+      <div className="max-w-4xl mx-auto">
+        <PointageExpressClient
+          initialEvents={sortedEvents}
+          members={members}
+          initialAttendanceMap={attendanceMap}
+        />
+      </div>
     </div>
   );
 }
