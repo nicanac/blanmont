@@ -1,13 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import { CalendarEvent } from '@/app/types';
 import { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
 import { parseDateInfo } from '@/app/lib/carreVert';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import EventAttendancePanel from './EventAttendancePanel';
-import { toast } from 'sonner';
 
 type AttendanceInfo = { name: string; group: string; markedAt: string };
 
@@ -18,38 +15,11 @@ interface CarreVertViewProps {
 }
 
 export default function CarreVertView({ events, members, attendanceMap }: CarreVertViewProps) {
-  const router = useRouter();
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'past' | 'upcoming'>('past');
   const [searchQuery, setSearchQuery] = useState('');
-  const [syncing, setSyncing] = useState(false);
-  const [syncMessage, setSyncMessage] = useState<string | null>(null);
 
   const today = new Date().toISOString().split('T')[0];
-
-  const handleSyncSheet = async () => {
-    if (!confirm('Voulez-vous synchroniser les présences et le classement depuis Google Sheets ?')) return;
-    setSyncing(true);
-    setSyncMessage(null);
-    try {
-      const res = await fetch('/api/admin/import-csv');
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        throw new Error(data.error || 'Erreur lors de la synchronisation');
-      }
-      setSyncMessage(
-        `Synchronisation réussie ! (${data.stats?.eventsProcessed || 0} événements, ${data.stats?.membersUpdated || 0} membres)`
-      );
-      toast.success(
-        `Synchronisation réussie (${data.stats?.eventsProcessed || 0} événements, ${data.stats?.membersUpdated || 0} membres)`
-      );
-      router.refresh();
-    } catch (err: any) {
-      toast.error(`Erreur de synchronisation: ${err.message}`);
-    } finally {
-      setSyncing(false);
-    }
-  };
 
   const filteredEvents = useMemo(() => {
     let filtered = events;
@@ -93,37 +63,7 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
   }
 
   return (
-    <div className="space-y-4">
-      {/* Synchronization Banner / Action */}
-      <div className="bg-paper dark:bg-night-2 p-4 rounded-md flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-line dark:border-night-line">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-md bg-bois/40 dark:bg-vert/20 flex items-center justify-center text-vert dark:text-bois border border-vert/20">
-            <ArrowPathIcon className={`h-5 w-5 ${syncing ? 'animate-spin' : ''}`} />
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-ink dark:text-snow-1">Synchronisation Google Sheets</h3>
-            <p className="text-xs text-ink-3 dark:text-snow-3">
-              Synchronise automatiquement les présences et recalcule les Carrés Verts (1/WE max + sorties semaine).
-            </p>
-          </div>
-        </div>
-        <button
-          onClick={handleSyncSheet}
-          disabled={syncing}
-          className="inline-flex items-center justify-center gap-2 rounded-md bg-vert px-3.5 py-2 text-xs font-semibold text-white hover:bg-vert/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vert disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer min-h-[44px]"
-        >
-          <ArrowPathIcon className={`h-4 w-4 ${syncing ? 'animate-spin' : ''}`} />
-          {syncing ? 'Synchronisation...' : 'Synchroniser depuis Google Sheets'}
-        </button>
-      </div>
-
-      {syncMessage && (
-        <div className="rounded-md bg-bois/30 dark:bg-vert/20 p-3 text-xs font-medium text-vert dark:text-bois border border-vert/30">
-          {syncMessage}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left panel: Event list */}
         <div id="carre-vert-events-list" className="lg:col-span-1">
           <div className="bg-paper dark:bg-night-2 rounded-md overflow-hidden border border-line dark:border-night-line">
@@ -258,6 +198,5 @@ export default function CarreVertView({ events, members, attendanceMap }: CarreV
           )}
         </div>
       </div>
-    </div>
   );
 }

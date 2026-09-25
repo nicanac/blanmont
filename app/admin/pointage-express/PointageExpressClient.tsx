@@ -10,11 +10,11 @@ import {
   MagnifyingGlassIcon,
   XMarkIcon,
   CalendarDaysIcon,
-  ArrowTopRightOnSquareIcon,
   ChevronUpDownIcon,
 } from '@heroicons/react/24/outline';
-import { CheckIcon, BoltIcon } from '@heroicons/react/24/solid';
+import { CheckIcon } from '@heroicons/react/24/solid';
 import { toast } from 'sonner';
+import { getTodayIso } from '@/app/utils/date';
 
 interface PointageExpressClientProps {
   initialEvents: CalendarEvent[];
@@ -25,22 +25,90 @@ interface PointageExpressClientProps {
   >;
 }
 
+/**
+ * Determines the default event ID for Pointage Express:
+ * 1. An event occurring today (the day's ride)
+ * 2. The next upcoming event in the calendar (chronologically >= today)
+ * 3. Fallback: the most recent past event (if all events have passed)
+ */
+export function getDefaultPointageEventId(
+  events: CalendarEvent[],
+  today: string = getTodayIso()
+): string {
+  if (!events || events.length === 0) return '';
+
+  // 1. Check for an event today
+  const todayEvent = events.find((e) => e.isoDate === today);
+  if (todayEvent) return todayEvent.id;
+
+  // 2. Next upcoming event in the calendar (closest future date)
+  const upcomingEvents = events
+    .filter((e) => e.isoDate && e.isoDate > today)
+    .sort((a, b) => a.isoDate.localeCompare(b.isoDate));
+
+  if (upcomingEvents.length > 0) {
+    return upcomingEvents[0].id;
+  }
+
+  // 3. Fallback: most recent past event (if all scheduled events are in the past)
+  const pastEvents = events
+    .filter((e) => e.isoDate && e.isoDate < today)
+    .sort((a, b) => b.isoDate.localeCompare(a.isoDate));
+
+  if (pastEvents.length > 0) {
+    return pastEvents[0].id;
+  }
+
+  return events[0].id;
+}
+
 export default function PointageExpressClient({
   initialEvents,
   members,
   initialAttendanceMap,
 }: PointageExpressClientProps): React.ReactElement {
+  const todayIso = useMemo(() => getTodayIso(), []);
+
   // Find default event: today or nearest upcoming/recent event
   const defaultEventId = useMemo(() => {
-    if (initialEvents.length === 0) return '';
-    const today = new Date().toISOString().split('T')[0];
-    const todayMatch = initialEvents.find((e) => e.isoDate === today);
-    if (todayMatch) return todayMatch.id;
-    // Otherwise the most recent event
-    return initialEvents[0].id;
-  }, [initialEvents]);
+    return getDefaultPointageEventId(initialEvents, todayIso);
+  }, [initialEvents, todayIso]);
 
   const [selectedEventId, setSelectedEventId] = useState<string>(defaultEventId);
+
+  // Sync selectedEventId if query param ?eventId=... is passed or if initial selection needs refresh
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const eventIdFromUrl = params.get('eventId');
+    if (eventIdFromUrl && initialEvents.some((e) => e.id === eventIdFromUrl)) {
+      setSelectedEventId(eventIdFromUrl);
+    } else if (!selectedEventId && defaultEventId) {
+      setSelectedEventId(defaultEventId);
+    }
+  }, [defaultEventId, initialEvents, selectedEventId]);
+
+  // Group events for the dropdown: upcoming/today (ascending) and past (descending)
+  const { upcomingEvents, pastEvents, otherEvents } = useMemo(() => {
+    const upcoming: CalendarEvent[] = [];
+    const past: CalendarEvent[] = [];
+    const others: CalendarEvent[] = [];
+
+    initialEvents.forEach((evt) => {
+      if (!evt.isoDate) {
+        others.push(evt);
+      } else if (evt.isoDate >= todayIso) {
+        upcoming.push(evt);
+      } else {
+        past.push(evt);
+      }
+    });
+
+    upcoming.sort((a, b) => (a.isoDate || '').localeCompare(b.isoDate || ''));
+    past.sort((a, b) => (b.isoDate || '').localeCompare(a.isoDate || ''));
+
+    return { upcomingEvents: upcoming, pastEvents: past, otherEvents: others };
+  }, [initialEvents, todayIso]);
   const [attendanceMap, setAttendanceMap] = useState(initialAttendanceMap);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState<'all' | 'present' | 'absent' | 'A' | 'B' | 'C' | 'VTT'>('all');
@@ -214,40 +282,30 @@ export default function PointageExpressClient({
 
   return (
     <div className="space-y-5">
-      {/* Header */}
-      <div className="bg-white rounded-[10px] border border-line p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center justify-center h-7 w-7 md:h-7 md:w-7 rounded-md bg-brand/10 text-brand">
-              <BoltIcon className="h-4 w-4" />
-            </span>
-            <h1 className="text-xl font-bold tracking-tight text-ink">
-              Pointage Express <span className="text-brand">Peloton</span>
-            </h1>
-          </div>
-          <p className="mt-1 text-xs text-ink-3">
-            Embarquement tactile rapide au départ du samedi / dimanche matin à Blanmont.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <Link
-            href="/admin/carre-vert"
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-line bg-white text-xs font-semibold text-ink hover:bg-paper transition-colors"
-          >
-            <span>Carré Vert</span>
-            <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-ink-3" />
-          </Link>
-        </div>
-      </div>
-
       {/* Event Selector & Stats Strip */}
       <div className="bg-paper dark:bg-night-2 rounded-md border border-line dark:border-night-line p-4 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <label htmlFor="express-event-select" className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2 cursor-pointer font-mono">
-            <CalendarDaysIcon className="h-4 w-4 text-brand" />
-            <span>Sortie sélectionnée</span>
-          </label>
+          <div className="flex items-center gap-2 flex-wrap">
+            <label htmlFor="express-event-select" className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2 cursor-pointer font-mono">
+              <CalendarDaysIcon className="h-4 w-4 text-brand" />
+              <span>Sortie sélectionnée</span>
+            </label>
+            {currentEvent?.isoDate === todayIso && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-vert/10 text-vert border border-vert/30 font-mono">
+                Aujourd&apos;hui
+              </span>
+            )}
+            {currentEvent?.isoDate && currentEvent.isoDate > todayIso && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-brand/10 text-brand border border-brand/30 font-mono">
+                À venir
+              </span>
+            )}
+            {currentEvent?.isoDate && currentEvent.isoDate < todayIso && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-paper-2 dark:bg-night text-ink-3 dark:text-snow-3 border border-line dark:border-night-line font-mono">
+                Passée
+              </span>
+            )}
+          </div>
 
           <div className="relative flex-1 max-w-md">
             <select
@@ -255,14 +313,42 @@ export default function PointageExpressClient({
               aria-label="Sortie sélectionnée pour le pointage"
               value={selectedEventId}
               onChange={(e) => setSelectedEventId(e.target.value)}
-              className="w-full appearance-none rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night py-2 pl-3 pr-8 text-xs font-medium text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden font-mono"
+              disabled={initialEvents.length === 0}
+              className="w-full appearance-none rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night py-2 pl-3 pr-8 text-xs font-medium text-ink dark:text-snow-1 focus:border-brand focus:outline-hidden font-mono disabled:opacity-50"
             >
-              {initialEvents.map((evt) => (
-                <option key={evt.id} value={evt.id}>
-                  {evt.isoDate} — {evt.location || evt.group || 'Sortie Club'}{' '}
-                  {evt.distances ? `(${evt.distances})` : ''}
-                </option>
-              ))}
+              {upcomingEvents.length > 0 && (
+                <optgroup label="Sorties du jour & à venir">
+                  {upcomingEvents.map((evt) => (
+                    <option key={evt.id} value={evt.id}>
+                      {evt.isoDate} — {evt.location || evt.group || 'Sortie Club'}{' '}
+                      {evt.distances ? `(${evt.distances})` : ''}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+              {pastEvents.length > 0 && (
+                <optgroup label="Sorties passées">
+                  {pastEvents.map((evt) => (
+                    <option key={evt.id} value={evt.id}>
+                      {evt.isoDate} — {evt.location || evt.group || 'Sortie Club'}{' '}
+                      {evt.distances ? `(${evt.distances})` : ''}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+              {otherEvents.length > 0 && (
+                <optgroup label="Autres événements">
+                  {otherEvents.map((evt) => (
+                    <option key={evt.id} value={evt.id}>
+                      {evt.isoDate || 'Date indéfinie'} — {evt.location || evt.group || 'Sortie Club'}{' '}
+                      {evt.distances ? `(${evt.distances})` : ''}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+              {initialEvents.length === 0 && (
+                <option value="">Aucune sortie disponible</option>
+              )}
             </select>
             <ChevronUpDownIcon className="pointer-events-none absolute right-2.5 top-2.5 h-4 w-4 text-ink-3 dark:text-snow-3" />
           </div>
