@@ -35,12 +35,12 @@ export default function CarreVertTutorialModal({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="p-4 rounded-lg border border-night-line bg-night-2 space-y-2">
+            <div className="p-4 rounded-md border border-night-line bg-night-2 space-y-2">
               <div className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-black font-extrabold text-xs">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-vert text-white font-extrabold text-xs">
                   1
                 </span>
-                <h4 className="font-bold text-white text-xs uppercase tracking-wider">
+                <h4 className="font-bold text-white text-xs uppercase tracking-wider font-narrow">
                   1 Point par Sortie
                 </h4>
               </div>
@@ -49,12 +49,12 @@ export default function CarreVertTutorialModal({
               </p>
             </div>
 
-            <div className="p-4 rounded-lg border border-night-line bg-night-2 space-y-2">
+            <div className="p-4 rounded-md border border-night-line bg-night-2 space-y-2">
               <div className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500 text-white font-extrabold text-xs">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-hydro text-white font-extrabold text-xs">
                   G
                 </span>
-                <h4 className="font-bold text-white text-xs uppercase tracking-wider">
+                <h4 className="font-bold text-white text-xs uppercase tracking-wider font-narrow">
                   Classement Global &amp; Groupes
                 </h4>
               </div>
@@ -174,7 +174,7 @@ export default function CarreVertTutorialModal({
       title="Guide du Carré Vert & Synchronisation"
       badge="Challenge Club"
       icon={TrophyIcon}
-      iconColorClass="bg-emerald-500/20 text-emerald-400 border-emerald-500/40"
+      iconColorClass="bg-bois/40 text-vert border-vert/40"
       tabs={tabs}
     />
   );

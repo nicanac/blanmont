@@ -139,8 +139,8 @@ export default function ProspectsHeader({ prospects }: ProspectsHeaderProps): Re
               {pendingCount}
             </span>
             {pendingCount > 0 && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-900/50 px-2 py-0.5 text-[11px] font-bold text-amber-800 dark:text-amber-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1 rounded-full bg-ambre/20 dark:bg-ambre/30 px-2 py-0.5 text-xs font-bold text-ambre dark:text-ambre">
+                <span className="h-1.5 w-1.5 rounded-full bg-ambre animate-pulse" />
                 Action requise
               </span>
             )}

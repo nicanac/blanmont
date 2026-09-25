@@ -188,15 +188,15 @@ export function TelemetryTimelineChart({
         beginAtZero: true,
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
-          color: '#5c6370',
-          font: { family: 'Archivo', size: 11 },
+          color: '#5c6069',
+          font: { family: 'Archivo', size: 12 },
         },
       },
       x: {
         grid: { display: false },
         ticks: {
-          color: '#5c6370',
-          font: { family: 'Archivo', size: 11 },
+          color: '#5c6069',
+          font: { family: 'Archivo', size: 12 },
           maxRotation: 45,
           autoSkip: true,
           maxTicksLimit: 14,
@@ -206,28 +206,28 @@ export function TelemetryTimelineChart({
   };
 
   return (
-    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-line pb-4 mb-4">
+    <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-line dark:border-night-line pb-4 mb-4">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="font-extrabold uppercase tracking-tight text-ink">
+            <h3 className="font-extrabold uppercase tracking-tight text-ink dark:text-snow-1 font-semiwide">
               Affluence &amp; Volume Kilométrique du Peloton
             </h3>
-            <span className="rounded-full bg-brand/10 text-brand px-2 py-0.5 text-xs font-bold uppercase tracking-wider border border-brand/20">
+            <span className="rounded-full bg-brand/10 text-brand px-2 py-0.5 text-xs font-bold uppercase tracking-wider border border-brand/20 font-mono">
               Saison {selectedYear}
             </span>
           </div>
-          <p className="text-xs text-ink-3">
+          <p className="text-xs text-ink-3 dark:text-snow-3">
             Évolution continue de la participation et de l&apos;effort collectif
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center rounded-md border border-line bg-paper p-0.5 text-xs">
+        <div className="flex flex-wrap items-center rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-0.5 text-xs">
           <button
             type="button"
             onClick={() => setMode('sortie')}
-            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'sortie' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
+            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all cursor-pointer ${
+              mode === 'sortie' ? 'bg-paper dark:bg-night text-ink dark:text-snow-1' : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1'
             }`}
           >
             Sortie
@@ -235,8 +235,8 @@ export function TelemetryTimelineChart({
           <button
             type="button"
             onClick={() => setMode('mois')}
-            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'mois' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
+            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all cursor-pointer ${
+              mode === 'mois' ? 'bg-paper dark:bg-night text-ink dark:text-snow-1' : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1'
             }`}
           >
             Mois
@@ -244,8 +244,8 @@ export function TelemetryTimelineChart({
           <button
             type="button"
             onClick={() => setMode('km')}
-            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'km' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
+            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all cursor-pointer ${
+              mode === 'km' ? 'bg-paper dark:bg-night text-ink dark:text-snow-1' : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1'
             }`}
           >
             Km-Peloton
@@ -253,8 +253,8 @@ export function TelemetryTimelineChart({
           <button
             type="button"
             onClick={() => setMode('cumul')}
-            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all ${
-              mode === 'cumul' ? 'bg-white text-ink shadow-xs' : 'text-ink-3 hover:text-ink'
+            className={`rounded-sm px-2.5 py-1 font-bold uppercase tracking-wider transition-all cursor-pointer ${
+              mode === 'cumul' ? 'bg-paper dark:bg-night text-ink dark:text-snow-1' : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1'
             }`}
           >
             Cumul
@@ -318,35 +318,35 @@ export function RidesHistogramChart({
         beginAtZero: true,
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
-          color: '#5c6370',
-          font: { family: 'Archivo', size: 11 },
+          color: '#5c6069',
+          font: { family: 'Archivo', size: 12 },
           stepSize: 1,
         },
       },
       x: {
         grid: { display: false },
         ticks: {
-          color: '#5c6370',
-          font: { family: 'Archivo', size: 11 },
+          color: '#5c6069',
+          font: { family: 'Archivo', size: 12 },
         },
       },
     },
   };
 
   return (
-    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-line pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-ink">
+    <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 sm:p-6">
+      <div className="border-b border-line dark:border-night-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink dark:text-snow-1 font-semiwide">
           Distribution de l&apos;Assiduité
         </h3>
-        <p className="text-xs text-ink-3">
+        <p className="text-xs text-ink-3 dark:text-snow-3">
           Répartition des cyclos selon leur volume de sorties validées
         </p>
       </div>
       <div className="h-64 w-full">
         <Bar data={data} options={options} />
       </div>
-      <div className="mt-3 flex items-center justify-center gap-2 text-xs text-ink-3">
+      <div className="mt-3 flex items-center justify-center gap-2 text-xs text-ink-3 dark:text-snow-3 font-mono">
         <span className="h-2.5 w-2.5 rounded-xs bg-brand" />
         <span>Nombre de cyclistes par tranche de carrés</span>
       </div>
@@ -362,11 +362,11 @@ export function GroupCompositionChart({
   groupDynamics,
 }: GroupCompositionChartProps): React.ReactElement {
   const getGroupColor = (name: string): string => {
-    if (name.includes('A') || name.includes('Vert') || name.includes('V')) return '#10b981';
-    if (name.includes('B') || name.includes('Jaune') || name.includes('J')) return '#3b82f6';
-    if (name.includes('C') || name.includes('Bleu')) return '#f59e0b';
-    if (name.includes('Rouge') || name.includes('R')) return '#e03e3e';
-    return '#5c6370';
+    if (name.includes('A') || name.includes('Vert') || name.includes('V')) return '#2e7d45';
+    if (name.includes('B') || name.includes('Jaune') || name.includes('J')) return '#e8962a';
+    if (name.includes('C') || name.includes('Bleu')) return '#1f6fbf';
+    if (name.includes('Rouge') || name.includes('R')) return '#d63535';
+    return '#5c6069';
   };
 
   const data = {
@@ -407,12 +407,12 @@ export function GroupCompositionChart({
   };
 
   return (
-    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-line pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-ink">
+    <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 sm:p-6">
+      <div className="border-b border-line dark:border-night-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink dark:text-snow-1 font-semiwide">
           Répartition de l&apos;Affluence par Groupe
         </h3>
-        <p className="text-xs text-ink-3">
+        <p className="text-xs text-ink-3 dark:text-snow-3">
           Part de chaque peloton d&apos;allure dans le volume total de sorties
         </p>
       </div>
@@ -423,10 +423,10 @@ export function GroupCompositionChart({
             <Doughnut data={data} options={options} />
           </div>
           <div className="pointer-events-none absolute flex flex-col items-center justify-center text-center">
-            <span className="text-2xl font-extrabold text-ink tabular-nums">
+            <span className="text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
               {total}
             </span>
-            <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
               Présences
             </span>
           </div>
@@ -436,20 +436,20 @@ export function GroupCompositionChart({
           {groupDynamics.groupStats.map((g) => (
             <div
               key={g.group}
-              className="flex items-center justify-between rounded-md border border-line bg-paper p-2.5 text-xs"
+              className="flex items-center justify-between rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-2.5 text-xs"
             >
               <div className="flex items-center gap-2">
                 <span
                   className="h-2.5 w-2.5 rounded-full"
                   style={{ backgroundColor: getGroupColor(g.group) }}
                 />
-                <span className="font-bold text-ink">{g.group}</span>
+                <span className="font-bold text-ink dark:text-snow-1">{g.group}</span>
               </div>
               <div className="text-right">
-                <span className="font-extrabold text-ink tabular-nums">
+                <span className="font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                   {g.totalAttendances}
                 </span>{' '}
-                <span className="text-xs text-ink-3">({g.percentOfTotal}%)</span>
+                <span className="text-xs text-ink-3 dark:text-snow-3">({g.percentOfTotal}%)</span>
               </div>
             </div>
           ))}
@@ -472,7 +472,7 @@ export function TracesDistanceChart({
       {
         label: 'Parcours',
         data: tracesStats.distanceBuckets.map((b) => b.count),
-        backgroundColor: '#3b82f6',
+        backgroundColor: '#1f6fbf',
         borderRadius: 4,
       },
     ],
@@ -495,38 +495,38 @@ export function TracesDistanceChart({
         beginAtZero: true,
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
-          color: '#5c6370',
-          font: { family: 'Archivo', size: 11 },
+          color: '#5c6069',
+          font: { family: 'Archivo', size: 12 },
           stepSize: 1,
         },
       },
       x: {
         grid: { display: false },
         ticks: {
-          color: '#5c6370',
-          font: { family: 'Archivo', size: 11 },
+          color: '#5c6069',
+          font: { family: 'Archivo', size: 12 },
         },
       },
     },
   };
 
   return (
-    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-line pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-ink">
+    <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 sm:p-6">
+      <div className="border-b border-line dark:border-night-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink dark:text-snow-1 font-semiwide">
           Profils Kilométriques du Catalogue
         </h3>
-        <p className="text-xs text-ink-3">
+        <p className="text-xs text-ink-3 dark:text-snow-3">
           Distribution des {tracesStats.totalTraces} traces selon leur distance
         </p>
       </div>
       <div className="h-64 w-full">
         <Bar data={data} options={options} />
       </div>
-      <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-xs text-ink-3">
+      <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-xs text-ink-3 dark:text-snow-3 font-mono">
         {tracesStats.distanceBuckets.map((b) => (
           <span key={b.label} className="inline-flex items-center gap-1">
-            <span className="font-bold text-ink">{b.label} :</span>
+            <span className="font-bold text-ink dark:text-snow-1">{b.label} :</span>
             <span>{b.description}</span>
           </span>
         ))}
@@ -547,7 +547,7 @@ export function TracesDirectionChart({
     datasets: [
       {
         data: tracesStats.directionDistribution.map((d) => d.count),
-        backgroundColor: ['#e03e3e', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#64748b'],
+        backgroundColor: ['#d63535', '#2e7d45', '#1f6fbf', '#e8962a', '#b0703b', '#5c6069'],
         borderWidth: 2,
         borderColor: '#ffffff',
       },
@@ -569,12 +569,12 @@ export function TracesDirectionChart({
   };
 
   return (
-    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-line pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-ink">
+    <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 sm:p-6">
+      <div className="border-b border-line dark:border-night-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink dark:text-snow-1 font-semiwide">
           Orientation &amp; Terroirs Explorés
         </h3>
-        <p className="text-xs text-ink-3">
+        <p className="text-xs text-ink-3 dark:text-snow-3">
           Répartition géographique des parcours du club
         </p>
       </div>
@@ -590,10 +590,10 @@ export function TracesDirectionChart({
           {tracesStats.directionDistribution.map((d) => (
             <div
               key={d.direction}
-              className="flex items-center justify-between rounded-md border border-line bg-paper p-2 text-xs"
+              className="flex items-center justify-between rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-2 text-xs"
             >
-              <span className="font-semibold text-ink">{d.direction}</span>
-              <span className="font-extrabold text-ink tabular-nums">
+              <span className="font-semibold text-ink dark:text-snow-1">{d.direction}</span>
+              <span className="font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                 {d.count} parcours
               </span>
             </div>
@@ -619,7 +619,7 @@ export function DemocracyPopularChart({
       {
         label: 'Suffrages reçus',
         data: popular.map((p) => p.voteCount),
-        backgroundColor: '#10b981',
+        backgroundColor: '#2e7d45',
         borderRadius: 4,
       },
     ],
@@ -643,28 +643,28 @@ export function DemocracyPopularChart({
         beginAtZero: true,
         grid: { color: 'rgba(228, 224, 216, 0.6)' },
         ticks: {
-          color: '#5c6370',
-          font: { family: 'Archivo', size: 11 },
+          color: '#5c6069',
+          font: { family: 'Archivo', size: 12 },
           stepSize: 1,
         },
       },
       y: {
         grid: { display: false },
         ticks: {
-          color: '#101216',
-          font: { family: 'Archivo', size: 11, weight: 'bold' as const },
+          color: '#16181b',
+          font: { family: 'Archivo', size: 12, weight: 'bold' as const },
         },
       },
     },
   };
 
   return (
-    <div className="rounded-lg border border-line bg-white p-5 sm:p-6 shadow-xs">
-      <div className="border-b border-line pb-3 mb-4">
-        <h3 className="font-extrabold uppercase tracking-tight text-ink">
+    <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 sm:p-6">
+      <div className="border-b border-line dark:border-night-line pb-3 mb-4">
+        <h3 className="font-extrabold uppercase tracking-tight text-ink dark:text-snow-1 font-semiwide">
           Tracés Plébiscités par le Club
         </h3>
-        <p className="text-xs text-ink-3">
+        <p className="text-xs text-ink-3 dark:text-snow-3">
           Parcours ayant recueilli le plus de votes lors des sorties du samedi
         </p>
       </div>
@@ -674,7 +674,7 @@ export function DemocracyPopularChart({
           <Bar data={data} options={options} />
         </div>
       ) : (
-        <div className="flex h-48 items-center justify-center text-xs text-ink-3">
+        <div className="flex h-48 items-center justify-center text-xs text-ink-3 dark:text-snow-3">
           Aucun vote enregistré pour cette saison
         </div>
       )}
