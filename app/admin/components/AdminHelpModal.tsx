@@ -79,9 +79,17 @@ export default function AdminHelpModal({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-line dark:border-night-line bg-paper-2 dark:bg-night-2 px-6 overflow-x-auto">
+        <div
+          className="flex border-b border-line dark:border-night-line bg-paper-2 dark:bg-night-2 px-6 overflow-x-auto"
+          role="tablist"
+          aria-label="Onglets d'aide"
+        >
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === 'ritual'}
+            aria-controls="panel-ritual"
+            id="tab-ritual"
             onClick={() => setActiveTab('ritual')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'ritual'
@@ -94,6 +102,10 @@ export default function AdminHelpModal({
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === 'roles'}
+            aria-controls="panel-roles"
+            id="tab-roles"
             onClick={() => setActiveTab('roles')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'roles'
@@ -106,6 +118,10 @@ export default function AdminHelpModal({
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === 'shortcuts'}
+            aria-controls="panel-shortcuts"
+            id="tab-shortcuts"
             onClick={() => setActiveTab('shortcuts')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'shortcuts'
@@ -118,6 +134,10 @@ export default function AdminHelpModal({
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === 'guide'}
+            aria-controls="panel-guide"
+            id="tab-guide"
             onClick={() => setActiveTab('guide')}
             className={`flex items-center gap-2 border-b-2 py-3 px-3 text-xs font-bold uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
               activeTab === 'guide'
@@ -134,7 +154,12 @@ export default function AdminHelpModal({
         <div className="p-6 max-h-[65vh] overflow-y-auto space-y-6 text-xs sm:text-sm">
           {/* TAB 1: RITUAL */}
           {activeTab === 'ritual' && (
-            <div className="space-y-6">
+            <div
+              id="panel-ritual"
+              role="tabpanel"
+              aria-labelledby="tab-ritual"
+              className="space-y-6"
+            >
               <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 p-4 text-ink dark:text-snow leading-relaxed">
                 Le fonctionnement du club s&apos;articule autour d&apos;un rythme hebdomadaire bien rodé. Voici le calendrier des actions attendues des administrateurs et capitaines de route.
               </div>
@@ -193,7 +218,12 @@ export default function AdminHelpModal({
 
           {/* TAB 2: ROLES */}
           {activeTab === 'roles' && (
-            <div className="space-y-4">
+            <div
+              id="panel-roles"
+              role="tabpanel"
+              aria-labelledby="tab-roles"
+              className="space-y-4"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 p-4 space-y-2">
                   <div className="flex items-center gap-2">
@@ -238,7 +268,12 @@ export default function AdminHelpModal({
 
           {/* TAB 3: SHORTCUTS */}
           {activeTab === 'shortcuts' && (
-            <div className="space-y-4">
+            <div
+              id="panel-shortcuts"
+              role="tabpanel"
+              aria-labelledby="tab-shortcuts"
+              className="space-y-4"
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Link
                   href="/admin/sondages/new"
@@ -315,7 +350,12 @@ export default function AdminHelpModal({
 
           {/* TAB 4: GUIDE RESET */}
           {activeTab === 'guide' && (
-            <div className="space-y-4 text-center py-4">
+            <div
+              id="panel-guide"
+              role="tabpanel"
+              aria-labelledby="tab-guide"
+              className="space-y-4 text-center py-4"
+            >
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 text-brand border border-brand/30">
                 <ArrowPathIcon className="h-6 w-6 md:h-6 md:w-6" />
               </div>
