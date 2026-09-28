@@ -144,14 +144,12 @@ export default function ProspectsTable({
   );
   const inTrialCount = useMemo(
     () =>
-      prospects.filter((p) =>
-        ['contacted', 'ride_1', 'ride_2', 'ride_3'].includes(p.status)
-      ).length,
+      prospects.filter((p) => ['contacted', 'ride_1', 'ride_2', 'ride_3'].includes(p.status))
+        .length,
     [prospects]
   );
   const convertedCount = useMemo(
-    () =>
-      prospects.filter((p) => ['converted', 'completed'].includes(p.status)).length,
+    () => prospects.filter((p) => ['converted', 'completed'].includes(p.status)).length,
     [prospects]
   );
   const archivedCount = useMemo(
@@ -170,10 +168,7 @@ export default function ProspectsTable({
       ) {
         return false;
       }
-      if (
-        tabFilter === 'converted' &&
-        !['converted', 'completed'].includes(p.status)
-      ) {
+      if (tabFilter === 'converted' && !['converted', 'completed'].includes(p.status)) {
         return false;
       }
       if (tabFilter === 'archived' && p.status !== 'archived') return false;
@@ -215,10 +210,7 @@ export default function ProspectsTable({
     setIsModalOpen(true);
   };
 
-  const handleStatusChange = async (
-    id: string,
-    status: TrialRideStatus
-  ): Promise<boolean> => {
+  const handleStatusChange = async (id: string, status: TrialRideStatus): Promise<boolean> => {
     const res = await updateProspectStatusAction(id, status);
     if (res.success) {
       setProspects((prev) =>
@@ -413,6 +405,8 @@ export default function ProspectsTable({
               type="button"
               onClick={() => setSearchTerm('')}
               className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-white"
+              aria-label="Effacer la recherche"
+              title="Effacer la recherche"
             >
               <XMarkIcon className="h-4 w-4" />
             </button>

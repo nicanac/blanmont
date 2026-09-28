@@ -28,7 +28,12 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
     }
     if (variant === 'pill') {
       return (
-        <div className={cn('inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line px-3 py-1.5 text-xs text-ink-3 dark:text-snow-3', className)}>
+        <div
+          className={cn(
+            'inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line px-3 py-1.5 text-xs text-ink-3 dark:text-snow-3',
+            className
+          )}
+        >
           <span className="h-4 w-4 rounded-sm bg-paper-2 dark:bg-night-3 animate-pulse" />
           <span className="text-xs font-semibold uppercase tracking-wider">Thème</span>
         </div>
@@ -52,9 +57,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
         aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
       >
-        <span className="sr-only">
-          {isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
-        </span>
+        <span className="sr-only">{isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}</span>
         {isDark ? (
           <SunIcon className="h-[18px] w-[18px] text-ambre group-hover:rotate-45 transition-transform duration-500 ease-(--ease-plot)" />
         ) : (
@@ -66,7 +69,12 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
 
   // Large visual cards selector (for Admin Settings page)
   if (variant === 'cards') {
-    const options: { value: Theme; title: string; desc: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    const options: {
+      value: Theme;
+      title: string;
+      desc: string;
+      icon: React.ComponentType<{ className?: string }>;
+    }[] = [
       {
         value: 'light',
         title: 'Mode Clair',
@@ -148,6 +156,7 @@ export default function ThemeToggle({ variant = 'pill', className }: ThemeToggle
         role="switch"
         aria-checked={isDark}
         aria-label="Basculer le thème clair ou sombre"
+        title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
         onClick={toggleTheme}
         className={cn(
           'relative inline-flex min-h-[44px] min-w-[44px] h-8 w-14 sm:h-7 sm:w-14 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand',
