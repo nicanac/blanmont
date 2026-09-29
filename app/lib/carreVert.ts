@@ -61,9 +61,18 @@ export function parseDateInfo(dateStr: string, defaultYear: number = new Date().
     day = parsed.getUTCDate();
   }
 
-  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  if (!Number.isInteger(year) || month < 1 || month > 12 || day < 1 || day > 31) return null;
 
-  const utcDate = new Date(Date.UTC(year, month - 1, day));
+  const utcDate = new Date(0);
+  utcDate.setUTCFullYear(year, month - 1, day);
+  if (
+    utcDate.getUTCFullYear() !== year ||
+    utcDate.getUTCMonth() !== month - 1 ||
+    utcDate.getUTCDate() !== day
+  ) {
+    return null;
+  }
+
   const dayOfWeek = utcDate.getUTCDay(); // 0 = Sunday, 6 = Saturday
   const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
@@ -533,4 +542,3 @@ export function calculateHallOfFameLeaderboard(
     return a.name.localeCompare(b.name, 'fr');
   });
 }
-

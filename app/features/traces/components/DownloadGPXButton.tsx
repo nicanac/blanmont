@@ -1,10 +1,8 @@
 'use client';
 
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-// @ts-ignore
 import toGeoJSON from '@mapbox/polyline';
-// @ts-ignore
-import togpx from 'togpx';
+import { buildGpxDocument } from '@/app/lib/gpx';
 import { toast } from 'sonner';
 
 interface Props {
@@ -18,25 +16,10 @@ export default function DownloadGPXButton({ polyline, traceName }: Props) {
   const handleDownload = () => {
     try {
       const coordinates = toGeoJSON.decode(polyline);
-      const flipped = coordinates.map((c: number[]) => [c[1], c[0]]);
-
-      const geoJson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: {
-              name: traceName,
-            },
-            geometry: {
-              type: 'LineString',
-              coordinates: flipped,
-            },
-          },
-        ],
-      };
-
-      const gpxData = togpx(geoJson);
+      const positions = coordinates.map(
+        ([latitude, longitude]: number[]) => [longitude, latitude] as [number, number]
+      );
+      const gpxData = buildGpxDocument(traceName, positions);
       const blob = new Blob([gpxData], { type: 'application/gpx+xml' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');

@@ -18,12 +18,11 @@ export interface SessionUser {
 }
 
 function getSessionSecret(): string {
-  return (
-    process.env.SESSION_SECRET ||
-    process.env.NEXTAUTH_SECRET ||
-    process.env.FIREBASE_SERVICE_ACCOUNT_KEY ||
-    'cc-saint-martin-blanmont-secure-secret-2026'
-  );
+  const secret = process.env.SESSION_SECRET || process.env.NEXTAUTH_SECRET;
+  if (!secret) {
+    throw new Error('SESSION_SECRET must be configured for session authentication.');
+  }
+  return secret;
 }
 
 function base64UrlEncode(bytes: Uint8Array): string {
@@ -94,9 +93,9 @@ export async function verifySessionToken(token: string | undefined | null): Prom
   if (parts.length !== 2) return null;
 
   const [payloadBase64, signatureBase64] = parts;
-  const secret = getSessionSecret();
 
   try {
+    const secret = getSessionSecret();
     const key = await getHmacKey(secret);
     const signatureBytes = base64UrlDecode(signatureBase64);
     const dataBytes = new TextEncoder().encode(payloadBase64);
@@ -133,6 +132,7 @@ export async function setSessionCookie(member: Member | User): Promise<SessionUs
     : member.role
       ? [member.role]
       : ['Member'];
+  const avatarUrl = 'photoUrl' in member ? member.photoUrl : member.avatarUrl;
 
   const normalizedUser: User = {
     id: member.id,
@@ -140,7 +140,7 @@ export async function setSessionCookie(member: Member | User): Promise<SessionUs
     name: member.name,
     email: member.email || undefined,
     role: roles,
-    avatarUrl: (member as any).photoUrl || (member as any).avatarUrl || '/images/default-avatar.png',
+    avatarUrl: avatarUrl || '/images/default-avatar.png',
   };
 
   const isAdmin = checkIsAdmin(normalizedUser);

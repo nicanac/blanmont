@@ -68,6 +68,13 @@ describe('weather utils', () => {
       expect(result).toBeNull();
     });
 
+    it('returns null for invalid calendar dates', async () => {
+      const fetchSpy = vi.fn();
+      global.fetch = fetchSpy;
+      await expect(getRideWeather('2026-02-30')).resolves.toBeNull();
+      expect(fetchSpy).not.toHaveBeenCalled();
+    });
+
     it('returns unavailable forecast if date is in the past or > 14 days ahead', async () => {
       // 30 days in past
       const pastDate = '2020-01-01';

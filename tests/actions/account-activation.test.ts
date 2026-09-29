@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+  unstable_cache: vi.fn((callback) => callback),
+}));
+
 // Mock Firebase Admin SDK
 const mockMembersData = {
   member_1: {
@@ -77,18 +82,17 @@ describe('requestAccountActivationAction', () => {
     expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 
-  it('rejects activation when email is NOT registered in club database', async () => {
+  it('returns a generic result for addresses outside the club directory', async () => {
     const unknownEmail = 'stranger@external.com';
     const res = await requestAccountActivationAction(unknownEmail);
 
-    expect(res.success).toBe(false);
-    expect(res.message).toContain("Cette adresse email n'est pas enregistrée dans l'annuaire du club");
-    // Crucial: do NOT provision user in Firebase Auth and do NOT create reset link
+    expect(res.success).toBe(true);
+    expect(res.message).toContain('Si cette adresse correspond à un membre inscrit');
     expect(mockCreateUser).not.toHaveBeenCalled();
     expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 
-  it('provisions user in Firebase Auth and generates link for registered member without auth account', async () => {
+  it('provisions a registered member without marking their email verified or exposing a reset link', async () => {
     // User does not exist in Firebase Auth yet
     mockGetUserByEmail.mockRejectedValue({ code: 'auth/user-not-found' });
 
@@ -96,22 +100,20 @@ describe('requestAccountActivationAction', () => {
     const res = await requestAccountActivationAction(memberEmail);
 
     expect(res.success).toBe(true);
-    expect(res.message).toContain('Compte membre vérifié');
-    expect(res.directLink).toBe('/auth/action?mode=resetPassword&oobCode=code_12345');
+    expect(res.message).toContain('Si cette adresse correspond à un membre inscrit');
+    expect(res).not.toHaveProperty('directLink');
 
-    // Verified: creates Firebase Auth account with member name
     expect(mockCreateUser).toHaveBeenCalledWith({
       email: 'laurent@blanmont.be',
       displayName: 'Laurent Cycliste',
-      emailVerified: true,
+      emailVerified: false,
     });
 
-    // Verified: links authUid in Realtime Database
     expect(mockUpdate).toHaveBeenCalledWith({
       authUid: 'uid-laurent-2',
     });
 
-    expect(mockGeneratePasswordResetLink).toHaveBeenCalledWith('laurent@blanmont.be');
+    expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 
   it('handles registered member who already exists in Firebase Auth', async () => {
@@ -125,9 +127,9 @@ describe('requestAccountActivationAction', () => {
     const res = await requestAccountActivationAction(adminEmail);
 
     expect(res.success).toBe(true);
-    expect(res.directLink).toBe('/auth/action?mode=resetPassword&oobCode=code_12345');
+    expect(res).not.toHaveProperty('directLink');
     // Does not create a duplicate user
     expect(mockCreateUser).not.toHaveBeenCalled();
-    expect(mockGeneratePasswordResetLink).toHaveBeenCalledWith('bruyere.nicolas@gmail.com');
+    expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 });

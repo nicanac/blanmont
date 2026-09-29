@@ -1,24 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSessionUserFromRequest } from '@/app/lib/auth/session';
+import { getSessionUserFromRequest, isSessionAdmin } from '@/app/lib/auth/session';
 import { uploadImageToCloudinary, isCloudinaryConfigured } from '@/app/lib/cloudinary';
+import { validateImageFile } from '@/app/lib/validation';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const session = getSessionUserFromRequest(request);
+  const session = await getSessionUserFromRequest(request);
   if (!session) {
     return NextResponse.json(
       { error: 'Non authentifié. Veuillez vous connecter.' },
       { status: 401 }
     );
   }
+  if (!isSessionAdmin(session)) {
+    return NextResponse.json(
+      { error: 'Accès refusé. Droits administrateur requis.' },
+      { status: 403 }
+    );
+  }
 
   try {
     const formData = await request.formData();
-    const file = formData.get('file') as File;
-    const path = formData.get('path') as string;
+    const file = formData.get('file');
+    const path = formData.get('path');
 
-    if (!file || !path) {
+    if (!(file instanceof File) || typeof path !== 'string' || !path.trim()) {
       return NextResponse.json(
         { error: 'Missing file or path' },
+        { status: 400 }
+      );
+    }
+
+    const validation = validateImageFile(file);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error.issues[0]?.message || 'Fichier image invalide.' },
         { status: 400 }
       );
     }
@@ -41,7 +56,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       publicId: filename,
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       url: result.secure_url,
       publicId: result.public_id,
     });

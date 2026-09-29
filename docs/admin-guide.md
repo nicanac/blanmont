@@ -120,4 +120,5 @@ Une fois connecté, le nouvel administrateur a accès à tous les modules de ges
 - **Erreur "Aucun compte membre n’est associé à cette adresse email" lors de la réinitialisation :**  
   Vérifiez que l'email renseigné dans `/admin/members` correspond exactement à celui saisi.
 - **Sécurité des sessions :**  
-  Les jetons de session sont chiffrés en HMAC-SHA256 avec une validité de 14 jours.
+  Les jetons de session sont signés par HMAC-SHA256 et valides 14 jours.
+  Configurez `SESSION_SECRET` (ou `NEXTAUTH_SECRET`) avec une valeur aléatoire longue dans l’environnement serveur ; ne la préfixez jamais par `NEXT_PUBLIC_`. Sans cette clé, la création de session échoue et les sessions existantes sont refusées.

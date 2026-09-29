@@ -215,11 +215,28 @@ describe('Firebase Saturday Ride Service (app/lib/firebase/saturday-ride.ts)', (
       await submitVote('ride-1', 'member-10', 'trace-A');
       expect(setMock).toHaveBeenCalled();
       const callArgs = setMock.mock.calls[0];
+      expect(callArgs[0].path).toBe('votes/vote_6_ride-1_member-10');
       expect(callArgs[1]).toMatchObject({
         rideId: 'ride-1',
         memberId: 'member-10',
         traceId: 'trace-A',
       });
+    });
+
+    it('uses one deterministic record when concurrent submissions race', async () => {
+      vi.spyOn(clientModule, 'get').mockResolvedValue({ exists: () => false } as any);
+      const setMock = vi.spyOn(clientModule, 'set').mockResolvedValue(undefined as any);
+
+      await Promise.all([
+        submitVote('ride/one', 'member.one', 'trace-A'),
+        submitVote('ride/one', 'member.one', 'trace-B'),
+      ]);
+
+      expect(setMock).toHaveBeenCalledTimes(2);
+      expect(setMock.mock.calls.map(([voteRef]) => voteRef.path)).toEqual([
+        'votes/vote_8_ride%2Fone_member%2Eone',
+        'votes/vote_8_ride%2Fone_member%2Eone',
+      ]);
     });
 
     it('updates existing vote if member already voted', async () => {

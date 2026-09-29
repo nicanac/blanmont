@@ -36,6 +36,8 @@ describe('date utils', () => {
       expect(parseIsoDate('')).toBeNull();
       expect(parseIsoDate('invalid-date')).toBeNull();
       expect(parseIsoDate('2026-abc-12')).toBeNull();
+      expect(parseIsoDate('2026-02-30')).toBeNull();
+      expect(parseIsoDate('2026-13-01')).toBeNull();
     });
   });
 

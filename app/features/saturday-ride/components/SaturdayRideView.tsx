@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import Link from 'next/link';
 import { Member, SaturdayRide, Trace, Vote } from '../../../types';
 import { submitVoteAction } from '../../../actions';
-import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon, CalendarDaysIcon } from '@heroicons/react/20/solid';
+import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import TraceCard from '../../traces/components/TraceCard';
 import { cn } from '../../../utils/cn';
 import { SheetHeader } from '../../../components/carte/SheetHeader';
@@ -23,13 +23,15 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
     const { user, isAuthenticated } = useAuth();
     const [votingRideIds, setVotingRideIds] = useState<string[]>([]);
     const [optimisticVotes, setOptimisticVotes] = useState<Record<string, { traceId: string, memberId: string }>>({});
+    const pendingRideIds = useRef(new Set<string>());
 
     const currentUser = user ? members.find(m => m.id === user.id) : null;
     const isAdmin = currentUser?.role.includes('President') || currentUser?.role.includes('Admin');
 
     const handleVote = async (rideId: string, traceId: string) => {
-        if (!currentUser || votingRideIds.includes(rideId)) return;
+        if (!currentUser || pendingRideIds.current.has(rideId)) return;
 
+        pendingRideIds.current.add(rideId);
         const previousOptimistic = optimisticVotes[rideId];
         setOptimisticVotes(prev => ({
             ...prev,
@@ -53,6 +55,7 @@ export default function SaturdayRideView({ traces, members, activeRides, votes }
             }
             toast.error('Impossible de soumettre le vote. Veuillez réessayer.');
         } finally {
+            pendingRideIds.current.delete(rideId);
             setVotingRideIds(prev => prev.filter(id => id !== rideId));
         }
     };

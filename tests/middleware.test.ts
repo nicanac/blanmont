@@ -3,6 +3,8 @@ import { NextRequest } from 'next/server';
 import { middleware } from '@/middleware';
 import { signSessionToken, SESSION_COOKIE_NAME, SessionUser } from '@/app/lib/auth/session';
 
+process.env.SESSION_SECRET ??= 'vitest-session-secret';
+
 describe('Next.js Root Middleware', () => {
   const regularUser: Omit<SessionUser, 'iat' | 'exp'> = {
     id: 'user-regular-1',

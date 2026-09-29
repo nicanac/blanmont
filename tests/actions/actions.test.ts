@@ -84,6 +84,14 @@ describe('Server Actions (app/actions.ts)', () => {
   });
 
   describe('submitVoteAction', () => {
+    it('rejects unauthenticated votes', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue(null);
+
+      await expect(
+        submitVoteAction('ride-2026-04-18', 'member-10', 'trace-1')
+      ).rejects.toThrow(/connecté pour voter/);
+    });
+
     it('allows a member to vote for themselves', async () => {
       vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
         id: 'member-10',
@@ -121,9 +129,27 @@ describe('Server Actions (app/actions.ts)', () => {
   });
 
   describe('submitWeekendPollResponseAction & deleteWeekendPollResponseAction', () => {
+    it('rejects unauthenticated poll responses and deletions', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue(null);
+
+      await expect(
+        submitWeekendPollResponseAction({
+          pollId: 'poll-1',
+          memberId: 'member-10',
+          memberName: 'Laurent',
+          dayChoice: 'samedi',
+          groupChoice: 'Groupe B',
+        })
+      ).rejects.toThrow(/connecté/);
+      await expect(
+        deleteWeekendPollResponseAction('poll-1', 'member-10')
+      ).rejects.toThrow(/connecté/);
+    });
+
     it('submits a valid poll response when authenticated', async () => {
       vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
         id: 'member-10',
+        name: 'Laurent Authentifié',
         isAdmin: false,
       } as any);
       vi.spyOn(pollsModule, 'submitPollResponse').mockResolvedValue({ success: true } as any);
@@ -132,13 +158,17 @@ describe('Server Actions (app/actions.ts)', () => {
         pollId: 'poll-1',
         memberId: 'member-10',
         memberName: 'Laurent',
-        dayChoice: 'Samedi',
+        dayChoice: 'samedi',
         groupChoice: 'Groupe B',
       });
 
       expect(result.success).toBe(true);
       expect(pollsModule.submitPollResponse).toHaveBeenCalledWith(
-        expect.objectContaining({ memberId: 'member-10', dayChoice: 'Samedi' })
+        expect.objectContaining({
+          memberId: 'member-10',
+          memberName: 'Laurent Authentifié',
+          dayChoice: 'samedi',
+        })
       );
     });
 
@@ -321,6 +351,25 @@ describe('Server Actions (app/actions.ts)', () => {
       await expect(
         updateMemberEmergencyAction({ iceContactName: 'Marie' })
       ).rejects.toThrow(/Vous devez être connecté/);
+    });
+
+    it('rejects unrecognized fields instead of writing them to the member record', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
+        id: 'mem-1',
+        name: 'Julien',
+      } as any);
+      const updateMock = vi.fn().mockResolvedValue(undefined);
+      const refMock = vi.fn().mockReturnValue({ update: updateMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+
+      await expect(
+        updateMemberEmergencyAction({
+          iceContactName: 'Marie',
+          role: ['Admin'],
+        } as any)
+      ).rejects.toThrow(/Validation échouée/);
+
+      expect(updateMock).not.toHaveBeenCalled();
     });
 
     it('getMemberProfileAction retrieves full profile for current session user', async () => {

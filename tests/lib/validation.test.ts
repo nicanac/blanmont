@@ -4,6 +4,8 @@ import {
   UpdateTraceSchema,
   CreateRideSchema,
   SubmitVoteSchema,
+  WeekendPollResponseSchema,
+  MemberEmergencyUpdateSchema,
   SubmitFeedbackSchema,
   LoginSchema,
   AccountActivationSchema,
@@ -110,12 +112,51 @@ describe('validation schemas & helpers', () => {
         traceIds: ['trace-1'],
       };
       expect(safeValidate(CreateRideSchema, invalidDate).success).toBe(false);
+      expect(
+        safeValidate(CreateRideSchema, { date: '2026-02-30', traceIds: ['trace-1'] }).success
+      ).toBe(false);
 
       const emptyTraces = {
         date: '2026-03-21',
         traceIds: [],
       };
       expect(safeValidate(CreateRideSchema, emptyTraces).success).toBe(false);
+    });
+
+    describe('Weekend poll and member profile updates', () => {
+      it('validates poll responses and rejects unexpected fields', () => {
+        const response = {
+          pollId: 'poll-1',
+          memberId: 'member-1',
+          memberName: 'Camille',
+          dayChoice: 'samedi',
+          groupChoice: 'Groupe B',
+        };
+
+        expect(safeValidate(WeekendPollResponseSchema, response).success).toBe(true);
+        expect(
+          safeValidate(WeekendPollResponseSchema, { ...response, isAdmin: true }).success
+        ).toBe(false);
+        expect(
+          safeValidate(WeekendPollResponseSchema, { ...response, dayChoice: 'Samedi' }).success
+        ).toBe(false);
+      });
+
+      it('accepts only supported emergency-contact fields', () => {
+        expect(
+          safeValidate(MemberEmergencyUpdateSchema, {
+            iceContactName: 'Marie',
+            phone: '+32470123456',
+            preferredGroup: 'A',
+          }).success
+        ).toBe(true);
+        expect(
+          safeValidate(MemberEmergencyUpdateSchema, { role: ['Admin'] }).success
+        ).toBe(false);
+        expect(
+          safeValidate(MemberEmergencyUpdateSchema, { iceContactName: 'x'.repeat(101) }).success
+        ).toBe(false);
+      });
     });
 
     it('validates vote submission fields', () => {
@@ -303,4 +344,3 @@ describe('validation schemas & helpers', () => {
     });
   });
 });
-

@@ -9,14 +9,18 @@ const urlSchema = z.string().url('Must be a valid URL').optional().or(z.literal(
 const dateSchema = z.string().regex(
   /^\d{4}-\d{2}-\d{2}$/,
   'Date must be in YYYY-MM-DD format'
-);
+).refine((value) => {
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(0);
+  date.setUTCFullYear(year, month - 1, day);
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
+  );
+}, 'Date must be a valid calendar date');
 
 const emailSchema = z.string().email('Must be a valid email address');
-
-const phoneSchema = z.string().regex(
-  /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-  'Must be a valid phone number'
-).optional();
 
 // === Trace validation ===
 
@@ -72,6 +76,29 @@ export const SubmitFeedbackSchema = z.object({
 });
 
 export type SubmitFeedbackInput = z.infer<typeof SubmitFeedbackSchema>;
+
+export const WeekendPollResponseSchema = z.object({
+  pollId: notionIdSchema,
+  memberId: notionIdSchema,
+  memberName: z.string().min(1).max(100),
+  memberPhotoUrl: z.string().max(2048).optional(),
+  dayChoice: z.enum(['samedi', 'dimanche', 'les-deux', 'absent']),
+  groupChoice: z.enum(['Groupe A', 'Groupe B', 'Groupe C', 'Groupe VTT', 'Autre']),
+  customAnswers: z.record(
+    z.string().max(100),
+    z.union([z.string().max(500), z.array(z.string().max(500)).max(30)])
+  ).optional(),
+  comment: z.string().max(1000).optional(),
+}).strict();
+
+export const MemberEmergencyUpdateSchema = z.object({
+  iceContactName: z.string().max(100).optional(),
+  iceContactPhone: z.string().max(30).optional(),
+  iceRelationship: z.string().max(50).optional(),
+  preferredGroup: z.enum(['A', 'B', 'C', 'VTT']).optional(),
+  phone: z.string().max(30).optional(),
+  ffbcLicenseNumber: z.string().max(50).optional(),
+}).strict();
 
 // === Member/Auth validation ===
 
@@ -252,15 +279,15 @@ export function validateFormData<T>(
   formData: FormData,
   schema: z.ZodSchema<T>
 ): ValidationResult<T> {
-  const data: Record<string, any> = {};
+  const data: Record<string, unknown> = {};
   
   formData.forEach((value, key) => {
     if (key.endsWith('[]')) {
       const arrayKey = key.slice(0, -2);
-      if (!data[arrayKey]) {
-        data[arrayKey] = [];
-      }
-      data[arrayKey].push(value);
+      const current = data[arrayKey];
+      data[arrayKey] = Array.isArray(current) ? [...current, value] : current === undefined
+        ? [value]
+        : [current, value];
     } else {
       data[key] = value;
     }
