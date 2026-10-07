@@ -286,7 +286,7 @@ export function TelemetryTimelineChart({
             if (!pt) return '';
             return pt.isoDate ? formatFullDateFr(pt.isoDate, pt.week) : `Sortie du ${pt.week}`;
           },
-          label: (context: TooltipItem<'line' | 'bar'>): string => {
+          label: (context: TooltipItem<'line' | 'bar'>): string | string[] => {
             const idx = context.dataIndex;
             const pt = weeklyDistribution[idx];
             if (context.dataset.label && context.dataset.label.includes('Tendance')) {
@@ -484,9 +484,9 @@ export function TelemetryTimelineChart({
       {weeklyDistribution.length > 0 ? (
         <div className="h-72 sm:h-80 w-full">
           {mode === 'mois' ? (
-            <Bar data={chartData} options={options} />
+            <Bar data={chartData as any} options={options} />
           ) : (
-            <Line data={chartData} options={options} />
+            <Line data={chartData as any} options={options} />
           )}
         </div>
       ) : (

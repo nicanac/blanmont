@@ -15,6 +15,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 import AdminPageHeader from '../components/AdminPageHeader';
+import GalerieTutorialModal from './components/GalerieTutorialModal';
+import { useAdminTours } from '../components/tours/adminTours';
 
 interface AdminGalerieClientProps {
   initialAlbums: PhotoAlbum[];
@@ -23,6 +25,8 @@ interface AdminGalerieClientProps {
 export default function AdminGalerieClient({
   initialAlbums,
 }: AdminGalerieClientProps): React.ReactElement {
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const { startGalerieTour } = useAdminTours();
   const initialFormState = {
     title: '',
     description: '',
@@ -154,6 +158,8 @@ export default function AdminGalerieClient({
         sheet="Feuille · Galeries Photos"
         badge={{ icon: CameraIcon, label: `${albums.length} albums` }}
         description="Gestion des albums photos du peloton, liens Google Photos et mise en avant des saisons."
+        onOpenTutorial={() => setTutorialOpen(true)}
+        tutorialButtonId="galerie-tutorial-btn"
         actions={[
           {
             label: 'Nouvel Album',
@@ -164,8 +170,18 @@ export default function AdminGalerieClient({
         ]}
       />
 
+      <GalerieTutorialModal
+        isOpen={tutorialOpen}
+        onClose={() => setTutorialOpen(false)}
+        onStartTour={() => {
+          setTimeout(() => {
+            startGalerieTour();
+          }, 200);
+        }}
+      />
+
       {/* Search & Season Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-paper-2 dark:bg-night-2 rounded-md border border-line dark:border-night-line">
+      <div id="galerie-search-filter" className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-paper-2 dark:bg-night-2 rounded-md border border-line dark:border-night-line">
         <div className="relative flex-1">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3" />
           <input
@@ -196,7 +212,7 @@ export default function AdminGalerieClient({
       </div>
 
       {/* Albums Table */}
-      <div className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
+      <div id="galerie-table-section" className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-paper-2 dark:bg-night-3 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 border-b border-line dark:border-night-line">

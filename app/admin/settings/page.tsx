@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   PaintBrushIcon,
   InformationCircleIcon,
@@ -10,14 +10,19 @@ import {
   SunIcon,
   MoonIcon,
   Cog6ToothIcon,
+  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import ThemeToggle from '../../components/layout/ThemeToggle';
 import { useTheme } from '../../context/ThemeContext';
 import { toast } from 'sonner';
 import AdminPageHeader from '../components/AdminPageHeader';
+import SettingsTutorialModal from './components/SettingsTutorialModal';
+import { useAdminTours } from '../components/tours/adminTours';
 
 export default function AdminSettingsPage(): React.ReactElement {
   const { theme, resolvedTheme, setTheme } = useTheme();
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const { startSettingsTour } = useAdminTours();
 
   const handleSelectTheme = (newTheme: 'light' | 'dark' | 'system') => {
     setTheme(newTheme);
@@ -39,6 +44,8 @@ export default function AdminSettingsPage(): React.ReactElement {
         sheet="Feuille · Configuration"
         badge={{ icon: Cog6ToothIcon, label: 'Administration · Configuration' }}
         description="Gérez l'apparence visuelle globale du site (thème clair ou sombre) et consultez les paramètres officiels du CC Saint-Martin Blanmont."
+        onOpenTutorial={() => setTutorialOpen(true)}
+        tutorialButtonId="settings-tutorial-btn"
         actions={[
           {
             label: 'Voir le site public',
@@ -50,8 +57,19 @@ export default function AdminSettingsPage(): React.ReactElement {
         ]}
       />
 
+      {/* Settings Tutorial Modal */}
+      <SettingsTutorialModal
+        isOpen={tutorialOpen}
+        onClose={() => setTutorialOpen(false)}
+        onStartTour={() => {
+          setTimeout(() => {
+            startSettingsTour();
+          }, 200);
+        }}
+      />
+
       {/* ── Section 1 : Apparence & Thème ── */}
-      <section className="space-y-6">
+      <section id="settings-theme-section" className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand/10 text-brand border border-brand/20">
@@ -172,9 +190,9 @@ export default function AdminSettingsPage(): React.ReactElement {
       </section>
 
       {/* ── Section 2 : Paramètres & Métadonnées du Club ── */}
-      <section className="space-y-6 pt-4">
+      <section id="settings-club-identity-section" className="space-y-6 pt-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500/10 text-sky-600 border border-sky-500/20">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-hydro/10 text-hydro border border-hydro/30">
             <InformationCircleIcon className="h-5 w-5" />
           </div>
           <div>
@@ -202,7 +220,16 @@ export default function AdminSettingsPage(): React.ReactElement {
               Lieu de Rendez-vous
             </span>
             <span className="sm:col-span-2 text-sm font-medium text-ink-2 dark:text-snow">
-              Place de Blanmont, 1450 Chastre (Brabant wallon, Belgique)
+              Place de la Féchère, 1450 Blanmont (Brabant wallon, Belgique)
+            </span>
+          </div>
+
+          <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              Coordonnées Géodésiques
+            </span>
+            <span className="sm:col-span-2 text-sm font-mono font-bold text-brand tabular-nums">
+              50°37′23″ N · 4°38′32″ E
             </span>
           </div>
 
@@ -226,10 +253,56 @@ export default function AdminSettingsPage(): React.ReactElement {
 
           <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
             <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
-              Charte Graphique
+              Charte Graphique IGN
             </span>
             <span className="sm:col-span-2 text-xs font-medium text-ink-3 dark:text-snow-3">
-              Rouge Blanmont (<code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-brand font-mono">#e03e3e</code>), Papier Chaud (<code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono">#faf8f5</code>), Encre Profonde (<code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono">#0a0c10</code>).
+              La Feuille de Blanmont : Route Red (<code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-brand font-mono">#d63535</code>), Papier Topographique (<code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono">#fbfbf8</code>), Feuille Nocturne (<code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono">#0d1013</code>), Encre Archivo.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section 3 : Réglementation Fédérale & Sécurité ── */}
+      <section id="settings-federation-section" className="space-y-6 pt-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-vert/10 text-vert dark:text-vert-strong border border-vert/30">
+            <ShieldCheckIcon className="h-5 w-5" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-ink dark:text-white uppercase tracking-tight">
+              Réglementation Fédérale FFBC &amp; Sécurité
+            </h2>
+            <p className="text-xs text-ink-3 dark:text-snow-3">
+              Normes d&apos;encadrement des pelotons et conformité avec le code de la route belge.
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-line dark:border-night-line bg-white dark:bg-night-2 p-6 shadow-xs divide-y divide-line dark:divide-night-line">
+          <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              Fédération de Rattachement
+            </span>
+            <span className="sm:col-span-2 text-sm font-semibold text-ink dark:text-white">
+              FFBC &bull; Fédération Francophone Belge du Cyclotourisme
+            </span>
+          </div>
+
+          <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              Taille Maximale de Peloton
+            </span>
+            <span className="sm:col-span-2 text-sm font-medium text-ink-2 dark:text-snow">
+              15 cyclistes maximum par groupe sur voie publique (scission en sous-groupes au-delà).
+            </span>
+          </div>
+
+          <div className="py-3.5 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              Sécurité &amp; Matériel
+            </span>
+            <span className="sm:col-span-2 text-xs font-medium text-ink-3 dark:text-snow-3">
+              Casque rigide obligatoire, fiches secours ICE accessibles par les capitaines sur mobile et trousse de réparation obligatoire.
             </span>
           </div>
         </div>

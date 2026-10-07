@@ -27,6 +27,8 @@ import {
 } from '@/app/lib/imagePosition';
 import MemberCropModal from '../components/MemberCropModal';
 import AdminPageHeader from '../../components/AdminPageHeader';
+import MemberPhotosTutorialModal from './components/MemberPhotosTutorialModal';
+import { useAdminTours } from '../../components/tours/adminTours';
 import { cn } from '@/app/utils/cn';
 
 interface MemberPhotosManagerProps {
@@ -107,6 +109,8 @@ export default function MemberPhotosManager({
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('with-photo');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [brokenImages, setBrokenImages] = useState<Record<string, boolean>>({});
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const { startMemberPhotosTour } = useAdminTours();
 
   // Image Upload Hook
   const { uploadImage, isUploading } = useImageUpload();
@@ -336,6 +340,8 @@ export default function MemberPhotosManager({
         sheet="Feuille · Portraits & Cadrage"
         badge={{ icon: PhotoIcon, label: 'Cadrage & Portraits' }}
         description="Ajustez précisément la position verticale et le cadrage des photos de tous les membres. Les modifications se répercutent instantanément sur la page publique."
+        onOpenTutorial={() => setTutorialOpen(true)}
+        tutorialButtonId="member-photos-tutorial-btn"
         actions={[
           {
             label: 'Voir /members',
@@ -353,6 +359,7 @@ export default function MemberPhotosManager({
         ]}
         rightExtra={
           <button
+            id="member-photos-save-all-btn"
             type="button"
             onClick={handleSaveAll}
             disabled={modifiedIds.size === 0 || isSavingAll}
@@ -382,8 +389,19 @@ export default function MemberPhotosManager({
         }
       />
 
+      {/* ── Member Photos Tutorial Modal ── */}
+      <MemberPhotosTutorialModal
+        isOpen={tutorialOpen}
+        onClose={() => setTutorialOpen(false)}
+        onStartTour={() => {
+          setTimeout(() => {
+            startMemberPhotosTour();
+          }, 200);
+        }}
+      />
+
       {/* ── Controls Bar: Filters, Search, View Switcher ── */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-4 rounded-lg border border-line bg-white shadow-xs">
+      <div id="member-photos-controls-bar" className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-4 rounded-lg border border-line bg-white shadow-xs">
         {/* Search input */}
         <div className="relative flex-1 max-w-md">
           <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3" />
@@ -505,7 +523,7 @@ export default function MemberPhotosManager({
 
       {/* ── Main Display: Grid of Member Cards ── */}
       {viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div id="member-photos-grid-section" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredMembers.map((member) => {
             const hasPhoto = isValidPhotoUrl(member.photoUrl) && !brokenImages[member.id];
             const initials = getInitials(member.name);

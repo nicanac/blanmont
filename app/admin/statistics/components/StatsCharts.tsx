@@ -417,7 +417,7 @@ export default function StatsCharts({
       {activeTab === 'telemetrie' && (
         <div className="space-y-8">
           {/* Top 4 Essential KPIs of Club Telemetry */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div id="stats-cards-section" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {/* 1. Total Peloton Km */}
             <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-5 transition-all">
               <div className="flex items-center justify-between">
@@ -533,7 +533,7 @@ export default function StatsCharts({
           />
 
           {/* Visualizations Grid Section */}
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div id="stats-charts-section" className="grid gap-6 lg:grid-cols-2">
             <div className="lg:col-span-2">
               <TelemetryTimelineChart
                 selectedYear={selectedYear}

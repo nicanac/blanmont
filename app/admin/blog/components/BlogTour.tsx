@@ -13,7 +13,7 @@ const TOUR_STYLES = `
   border-radius: 4px !important;
   padding: 18px !important;
   box-shadow: 0 20px 25px -5px #0d1013 !important;
-  max-width: 380px !important;
+  max-width: min(380px, calc(100vw - 32px)) !important;
   font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif !important;
   z-index: 10000000 !important;
 }
@@ -134,73 +134,81 @@ export function useBlogTour(): {
     }
   }, []);
 
+  const createDriver = useCallback(
+    (steps: Array<{ element: string; popover: { title: string; description: string; side?: 'top' | 'bottom' | 'left' | 'right'; align?: 'start' | 'center' | 'end' } }>): Driver => {
+      const validSteps = steps.filter((step) => {
+        if (!step.element) return true;
+        try {
+          return typeof document !== 'undefined' && Boolean(document.querySelector(step.element));
+        } catch {
+          return false;
+        }
+      });
+
+      return driver({
+        showProgress: true,
+        animate: true,
+        popoverClass: 'driverjs-theme',
+        nextBtnText: 'Suivant →',
+        prevBtnText: '← Précédent',
+        doneBtnText: 'Compris ✓',
+        progressText: 'Étape {{current}} sur {{total}}',
+        steps: validSteps.length > 0 ? validSteps : steps,
+      });
+    },
+    []
+  );
+
   const startDashboardTour = useCallback((): void => {
-    const driverObj: Driver = driver({
-      showProgress: true,
-      animate: true,
-      popoverClass: 'driverjs-theme',
-      nextBtnText: 'Suivant →',
-      prevBtnText: '← Précédent',
-      doneBtnText: 'Compris ✓',
-      progressText: 'Étape {{current}} sur {{total}}',
-      steps: [
-        {
-          element: '#blog-header-section',
-          popover: {
-            title: 'Les News & Chroniques du Club',
-            description:
-              'Bienvenue dans l’espace de rédaction ! C’est ici que vous gérez les articles, annonces officielles et récits de sorties du CC Saint-Martin Blanmont.',
-            side: 'bottom',
-            align: 'start',
-          },
+    const driverObj = createDriver([
+      {
+        element: '#blog-header-section',
+        popover: {
+          title: 'Les News & Chroniques du Club',
+          description:
+            'Bienvenue dans l’espace de rédaction ! C’est ici que vous gérez les articles, annonces officielles et récits de sorties du CC Saint-Martin Blanmont.',
+          side: 'bottom',
+          align: 'start',
         },
-        {
-          element: '#blog-new-btn',
-          popover: {
-            title: 'Créer un Nouvel Article',
-            description:
-              'Cliquez ici pour ouvrir l’éditeur et rédiger un article. Vous pourrez ajouter un titre, un extrait, une image de couverture et formater votre texte.',
-            side: 'bottom',
-            align: 'end',
-          },
+      },
+      {
+        element: '#blog-new-btn',
+        popover: {
+          title: 'Créer un Nouvel Article',
+          description:
+            'Cliquez ici pour ouvrir l’éditeur et rédiger un article. Vous pourrez ajouter un titre, un extrait, une image de couverture et formater votre texte.',
+          side: 'bottom',
+          align: 'end',
         },
-        {
-          element: '#blog-tutorial-btn',
-          popover: {
-            title: 'Centre d’Aide & Tutoriel',
-            description:
-              'Ce bouton ouvre le guide complet avec les bonnes pratiques d’écriture, les catégories recommandées et la syntaxe pour enrichir vos textes.',
-            side: 'bottom',
-            align: 'end',
-          },
+      },
+      {
+        element: '#blog-tutorial-btn',
+        popover: {
+          title: 'Centre d’Aide & Tutoriel',
+          description:
+            'Ce bouton ouvre le guide complet avec les bonnes pratiques d’écriture, les catégories recommandées et la syntaxe pour enrichir vos textes.',
+          side: 'bottom',
+          align: 'end',
         },
-        {
-          element: '#blog-table-section',
-          popover: {
-            title: 'Liste des Articles & Statuts',
-            description:
-              'Consultez vos articles avec leur date, catégorie et statut (En ligne ou Brouillon). Utilisez les icônes à droite pour prévisualiser, modifier ou supprimer.',
-            side: 'top',
-            align: 'center',
-          },
+      },
+      {
+        element: '#blog-table-section',
+        popover: {
+          title: 'Liste des Articles & Statuts',
+          description:
+            'Consultez vos articles avec leur date, catégorie et statut (En ligne ou Brouillon). Utilisez les icônes à droite pour prévisualiser, modifier ou supprimer.',
+          side: 'top',
+          align: 'center',
         },
-      ],
-    });
+      },
+    ]);
 
     driverObj.drive();
-  }, []);
+  }, [createDriver]);
 
   const startEditorTour = useCallback((): void => {
-    const driverObj: Driver = driver({
-      showProgress: true,
-      animate: true,
-      popoverClass: 'driverjs-theme',
-      nextBtnText: 'Suivant →',
-      prevBtnText: '← Précédent',
-      doneBtnText: 'Prêt à rédiger ✓',
-      progressText: 'Étape {{current}} sur {{total}}',
-      steps: [
-        {
+    const driverObj = createDriver([
+      {
           element: '#post-title-field',
           popover: {
             title: '1. Le Titre de l’Article',
@@ -271,10 +279,10 @@ export function useBlogTour(): {
           },
         },
       ],
-    });
+    );
 
     driverObj.drive();
-  }, []);
+  }, [createDriver]);
 
   return {
     startDashboardTour,

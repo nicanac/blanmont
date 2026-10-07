@@ -33,6 +33,8 @@ import { useImageUpload } from '@/app/hooks/useImageUpload';
 import HeroTelemetryFrame from '@/app/components/HeroTelemetryFrame';
 import { parseVerticalPosition } from '@/app/lib/imagePosition';
 import AdminPageHeader from '../components/AdminPageHeader';
+import HeroTutorialModal from './components/HeroTutorialModal';
+import { useAdminTours } from '../components/tours/adminTours';
 import { cn } from '@/app/utils/cn';
 
 const AVAILABLE_ICONS: { type: HeroIconType; label: string; icon: React.ElementType }[] = [
@@ -59,6 +61,8 @@ export default function AdminHeroPage(): React.ReactElement {
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [failedThumbnails, setFailedThumbnails] = useState<Record<string, boolean>>({});
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const { startHeroTour } = useAdminTours();
 
   // Upload Hook & file input
   const { uploadImage, isUploading, progress } = useImageUpload();
@@ -353,6 +357,8 @@ export default function AdminHeroPage(): React.ReactElement {
         sheet="Feuille · Bannière Accueil"
         badge={{ icon: PhotoIcon, label: "Page d'Accueil" }}
         description="Gérez les photos du slider, ajustez précisément leur cadrage et configurez les 4 cartes d'informations sous l'image."
+        onOpenTutorial={() => setTutorialOpen(true)}
+        tutorialButtonId="hero-tutorial-btn"
         actions={[
           {
             label: 'Rétablir défaut',
@@ -364,6 +370,7 @@ export default function AdminHeroPage(): React.ReactElement {
         ]}
         rightExtra={
           <button
+            id="hero-save-btn"
             type="button"
             onClick={handleSave}
             disabled={isSaving}
@@ -394,8 +401,19 @@ export default function AdminHeroPage(): React.ReactElement {
         }
       />
 
+      {/* ── Hero Tutorial Modal ── */}
+      <HeroTutorialModal
+        isOpen={tutorialOpen}
+        onClose={() => setTutorialOpen(false)}
+        onStartTour={() => {
+          setTimeout(() => {
+            startHeroTour();
+          }, 200);
+        }}
+      />
+
       {/* ── Section 1 : Aperçu en direct ── */}
-      <section className="space-y-3">
+      <section id="hero-preview-section" className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -414,7 +432,7 @@ export default function AdminHeroPage(): React.ReactElement {
       </section>
 
       {/* ── Section 2 : Gestion du Slider Photo & Cadrage ── */}
-      <section className="space-y-6 rounded-lg border border-line bg-white p-6 shadow-xs">
+      <section id="hero-slides-section" className="space-y-6 rounded-lg border border-line bg-white p-6 shadow-xs">
         <div className="border-b border-line pb-4">
           <h2 className="text-lg font-bold text-ink flex items-center gap-2">
             <PhotoIcon className="h-5 w-5 text-brand" />
@@ -724,7 +742,7 @@ export default function AdminHeroPage(): React.ReactElement {
       </section>
 
       {/* ── Section 3 : Les 4 Cartes d'Information Télémétriques ── */}
-      <section className="space-y-6 rounded-lg border border-line bg-white p-6 shadow-xs">
+      <section id="hero-telemetry-section" className="space-y-6 rounded-lg border border-line bg-white p-6 shadow-xs">
         <div className="border-b border-line pb-4">
           <h2 className="text-lg font-bold text-ink flex items-center gap-2">
             <CalendarDaysIcon className="h-5 w-5 text-brand" />
