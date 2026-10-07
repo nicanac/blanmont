@@ -480,7 +480,7 @@ export default function PointageExpressClient({
       </div>
 
       {/* Member Cards Grid */}
-      <div className="space-y-2">
+      <div id="pointage-express-roster" className="space-y-2">
         {filteredMembers.length === 0 ? (
           <div className="bg-paper dark:bg-night-2 rounded-sm border border-line dark:border-night-line p-8 text-center text-xs text-ink-3 dark:text-snow-3 font-mono">
             Aucun coureur ne correspond à votre filtre.

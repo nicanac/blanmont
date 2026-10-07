@@ -13,7 +13,7 @@ export const DRIVER_PELOTON_STYLES = `
   border-radius: 4px !important;
   padding: 18px !important;
   box-shadow: 0 20px 25px -5px #0d1013 !important;
-  max-width: 380px !important;
+  max-width: min(380px, calc(100vw - 32px)) !important;
   font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif !important;
   z-index: 10000000 !important;
 }
@@ -120,6 +120,7 @@ export const DRIVER_PELOTON_STYLES = `
 `;
 
 export function useAdminTours(): {
+  startDashboardTour: () => void;
   startCarreVertTour: () => void;
   startMembersTour: () => void;
   startEventsTour: () => void;
@@ -127,6 +128,13 @@ export function useAdminTours(): {
   startStatisticsTour: () => void;
   startTracesTour: () => void;
   startSondagesTour: () => void;
+  startPointageExpressTour: () => void;
+  startProspectsTour: () => void;
+  startGalerieTour: () => void;
+  startHeroTour: () => void;
+  startSettingsTour: () => void;
+  startMemberPhotosTour: () => void;
+  startBlogTour: () => void;
 } {
   useEffect(() => {
     const styleId = 'driver-peloton-custom-styles';
@@ -140,6 +148,16 @@ export function useAdminTours(): {
 
   const createDriver = useCallback(
     (steps: Array<{ element: string; popover: { title: string; description: string; side?: 'top' | 'bottom' | 'left' | 'right'; align?: 'start' | 'center' | 'end' } }>): Driver => {
+      // Resilient check: filter out steps whose DOM targets do not exist in the current viewport
+      const validSteps = steps.filter((step) => {
+        if (!step.element) return true;
+        try {
+          return typeof document !== 'undefined' && Boolean(document.querySelector(step.element));
+        } catch {
+          return false;
+        }
+      });
+
       return driver({
         showProgress: true,
         animate: true,
@@ -148,7 +166,7 @@ export function useAdminTours(): {
         prevBtnText: '← Précédent',
         doneBtnText: 'Compris ✓',
         progressText: 'Étape {{current}} sur {{total}}',
-        steps,
+        steps: validSteps.length > 0 ? validSteps : steps,
       });
     },
     []
@@ -463,7 +481,354 @@ export function useAdminTours(): {
     d.drive();
   }, [createDriver]);
 
+  // 8. Dashboard / Quartier Général Tour
+  const startDashboardTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#onboarding-guide-heading',
+        popover: {
+          title: 'Guide de Prise en Main & Rituels',
+          description:
+            'Bienvenue au Quartier Général ! Ce guide interactif vous aide à vérifier les étapes clés (sondage hebdomadaire, calendrier, annuaire).',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#peloton-command-heading',
+        popover: {
+          title: 'Poste de Commandement du Peloton',
+          description:
+            'Retrouvez en direct la sortie du weekend, les inscrits confirmés et la répartition par allure (Groupe A, B, C, VTT).',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#peloton-briefing-btn',
+        popover: {
+          title: 'Générateur de Briefing WhatsApp',
+          description:
+            'En 1 clic, générez et copiez dans le presse-papiers le message officiel formaté avec émojis, heure de rassemblement et trace GPX.',
+          side: 'bottom',
+          align: 'end',
+        },
+      },
+      {
+        element: '#quick-ops-heading',
+        popover: {
+          title: 'Rituels & Actions Rapides',
+          description:
+            'Accédez instantanément au Pointage Express départ, au classement Carré Vert, aux équipements Gobik et aux albums photos.',
+          side: 'left',
+          align: 'start',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
+  // 9. Pointage Express Tour
+  const startPointageExpressTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#pointage-express-header',
+        popover: {
+          title: 'Pointage Express Mobile',
+          description:
+            'L’interface conçue pour les capitaines de route sur le terrain (Place de la Féchère) le samedi et dimanche matin avant le départ.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#express-event-select',
+        popover: {
+          title: 'Sélection de la Sortie',
+          description:
+            'Le sélecteur se positionne par défaut sur la sortie du jour. Vous pouvez aussi choisir une sortie à venir ou passée.',
+          side: 'bottom',
+          align: 'center',
+        },
+      },
+      {
+        element: '#express-member-search',
+        popover: {
+          title: 'Recherche Rapide & Filtres',
+          description:
+            'Tapez le nom ou GSM d’un coureur ou filtrez par peloton (Tous, Pointés, Non pointés, A, B, C, VTT).',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#pointage-express-roster',
+        popover: {
+          title: 'Émargement 1-Tap & Secours ICE',
+          description:
+            'Touchez la case d’un cycliste pour valider sa présence au départ. En cas d’accident, touchez le bouclier pour afficher sa licence FFBC et contacter son proche.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
+  // 10. Prospects / Sorties d'Essai Tour
+  const startProspectsTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#prospects-header-section',
+        popover: {
+          title: 'CRM Candidatures & Sorties d’Essai',
+          description:
+            'Suivi des demandes d’essai soumises en ligne via /rejoindre par de nouveaux cyclistes souhaitant tester le club.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#prospects-stats-cards',
+        popover: {
+          title: 'Indicateurs de Recrutement',
+          description:
+            'Visualisez les nouveaux candidats à contacter d’urgence, les coureurs en phase d’essai (jusqu’à 3 sorties) et les adhésions validées.',
+          side: 'bottom',
+          align: 'center',
+        },
+      },
+      {
+        element: '#prospects-table-section',
+        popover: {
+          title: 'Pipeline & Parrainage Capitaine',
+          description:
+            'Ouvrez un dossier candidat pour lui assigner un capitaine mentor, noter ses retours de sortie et le convertir en membre officiel.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
+  // 11. Galerie Photos Tour
+  const startGalerieTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#galerie-header-section',
+        popover: {
+          title: 'Galeries Photos & Chroniques',
+          description:
+            'Conservez et partagez les photos des sorties du weekend, des brevets, des stages en Ardennes et des événements club.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#galerie-search-filter',
+        popover: {
+          title: 'Recherche & Tri par Saison',
+          description:
+            'Filtrez vos albums par mot-clé (lieu, type de sortie) ou sélectionnez une saison spécifique (2024, 2025, 2026).',
+          side: 'bottom',
+          align: 'center',
+        },
+      },
+      {
+        element: '#galerie-table-section',
+        popover: {
+          title: 'Gestion des Albums & Liens HD',
+          description:
+            'Téléversez une photo de couverture paysage 16:9, reliez un album externe Google Photos/Flickr et mettez un album « à la une » sur l’accueil.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
+  // 12. Hero Banner Tour
+  const startHeroTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#hero-header-section',
+        popover: {
+          title: 'Bannière d’Accueil & Diaporama',
+          description:
+            'Gérez les photos du carrousel de la page d’accueil, l’alignement visuel des visages et les cartouches de données sous l’image.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#hero-preview-section',
+        popover: {
+          title: 'Aperçu en Direct WYSIWYG',
+          description:
+            'Observez le rendu temps réel de votre bannière au format panoramique 21:9 cinéma tel qu’il apparaît pour les visiteurs du site.',
+          side: 'bottom',
+          align: 'center',
+        },
+      },
+      {
+        element: '#hero-slides-section',
+        popover: {
+          title: 'Slider Photos & Outil de Recadrage',
+          description:
+            'Ajoutez des photos, callez la position verticale (visages ou vélos) ou recadrez directement au ratio 21:9 avec le module intégré.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+      {
+        element: '#hero-telemetry-section',
+        popover: {
+          title: 'Cartouches Télémétriques',
+          description:
+            'Personnalisez les 4 blocs de données clés affichés sous la photo : lieu de départ, dates, groupes d’allure et challenge Carré Vert.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
+  // 13. Paramètres Tour
+  const startSettingsTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#settings-header-section',
+        popover: {
+          title: 'Configuration & Charte du Club',
+          description:
+            'Personnalisez le thème d’affichage et consultez les paramètres officiels d’identité et de sécurité du CC Saint-Martin Blanmont.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#settings-theme-section',
+        popover: {
+          title: 'Thèmes & Confort Visuel',
+          description:
+            'Basculez entre le Mode Clair (Day Map Paper) pour les sorties ensoleillées et le Mode Sombre (Feuille Nocturne) pour la gestion du soir.',
+          side: 'bottom',
+          align: 'center',
+        },
+      },
+      {
+        element: '#settings-club-identity-section',
+        popover: {
+          title: 'Identité & Spécifications Cartographiques',
+          description:
+            'Coordonnées géodésiques IGN du club (50°37′23″ N · 4°38′32″ E), typographie Google Archivo et palette des 5 encres cartographiques.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+      {
+        element: '#settings-federation-section',
+        popover: {
+          title: 'Règles Fédérales & Sécurité Pelotons',
+          description:
+            'Rappel de la réglementation FFBC et code de la route belge (peloton limité à 15 coureurs, casque obligatoire, fiches secours ICE).',
+          side: 'top',
+          align: 'center',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
+  // 14. Portraits & Cadrage Tour
+  const startMemberPhotosTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#member-photos-header-section',
+        popover: {
+          title: 'Trombinoscope & Cadrage Portraits',
+          description:
+            'Ajustez le positionnement des visages des membres pour un affichage parfait dans les cercles d’avatars et le trombinoscope public.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#member-photos-controls-bar',
+        popover: {
+          title: 'Recherche & Filtres par Rôle',
+          description:
+            'Filtrez instantanément les coureurs avec ou sans photo, le Bureau, les Capitaines, ou recherchez un membre par nom.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#member-photos-grid-section',
+        popover: {
+          title: 'Alignement Vertical & Cadrage Fin',
+          description:
+            'Ajustez le curseur vertical de chaque portrait (Haut, Centre, Bas) avec prévisualisation en direct dans le médaillon circulaire.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
+  // 15. Blog & Chroniques Tour
+  const startBlogTour = useCallback((): void => {
+    const d = createDriver([
+      {
+        element: '#blog-header-section',
+        popover: {
+          title: 'Les News & Chroniques du Club',
+          description:
+            'Bienvenue dans l’espace de rédaction ! C’est ici que vous gérez les articles, annonces officielles et récits de sorties du CC Saint-Martin Blanmont.',
+          side: 'bottom',
+          align: 'start',
+        },
+      },
+      {
+        element: '#blog-new-btn',
+        popover: {
+          title: 'Créer un Nouvel Article',
+          description:
+            'Cliquez ici pour ouvrir l’éditeur et rédiger un article. Vous pourrez ajouter un titre, un extrait, une image de couverture et formater votre texte.',
+          side: 'bottom',
+          align: 'end',
+        },
+      },
+      {
+        element: '#blog-tutorial-btn',
+        popover: {
+          title: 'Centre d’Aide & Tutoriel',
+          description:
+            'Ce bouton ouvre le guide complet avec les bonnes pratiques d’écriture, les catégories recommandées et la syntaxe pour enrichir vos textes.',
+          side: 'bottom',
+          align: 'end',
+        },
+      },
+      {
+        element: '#blog-table-section',
+        popover: {
+          title: 'Liste des Articles & Statuts',
+          description:
+            'Consultez vos articles avec leur date, catégorie et statut (En ligne ou Brouillon). Utilisez les icônes à droite pour prévisualiser, modifier ou supprimer.',
+          side: 'top',
+          align: 'center',
+        },
+      },
+    ]);
+    d.drive();
+  }, [createDriver]);
+
   return {
+    startDashboardTour,
     startCarreVertTour,
     startMembersTour,
     startEventsTour,
@@ -471,5 +836,12 @@ export function useAdminTours(): {
     startStatisticsTour,
     startTracesTour,
     startSondagesTour,
+    startPointageExpressTour,
+    startProspectsTour,
+    startGalerieTour,
+    startHeroTour,
+    startSettingsTour,
+    startMemberPhotosTour,
+    startBlogTour,
   };
 }

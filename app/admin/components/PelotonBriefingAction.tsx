@@ -74,6 +74,7 @@ export default function PelotonBriefingAction({
 
   return (
     <button
+      id="peloton-briefing-btn"
       type="button"
       onClick={handleCopy}
       className={`inline-flex items-center gap-2 rounded-md px-3.5 py-2 text-xs font-narrow font-bold uppercase tracking-[0.07em] transition-all active:translate-y-px ${

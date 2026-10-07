@@ -61,7 +61,7 @@ export default function AdminTutorialModal({
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-3xl rounded-md border border-line dark:border-night-line bg-paper dark:bg-night text-ink dark:text-snow shadow-[0_25px_50px_-12px_rgba(13,16,19,0.45)] overflow-hidden z-10 my-8">
+      <div className="relative w-full max-w-4xl rounded-md border border-line dark:border-night-line bg-paper dark:bg-night text-ink dark:text-snow shadow-[0_25px_50px_-12px_rgba(13,16,19,0.45)] overflow-hidden z-10 my-8">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-line dark:border-night-line px-6 py-4 bg-paper-2 dark:bg-night-2">
           <div className="flex items-center gap-3">
@@ -101,7 +101,7 @@ export default function AdminTutorialModal({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-line dark:border-night-line bg-paper dark:bg-night px-6 overflow-x-auto">
+        <div className="flex flex-col sm:flex-row border-b border-line dark:border-night-line bg-paper dark:bg-night divide-y sm:divide-y-0 divide-line dark:divide-night-line">
           {tabs.map((tab) => {
             const isActive = tab.id === (currentTab?.id || '');
             return (
@@ -109,22 +109,27 @@ export default function AdminTutorialModal({
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
+                title={tab.label}
                 className={cn(
-                  'flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-narrow font-bold uppercase tracking-wider transition-colors whitespace-nowrap cursor-pointer',
+                  'flex-1 min-w-0 flex items-center justify-between sm:justify-center gap-2 px-3 sm:px-4 py-3 text-xs font-narrow font-bold uppercase tracking-wider transition-colors cursor-pointer',
                   isActive
-                    ? 'border-brand text-brand dark:text-white bg-paper-2 dark:bg-white/5'
-                    : 'border-transparent text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
+                    ? 'border-l-4 sm:border-l-0 sm:border-b-2 border-brand text-brand dark:text-white bg-paper-2 dark:bg-white/5'
+                    : 'border-l-4 sm:border-l-0 sm:border-b-2 border-transparent text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white hover:bg-paper-2/50 dark:hover:bg-white/[0.02]'
                 )}
               >
-                {tab.icon && <tab.icon className="h-4 w-4 shrink-0" />}
-                <span>{tab.label}</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 truncate">
+                  {tab.icon && <tab.icon className="h-4 w-4 shrink-0" />}
+                  <span className="truncate">{tab.label}</span>
+                </div>
                 {tab.badge && (
                   <span
                     className={cn(
-                      'ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-narrow font-bold uppercase tracking-wider border',
+                      'shrink-0 ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-narrow font-bold uppercase tracking-wider border',
                       tab.badge === 'Débutant' || tab.badge === 'Essentiel'
                         ? 'bg-vert/10 text-vert dark:text-vert-strong border-vert/30'
-                        : tab.badge === 'Confirmé' || tab.badge === 'Avancé'
+                        : tab.badge === 'Confirmé'
+                        ? 'bg-hydro/10 text-hydro border-hydro/30'
+                        : tab.badge === 'Avancé'
                         ? 'bg-ambre/15 text-ambre border-ambre/30'
                         : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 border-line dark:border-night-line'
                     )}

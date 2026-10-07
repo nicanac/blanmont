@@ -5,6 +5,7 @@ import { BoltIcon } from '@heroicons/react/24/solid';
 import { TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
 import PointageExpressTutorialModal from './PointageExpressTutorialModal';
+import { useAdminTours } from '../../components/tours/adminTours';
 
 interface PointageExpressHeaderProps {
   eventCount?: number;
@@ -16,6 +17,7 @@ export default function PointageExpressHeader({
   memberCount,
 }: PointageExpressHeaderProps): React.ReactElement {
   const [modalOpen, setModalOpen] = useState(false);
+  const { startPointageExpressTour } = useAdminTours();
 
   const legend = [
     {
@@ -63,6 +65,11 @@ export default function PointageExpressHeader({
       <PointageExpressTutorialModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
+        onStartTour={() => {
+          setTimeout(() => {
+            startPointageExpressTour();
+          }, 200);
+        }}
       />
     </>
   );

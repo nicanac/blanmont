@@ -24,6 +24,7 @@ import { getActiveWeekendPoll, getPollResponses } from '../lib/firebase/polls';
 import { getTrialRequests } from '../lib/firebase/trial-requests';
 import AdminOnboardingChecklist from './components/AdminOnboardingChecklist';
 import PelotonBriefingAction from './components/PelotonBriefingAction';
+import DashboardTutorialButton from './components/DashboardTutorialButton';
 import { parseDateInfo } from '../lib/carreVert';
 
 export const dynamic = 'force-dynamic';
@@ -137,6 +138,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
         legend={legendRows}
         actions={
           <div className="flex flex-wrap items-center gap-2.5">
+            <DashboardTutorialButton />
             <Link
               href="/admin/sondages/new"
               className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 px-3 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3 transition-colors active:translate-y-px"
