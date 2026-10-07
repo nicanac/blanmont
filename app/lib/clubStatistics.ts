@@ -524,7 +524,7 @@ export function computeClubStatistics(params: {
 
   let totalPelotonKm = 0;
   let totalPelotonElevation = 0;
-  let totalOfficialRides = weeklyDistribution.length;
+  const totalOfficialRides = weeklyDistribution.length;
   let totalAttendancesCount = 0;
 
   weeklyDistribution.forEach((pt) => {
@@ -674,15 +674,19 @@ export function computeClubStatistics(params: {
     const surf = (t.surface || 'Route').trim();
     surfaceMap.set(surf, (surfaceMap.get(surf) || 0) + 1);
 
-    // Standardize cardinal direction
+    // Standardize cardinal direction into authentic Belgian cycling regions
     let dir = (t.direction || 'Centre').trim();
-    if (dir.includes('Nord')) dir = 'Nord (Dyle / Flandre)';
-    else if (dir.includes('Sud')) dir = 'Sud (Condroz / Meuse)';
-    else if (dir.includes('Est')) dir = 'Est (Hesbaye / Méhaigne)';
-    else if (dir.includes('Ouest')) dir = 'Ouest (Roman Païs / Senne)';
+    const dirLower = dir.toLowerCase();
+    if (dir.includes('Nord') || dirLower.includes('north')) dir = 'Nord (Dyle / Flandre)';
+    else if (dir.includes('Sud') || dirLower.includes('south')) dir = 'Sud (Condroz / Meuse)';
+    else if (dir.includes('Est') || dirLower.includes('east')) dir = 'Est (Hesbaye / Méhaigne)';
+    else if (dir.includes('Ouest') || dirLower.includes('west')) dir = 'Ouest (Roman Païs / Senne)';
+    else dir = 'Centre (Brabant Wallon)';
     directionMap.set(dir, (directionMap.get(dir) || 0) + 1);
   });
 
+  const roundedTotalKm = Math.round(totalCatalogKm);
+  const roundedTotalElevation = Math.round(totalCatalogElevation);
   const avgTraceDistance = totalTraces > 0 ? Math.round(totalCatalogKm / totalTraces) : 0;
   const avgTraceElevation = totalTraces > 0 ? Math.round(totalCatalogElevation / totalTraces) : 0;
   const avgSlopeRatio =
@@ -727,8 +731,8 @@ export function computeClubStatistics(params: {
 
   const tracesStats: TracesCatalogStats = {
     totalTraces,
-    totalCatalogKm,
-    totalCatalogElevation,
+    totalCatalogKm: roundedTotalKm,
+    totalCatalogElevation: roundedTotalElevation,
     avgTraceDistance,
     avgTraceElevation,
     avgSlopeRatio,

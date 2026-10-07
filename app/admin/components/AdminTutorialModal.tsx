@@ -9,6 +9,7 @@ export interface TutorialTabConfig {
   id: string;
   label: string;
   icon?: React.ComponentType<{ className?: string }>;
+  badge?: string;
   content: React.ReactNode;
 }
 
@@ -18,6 +19,7 @@ export interface AdminTutorialModalProps {
   onStartTour?: () => void;
   title: string;
   badge?: string;
+  subtitle?: string;
   icon: React.ComponentType<{ className?: string }>;
   iconColorClass?: string;
   tabs: TutorialTabConfig[];
@@ -30,6 +32,7 @@ export default function AdminTutorialModal({
   onStartTour,
   title,
   badge = 'Guide d’utilisation',
+  subtitle = 'Consultez les bonnes pratiques ou lancez le guidage interactif pas-à-pas.',
   icon: HeaderIcon,
   iconColorClass = 'bg-brand/20 text-brand border-brand/40',
   tabs,
@@ -83,7 +86,7 @@ export default function AdminTutorialModal({
                 </span>
               </div>
               <p className="text-xs text-ink-3 dark:text-snow-3">
-                Consultez les bonnes pratiques ou lancez le guidage interactif pas-à-pas.
+                {subtitle}
               </p>
             </div>
           </div>
@@ -113,8 +116,22 @@ export default function AdminTutorialModal({
                     : 'border-transparent text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white'
                 )}
               >
-                {tab.icon && <tab.icon className="h-4 w-4" />}
+                {tab.icon && <tab.icon className="h-4 w-4 shrink-0" />}
                 <span>{tab.label}</span>
+                {tab.badge && (
+                  <span
+                    className={cn(
+                      'ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-narrow font-bold uppercase tracking-wider border',
+                      tab.badge === 'Débutant' || tab.badge === 'Essentiel'
+                        ? 'bg-vert/10 text-vert dark:text-vert-strong border-vert/30'
+                        : tab.badge === 'Confirmé' || tab.badge === 'Avancé'
+                        ? 'bg-ambre/15 text-ambre border-ambre/30'
+                        : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 border-line dark:border-night-line'
+                    )}
+                  >
+                    {tab.badge}
+                  </span>
+                )}
               </button>
             );
           })}

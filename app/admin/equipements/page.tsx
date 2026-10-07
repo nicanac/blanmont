@@ -17,6 +17,7 @@ import { EQUIPMENT_CATEGORIES } from '../../data/equipment';
 import { toast } from 'sonner';
 import EquipementsTutorialModal from './components/EquipementsTutorialModal';
 import { useAdminTours } from '../components/tours/adminTours';
+import AdminPageHeader from '../components/AdminPageHeader';
 
 export default function AdminEquipementsPage() {
   const [equipment, setEquipment] = useState<Equipment[]>([]);
@@ -90,41 +91,24 @@ export default function AdminEquipementsPage() {
       />
       
       {/* Header */}
-      <div id="equipements-header-section" className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <JerseyIcon className="h-3.5 w-3.5 text-brand" />
-            <span>Catalogue Officiel</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
-            Équipements Gobik
-          </h1>
-          <p className="mt-1 text-xs sm:text-sm text-ink-3">
-            Gérez le stock, les tailles et les articles officiels du club.
-          </p>
-        </div>
-        
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => setTutorialOpen(true)}
-            className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink hover:bg-paper-2 transition-colors shadow-xs"
-            title="Ouvrir le guide des équipements"
-          >
-            <AcademicCapIcon className="h-4 w-4 text-brand" />
-            <span>Tutoriel &amp; Guide</span>
-          </button>
-
-          <Link
-            id="equipements-new-btn"
-            href="/admin/equipements/new"
-            className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs"
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span>Ajouter un équipement</span>
-          </Link>
-        </div>
-      </div>
+      <AdminPageHeader
+        id="equipements-header-section"
+        title="Équipements Gobik"
+        sheet="Feuille · Boutique Gobik"
+        badge={{ icon: JerseyIcon, label: 'Catalogue Officiel' }}
+        description="Gérez le stock, les tailles et les articles officiels du club."
+        onOpenTutorial={() => setTutorialOpen(true)}
+        tutorialButtonId="equipements-tutorial-btn"
+        actions={[
+          {
+            id: 'equipements-new-btn',
+            label: 'Ajouter un équipement',
+            href: '/admin/equipements/new',
+            icon: PlusIcon,
+            variant: 'primary',
+          },
+        ]}
+      />
 
       {/* Filters */}
       <div id="equipements-search-filter" className="flex flex-col sm:flex-row sm:items-center gap-4">

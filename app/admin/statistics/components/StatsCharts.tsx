@@ -3,7 +3,6 @@
 import React, { useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import {
-  ChartBarIcon,
   UserGroupIcon,
   CalendarDaysIcon,
   ArrowTrendingUpIcon,
@@ -13,11 +12,10 @@ import {
   TrophyIcon,
   DocumentChartBarIcon,
   ArrowDownTrayIcon,
-  ShieldCheckIcon,
   FireIcon,
   StarIcon,
 } from '@heroicons/react/24/outline';
-import { BicycleIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
+import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 
 import type { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
 import type { CalendarEvent, Member, Trace, Feedback, SaturdayRide, Vote } from '@/app/types';
@@ -150,7 +148,7 @@ export default function StatsCharts({
   }, [stats.carreVert.processedEntries, selectedGroupFilter, searchQuery]);
 
   // 4. Export CSV Handlers
-  const handleDownloadCarreVertCsv = () => {
+  const handleDownloadCarreVertCsv = (): void => {
     const csvContent = generateCarreVertCsv(stats);
     const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -162,7 +160,7 @@ export default function StatsCharts({
     document.body.removeChild(link);
   };
 
-  const handleDownloadAgCsv = () => {
+  const handleDownloadAgCsv = (): void => {
     const csvContent = generateClubAgSummaryCsv(stats);
     const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -177,15 +175,15 @@ export default function StatsCharts({
   const getTierBadgeStyle = (tier: string): string => {
     switch (tier) {
       case 'or':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-300';
+        return 'bg-bois/40 text-vert dark:text-bois border-vert/30';
       case 'argent':
-        return 'bg-blue-100 text-blue-800 border-blue-300';
+        return 'bg-hydro/10 text-hydro border-hydro/30';
       case 'bronze':
-        return 'bg-amber-100 text-amber-800 border-amber-300';
+        return 'bg-ambre/15 text-ambre border-ambre/30';
       case 'peloton':
-        return 'bg-paper-2 text-ink-2 border-line';
+        return 'bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-2 border-line dark:border-night-line';
       default:
-        return 'bg-stone-100 text-stone-600 border-stone-200';
+        return 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 border-line dark:border-night-line';
     }
   };
 
@@ -207,27 +205,27 @@ export default function StatsCharts({
   return (
     <div className="space-y-8">
       {/* Top Filter & Season Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-paper dark:bg-night-2 p-4 sm:p-5 rounded-md border border-line dark:border-night-line">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-ink text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-paper dark:bg-night-2 p-4 sm:p-5 rounded-md border border-line dark:border-night-line">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-ink dark:bg-night-3 text-white border border-line dark:border-night-line">
             <BicycleIcon className="h-5 w-5 text-brand" />
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
               Période Analysée
             </p>
-            <p className="text-base font-extrabold text-ink dark:text-snow-1 font-semiwide">
+            <p className="text-sm sm:text-base font-extrabold text-ink dark:text-snow-1 font-semiwide truncate">
               Saison Cycliste {selectedYear} &bull; CC Saint-Martin Blanmont
             </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
           {/* Year selector */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-1.5">
             <label
               htmlFor="year-select"
-              className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow"
+              className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow whitespace-nowrap"
             >
               Année :
             </label>
@@ -235,106 +233,183 @@ export default function StatsCharts({
               id="year-select"
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
-              className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 py-2 pl-3 pr-8 text-xs font-bold text-ink dark:text-snow-1 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand cursor-pointer"
+              className="bg-transparent text-xs font-bold text-ink dark:text-snow-1 focus:outline-none cursor-pointer"
             >
               {stats.availableYears.map((year) => (
-                <option key={year} value={year}>
+                <option key={year} value={year} className="bg-paper dark:bg-night-2 text-ink dark:text-snow-1">
                   Saison {year}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Direct CSV Export Buttons */}
-          <button
-            type="button"
-            onClick={handleDownloadCarreVertCsv}
-            className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-xs font-bold uppercase tracking-wider text-ink dark:text-snow-1 hover:bg-line dark:hover:bg-night-line transition-colors cursor-pointer"
-            title="Exporter le classement Carré Vert en CSV"
-          >
-            <ArrowDownTrayIcon className="h-3.5 w-3.5 text-ambre" />
-            <span>CSV Carré Vert</span>
-          </button>
+          {/* Unified CSV Export Group */}
+          <div className="inline-flex items-center rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 overflow-hidden divide-x divide-line dark:divide-night-line">
+            <button
+              type="button"
+              onClick={handleDownloadCarreVertCsv}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-[0.06em] text-ink dark:text-snow-1 font-narrow hover:bg-paper dark:hover:bg-night-2 active:translate-y-px transition-colors cursor-pointer whitespace-nowrap"
+              title="Exporter le classement Carré Vert en CSV"
+            >
+              <ArrowDownTrayIcon className="h-3.5 w-3.5 text-ambre" />
+              <span>CSV Carré Vert</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={handleDownloadAgCsv}
-            className="inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3 py-2 text-xs font-bold uppercase tracking-wider text-ink dark:text-snow-1 hover:bg-line dark:hover:bg-night-line transition-colors cursor-pointer"
-            title="Exporter la synthèse de l'Assemblée Générale en CSV"
-          >
-            <ArrowDownTrayIcon className="h-3.5 w-3.5 text-brand" />
-            <span>CSV Bilan AG</span>
-          </button>
+            <button
+              type="button"
+              onClick={handleDownloadAgCsv}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-[0.06em] text-ink dark:text-snow-1 font-narrow hover:bg-paper dark:hover:bg-night-2 active:translate-y-px transition-colors cursor-pointer whitespace-nowrap"
+              title="Exporter la synthèse de l'Assemblée Générale en CSV"
+            >
+              <ArrowDownTrayIcon className="h-3.5 w-3.5 text-brand" />
+              <span>CSV Bilan AG</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 5 Thematic Navigation Tabs */}
-      <div className="flex border border-line dark:border-night-line bg-paper dark:bg-night-2 rounded-md p-1.5 overflow-x-auto">
+      {/* 5 Thematic Navigation Tabs — Carte IGN Sheet Navigator */}
+      <nav aria-label="Sous-navigation analytique" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 p-1.5 bg-paper-2/60 dark:bg-night-3/60 rounded-md border border-line dark:border-night-line">
+        {/* Tab 1 */}
         <button
           type="button"
           onClick={() => setActiveTab('telemetrie')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+          aria-label="1. Télémétrie & Affluence"
+          className={`group relative flex flex-col justify-between p-3 rounded-md text-left transition-all cursor-pointer ${
             activeTab === 'telemetrie'
-              ? 'bg-ink dark:bg-snow-1 text-paper dark:text-ink'
-              : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 hover:bg-paper-2 dark:hover:bg-night-3'
+              ? 'bg-paper dark:bg-night shadow-xs border border-line dark:border-night-line text-ink dark:text-snow-1'
+              : 'bg-transparent hover:bg-paper/70 dark:hover:bg-night-2/70 text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 border border-transparent'
           }`}
         >
-          <BicycleIcon className="h-4 w-4 text-brand" />
-          <span>1. Télémétrie &amp; Affluence</span>
+          {activeTab === 'telemetrie' && (
+            <span className="absolute top-0 left-2 right-2 h-0.5 bg-brand rounded-full" />
+          )}
+          <div className="flex items-center justify-between gap-1 mb-1.5">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink-4 dark:text-snow-4">
+              01 &bull; Direct
+            </span>
+            <BicycleIcon className="h-4 w-4 text-brand shrink-0" />
+          </div>
+          <span className="text-xs font-extrabold uppercase tracking-tight font-semiwide leading-snug">
+            1. Télémétrie &amp; Affluence
+          </span>
+          <span className="mt-1 text-[11px] text-ink-3 dark:text-snow-3 font-normal font-sans">
+            {stats.telemetry.officialRidesCount} sorties &bull; {stats.telemetry.avgPelotonSize} moy.
+          </span>
         </button>
 
+        {/* Tab 2 */}
         <button
           type="button"
           onClick={() => setActiveTab('carre_vert')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+          aria-label="2. Carré Vert & Assiduité"
+          className={`group relative flex flex-col justify-between p-3 rounded-md text-left transition-all cursor-pointer ${
             activeTab === 'carre_vert'
-              ? 'bg-ink dark:bg-snow-1 text-paper dark:text-ink'
-              : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 hover:bg-paper-2 dark:hover:bg-night-3'
+              ? 'bg-paper dark:bg-night shadow-xs border border-line dark:border-night-line text-ink dark:text-snow-1'
+              : 'bg-transparent hover:bg-paper/70 dark:hover:bg-night-2/70 text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 border border-transparent'
           }`}
         >
-          <TrophyIcon className="h-4 w-4 text-ambre" />
-          <span>2. Carré Vert &amp; Assiduité</span>
+          {activeTab === 'carre_vert' && (
+            <span className="absolute top-0 left-2 right-2 h-0.5 bg-ambre rounded-full" />
+          )}
+          <div className="flex items-center justify-between gap-1 mb-1.5">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink-4 dark:text-snow-4">
+              02 &bull; Trophée
+            </span>
+            <TrophyIcon className="h-4 w-4 text-ambre shrink-0" />
+          </div>
+          <span className="text-xs font-extrabold uppercase tracking-tight font-semiwide leading-snug">
+            2. Carré Vert &amp; Assiduité
+          </span>
+          <span className="mt-1 text-[11px] text-ink-3 dark:text-snow-3 font-normal font-sans">
+            {stats.carreVert.activeMembers} actifs &bull; {stats.carreVert.totalPossibleCarres} max
+          </span>
         </button>
 
+        {/* Tab 3 */}
         <button
           type="button"
           onClick={() => setActiveTab('traces')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+          aria-label="3. Traces & Parcours GPS"
+          className={`group relative flex flex-col justify-between p-3 rounded-md text-left transition-all cursor-pointer ${
             activeTab === 'traces'
-              ? 'bg-ink dark:bg-snow-1 text-paper dark:text-ink'
-              : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 hover:bg-paper-2 dark:hover:bg-night-3'
+              ? 'bg-paper dark:bg-night shadow-xs border border-line dark:border-night-line text-ink dark:text-snow-1'
+              : 'bg-transparent hover:bg-paper/70 dark:hover:bg-night-2/70 text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 border border-transparent'
           }`}
         >
-          <MapIcon className="h-4 w-4 text-hydro" />
-          <span>3. Traces &amp; Parcours GPS</span>
+          {activeTab === 'traces' && (
+            <span className="absolute top-0 left-2 right-2 h-0.5 bg-hydro rounded-full" />
+          )}
+          <div className="flex items-center justify-between gap-1 mb-1.5">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink-4 dark:text-snow-4">
+              03 &bull; Répertoire
+            </span>
+            <MapIcon className="h-4 w-4 text-hydro shrink-0" />
+          </div>
+          <span className="text-xs font-extrabold uppercase tracking-tight font-semiwide leading-snug">
+            3. Traces &amp; Parcours GPS
+          </span>
+          <span className="mt-1 text-[11px] text-ink-3 dark:text-snow-3 font-normal font-sans">
+            {stats.traces.totalTraces} tracés &bull; {stats.traces.avgTraceDistance} km moy.
+          </span>
         </button>
 
+        {/* Tab 4 */}
         <button
           type="button"
           onClick={() => setActiveTab('groupes_democratie')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+          aria-label="4. Groupes & Démocratie"
+          className={`group relative flex flex-col justify-between p-3 rounded-md text-left transition-all cursor-pointer ${
             activeTab === 'groupes_democratie'
-              ? 'bg-ink dark:bg-snow-1 text-paper dark:text-ink'
-              : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 hover:bg-paper-2 dark:hover:bg-night-3'
+              ? 'bg-paper dark:bg-night shadow-xs border border-line dark:border-night-line text-ink dark:text-snow-1'
+              : 'bg-transparent hover:bg-paper/70 dark:hover:bg-night-2/70 text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 border border-transparent'
           }`}
         >
-          <UserGroupIcon className="h-4 w-4 text-vert" />
-          <span>4. Groupes &amp; Démocratie</span>
+          {activeTab === 'groupes_democratie' && (
+            <span className="absolute top-0 left-2 right-2 h-0.5 bg-vert rounded-full" />
+          )}
+          <div className="flex items-center justify-between gap-1 mb-1.5">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink-4 dark:text-snow-4">
+              04 &bull; Allures
+            </span>
+            <UserGroupIcon className="h-4 w-4 text-vert shrink-0" />
+          </div>
+          <span className="text-xs font-extrabold uppercase tracking-tight font-semiwide leading-snug">
+            4. Groupes &amp; Démocratie
+          </span>
+          <span className="mt-1 text-[11px] text-ink-3 dark:text-snow-3 font-normal font-sans">
+            {stats.democracy.totalVotes} votes &bull; {stats.groupDynamics.groupStats.length} groupes
+          </span>
         </button>
 
+        {/* Tab 5 */}
         <button
           type="button"
           onClick={() => setActiveTab('ag_bilan')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+          aria-label="5. Bilan AG & Synthèse"
+          className={`group relative flex flex-col justify-between p-3 rounded-md text-left transition-all cursor-pointer col-span-2 sm:col-span-1 lg:col-span-1 ${
             activeTab === 'ag_bilan'
-              ? 'bg-ink dark:bg-snow-1 text-paper dark:text-ink'
-              : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 hover:bg-paper-2 dark:hover:bg-night-3'
+              ? 'bg-paper dark:bg-night shadow-xs border border-line dark:border-night-line text-ink dark:text-snow-1'
+              : 'bg-transparent hover:bg-paper/70 dark:hover:bg-night-2/70 text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1 border border-transparent'
           }`}
         >
-          <DocumentChartBarIcon className="h-4 w-4 text-brand" />
-          <span>5. Bilan AG &amp; Synthèse</span>
+          {activeTab === 'ag_bilan' && (
+            <span className="absolute top-0 left-2 right-2 h-0.5 bg-brand rounded-full" />
+          )}
+          <div className="flex items-center justify-between gap-1 mb-1.5">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink-4 dark:text-snow-4">
+              05 &bull; Statuts
+            </span>
+            <DocumentChartBarIcon className="h-4 w-4 text-brand shrink-0" />
+          </div>
+          <span className="text-xs font-extrabold uppercase tracking-tight font-semiwide leading-snug">
+            5. Bilan AG &amp; Synthèse
+          </span>
+          <span className="mt-1 text-[11px] text-ink-3 dark:text-snow-3 font-normal font-sans">
+            Rapport officiel &bull; Imprimer
+          </span>
         </button>
-      </div>
+      </nav>
 
       {/* ========================================================================= */}
       {/* TAB 1: TÉLÉMÉTRIE & AFFLUENCE */}
@@ -412,7 +487,7 @@ export default function StatsCharts({
                   className="text-3xl font-extrabold text-ink dark:text-snow-1 tabular-nums"
                 />
                 <span className="text-xs font-semibold text-ink-3 dark:text-snow-3">
-                  ({stats.telemetry.totalAttendances} cyclos cumulés)
+                  ({stats.telemetry.totalAttendances.toLocaleString('fr-BE')} présences cumulées)
                 </span>
               </div>
               <p className="mt-2 text-xs text-ink-3 dark:text-snow-3">
@@ -464,6 +539,7 @@ export default function StatsCharts({
                 selectedYear={selectedYear}
                 weeklyDistribution={stats.weeklyDistribution}
                 monthlyData={stats.monthlyData}
+                telemetryStats={stats.telemetry}
               />
             </div>
 
@@ -536,62 +612,66 @@ export default function StatsCharts({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="rounded-md border border-line bg-paper p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-brand" />
+                <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Record d&apos;Affluence
                 </p>
-                <p className="mt-1 text-xl font-extrabold text-ink">
+                <p className="mt-1 text-xl font-extrabold text-ink dark:text-snow-1 font-mono tabular-nums">
                   {stats.telemetry.biggestPelotonEvent
                     ? `${stats.telemetry.biggestPelotonEvent.count} cyclistes`
                     : '-'}
                 </p>
-                <p className="mt-1 text-xs text-ink-3">
+                <p className="mt-1.5 text-xs text-ink-3 dark:text-snow-3 font-sans truncate">
                   {stats.telemetry.biggestPelotonEvent
                     ? `${stats.telemetry.biggestPelotonEvent.date} (${stats.telemetry.biggestPelotonEvent.location})`
                     : 'Aucun record'}
                 </p>
               </div>
 
-              <div className="rounded-md border border-line bg-paper p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-hydro" />
+                <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Sortie la Plus Longue
                 </p>
-                <p className="mt-1 text-xl font-extrabold text-ink">
+                <p className="mt-1 text-xl font-extrabold text-ink dark:text-snow-1 font-mono tabular-nums">
                   {stats.telemetry.longestRideEvent
                     ? `${stats.telemetry.longestRideEvent.distance} km`
                     : '-'}
                 </p>
-                <p className="mt-1 text-xs text-ink-3">
+                <p className="mt-1.5 text-xs text-ink-3 dark:text-snow-3 font-sans truncate">
                   {stats.telemetry.longestRideEvent
                     ? `${stats.telemetry.longestRideEvent.date} (${stats.telemetry.longestRideEvent.location})`
                     : 'Aucune donnée'}
                 </p>
               </div>
 
-              <div className="rounded-md border border-line bg-paper p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-bistre" />
+                <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Sortie la Plus Exigeante
                 </p>
-                <p className="mt-1 text-xl font-extrabold text-ink">
+                <p className="mt-1 text-xl font-extrabold text-ink dark:text-snow-1 font-mono tabular-nums">
                   {stats.telemetry.toughestRideEvent
                     ? `${stats.telemetry.toughestRideEvent.elevation} m D+`
                     : '-'}
                 </p>
-                <p className="mt-1 text-xs text-ink-3">
+                <p className="mt-1.5 text-xs text-ink-3 dark:text-snow-3 font-sans truncate">
                   {stats.telemetry.toughestRideEvent
                     ? `${stats.telemetry.toughestRideEvent.date} (${stats.telemetry.toughestRideEvent.location})`
                     : 'Aucune donnée'}
                 </p>
               </div>
 
-              <div className="rounded-md border border-line bg-paper p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-3">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-vert" />
+                <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Mois le Plus Actif
                 </p>
-                <p className="mt-1 text-xl font-extrabold text-ink">
+                <p className="mt-1 text-xl font-extrabold text-ink dark:text-snow-1 font-mono">
                   {stats.telemetry.mostActiveMonth?.monthName || '-'}
                 </p>
-                <p className="mt-1 text-xs text-ink-3">
+                <p className="mt-1.5 text-xs text-ink-3 dark:text-snow-3 font-sans truncate">
                   {stats.telemetry.mostActiveMonth
                     ? `${stats.telemetry.mostActiveMonth.totalAttendance} présences (${stats.telemetry.mostActiveMonth.ridesCount} sorties)`
                     : 'Aucune donnée'}
@@ -765,34 +845,34 @@ export default function StatsCharts({
                     displayedEntries.map((entry, index) => (
                       <tr
                         key={entry.id}
-                        className="hover:bg-paper transition-colors duration-150"
+                        className="hover:bg-paper-2/50 dark:hover:bg-night-3/50 transition-colors duration-150"
                       >
                         {/* Rank / Podium Badge */}
-                        <td className="whitespace-nowrap px-5 py-3 font-extrabold text-ink">
+                        <td className="whitespace-nowrap px-5 py-3 font-extrabold text-ink dark:text-snow-1">
                           {index === 0 ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-ambre/20 px-2 py-0.5 text-xs font-bold text-ambre-ink border border-ambre/40">
-                              1er 🥇
+                            <span className="inline-flex items-center gap-1 rounded-sm bg-ambre/20 px-2 py-0.5 text-xs font-bold text-amber-900 dark:text-amber-200 border border-ambre/40 font-mono">
+                              1er
                             </span>
                           ) : index === 1 ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-paper-2 px-2 py-0.5 text-xs font-bold text-ink-2 border border-line-strong">
-                              2e 🥈
+                            <span className="inline-flex items-center gap-1 rounded-sm bg-paper-2 dark:bg-night-3 px-2 py-0.5 text-xs font-bold text-ink dark:text-snow-1 border border-line-strong dark:border-night-line font-mono">
+                              2e
                             </span>
                           ) : index === 2 ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800 border border-amber-300">
-                              3e 🥉
+                            <span className="inline-flex items-center gap-1 rounded-sm bg-bistre/15 px-2 py-0.5 text-xs font-bold text-bistre-dark dark:text-bistre border border-bistre/30 font-mono">
+                              3e
                             </span>
                           ) : (
-                            <span className="text-ink-3 tabular-nums pl-1.5 font-bold">
+                            <span className="text-ink-3 dark:text-snow-3 tabular-nums pl-1.5 font-bold font-mono">
                               {index + 1}
                             </span>
                           )}
                         </td>
 
                         {/* Member Name */}
-                        <td className="whitespace-nowrap px-5 py-3 font-bold text-ink">
+                        <td className="whitespace-nowrap px-5 py-3 font-bold text-ink dark:text-snow-1">
                           {entry.name}
                           {index === 0 && entry.rides > 0 && (
-                            <span className="ml-2 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-ambre">
+                            <span className="ml-2 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-ambre font-narrow">
                               <SparklesIcon className="h-3.5 w-3.5" />
                               Champion
                             </span>
@@ -801,7 +881,7 @@ export default function StatsCharts({
 
                         {/* Group */}
                         <td className="whitespace-nowrap px-5 py-3">
-                          <span className="inline-flex rounded-xs px-2 py-0.5 text-xs font-bold uppercase tracking-wider bg-paper text-ink border border-line">
+                          <span className="inline-flex rounded-xs px-2 py-0.5 text-xs font-bold uppercase tracking-wider bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line font-narrow">
                             {entry.group || 'Sans groupe'}
                           </span>
                         </td>
@@ -809,7 +889,7 @@ export default function StatsCharts({
                         {/* Merit Tier */}
                         <td className="whitespace-nowrap px-5 py-3">
                           <span
-                            className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold border ${getTierBadgeStyle(
+                            className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold border font-narrow ${getTierBadgeStyle(
                               entry.tier
                             )}`}
                           >
@@ -818,7 +898,7 @@ export default function StatsCharts({
                         </td>
 
                         {/* Rides Count */}
-                        <td className="whitespace-nowrap px-5 py-3 text-right font-extrabold text-ink tabular-nums">
+                        <td className="whitespace-nowrap px-5 py-3 text-right font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                           {entry.rides}
                         </td>
 
@@ -828,22 +908,22 @@ export default function StatsCharts({
                             className="flex items-center justify-end gap-2.5"
                             title={`${entry.rides} sur ${stats.carreVert.totalPossibleCarres} carrés possibles`}
                           >
-                            <span className="w-9 text-right font-bold text-ink tabular-nums">
+                            <span className="w-9 text-right font-bold text-ink dark:text-snow-1 tabular-nums font-mono">
                               {entry.percent}%
                             </span>
-                            <div className="h-2 w-20 overflow-hidden rounded-xs bg-paper-2 border border-line">
+                            <div className="h-2 w-20 overflow-hidden rounded-xs bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line">
                               <div
                                 className="h-full rounded-xs transition-all duration-300"
                                 style={{
                                   width: `${Math.min(entry.percent, 100)}%`,
                                   backgroundColor:
                                     entry.percent >= 80
-                                      ? '#10b981'
+                                      ? '#2e7d45'
                                       : entry.percent >= 60
-                                      ? '#3b82f6'
+                                      ? '#1f6fbf'
                                       : entry.percent >= 40
-                                      ? '#f59e0b'
-                                      : '#e03e3e',
+                                      ? '#e8962a'
+                                      : '#b0703b',
                                 }}
                               />
                             </div>
@@ -855,7 +935,7 @@ export default function StatsCharts({
                     <tr>
                       <td
                         colSpan={6}
-                        className="px-5 py-8 text-center text-xs font-semibold text-ink-3"
+                        className="px-5 py-8 text-center text-xs font-semibold text-ink-3 dark:text-snow-3"
                       >
                         Aucun cycliste ne correspond à votre recherche.
                       </td>
@@ -928,9 +1008,12 @@ export default function StatsCharts({
                 Satisfaction Cyclos
               </p>
               <div className="mt-1 flex items-baseline gap-1.5 font-mono">
-                <span className="text-3xl font-extrabold text-ink dark:text-snow-1 tabular-nums">
-                  ⭐ {stats.traces.feedbackStats.averageRating}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <StarIcon className="h-6 w-6 text-ambre fill-ambre shrink-0" />
+                  <span className="text-3xl font-extrabold text-ink dark:text-snow-1 tabular-nums">
+                    {stats.traces.feedbackStats.averageRating}
+                  </span>
+                </div>
                 <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 font-sans">/ 5</span>
               </div>
               <p className="mt-2 text-xs text-ink-3 dark:text-snow-3">
@@ -966,25 +1049,35 @@ export default function StatsCharts({
                 {stats.traces.feedbackStats.topRatedTraces.map((t, idx) => (
                   <div
                     key={t.id}
-                    className="py-3 flex items-center justify-between text-xs"
+                    className="py-3 px-2 flex items-center justify-between text-xs hover:bg-paper-2/50 dark:hover:bg-night-3/50 transition-colors rounded-sm"
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="font-extrabold text-ink-3 dark:text-snow-3 w-5 tabular-nums font-mono">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-sm bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line font-mono text-xs font-bold text-ink-2 dark:text-snow-2">
                         #{idx + 1}
                       </span>
-                      <div>
-                        <p className="font-bold text-ink dark:text-snow-1">{t.name}</p>
-                        <p className="text-xs text-ink-3 dark:text-snow-3">
-                          {t.distance} km {t.elevation ? `&bull; ${t.elevation} m D+` : ''}
-                        </p>
+                      <div className="min-w-0">
+                        <p className="font-bold text-ink dark:text-snow-1 truncate">{t.name}</p>
+                        <div className="mt-0.5 flex items-center gap-1.5 text-xs text-ink-3 dark:text-snow-3 font-mono">
+                          <span className="tabular-nums font-semibold">{t.distance} km</span>
+                          {t.elevation ? (
+                            <>
+                              <span className="text-ink-4 dark:text-snow-4">•</span>
+                              <span className="tabular-nums font-semibold">{t.elevation} m D+</span>
+                            </>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
-                    <div className="text-right font-mono">
-                      <span className="font-extrabold text-ink dark:text-snow-1">
-                        ⭐ {t.rating} / 5
-                      </span>
-                      <p className="text-xs text-ink-3 dark:text-snow-3 font-sans">
-                        {t.reviewCount} avis
+                    <div className="text-right shrink-0 font-mono ml-4">
+                      <div className="flex items-center justify-end gap-1">
+                        <StarIcon className="h-3.5 w-3.5 text-ambre fill-ambre" />
+                        <span className="font-extrabold text-ink dark:text-snow-1 tabular-nums">
+                          {t.rating}
+                        </span>
+                        <span className="text-[11px] text-ink-3 dark:text-snow-3 font-sans">/ 5</span>
+                      </div>
+                      <p className="text-[11px] text-ink-3 dark:text-snow-3 font-sans">
+                        {t.reviewCount} {t.reviewCount > 1 ? 'avis' : 'avis'}
                       </p>
                     </div>
                   </div>
@@ -1027,39 +1120,55 @@ export default function StatsCharts({
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-3 text-center">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 text-center relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-brand" />
                 <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Sorties Proposées
                 </span>
                 <p className="mt-1 text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                   {stats.democracy.totalSaturdayRides}
                 </p>
+                <p className="mt-1 text-[11px] text-ink-3 dark:text-snow-3">
+                  calendrier officiel
+                </p>
               </div>
 
-              <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-3 text-center">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 text-center relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-hydro" />
                 <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Sorties Votées
                 </span>
                 <p className="mt-1 text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                   {stats.democracy.votedRidesCount}
                 </p>
+                <p className="mt-1 text-[11px] text-ink-3 dark:text-snow-3">
+                  soumises aux membres
+                </p>
               </div>
 
-              <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-3 text-center">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 text-center relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-vert" />
                 <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Total Suffrages
                 </span>
                 <p className="mt-1 text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                   {stats.democracy.totalVotes}
                 </p>
+                <p className="mt-1 text-[11px] text-ink-3 dark:text-snow-3">
+                  voix exprimées
+                </p>
               </div>
 
-              <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-3 text-center">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 text-center relative overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-ambre" />
                 <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
                   Moyenne Votants
                 </span>
                 <p className="mt-1 text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                   {stats.democracy.avgVotesPerRide}
+                </p>
+                <p className="mt-1 text-[11px] text-ink-3 dark:text-snow-3">
+                  votes / sortie
                 </p>
               </div>
             </div>
@@ -1082,61 +1191,76 @@ export default function StatsCharts({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
-                  Cotisations 2026 en Règle
-                </p>
-                <div className="mt-1 flex items-baseline gap-1.5 font-mono">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
+                    Cotisations {selectedYear} en Règle
+                  </p>
+                  <span className="rounded-full bg-vert/15 px-2 py-0.5 text-xs font-bold font-mono text-vert border border-vert/20">
+                    {stats.administration.cotisationComplianceRate}%
+                  </span>
+                </div>
+                <div className="mt-2 flex items-baseline gap-1.5 font-mono">
                   <span className="text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums">
                     {stats.administration.cotisationPaid + stats.administration.cotisationExempt}
                   </span>
                   <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 font-sans">
-                    / {stats.administration.totalMembers} ({stats.administration.cotisationComplianceRate}%)
+                    / {stats.administration.totalMembers} membres
                   </span>
                 </div>
-                <div className="mt-3 h-2 overflow-hidden rounded-xs bg-line dark:bg-night-line">
+                <div className="mt-3 h-2 overflow-hidden rounded-xs bg-paper dark:bg-night border border-line dark:border-night-line">
                   <div
-                    className="h-full bg-vert"
+                    className="h-full bg-vert transition-all duration-300"
                     style={{ width: `${stats.administration.cotisationComplianceRate}%` }}
                   />
                 </div>
               </div>
 
-              <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
-                  Licenciés Fédération FFBC
-                </p>
-                <div className="mt-1 flex items-baseline gap-1.5 font-mono">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
+                    Licenciés Fédération FFBC
+                  </p>
+                  <span className="rounded-full bg-hydro/15 px-2 py-0.5 text-xs font-bold font-mono text-hydro border border-hydro/20">
+                    {stats.administration.ffbcComplianceRate}%
+                  </span>
+                </div>
+                <div className="mt-2 flex items-baseline gap-1.5 font-mono">
                   <span className="text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums">
                     {stats.administration.ffbcLicensedCount}
                   </span>
                   <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 font-sans">
-                    / {stats.administration.totalMembers} ({stats.administration.ffbcComplianceRate}%)
+                    / {stats.administration.totalMembers} membres
                   </span>
                 </div>
-                <div className="mt-3 h-2 overflow-hidden rounded-xs bg-line dark:bg-night-line">
+                <div className="mt-3 h-2 overflow-hidden rounded-xs bg-paper dark:bg-night border border-line dark:border-night-line">
                   <div
-                    className="h-full bg-hydro"
+                    className="h-full bg-hydro transition-all duration-300"
                     style={{ width: `${stats.administration.ffbcComplianceRate}%` }}
                   />
                 </div>
               </div>
 
-              <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
-                  Profils Strava Connectés
-                </p>
-                <div className="mt-1 flex items-baseline gap-1.5 font-mono">
+              <div className="rounded-md border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 font-narrow">
+                    Profils Strava Connectés
+                  </p>
+                  <span className="rounded-full bg-ambre/15 px-2 py-0.5 text-xs font-bold font-mono text-ambre border border-ambre/20">
+                    {stats.administration.stravaAdoptionRate}%
+                  </span>
+                </div>
+                <div className="mt-2 flex items-baseline gap-1.5 font-mono">
                   <span className="text-2xl font-extrabold text-ink dark:text-snow-1 tabular-nums">
                     {stats.administration.stravaLinkedCount}
                   </span>
                   <span className="text-xs font-semibold text-ink-3 dark:text-snow-3 font-sans">
-                    / {stats.administration.totalMembers} ({stats.administration.stravaAdoptionRate}%)
+                    / {stats.administration.totalMembers} membres
                   </span>
                 </div>
-                <div className="mt-3 h-2 overflow-hidden rounded-xs bg-line dark:bg-night-line">
+                <div className="mt-3 h-2 overflow-hidden rounded-xs bg-paper dark:bg-night border border-line dark:border-night-line">
                   <div
-                    className="h-full bg-ambre"
+                    className="h-full bg-ambre transition-all duration-300"
                     style={{ width: `${stats.administration.stravaAdoptionRate}%` }}
                   />
                 </div>

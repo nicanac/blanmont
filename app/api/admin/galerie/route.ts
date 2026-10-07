@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminRequest } from '@/app/lib/auth/session';
-import { createPhotoAlbum, deletePhotoAlbum, getPhotoAlbums } from '@/app/lib/firebase/galleries';
+import { createPhotoAlbum, deletePhotoAlbum, getPhotoAlbums, updatePhotoAlbum } from '@/app/lib/firebase/galleries';
 
 export async function GET(): Promise<NextResponse> {
   try {
@@ -47,6 +47,52 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 }
 
+export async function PUT(request: NextRequest): Promise<NextResponse> {
+  const authCheck = await verifyAdminRequest(request);
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
+  try {
+    const data = await request.json();
+    const { id, title, description, year, category, coverUrl, externalAlbumUrl, photoCount, featured } = data;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Album ID requis pour la modification.' },
+        { status: 400 }
+      );
+    }
+
+    if (!title || !coverUrl || !category) {
+      return NextResponse.json(
+        { error: 'Titre, URL de couverture et catégorie sont requis.' },
+        { status: 400 }
+      );
+    }
+
+    const updatedAlbum = await updatePhotoAlbum(id, {
+      title,
+      description: description || '',
+      year: Number(year) || new Date().getFullYear(),
+      category: category as 'Sorties' | 'Ardennes & Stages' | 'Événements' | 'Équipements',
+      coverUrl,
+      externalAlbumUrl: externalAlbumUrl || '',
+      photoCount: Number(photoCount) || 1,
+      featured: Boolean(featured),
+    });
+
+    if (!updatedAlbum) {
+      return NextResponse.json({ error: 'Album introuvable ou échec de mise à jour.' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, album: updatedAlbum });
+  } catch (error) {
+    console.error('Error updating album:', error);
+    return NextResponse.json({ error: 'Erreur lors de la mise à jour de l’album.' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   const authCheck = await verifyAdminRequest(request);
   if (!authCheck.authorized) {
@@ -72,3 +118,4 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
   }
 }
+

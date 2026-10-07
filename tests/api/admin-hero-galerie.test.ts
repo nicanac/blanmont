@@ -8,6 +8,7 @@ import {
 import {
   GET as getGalerieRoute,
   POST as postGalerieRoute,
+  PUT as putGalerieRoute,
   DELETE as deleteGalerieRoute,
 } from '@/app/api/admin/galerie/route';
 import * as heroModule from '@/app/lib/firebase/hero';
@@ -117,6 +118,115 @@ describe('Admin Hero & Galerie API Endpoints', () => {
       const data = await res.json();
       expect(data.success).toBe(true);
       expect(data.album.title).toBe('Stage Provence');
+    });
+
+    it('PUT rejects with 401 when unauthorized', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: false,
+        response: new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 }) as any,
+      } as any);
+
+      const req = new NextRequest('http://localhost:3000/api/admin/galerie', {
+        method: 'PUT',
+        body: JSON.stringify({ id: 'alb-1', title: 'Nouveau' }),
+      });
+
+      const res = await putGalerieRoute(req);
+      expect(res.status).toBe(401);
+    });
+
+    it('PUT rejects with 400 when id is missing', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
+
+      const req = new NextRequest('http://localhost:3000/api/admin/galerie', {
+        method: 'PUT',
+        body: JSON.stringify({ title: 'Titre', coverUrl: 'https://example.com/c.jpg', category: 'Sorties' }),
+      });
+
+      const res = await putGalerieRoute(req);
+      expect(res.status).toBe(400);
+      const data = await res.json();
+      expect(data.error).toMatch(/Album ID requis/);
+    });
+
+    it('PUT rejects with 400 when required fields are missing', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
+
+      const req = new NextRequest('http://localhost:3000/api/admin/galerie', {
+        method: 'PUT',
+        body: JSON.stringify({ id: 'alb-1', title: 'Titre seul' }), // missing coverUrl & category
+      });
+
+      const res = await putGalerieRoute(req);
+      expect(res.status).toBe(400);
+      const data = await res.json();
+      expect(data.error).toMatch(/Titre, URL de couverture et catégorie sont requis/);
+    });
+
+    it('PUT returns 404 when album is not found', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
+
+      vi.spyOn(galleriesModule, 'updatePhotoAlbum').mockResolvedValue(null);
+
+      const req = new NextRequest('http://localhost:3000/api/admin/galerie', {
+        method: 'PUT',
+        body: JSON.stringify({
+          id: 'non-existent',
+          title: 'Album Titre',
+          coverUrl: 'https://example.com/c.jpg',
+          category: 'Sorties',
+        }),
+      });
+
+      const res = await putGalerieRoute(req);
+      expect(res.status).toBe(404);
+      const data = await res.json();
+      expect(data.error).toMatch(/Album introuvable/);
+    });
+
+    it('PUT updates album when valid', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
+
+      const updatedAlb = { id: 'alb-1', title: 'Titre Modifié', category: 'Sorties' };
+      vi.spyOn(galleriesModule, 'updatePhotoAlbum').mockResolvedValue(updatedAlb as any);
+
+      const req = new NextRequest('http://localhost:3000/api/admin/galerie', {
+        method: 'PUT',
+        body: JSON.stringify({
+          id: 'alb-1',
+          title: 'Titre Modifié',
+          coverUrl: 'https://example.com/new-cover.jpg',
+          category: 'Sorties',
+          year: 2026,
+          photoCount: 15,
+        }),
+      });
+
+      const res = await putGalerieRoute(req);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.success).toBe(true);
+      expect(data.album.title).toBe('Titre Modifié');
+      expect(galleriesModule.updatePhotoAlbum).toHaveBeenCalledWith(
+        'alb-1',
+        expect.objectContaining({
+          title: 'Titre Modifié',
+          coverUrl: 'https://example.com/new-cover.jpg',
+          category: 'Sorties',
+        })
+      );
     });
 
     it('DELETE returns 400 if album id is missing in searchParams', async () => {

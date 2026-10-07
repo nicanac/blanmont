@@ -1,18 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import type { PhotoAlbum } from '@/app/types';
 import {
   CameraIcon,
   PlusIcon,
   TrashIcon,
+  PencilSquareIcon,
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
   SparklesIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
+import AdminPageHeader from '../components/AdminPageHeader';
 
 interface AdminGalerieClientProps {
   initialAlbums: PhotoAlbum[];
@@ -21,14 +23,7 @@ interface AdminGalerieClientProps {
 export default function AdminGalerieClient({
   initialAlbums,
 }: AdminGalerieClientProps): React.ReactElement {
-  const [albums, setAlbums] = useState<PhotoAlbum[]>(initialAlbums);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSeason, setSelectedSeason] = useState<number | 'all'>('all');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-
-  const [form, setForm] = useState({
+  const initialFormState = {
     title: '',
     description: '',
     year: new Date().getFullYear(),
@@ -37,41 +32,88 @@ export default function AdminGalerieClient({
     externalAlbumUrl: '',
     photoCount: 20,
     featured: false,
-  });
+  };
+
+  const [albums, setAlbums] = useState<PhotoAlbum[]>(initialAlbums);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSeason, setSelectedSeason] = useState<number | 'all'>('all');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingAlbum, setEditingAlbum] = useState<PhotoAlbum | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [form, setForm] = useState(initialFormState);
+
+  const handleOpenCreateModal = (): void => {
+    setEditingAlbum(null);
+    setForm(initialFormState);
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEditModal = (album: PhotoAlbum): void => {
+    setEditingAlbum(album);
+    setForm({
+      title: album.title,
+      description: album.description || '',
+      year: album.year,
+      category: album.category as 'Sorties' | 'Ardennes & Stages' | 'Événements' | 'Équipements',
+      coverUrl: album.coverUrl,
+      externalAlbumUrl: album.externalAlbumUrl || '',
+      photoCount: album.photoCount || 0,
+      featured: Boolean(album.featured),
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = (): void => {
+    setIsModalOpen(false);
+    setEditingAlbum(null);
+    setForm(initialFormState);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape' && isModalOpen) {
+        handleCloseModal();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
-    const toastId = toast.loading('Création de l’album photo...');
+    const isEdit = Boolean(editingAlbum);
+    const toastId = toast.loading(
+      isEdit ? 'Modification de l’album photo...' : 'Création de l’album photo...'
+    );
 
     try {
       const res = await fetch('/api/admin/galerie', {
-        method: 'POST',
+        method: isEdit ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(
+          isEdit ? { id: editingAlbum!.id, ...form } : form
+        ),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Erreur lors de la création');
+        throw new Error(data.error || `Erreur lors de la ${isEdit ? 'modification' : 'création'}`);
       }
 
-      setAlbums([data.album, ...albums]);
-      setIsModalOpen(false);
-      setForm({
-        title: '',
-        description: '',
-        year: new Date().getFullYear(),
-        category: 'Sorties',
-        coverUrl: '',
-        externalAlbumUrl: '',
-        photoCount: 20,
-        featured: false,
-      });
-      toast.success('Album photo ajouté avec succès !', { id: toastId });
+      if (isEdit) {
+        setAlbums(albums.map((a) => (a.id === editingAlbum!.id ? data.album : a)));
+        toast.success('Album photo mis à jour avec succès !', { id: toastId });
+      } else {
+        setAlbums([data.album, ...albums]);
+        toast.success('Album photo ajouté avec succès !', { id: toastId });
+      }
+
+      handleCloseModal();
     } catch (err: unknown) {
       const error = err as Error;
-      toast.error(error.message || 'Erreur lors de la création', { id: toastId });
+      toast.error(error.message || `Erreur lors de la ${isEdit ? 'modification' : 'création'}`, { id: toastId });
     } finally {
       setIsSubmitting(false);
     }
@@ -106,31 +148,21 @@ export default function AdminGalerieClient({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
-        <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
-              Galeries Photos &amp; Chroniques
-            </h1>
-            <span className="inline-flex items-center gap-1 rounded-full bg-ink px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-white">
-              <CameraIcon className="h-3.5 w-3.5 text-brand" />
-              <span>{albums.length} albums</span>
-            </span>
-          </div>
-          <p className="mt-1 text-xs sm:text-sm text-ink-3">
-            Gestion des albums photos du peloton, liens Google Photos et mise en avant des saisons.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 rounded-md bg-brand hover:bg-brand-strong px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors shadow-xs shrink-0 min-h-[44px]"
-        >
-          <PlusIcon className="h-4 w-4 stroke-[2.5]" />
-          <span>Nouvel Album</span>
-        </button>
-      </div>
+      <AdminPageHeader
+        id="galerie-header-section"
+        title="Galeries Photos & Chroniques"
+        sheet="Feuille · Galeries Photos"
+        badge={{ icon: CameraIcon, label: `${albums.length} albums` }}
+        description="Gestion des albums photos du peloton, liens Google Photos et mise en avant des saisons."
+        actions={[
+          {
+            label: 'Nouvel Album',
+            onClick: handleOpenCreateModal,
+            icon: PlusIcon,
+            variant: 'primary',
+          },
+        ]}
+      />
 
       {/* Search & Season Filter Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-paper-2 dark:bg-night-2 rounded-md border border-line dark:border-night-line">
@@ -244,15 +276,27 @@ export default function AdminGalerieClient({
                     )}
                   </td>
                   <td className="py-3 px-4 text-right">
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(album.id, album.title)}
-                      disabled={deletingId === album.id}
-                      className="p-1.5 rounded-md text-ink-3 dark:text-snow-3 hover:text-brand hover:bg-brand/10 transition-colors"
-                      title="Supprimer l'album"
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </button>
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEditModal(album)}
+                        className="p-1.5 rounded-md text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
+                        title="Modifier l'album"
+                        aria-label={`Modifier l'album ${album.title}`}
+                      >
+                        <PencilSquareIcon className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(album.id, album.title)}
+                        disabled={deletingId === album.id}
+                        className="p-1.5 rounded-md text-ink-3 dark:text-snow-3 hover:text-brand hover:bg-brand/10 transition-colors"
+                        title="Supprimer l'album"
+                        aria-label={`Supprimer l'album ${album.title}`}
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -261,22 +305,31 @@ export default function AdminGalerieClient({
         </div>
       </div>
 
-      {/* Modal: New Album */}
+      {/* Modal: New / Edit Album */}
       {isModalOpen && (
         <div
           role="dialog"
           aria-modal="true"
+          aria-labelledby="galerie-modal-title"
+          onClick={handleCloseModal}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
         >
-          <div className="bg-paper dark:bg-night-2 rounded-md border border-line dark:border-night-line w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-paper dark:bg-night-2 rounded-md border border-line dark:border-night-line w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95"
+          >
             <div className="p-4 border-b border-line dark:border-night-line flex items-center justify-between">
-              <h3 className="text-sm font-bold text-ink dark:text-white uppercase tracking-wider">
-                Ajouter un album photo
+              <h3
+                id="galerie-modal-title"
+                className="text-sm font-bold text-ink dark:text-white uppercase tracking-wider"
+              >
+                {editingAlbum ? 'Modifier l’album photo' : 'Ajouter un album photo'}
               </h3>
               <button
                 type="button"
-                onClick={() => setIsModalOpen(false)}
+                onClick={handleCloseModal}
                 className="p-1 rounded-md text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white"
+                aria-label="Fermer"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -414,7 +467,7 @@ export default function AdminGalerieClient({
               <div className="flex justify-end gap-2.5 pt-4 border-t border-line dark:border-night-line">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={handleCloseModal}
                   disabled={isSubmitting}
                   className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink-2 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-3 rounded-md transition-colors"
                 >
@@ -425,7 +478,11 @@ export default function AdminGalerieClient({
                   disabled={isSubmitting}
                   className="px-5 py-2 bg-brand hover:bg-brand-strong text-white text-xs font-semibold uppercase tracking-wider rounded-md shadow-xs transition-colors disabled:opacity-50 min-h-[40px]"
                 >
-                  {isSubmitting ? 'Enregistrement...' : 'Créer l’album'}
+                  {isSubmitting
+                    ? 'Enregistrement...'
+                    : editingAlbum
+                    ? 'Enregistrer les modifications'
+                    : 'Créer l’album'}
                 </button>
               </div>
             </form>

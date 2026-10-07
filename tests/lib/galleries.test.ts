@@ -3,6 +3,7 @@ import {
   getPhotoAlbums,
   getPhotoAlbumById,
   createPhotoAlbum,
+  updatePhotoAlbum,
   deletePhotoAlbum,
 } from '@/app/lib/firebase/galleries';
 import type { PhotoAlbum } from '@/app/types';
@@ -93,4 +94,29 @@ describe('Photo Galleries & Chronicles Data Layer', () => {
     const afterDelete = await getPhotoAlbumById(created.id);
     expect(afterDelete).toBeNull();
   });
+
+  it('updates an existing album in mock mode', async () => {
+    const albums = await getPhotoAlbums();
+    const target = albums[0];
+
+    const updated = await updatePhotoAlbum(target.id, {
+      title: 'Titre Modifié par Vitest',
+      photoCount: 99,
+      featured: true,
+    });
+
+    expect(updated).not.toBeNull();
+    expect(updated?.id).toBe(target.id);
+    expect(updated?.title).toBe('Titre Modifié par Vitest');
+    expect(updated?.photoCount).toBe(99);
+    expect(updated?.featured).toBe(true);
+
+    const fetched = await getPhotoAlbumById(target.id);
+    expect(fetched?.title).toBe('Titre Modifié par Vitest');
+    expect(fetched?.photoCount).toBe(99);
+
+    const notFound = await updatePhotoAlbum('non-existent-id', { title: 'Ghost' });
+    expect(notFound).toBeNull();
+  });
 });
+
