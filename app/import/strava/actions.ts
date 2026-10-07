@@ -104,7 +104,7 @@ export async function importStravaTraceAction(
     console.warn('Failed to fetch photos', e);
   }
 
-  // Create Notion Page
+  // Create Trace in database
   const result = await createTrace({
     name: validatedOverrides?.name || validatedActivity.name,
     distance: validatedActivity.distance / 1000,
@@ -121,10 +121,10 @@ export async function importStravaTraceAction(
   });
 
   if (!result.success) {
-    return { error: result.error || 'Notion creation failed' };
+    return { error: result.error || 'Trace creation failed' };
   }
 
-  return { success: true, message: 'Trace created successfully in Notion!', traceId: (result as any).id };
+  return { success: true, message: 'Trace created successfully!', traceId: (result as any).id };
 }
 
 export async function deleteTraceAction(traceId: string) {
