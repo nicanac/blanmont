@@ -41,8 +41,8 @@ const firebaseConfig = {
 // Helper to check if we are in mock mode (Firebase not configured)
 export const isMockMode = !process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
 
-// Helper to check if we should use Notion fallback
-export const useNotionFallback = isMockMode && !!process.env.NOTION_TOKEN;
+// Helper to check if we should use Notion fallback (deprecated, always false)
+export const useNotionFallback = false;
 
 // Initialize Firebase App (singleton pattern)
 let app: FirebaseApp;
