@@ -311,7 +311,7 @@ export default function ProspectsTable({
   };
 
   return (
-    <div className="space-y-4">
+    <div id="prospects-table-section" className="space-y-4">
       {/* Tabs Filter Bar */}
       <div className="flex border-b border-line dark:border-night-3 overflow-x-auto no-scrollbar gap-1 sm:gap-2">
         <button

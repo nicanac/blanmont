@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   UserPlusIcon,
@@ -13,12 +13,16 @@ import {
 } from '@heroicons/react/24/outline';
 import { TrialRideRequest } from '@/app/types';
 import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
+import ProspectsTutorialModal from './ProspectsTutorialModal';
+import { useAdminTours } from '@/app/admin/components/tours/adminTours';
 
 interface ProspectsHeaderProps {
   prospects: TrialRideRequest[];
 }
 
 export default function ProspectsHeader({ prospects }: ProspectsHeaderProps): React.ReactElement {
+  const [modalOpen, setModalOpen] = useState(false);
+  const { startProspectsTour } = useAdminTours();
   const pendingCount = prospects.filter((p) => p.status === 'pending').length;
   const inTrialCount = prospects.filter((p) =>
     ['contacted', 'ride_1', 'ride_2', 'ride_3'].includes(p.status)
@@ -93,6 +97,8 @@ export default function ProspectsHeader({ prospects }: ProspectsHeaderProps): Re
             <code className="text-brand font-mono text-xs">/rejoindre</code>, parrainage par les capitaines et adhésions.
           </span>
         }
+        onOpenTutorial={() => setModalOpen(true)}
+        tutorialButtonId="prospects-tutorial-btn"
         actions={[
           {
             label: 'Formulaire public',
@@ -111,8 +117,18 @@ export default function ProspectsHeader({ prospects }: ProspectsHeaderProps): Re
         ]}
       />
 
+      <ProspectsTutorialModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onStartTour={() => {
+          setTimeout(() => {
+            startProspectsTour();
+          }, 200);
+        }}
+      />
+
       {/* KPI Stats Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div id="prospects-stats-cards" className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* À contacter */}
         <div className="rounded-lg border border-line dark:border-night-3 bg-white dark:bg-night-2 p-4 shadow-xs">
           <div className="flex items-center justify-between">
