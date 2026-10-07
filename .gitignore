@@ -74,3 +74,12 @@ playwright-report/
 scripts/.cache/
 
 scratch/
+
+# super-board
+.claude/super-board/active
+.claude/super-board/onboard-answers.json
+.claude/super-board/onboard-staged/
+.claude/super-board/backup/
+.claude/super-board/inflight/
+.claude/super-board/upgrade.json
+.claude/settings.json.bak*
