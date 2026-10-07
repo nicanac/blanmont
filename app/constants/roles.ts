@@ -1,9 +1,12 @@
+import type { User } from '../types';
+
 export interface RoleDefinition {
   key: string;
   label: string;
   description: string;
   badgeStyle: string;
   synonyms: string[];
+  isAdmin?: boolean;
 }
 
 export const CLUB_ROLES: RoleDefinition[] = [
@@ -19,7 +22,8 @@ export const CLUB_ROLES: RoleDefinition[] = [
     label: 'Président',
     description: 'Direction générale du club, représentation officielle et assemblées.',
     badgeStyle: 'bg-brand/10 text-brand border-brand/30',
-    synonyms: ['président', 'president'],
+    synonyms: ['président', 'president', 'President'],
+    isAdmin: true,
   },
   {
     key: 'Trésorier',
@@ -40,7 +44,8 @@ export const CLUB_ROLES: RoleDefinition[] = [
     label: 'Administrateur',
     description: 'Accès intégral au back-office, gestion des utilisateurs et configuration.',
     badgeStyle: 'bg-ink text-white border-white/10',
-    synonyms: ['admin', 'administrateur', 'webmaster'],
+    synonyms: ['admin', 'administrateur', 'webmaster', 'WebMaster'],
+    isAdmin: true,
   },
   {
     key: 'Member',
@@ -50,6 +55,24 @@ export const CLUB_ROLES: RoleDefinition[] = [
     synonyms: ['member', 'membre', 'cycliste', 'adhérent', 'adherent'],
   },
 ];
+
+/**
+ * Privileged email addresses granted admin access regardless of assigned roles.
+ */
+export const ADMIN_EMAILS: string[] = [
+  'admin@blanmont.be',
+  'president@blanmont.be',
+  'bruyere.nicolas@gmail.com',
+];
+
+/**
+ * Role names, keys, labels and synonyms that grant admin privileges.
+ * Derived centrally from CLUB_ROLES where isAdmin is true.
+ */
+export const ADMIN_ROLES: string[] = CLUB_ROLES
+  .filter((r) => r.isAdmin)
+  .flatMap((r) => [r.key, r.label, ...r.synonyms])
+  .filter((val, idx, arr) => arr.indexOf(val) === idx);
 
 /**
  * Normalizes an array or single value of roles into a clean string array.
@@ -82,6 +105,49 @@ export function hasClubRole(roles: string[] | string | undefined | null, roleKey
   // Fallback direct check
   const targetLower = roleKey.toLowerCase();
   return normalized.some((r) => r.toLowerCase() === targetLower);
+}
+
+/**
+ * Checks if a specific role matches any admin role definition or synonym.
+ */
+export function isAdminRole(role: string): boolean {
+  if (!role) return false;
+  const lower = role.toLowerCase().trim();
+  const adminDefs = CLUB_ROLES.filter((r) => r.isAdmin);
+  return adminDefs.some(
+    (def) =>
+      lower === def.key.toLowerCase() ||
+      lower === def.label.toLowerCase() ||
+      def.synonyms.some((syn) => {
+        const synLower = syn.toLowerCase();
+        return lower === synLower || lower.includes(synLower) || synLower.includes(lower);
+      })
+  );
+}
+
+/**
+ * Checks if a user has admin privileges based on roles, email, or stored member session data.
+ */
+export function checkIsAdmin(
+  user: User | { role?: string[] | string | null; email?: string | null } | null | undefined
+): boolean {
+  if (!user) {
+    return false;
+  }
+
+  const userRoles = normalizeRoles(user.role);
+  if (userRoles.some((role) => isAdminRole(role))) {
+    return true;
+  }
+
+  if (
+    user.email &&
+    ADMIN_EMAILS.some((ae) => ae.toLowerCase() === user.email!.trim().toLowerCase())
+  ) {
+    return true;
+  }
+
+  return false;
 }
 
 /**
