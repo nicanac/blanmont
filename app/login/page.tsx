@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import TerritoryMap from '../components/carte/TerritoryMap';
 import { requestAccountActivationAction } from '../actions';
+import { requestPasswordReset } from '@/app/lib/auth/password-reset';
 import Link from 'next/link';
 import {
   LockClosedIcon,
@@ -15,7 +16,6 @@ import {
   ArrowPathIcon,
   SparklesIcon,
   ArrowLeftIcon,
-  ArrowRightIcon,
 } from '@heroicons/react/24/outline';
 
 type AuthMode = 'login' | 'activate';
@@ -30,7 +30,6 @@ function LoginForm(): React.ReactElement {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [directActivationLink, setDirectActivationLink] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Sync mode with URL query if present (e.g. /login?mode=activate)
@@ -46,7 +45,6 @@ function LoginForm(): React.ReactElement {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
-    setDirectActivationLink(null);
     setIsLoading(true);
 
     try {
@@ -75,7 +73,6 @@ function LoginForm(): React.ReactElement {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
-    setDirectActivationLink(null);
     setIsLoading(true);
 
     try {
@@ -87,10 +84,8 @@ function LoginForm(): React.ReactElement {
 
       const result = await requestAccountActivationAction(email.trim());
       if (result.success) {
+        await requestPasswordReset(email.trim());
         setSuccessMessage(result.message);
-        if (result.directLink) {
-          setDirectActivationLink(result.directLink);
-        }
       } else {
         setError(result.message || 'Impossible d\'envoyer le lien d\'activation.');
       }
@@ -173,15 +168,6 @@ function LoginForm(): React.ReactElement {
               <span className="leading-relaxed">{successMessage}</span>
             </div>
 
-            {directActivationLink && (
-              <a
-                href={directActivationLink}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
-              >
-                <span>Définir mon mot de passe maintenant</span>
-                <ArrowRightIcon className="h-4 w-4" />
-              </a>
-            )}
           </div>
         )}
 

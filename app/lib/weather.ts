@@ -3,6 +3,8 @@
  * Default location: Blanmont / Chastre (Brabant Wallon, Belgique): 50.6092° N, 4.6366° E.
  */
 
+import { parseIsoDate } from '@/app/utils/date';
+
 export interface RideWeather {
   isAvailable: boolean;
   date: string;
@@ -98,11 +100,13 @@ export async function getRideWeather(
   if (!isoDate) return null;
 
   try {
-    const targetDate = new Date(isoDate);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    const dateInfo = parseIsoDate(isoDate);
+    if (!dateInfo) return null;
 
-    const diffDays = Math.round((targetDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    const now = new Date();
+    const targetDate = Date.UTC(dateInfo.year, dateInfo.month - 1, dateInfo.day);
+    const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    const diffDays = Math.floor((targetDate - today) / (1000 * 60 * 60 * 24));
 
     // Open-Meteo forecast is available for today up to 14 days ahead
     if (diffDays < 0 || diffDays > 14) {

@@ -3,7 +3,6 @@ import Link from 'next/link';
 import {
   UsersIcon,
   UserPlusIcon,
-  DocumentTextIcon,
   CalendarDaysIcon,
   PlusIcon,
   ChatBubbleLeftRightIcon,
@@ -26,6 +25,7 @@ import AdminOnboardingChecklist from './components/AdminOnboardingChecklist';
 import PelotonBriefingAction from './components/PelotonBriefingAction';
 import DashboardTutorialButton from './components/DashboardTutorialButton';
 import { parseDateInfo } from '../lib/carreVert';
+import { getTodayIso } from '../utils/date';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,14 +63,18 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   const totalBlogPosts = blogPosts.length;
 
   const now = new Date();
-  const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const nextWeek = new Date(today);
+  nextWeek.setDate(today.getDate() + 7);
   const upcomingEvents = events.filter((event) => {
-    const eventDate = new Date(event.isoDate);
-    return eventDate >= now && eventDate <= nextWeek;
+    const dateInfo = parseDateInfo(event.isoDate);
+    if (!dateInfo) return false;
+    const eventDate = new Date(dateInfo.year, dateInfo.month - 1, dateInfo.day);
+    return eventDate >= today && eventDate <= nextWeek;
   }).length;
 
   // Next upcoming ride
-  const todayStr = now.toISOString().split('T')[0];
+  const todayStr = getTodayIso();
   const sortedUpcomingEvents = [...events]
     .filter((e) => e.isoDate >= todayStr)
     .sort((a, b) => a.isoDate.localeCompare(b.isoDate));

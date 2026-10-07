@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
 import { requestAccountActivationAction } from '../../actions';
+import { requestPasswordReset } from '@/app/lib/auth/password-reset';
 import TerritoryMap from '../../components/carte/TerritoryMap';
 import {
   getFirebaseAuth,
@@ -48,7 +49,6 @@ function AuthActionHandler(): React.ReactElement {
   const [recoveryEmail, setRecoveryEmail] = useState('');
   const [recoveryLoading, setRecoveryLoading] = useState(false);
   const [recoverySuccess, setRecoverySuccess] = useState('');
-  const [newDirectLink, setNewDirectLink] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -135,9 +135,13 @@ function AuthActionHandler(): React.ReactElement {
       setTimeout(() => {
         router.push('/login');
       }, 2200);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Password reset failed:', err);
-      setErrorMessage(err?.message || 'Une erreur est survenue lors de l\'enregistrement du mot de passe.');
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : 'Une erreur est survenue lors de l\'enregistrement du mot de passe.'
+      );
       setIsSubmitting(false);
     }
   };
@@ -147,7 +151,6 @@ function AuthActionHandler(): React.ReactElement {
     e.preventDefault();
     setErrorMessage('');
     setRecoverySuccess('');
-    setNewDirectLink(null);
     setRecoveryLoading(true);
 
     try {
@@ -159,10 +162,8 @@ function AuthActionHandler(): React.ReactElement {
 
       const result = await requestAccountActivationAction(recoveryEmail.trim());
       if (result.success) {
-        setRecoverySuccess('Un nouveau lien sécurisé a été généré avec succès !');
-        if (result.directLink) {
-          setNewDirectLink(result.directLink);
-        }
+        await requestPasswordReset(recoveryEmail.trim());
+        setRecoverySuccess(result.message);
       } else {
         setErrorMessage(result.message || 'Impossible de générer le nouveau lien.');
       }
@@ -350,19 +351,10 @@ function AuthActionHandler(): React.ReactElement {
                 <span>{recoverySuccess}</span>
               </div>
 
-              {newDirectLink && (
-                <Link
-                  href={newDirectLink}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
-                >
-                  <span>Définir mon mot de passe maintenant</span>
-                  <ArrowRightIcon className="h-4 w-4" />
-                </Link>
-              )}
             </div>
           )}
 
-          {!newDirectLink && (
+          {!recoverySuccess && (
             <form className="space-y-4" onSubmit={handleRecoverySubmit}>
               <div className="space-y-1.5">
                 <label

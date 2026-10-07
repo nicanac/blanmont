@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Archivo } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/layout/Navbar';
@@ -9,14 +8,6 @@ import ConditionalFooter from './components/layout/ConditionalFooter';
 import { Toaster } from 'sonner';
 
 import LocalClubJsonLd from './components/seo/LocalClubJsonLd';
-
-const archivo = Archivo({
-  subsets: ['latin'],
-  axes: ['wdth'],
-  style: ['normal', 'italic'],
-  variable: '--font-archivo',
-  display: 'swap',
-});
 
 const DIRECTION_CONTRACT = `<!--
 THESIS: The club's hub printed as a topographic sheet of its own territory (real relief, rivers and roads around the Place de la Féchère), refusing the cycling-club default of a full-bleed peloton photo, stat cards and a news grid.
@@ -101,13 +92,13 @@ const themeInitScript = `
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={archivo.variable} suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <LocalClubJsonLd />
       </head>
       <body
-        className={`h-full bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200 ${archivo.variable} font-sans`}
+        className="h-full bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200 font-sans"
       >
         <div hidden aria-hidden="true" dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <ThemeProvider>

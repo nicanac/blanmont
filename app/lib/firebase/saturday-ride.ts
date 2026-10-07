@@ -232,7 +232,8 @@ export const submitVote = async (
       });
     } else {
       // Create new vote
-      const newId = `vote_${Date.now()}`;
+      const encodeKey = (id: string) => encodeURIComponent(id).replace(/\./g, '%2E');
+      const newId = `vote_${rideId.length}_${encodeKey(rideId)}_${encodeKey(memberId)}`;
       const voteRef = ref(db, `votes/${newId}`);
       await set(voteRef, {
         rideId,

@@ -77,6 +77,8 @@ describe('carreVert calculations', () => {
     it('returns null for invalid date strings', () => {
       expect(parseDateInfo('')).toBeNull();
       expect(parseDateInfo('invalid-string')).toBeNull();
+      expect(parseDateInfo('2026-02-30')).toBeNull();
+      expect(parseDateInfo('31/04/2026')).toBeNull();
       expect(parseDateInfo(null as unknown as string)).toBeNull();
     });
   });
@@ -419,4 +421,3 @@ describe('carreVert calculations', () => {
     });
   });
 });
-

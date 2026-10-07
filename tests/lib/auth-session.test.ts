@@ -5,6 +5,8 @@ import {
   SessionUser,
 } from '@/app/lib/auth/session';
 
+process.env.SESSION_SECRET ??= 'vitest-session-secret';
+
 describe('auth session tokens', () => {
   const mockUser: Omit<SessionUser, 'iat' | 'exp'> = {
     id: 'user-blanmont-99',
@@ -58,6 +60,23 @@ describe('auth session tokens', () => {
     expect(await verifySessionToken(undefined)).toBeNull();
     expect(await verifySessionToken('invalid-token-without-dots')).toBeNull();
     expect(await verifySessionToken('a.b.c.too.many.dots')).toBeNull();
+  });
+
+  it('requires a configured signing secret and fails verification closed without one', async () => {
+    const originalSessionSecret = process.env.SESSION_SECRET;
+    const originalNextAuthSecret = process.env.NEXTAUTH_SECRET;
+    delete process.env.SESSION_SECRET;
+    delete process.env.NEXTAUTH_SECRET;
+
+    try {
+      await expect(signSessionToken(mockUser)).rejects.toThrow(/SESSION_SECRET must be configured/);
+      await expect(verifySessionToken('payload.signature')).resolves.toBeNull();
+    } finally {
+      if (originalSessionSecret === undefined) delete process.env.SESSION_SECRET;
+      else process.env.SESSION_SECRET = originalSessionSecret;
+      if (originalNextAuthSecret === undefined) delete process.env.NEXTAUTH_SECRET;
+      else process.env.NEXTAUTH_SECRET = originalNextAuthSecret;
+    }
   });
 });
 
@@ -207,4 +226,3 @@ describe('verifyAdminRequest', () => {
     }
   });
 });
-

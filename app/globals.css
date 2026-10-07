@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource-variable/archivo/wdth-italic.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -77,14 +79,14 @@
   --ease-stamp: cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
-/* Lettering: one grotesk superfamily, width is the hierarchy.
-   Inline so the next/font variable resolves on the element that carries it. */
+/* Lettering: one grotesk superfamily, width is the hierarchy. */
 @theme inline {
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
+  --font-archivo: 'Archivo Variable';
   --ease-editorial: var(--ease-plot);
   --neat: var(--color-ink);
   --strip: var(--color-ink);

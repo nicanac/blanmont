@@ -11,10 +11,11 @@ import {
   LoginSchema,
   AccountActivationSchema,
   UpdateMemberPhotoSchema,
+  WeekendPollResponseSchema,
+  MemberEmergencyUpdateSchema,
   safeValidate,
   validateFormData,
   validateImageFile,
-  type ValidationResult,
 } from './lib/validation';
 import { requireAdminSession, getSessionUser } from './lib/auth/session';
 
@@ -128,7 +129,10 @@ export async function createRideAction(date: string, traceIds: string[]) {
  */
 export async function submitVoteAction(rideId: string, memberId: string, traceId: string) {
   const session = await getSessionUser();
-  if (session && session.id !== memberId && !session.isAdmin) {
+  if (!session) {
+    throw new Error('Vous devez être connecté pour voter.');
+  }
+  if (session.id !== memberId && !session.isAdmin) {
     throw new Error('Action non autorisée pour ce membre.');
   }
 
@@ -151,7 +155,7 @@ import {
   updateWeekendPoll,
   deleteWeekendPoll,
 } from './lib/firebase/polls';
-import { WeekendPoll, PollResponse, PollDayChoice, CyclingGroupChoice } from './types';
+import { WeekendPoll, PollDayChoice, CyclingGroupChoice } from './types';
 
 /**
  * Server Action to submit or update a member's response for the weekend poll.
@@ -167,17 +171,36 @@ export async function submitWeekendPollResponseAction(payload: {
   comment?: string;
 }) {
   const session = await getSessionUser();
-  if (session && session.id !== payload.memberId && !session.isAdmin) {
+  if (!session) {
+    throw new Error('Vous devez être connecté pour répondre au sondage.');
+  }
+
+  const validation = safeValidate(WeekendPollResponseSchema, payload);
+  if (!validation.success) {
+    throw new Error(
+      `Validation échouée : ${validation.errors.map((error) => error.message).join(', ')}`
+    );
+  }
+
+  const response = validation.data.memberId === session.id
+    ? {
+        ...validation.data,
+        memberName: session.name,
+        memberPhotoUrl: session.photoUrl || validation.data.memberPhotoUrl,
+      }
+    : validation.data;
+
+  if (session.id !== response.memberId && !session.isAdmin) {
     throw new Error('Action non autorisée pour ce membre.');
   }
 
-  const result = await submitPollResponse(payload);
+  const result = await submitPollResponse(response);
   if (!result.success) {
     throw new Error(result.error || 'Erreur lors de l’enregistrement du vote.');
   }
 
   revalidatePath('/sondage');
-  revalidatePath(`/admin/sondages/${payload.pollId}`);
+  revalidatePath(`/admin/sondages/${response.pollId}`);
   return { success: true };
 }
 
@@ -186,7 +209,10 @@ export async function submitWeekendPollResponseAction(payload: {
  */
 export async function deleteWeekendPollResponseAction(pollId: string, memberId: string) {
   const session = await getSessionUser();
-  if (session && session.id !== memberId && !session.isAdmin) {
+  if (!session) {
+    throw new Error('Vous devez être connecté.');
+  }
+  if (session.id !== memberId && !session.isAdmin) {
     throw new Error('Action non autorisée.');
   }
 
@@ -311,16 +337,16 @@ export async function getCurrentSessionUserAction(): Promise<SessionUser | null>
 import { getAdminAuth, getAdminDatabase } from './lib/firebase/admin';
 
 /**
- * Server Action to generate or send an account activation / password reset link.
- * Automatically provisions the user in Firebase Auth if they don't exist yet,
- * and links authUid with the Realtime Database member record.
+ * Prepares a member account for Firebase's email-based password reset without
+ * returning a reset code to the browser.
  */
 export async function requestAccountActivationAction(email: string): Promise<{
   success: boolean;
   message: string;
-  directLink?: string;
 }> {
   const validation = safeValidate(AccountActivationSchema, { email });
+  const successMessage =
+    'Si cette adresse correspond à un membre inscrit, un courriel de réinitialisation va être envoyé. Pour un premier accès, contactez un administrateur.';
 
   if (!validation.success) {
     return { success: false, message: validation.errors.map(e => e.message).join(', ') };
@@ -332,81 +358,65 @@ export async function requestAccountActivationAction(email: string): Promise<{
     const adminAuth = getAdminAuth();
     const adminDb = getAdminDatabase();
 
-    // 1. Check if member exists in Realtime Database
     const membersSnap = await adminDb.ref('members').once('value');
-    let memberKey: string | null = null;
-    let memberData: any = null;
+    const memberMatch: {
+      key: string | null;
+      data: { email?: unknown; name?: unknown; authUid?: unknown } | null;
+    } = { key: null, data: null };
 
     if (membersSnap.exists()) {
-      membersSnap.forEach((child: any) => {
-        const val = child.val();
-        if (val.email && String(val.email).trim().toLowerCase() === normalizedEmail) {
-          memberKey = child.key;
-          memberData = val;
+      membersSnap.forEach((child) => {
+        const value = child.val() as { email?: unknown; name?: unknown; authUid?: unknown };
+        if (
+          typeof value.email === 'string' &&
+          value.email.trim().toLowerCase() === normalizedEmail
+        ) {
+          memberMatch.key = child.key;
+          memberMatch.data = value;
         }
       });
     }
 
-    // If the email is not registered in the club database, reject activation immediately
+    const { key: memberKey, data: memberData } = memberMatch;
     if (!memberKey || !memberData) {
-      return {
-        success: false,
-        message:
-          "Cette adresse email n'est pas enregistrée dans l'annuaire du club. Seuls les membres préalablement ajoutés par un administrateur peuvent activer leur compte. Veuillez contacter un responsable du club si vous êtes membre.",
-      };
+      return { success: true, message: successMessage };
     }
 
-    // 2. Member exists in club database. Check if user already exists in Firebase Auth, if not create them
-    let userRecord: any;
+    let userRecord: { uid: string };
     try {
       userRecord = await adminAuth.getUserByEmail(normalizedEmail);
-    } catch (err: any) {
-      if (err.code === 'auth/user-not-found' || err.message?.includes('user-not-found')) {
-        // Create user in Firebase Auth for this verified club member
+    } catch (error: unknown) {
+      const authError = error as { code?: string; message?: string };
+      if (
+        authError.code === 'auth/user-not-found' ||
+        authError.message?.includes('user-not-found')
+      ) {
         userRecord = await adminAuth.createUser({
           email: normalizedEmail,
-          displayName: memberData.name || normalizedEmail.split('@')[0],
-          emailVerified: true,
+          displayName:
+            typeof memberData.name === 'string' && memberData.name
+              ? memberData.name
+              : normalizedEmail.split('@')[0],
+          emailVerified: false,
         });
       } else {
-        throw err;
+        throw error;
       }
     }
 
-    // 3. Link authUid to member record if missing or updated
-    if (memberKey && userRecord?.uid && memberData.authUid !== userRecord.uid) {
+    if (userRecord.uid && memberData.authUid !== userRecord.uid) {
       await adminDb.ref(`members/${memberKey}`).update({
         authUid: userRecord.uid,
       });
+      revalidatePath('/admin/members');
     }
 
-    // 4. Generate the password reset / activation link via Firebase Admin SDK
-    const rawFirebaseLink = await adminAuth.generatePasswordResetLink(normalizedEmail);
-    let inAppLink = rawFirebaseLink;
-
-    try {
-      const parsedUrl = new URL(rawFirebaseLink);
-      const oobCode = parsedUrl.searchParams.get('oobCode');
-      const mode = parsedUrl.searchParams.get('mode') || 'resetPassword';
-      if (oobCode) {
-        inAppLink = `/auth/action?mode=${mode}&oobCode=${encodeURIComponent(oobCode)}`;
-      }
-    } catch {
-      // fallback to rawFirebaseLink if URL parse fails
-    }
-
-    console.log(`[Account Activation] Generated link for member ${memberData.name} (${normalizedEmail}): ${inAppLink}`);
-
-    return {
-      success: true,
-      message: 'Compte membre vérifié ! Un lien d\'activation a été généré avec succès.',
-      directLink: inAppLink,
-    };
-  } catch (error: any) {
+    return { success: true, message: successMessage };
+  } catch (error: unknown) {
     console.error('Failed to process account activation:', error);
     return {
       success: false,
-      message: error?.message || 'Erreur lors de la génération du lien d\'activation.',
+      message: 'Impossible de préparer la réinitialisation. Veuillez réessayer plus tard.',
     };
   }
 }
@@ -479,7 +489,6 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
 import {
   submitEventReview,
   deleteEventReview,
-  getEventReviews,
 } from './lib/firebase/event-reviews';
 import { SubmitEventReviewSchema } from './lib/validation';
 import type { EventReview } from './types';
@@ -586,10 +595,17 @@ export async function updateMemberEmergencyAction(payload: {
     throw new Error('Vous devez être connecté.');
   }
 
+  const validation = safeValidate(MemberEmergencyUpdateSchema, payload);
+  if (!validation.success) {
+    throw new Error(
+      `Validation échouée : ${validation.errors.map((error) => error.message).join(', ')}`
+    );
+  }
+
   const { getAdminDatabase } = await import('./lib/firebase/admin');
   const db = getAdminDatabase();
   await db.ref(`members/${session.id}`).update({
-    ...payload,
+    ...validation.data,
     updatedAt: new Date().toISOString(),
   });
 

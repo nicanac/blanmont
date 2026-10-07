@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { requestAccountActivationAction } from '../../actions';
+import { requestPasswordReset } from '@/app/lib/auth/password-reset';
 import TerritoryMap from '../../components/carte/TerritoryMap';
 import {
   ArrowLeftIcon,
@@ -10,31 +11,26 @@ import {
   ExclamationCircleIcon,
   CheckCircleIcon,
   ArrowPathIcon,
-  ArrowRightIcon,
 } from '@heroicons/react/24/outline';
 
 export default function ForgotPasswordPage(): React.ReactElement {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [directLink, setDirectLink] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setMessage(null);
-    setDirectLink(null);
     setIsSubmitting(true);
 
     try {
       const result = await requestAccountActivationAction(email.trim());
       if (result.success) {
+        await requestPasswordReset(email.trim());
         setMessage({
           type: 'success',
           text: result.message,
         });
-        if (result.directLink) {
-          setDirectLink(result.directLink);
-        }
       } else {
         setMessage({
           type: 'error',
@@ -92,15 +88,6 @@ export default function ForgotPasswordPage(): React.ReactElement {
                   <span className="leading-relaxed">{message.text}</span>
                 </div>
 
-                {directLink && (
-                  <a
-                    href={directLink}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
-                  >
-                    <span>Définir mon mot de passe maintenant</span>
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </a>
-                )}
               </div>
             )}
 
@@ -137,10 +124,10 @@ export default function ForgotPasswordPage(): React.ReactElement {
                 {isSubmitting ? (
                   <>
                     <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                    <span>Création du lien en cours...</span>
+                    <span>Envoi des instructions en cours...</span>
                   </>
                 ) : (
-                  <span>Générer mon lien d&apos;accès</span>
+                  <span>Recevoir les instructions</span>
                 )}
               </button>
             </div>

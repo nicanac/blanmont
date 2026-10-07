@@ -19,7 +19,7 @@ describe('Upload API Endpoint (/api/upload)', () => {
   });
 
   it('returns 401 when request has no active session user', async () => {
-    vi.spyOn(sessionModule, 'getSessionUserFromRequest').mockReturnValue(null);
+    vi.spyOn(sessionModule, 'getSessionUserFromRequest').mockResolvedValue(null);
 
     const req = new NextRequest('http://localhost:3000/api/upload', {
       method: 'POST',
@@ -29,6 +29,21 @@ describe('Upload API Endpoint (/api/upload)', () => {
     expect(res.status).toBe(401);
     const data = await res.json();
     expect(data.error).toMatch(/Non authentifié/);
+  });
+
+  it('returns 403 when the authenticated user is not an administrator', async () => {
+    vi.spyOn(sessionModule, 'getSessionUserFromRequest').mockResolvedValue({
+      id: 'mem-1',
+      role: ['Member'],
+      isAdmin: false,
+    } as any);
+
+    const req = new NextRequest('http://localhost:3000/api/upload', {
+      method: 'POST',
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(403);
   });
 
   it('returns 400 when file or path is missing from formData', async () => {
@@ -49,6 +64,26 @@ describe('Upload API Endpoint (/api/upload)', () => {
     expect(res.status).toBe(400);
     const data = await res.json();
     expect(data.error).toBe('Missing file or path');
+  });
+
+  it('rejects unsupported file types before uploading', async () => {
+    vi.spyOn(sessionModule, 'getSessionUserFromRequest').mockResolvedValue({
+      id: 'admin-1',
+      isAdmin: true,
+    } as any);
+
+    const formData = new FormData();
+    formData.set('file', new File(['image-bytes'], 'animation.gif', { type: 'image/gif' }));
+    formData.set('path', 'blog/sample.gif');
+
+    const req = new NextRequest('http://localhost:3000/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(400);
+    expect(cloudinary.uploader.upload).not.toHaveBeenCalled();
   });
 
   it('returns 500 when Cloudinary is not configured', async () => {
