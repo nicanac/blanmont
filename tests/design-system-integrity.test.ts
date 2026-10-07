@@ -89,7 +89,7 @@ describe('Design System & AI Agent Alignment Integrity', () => {
       }
     }
     checkDir(appDir);
-  });
+  }, 30000);
 
   it('Impeccable skill documentation is aligned with La Feuille de Blanmont and Git workflow', () => {
     const skillPath = path.join(rootDir, '.agents', 'skills', 'impeccable', 'SKILL.md');

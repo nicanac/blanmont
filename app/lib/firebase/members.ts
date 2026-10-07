@@ -1,7 +1,6 @@
 import { Member } from '../../types';
 import {
   isMockMode,
-  useNotionFallback,
   getFirebaseDatabase,
   getFirebaseAuth,
   ref,
@@ -18,22 +17,12 @@ import {
 // Admin SDK import
 import { getAdminDatabase } from './admin';
 
-// Notion fallback imports
-import {
-  getMembers as getNotionMembers,
-  validateUser as validateNotionUser,
-  updateMemberPhoto as updateNotionMemberPhoto,
-} from '../notion/members';
-
 /**
  * Fetches the list of all active members from Firebase.
  */
 export const getMembers = async (): Promise<Member[]> => {
-  // Fallback to Notion if Firebase not configured
+  // Return mock members if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionMembers();
-    }
     console.warn('Firebase not configured, falling back to mock.');
     return [
       {
@@ -107,11 +96,7 @@ export const getMember = async (id: string): Promise<Member | null> => {
  * Validates user credentials using Firebase Auth.
  */
 export const validateUser = async (email: string, password: string): Promise<Member | null> => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return validateNotionUser(email, password);
-    }
     if (email === 'mock@test.com' && password === 'password') {
       return {
         id: '1',
@@ -191,9 +176,6 @@ export const validateUser = async (email: string, password: string): Promise<Mem
  */
 export const updateMemberPhoto = async (memberId: string, photoUrl: string): Promise<void> => {
   if (isMockMode) {
-    if (useNotionFallback) {
-      return updateNotionMemberPhoto(memberId, photoUrl);
-    }
     console.log('Mock member photo update:', { memberId, photoUrl });
     return;
   }

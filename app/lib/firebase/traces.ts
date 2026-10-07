@@ -2,7 +2,6 @@ import { unstable_cache } from 'next/cache';
 import { Trace } from '../../types';
 import {
   isMockMode,
-  useNotionFallback,
   getFirebaseDatabase,
   ref,
   get,
@@ -13,19 +12,6 @@ import {
   snapshotToObject,
 } from './client';
 import { CreateTraceSchema, safeValidate } from '../validation';
-
-// Notion fallback imports
-import {
-  getTrace as getNotionTrace,
-  getTraces as getNotionTraces,
-  getTracesSchema as getNotionTracesSchema,
-  createTrace as createNotionTrace,
-  updateTrace as updateNotionTrace,
-  deleteTrace as deleteNotionTrace,
-  submitMapPreview as submitNotionMapPreview,
-  createTraceWithGPX as createNotionTraceWithGPX,
-  getKomootImage as getNotionKomootImage,
-} from '../notion/traces';
 
 // === Cache Revalidation Utilities ===
 
@@ -69,11 +55,7 @@ export async function getKomootImage(url: string): Promise<string | undefined> {
  * Fetches a single trace by ID (uncached version)
  */
 const getTraceUncached = async (id: string): Promise<Trace | null> => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionTrace(id);
-    }
     return null;
   }
 
@@ -120,11 +102,7 @@ export const getTrace = unstable_cache(getTraceUncached, ['trace'], {
  * Fetches all traces from Firebase (uncached version)
  */
 const getTracesUncached = async (): Promise<Trace[]> => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionTraces();
-    }
     console.warn('Firebase not configured, falling back to mock.');
     return [
       {
@@ -184,11 +162,7 @@ export const getTraces = unstable_cache(getTracesUncached, ['traces-list'], {
  * Fetches schema info for filtering (select options)
  */
 export const getTracesSchema = async () => {
-  // Fallback to Notion if Firebase not configured
-  if (isMockMode && useNotionFallback) {
-    return getNotionTracesSchema();
-  }
-  // Firebase doesn't have schema like Notion, return static options
+  // Return static options
   return {
     direction: ['Nord', 'Sud', 'Est', 'Ouest', 'Nord-Est', 'Nord-Ouest', 'Sud-Est', 'Sud-Ouest'],
     surface: ['Road', 'Gravel', 'Mixed'],
@@ -212,11 +186,7 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
 
   const validData = validation.data;
 
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return createNotionTrace(traceData);
-    }
     console.log('Mock create trace:', validData);
     return { success: true, id: 'mock-new-id' };
   }
@@ -280,11 +250,7 @@ export const updateTrace = async (
     mapUrl?: string;
   }
 ) => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return updateNotionTrace(traceId, traceData);
-    }
     console.log('Mock update trace:', { traceId, traceData });
     return { success: true };
   }
@@ -317,11 +283,7 @@ export const updateTrace = async (
  * Deletes a trace from Firebase
  */
 export const deleteTrace = async (traceId: string) => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return deleteNotionTrace(traceId);
-    }
     console.log('Mock delete trace:', traceId);
     return { success: true };
   }
@@ -343,12 +305,7 @@ export const deleteTrace = async (traceId: string) => {
  * Updates the map preview image for a trace
  */
 export const updateTraceMapPreview = async (traceId: string, imageUrl: string) => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      await submitNotionMapPreview(traceId, imageUrl);
-      return { success: true };
-    }
     console.log('Mock update map preview:', { traceId, imageUrl });
     return { success: true };
   }
@@ -458,11 +415,7 @@ export const createTraceWithGPX = async (
   },
   gpxContent?: string
 ) => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return createNotionTraceWithGPX(traceData, gpxContent);
-    }
     console.log('Mock create trace with GPX:', traceData);
     return { success: true, id: 'mock-new-id' };
   }
