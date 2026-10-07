@@ -6,6 +6,10 @@ import {
   extractCustomRoles,
   normalizeRoles,
   CLUB_ROLES,
+  isAdminRole,
+  checkIsAdmin,
+  ADMIN_ROLES,
+  ADMIN_EMAILS,
 } from '@/app/constants/roles';
 
 describe('roles constants & utils', () => {
@@ -77,5 +81,43 @@ describe('roles constants & utils', () => {
     expect(normalizeRoles(['  capitaine ', ' Membre '])).toEqual(['capitaine', 'Membre']);
     expect(normalizeRoles(' Admin ')).toEqual(['Admin']);
     expect(normalizeRoles(null)).toEqual([]);
+  });
+
+  it('correctly identifies admin roles with isAdminRole', () => {
+    expect(isAdminRole('Admin')).toBe(true);
+    expect(isAdminRole('admin')).toBe(true);
+    expect(isAdminRole('Administrateur')).toBe(true);
+    expect(isAdminRole('administrateur')).toBe(true);
+    expect(isAdminRole('Président')).toBe(true);
+    expect(isAdminRole('president')).toBe(true);
+    expect(isAdminRole('webmaster')).toBe(true);
+    expect(isAdminRole('WebMaster')).toBe(true);
+
+    expect(isAdminRole('Member')).toBe(false);
+    expect(isAdminRole('Capitaine de Route')).toBe(false);
+    expect(isAdminRole('Trésorier')).toBe(false);
+    expect(isAdminRole('Secrétaire')).toBe(false);
+    expect(isAdminRole('Traceur')).toBe(false);
+  });
+
+  it('verifies checkIsAdmin with role, email, and negative cases', () => {
+    expect(checkIsAdmin({ role: ['Admin'] })).toBe(true);
+    expect(checkIsAdmin({ role: ['Président'] })).toBe(true);
+    expect(checkIsAdmin({ role: ['president'] })).toBe(true);
+    expect(checkIsAdmin({ role: ['webmaster'] })).toBe(true);
+    expect(checkIsAdmin({ email: 'admin@blanmont.be' })).toBe(true);
+    expect(checkIsAdmin({ email: 'president@blanmont.be' })).toBe(true);
+    expect(checkIsAdmin({ email: 'bruyere.nicolas@gmail.com' })).toBe(true);
+
+    expect(checkIsAdmin({ role: ['Member'], email: 'member@blanmont.be' })).toBe(false);
+    expect(checkIsAdmin(null)).toBe(false);
+    expect(checkIsAdmin(undefined)).toBe(false);
+  });
+
+  it('derives ADMIN_ROLES from CLUB_ROLES and verifies ADMIN_EMAILS', () => {
+    expect(ADMIN_ROLES.length).toBeGreaterThan(0);
+    expect(ADMIN_ROLES).toContain('Admin');
+    expect(ADMIN_ROLES).toContain('Président');
+    expect(ADMIN_EMAILS).toContain('admin@blanmont.be');
   });
 });
