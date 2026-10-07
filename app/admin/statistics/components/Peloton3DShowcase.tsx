@@ -335,7 +335,7 @@ export default function Peloton3DShowcase({
     // ----------------------------------------------------
     // ANIMATION & RENDER LOOP
     // ----------------------------------------------------
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
@@ -511,21 +511,21 @@ export default function Peloton3DShowcase({
             <button
               type="button"
               onClick={() => setMode('trophee')}
-              className={`rounded-sm px-3 py-1 font-semibold uppercase tracking-wider transition-all ${
+              className={`rounded-sm px-3 py-1 font-bold uppercase tracking-[0.06em] font-narrow transition-all cursor-pointer ${
                 mode === 'trophee'
                   ? 'bg-brand text-white shadow-xs'
-                  : 'text-snow-3 hover:text-white'
+                  : 'text-snow-3 hover:text-white hover:bg-night-2/60'
               }`}
             >
-              Trophée d'Or
+              Trophée d&apos;Or
             </button>
             <button
               type="button"
               onClick={() => setMode('relief')}
-              className={`rounded-sm px-3 py-1 font-semibold uppercase tracking-wider transition-all ${
+              className={`rounded-sm px-3 py-1 font-bold uppercase tracking-[0.06em] font-narrow transition-all cursor-pointer ${
                 mode === 'relief'
                   ? 'bg-brand text-white shadow-xs'
-                  : 'text-snow-3 hover:text-white'
+                  : 'text-snow-3 hover:text-white hover:bg-night-2/60'
               }`}
             >
               Relief Affluence
@@ -537,7 +537,8 @@ export default function Peloton3DShowcase({
             type="button"
             onClick={handleResetCamera}
             title="Recentrer la vue 3D"
-            className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-md border border-night-line bg-night-2 text-snow-3 hover:bg-night-line hover:text-white transition-colors"
+            aria-label="Recentrer la vue 3D"
+            className="flex h-8 w-8 items-center justify-center rounded-md border border-night-line bg-night-2 text-snow-3 hover:bg-night-line hover:text-white active:translate-y-px transition-colors cursor-pointer"
           >
             <ArrowPathIcon className="h-4 w-4" />
           </button>
@@ -547,9 +548,9 @@ export default function Peloton3DShowcase({
             type="button"
             onClick={handleCelebrate}
             disabled={isCelebrating || championName === '-'}
-            className="inline-flex items-center gap-1.5 rounded-md bg-ambre hover:bg-ambre text-ink px-3 py-1.5 text-xs font-bold uppercase tracking-wider shadow-sm transition-transform active:scale-95 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md bg-ambre hover:bg-ambre text-ink px-3 py-1.5 text-xs font-bold uppercase tracking-[0.07em] font-narrow shadow-sm active:translate-y-px transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <SparklesIcon className="h-4 w-4" />
+            <SparklesIcon className="h-4 w-4 text-ink" />
             <span>Célébrer</span>
           </button>
         </div>

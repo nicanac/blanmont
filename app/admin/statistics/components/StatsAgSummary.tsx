@@ -5,7 +5,6 @@ import {
   ArrowDownTrayIcon,
   PrinterIcon,
   TrophyIcon,
-  SparklesIcon,
   CheckBadgeIcon,
 } from '@heroicons/react/24/outline';
 import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
@@ -20,7 +19,7 @@ interface StatsAgSummaryProps {
 }
 
 export default function StatsAgSummary({ stats }: StatsAgSummaryProps): React.ReactElement {
-  const handleDownloadAgCsv = () => {
+  const handleDownloadAgCsv = (): void => {
     const csvContent = generateClubAgSummaryCsv(stats);
     const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -35,7 +34,7 @@ export default function StatsAgSummary({ stats }: StatsAgSummaryProps): React.Re
     document.body.removeChild(link);
   };
 
-  const handleDownloadCarreVertCsv = () => {
+  const handleDownloadCarreVertCsv = (): void => {
     const csvContent = generateCarreVertCsv(stats);
     const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -50,7 +49,7 @@ export default function StatsAgSummary({ stats }: StatsAgSummaryProps): React.Re
     document.body.removeChild(link);
   };
 
-  const handlePrint = () => {
+  const handlePrint = (): void => {
     window.print();
   };
 
@@ -75,31 +74,35 @@ export default function StatsAgSummary({ stats }: StatsAgSummaryProps): React.Re
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
-          <button
-            type="button"
-            onClick={handleDownloadAgCsv}
-            className="inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-ink dark:text-snow-1 hover:bg-line dark:hover:bg-night-line transition-colors cursor-pointer"
-            title="Télécharger le rapport de synthèse de l'AG au format CSV"
-          >
-            <ArrowDownTrayIcon className="h-4 w-4 text-brand" />
-            <span>Export Bilan AG</span>
-          </button>
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
+          {/* Conjoined CSV Export Group */}
+          <div className="inline-flex items-center rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 overflow-hidden divide-x divide-line dark:divide-night-line shadow-xs">
+            <button
+              type="button"
+              onClick={handleDownloadAgCsv}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-[0.06em] text-ink dark:text-snow-1 font-narrow hover:bg-paper dark:hover:bg-night-2 active:translate-y-px transition-colors cursor-pointer whitespace-nowrap"
+              title="Télécharger le rapport officiel de synthèse de l'AG au format CSV"
+            >
+              <ArrowDownTrayIcon className="h-3.5 w-3.5 text-brand" />
+              <span>Export Bilan AG</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={handleDownloadCarreVertCsv}
-            className="inline-flex items-center gap-2 rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-ink dark:text-snow-1 hover:bg-line dark:hover:bg-night-line transition-colors cursor-pointer"
-            title="Télécharger le tableau officiel du Carré Vert"
-          >
-            <TrophyIcon className="h-4 w-4 text-ambre" />
-            <span>Export Carré Vert</span>
-          </button>
+            <button
+              type="button"
+              onClick={handleDownloadCarreVertCsv}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-[0.06em] text-ink dark:text-snow-1 font-narrow hover:bg-paper dark:hover:bg-night-2 active:translate-y-px transition-colors cursor-pointer whitespace-nowrap"
+              title="Télécharger le tableau officiel du Carré Vert"
+            >
+              <TrophyIcon className="h-3.5 w-3.5 text-ambre" />
+              <span>Export Carré Vert</span>
+            </button>
+          </div>
 
+          {/* Primary Print Button */}
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-2 rounded-md bg-ink dark:bg-snow-1 px-4 py-2 text-xs font-bold uppercase tracking-wider text-paper dark:text-ink hover:bg-night-line transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-md bg-ink dark:bg-snow-1 px-4 py-2 text-xs font-bold uppercase tracking-[0.07em] font-narrow text-paper dark:text-ink hover:bg-night-line dark:hover:bg-snow-2 active:translate-y-px transition-all cursor-pointer whitespace-nowrap shadow-xs"
             title="Imprimer cette synthèse pour la séance de l'AG"
           >
             <PrinterIcon className="h-4 w-4" />
@@ -298,7 +301,7 @@ export default function StatsAgSummary({ stats }: StatsAgSummaryProps): React.Re
                 </li>
                 <li className="flex justify-between">
                   <span>Distance totale du catalogue :</span>
-                  <span className="font-extrabold tabular-nums font-mono">{stats.traces.totalCatalogKm} km</span>
+                  <span className="font-extrabold tabular-nums font-mono">{stats.traces.totalCatalogKm.toLocaleString('fr-BE')} km</span>
                 </li>
                 <li className="flex justify-between">
                   <span>Distance moyenne d&apos;une trace :</span>

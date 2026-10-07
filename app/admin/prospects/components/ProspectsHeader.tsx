@@ -12,6 +12,7 @@ import {
   UsersIcon,
 } from '@heroicons/react/24/outline';
 import { TrialRideRequest } from '@/app/types';
+import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
 
 interface ProspectsHeaderProps {
   prospects: TrialRideRequest[];
@@ -81,46 +82,34 @@ export default function ProspectsHeader({ prospects }: ProspectsHeaderProps): Re
   return (
     <div className="space-y-6">
       {/* Title & Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line dark:border-night-3">
-        <div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-white">
-              Candidatures &amp; Sorties d&apos;essai
-            </h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-ink dark:bg-night-3 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
-              <UserPlusIcon className="h-3.5 w-3.5 text-brand" />
-              <span>CRM Prospects</span>
-            </span>
-          </div>
-          <p className="mt-1 text-xs sm:text-sm text-ink-3 dark:text-snow-3">
-            Suivi des demandes d&apos;essai reçues via <code className="text-brand font-mono text-xs">/rejoindre</code>, parrainage par les capitaines et adhésions.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <Link
-            href="/rejoindre"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-md border border-line dark:border-night-3 bg-white dark:bg-night-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors shadow-xs"
-            title="Consulter le formulaire public de demande d'essai"
-          >
-            <span>Formulaire public</span>
-            <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 text-ink-3 dark:text-snow-3" />
-          </Link>
-
-          <button
-            type="button"
-            onClick={handleExportCsv}
-            disabled={prospects.length === 0}
-            className="inline-flex items-center gap-2 rounded-md border border-line dark:border-night-3 bg-white dark:bg-night-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Exporter les coordonnées des candidats au format CSV"
-          >
-            <ArrowDownTrayIcon className="h-4 w-4 text-brand" />
-            <span>Exporter CSV</span>
-          </button>
-        </div>
-      </div>
+      <AdminPageHeader
+        id="prospects-header-section"
+        title="Candidatures & Sorties d'essai"
+        sheet="Feuille · CRM Prospects"
+        badge={{ icon: UserPlusIcon, label: 'CRM Prospects' }}
+        description={
+          <span>
+            Suivi des demandes d&apos;essai reçues via{' '}
+            <code className="text-brand font-mono text-xs">/rejoindre</code>, parrainage par les capitaines et adhésions.
+          </span>
+        }
+        actions={[
+          {
+            label: 'Formulaire public',
+            href: '/rejoindre',
+            icon: ArrowTopRightOnSquareIcon,
+            variant: 'secondary',
+            tooltip: 'Consulter le formulaire public de demande d’essai',
+          },
+          {
+            label: 'Exporter CSV',
+            onClick: handleExportCsv,
+            icon: ArrowDownTrayIcon,
+            variant: 'primary',
+            tooltip: 'Exporter les coordonnées des candidats au format CSV',
+          },
+        ]}
+      />
 
       {/* KPI Stats Strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

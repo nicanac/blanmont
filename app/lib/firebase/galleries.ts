@@ -1,5 +1,5 @@
 import { PhotoAlbum } from '../../types';
-import { isMockMode, getFirebaseDatabase, ref, get, set, snapshotToArray } from './client';
+import { isMockMode, getFirebaseDatabase, ref, get, set, update, snapshotToArray } from './client';
 import migratedAlbumsData from '../../data/migrated-albums.json';
 
 const INITIAL_ALBUMS: PhotoAlbum[] = migratedAlbumsData as PhotoAlbum[];
@@ -118,3 +118,43 @@ export async function deletePhotoAlbum(id: string): Promise<boolean> {
     return false;
   }
 }
+
+export async function updatePhotoAlbum(
+  id: string,
+  data: Partial<Omit<PhotoAlbum, 'id' | 'createdAt'>>
+): Promise<PhotoAlbum | null> {
+  if (isMockMode) {
+    const idx = INITIAL_ALBUMS.findIndex((a) => a.id === id);
+    if (idx === -1) return null;
+    INITIAL_ALBUMS[idx] = {
+      ...INITIAL_ALBUMS[idx],
+      ...data,
+    };
+    return INITIAL_ALBUMS[idx];
+  }
+
+  try {
+    if (typeof window === 'undefined') {
+      const { getAdminDatabase } = await import('./admin');
+      const db = getAdminDatabase();
+      const nodeRef = db.ref(`galleries/${id}`);
+      const snapshot = await nodeRef.once('value');
+      if (!snapshot.exists()) return null;
+      await nodeRef.update(data);
+      const updatedSnapshot = await nodeRef.once('value');
+      return { id, ...updatedSnapshot.val() } as PhotoAlbum;
+    } else {
+      const db = getFirebaseDatabase();
+      const albumRef = ref(db, `galleries/${id}`);
+      const snapshot = await get(albumRef);
+      if (!snapshot.exists()) return null;
+      await update(albumRef, data);
+      const updatedSnapshot = await get(albumRef);
+      return { id, ...updatedSnapshot.val() } as PhotoAlbum;
+    }
+  } catch (error) {
+    console.error(`Failed to update photo album ${id}:`, error);
+    return null;
+  }
+}
+

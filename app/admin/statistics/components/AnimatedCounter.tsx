@@ -38,7 +38,9 @@ export default function AnimatedCounter({
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReducedMotion) {
-      setDisplayValue(value);
+      frameRef.current = requestAnimationFrame(() => {
+        setDisplayValue(value);
+      });
       prevValueRef.current = value;
       return;
     }
@@ -48,7 +50,6 @@ export default function AnimatedCounter({
     const delta = endValue - startValue;
 
     if (delta === 0) {
-      setDisplayValue(value);
       return;
     }
 

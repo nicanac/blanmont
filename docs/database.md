@@ -296,7 +296,7 @@ The application isolates database access in `app/lib/firebase/`:
 | [`equipment.ts`](app/lib/firebase/equipment.ts) | Gobik gear items, categories, ordering, availability | `getEquipment`, `getEquipmentById`, `updateEquipment` |
 | [`leaderboard.ts`](app/lib/firebase/leaderboard.ts) | Member ranking calculations, attendance date sync | `getLeaderboard`, `updateLeaderboardEntry` |
 | [`feedback.ts`](app/lib/firebase/feedback.ts) | Route reviews and star ratings | `getFeedbackForTrace`, `submitFeedback` |
-| [`galleries.ts`](app/lib/firebase/galleries.ts) | Photo album chronicles, historical archives, Google Photos collections | `getPhotoAlbums`, `getPhotoAlbumById`, `createPhotoAlbum`, `deletePhotoAlbum` |
+| [`galleries.ts`](app/lib/firebase/galleries.ts) | Photo album chronicles, historical archives, Google Photos collections | `getPhotoAlbums`, `getPhotoAlbumById`, `createPhotoAlbum`, `updatePhotoAlbum`, `deletePhotoAlbum` |
 
 ---
 
