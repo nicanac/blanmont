@@ -26,6 +26,8 @@ import {
   VERTICAL_PRESETS,
 } from '@/app/lib/imagePosition';
 import MemberCropModal from '../components/MemberCropModal';
+import AdminPageHeader from '../../components/AdminPageHeader';
+import { cn } from '@/app/utils/cn';
 
 interface MemberPhotosManagerProps {
   initialMembers: Member[];
@@ -328,49 +330,38 @@ export default function MemberPhotosManager({
       />
 
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
-        <div>
-          <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-              <PhotoIcon className="h-3.5 w-3.5 text-brand" />
-              <span>Cadrage &amp; Portraits</span>
-            </span>
-            <Link
-              href="/members"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-ink-3 hover:text-brand transition-colors"
-              title="Voir la page publique /members"
-            >
-              <span>Voir /members</span>
-              <ArrowTopRightOnSquareIcon className="h-3 w-3" />
-            </Link>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
-            Cadrage des Photos Membres
-          </h1>
-          <p className="mt-1 text-xs sm:text-sm text-ink-3">
-            Ajustez précisément la position verticale et le cadrage des photos de tous les membres. Les modifications se répercutent instantanément sur la page publique.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <Link
-            href="/admin/members"
-            className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-3 hover:text-ink hover:bg-paper-2 transition-colors shadow-xs"
-          >
-            <span>Annuaire Membres</span>
-          </Link>
-
+      <AdminPageHeader
+        id="member-photos-header-section"
+        title="Cadrage des Photos Membres"
+        sheet="Feuille · Portraits & Cadrage"
+        badge={{ icon: PhotoIcon, label: 'Cadrage & Portraits' }}
+        description="Ajustez précisément la position verticale et le cadrage des photos de tous les membres. Les modifications se répercutent instantanément sur la page publique."
+        actions={[
+          {
+            label: 'Voir /members',
+            href: '/members',
+            icon: ArrowTopRightOnSquareIcon,
+            variant: 'secondary',
+            tooltip: 'Voir la page publique du trombinoscope',
+          },
+          {
+            label: 'Annuaire Membres',
+            href: '/admin/members',
+            variant: 'secondary',
+            tooltip: 'Retourner à la gestion des membres',
+          },
+        ]}
+        rightExtra={
           <button
             type="button"
             onClick={handleSaveAll}
             disabled={modifiedIds.size === 0 || isSavingAll}
-            className={`inline-flex items-center gap-2 rounded-md px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-all shadow-xs ${
+            className={cn(
+              'inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider transition-all shrink-0 active:translate-y-px',
               modifiedIds.size > 0
-                ? 'bg-brand hover:bg-brand-strong ring-2 ring-brand/30 cursor-pointer'
-                : 'bg-ink opacity-60 cursor-not-allowed'
-            }`}
+                ? 'bg-brand hover:bg-brand-strong text-white font-bold tracking-[0.07em] shadow-xs cursor-pointer'
+                : 'border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-ink-3 dark:text-snow-3 opacity-60 cursor-not-allowed'
+            )}
           >
             {isSavingAll ? (
               <>
@@ -388,8 +379,8 @@ export default function MemberPhotosManager({
               </>
             )}
           </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* ── Controls Bar: Filters, Search, View Switcher ── */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-4 rounded-lg border border-line bg-white shadow-xs">

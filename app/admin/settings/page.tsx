@@ -9,10 +9,12 @@ import {
   EyeIcon,
   SunIcon,
   MoonIcon,
+  Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import ThemeToggle from '../../components/layout/ThemeToggle';
 import { useTheme } from '../../context/ThemeContext';
 import { toast } from 'sonner';
+import AdminPageHeader from '../components/AdminPageHeader';
 
 export default function AdminSettingsPage(): React.ReactElement {
   const { theme, resolvedTheme, setTheme } = useTheme();
@@ -31,18 +33,22 @@ export default function AdminSettingsPage(): React.ReactElement {
   return (
     <div className="space-y-10">
       {/* Page Header */}
-      <div className="border-b border-line dark:border-night-line pb-6">
-        <div className="inline-flex items-center gap-2 rounded-full bg-ink dark:bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-          Administration &bull; Configuration
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink dark:text-white">
-          Paramètres du Site &amp; du Club
-        </h1>
-        <p className="mt-1 text-xs sm:text-sm text-ink-3 dark:text-snow-3 max-w-2xl">
-          Gérez l&apos;apparence visuelle globale du site (thème clair ou sombre) et consultez les paramètres officiels du CC Saint-Martin Blanmont.
-        </p>
-      </div>
+      <AdminPageHeader
+        id="settings-header-section"
+        title="Paramètres du Site & du Club"
+        sheet="Feuille · Configuration"
+        badge={{ icon: Cog6ToothIcon, label: 'Administration · Configuration' }}
+        description="Gérez l'apparence visuelle globale du site (thème clair ou sombre) et consultez les paramètres officiels du CC Saint-Martin Blanmont."
+        actions={[
+          {
+            label: 'Voir le site public',
+            href: '/',
+            icon: EyeIcon,
+            variant: 'secondary',
+            tooltip: 'Ouvrir le site public dans un nouvel onglet ou naviguer vers l’accueil',
+          },
+        ]}
+      />
 
       {/* ── Section 1 : Apparence & Thème ── */}
       <section className="space-y-6">

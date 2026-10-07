@@ -32,6 +32,8 @@ import { sanitizeUrl } from '@/app/lib/urlUtils';
 import { useImageUpload } from '@/app/hooks/useImageUpload';
 import HeroTelemetryFrame from '@/app/components/HeroTelemetryFrame';
 import { parseVerticalPosition } from '@/app/lib/imagePosition';
+import AdminPageHeader from '../components/AdminPageHeader';
+import { cn } from '@/app/utils/cn';
 
 const AVAILABLE_ICONS: { type: HeroIconType; label: string; icon: React.ElementType }[] = [
   { type: 'pin', label: 'Lieu / Épingle', icon: MapPinIcon },
@@ -345,55 +347,52 @@ export default function AdminHeroPage(): React.ReactElement {
   return (
     <div className="space-y-10 pb-16">
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-line">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wider text-white mb-2">
-            <PhotoIcon className="h-3.5 w-3.5 text-brand" />
-            <span>Page d&apos;Accueil</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">
-            Bannière Hero &amp; Télémétrie
-          </h1>
-          <p className="mt-1 text-xs sm:text-sm text-ink-3">
-            Gérez les photos du slider, ajustez précisément leur cadrage et configurez les 4 cartes d&apos;informations sous l&apos;image.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={handleResetDefaults}
-            disabled={isSaving}
-            className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-3 hover:text-ink hover:bg-paper-2 transition-colors"
-          >
-            <ArrowPathIcon className="h-3.5 w-3.5" />
-            <span>Rétablir défaut</span>
-          </button>
-
+      <AdminPageHeader
+        id="hero-header-section"
+        title="Bannière Hero & Télémétrie"
+        sheet="Feuille · Bannière Accueil"
+        badge={{ icon: PhotoIcon, label: "Page d'Accueil" }}
+        description="Gérez les photos du slider, ajustez précisément leur cadrage et configurez les 4 cartes d'informations sous l'image."
+        actions={[
+          {
+            label: 'Rétablir défaut',
+            onClick: handleResetDefaults,
+            icon: ArrowPathIcon,
+            variant: 'secondary',
+            tooltip: 'Rétablir les valeurs et photos initiales d’origine',
+          },
+        ]}
+        rightExtra={
           <button
             type="button"
             onClick={handleSave}
             disabled={isSaving}
-            className={`inline-flex items-center gap-2 rounded-md px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-all shadow-xs ${
+            className={cn(
+              'inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-narrow font-semibold uppercase tracking-wider transition-all cursor-pointer shrink-0 active:translate-y-px',
               hasChanges
-                ? 'bg-brand hover:bg-brand-strong ring-2 ring-brand/30'
-                : 'bg-ink hover:bg-night-line'
-            }`}
+                ? 'bg-brand hover:bg-brand-strong text-white font-bold tracking-[0.07em] shadow-xs'
+                : 'border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-ink dark:text-snow hover:bg-line dark:hover:bg-night-3'
+            )}
           >
             {isSaving ? (
               <>
                 <ArrowPathIcon className="h-4 w-4 animate-spin" />
                 <span>Enregistrement...</span>
               </>
-            ) : (
+            ) : hasChanges ? (
               <>
                 <CheckIcon className="h-4 w-4" />
-                <span>{hasChanges ? 'Enregistrer les modifications *' : 'Enregistré'}</span>
+                <span>Enregistrer les modifications *</span>
+              </>
+            ) : (
+              <>
+                <CheckIcon className="h-4 w-4 text-vert" />
+                <span>Enregistré</span>
               </>
             )}
           </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* ── Section 1 : Aperçu en direct ── */}
       <section className="space-y-3">
@@ -737,7 +736,7 @@ export default function AdminHeroPage(): React.ReactElement {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {formData.cards.map((card, index) => (
+          {(formData.cards || []).map((card, index) => (
             <div
               key={card.id || index}
               className="rounded-lg border border-line bg-paper p-4 flex flex-col justify-between space-y-4 shadow-xs"
