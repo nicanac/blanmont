@@ -12,9 +12,8 @@ import {
     createLeaderboardEntry,
     updateLeaderboardEntry,
     LeaderboardEntry,
-    EventAttendance,
-    CalendarEvent,
 } from '@/app/lib/firebase';
+import type { CalendarEvent } from '@/app/types';
 import { calculateMemberCarres } from '@/app/lib/carreVert';
 import { verifyAdminRequest } from '@/app/lib/auth/session';
 

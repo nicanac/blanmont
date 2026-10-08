@@ -7,8 +7,8 @@ import {
     updateLeaderboardEntry,
     setEventAttendance,
     LeaderboardEntry,
-    CalendarEvent,
 } from '@/app/lib/firebase';
+import type { CalendarEvent } from '@/app/types';
 import { calculateMemberCarres } from '@/app/lib/carreVert';
 
 export const dynamic = 'force-dynamic'; // Ensure no caching for this route
