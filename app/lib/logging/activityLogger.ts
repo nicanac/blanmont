@@ -3,9 +3,11 @@ import { isMockMode, snapshotToArray } from '../firebase/client';
 import {
   ActivityLog,
   ActivityLogFilter,
+  ActivityReview,
   ActivityStats,
   LogCategory,
   LogSeverity,
+  ReviewStatus,
 } from '@/app/types/logging';
 import { anonymizeIp } from './ipAnonymizer';
 
@@ -20,6 +22,7 @@ export interface RecordActivityInput {
   user?: Partial<ActivityLog['user']>;
   context?: Partial<ActivityLog['context']>;
   metadata?: Record<string, unknown>;
+  review?: ActivityReview;
   timestamp?: string;
   timestampMs?: number;
 }
@@ -72,6 +75,7 @@ export async function recordActivity(input: RecordActivityInput): Promise<string
       ip: sanitizedIp,
     },
     metadata: input.metadata || {},
+    review: input.review || { status: 'unreviewed' },
   };
 
   if (isMockMode) {
@@ -121,6 +125,14 @@ export async function getActivityLogs(filters: ActivityLogFilter = {}): Promise<
     logs = logs.filter((log) => log.severity === filters.severity);
   }
 
+  // Filter by review status
+  if (filters.reviewStatus && filters.reviewStatus !== 'all') {
+    logs = logs.filter((log) => {
+      const status = log.review?.status || 'unreviewed';
+      return status === filters.reviewStatus;
+    });
+  }
+
   // Filter by user segment
   if (filters.userType && filters.userType !== 'all') {
     if (filters.userType === 'anonymous') {
@@ -148,8 +160,9 @@ export async function getActivityLogs(filters: ActivityLogFilter = {}): Promise<
         log.user.userId?.toLowerCase().includes(q);
       const matchPath = log.context.path?.toLowerCase().includes(q);
       const matchIp = log.context.ip?.toLowerCase().includes(q);
+      const matchNotes = log.review?.notes?.toLowerCase().includes(q) || false;
 
-      return matchAction || matchTitle || matchUser || matchPath || matchIp;
+      return matchAction || matchTitle || matchUser || matchPath || matchIp || matchNotes;
     });
   }
 
@@ -193,6 +206,12 @@ export async function getActivityStats(yearMonthInput?: string): Promise<Activit
     security: 0,
   };
 
+  const byReviewStatus: Record<ReviewStatus, number> = {
+    unreviewed: 0,
+    reviewed: 0,
+    flagged: 0,
+  };
+
   const visitorSet = new Set<string>();
   const memberSet = new Set<string>();
 
@@ -202,6 +221,11 @@ export async function getActivityStats(yearMonthInput?: string): Promise<Activit
     }
     if (bySeverity[log.severity] !== undefined) {
       bySeverity[log.severity]++;
+    }
+
+    const reviewStatus: ReviewStatus = log.review?.status || 'unreviewed';
+    if (byReviewStatus[reviewStatus] !== undefined) {
+      byReviewStatus[reviewStatus]++;
     }
 
     if (log.user.isAuthenticated && log.user.userId) {
@@ -217,6 +241,7 @@ export async function getActivityStats(yearMonthInput?: string): Promise<Activit
     total: logs.length,
     byCategory,
     bySeverity,
+    byReviewStatus,
     uniqueVisitors: visitorSet.size,
     activeMembers: memberSet.size,
     adminActionsCount: byCategory.admin,
@@ -273,8 +298,92 @@ export async function pruneActivityLogs(
 }
 
 /**
+ * Extracts the YYYY-MM partition from a log ID if formatted as log_<timestampMs>_<suffix>.
+ */
+export function extractYearMonthFromLogId(logId: string): string | null {
+  const match = logId.match(/^log_(\d+)_/);
+  if (match) {
+    const timestampMs = Number(match[1]);
+    if (!isNaN(timestampMs) && timestampMs > 0) {
+      return getYearMonthKey(new Date(timestampMs));
+    }
+  }
+  return null;
+}
+
+/**
+ * Updates the triage review status and internal notes for a log entry.
+ */
+export async function updateLogReview(
+  logId: string,
+  review: Partial<ActivityReview>,
+  yearMonthInput?: string
+): Promise<boolean> {
+  const yearMonth = yearMonthInput || extractYearMonthFromLogId(logId) || getYearMonthKey();
+
+  if (isMockMode) {
+    const existing = mockLogStore.get(logId);
+    if (existing) {
+      existing.review = {
+        status: review.status || existing.review?.status || 'unreviewed',
+        reviewedBy: review.reviewedBy !== undefined ? review.reviewedBy : existing.review?.reviewedBy,
+        reviewedAt: review.reviewedAt !== undefined ? review.reviewedAt : (existing.review?.reviewedAt || new Date().toISOString()),
+        notes: review.notes !== undefined ? review.notes : existing.review?.notes,
+      };
+      mockLogStore.set(logId, existing);
+      return true;
+    }
+    return false;
+  }
+
+  try {
+    const db = getAdminDatabase();
+    const updatePayload: Record<string, unknown> = {};
+    if (review.status !== undefined) updatePayload['status'] = review.status;
+    if (review.reviewedBy !== undefined) updatePayload['reviewedBy'] = review.reviewedBy;
+    if (review.reviewedAt !== undefined) updatePayload['reviewedAt'] = review.reviewedAt;
+    if (review.notes !== undefined) updatePayload['notes'] = review.notes;
+
+    await db.ref(`activity-logs/${yearMonth}/${logId}/review`).update(updatePayload);
+    return true;
+  } catch (error) {
+    console.error(`[activityLogger] Failed to update review for ${logId}:`, error);
+    // Fallback to mock store
+    const existing = mockLogStore.get(logId);
+    if (existing) {
+      existing.review = {
+        status: review.status || existing.review?.status || 'unreviewed',
+        reviewedBy: review.reviewedBy !== undefined ? review.reviewedBy : existing.review?.reviewedBy,
+        reviewedAt: review.reviewedAt !== undefined ? review.reviewedAt : new Date().toISOString(),
+        notes: review.notes !== undefined ? review.notes : existing.review?.notes,
+      };
+      mockLogStore.set(logId, existing);
+      return true;
+    }
+    return false;
+  }
+}
+
+/**
+ * Batch updates review status for multiple logs at once.
+ */
+export async function batchUpdateLogReviews(
+  logIds: string[],
+  review: Partial<ActivityReview>,
+  yearMonthInput?: string
+): Promise<{ updatedCount: number }> {
+  let count = 0;
+  for (const id of logIds) {
+    const success = await updateLogReview(id, review, yearMonthInput);
+    if (success) count++;
+  }
+  return { updatedCount: count };
+}
+
+/**
  * Helper to clear mock in-memory logs (for testing).
  */
 export function _clearMockLogs(): void {
   mockLogStore.clear();
 }
+

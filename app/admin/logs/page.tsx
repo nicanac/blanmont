@@ -1,12 +1,24 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
+import {
+  ShieldCheckIcon,
+  ChartBarIcon,
+  UserGroupIcon,
+  DocumentTextIcon,
+} from '@heroicons/react/24/outline';
 import LogsHeader from './components/LogsHeader';
-import LogsTable from './components/LogsTable';
-import { ActivityLog, ActivityStats } from '@/app/types/logging';
+import ReviewTriageTab from './components/ReviewTriageTab';
+import ReviewAnalyticsTab from './components/ReviewAnalyticsTab';
+import UserJourneyExplorerTab from './components/UserJourneyExplorerTab';
+import AuditReportsTab from './components/AuditReportsTab';
+import { ActivityLog, ActivityStats, ReviewStatus } from '@/app/types/logging';
+
+export type LogReviewTab = 'triage' | 'analytics' | 'journeys' | 'reports';
 
 export default function AdminLogsPage(): React.ReactElement {
+  const [activeTab, setActiveTab] = useState<LogReviewTab>('triage');
   const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [stats, setStats] = useState<ActivityStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +30,7 @@ export default function AdminLogsPage(): React.ReactElement {
   const fetchData = useCallback(async () => {
     try {
       const [logsRes, statsRes] = await Promise.all([
-        fetch('/api/logs?limit=300'),
+        fetch('/api/logs?limit=400'),
         fetch('/api/logs?stats=true'),
       ]);
 
@@ -54,6 +66,108 @@ export default function AdminLogsPage(): React.ReactElement {
     return () => clearInterval(interval);
   }, [isLive, fetchData]);
 
+  // Single review update handler
+  const handleUpdateReview = useCallback(
+    async (logId: string, status: ReviewStatus, notes?: string) => {
+      // Optimistic update
+      setLogs((prev) =>
+        prev.map((l) =>
+          l.id === logId
+            ? {
+                ...l,
+                review: {
+                  status,
+                  notes: notes !== undefined ? notes : l.review?.notes,
+                  reviewedBy: 'Moi',
+                  reviewedAt: new Date().toISOString(),
+                },
+              }
+            : l
+        )
+      );
+
+      try {
+        const res = await fetch('/api/logs', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            logId,
+            status,
+            notes: notes || null,
+          }),
+        });
+
+        if (res.ok) {
+          toast.success(
+            status === 'flagged'
+              ? 'Événement signalé pour enquête.'
+              : status === 'reviewed'
+              ? 'Événement marqué comme examiné.'
+              : 'Événement remis en attente.'
+          );
+        } else {
+          toast.error('Erreur lors de la mise à jour du statut.');
+          fetchData(); // Rollback on failure
+        }
+      } catch (err) {
+        console.error('Failed to patch review status:', err);
+        toast.error('Erreur réseau lors de la mise à jour.');
+        fetchData();
+      }
+    },
+    [fetchData]
+  );
+
+  // Batch review update handler
+  const handleBatchReview = useCallback(
+    async (logIds: string[], status: ReviewStatus, notes?: string) => {
+      if (logIds.length === 0) return;
+
+      const logIdSet = new Set(logIds);
+      // Optimistic update
+      setLogs((prev) =>
+        prev.map((l) =>
+          logIdSet.has(l.id)
+            ? {
+                ...l,
+                review: {
+                  status,
+                  notes: notes !== undefined ? notes : l.review?.notes,
+                  reviewedBy: 'Moi',
+                  reviewedAt: new Date().toISOString(),
+                },
+              }
+            : l
+        )
+      );
+
+      try {
+        const res = await fetch('/api/logs', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            logIds,
+            status,
+            notes: notes || null,
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          toast.success(data.message || `${logIds.length} événements mis à jour.`);
+        } else {
+          toast.error('Erreur lors de la mise à jour par lot.');
+          fetchData();
+        }
+      } catch (err) {
+        console.error('Failed to batch patch review status:', err);
+        toast.error('Erreur réseau lors de la mise à jour.');
+        fetchData();
+      }
+    },
+    [fetchData]
+  );
+
   // Export CSV handler
   const handleExportCsv = useCallback(() => {
     if (logs.length === 0) {
@@ -69,6 +183,9 @@ export default function AdminLogsPage(): React.ReactElement {
         'Action',
         'Titre',
         'Gravité',
+        'Statut Modération',
+        'Note Audit',
+        'Examiné Par',
         'Est Connecté',
         'ID Utilisateur',
         'Nom Utilisateur',
@@ -86,6 +203,9 @@ export default function AdminLogsPage(): React.ReactElement {
         `"${l.action}"`,
         `"${(l.title || '').replace(/"/g, '""')}"`,
         `"${l.severity}"`,
+        `"${l.review?.status || 'unreviewed'}"`,
+        `"${(l.review?.notes || '').replace(/"/g, '""')}"`,
+        `"${(l.review?.reviewedBy || '').replace(/"/g, '""')}"`,
         l.user.isAuthenticated ? 'Oui' : 'Non',
         `"${l.user.userId || ''}"`,
         `"${(l.user.userName || '').replace(/"/g, '""')}"`,
@@ -136,6 +256,40 @@ export default function AdminLogsPage(): React.ReactElement {
     }
   };
 
+  // Compute unreviewed count for triage badge
+  const unreviewedCount = useMemo(() => {
+    return logs.filter((l) => (l.review?.status || 'unreviewed') === 'unreviewed').length;
+  }, [logs]);
+
+  const tabs: {
+    id: LogReviewTab;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    badge?: number;
+  }[] = [
+    {
+      id: 'triage',
+      label: 'Tri & Modération',
+      icon: ShieldCheckIcon,
+      badge: unreviewedCount > 0 ? unreviewedCount : undefined,
+    },
+    {
+      id: 'analytics',
+      label: 'Analyse & Chronologie',
+      icon: ChartBarIcon,
+    },
+    {
+      id: 'journeys',
+      label: 'Parcours de Session',
+      icon: UserGroupIcon,
+    },
+    {
+      id: 'reports',
+      label: 'Rapports Comité',
+      icon: DocumentTextIcon,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       <LogsHeader
@@ -145,13 +299,63 @@ export default function AdminLogsPage(): React.ReactElement {
         isPurging={isPurging}
       />
 
-      <LogsTable
-        logs={logs}
-        isLoading={isLoading}
-        isLive={isLive}
-        onToggleLive={() => setIsLive((prev) => !prev)}
-        onRefresh={fetchData}
-      />
+      {/* 4-Tab Navigation Bar adhering to Carte IGN design */}
+      <div className="flex items-center gap-2 p-1.5 rounded-lg bg-paper-2 dark:bg-night-2 border border-line dark:border-night-line overflow-x-auto">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-md text-xs font-narrow font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
+                isActive
+                  ? 'bg-paper dark:bg-night text-ink dark:text-white border border-line-2 dark:border-night-line-2 shadow-xs font-extrabold'
+                  : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white border border-transparent'
+              }`}
+            >
+              <Icon className={`w-4 h-4 ${isActive ? 'text-brand' : 'text-ink-3'}`} />
+              <span>{tab.label}</span>
+              {tab.badge !== undefined && (
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] font-mono tabular-nums bg-ambre/20 text-ambre font-extrabold">
+                  {tab.badge}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Tab Panels */}
+      {activeTab === 'triage' && (
+        <ReviewTriageTab
+          logs={logs}
+          stats={stats}
+          isLoading={isLoading}
+          isLive={isLive}
+          onToggleLive={() => setIsLive((prev) => !prev)}
+          onRefresh={fetchData}
+          onUpdateReview={handleUpdateReview}
+          onBatchReview={handleBatchReview}
+        />
+      )}
+
+      {activeTab === 'analytics' && (
+        <ReviewAnalyticsTab logs={logs} stats={stats} />
+      )}
+
+      {activeTab === 'journeys' && (
+        <UserJourneyExplorerTab
+          logs={logs}
+          onUpdateReview={handleUpdateReview}
+        />
+      )}
+
+      {activeTab === 'reports' && (
+        <AuditReportsTab logs={logs} stats={stats} />
+      )}
 
       {/* Confirmation Modal for Purge */}
       {purgeConfirmOpen && (

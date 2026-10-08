@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { safeValidate, ActivityClientLogSchema, ActivityLogFilterSchema } from '@/app/lib/validation';
-import { recordActivity, getActivityLogs, getActivityStats, pruneActivityLogs } from '@/app/lib/logging/activityLogger';
+import {
+  safeValidate,
+  ActivityClientLogSchema,
+  ActivityLogFilterSchema,
+  ActivityReviewUpdateSchema,
+  ActivityBatchReviewSchema,
+} from '@/app/lib/validation';
+import {
+  recordActivity,
+  getActivityLogs,
+  getActivityStats,
+  pruneActivityLogs,
+  updateLogReview,
+  batchUpdateLogReviews,
+} from '@/app/lib/logging/activityLogger';
 import { extractClientIp } from '@/app/lib/logging/ipAnonymizer';
 import { parseDeviceType } from '@/app/lib/logging/visitorSession';
 import { getSessionUserFromRequest, verifyAdminRequest } from '@/app/lib/auth/session';
@@ -90,6 +103,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       category: (searchParams.get('category') as any) || undefined,
       severity: (searchParams.get('severity') as any) || undefined,
       userType: (searchParams.get('userType') as any) || undefined,
+      reviewStatus: (searchParams.get('reviewStatus') as any) || undefined,
       searchQuery: searchParams.get('q') || undefined,
       limit: searchParams.get('limit') ? Number(searchParams.get('limit')) : undefined,
     };
@@ -104,6 +118,95 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   } catch (error: any) {
     console.error('[API /api/logs GET] Error:', error);
     return NextResponse.json({ error: 'Erreur lors de la récupération des logs' }, { status: 500 });
+  }
+}
+
+/**
+ * PATCH /api/logs
+ * Protected endpoint for admins to triage and moderate logs (single or batch).
+ */
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
+  const adminCheck = await verifyAdminRequest(request);
+  if (!adminCheck.authorized) {
+    return adminCheck.response;
+  }
+
+  try {
+    const rawBody = await request.json().catch(() => ({}));
+    const adminSession = adminCheck.user;
+    const reviewerName = adminSession?.name || adminSession?.email || 'Administrateur';
+    const reviewedAt = new Date().toISOString();
+
+    // Check if batch update
+    if (Array.isArray(rawBody.logIds)) {
+      const batchValidation = safeValidate(ActivityBatchReviewSchema, rawBody);
+      if (!batchValidation.success) {
+        return NextResponse.json(
+          { error: 'Données de modération par lot invalides', details: batchValidation.errors },
+          { status: 400 }
+        );
+      }
+
+      const { logIds, status, notes, yearMonth } = batchValidation.data;
+      const result = await batchUpdateLogReviews(
+        logIds,
+        {
+          status,
+          notes: notes || null,
+          reviewedBy: reviewerName,
+          reviewedAt,
+        },
+        yearMonth
+      );
+
+      return NextResponse.json({
+        success: true,
+        message: `${result.updatedCount} entrée(s) mise(s) à jour avec succès.`,
+        updatedCount: result.updatedCount,
+      });
+    }
+
+    // Single update
+    const singleValidation = safeValidate(ActivityReviewUpdateSchema, rawBody);
+    if (!singleValidation.success) {
+      return NextResponse.json(
+        { error: 'Données de modération invalides', details: singleValidation.errors },
+        { status: 400 }
+      );
+    }
+
+    const { logId, status, notes, yearMonth } = singleValidation.data;
+    const success = await updateLogReview(
+      logId,
+      {
+        status,
+        notes: notes || null,
+        reviewedBy: reviewerName,
+        reviewedAt,
+      },
+      yearMonth
+    );
+
+    if (!success) {
+      return NextResponse.json({ error: 'Événement introuvable pour mise à jour' }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Statut de modération mis à jour.',
+      review: {
+        status,
+        notes: notes || null,
+        reviewedBy: reviewerName,
+        reviewedAt,
+      },
+    });
+  } catch (error: any) {
+    console.error('[API /api/logs PATCH] Error:', error);
+    return NextResponse.json(
+      { error: 'Erreur lors de la modération de la journalisation' },
+      { status: 500 }
+    );
   }
 }
 

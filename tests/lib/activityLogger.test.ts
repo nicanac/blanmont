@@ -5,6 +5,8 @@ import {
   getActivityStats,
   pruneActivityLogs,
   getYearMonthKey,
+  updateLogReview,
+  batchUpdateLogReviews,
   _clearMockLogs,
 } from '@/app/lib/logging/activityLogger';
 
@@ -166,4 +168,74 @@ describe('activityLogger', () => {
     expect(remaining.length).toBe(1);
     expect(remaining[0].title).toBe('Vue récente');
   });
+
+  it('updates log review status and audit notes', async () => {
+    const id = await recordActivity({
+      category: 'security',
+      action: 'security:unauthorized_admin_api',
+      title: 'Accès non autorisé',
+      severity: 'security',
+    });
+
+    // Default status is unreviewed
+    let logs = await getActivityLogs();
+    expect(logs[0].review?.status).toBe('unreviewed');
+
+    // Update to flagged with note
+    const updated = await updateLogReview(id, {
+      status: 'flagged',
+      notes: 'Adresse IP suspecte à surveiller',
+      reviewedBy: 'Admin Nicolas',
+    });
+    expect(updated).toBe(true);
+
+    logs = await getActivityLogs();
+    expect(logs[0].review?.status).toBe('flagged');
+    expect(logs[0].review?.notes).toBe('Adresse IP suspecte à surveiller');
+    expect(logs[0].review?.reviewedBy).toBe('Admin Nicolas');
+
+    // Search matches notes
+    const searchMatch = await getActivityLogs({ searchQuery: 'suspecte' });
+    expect(searchMatch.length).toBe(1);
+    expect(searchMatch[0].id).toBe(id);
+  });
+
+  it('batch updates reviews and filters by reviewStatus', async () => {
+    const id1 = await recordActivity({
+      category: 'navigation',
+      action: 'page:view',
+      title: 'Accueil',
+    });
+    const id2 = await recordActivity({
+      category: 'navigation',
+      action: 'page:view',
+      title: 'Traces',
+    });
+    const id3 = await recordActivity({
+      category: 'navigation',
+      action: 'page:view',
+      title: 'Calendrier',
+    });
+
+    const { updatedCount } = await batchUpdateLogReviews([id1, id2], {
+      status: 'reviewed',
+      reviewedBy: 'Admin Laurent',
+    });
+    expect(updatedCount).toBe(2);
+
+    // Filter by reviewStatus
+    const reviewedLogs = await getActivityLogs({ reviewStatus: 'reviewed' });
+    expect(reviewedLogs.length).toBe(2);
+
+    const unreviewedLogs = await getActivityLogs({ reviewStatus: 'unreviewed' });
+    expect(unreviewedLogs.length).toBe(1);
+    expect(unreviewedLogs[0].id).toBe(id3);
+
+    // Stats reflect reviewStatus
+    const stats = await getActivityStats();
+    expect(stats.byReviewStatus.reviewed).toBe(2);
+    expect(stats.byReviewStatus.unreviewed).toBe(1);
+    expect(stats.byReviewStatus.flagged).toBe(0);
+  });
 });
+

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
-import { POST, GET, DELETE } from '@/app/api/logs/route';
+import { POST, GET, PATCH, DELETE } from '@/app/api/logs/route';
 import * as sessionModule from '@/app/lib/auth/session';
 import * as activityLoggerModule from '@/app/lib/logging/activityLogger';
 
@@ -87,7 +87,7 @@ describe('Logs API Route (/api/logs)', () => {
       ];
       vi.spyOn(activityLoggerModule, 'getActivityLogs').mockResolvedValue(mockLogs as any);
 
-      const req = new NextRequest('http://localhost:3000/api/logs?limit=50');
+      const req = new NextRequest('http://localhost:3000/api/logs?limit=50&reviewStatus=unreviewed');
       const res = await GET(req);
       expect(res.status).toBe(200);
       const json = await res.json();
@@ -105,6 +105,7 @@ describe('Logs API Route (/api/logs)', () => {
         total: 42,
         byCategory: { auth: 10, navigation: 20, participation: 5, admin: 5, security: 2 },
         bySeverity: { info: 38, warn: 2, error: 1, security: 1 },
+        byReviewStatus: { unreviewed: 30, reviewed: 10, flagged: 2 },
         uniqueVisitors: 15,
         activeMembers: 8,
         adminActionsCount: 5,
@@ -117,6 +118,92 @@ describe('Logs API Route (/api/logs)', () => {
       expect(res.status).toBe(200);
       const json = await res.json();
       expect(json.stats.total).toBe(42);
+    });
+  });
+
+  describe('PATCH /api/logs (Review Moderation)', () => {
+    it('returns 401 if user is not admin', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: false,
+        response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
+      } as any);
+
+      const req = new NextRequest('http://localhost:3000/api/logs', {
+        method: 'PATCH',
+        body: JSON.stringify({ logId: 'log_1', status: 'reviewed' }),
+      });
+      const res = await PATCH(req);
+      expect(res.status).toBe(401);
+    });
+
+    it('updates a single log review status and note', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', name: 'Admin Nicolas', isAdmin: true },
+      } as any);
+
+      vi.spyOn(activityLoggerModule, 'updateLogReview').mockResolvedValue(true);
+
+      const req = new NextRequest('http://localhost:3000/api/logs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          logId: 'log_123',
+          status: 'flagged',
+          notes: 'Analyse en cours',
+        }),
+      });
+
+      const res = await PATCH(req);
+      expect(res.status).toBe(200);
+      const json = await res.json();
+      expect(json.success).toBe(true);
+      expect(json.review.status).toBe('flagged');
+      expect(json.review.notes).toBe('Analyse en cours');
+      expect(json.review.reviewedBy).toBe('Admin Nicolas');
+    });
+
+    it('updates batch reviews when logIds array is provided', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', name: 'Admin Nicolas', isAdmin: true },
+      } as any);
+
+      vi.spyOn(activityLoggerModule, 'batchUpdateLogReviews').mockResolvedValue({ updatedCount: 3 });
+
+      const req = new NextRequest('http://localhost:3000/api/logs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          logIds: ['log_1', 'log_2', 'log_3'],
+          status: 'reviewed',
+        }),
+      });
+
+      const res = await PATCH(req);
+      expect(res.status).toBe(200);
+      const json = await res.json();
+      expect(json.success).toBe(true);
+      expect(json.updatedCount).toBe(3);
+    });
+
+    it('returns 400 on invalid payload', async () => {
+      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
+
+      const req = new NextRequest('http://localhost:3000/api/logs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          logId: '',
+          status: 'invalid_status',
+        }),
+      });
+
+      const res = await PATCH(req);
+      expect(res.status).toBe(400);
     });
   });
 
@@ -138,3 +225,4 @@ describe('Logs API Route (/api/logs)', () => {
     });
   });
 });
+

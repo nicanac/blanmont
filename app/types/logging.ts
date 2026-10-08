@@ -31,6 +31,15 @@ export interface ActivityContext {
   ip?: string;                  // Anonymized/masked IP address (e.g. 194.154.xxx.xxx)
 }
 
+export type ReviewStatus = 'unreviewed' | 'reviewed' | 'flagged';
+
+export interface ActivityReview {
+  status: ReviewStatus;
+  reviewedBy?: string | null;       // Name or ID of administrator
+  reviewedAt?: string | null;       // ISO 8601 timestamp
+  notes?: string | null;            // Internal audit / moderation note
+}
+
 export interface ActivityLog {
   id: string;                   // Unique ID: log_1728374920000_abc123
   timestamp: string;            // ISO 8601 UTC date string
@@ -43,6 +52,7 @@ export interface ActivityLog {
   user: ActivityUser;
   context: ActivityContext;
   metadata?: Record<string, unknown>; // Specific details (traceName, group, eventTitle, etc.)
+  review?: ActivityReview;      // Triage & moderation review status
 }
 
 export interface ActivityLogFilter {
@@ -50,7 +60,8 @@ export interface ActivityLogFilter {
   category?: LogCategory | 'all';
   severity?: LogSeverity | 'all';
   userType?: 'all' | 'anonymous' | 'member' | 'admin';
-  searchQuery?: string;         // Search in action, title, user, path
+  reviewStatus?: ReviewStatus | 'all';
+  searchQuery?: string;         // Search in action, title, user, path, notes
   startDate?: string;           // ISO date string
   endDate?: string;             // ISO date string
   limit?: number;
@@ -60,6 +71,7 @@ export interface ActivityStats {
   total: number;
   byCategory: Record<LogCategory, number>;
   bySeverity: Record<LogSeverity, number>;
+  byReviewStatus: Record<ReviewStatus, number>;
   uniqueVisitors: number;
   activeMembers: number;
   adminActionsCount: number;

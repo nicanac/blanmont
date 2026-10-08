@@ -1,18 +1,47 @@
 'use client';
 
-import React, { useState } from 'react';
-import { XMarkIcon, ClipboardDocumentCheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import { ActivityLog } from '@/app/types/logging';
+import React, { useState, useEffect } from 'react';
+import {
+  XMarkIcon,
+  ClipboardDocumentCheckIcon,
+  DocumentDuplicateIcon,
+  CheckCircleIcon,
+  FlagIcon,
+  ClockIcon,
+} from '@heroicons/react/24/outline';
+
+import { ActivityLog, ReviewStatus } from '@/app/types/logging';
 
 interface Props {
   log: ActivityLog | null;
   onClose: () => void;
+  onUpdateReview?: (logId: string, status: ReviewStatus, notes?: string) => Promise<void>;
 }
 
-export default function LogDetailModal({ log, onClose }: Props): React.ReactElement | null {
+export default function LogDetailModal({ log, onClose, onUpdateReview }: Props): React.ReactElement | null {
   const [copied, setCopied] = useState(false);
+  const [reviewStatus, setReviewStatus] = useState<ReviewStatus>('unreviewed');
+  const [reviewNotes, setReviewNotes] = useState<string>('');
+  const [isSavingReview, setIsSavingReview] = useState(false);
+
+  useEffect(() => {
+    if (log) {
+      setReviewStatus(log.review?.status || 'unreviewed');
+      setReviewNotes(log.review?.notes || '');
+    }
+  }, [log]);
 
   if (!log) return null;
+
+  const handleSaveReview = async () => {
+    if (!onUpdateReview) return;
+    setIsSavingReview(true);
+    try {
+      await onUpdateReview(log.id, reviewStatus, reviewNotes);
+    } finally {
+      setIsSavingReview(false);
+    }
+  };
 
   const handleCopyJson = () => {
     navigator.clipboard.writeText(JSON.stringify(log, null, 2)).then(() => {
@@ -153,6 +182,89 @@ export default function LogDetailModal({ log, onClose }: Props): React.ReactElem
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Moderation & Review Section */}
+          <div className="p-3.5 rounded-md bg-paper-2 dark:bg-night-2 border border-line dark:border-night-line space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="font-narrow font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 flex items-center gap-1.5">
+                <CheckCircleIcon className="w-4 h-4 text-brand" />
+                Tri &amp; Modération d'Audit
+              </h3>
+              {log.review?.reviewedBy && (
+                <span className="text-[11px] font-sans text-ink-3 dark:text-snow-3">
+                  Examiné par <strong className="text-ink dark:text-snow">{log.review.reviewedBy}</strong>
+                  {log.review.reviewedAt && (
+                    <> le {new Date(log.review.reviewedAt).toLocaleDateString('fr-BE')}</>
+                  )}
+                </span>
+              )}
+            </div>
+
+            {/* Status pills selector */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setReviewStatus('unreviewed')}
+                className={`px-3 py-1.5 rounded-md text-xs font-narrow font-bold uppercase tracking-wider border transition-colors ${
+                  reviewStatus === 'unreviewed'
+                    ? 'bg-paper dark:bg-night border-line-2 dark:border-night-line-2 text-ink dark:text-snow shadow-xs'
+                    : 'border-transparent text-ink-3 hover:text-ink dark:hover:text-snow'
+                }`}
+              >
+                À examiner
+              </button>
+              <button
+                type="button"
+                onClick={() => setReviewStatus('reviewed')}
+                className={`px-3 py-1.5 rounded-md text-xs font-narrow font-bold uppercase tracking-wider border transition-colors ${
+                  reviewStatus === 'reviewed'
+                    ? 'bg-vert/15 border-vert/40 text-vert font-extrabold'
+                    : 'border-transparent text-vert/70 hover:text-vert'
+                }`}
+              >
+                Examiné
+              </button>
+              <button
+                type="button"
+                onClick={() => setReviewStatus('flagged')}
+                className={`px-3 py-1.5 rounded-md text-xs font-narrow font-bold uppercase tracking-wider border transition-colors ${
+                  reviewStatus === 'flagged'
+                    ? 'bg-brand/15 border-brand/40 text-brand font-extrabold'
+                    : 'border-transparent text-brand/70 hover:text-brand'
+                }`}
+              >
+                Signalé pour enquête
+              </button>
+            </div>
+
+            {/* Audit Notes field */}
+            <div className="space-y-1.5">
+              <label htmlFor="review-notes-input" className="block text-[11px] font-narrow font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
+                Notes Internes de Contrôle
+              </label>
+              <textarea
+                id="review-notes-input"
+                rows={2}
+                value={reviewNotes}
+                onChange={(e) => setReviewNotes(e.target.value)}
+                placeholder="Remarques éventuelles sur cet événement, conclusion du contrôle..."
+                className="w-full px-2.5 py-1.5 text-xs font-sans rounded-md border border-line dark:border-night-line bg-paper dark:bg-night text-ink dark:text-snow placeholder:text-ink-4 focus:outline-hidden focus:border-brand"
+              />
+            </div>
+
+            {onUpdateReview && (
+              <div className="flex justify-end pt-1">
+                <button
+                  type="button"
+                  onClick={handleSaveReview}
+                  disabled={isSavingReview}
+                  className="px-3 py-1.5 rounded-md bg-brand hover:bg-brand-vif text-white text-xs font-narrow font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
+                >
+                  {isSavingReview ? 'Enregistrement...' : 'Enregistrer la modération'}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Metadata JSON */}
