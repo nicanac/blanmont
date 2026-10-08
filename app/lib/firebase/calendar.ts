@@ -1,7 +1,6 @@
 import { CalendarEvent } from '../../types';
 import {
   isMockMode,
-  useNotionFallback,
   getFirebaseDatabase,
   ref,
   get,
@@ -13,18 +12,11 @@ import {
 // Admin SDK for server-side access (bypasses security rules)
 import { getAdminDatabase } from './admin';
 
-// Notion fallback import
-import { getCalendarEvents as getNotionCalendarEvents } from '../notion/calendar';
-
 /**
  * Fetches all calendar events.
  */
 export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionCalendarEvents();
-    }
     console.warn('Firebase not configured, falling back to mock.');
     return [];
   }

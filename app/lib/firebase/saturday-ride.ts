@@ -1,7 +1,6 @@
 import { SaturdayRide, Vote } from '../../types';
 import {
   isMockMode,
-  useNotionFallback,
   getFirebaseDatabase,
   ref,
   get,
@@ -10,23 +9,11 @@ import {
   snapshotToArray,
 } from './client';
 
-// Notion fallback imports
-import {
-  getActiveRides as getNotionActiveRides,
-  getVotes as getNotionVotes,
-  createRide as createNotionRide,
-  submitVote as submitNotionVote,
-} from '../notion/saturday-ride';
-
 /**
  * Fetches all active rides (status = 'Voting').
  */
 export const getActiveRides = async (): Promise<SaturdayRide[]> => {
-  // Fallback to Notion if Firebase not configured
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionActiveRides();
-    }
     return [{ id: 'mock-ride', date: '2024-05-18', candidateTraceIds: ['1'], status: 'Voting' }];
   }
 
@@ -61,9 +48,6 @@ export const getActiveRides = async (): Promise<SaturdayRide[]> => {
  */
 export const getAllRides = async (): Promise<SaturdayRide[]> => {
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionActiveRides(); // Returns all active rides from Notion
-    }
     return [{ id: 'mock-ride', date: '2024-05-18', candidateTraceIds: ['1'], status: 'Voting' }];
   }
 
@@ -95,9 +79,6 @@ export const getAllRides = async (): Promise<SaturdayRide[]> => {
  */
 export const createRide = async (date: string, traceIds: string[]): Promise<void> => {
   if (isMockMode) {
-    if (useNotionFallback) {
-      return createNotionRide(date, traceIds);
-    }
     console.log('Mock create ride:', { date, traceIds });
     return;
   }
@@ -149,9 +130,6 @@ export const updateRide = async (
  */
 export const getVotes = async (rideId: string): Promise<Vote[]> => {
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionVotes(rideId);
-    }
     return [];
   }
 
@@ -209,9 +187,6 @@ export const submitVote = async (
   traceId: string
 ): Promise<void> => {
   if (isMockMode) {
-    if (useNotionFallback) {
-      return submitNotionVote(rideId, memberId, traceId);
-    }
     console.log('Mock submit vote:', { rideId, memberId, traceId });
     return;
   }

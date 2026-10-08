@@ -7,7 +7,7 @@ const IMPECCABLE_LIVE_DEV =
 
 const nextConfig: NextConfig = {
   turbopack: {
-    root: path.resolve(__dirname),
+    root: path.resolve(__dirname, __dirname.includes('.claude') ? '../../..' : '.'),
   },
   devIndicators: false,
   images: {
