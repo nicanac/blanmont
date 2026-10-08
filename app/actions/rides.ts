@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { createRide, submitVote } from '../lib/firebase';
 import { CreateRideSchema, SubmitVoteSchema, safeValidate } from '../lib/validation';
 import { requireAdminSession, getSessionUser } from '../lib/auth/session';
+import { recordActivity } from '../lib/logging/activityLogger';
 
 /**
  * Server Action to propose a new Saturday Ride.
@@ -12,7 +13,7 @@ import { requireAdminSession, getSessionUser } from '../lib/auth/session';
  * @param traceIds - The list of candidate traces.
  */
 export async function createRideAction(date: string, traceIds: string[]) {
-  await requireAdminSession();
+  const admin = await requireAdminSession();
   const validation = safeValidate(CreateRideSchema, { date, traceIds });
 
   if (!validation.success) {
@@ -22,6 +23,22 @@ export async function createRideAction(date: string, traceIds: string[]) {
   }
 
   await createRide(validation.data.date, validation.data.traceIds);
+
+  await recordActivity({
+    category: 'admin',
+    action: 'admin:saturday_ride_created',
+    title: `Proposition de sortie du samedi pour le ${date}`,
+    severity: 'info',
+    user: {
+      isAuthenticated: true,
+      userId: admin.id,
+      userName: admin.name,
+      userEmail: admin.email,
+      role: admin.role,
+    },
+    metadata: { date, traceIds: validation.data.traceIds },
+  });
+
   revalidatePath('/saturday-ride');
 }
 
@@ -47,5 +64,21 @@ export async function submitVoteAction(rideId: string, memberId: string, traceId
   }
 
   await submitVote(validation.data.rideId, validation.data.memberId, validation.data.traceId);
+
+  await recordActivity({
+    category: 'participation',
+    action: 'participation:saturday_vote',
+    title: `Vote enregistré pour la sortie du samedi`,
+    severity: 'info',
+    user: {
+      isAuthenticated: Boolean(session),
+      userId: session?.id || memberId,
+      userName: session?.name || 'Membre',
+      userEmail: session?.email || null,
+      role: session?.role || ['Member'],
+    },
+    metadata: { rideId, memberId, traceId },
+  });
+
   revalidatePath('/saturday-ride');
 }

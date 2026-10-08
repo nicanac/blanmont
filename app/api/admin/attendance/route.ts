@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { calculateMemberCarres, parseDateInfo } from '@/app/lib/carreVert';
 import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { recordActivity } from '@/app/lib/logging/activityLogger';
 
 /**
  * GET /api/admin/attendance?eventId=xxx
@@ -114,6 +115,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         console.warn('Could not update leaderboard for member:', memberId, leaderboardError);
       }
 
+      await recordActivity({
+        category: 'admin',
+        action: 'admin:attendance_marked',
+        title: `Pointage présence : ${name} (${group ? `Groupe ${group}` : 'Présent'})`,
+        severity: 'info',
+        user: {
+          isAuthenticated: true,
+          userId: authCheck.user.id,
+          userName: authCheck.user.name,
+          userEmail: authCheck.user.email,
+          role: authCheck.user.role,
+        },
+        metadata: { eventId, memberId, name, group, isoDate },
+      }).catch(() => {});
+
       return NextResponse.json({ success: true });
     }
 
@@ -157,6 +173,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       } catch (leaderboardError) {
         console.warn('Could not update leaderboard for member:', memberId, leaderboardError);
       }
+
+      await recordActivity({
+        category: 'admin',
+        action: 'admin:attendance_removed',
+        title: `Retrait présence pour membre : ${name || memberId}`,
+        severity: 'info',
+        user: {
+          isAuthenticated: true,
+          userId: authCheck.user.id,
+          userName: authCheck.user.name,
+          userEmail: authCheck.user.email,
+          role: authCheck.user.role,
+        },
+        metadata: { eventId, memberId, name, isoDate },
+      }).catch(() => {});
 
       return NextResponse.json({ success: true });
     }
