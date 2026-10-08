@@ -40,7 +40,7 @@ function FooterColumn({
 }: {
   title: string;
   items: { name: string; href: string }[];
-}) {
+}): React.JSX.Element {
   return (
     <div>
       <h3 className="border-b border-ink pb-2 font-narrow text-xs font-bold uppercase tracking-[0.1em] text-ink dark:border-snow-3 dark:text-snow">
@@ -146,7 +146,7 @@ export default async function Footer(): Promise<React.JSX.Element> {
             </p>
             <p className="text-[11px] leading-snug text-ink-3 dark:text-snow-3">{MAP_CREDITS}</p>
           </div>
-          <ThemeToggle variant="pill" />
+          <ThemeToggle variant="pill" className="self-start sm:self-auto" />
         </div>
       </div>
     </footer>
