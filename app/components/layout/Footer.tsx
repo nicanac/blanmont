@@ -7,6 +7,7 @@ import { Wordmark } from '../brand/Wordmark';
 import TerritoryMap from '../carte/TerritoryMap';
 import { ScaleBar, NorthArrow } from '../carte/ScaleBar';
 import { DEPARTURE_POINT, MAP_CREDITS } from '../carte/territory';
+import OpenCookiePreferencesButton from '../consent/OpenCookiePreferencesButton';
 
 const navigation = {
   club: [
@@ -30,6 +31,7 @@ const navigation = {
     { name: 'Les News du Club', href: '/blog' },
     { name: 'Mon Espace Membre', href: '/profile' },
     { name: 'Connexion Membre', href: '/login' },
+    { name: 'Politique de Confidentialité', href: '/confidentialite' },
     { name: 'Administration', href: '/admin' },
   ],
 };
@@ -145,6 +147,18 @@ export default async function Footer(): Promise<React.JSX.Element> {
               réservés.
             </p>
             <p className="text-[11px] leading-snug text-ink-3 dark:text-snow-3">{MAP_CREDITS}</p>
+            <div className="flex items-center gap-3 pt-1">
+              <Link
+                href="/confidentialite"
+                className="text-xs text-ink-3 underline-offset-4 hover:text-brand hover:underline dark:text-snow-3 dark:hover:text-brand-soft"
+              >
+                Confidentialité
+              </Link>
+              <span className="text-xs text-line dark:text-night-line">·</span>
+              <OpenCookiePreferencesButton variant="link">
+                Gestion des cookies
+              </OpenCookiePreferencesButton>
+            </div>
           </div>
           <ThemeToggle variant="pill" className="self-start sm:self-auto" />
         </div>
