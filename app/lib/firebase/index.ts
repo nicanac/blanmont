@@ -1,7 +1,5 @@
 // Firebase library exports
 // Mirrors the structure of the previous Notion library
-
-export * from '../../types';
 export * from './client';
 export * from './members';
 export * from './traces';

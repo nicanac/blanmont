@@ -8,6 +8,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ConditionalFooter from './components/layout/ConditionalFooter';
 import ActivityTracker from './components/analytics/ActivityTracker';
+import CookieConsentCartouche from './components/consent/CookieConsentCartouche';
 import { Toaster } from 'sonner';
 
 import LocalClubJsonLd from './components/seo/LocalClubJsonLd';
@@ -116,6 +117,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AuthProvider>
             <Suspense fallback={null}>
               <ActivityTracker />
+              <CookieConsentCartouche />
             </Suspense>
             <Navbar />
 
