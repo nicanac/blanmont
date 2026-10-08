@@ -60,7 +60,7 @@ export default function PhotoPlates({
   if (plates.length === 0) return null;
   const [lead, ...rest] = plates;
 
-  const linkProps = (plate: Plate) =>
+  const linkProps = (plate: Plate): { href: string; target?: string; rel?: string } =>
     plate.external
       ? { href: plate.href, target: '_blank', rel: 'noopener noreferrer' }
       : { href: plate.href };
@@ -117,11 +117,11 @@ export default function PhotoPlates({
           </a>
 
           {rest.length > 0 && (
-            <ol className="flex flex-col divide-y divide-line border-y border-line lg:col-span-5 dark:divide-night-line dark:border-night-line">
+            <ol className="flex flex-col divide-y divide-line border-b border-line lg:border-t lg:col-span-5 dark:divide-night-line dark:border-night-line">
               {rest.map((plate, i) => (
                 <li key={plate.key}>
                   <a {...linkProps(plate)} className="group flex items-center gap-4 py-4">
-                    <span className="relative aspect-[4/3] w-32 shrink-0 overflow-hidden border border-ink bg-paper-2 sm:w-40 dark:border-night-line-strong dark:bg-night-3">
+                    <span className="relative aspect-[4/3] w-28 shrink-0 overflow-hidden border border-ink bg-paper-2 sm:w-40 dark:border-night-line-strong dark:bg-night-3">
                       <Image
                         src={plate.src}
                         alt={plate.alt}

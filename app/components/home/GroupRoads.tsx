@@ -149,14 +149,14 @@ export default function GroupRoads(): React.ReactElement {
           {PACE_GROUPS.map((g) => (
             <li
               key={g.id}
-              className="grid grid-cols-[4.5rem_1fr] items-center gap-x-5 gap-y-3 border-b border-line py-7 sm:grid-cols-[6rem_1fr] lg:grid-cols-[7rem_minmax(0,1fr)_17rem_minmax(0,22rem)] lg:gap-x-8 dark:border-night-line"
+              className="grid grid-cols-[5.5rem_1fr] items-center gap-x-5 gap-y-3 border-b border-line py-7 sm:grid-cols-[6.5rem_1fr] lg:grid-cols-[7rem_minmax(0,1fr)_17rem_minmax(0,22rem)] lg:gap-x-8 dark:border-night-line"
             >
-              <span className="font-wide text-[2.6rem] font-extrabold leading-none text-ink sm:text-[3.4rem] dark:text-snow">
+              <span className="font-wide text-[2.25rem] font-extrabold leading-none text-ink sm:text-[3.4rem] dark:text-snow">
                 {g.id}
               </span>
               <div data-road className="min-w-0">
                 <Road group={g.id} />
-                <p className="mt-2 font-narrow text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
+                <p className="mt-2 font-narrow text-xs font-semibold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                   {g.roadClass}
                 </p>
               </div>
