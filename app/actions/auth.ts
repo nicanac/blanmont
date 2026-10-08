@@ -9,6 +9,7 @@ import {
 } from '../lib/auth/session';
 import { getAdminAuth, getAdminDatabase } from '../lib/firebase/admin';
 import { LoginSchema, AccountActivationSchema, safeValidate } from '../lib/validation';
+import { recordActivity } from '../lib/logging/activityLogger';
 
 /**
  * Server Action to validate user credentials and establish an HttpOnly session cookie.
@@ -21,12 +22,43 @@ export async function loginAction(email: string, password: string) {
   const validation = safeValidate(LoginSchema, { email, password });
 
   if (!validation.success) {
+    await recordActivity({
+      category: 'auth',
+      action: 'auth:login_failure',
+      title: 'Tentative de connexion invalide (format)',
+      severity: 'warn',
+      user: { isAuthenticated: false, userEmail: email },
+      metadata: { reason: 'validation_error' },
+    });
     return null;
   }
 
   const member = await validateUser(validation.data.email, validation.data.password);
   if (member) {
     await setSessionCookie(member);
+    await recordActivity({
+      category: 'auth',
+      action: 'auth:login_success',
+      title: `Connexion réussie : ${member.name}`,
+      severity: 'info',
+      user: {
+        isAuthenticated: true,
+        userId: member.id,
+        userName: member.name,
+        userEmail: member.email || null,
+        role: member.role,
+      },
+      metadata: { memberId: member.id },
+    });
+  } else {
+    await recordActivity({
+      category: 'auth',
+      action: 'auth:login_failure',
+      title: `Échec de connexion pour ${validation.data.email}`,
+      severity: 'warn',
+      user: { isAuthenticated: false, userEmail: validation.data.email },
+      metadata: { reason: 'invalid_credentials' },
+    });
   }
   return member;
 }
@@ -35,6 +67,26 @@ export async function loginAction(email: string, password: string) {
  * Server Action to logout and clear the HttpOnly session cookie.
  */
 export async function logoutAction(): Promise<void> {
+  try {
+    const sessionUser = await getSessionUser();
+    if (sessionUser) {
+      await recordActivity({
+        category: 'auth',
+        action: 'auth:logout',
+        title: `Déconnexion : ${sessionUser.name}`,
+        severity: 'info',
+        user: {
+          isAuthenticated: true,
+          userId: sessionUser.id,
+          userName: sessionUser.name,
+          userEmail: sessionUser.email,
+          role: sessionUser.role,
+        },
+      });
+    }
+  } catch {
+    // Suppress cookie store errors if called outside of active request scope (e.g. isolated unit tests)
+  }
   await clearSessionCookie();
 }
 
@@ -84,6 +136,14 @@ export async function requestAccountActivationAction(email: string): Promise<{
 
     // If the email is not registered in the club database, reject activation immediately
     if (!memberKey || !memberData) {
+      await recordActivity({
+        category: 'auth',
+        action: 'auth:activation_rejected',
+        title: `Activation refusée (non-membre) : ${normalizedEmail}`,
+        severity: 'warn',
+        user: { isAuthenticated: false, userEmail: normalizedEmail },
+        metadata: { reason: 'not_in_directory' },
+      });
       return {
         success: false,
         message:
@@ -131,6 +191,21 @@ export async function requestAccountActivationAction(email: string): Promise<{
     }
 
     console.log(`[Account Activation] Generated link for member ${memberData.name} (${normalizedEmail}): ${inAppLink}`);
+
+    await recordActivity({
+      category: 'auth',
+      action: 'auth:activation_requested',
+      title: `Lien d'activation généré : ${memberData.name}`,
+      severity: 'info',
+      user: {
+        isAuthenticated: false,
+        userId: memberKey,
+        userName: memberData.name,
+        userEmail: normalizedEmail,
+        role: memberData.role,
+      },
+      metadata: { memberKey },
+    });
 
     return {
       success: true,
