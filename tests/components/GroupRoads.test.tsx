@@ -55,4 +55,13 @@ describe('GroupRoads Component (app/components/home/GroupRoads.tsx)', () => {
       '/le-club'
     );
   });
+
+  it('allocates sufficient column width for pace groups on mobile to prevent overflow', () => {
+    const { container } = render(<GroupRoads />);
+    const listItems = container.querySelectorAll('ol > li');
+    expect(listItems.length).toBe(4);
+    listItems.forEach((li) => {
+      expect(li.className).toContain('grid-cols-[5.5rem_1fr]');
+    });
+  });
 });
