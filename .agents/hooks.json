@@ -1,0 +1,37 @@
+{
+  "safety-guards": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command|write_to_file|replace_file_content|view_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/antigravity_guards.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  },
+  "impeccable-and-graft": {
+    "PostToolUse": [
+      {
+        "matcher": "write_to_file|replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node hooks/antigravity_post_tool.mjs",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "node hooks/antigravity_stop.mjs",
+        "timeout": 30
+      }
+    ]
+  }
+}

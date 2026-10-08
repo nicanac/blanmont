@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import './globals.css';
 import { Archivo } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
@@ -6,6 +7,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ConditionalFooter from './components/layout/ConditionalFooter';
+import ActivityTracker from './components/analytics/ActivityTracker';
 import { Toaster } from 'sonner';
 
 import LocalClubJsonLd from './components/seo/LocalClubJsonLd';
@@ -112,6 +114,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div hidden aria-hidden="true" dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <ThemeProvider>
           <AuthProvider>
+            <Suspense fallback={null}>
+              <ActivityTracker />
+            </Suspense>
             <Navbar />
 
             <main id="contenu" className="min-h-[80vh] flex-grow">

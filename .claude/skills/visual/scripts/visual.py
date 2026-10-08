@@ -32,10 +32,11 @@ MAX_HUNK_LINES = 80
 
 
 def git(*args: str, cwd: Path | None = None, check: bool = True) -> str:
-    r = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True)
+    r = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if check and r.returncode != 0:
         raise RuntimeError(f"git {' '.join(args)}: {r.stderr.strip()}")
     return r.stdout if r.returncode == 0 else ""
+
 
 
 def portable_path(p, root: Path) -> str:
@@ -315,8 +316,16 @@ def cmd_render(a) -> None:
         result["check"] = run_check(out.resolve(), Path(a.shots) if a.shots else None, kind == "map")
     print(json.dumps(result, indent=2))
     if not a.no_open:
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.run([opener, str(out)], capture_output=True)
+        if sys.platform == "darwin":
+            subprocess.run(["open", str(out)], capture_output=True)
+        elif sys.platform == "win32":
+            try:
+                os.startfile(str(out))
+            except Exception:
+                pass
+        else:
+            subprocess.run(["xdg-open", str(out)], capture_output=True)
+
     if result.get("check", {}).get("overlaps"):
         sys.exit(2)
 
@@ -742,7 +751,11 @@ def cmd_skillmap(a) -> None:
 CHROME_CANDIDATES = [
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "google-chrome", "chromium", "chromium-browser",
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+    r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+    "google-chrome", "chromium", "chromium-browser", "chrome", "msedge",
 ]
 
 
