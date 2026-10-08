@@ -46,7 +46,7 @@ def gh_graphql(query, variables, run=subprocess.run):
     for k, v in variables.items():
         if v is not None:
             cmd += ["-F", f"{k}={v}"]
-    r = run(cmd, capture_output=True, text=True)
+    r = run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0:
         raise RuntimeError(f"gh api graphql failed: {r.stderr.strip()[:300]}")
     return json.loads(r.stdout)

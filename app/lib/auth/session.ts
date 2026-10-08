@@ -230,6 +230,23 @@ export async function verifyAdminRequest(
   const session = await getSessionUserFromRequest(request);
 
   if (!session) {
+    // Lazily record security alert without blocking response
+    import('../logging/activityLogger').then(({ recordActivity }) => {
+      import('../logging/ipAnonymizer').then(({ extractClientIp }) => {
+        recordActivity({
+          category: 'security',
+          action: 'security:unauthorized_admin_api',
+          title: `Accès non authentifié bloqué sur ${request.nextUrl.pathname}`,
+          severity: 'security',
+          user: { isAuthenticated: false },
+          context: {
+            path: request.nextUrl.pathname,
+            ip: extractClientIp(request.headers),
+          },
+        }).catch(() => {});
+      });
+    }).catch(() => {});
+
     return {
       authorized: false,
       response: NextResponse.json(
@@ -240,6 +257,28 @@ export async function verifyAdminRequest(
   }
 
   if (!isSessionAdmin(session)) {
+    import('../logging/activityLogger').then(({ recordActivity }) => {
+      import('../logging/ipAnonymizer').then(({ extractClientIp }) => {
+        recordActivity({
+          category: 'security',
+          action: 'security:forbidden_admin_api',
+          title: `Accès admin interdit pour ${session.name}`,
+          severity: 'security',
+          user: {
+            isAuthenticated: true,
+            userId: session.id,
+            userName: session.name,
+            userEmail: session.email,
+            role: session.role,
+          },
+          context: {
+            path: request.nextUrl.pathname,
+            ip: extractClientIp(request.headers),
+          },
+        }).catch(() => {});
+      });
+    }).catch(() => {});
+
     return {
       authorized: false,
       response: NextResponse.json(

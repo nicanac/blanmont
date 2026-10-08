@@ -83,3 +83,7 @@ scratch/
 .claude/super-board/inflight/
 .claude/super-board/upgrade.json
 .claude/settings.json.bak*
+.claude/worktrees/
+__pycache__/
+.session_edits.json
+
