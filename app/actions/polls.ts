@@ -12,6 +12,7 @@ import { getSaturdaySortieDetails, type SaturdaySortieInfo } from '../lib/sondag
 import { autoCreateUpcomingWeekendPoll, type AutoCreatePollResult } from '../lib/sondage-automation';
 import { requireAdminSession, getSessionUser } from '../lib/auth/session';
 import type { WeekendPoll, PollDayChoice, CyclingGroupChoice } from '../types';
+import { recordActivity } from '../lib/logging/activityLogger';
 
 /**
  * Server Action to submit or update a member's response for the weekend poll.
@@ -35,6 +36,25 @@ export async function submitWeekendPollResponseAction(payload: {
   if (!result.success) {
     throw new Error(result.error || 'Erreur lors de l’enregistrement du vote.');
   }
+
+  await recordActivity({
+    category: 'participation',
+    action: 'participation:weekend_poll_answered',
+    title: `Réponse au sondage week-end : ${payload.memberName}`,
+    severity: 'info',
+    user: {
+      isAuthenticated: Boolean(session),
+      userId: session?.id || payload.memberId,
+      userName: payload.memberName,
+      userEmail: session?.email || null,
+      role: session?.role || ['Member'],
+    },
+    metadata: {
+      pollId: payload.pollId,
+      dayChoice: payload.dayChoice,
+      groupChoice: payload.groupChoice,
+    },
+  });
 
   revalidatePath('/sondage');
   revalidatePath(`/admin/sondages/${payload.pollId}`);

@@ -8,6 +8,7 @@ import {
 import { SubmitEventReviewSchema, safeValidate } from '../lib/validation';
 import { getSessionUser } from '../lib/auth/session';
 import type { EventReview } from '../types';
+import { recordActivity } from '../lib/logging/activityLogger';
 
 /**
  * Server Action to submit or update a member's debrief / review for a calendar event.
@@ -56,6 +57,25 @@ export async function submitEventReviewAction(payload: {
   if (!result.success) {
     throw new Error(result.error || 'Erreur lors de l’enregistrement de votre avis.');
   }
+
+  await recordActivity({
+    category: 'participation',
+    action: 'participation:event_review_submitted',
+    title: `Débrief de sortie publié : ${session.name} (${valid.rating}/5★)`,
+    severity: 'info',
+    user: {
+      isAuthenticated: true,
+      userId: session.id,
+      userName: session.name,
+      userEmail: session.email,
+      role: session.role,
+    },
+    metadata: {
+      eventId: valid.eventId,
+      rating: valid.rating,
+      comment: valid.comment,
+    },
+  });
 
   revalidatePath('/calendrier');
   return result;
