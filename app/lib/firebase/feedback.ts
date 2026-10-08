@@ -1,5 +1,5 @@
 import { Feedback } from '../../types';
-import { isMockMode, useNotionFallback } from './client';
+import { isMockMode } from './client';
 import {
   fetchCollection,
   saveRecord,
@@ -8,20 +8,11 @@ import {
 } from './rtdbService';
 import { SubmitFeedbackSchema, safeValidate } from '../validation';
 
-// Notion fallback imports
-import {
-  getFeedbackForTrace as getNotionFeedback,
-  submitFeedback as submitNotionFeedback,
-} from '../notion/feedback';
-
 /**
  * Fetches all feedback for a specific trace.
  */
 export const getFeedbackForTrace = async (traceId: string): Promise<Feedback[]> => {
   if (isMockMode) {
-    if (useNotionFallback) {
-      return getNotionFeedback(traceId);
-    }
     return [];
   }
 
@@ -62,15 +53,6 @@ export const submitFeedback = async (
   const validData = validation.data;
 
   if (isMockMode) {
-    if (useNotionFallback) {
-      return submitNotionFeedback(
-        validData.traceId,
-        validData.memberId || '',
-        validData.rating,
-        validData.comment,
-        validData.feedbackId
-      );
-    }
     console.log('Mock feedback submission:', validData);
     return;
   }
