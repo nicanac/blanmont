@@ -4,14 +4,19 @@ import { useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { generateVisitorId, VISITOR_COOKIE_NAME } from '@/app/lib/logging/visitorSession';
 import { ActivityClientLogInput } from '@/app/lib/validation/logging';
+import {
+  hasAnalyticsConsent,
+  CONSENT_CHANGE_EVENT,
+} from '@/app/lib/consent/cookieConsent';
 
 const STORAGE_KEY = 'ccb_visitor_id';
 
 /**
- * Retrieves or generates an anonymous visitor identifier.
+ * Retrieves or generates an anonymous visitor identifier if analytics consent is granted.
  */
 export function getClientVisitorId(): string {
   if (typeof window === 'undefined') return '';
+  if (!hasAnalyticsConsent()) return '';
 
   try {
     let visitorId = localStorage.getItem(STORAGE_KEY);
@@ -28,10 +33,11 @@ export function getClientVisitorId(): string {
 }
 
 /**
- * Safely dispatches an activity log from the browser to /api/logs.
+ * Safely dispatches an activity log from the browser to /api/logs if analytics consent is granted.
  */
 export function trackClientEvent(event: ActivityClientLogInput): void {
   if (typeof window === 'undefined') return;
+  if (!hasAnalyticsConsent()) return;
 
   const visitorId = getClientVisitorId();
   const payload = {
@@ -130,6 +136,31 @@ export default function ActivityTracker(): null {
     }, 350);
 
     return () => clearTimeout(timer);
+  }, [pathname, searchParams]);
+
+  // Track initial page view immediately when analytics consent is granted dynamically
+  useEffect(() => {
+    const handleConsentChange = (e: Event) => {
+      const custom = e as CustomEvent<{ analytics: boolean }>;
+      if (custom.detail?.analytics) {
+        if (pathname.startsWith('/admin')) return;
+        const currentUrl = `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`;
+        const pageTitle = getPublicPageTitle(pathname, document.title);
+        trackClientEvent({
+          category: 'navigation',
+          action: 'page:view',
+          title: `Visite de page : ${pageTitle}`,
+          path: currentUrl,
+          metadata: {
+            title: pageTitle,
+            pathname,
+          },
+        });
+      }
+    };
+
+    window.addEventListener(CONSENT_CHANGE_EVENT, handleConsentChange);
+    return () => window.removeEventListener(CONSENT_CHANGE_EVENT, handleConsentChange);
   }, [pathname, searchParams]);
 
   // Delegated click tracking for data-track attributes (e.g. GPX downloads, external maps)
