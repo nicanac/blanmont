@@ -1,15 +1,22 @@
 'use client';
 
+import * as Sentry from '@sentry/nextjs';
+import { useEffect } from 'react';
+
 /**
  * Global error boundary that catches errors in root layout.
  * Replaces the full document shell in case of fatal error with an accessible fallback.
  */
 export default function GlobalError({
+  error,
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
   return (
     <html lang="fr">
       <body className="min-h-screen bg-night text-snow flex flex-col items-center justify-center p-6 font-sans antialiased">
