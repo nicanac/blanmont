@@ -324,6 +324,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
             type="button"
             onClick={onClose}
             className="p-1 rounded-sm text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-snow-1 hover:bg-paper-3 dark:hover:bg-night-3 transition-colors"
+            aria-label="Fermer"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
