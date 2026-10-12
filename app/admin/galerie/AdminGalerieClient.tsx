@@ -12,6 +12,7 @@ import {
   XMarkIcon,
   SparklesIcon,
   MagnifyingGlassIcon,
+  LockClosedIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 import AdminPageHeader from '../components/AdminPageHeader';
@@ -36,6 +37,7 @@ export default function AdminGalerieClient({
     externalAlbumUrl: '',
     photoCount: 20,
     featured: false,
+    isPublic: false,
   };
 
   const [albums, setAlbums] = useState<PhotoAlbum[]>(initialAlbums);
@@ -64,6 +66,7 @@ export default function AdminGalerieClient({
       externalAlbumUrl: album.externalAlbumUrl || '',
       photoCount: album.photoCount || 0,
       featured: Boolean(album.featured),
+      isPublic: Boolean(album.isPublic),
     });
     setIsModalOpen(true);
   };
@@ -221,6 +224,7 @@ export default function AdminGalerieClient({
                 <th className="py-3 px-4">Titre &amp; Description</th>
                 <th className="py-3 px-4">Saison</th>
                 <th className="py-3 px-4">Catégorie</th>
+                <th className="py-3 px-4">Visibilité</th>
                 <th className="py-3 px-4">Photos</th>
                 <th className="py-3 px-4">Lien Externe</th>
                 <th className="py-3 px-4 text-right">Actions</th>
@@ -272,6 +276,18 @@ export default function AdminGalerieClient({
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line text-ink-2 dark:text-snow-2">
                       {album.category}
                     </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    {album.isPublic ? (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
+                        Public
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line text-ink-2 dark:text-snow-2">
+                        <LockClosedIcon className="size-3" />
+                        <span>Membres</span>
+                      </span>
+                    )}
                   </td>
                   <td className="py-3 px-4 tabular-nums font-semibold text-ink dark:text-white">
                     {album.photoCount}
@@ -452,7 +468,7 @@ export default function AdminGalerieClient({
                   />
                 </div>
 
-                <div className="flex items-center pt-6">
+                <div className="flex flex-col gap-2 pt-3">
                   <label htmlFor="galerie-album-featured" className="flex items-center gap-2 cursor-pointer">
                     <input
                       id="galerie-album-featured"
@@ -463,6 +479,22 @@ export default function AdminGalerieClient({
                     />
                     <span className="font-semibold text-ink dark:text-white">Mettre à la Une</span>
                   </label>
+
+                  <label htmlFor="galerie-album-is-public" className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      id="galerie-album-is-public"
+                      type="checkbox"
+                      checked={form.isPublic}
+                      onChange={(e) => setForm({ ...form, isPublic: e.target.checked })}
+                      className="rounded border-line dark:border-night-line text-brand focus:ring-brand"
+                    />
+                    <span className="font-semibold text-ink dark:text-white">
+                      Album public (visible par les visiteurs non connectés)
+                    </span>
+                  </label>
+                  <p className="text-[11px] text-ink-3 dark:text-snow-3">
+                    Par défaut, les albums restent réservés aux membres connectés pour respecter la vie privée des coureurs.
+                  </p>
                 </div>
               </div>
 
