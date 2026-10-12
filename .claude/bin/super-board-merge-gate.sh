@@ -183,7 +183,8 @@ say "lock taken; verifying against ${BASE} as it is now"
 # ---- the freshness check ---------------------------------------------------
 # Done in a throwaway worktree so the branch under test is never mutated: the
 # gate proves a merge, it does not perform one locally and it never pushes.
-SCRATCH=$(mktemp -d)
+mkdir -p "${REPO_PATH}/.claude/worktrees"
+SCRATCH=$(mktemp -d "${REPO_PATH}/.claude/worktrees/gate-XXXXXX")
 cleanup() { git -C "$REPO_PATH" worktree remove --force "$SCRATCH" 2>/dev/null || true; rm -rf "$SCRATCH" "${META:-}" "${DIFF:-}"; release; }
 trap cleanup EXIT
 
@@ -214,7 +215,14 @@ HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 META=$(mktemp); DIFF=$(mktemp)
 gh pr view "$PR" ${REPO:+--repo "$REPO"} --json labels,files,additions,deletions,body > "$META" 2>/dev/null || echo '{}' > "$META"
 gh pr diff "$PR" ${REPO:+--repo "$REPO"} > "$DIFF" 2>/dev/null || : > "$DIFF"
-PLAN=$(python3 "$HERE/super-board-merge-policy.py" --config "$CONFIG" --meta "$META" --diff "$DIFF") || {
+P_CFG="$CONFIG"; P_META="$META"; P_DIFF="$DIFF"; P_SCRIPT="$HERE/super-board-merge-policy.py"
+if command -v cygpath >/dev/null 2>&1; then
+  P_CFG=$(cygpath -w "$CONFIG")
+  P_META=$(cygpath -w "$META")
+  P_DIFF=$(cygpath -w "$DIFF")
+  P_SCRIPT=$(cygpath -w "$P_SCRIPT")
+fi
+PLAN=$(python3 "$P_SCRIPT" --config "$P_CFG" --meta "$P_META" --diff "$P_DIFF") || {
   echo "human-gate: policy — could not classify the PR (unreadable metadata)"
   say "merge policy could not be evaluated — a human merges this one"; exit 7; }
 
