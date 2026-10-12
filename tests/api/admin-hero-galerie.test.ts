@@ -101,8 +101,8 @@ describe('Admin Hero & Galerie API Endpoints', () => {
         user: { id: 'admin-1', isAdmin: true },
       } as any);
 
-      const newAlb = { id: 'alb-new', title: 'Stage Provence' };
-      vi.spyOn(galleriesModule, 'createPhotoAlbum').mockResolvedValue(newAlb as any);
+      const newAlb = { id: 'alb-new', title: 'Stage Provence', isPublic: true };
+      const createSpy = vi.spyOn(galleriesModule, 'createPhotoAlbum').mockResolvedValue(newAlb as any);
 
       const req = new NextRequest('http://localhost:3000/api/admin/galerie', {
         method: 'POST',
@@ -110,6 +110,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
           title: 'Stage Provence',
           coverUrl: 'https://example.com/cover.jpg',
           category: 'Sorties',
+          isPublic: true,
         }),
       });
 
@@ -118,6 +119,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
       const data = await res.json();
       expect(data.success).toBe(true);
       expect(data.album.title).toBe('Stage Provence');
+      expect(createSpy).toHaveBeenCalledWith(expect.objectContaining({ isPublic: true }));
     });
 
     it('PUT rejects with 401 when unauthorized', async () => {
@@ -211,6 +213,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
           category: 'Sorties',
           year: 2026,
           photoCount: 15,
+          isPublic: false,
         }),
       });
 
@@ -225,6 +228,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
           title: 'Titre Modifié',
           coverUrl: 'https://example.com/new-cover.jpg',
           category: 'Sorties',
+          isPublic: false,
         })
       );
     });

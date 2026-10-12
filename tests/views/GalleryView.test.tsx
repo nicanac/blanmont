@@ -133,8 +133,8 @@ describe('GalleryView Component (app/galerie/GalleryView.tsx)', () => {
     expect(screen.getByText('Sortie Ardennaise - Liège Bastogne Liège')).toBeDefined();
   });
 
-  it('opens and closes album detail modal (planche contact)', () => {
-    render(<GalleryView initialAlbums={mockAlbums} />);
+  it('opens and closes album detail modal (planche contact) when authenticated', () => {
+    render(<GalleryView initialAlbums={mockAlbums} isAuthenticated={true} />);
 
     const explorerButtons = screen.getAllByRole('button', { name: /Explorer/i });
     fireEvent.click(explorerButtons[0]);
@@ -150,8 +150,8 @@ describe('GalleryView Component (app/galerie/GalleryView.tsx)', () => {
     expect(screen.queryByText('Cliquez sur une photo pour l\'agrandir en plein écran :')).toBeNull();
   });
 
-  it('opens fullscreen lightbox when clicking a contact sheet photo', () => {
-    render(<GalleryView initialAlbums={mockAlbums} />);
+  it('opens fullscreen lightbox when clicking a contact sheet photo when authenticated', () => {
+    render(<GalleryView initialAlbums={mockAlbums} isAuthenticated={true} />);
 
     // Open modal
     const explorerButtons = screen.getAllByRole('button', { name: /Explorer/i });
@@ -173,5 +173,79 @@ describe('GalleryView Component (app/galerie/GalleryView.tsx)', () => {
     // Close lightbox with escape
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(screen.queryByRole('dialog', { name: /Visionneuse plein écran/i })).toBeNull();
+  });
+
+  describe('Privacy & Member access control', () => {
+    const mixedAlbums: PhotoAlbum[] = [
+      {
+        ...mockAlbums[0],
+        id: 'priv-1',
+        title: 'Sortie Privée Peloton',
+        isPublic: false,
+      },
+      {
+        ...mockAlbums[1],
+        id: 'pub-1',
+        title: 'Album Public Découverte',
+        isPublic: true,
+      },
+    ];
+
+    it('displays privacy banner and member lock badges when unauthenticated', () => {
+      render(<GalleryView initialAlbums={mixedAlbums} isAuthenticated={false} />);
+
+      // Privacy banner should be present
+      expect(screen.getByText(/Archives photographiques réservées aux membres/i)).toBeDefined();
+      expect(screen.getByRole('link', { name: /Connexion membre/i })).toHaveAttribute(
+        'href',
+        '/login?redirect=/galerie'
+      );
+
+      // Private album should have "Membres" badge and "Accès membre" button
+      expect(screen.getByText('Sortie Privée Peloton')).toBeDefined();
+      expect(screen.getByText('Membres')).toBeDefined();
+      expect(screen.getByRole('button', { name: /Accès membre/i })).toBeDefined();
+
+      // Public album should have "Public" badge and "Explorer" button
+      expect(screen.getByText('Album Public Découverte')).toBeDefined();
+      expect(screen.getByText('Public')).toBeDefined();
+      expect(screen.getByRole('button', { name: /Explorer/i })).toBeDefined();
+    });
+
+    it('restricts contact sheet and displays locked message when clicking a private album while unauthenticated', () => {
+      render(<GalleryView initialAlbums={mixedAlbums} isAuthenticated={false} />);
+
+      const privateBtn = screen.getByRole('button', { name: /Accès membre/i });
+      fireEvent.click(privateBtn);
+
+      // Modal opens with lock notice
+      expect(screen.getByText(/Album réservé aux membres connectés/i)).toBeDefined();
+      expect(
+        screen.getByText(/Les photographies et souvenirs de cette sortie sont réservés aux cyclistes adhérents/i)
+      ).toBeDefined();
+      expect(screen.getByRole('link', { name: /Se connecter pour voir les photos/i })).toHaveAttribute(
+        'href',
+        '/login?redirect=/galerie'
+      );
+
+      // Private photos contact sheet instructions must NOT be present
+      expect(screen.queryByText(/Cliquez sur une photo pour l'agrandir en plein écran/i)).toBeNull();
+    });
+
+    it('hides privacy banner and allows exploring all albums when authenticated', () => {
+      render(<GalleryView initialAlbums={mixedAlbums} isAuthenticated={true} />);
+
+      // Privacy banner should NOT be present
+      expect(screen.queryByText(/Archives photographiques réservées aux membres/i)).toBeNull();
+
+      // All albums have explorer buttons
+      const explorerButtons = screen.getAllByRole('button', { name: /Explorer/i });
+      expect(explorerButtons.length).toBe(2);
+
+      // Opening private album allows viewing photos
+      fireEvent.click(explorerButtons[0]);
+      expect(screen.getByText('Cliquez sur une photo pour l\'agrandir en plein écran :')).toBeDefined();
+      expect(screen.queryByText(/Album réservé aux membres du club/i)).toBeNull();
+    });
   });
 });

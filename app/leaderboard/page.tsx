@@ -7,6 +7,7 @@ import {
     getAvailableYears,
     calculateHallOfFameLeaderboard,
 } from '../lib/carreVert';
+import { getSessionUser } from '../lib/auth/session';
 import LeaderboardView from './LeaderboardView';
 
 export const dynamic = 'force-dynamic';
@@ -48,12 +49,15 @@ export default async function LeaderboardPage(
     const params = await searchParams;
     const currentYear = new Date().getFullYear();
 
-    // Fetch from Firebase
-    const [rawEntries, events, allAttendance] = await Promise.all([
+    // Fetch from Firebase & session
+    const [rawEntries, events, allAttendance, sessionUser] = await Promise.all([
         getLeaderboardEntries(),
         getCalendarEvents(),
         getAllAttendance(),
+        getSessionUser(),
     ]);
+
+    const isAuthenticated = Boolean(sessionUser);
 
     // Available years: dynamically discovered, guaranteeing baseline [2024, 2025, 2026, 2027]
     const availableYears = getAvailableYears(events, allAttendance, rawEntries, [2024, 2025, 2026, 2027]);
@@ -82,6 +86,7 @@ export default async function LeaderboardPage(
             initialMemberId={params.member}
             isHallOfFame={isHallOfFame}
             hallOfFame={hallOfFame}
+            isAuthenticated={isAuthenticated}
         />
     );
 }

@@ -40,8 +40,8 @@ export default function PhotoPlates({
     alt: album.title,
     title: album.title,
     meta: `${album.year} · ${album.photoCount} photo${album.photoCount > 1 ? 's' : ''}`,
-    href: album.externalAlbumUrl || '/galerie',
-    external: Boolean(album.externalAlbumUrl),
+    href: album.isPublic && album.externalAlbumUrl ? album.externalAlbumUrl : '/galerie',
+    external: Boolean(album.isPublic && album.externalAlbumUrl),
   }));
 
   if (plates.length === 0) {
