@@ -151,8 +151,10 @@ def check(command, cwd, root_of, env):
         repo = root_of(git_dir) or root_of(cwd)
         if not repo:
             continue  # not a repository: git itself will refuse
-        allowed = os.path.join(repo, ALLOWED_DIR)
-        if resolved and resolved.startswith(allowed + os.sep):
+        allowed = os.path.normpath(os.path.join(repo, ALLOWED_DIR))
+        norm_allowed = os.path.normcase(allowed)
+        norm_resolved = os.path.normcase(os.path.normpath(resolved)) if resolved else None
+        if norm_resolved and norm_resolved.startswith(norm_allowed + os.sep):
             continue
         where = ("resolves to " + resolved) if resolved else "cannot be resolved before it runs"
         return (
