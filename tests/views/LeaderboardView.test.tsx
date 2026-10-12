@@ -110,6 +110,56 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
     vi.restoreAllMocks();
   });
 
+  describe('Member Privacy & Access Protection', () => {
+    it('displays lock cartouche and restricts member attendance when not authenticated', () => {
+      render(
+        <LeaderboardView
+          entries={mockSeasonalEntries}
+          events={mockEvents}
+          totalPossibleRides={30}
+          selectedYear={2026}
+          availableYears={mockAvailableYears}
+          isHallOfFame={false}
+          hallOfFame={mockHallOfFame}
+          isAuthenticated={false}
+        />
+      );
+
+      // Lock message should be displayed
+      expect(screen.getByText(/Espace Membres — Données d'Assiduité Réservées/i)).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /se connecter avec mon compte membre/i })).toHaveAttribute(
+        'href',
+        '/login?redirect=/leaderboard?year=2026'
+      );
+
+      // Member names and individual attendance should NOT be rendered
+      expect(screen.queryByText('Luciano Szustak')).not.toBeInTheDocument();
+      expect(screen.queryByText('Michaël Moreaux')).not.toBeInTheDocument();
+    });
+
+    it('displays lock cartouche on Hall of Fame when not authenticated', () => {
+      render(
+        <LeaderboardView
+          entries={mockSeasonalEntries}
+          events={mockEvents}
+          totalPossibleRides={30}
+          selectedYear={2026}
+          availableYears={mockAvailableYears}
+          isHallOfFame={true}
+          hallOfFame={mockHallOfFame}
+          isAuthenticated={false}
+        />
+      );
+
+      expect(screen.getByText(/Espace Membres — Données d'Assiduité Réservées/i)).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /se connecter avec mon compte membre/i })).toHaveAttribute(
+        'href',
+        '/login?redirect=/leaderboard?year=hall-of-fame'
+      );
+      expect(screen.queryByText('Grand Pilier (78 carrés)')).not.toBeInTheDocument();
+    });
+  });
+
   describe('Multi-Season Navigation', () => {
     it('renders navigation links for all available seasons (2024, 2025, 2026, 2027) and Hall of Fame', () => {
       render(
@@ -121,6 +171,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           availableYears={mockAvailableYears}
           isHallOfFame={false}
           hallOfFame={mockHallOfFame}
+          isAuthenticated={true}
         />
       );
 
@@ -153,6 +204,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           availableYears={mockAvailableYears}
           isHallOfFame={false}
           hallOfFame={mockHallOfFame}
+          isAuthenticated={true}
         />
       );
 
@@ -181,6 +233,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           availableYears={mockAvailableYears}
           isHallOfFame={false}
           hallOfFame={mockHallOfFame}
+          isAuthenticated={true}
         />
       );
 
@@ -216,6 +269,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           availableYears={mockAvailableYears}
           isHallOfFame={false}
           hallOfFame={mockHallOfFame}
+          isAuthenticated={true}
         />
       );
 
@@ -236,6 +290,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           availableYears={mockAvailableYears}
           isHallOfFame={true}
           hallOfFame={mockHallOfFame}
+          isAuthenticated={true}
         />
       );
 
@@ -273,6 +328,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           availableYears={mockAvailableYears}
           isHallOfFame={false}
           hallOfFame={mockHallOfFame}
+          isAuthenticated={true}
         />
       );
 
@@ -306,6 +362,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           availableYears={mockAvailableYears}
           isHallOfFame={true}
           hallOfFame={mockHallOfFame}
+          isAuthenticated={true}
         />
       );
 
@@ -334,6 +391,7 @@ describe('LeaderboardView Component (app/leaderboard/LeaderboardView.tsx)', () =
           isHallOfFame={false}
           hallOfFame={mockHallOfFame}
           initialMemberId="m1"
+          isAuthenticated={true}
         />
       );
 

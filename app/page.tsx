@@ -22,6 +22,7 @@ import PhotoPlates from './components/home/PhotoPlates';
 import JoinRoute from './components/home/JoinRoute';
 import HomeBlogSection from './components/shared/HomeBlogSection';
 import { tallyPoll, upcomingEvents, localTodayIso } from './components/home/homeData';
+import { getSessionUser } from './lib/auth/session';
 
 /**
  * Home — La Feuille de Blanmont: the next departure printed as the title of the
@@ -30,7 +31,7 @@ import { tallyPoll, upcomingEvents, localTodayIso } from './components/home/home
  * plates and the logbook.
  */
 export default async function Home(): Promise<React.ReactElement> {
-  const [posts, activePoll, events, heroSettings, albums, rawEntries, allAttendance] =
+  const [posts, activePoll, events, heroSettings, albums, rawEntries, allAttendance, sessionUser] =
     await Promise.all([
       getBlogPosts(),
       getActiveWeekendPoll(),
@@ -39,8 +40,10 @@ export default async function Home(): Promise<React.ReactElement> {
       getPhotoAlbums(),
       getLeaderboardEntries(),
       getAllAttendance(),
+      getSessionUser(),
     ]);
 
+  const isMember = Boolean(sessionUser);
   const nextRide = getNextScheduledRide(events);
   const [weather, responses] = await Promise.all([
     getRideWeather(nextRide.isoDate, nextRide.departure).catch(() => null),
@@ -77,7 +80,7 @@ export default async function Home(): Promise<React.ReactElement> {
       <GroupRoads />
       <SeasonTimetable events={upcoming} totalThisSeason={seasonTotal} />
       <WeekendBoard poll={activePoll} tally={tally} />
-      <CarreVertBand year={year} possible={possible} riders={riders} />
+      <CarreVertBand year={year} possible={possible} riders={riders} isAuthenticated={isMember} />
       <PhotoPlates
         albums={albums}
         slides={heroSettings.slides}

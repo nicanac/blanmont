@@ -11,6 +11,7 @@ import {
     StarIcon,
     MapPinIcon,
     SparklesIcon,
+    LockClosedIcon,
 } from '@heroicons/react/24/outline';
 import {
     TrophySquareIcon,
@@ -23,6 +24,7 @@ import { parseDateInfo, HallOfFameMember, FidelityGrade } from '../lib/carreVert
 import { SheetHeader } from '../components/carte/SheetHeader';
 import { RoadSwatch } from '../components/carte/RoadSwatch';
 import type { CyclingGroup } from '../constants/cycling';
+import { useAuthOptional } from '../context/AuthContext';
 
 type LeaderboardEntry = {
     id: string;
@@ -41,6 +43,7 @@ type Props = {
     initialMemberId?: string;
     isHallOfFame?: boolean;
     hallOfFame?: HallOfFameMember[];
+    isAuthenticated?: boolean;
 };
 
 // Formats dates consistently in French (e.g., "12 avr. 2026") using UTC to prevent shifts
@@ -328,7 +331,11 @@ export default function LeaderboardView({
     initialMemberId,
     isHallOfFame = false,
     hallOfFame = [],
+    isAuthenticated: isAuthenticatedProp,
 }: Props): React.ReactElement {
+    const auth = useAuthOptional();
+    const isAuthed = isAuthenticatedProp !== undefined ? isAuthenticatedProp : Boolean(auth?.isAuthenticated);
+
     const [selectedMemberId, setSelectedMemberId] = useState<string | null>(() => initialMemberId || null);
     const [open, setOpen] = useState(() => Boolean(initialMemberId));
     const [hoveredDateInfo, setHoveredDateInfo] = useState<{
@@ -520,7 +527,17 @@ export default function LeaderboardView({
                             : `Le classement officiel d'assiduité récompensant la régularité et l'engagement des cyclistes de Blanmont tout au long de la saison ${selectedYear}.`
                     }
                     legend={
-                        isHallOfFame
+                        !isAuthed
+                            ? [
+                                  {
+                                      term: 'Accès au classement',
+                                      value: 'Membres',
+                                      hint: 'Connexion requise',
+                                  },
+                                  { term: 'Sorties éligibles', value: String(totalPossibleRides) },
+                                  { term: 'Saison active', value: String(selectedYear) },
+                              ]
+                            : isHallOfFame
                             ? [
                                   {
                                       term: 'En tête du palmarès',
@@ -583,8 +600,38 @@ export default function LeaderboardView({
                 </SheetHeader>
 
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-                    {/* ──── HALL OF FAME VIEW ──── */}
-                    {isHallOfFame ? (
+                    {!isAuthed ? (
+                        <div className="mx-auto max-w-2xl relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-8 sm:p-12 text-center space-y-6 shadow-2xs dark:[--tick:var(--color-snow-3)]">
+                            <div className="mx-auto flex size-14 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow">
+                                <LockClosedIcon className="size-7 text-brand-vif" aria-hidden="true" />
+                            </div>
+                            <div className="space-y-2">
+                                <h3 className="font-semiwide text-xl font-extrabold uppercase text-ink dark:text-snow tracking-tight">
+                                    Espace Membres — Données d&apos;Assiduité Réservées
+                                </h3>
+                                <p className="text-sm text-ink-2 dark:text-snow-2 leading-relaxed max-w-lg mx-auto">
+                                    Pour préserver la vie privée et les données personnelles des cyclistes du club, le classement nominatif du Carré Vert, le détail des participations et l&apos;historique des sorties sont réservés aux membres connectés.
+                                </p>
+                            </div>
+                            <div className="rounded-sm border border-line dark:border-night-line bg-paper-2/60 dark:bg-night-3/60 p-4 text-xs font-narrow uppercase tracking-wider text-ink-3 dark:text-snow-3 space-y-1">
+                                <p className="font-bold text-ink dark:text-snow">
+                                    {isHallOfFame ? 'Palmarès & Hall of Fame' : `Saison ${selectedYear} · ${totalPossibleRides} sorties éligibles`}
+                                </p>
+                                <p>
+                                    {isHallOfFame ? `${hallOfFame.length} cyclistes classés dans l'histoire du club` : `${entries.length} membres inscrits au challenge cette saison`}
+                                </p>
+                            </div>
+                            <div className="pt-2">
+                                <Link
+                                    href={`/login?redirect=/leaderboard${isHallOfFame ? '?year=hall-of-fame' : `?year=${selectedYear}`}`}
+                                    className="inline-flex min-h-[48px] items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong px-6 py-3 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors"
+                                >
+                                    <LockClosedIcon className="size-4" aria-hidden="true" />
+                                    <span>Se connecter avec mon compte membre</span>
+                                </Link>
+                            </div>
+                        </div>
+                    ) : isHallOfFame ? (
                         <>
                             {activeHofMembers.length === 0 ? (
                                 <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-line dark:border-night-line bg-white dark:bg-night-2 p-8 sm:p-12 text-center shadow-2xs">
@@ -892,7 +939,7 @@ export default function LeaderboardView({
             </main>
 
             {/* ──── Slide-over Drawer for Member Details ──── */}
-            {open && (selectedSeasonalEntry || selectedHofMember) && (
+            {isAuthed && open && (selectedSeasonalEntry || selectedHofMember) && (
                 <div
                     className="fixed inset-0 z-50 overflow-hidden"
                     role="dialog"

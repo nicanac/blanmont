@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { PhotoAlbum } from '../types';
 import {
   CameraIcon,
@@ -17,15 +18,23 @@ import {
   TagIcon,
   ArrowsUpDownIcon,
   PhotoIcon,
+  LockClosedIcon,
 } from '@heroicons/react/24/outline';
+import { useAuthOptional } from '../context/AuthContext';
 
 interface GalleryViewProps {
   initialAlbums: PhotoAlbum[];
+  isAuthenticated?: boolean;
 }
 
 const PAGE_SIZE = 18;
 
-export default function GalleryView({ initialAlbums }: GalleryViewProps): React.ReactElement {
+export default function GalleryView({
+  initialAlbums,
+  isAuthenticated: isAuthenticatedProp,
+}: GalleryViewProps): React.ReactElement {
+  const auth = useAuthOptional();
+  const isAuthed = isAuthenticatedProp !== undefined ? isAuthenticatedProp : Boolean(auth?.isAuthenticated);
   const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -198,6 +207,31 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
   return (
     <div className="space-y-8">
+      {!isAuthed && (
+        <div className="relative corner-ticks rounded-sm border border-line bg-paper-2/60 dark:border-night-line dark:bg-night-2 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 dark:[--tick:var(--color-snow-3)]">
+          <div className="flex items-start sm:items-center gap-3.5">
+            <div className="flex size-10 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow shrink-0">
+              <LockClosedIcon className="size-5 text-brand-vif" aria-hidden="true" />
+            </div>
+            <div>
+              <h3 className="font-semiwide text-sm sm:text-base font-extrabold uppercase tracking-tight text-ink dark:text-snow">
+                Archives photographiques réservées aux membres
+              </h3>
+              <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2 leading-relaxed">
+                Pour respecter le droit à l&apos;image du peloton, la plupart des photos et des albums de sorties sont réservés aux cyclistes connectés.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/login?redirect=/galerie"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong px-4 py-2 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors shrink-0"
+          >
+            <LockClosedIcon className="size-3.5" aria-hidden="true" />
+            <span>Connexion membre</span>
+          </Link>
+        </div>
+      )}
+
       {/* ── Cadre Géodésique & Télémétrie de la Feuille ── */}
       <section
         aria-label="Télémétrie photographique"
@@ -536,7 +570,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   className="object-cover object-center transition-transform duration-700 ease-(--ease-plot) group-hover:scale-[1.04]"
                 />
 
-                {/* Overlays: Year & Category (Crisp Cartographic Badges) */}
+                {/* Overlays: Year, Category & Visibility Badges */}
                 <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 z-10">
                   <span className="rounded-sm bg-ink/90 px-2 py-0.5 font-narrow text-[11px] font-bold uppercase tracking-[0.06em] text-white tabular-nums">
                     {album.year}
@@ -544,6 +578,16 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   <span className="rounded-sm bg-paper/95 px-2 py-0.5 font-narrow text-[11px] font-bold uppercase tracking-[0.06em] text-ink dark:bg-night-2/95 dark:text-snow border border-line dark:border-night-line">
                     {album.category}
                   </span>
+                  {album.isPublic ? (
+                    <span className="rounded-sm bg-emerald-700/90 px-2 py-0.5 font-narrow text-[11px] font-bold uppercase tracking-[0.06em] text-white">
+                      Public
+                    </span>
+                  ) : (
+                    <span className="rounded-sm bg-ink/90 px-2 py-0.5 font-narrow text-[11px] font-bold uppercase tracking-[0.06em] text-white flex items-center gap-1">
+                      <LockClosedIcon className="size-3 text-white" aria-hidden="true" />
+                      <span>Membres</span>
+                    </span>
+                  )}
                 </div>
 
                 {/* Photo Count badge */}
@@ -579,25 +623,43 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                 </div>
 
                 <div className="pt-3 border-t border-line dark:border-night-line flex items-center justify-between gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setActiveModalAlbum(album)}
-                    className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-sm bg-paper-2 hover:bg-line dark:bg-night-3 dark:hover:bg-night-line-strong text-ink dark:text-snow border border-line dark:border-night-line font-narrow text-xs font-bold uppercase tracking-[0.06em] transition-colors cursor-pointer"
-                  >
-                    <span>Explorer ({album.photoCount})</span>
-                  </button>
+                  {(() => {
+                    const isAlbumAccessible = isAuthed || Boolean(album.isPublic);
+                    return (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => setActiveModalAlbum(album)}
+                          className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-sm bg-paper-2 hover:bg-line dark:bg-night-3 dark:hover:bg-night-line-strong text-ink dark:text-snow border border-line dark:border-night-line font-narrow text-xs font-bold uppercase tracking-[0.06em] transition-colors cursor-pointer"
+                        >
+                          {!isAlbumAccessible && (
+                            <LockClosedIcon className="size-3.5 text-brand-vif" aria-hidden="true" />
+                          )}
+                          <span>{isAlbumAccessible ? `Explorer (${album.photoCount})` : 'Accès membre'}</span>
+                        </button>
 
-                  {album.externalAlbumUrl && (
-                    <a
-                      href={album.externalAlbumUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 font-narrow text-xs font-bold uppercase tracking-[0.06em] text-brand hover:text-brand-strong dark:text-brand-soft px-2 py-2 min-h-[44px] transition-colors"
-                    >
-                      <span>Google Photos</span>
-                      <ArrowTopRightOnSquareIcon className="size-3.5" aria-hidden="true" />
-                    </a>
-                  )}
+                        {isAlbumAccessible && album.externalAlbumUrl ? (
+                          <a
+                            href={album.externalAlbumUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-narrow text-xs font-bold uppercase tracking-[0.06em] text-brand hover:text-brand-strong dark:text-brand-soft px-2 py-2 min-h-[44px] transition-colors"
+                          >
+                            <span>Google Photos</span>
+                            <ArrowTopRightOnSquareIcon className="size-3.5" aria-hidden="true" />
+                          </a>
+                        ) : !isAlbumAccessible ? (
+                          <Link
+                            href="/login?redirect=/galerie"
+                            className="inline-flex items-center gap-1 font-narrow text-xs font-bold uppercase tracking-[0.06em] text-brand hover:text-brand-strong dark:text-brand-soft px-2 py-2 min-h-[44px] transition-colors"
+                          >
+                            <span>Connexion</span>
+                            <ArrowTopRightOnSquareIcon className="size-3.5" aria-hidden="true" />
+                          </Link>
+                        ) : null}
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             </article>
@@ -687,40 +749,74 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
 
             {/* Modal Body: Responsive Photo Contact Sheet */}
             <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
-              {activeImages.length > 0 ? (
-                <div>
-                  <p className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3 mb-3">
-                    Cliquez sur une photo pour l&apos;agrandir en plein écran :
-                  </p>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3">
-                    {activeImages.map((imgUrl, idx) => (
-                      <div
-                        key={imgUrl + idx}
-                        onClick={() => setLightboxIndex(idx)}
-                        className="group relative aspect-4/3 rounded-sm overflow-hidden bg-night-3 border border-line dark:border-night-line cursor-pointer hover:border-brand transition-colors"
-                      >
-                        <Image
-                          src={imgUrl}
-                          alt={`${activeModalAlbum.title} - Photo ${idx + 1}`}
-                          fill
-                          unoptimized
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-end justify-end p-1.5">
-                          <span className="opacity-0 group-hover:opacity-100 px-1.5 py-0.5 rounded-xs bg-ink/90 text-white font-narrow text-[10px] tabular-nums font-bold transition-opacity">
-                            #{idx + 1}
-                          </span>
-                        </div>
+              {(() => {
+                const isModalAccessible = Boolean(activeModalAlbum && (isAuthed || activeModalAlbum.isPublic));
+                if (!isModalAccessible) {
+                  return (
+                    <div className="rounded-sm border border-line dark:border-night-line bg-white dark:bg-night-3 p-8 sm:p-12 text-center space-y-4 my-2">
+                      <div className="mx-auto flex size-12 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow">
+                        <LockClosedIcon className="size-6 text-brand-vif" aria-hidden="true" />
                       </div>
-                    ))}
+                      <div className="space-y-1.5 max-w-md mx-auto">
+                        <h4 className="font-semiwide text-lg font-extrabold uppercase text-ink dark:text-snow">
+                          Album réservé aux membres connectés
+                        </h4>
+                        <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2 leading-relaxed">
+                          Les photographies et souvenirs de cette sortie sont réservés aux cyclistes adhérents du CC Saint-Martin Blanmont. Connectez-vous avec votre compte membre pour accéder aux clichés.
+                        </p>
+                      </div>
+                      <div className="pt-2">
+                        <Link
+                          href="/login?redirect=/galerie"
+                          className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong px-5 py-2.5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors"
+                        >
+                          <LockClosedIcon className="size-4" aria-hidden="true" />
+                          <span>Se connecter pour voir les photos</span>
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (activeImages.length > 0) {
+                  return (
+                    <div>
+                      <p className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3 mb-3">
+                        Cliquez sur une photo pour l&apos;agrandir en plein écran :
+                      </p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3">
+                        {activeImages.map((imgUrl, idx) => (
+                          <div
+                            key={imgUrl + idx}
+                            onClick={() => setLightboxIndex(idx)}
+                            className="group relative aspect-4/3 rounded-sm overflow-hidden bg-night-3 border border-line dark:border-night-line cursor-pointer hover:border-brand transition-colors"
+                          >
+                            <Image
+                              src={imgUrl}
+                              alt={`${activeModalAlbum.title} - Photo ${idx + 1}`}
+                              fill
+                              unoptimized
+                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-end justify-end p-1.5">
+                              <span className="opacity-0 group-hover:opacity-100 px-1.5 py-0.5 rounded-xs bg-ink/90 text-white font-narrow text-[10px] tabular-nums font-bold transition-opacity">
+                                #{idx + 1}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="text-center py-12 font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">
+                    Aucune photo supplémentaire dans cet album.
                   </div>
-                </div>
-              ) : (
-                <div className="text-center py-12 font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">
-                  Aucune photo supplémentaire dans cet album.
-                </div>
-              )}
+                );
+              })()}
             </div>
 
             {/* Modal Footer */}
@@ -738,17 +834,34 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
                   Fermer
                 </button>
 
-                {activeModalAlbum.externalAlbumUrl && (
-                  <a
-                    href={activeModalAlbum.externalAlbumUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-brand hover:bg-brand-strong text-white font-narrow text-xs font-bold uppercase tracking-[0.07em] shadow-2xs transition-colors min-h-[44px]"
-                  >
-                    <span>Ouvrir sur Google Photos HD</span>
-                    <ArrowTopRightOnSquareIcon className="size-4" aria-hidden="true" />
-                  </a>
-                )}
+                {(() => {
+                  const isModalAccessible = Boolean(activeModalAlbum && (isAuthed || activeModalAlbum.isPublic));
+                  if (isModalAccessible && activeModalAlbum.externalAlbumUrl) {
+                    return (
+                      <a
+                        href={activeModalAlbum.externalAlbumUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-brand hover:bg-brand-strong text-white font-narrow text-xs font-bold uppercase tracking-[0.07em] shadow-2xs transition-colors min-h-[44px]"
+                      >
+                        <span>Ouvrir sur Google Photos HD</span>
+                        <ArrowTopRightOnSquareIcon className="size-4" aria-hidden="true" />
+                      </a>
+                    );
+                  }
+                  if (!isModalAccessible) {
+                    return (
+                      <Link
+                        href="/login?redirect=/galerie"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-brand hover:bg-brand-strong text-white font-narrow text-xs font-bold uppercase tracking-[0.07em] shadow-2xs transition-colors min-h-[44px]"
+                      >
+                        <LockClosedIcon className="size-4" aria-hidden="true" />
+                        <span>Se connecter</span>
+                      </Link>
+                    );
+                  }
+                  return null;
+                })()}
               </div>
             </div>
           </div>
@@ -756,7 +869,7 @@ export default function GalleryView({ initialAlbums }: GalleryViewProps): React.
       )}
 
       {/* ── Fullscreen Lightbox (Visionneuse Nocturne IGN) ── */}
-      {lightboxIndex !== null && activeModalAlbum && activeImages.length > 0 && (
+      {lightboxIndex !== null && activeModalAlbum && (isAuthed || Boolean(activeModalAlbum.isPublic)) && activeImages.length > 0 && (
         <div
           role="dialog"
           aria-modal="true"

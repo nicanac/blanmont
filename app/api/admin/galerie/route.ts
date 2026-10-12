@@ -20,7 +20,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     const data = await request.json();
-    const { title, description, year, category, coverUrl, externalAlbumUrl, photoCount, featured } = data;
+    const { title, description, year, category, coverUrl, externalAlbumUrl, photoCount, featured, isPublic } = data;
 
     if (!title || !coverUrl || !category) {
       return NextResponse.json(
@@ -38,6 +38,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       externalAlbumUrl: externalAlbumUrl || '',
       photoCount: Number(photoCount) || 1,
       featured: Boolean(featured),
+      isPublic: Boolean(isPublic),
     });
 
     return NextResponse.json({ success: true, album: newAlbum });
@@ -55,7 +56,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
 
   try {
     const data = await request.json();
-    const { id, title, description, year, category, coverUrl, externalAlbumUrl, photoCount, featured } = data;
+    const { id, title, description, year, category, coverUrl, externalAlbumUrl, photoCount, featured, isPublic } = data;
 
     if (!id) {
       return NextResponse.json(
@@ -80,6 +81,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
       externalAlbumUrl: externalAlbumUrl || '',
       photoCount: Number(photoCount) || 1,
       featured: Boolean(featured),
+      ...(isPublic !== undefined ? { isPublic: Boolean(isPublic) } : {}),
     });
 
     if (!updatedAlbum) {

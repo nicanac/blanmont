@@ -367,6 +367,7 @@ export interface PhotoAlbum {
   externalAlbumUrl?: string;
   photoCount: number;
   featured?: boolean;
+  isPublic?: boolean;
   createdAt: string;
   images?: string[];
 }

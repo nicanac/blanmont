@@ -120,3 +120,8 @@ export function useAuth() {
     }
     return context;
 }
+
+export function useAuthOptional(): AuthContextType | null {
+    const context = useContext(AuthContext);
+    return context ?? null;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { getPhotoAlbums } from '../lib/firebase/galleries';
+import { getSessionUser } from '../lib/auth/session';
 import GalleryView from './GalleryView';
 import { SheetHeader } from '../components/carte/SheetHeader';
 
@@ -13,7 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function GaleriePage(): Promise<React.ReactElement> {
-  const albums = await getPhotoAlbums();
+  const [albums, sessionUser] = await Promise.all([
+    getPhotoAlbums(),
+    getSessionUser(),
+  ]);
+  const isAuthenticated = Boolean(sessionUser);
   const photoTotal = albums.reduce((sum, album) => sum + (album.photoCount || 0), 0);
   const seasons = new Set(albums.map((album) => album.year).filter(Boolean)).size;
 
@@ -32,7 +37,7 @@ export default async function GaleriePage(): Promise<React.ReactElement> {
       />
 
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-        <GalleryView initialAlbums={albums} />
+        <GalleryView initialAlbums={albums} isAuthenticated={isAuthenticated} />
       </section>
     </main>
   );
