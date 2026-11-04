@@ -68,10 +68,7 @@ This file tracks the history of tasks performed in this session and planned futu
   - *Status*: Implemented, currently debugging.
 
 ## 🚧 In Progress
-- **Debugging PDF Import**:
-  - *Issue*: User reported a generic error.
-  - *Fix*: Improved error propagation and switched to dynamic `require` for `pdf-parse` to resolve Next.js server-side bundling issues.
-  - *Status*: Waiting for user validation.
+- None. The PDF calendar import was validated and shipped (2-step preview flow); see the Completed list.
 
 ## 📋 Future Tasks / Backlog
 ### 1. Correct PDF Import Logic

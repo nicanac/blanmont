@@ -1,13 +1,24 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    // Member portraits: public read, owner or admin write (images only, max 5 MB).
     match /members/{userId}/{allPaths=**} {
       allow read;
-      allow write: if request.auth.uid == userId || request.auth.token.admin == true;
+      allow write: if request.auth != null
+        && (request.auth.uid == userId || request.auth.token.admin == true)
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if request.auth != null
+        && (request.auth.uid == userId || request.auth.token.admin == true);
     }
+    // Blog media: public read, admin write (images only, max 10 MB).
     match /blog/{allPaths=**} {
       allow read;
-      allow write: if request.auth.token.admin == true;
+      allow write: if request.auth != null
+        && request.auth.token.admin == true
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if request.auth != null && request.auth.token.admin == true;
     }
   }
 }

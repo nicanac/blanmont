@@ -27,7 +27,7 @@ Sidereal Satellite is the digital hub for the **Club de Blanmont**. It provides 
 - **Storage**: Cloudinary & Firebase Storage.
 - **State**: React Context (`AuthContext`) + Server Actions.
 - **Icons**: Heroicons.
-- **Fonts**: Poppins (Google Fonts).
+- **Fonts**: Archivo variable font (Google Fonts), see [DESIGN.md](DESIGN.md).
 
 ## Getting Started
 
