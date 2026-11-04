@@ -25,29 +25,29 @@ export default function RideWeatherBadge({
   theme = 'paper',
 }: RideWeatherBadgeProps) {
   const [weather, setWeather] = useState<RideWeather | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [settledKey, setSettledKey] = useState<string | null>(null);
+  const requestKey = `${isoDate ?? ''}|${departure ?? ''}`;
+  const loading = Boolean(isoDate) && settledKey !== requestKey;
 
   useEffect(() => {
     if (!isoDate) return;
 
     let isMounted = true;
-    setLoading(true);
-
     getRideWeather(isoDate, departure)
       .then((data) => {
         if (isMounted) {
           setWeather(data);
-          setLoading(false);
+          setSettledKey(requestKey);
         }
       })
       .catch(() => {
-        if (isMounted) setLoading(false);
+        if (isMounted) setSettledKey(requestKey);
       });
 
     return () => {
       isMounted = false;
     };
-  }, [isoDate, departure]);
+  }, [isoDate, departure, requestKey]);
 
   const onDark = theme === 'dark';
 

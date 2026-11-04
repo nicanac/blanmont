@@ -1,6 +1,8 @@
 import { TrialRideRequest, Member } from '../../types';
 import { isMockMode, getFirebaseDatabase, ref, get, set, update, remove, snapshotToArray } from './client';
 import { getAdminDatabase } from './admin';
+import type { Database as AdminDatabase } from 'firebase-admin/database';
+import type { Database as ClientDatabase } from 'firebase/database';
 
 export const MOCK_TRIAL_REQUESTS: TrialRideRequest[] = [
   {
@@ -68,9 +70,9 @@ export async function createTrialRequest(
   const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
 
   if (typeof window === 'undefined') {
-    await (db as any).ref(`trial-requests/${newId}`).set(record);
+    await (db as AdminDatabase).ref(`trial-requests/${newId}`).set(record);
   } else {
-    await set(ref(db as any, `trial-requests/${newId}`), record);
+    await set(ref(db as ClientDatabase, `trial-requests/${newId}`), record);
   }
 
   return record;
@@ -86,9 +88,9 @@ export async function getTrialRequests(): Promise<TrialRideRequest[]> {
     let snapshot;
 
     if (typeof window === 'undefined') {
-      snapshot = await (db as any).ref('trial-requests').once('value');
+      snapshot = await (db as AdminDatabase).ref('trial-requests').once('value');
     } else {
-      snapshot = await get(ref(db as any, 'trial-requests'));
+      snapshot = await get(ref(db as ClientDatabase, 'trial-requests'));
     }
 
     if (!snapshot.exists()) return [];
@@ -112,9 +114,9 @@ export async function getTrialRequestById(id: string): Promise<TrialRideRequest 
     let snapshot;
 
     if (typeof window === 'undefined') {
-      snapshot = await (db as any).ref(`trial-requests/${id}`).once('value');
+      snapshot = await (db as AdminDatabase).ref(`trial-requests/${id}`).once('value');
     } else {
-      snapshot = await get(ref(db as any, `trial-requests/${id}`));
+      snapshot = await get(ref(db as ClientDatabase, `trial-requests/${id}`));
     }
 
     if (!snapshot.exists()) return null;
@@ -150,9 +152,9 @@ export async function updateTrialRequest(
   try {
     const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
     if (typeof window === 'undefined') {
-      await (db as any).ref(`trial-requests/${id}`).update(payload);
+      await (db as AdminDatabase).ref(`trial-requests/${id}`).update(payload);
     } else {
-      await update(ref(db as any, `trial-requests/${id}`), payload);
+      await update(ref(db as ClientDatabase, `trial-requests/${id}`), payload);
     }
     return true;
   } catch (error) {
@@ -186,17 +188,17 @@ export async function updateTrialRequestStatus(
   try {
     const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
     if (typeof window === 'undefined') {
-      await (db as any).ref(`trial-requests/${id}/status`).set(status);
+      await (db as AdminDatabase).ref(`trial-requests/${id}/status`).set(status);
       if (updates.contactedAt) {
-        await (db as any).ref(`trial-requests/${id}/contactedAt`).set(updates.contactedAt);
+        await (db as AdminDatabase).ref(`trial-requests/${id}/contactedAt`).set(updates.contactedAt);
       }
-      await (db as any).ref(`trial-requests/${id}/updatedAt`).set(new Date().toISOString());
+      await (db as AdminDatabase).ref(`trial-requests/${id}/updatedAt`).set(new Date().toISOString());
     } else {
-      await set(ref(db as any, `trial-requests/${id}/status`), status);
+      await set(ref(db as ClientDatabase, `trial-requests/${id}/status`), status);
       if (updates.contactedAt) {
-        await set(ref(db as any, `trial-requests/${id}/contactedAt`), updates.contactedAt);
+        await set(ref(db as ClientDatabase, `trial-requests/${id}/contactedAt`), updates.contactedAt);
       }
-      await set(ref(db as any, `trial-requests/${id}/updatedAt`), new Date().toISOString());
+      await set(ref(db as ClientDatabase, `trial-requests/${id}/updatedAt`), new Date().toISOString());
     }
     return true;
   } catch (error) {
@@ -218,9 +220,9 @@ export async function deleteTrialRequest(id: string): Promise<boolean> {
   try {
     const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
     if (typeof window === 'undefined') {
-      await (db as any).ref(`trial-requests/${id}`).remove();
+      await (db as AdminDatabase).ref(`trial-requests/${id}`).remove();
     } else {
-      await remove(ref(db as any, `trial-requests/${id}`));
+      await remove(ref(db as ClientDatabase, `trial-requests/${id}`));
     }
     return true;
   } catch (error) {
@@ -264,12 +266,12 @@ export async function convertTrialRequestToMember(
 
     // Create member record in /members
     if (typeof window === 'undefined') {
-      await (db as any).ref(`members/${newMemberId}`).set({
+      await (db as AdminDatabase).ref(`members/${newMemberId}`).set({
         ...newMemberData,
         createdAt: new Date().toISOString(),
       });
     } else {
-      await set(ref(db as any, `members/${newMemberId}`), {
+      await set(ref(db as ClientDatabase, `members/${newMemberId}`), {
         ...newMemberData,
         createdAt: new Date().toISOString(),
       });

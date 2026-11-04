@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   MagnifyingGlassIcon,
   FunnelIcon,
@@ -9,7 +9,6 @@ import {
   ShieldExclamationIcon,
   UserCircleIcon,
   GlobeAltIcon,
-  CommandLineIcon,
 } from '@heroicons/react/24/outline';
 import { ActivityLog, LogCategory, LogSeverity, UserSegment } from '@/app/types/logging';
 import LogDetailModal from './LogDetailModal';
@@ -36,7 +35,19 @@ export default function LogsTable({
   const [selectedCategory, setSelectedCategory] = useState<LogCategory | 'all'>('all');
   const [selectedSeverity, setSelectedSeverity] = useState<LogSeverity | 'all'>('all');
   const [selectedUserSegment, setSelectedUserSegment] = useState<UserSegment | 'all'>('all');
-  const [timeFilter, setTimeFilter] = useState<'all' | 'today' | '7d' | '30d'>('all');
+  const [timeFilter, setTimeFilterState] = useState<'all' | 'today' | '7d' | '30d'>('all');
+  // Reference "now" for the time window; refreshed when the filter or the logs change.
+  const [nowMs, setNowMs] = useState(0);
+
+  const setTimeFilter = useCallback((value: 'all' | 'today' | '7d' | '30d'): void => {
+    setNowMs(Date.now());
+    setTimeFilterState(value);
+  }, []);
+
+  useEffect(() => {
+    const id = setTimeout(() => setNowMs(Date.now()), 0);
+    return () => clearTimeout(id);
+  }, [logs]);
 
   // Filtered logs computation
   const filteredLogs = useMemo(() => {
@@ -44,7 +55,7 @@ export default function LogsTable({
 
     // Time filter
     if (timeFilter !== 'all') {
-      const now = Date.now();
+      const now = nowMs;
       let windowMs = 0;
       if (timeFilter === 'today') windowMs = 24 * 60 * 60 * 1000;
       else if (timeFilter === '7d') windowMs = 7 * 24 * 60 * 60 * 1000;
@@ -94,7 +105,7 @@ export default function LogsTable({
     }
 
     return result;
-  }, [logs, timeFilter, selectedCategory, selectedSeverity, selectedUserSegment, searchQuery]);
+  }, [logs, nowMs, timeFilter, selectedCategory, selectedSeverity, selectedUserSegment, searchQuery]);
 
   const categories: { id: LogCategory | 'all'; label: string }[] = [
     { id: 'all', label: 'Toutes catégories' },
@@ -259,7 +270,7 @@ export default function LogsTable({
             </span>
             <select
               value={selectedSeverity}
-              onChange={(e) => setSelectedSeverity(e.target.value as any)}
+              onChange={(e) => setSelectedSeverity(e.target.value as LogSeverity | 'all')}
               className="px-2 py-1 rounded text-xs bg-paper dark:bg-night border border-line dark:border-night-line text-ink dark:text-white font-semibold uppercase focus:outline-hidden"
             >
               <option value="all">Toutes</option>

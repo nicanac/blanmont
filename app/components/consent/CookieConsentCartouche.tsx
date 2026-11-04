@@ -9,7 +9,6 @@ import {
   CheckIcon,
 } from '@heroicons/react/24/outline';
 import {
-  hasGivenConsent,
   getCookieConsent,
   saveCookieConsent,
   OPEN_CONSENT_MODAL_EVENT,
@@ -22,6 +21,7 @@ export default function CookieConsentCartouche(): React.JSX.Element | null {
   const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync with cookie consent (external browser state) on mount
     setMounted(true);
     const existing = getCookieConsent();
     if (!existing) {

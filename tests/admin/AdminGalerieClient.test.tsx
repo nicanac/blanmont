@@ -8,7 +8,13 @@ import AdminGalerieClient from '@/app/admin/galerie/AdminGalerieClient';
 import type { PhotoAlbum } from '@/app/types';
 
 vi.mock('next/image', () => ({
-  default: ({ src, alt, fill, unoptimized, ...props }: any) => (
+  default: ({
+    src,
+    alt,
+    fill: _fill,
+    unoptimized: _unoptimized,
+    ...props
+  }: { src: string; alt: string; fill?: boolean; unoptimized?: boolean } & Record<string, unknown>) => (
     <img src={src} alt={alt} {...props} />
   ),
 }));

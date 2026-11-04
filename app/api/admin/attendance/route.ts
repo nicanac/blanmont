@@ -93,7 +93,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           
           if (dateInfo) {
             const dateStrWithYear = `${String(dateInfo.day).padStart(2, '0')}/${String(dateInfo.month).padStart(2, '0')}/${dateInfo.year}`;
-            const altDateStr = `${dateInfo.day}/${dateInfo.month}/${dateInfo.year}`;
             
             const alreadyHasDate = currentDates.some(d => {
               const info = parseDateInfo(d);

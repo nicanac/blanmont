@@ -67,8 +67,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, id: result.id });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating trace:', error);
-    return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ error: (error instanceof Error && error.message) || 'Internal Server Error' }, { status: 500 });
   }
 }

@@ -1,3 +1,4 @@
+import type { DataSnapshot } from 'firebase-admin/database';
 import { getAdminDatabase } from '../firebase/admin';
 import { isMockMode, snapshotToArray } from '../firebase/client';
 import {
@@ -275,8 +276,8 @@ export async function pruneActivityLogs(
     if (rootSnapshot.exists()) {
       const updates: Record<string, null> = {};
 
-      rootSnapshot.forEach((monthChild: any) => {
-        monthChild.forEach((logChild: any) => {
+      rootSnapshot.forEach((monthChild: DataSnapshot) => {
+        monthChild.forEach((logChild: DataSnapshot) => {
           const log = logChild.val();
           if (log.timestampMs && log.timestampMs < cutoffMs) {
             updates[`activity-logs/${monthChild.key}/${logChild.key}`] = null;
@@ -383,7 +384,8 @@ export async function batchUpdateLogReviews(
 /**
  * Helper to clear mock in-memory logs (for testing).
  */
-export function _clearMockLogs(): void {
+function clearMockLogs(): void {
   mockLogStore.clear();
 }
+export { clearMockLogs as _clearMockLogs };
 
