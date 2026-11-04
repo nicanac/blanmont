@@ -100,7 +100,7 @@ export default function PhotoPlates({
                   style={{ '--pos': lead.position || 'center' } as CSSVars}
                 />
               </div>
-              <figcaption className="mt-3 flex items-baseline justify-between gap-4 border-b border-line pb-3 dark:border-night-line">
+              <figcaption className="mt-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4 lg:border-b lg:border-line lg:pb-3 dark:lg:border-night-line">
                 <span className="text-base font-bold text-ink group-hover:text-brand dark:text-snow dark:group-hover:text-brand-soft">
                   <span className="mr-2 font-narrow text-xs font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                     Planche 1
@@ -108,7 +108,7 @@ export default function PhotoPlates({
                   {lead.title}
                 </span>
                 {lead.meta && (
-                  <span className="shrink-0 font-narrow text-xs tabular-nums text-ink-3 dark:text-snow-3">
+                  <span className="font-narrow text-xs tabular-nums text-ink-3 sm:shrink-0 dark:text-snow-3">
                     {lead.meta}
                   </span>
                 )}
