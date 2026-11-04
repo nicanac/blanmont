@@ -25,6 +25,7 @@ import GobikSizeGuide from '@/app/components/equipment/GobikSizeGuide';
 import { useAuth } from '@/app/context/AuthContext';
 import { toast } from 'sonner';
 import { SheetHeader } from '@/app/components/carte/SheetHeader';
+import { submitEquipmentOrderAction } from './actions';
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -48,6 +49,9 @@ function CheckoutContent() {
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState<boolean>(false);
   const [copiedOrder, setCopiedOrder] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
+  const [website, setWebsite] = useState<string>(''); // honeypot, must stay empty
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [placedOrderId, setPlacedOrderId] = useState<string | null>(null);
 
   // Fetch updated equipment if API is available
   useEffect(() => {
@@ -123,7 +127,34 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
     }
   };
 
-  const mailtoSubject = `[Commande Équipement] ${selectedProduct.name} (${effectiveSize}) - ${effectiveMemberName || 'Membre'}`;
+  const handleSubmitOrder = async (): Promise<void> => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const result = await submitEquipmentOrderAction({
+        productId: selectedProduct.id,
+        size: effectiveSize,
+        quantity,
+        memberName: effectiveMemberName,
+        memberEmail: effectiveMemberEmail,
+        memberPhone: memberPhone || undefined,
+        notes: orderNotes || undefined,
+        website,
+      });
+      if (result.success) {
+        setPlacedOrderId(result.orderId);
+        toast.success('Commande enregistrée ! Le club vous contactera pour la remise.');
+      } else {
+        toast.error(result.error);
+      }
+    } catch {
+      toast.error('Envoi impossible. Utilisez la confirmation par email.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const mailtoSubject =`[Commande Équipement] ${selectedProduct.name} (${effectiveSize}) - ${effectiveMemberName || 'Membre'}`;
   const mailtoUrl = `mailto:info@blanmont.be?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(getOrderSummaryText())}`;
 
   return (
@@ -488,12 +519,48 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
 
               {/* Action Buttons */}
               <div className="space-y-3">
+                {placedOrderId ? (
+                  <p
+                    role="status"
+                    className="rounded-md border border-brand bg-brand-tint p-4 text-sm font-semibold text-ink dark:bg-brand/10 dark:text-snow"
+                  >
+                    Commande enregistrée (réf. {placedOrderId.slice(-6)}). Le club vous contactera
+                    pour la remise et le règlement.
+                  </p>
+                ) : (
+                  <>
+                    {/* Honeypot field: hidden from people and assistive tech */}
+                    <input
+                      type="text"
+                      name="website"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSubmitOrder}
+                      disabled={isSubmitting || !effectiveMemberName || !effectiveMemberEmail}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong disabled:opacity-60 disabled:cursor-not-allowed text-white px-6 py-3.5 text-xs font-bold uppercase tracking-[0.06em] transition-all active:scale-[0.98] shadow-md cursor-pointer"
+                    >
+                      <JerseyIcon className="h-4 w-4" />
+                      <span>{isSubmitting ? 'Envoi…' : 'Envoyer ma commande'}</span>
+                    </button>
+                    {(!effectiveMemberName || !effectiveMemberEmail) && (
+                      <p className="text-xs text-ink-3 dark:text-snow-3">
+                        Renseignez votre nom et votre email pour envoyer la commande.
+                      </p>
+                    )}
+                  </>
+                )}
                 <a
                   href={mailtoUrl}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-6 py-3.5 text-xs font-bold uppercase tracking-[0.06em] transition-all active:scale-[0.98] shadow-md cursor-pointer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 hover:bg-paper dark:hover:bg-night-3 text-ink dark:text-white px-4 py-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
                 >
-                  <JerseyIcon className="h-4 w-4" />
-                  <span>Confirmer la commande par email</span>
+                  <span>Ou confirmer par email</span>
                 </a>
 
                 <button
