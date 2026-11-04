@@ -9,7 +9,6 @@ import {
   MapPinIcon,
   LightBulbIcon,
   SparklesIcon,
-  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import AdminTutorialModal from '@/app/admin/components/AdminTutorialModal';
 

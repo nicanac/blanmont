@@ -13,11 +13,6 @@ const dateSchema = z.string().regex(
 
 const emailSchema = z.string().email('Must be a valid email address');
 
-const phoneSchema = z.string().regex(
-  /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-  'Must be a valid phone number'
-).optional();
-
 // === Trace validation ===
 
 export const CreateTraceSchema = z.object({
@@ -252,7 +247,7 @@ export function validateFormData<T>(
   formData: FormData,
   schema: z.ZodSchema<T>
 ): ValidationResult<T> {
-  const data: Record<string, any> = {};
+  const data: Record<string, unknown> = {};
   
   formData.forEach((value, key) => {
     if (key.endsWith('[]')) {
@@ -260,7 +255,7 @@ export function validateFormData<T>(
       if (!data[arrayKey]) {
         data[arrayKey] = [];
       }
-      data[arrayKey].push(value);
+      (data[arrayKey] as FormDataEntryValue[]).push(value);
     } else {
       data[key] = value;
     }

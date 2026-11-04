@@ -9,7 +9,6 @@ import {
   TrashIcon,
   EyeIcon,
   MagnifyingGlassIcon,
-  AcademicCapIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '../../types/equipment';

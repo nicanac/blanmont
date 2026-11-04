@@ -1,7 +1,6 @@
 'use client';
 
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-// @ts-ignore
 import toGeoJSON from '@mapbox/polyline';
 import { toast } from 'sonner';
 

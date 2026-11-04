@@ -281,9 +281,9 @@ export default function AdminHeroPage(): React.ReactElement {
 
       setIsCropperOpen(false);
       setCropImageSrc(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Crop / upload error:', err);
-      toast.error(`Erreur: ${err.message || 'Impossible de téléverser'}`, { id: toastId });
+      toast.error(`Erreur: ${(err instanceof Error && err.message) || 'Impossible de téléverser'}`, { id: toastId });
     } finally {
       setIsProcessingCrop(false);
     }
@@ -329,9 +329,9 @@ export default function AdminHeroPage(): React.ReactElement {
       setFormData(result.settings);
       setHasChanges(false);
       toast.success('Bannière d\'accueil mise à jour avec succès !');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Save error:', err);
-      toast.error(`Erreur: ${err.message || 'Impossible d\'enregistrer'}`);
+      toast.error(`Erreur: ${(err instanceof Error && err.message) || 'Impossible d\'enregistrer'}`);
     } finally {
       setIsSaving(false);
     }

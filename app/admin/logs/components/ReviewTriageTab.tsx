@@ -8,7 +8,6 @@ import {
   CheckCircleIcon,
   FlagIcon,
   ClockIcon,
-  ShieldExclamationIcon,
   InformationCircleIcon,
   UserCircleIcon,
   GlobeAltIcon,
@@ -37,7 +36,6 @@ interface Props {
 
 export default function ReviewTriageTab({
   logs,
-  stats,
   isLoading,
   isLive,
   onToggleLive,
@@ -92,6 +90,7 @@ export default function ReviewTriageTab({
 
     // Time filter
     if (timeFilter !== 'all') {
+      // eslint-disable-next-line react-hooks/purity -- the time window is relative to the moment the filter is applied
       const now = Date.now();
       let windowMs = 0;
       if (timeFilter === 'today') windowMs = 24 * 60 * 60 * 1000;
@@ -154,7 +153,7 @@ export default function ReviewTriageTab({
     }
   };
 
-  const handleToggleRow = (id: string, e: React.MouseEvent) => {
+  const handleToggleRow = (id: string, e: { stopPropagation: () => void }) => {
     e.stopPropagation();
     setSelectedIds((prev) => {
       const next = new Set(prev);
@@ -423,7 +422,7 @@ export default function ReviewTriageTab({
           {/* Category Dropdown */}
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value as any)}
+            onChange={(e) => setSelectedCategory(e.target.value as LogCategory | 'all')}
             className="px-2.5 py-1 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night text-ink dark:text-snow text-xs font-narrow font-semibold focus:outline-hidden"
           >
             <option value="all">Toutes catégories</option>
@@ -437,7 +436,7 @@ export default function ReviewTriageTab({
           {/* Severity Dropdown */}
           <select
             value={selectedSeverity}
-            onChange={(e) => setSelectedSeverity(e.target.value as any)}
+            onChange={(e) => setSelectedSeverity(e.target.value as LogSeverity | 'all')}
             className="px-2.5 py-1 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night text-ink dark:text-snow text-xs font-narrow font-semibold focus:outline-hidden"
           >
             <option value="all">Toutes gravités</option>
@@ -450,7 +449,7 @@ export default function ReviewTriageTab({
           {/* User Segment Dropdown */}
           <select
             value={selectedUserSegment}
-            onChange={(e) => setSelectedUserSegment(e.target.value as any)}
+            onChange={(e) => setSelectedUserSegment(e.target.value as UserSegment | 'all')}
             className="px-2.5 py-1 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night text-ink dark:text-snow text-xs font-narrow font-semibold focus:outline-hidden"
           >
             <option value="all">Tous profils</option>
@@ -496,7 +495,7 @@ export default function ReviewTriageTab({
                     Aucun événement correspondant aux critères de tri
                   </p>
                   <p className="text-[11px] mt-1 text-ink-4">
-                    Modifiez les filtres de file d'attente ou la recherche.
+                    Modifiez les filtres de file d&apos;attente ou la recherche.
                   </p>
                 </td>
               </tr>
@@ -525,7 +524,7 @@ export default function ReviewTriageTab({
                       <input
                         type="checkbox"
                         checked={isSelected}
-                        onChange={(e) => handleToggleRow(log.id, e as any)}
+                        onChange={(e) => handleToggleRow(log.id, e)}
                         className="rounded-xs border-line dark:border-night-line text-brand focus:ring-0"
                       />
                     </td>

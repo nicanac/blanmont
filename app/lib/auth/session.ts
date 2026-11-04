@@ -30,13 +30,15 @@ export async function setSessionCookie(member: Member | User): Promise<SessionUs
       ? [member.role]
       : ['Member'];
 
+  const memberAvatars = member as { photoUrl?: string; avatarUrl?: string };
+
   const normalizedUser: User = {
     id: member.id,
     username: member.email || member.name,
     name: member.name,
     email: member.email || undefined,
     role: roles,
-    avatarUrl: (member as any).photoUrl || (member as any).avatarUrl || '/images/default-avatar.png',
+    avatarUrl: memberAvatars.photoUrl || memberAvatars.avatarUrl || '/images/default-avatar.png',
   };
 
   const isAdmin = checkIsAdmin(normalizedUser);
