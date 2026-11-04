@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySessionToken, isSessionAdmin, SESSION_COOKIE_NAME } from './app/lib/auth/session';
+import { verifySessionToken, isSessionAdmin, SESSION_COOKIE_NAME } from './app/lib/auth/session-token';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

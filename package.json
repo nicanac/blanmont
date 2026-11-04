@@ -43,12 +43,12 @@
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
     "driver.js": "^1.8.0",
-    "firebase": "^12.8.0",
+    "firebase": "^13.2.0",
     "firebase-admin": "^13.6.0",
     "form-data": "^4.0.5",
     "gsap": "^3.15.0",
     "leaflet": "^1.9.4",
-    "next": "^16.0.8",
+    "next": "^16.4.5",
     "qrcode": "^1.5.4",
     "react": "19.2.1",
     "react-chartjs-2": "^5.3.1",
@@ -60,7 +60,6 @@
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.4.0",
     "three": "^0.186.0",
-    "togpx": "^0.5.4",
     "zod": "^4.3.5"
   },
   "devDependencies": {
@@ -80,7 +79,7 @@
     "autoprefixer": "^10.4.23",
     "baseline-browser-mapping": "^2.9.19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.8",
+    "eslint-config-next": "^16.4.5",
     "jsdom": "^30.0.1",
     "pdf-parse": "^2.4.5",
     "postcss": "^8.5.6",
@@ -90,5 +89,8 @@
     "typescript": "5.9.3",
     "vite": "^8.2.2",
     "vitest": "^5.0.0"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.7"
   }
 }
