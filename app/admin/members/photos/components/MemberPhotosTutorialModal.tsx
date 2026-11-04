@@ -8,7 +8,6 @@ import {
   PhotoIcon,
   CheckIcon,
   LightBulbIcon,
-  Squares2X2Icon,
 } from '@heroicons/react/24/outline';
 import AdminTutorialModal from '@/app/admin/components/AdminTutorialModal';
 

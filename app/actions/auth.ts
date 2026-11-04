@@ -7,6 +7,7 @@ import {
   getSessionUser,
   type SessionUser,
 } from '../lib/auth/session';
+import type { UserRecord } from 'firebase-admin/auth';
 import { getAdminAuth, getAdminDatabase } from '../lib/firebase/admin';
 import { LoginSchema, AccountActivationSchema, safeValidate } from '../lib/validation';
 import { recordActivity } from '../lib/logging/activityLogger';
@@ -121,11 +122,11 @@ export async function requestAccountActivationAction(email: string): Promise<{
 
     // 1. Check if member exists in Realtime Database
     const membersSnap = await adminDb.ref('members').once('value');
-    let memberKey: string | null = null;
-    let memberData: any = null;
+    let memberKey = null as string | null;
+    let memberData = null as { name?: string; email?: string; authUid?: string; role?: string[] } | null;
 
     if (membersSnap.exists()) {
-      membersSnap.forEach((child: any) => {
+      membersSnap.forEach((child) => {
         const val = child.val();
         if (val.email && String(val.email).trim().toLowerCase() === normalizedEmail) {
           memberKey = child.key;
@@ -152,11 +153,12 @@ export async function requestAccountActivationAction(email: string): Promise<{
     }
 
     // 2. Member exists in club database. Check if user already exists in Firebase Auth, if not create them
-    let userRecord: any;
+    let userRecord: UserRecord | undefined;
     try {
       userRecord = await adminAuth.getUserByEmail(normalizedEmail);
-    } catch (err: any) {
-      if (err.code === 'auth/user-not-found' || err.message?.includes('user-not-found')) {
+    } catch (err: unknown) {
+      const authErr = err as { code?: string; message?: string };
+      if (authErr.code === 'auth/user-not-found' || authErr.message?.includes('user-not-found')) {
         // Create user in Firebase Auth for this verified club member
         userRecord = await adminAuth.createUser({
           email: normalizedEmail,
@@ -212,11 +214,11 @@ export async function requestAccountActivationAction(email: string): Promise<{
       message: 'Compte membre vérifié ! Un lien d\'activation a été généré avec succès.',
       directLink: inAppLink,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to process account activation:', error);
     return {
       success: false,
-      message: error?.message || 'Erreur lors de la génération du lien d\'activation.',
+      message: (error instanceof Error && error.message) || 'Erreur lors de la génération du lien d\'activation.',
     };
   }
 }

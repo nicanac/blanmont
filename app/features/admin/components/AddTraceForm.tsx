@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { gpx } from '@tmcw/togeojson';
 
+type GpxGeoJson = ReturnType<typeof gpx>;
+
 // Dynamic import for Map to avoid SSR issues with Leaflet
 const MapPreview = dynamic(() => import('./MapPreview'), {
     ssr: false,
@@ -31,7 +33,7 @@ export default function AddTraceForm() {
     const [message, setMessage] = useState('');
 
     // GPX State
-    const [gpxGeoJson, setGpxGeoJson] = useState<any>(null);
+    const [gpxGeoJson, setGpxGeoJson] = useState<GpxGeoJson | null>(null);
     const [isParsingGpx, setIsParsingGpx] = useState(false);
     const [mapKey, setMapKey] = useState(0);
     const [isMapOpen, setIsMapOpen] = useState(false); // Collapsible: closed by default
@@ -69,9 +71,9 @@ export default function AddTraceForm() {
             setGpxGeoJson(null);
             setGpxContent(null);
             setIsMapOpen(false); // Reset map state
-        } catch (err: any) {
+        } catch (err) {
             setStatus('error');
-            setMessage(err.message);
+            setMessage(err instanceof Error ? err.message : String(err));
         }
     };
 
@@ -144,7 +146,7 @@ export default function AddTraceForm() {
     };
 
     // Helper: Calculate stats from GeoJSON
-    const calculateStats = (geoJson: any) => {
+    const calculateStats = (geoJson: GpxGeoJson) => {
         let totalDistance = 0;
         let totalElevation = 0;
 
@@ -161,9 +163,9 @@ export default function AddTraceForm() {
         };
 
         if (geoJson.features) {
-            geoJson.features.forEach((feature: any) => {
-                if (feature.geometry.type === 'LineString') {
-                    const coords = feature.geometry.coordinates;
+            geoJson.features.forEach((feature) => {
+                if (feature.geometry?.type === 'LineString') {
+                    const coords = feature.geometry.coordinates as number[][];
                     for (let i = 0; i < coords.length - 1; i++) {
                         const p1 = coords[i];
                         const p2 = coords[i + 1];
@@ -188,7 +190,7 @@ export default function AddTraceForm() {
             if (match && match[1]) {
                 return `${urlObj.origin}${match[1]}/embed?profile=1`;
             }
-        } catch (e) {
+        } catch {
             return null;
         }
         return null;

@@ -1,9 +1,8 @@
 'use client';
 
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-// @ts-ignore
 import toGeoJSON from '@mapbox/polyline';
-// @ts-ignore
+// @ts-expect-error -- togpx ships no type declarations
 import togpx from 'togpx';
 import { toast } from 'sonner';
 

@@ -15,6 +15,7 @@ import {
   Filler,
   type ScriptableContext,
   type ChartDataset,
+  type ChartData,
   type TooltipItem,
 } from 'chart.js';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
@@ -484,9 +485,9 @@ export function TelemetryTimelineChart({
       {weeklyDistribution.length > 0 ? (
         <div className="h-72 sm:h-80 w-full">
           {mode === 'mois' ? (
-            <Bar data={chartData as any} options={options} />
+            <Bar data={chartData as unknown as ChartData<'bar'>} options={options} />
           ) : (
-            <Line data={chartData as any} options={options} />
+            <Line data={chartData as unknown as ChartData<'line'>} options={options} />
           )}
         </div>
       ) : (

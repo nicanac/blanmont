@@ -5,7 +5,7 @@ import { useAuth } from '../../../context/AuthContext';
 import Link from 'next/link';
 import { Member, SaturdayRide, Trace, Vote } from '../../../types';
 import { submitVoteAction } from '../../../actions';
-import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon, CalendarDaysIcon } from '@heroicons/react/20/solid';
+import { CheckCircleIcon, ArrowDownTrayIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import TraceCard from '../../traces/components/TraceCard';
 import { cn } from '../../../utils/cn';
 import { SheetHeader } from '../../../components/carte/SheetHeader';
