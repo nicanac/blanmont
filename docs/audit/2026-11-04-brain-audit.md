@@ -44,3 +44,14 @@ Direct dependencies flagged: `next` (critical), `zod`, `form-data`, `@xmldom/xml
 
 - Local `master` was 166 commits behind `origin/master`; fast-forwarded before auditing.
 - 74 remote branches exist; many look merged or abandoned and could be pruned.
+
+## Resolution (same day)
+
+| Item | Outcome |
+| --- | --- |
+| Dependency vulnerabilities | Fixed in #174: 0 critical/high remain (13 moderate). Also fixed an Edge middleware deploy failure caused by the Next 16.4 bundler |
+| CI | Added in #175; lint (errors only), type check, tests, build and audit all block |
+| Lint | 213 errors fixed in #176 (warnings remain) |
+| Stale PRs / issue #155 | 18 stale PRs closed; #155 fixed in #177 |
+| Repo hygiene, docs, storage rules | #178 (storage rules still need `firebase deploy --only storage`) |
+| Still open | Persist shop orders, admin view for trial-ride leads, ROADMAP features, `cyclo-blanmont.be` DNS (points at Neodomaine, not Vercel), branch protection |
