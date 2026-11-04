@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Type check
+        run: npx tsc --noEmit
+      - name: Unit tests
+        run: npx vitest run
+      # Lint has ~213 known errors (see docs/audit/2026-11-04-brain-audit.md).
+      # Advisory until they are fixed; then remove continue-on-error.
+      - name: Lint
+        run: npx eslint .
+        continue-on-error: true
+      # Advisory until a green run confirms the build needs no extra env vars.
+      - name: Build
+        run: npx next build
+        continue-on-error: true
+      - name: Dependency audit (critical/high)
+        run: npm audit --omit=dev --audit-level=high
