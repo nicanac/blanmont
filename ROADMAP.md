@@ -43,7 +43,7 @@ Unlike commercial fitness trackers (Strava, Garmin Connect) or generic CMS websi
 - Tracking annual rider loyalty via the club's signature **"Carré Vert"** attendance competition.
 - Managing custom Gobik Spain team gear and annual official federated calendars (FFBC).
 
-The application is in an advanced, stable state: powered by Next.js 16 App Router, React 19, Tailwind CSS v4, and Firebase Realtime Database. The test suite is robust (72 test suites, 514 passing unit tests).
+The application is in an advanced, stable state: powered by Next.js 16 App Router, React 19, Tailwind CSS v4, and Firebase Realtime Database. The test suite is robust (121 test files, 842 passing unit tests).
 
 This master roadmap establishes the next evolutionary leap: transforming the platform from an administrative web portal into a **field-ready, offline-capable, automated club companion** that accompanies riders from mid-week planning to the Saturday departure on the Place de Blanmont, and across the entire sporting season.
 
@@ -57,11 +57,11 @@ This master roadmap establishes the next evolutionary leap: transforming the pla
 |---|---|---|
 | **Framework** | Next.js 16.0.8 (App Router, Turbopack) | 🟢 Excellent. Modern architecture with Server Components and Server Actions. |
 | **UI Library & React** | React 19.2.1, Headless UI 2.2, Heroicons 2.2 | 🟢 Excellent. Clean separation of client/server boundaries. |
-| **Styling & Theming** | Tailwind CSS v4.1.18, Poppins typography, Ciseco/Eco sporting aesthetic | 🟢 Impeccable. Zero CSS module technical debt, consistent typographic scale. |
+| **Styling & Theming** | Tailwind CSS v4.1.18, Archivo variable font, "Carte IGN" topographic design system | 🟢 Impeccable. Zero CSS module technical debt, consistent typographic scale. |
 | **Backend & Database** | Firebase Realtime Database (`europe-west1`), Firebase Admin SDK 13.6 + Client SDK 12.8 | 🟢 High performance, low latency real-time data sync. |
 | **Authentication** | Firebase Auth + Web Crypto HMAC-SHA256 Session Cookies (`ccb_session`) | 🟢 High security. Protected via `middleware.ts` and `verifyAdminRequest`. |
 | **Media Storage** | Cloudinary API + Firebase Storage fallback | 🟢 Optimized image delivery and responsive image transformations. |
-| **Testing** | Vitest 5.0 (Unit/Integration, 514 passing tests), Playwright (E2E) | 🟢 Robust automated coverage with rapid local execution. |
+| **Testing** | Vitest (Unit/Integration, 842 passing tests), Playwright (E2E) | 🟢 Robust automated coverage with rapid local execution. |
 | **Code Graph** | Pre-computed Graft index (`@nanonets/graft`) | 🟢 Token-efficient semantic navigation and dependency blast-radius tracing. |
 
 ---

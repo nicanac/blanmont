@@ -87,3 +87,9 @@ scratch/
 __pycache__/
 .session_edits.json
 
+
+# local scratch
+build*.log
+build_log*.txt
+lint_output.txt
+temp_*.html
