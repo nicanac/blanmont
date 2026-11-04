@@ -98,17 +98,17 @@ This master roadmap establishes the next evolutionary leap: transforming the pla
 │    `/leaderboard`        │ fidelity %, Google Sheets  │ no multi-year historical    │            │
 │                          │ CSV cron synchronization   │ season archive tab.         │            │
 ├──────────────────────────┼────────────────────────────┼─────────────────────────────┼────────────┤
-│ 7. Équipements & Boutique│ Gobik gear catalog, size   │ Orders are NOT saved in DB! │ 🔴 Weak    │
-│    `/le-club/equipement` │ guide modal, paper ticket  │ Checkout only triggers      │            │
-│    `/checkout`           │ pricing calculation        │ `mailto:` or copy-to-board. │            │
+│ 7. Équipements & Boutique│ Gobik gear catalog, size   │ Orders saved in DB;         │  🟢 Active │
+│    `/le-club/equipement` │ guide modal, paper ticket  │ admin tracking at           │            │
+│    `/checkout`           │ pricing calculation        │ `/admin/commandes`.         │            │
 ├──────────────────────────┼────────────────────────────┼─────────────────────────────┼────────────┤
 │ 8. Membres & Profils     │ Roles, portrait cropping,  │ Public directory only shows │ 🟡 Partial │
 │    `/members`, `/profile`│ emergency ICE contact,     │ committee/captains; regular │            │
 │                          │ FFBC license, photo sync   │ members cannot view peers.  │            │
 ├──────────────────────────┼────────────────────────────┼─────────────────────────────┼────────────┤
-│ 9. Sorties d'Essai       │ 3 free rides registration, │ Inquiries saved in DB but   │ 🔴 Weak    │
-│    `/rejoindre`          │ onboarding FAQ, safety     │ NO admin dashboard to view  │            │
-│                          │ charter integration        │ or follow up with leads.    │            │
+│ 9. Sorties d'Essai       │ 3 free rides registration, │ Saved in DB and managed in  │  🟢 Active │
+│    `/rejoindre`          │ onboarding FAQ, safety     │ `/admin/prospects` (CRM).   │            │
+│                          │ charter integration        │                             │            │
 ├──────────────────────────┼────────────────────────────┼─────────────────────────────┼────────────┤
 │ 10. Sécurité & Signaux   │ Peloton signals guide,     │ Static content only; no     │ 🟡 Partial │
 │     `/securite`          │ emergency phone numbers,   │ dynamic road hazard or      │            │

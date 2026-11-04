@@ -46,6 +46,8 @@ export interface EquipmentOrder {
     memberName: string;
     /** Member email. */
     memberEmail: string;
+    /** Member phone (optional). */
+    memberPhone?: string;
     /** Items ordered with size and quantity. */
     items: {
         equipmentId: string;
@@ -62,4 +64,8 @@ export interface EquipmentOrder {
     notes?: string;
     /** Created timestamp. */
     createdAt: string;
+    /** Last update timestamp. */
+    updatedAt?: string;
 }
+
+export type EquipmentOrderStatus = EquipmentOrder['status'];
