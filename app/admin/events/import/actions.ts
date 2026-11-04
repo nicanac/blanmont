@@ -38,8 +38,11 @@ export async function parsePdfForPreviewAction(formData: FormData): Promise<Pars
   }
 
   try {
-    const pdfPackage = require('pdf-parse');
-    const pdf = pdfPackage.default || pdfPackage;
+    type PdfParseFn = (buf: Buffer) => Promise<{ text: string }>;
+    // Kept as require on purpose: pdf-parse v1 misbehaves under ESM import and breaks Next.js server bundling.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const pdfPackage = require('pdf-parse') as PdfParseFn & { default?: PdfParseFn };
+    const pdf: PdfParseFn = pdfPackage.default || pdfPackage;
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
@@ -151,12 +154,12 @@ function parsePdfText(text: string): CalendarEvent[] {
       const monthNum = MONTHS[monthName];
       const isoDate = `${year}-${monthNum}-${dayNum}`;
 
-      let workString = rest.trim();
+      const workString = rest.trim();
       let location = '';
       let distances = '';
       let departure = '';
       let address = '';
-      let remarks = '';
+      const remarks = '';
 
       const distMatch = workString.match(/(\d{2,3}(?:-\d{2,3})+)/);
       let distIndex = -1;
@@ -176,7 +179,7 @@ function parsePdfText(text: string): CalendarEvent[] {
           location = prefix.trim();
         }
 
-        let suffix = workString.substring(distIndex + distances.length);
+        const suffix = workString.substring(distIndex + distances.length);
         const timeMatch = suffix.match(/(\d{1,2}h(?:\d{2})?)/);
         if (timeMatch) {
           departure = timeMatch[1];

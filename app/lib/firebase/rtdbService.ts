@@ -10,11 +10,18 @@ import {
   snapshotToObject,
 } from './client';
 
+/** Minimal snapshot shape shared by the Admin and Web Firebase SDKs. */
+export interface IsomorphicSnapshot {
+  exists(): boolean;
+  forEach(callback: (child: { key: string | null; val(): unknown }) => unknown): unknown;
+  val(): unknown;
+}
+
 /**
  * Universal isomorphic snapshot reader that transparently handles both
  * Node.js server (Firebase Admin SDK) and browser client (Firebase Web SDK).
  */
-export async function getIsomorphicSnapshot(path: string): Promise<any> {
+export async function getIsomorphicSnapshot(path: string): Promise<IsomorphicSnapshot> {
   if (typeof window === 'undefined') {
     const { getAdminDatabase } = await import('./admin');
     const db = getAdminDatabase();

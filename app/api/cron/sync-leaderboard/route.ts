@@ -112,7 +112,7 @@ export async function GET(request?: Request) {
         }
 
         // 3. Process CSV Rows
-        const attendanceUpdates: Record<string, { members: Record<string, any>, isoDate: string }> = {}; // eventId -> { members, isoDate }
+        const attendanceUpdates: Record<string, { members: Record<string, { memberId: string; name: string; group: string; markedAt: string }>, isoDate: string }> = {}; // eventId -> { members, isoDate }
         const memberUpdates: Record<string, Partial<LeaderboardEntry>> = {}; // memberId -> updates
 
         // Helper to get or create event

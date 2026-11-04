@@ -135,9 +135,9 @@ function AuthActionHandler(): React.ReactElement {
       setTimeout(() => {
         router.push('/login');
       }, 2200);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Password reset failed:', err);
-      setErrorMessage(err?.message || 'Une erreur est survenue lors de l\'enregistrement du mot de passe.');
+      setErrorMessage((err instanceof Error && err.message) || 'Une erreur est survenue lors de l\'enregistrement du mot de passe.');
       setIsSubmitting(false);
     }
   };

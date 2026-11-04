@@ -6,13 +6,10 @@ import {
   UserCircleIcon,
   GlobeAltIcon,
   ClockIcon,
-  ChevronRightIcon,
   ShieldExclamationIcon,
   ArrowDownTrayIcon,
   SparklesIcon,
   MapPinIcon,
-  ComputerDesktopIcon,
-  DevicePhoneMobileIcon,
 } from '@heroicons/react/24/outline';
 import { ActivityLog, ReviewStatus } from '@/app/types/logging';
 import LogDetailModal from './LogDetailModal';
@@ -278,7 +275,6 @@ export default function UserJourneyExplorerTab({
           ) : (
             filteredSessions.map((session) => {
               const isSelected = activeSession?.id === session.id;
-              const firstEvent = session.events[0];
 
               return (
                 <div

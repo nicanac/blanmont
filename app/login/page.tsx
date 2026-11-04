@@ -37,6 +37,7 @@ function LoginForm(): React.ReactElement {
   useEffect(() => {
     const initialMode = searchParams.get('mode');
     if (initialMode === 'activate' || initialMode === 'reset') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncs mode from the URL query
       setMode('activate');
     }
   }, [searchParams]);

@@ -3,13 +3,11 @@
 import React from 'react';
 import {
   AcademicCapIcon,
-  ChatBubbleLeftRightIcon,
   SparklesIcon,
   CommandLineIcon,
   ClipboardDocumentCheckIcon,
   LightBulbIcon,
   UsersIcon,
-  CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
 import AdminTutorialModal from '@/app/admin/components/AdminTutorialModal';
 

@@ -185,40 +185,64 @@ export default function Tooltip({
     };
   }, []);
 
-  if (!isValidElement(children)) {
-    return children;
-  }
+  const childProps = isValidElement(children) ? children.props : undefined;
 
-  // Clone child to attach handlers while preserving original handlers
-  const triggerElement = cloneElement(children, {
-    onMouseEnter: (e: React.MouseEvent) => {
+  const handleMouseEnter = useCallback(
+    (e: React.MouseEvent): void => {
       pointerPosRef.current = { x: e.clientX, y: e.clientY };
-      children.props.onMouseEnter?.(e);
+      childProps?.onMouseEnter?.(e);
       showTooltip(e.currentTarget as HTMLElement);
     },
-    onMouseMove: (e: React.MouseEvent) => {
+    [childProps, showTooltip]
+  );
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent): void => {
       pointerPosRef.current = { x: e.clientX, y: e.clientY };
-      children.props.onMouseMove?.(e);
+      childProps?.onMouseMove?.(e);
       if (isOpen && followPointer && activeElementRef.current) {
         const pos = calculatePosition(activeElementRef.current);
         if (pos) setCoords(pos);
       }
     },
-    onMouseLeave: (e: React.MouseEvent) => {
-      children.props.onMouseLeave?.(e);
+    [childProps, isOpen, followPointer, calculatePosition]
+  );
+  const handleMouseLeave = useCallback(
+    (e: React.MouseEvent): void => {
+      childProps?.onMouseLeave?.(e);
       hideTooltip();
     },
-    onFocus: (e: React.FocusEvent) => {
+    [childProps, hideTooltip]
+  );
+  const handleFocus = useCallback(
+    (e: React.FocusEvent): void => {
       pointerPosRef.current = null;
-      children.props.onFocus?.(e);
+      childProps?.onFocus?.(e);
       showTooltip(e.currentTarget as HTMLElement);
     },
-    onBlur: (e: React.FocusEvent) => {
-      children.props.onBlur?.(e);
+    [childProps, showTooltip]
+  );
+  const handleBlur = useCallback(
+    (e: React.FocusEvent): void => {
+      childProps?.onBlur?.(e);
       hideTooltip();
     },
+    [childProps, hideTooltip]
+  );
+
+  if (!isValidElement(children)) {
+    return children;
+  }
+
+  // Clone child to attach handlers while preserving original handlers
+  // eslint-disable-next-line react-hooks/refs -- handlers only touch refs inside event callbacks, never during render
+  const triggerElement = cloneElement(children, {
+    onMouseEnter: handleMouseEnter,
+    onMouseMove: handleMouseMove,
+    onMouseLeave: handleMouseLeave,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
     title: undefined,
-    'aria-describedby': isOpen ? tooltipId : children.props?.['aria-describedby'],
+    'aria-describedby': isOpen ? tooltipId : childProps?.['aria-describedby'],
   });
 
   return (

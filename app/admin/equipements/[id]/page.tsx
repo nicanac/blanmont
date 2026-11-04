@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -16,7 +16,6 @@ import { EQUIPMENT_DATA } from '../../../data/equipment';
 
 export default function ViewEquipmentPage() {
     const params = useParams();
-    const router = useRouter();
     // Safely handle params.id which can be string or string[]
     const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
     const [equipment, setEquipment] = useState<Equipment | null>(null);

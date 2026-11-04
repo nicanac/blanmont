@@ -1,4 +1,4 @@
-import { isMockMode, getFirebaseDatabase, ref, get, set, remove, snapshotToArray } from './client';
+import { isMockMode, getFirebaseDatabase, ref, get, set, remove } from './client';
 import { getAdminDatabase } from './admin';
 
 /**

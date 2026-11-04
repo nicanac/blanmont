@@ -26,13 +26,12 @@ export async function getActiveWeekendPoll(): Promise<WeekendPoll | null> {
   }
 
   try {
-    const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
     let snapshot;
 
     if (typeof window === 'undefined') {
-      snapshot = await (db as any).ref('weekend-polls').once('value');
+      snapshot = await getAdminDatabase().ref('weekend-polls').once('value');
     } else {
-      snapshot = await get(ref(db as any, 'weekend-polls'));
+      snapshot = await get(ref(getFirebaseDatabase(), 'weekend-polls'));
     }
 
     if (!snapshot.exists()) return null;
@@ -83,13 +82,12 @@ export async function getAllWeekendPolls(): Promise<WeekendPoll[]> {
   }
 
   try {
-    const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
     let snapshot;
 
     if (typeof window === 'undefined') {
-      snapshot = await (db as any).ref('weekend-polls').once('value');
+      snapshot = await getAdminDatabase().ref('weekend-polls').once('value');
     } else {
-      snapshot = await get(ref(db as any, 'weekend-polls'));
+      snapshot = await get(ref(getFirebaseDatabase(), 'weekend-polls'));
     }
 
     if (!snapshot.exists()) return [];
@@ -117,13 +115,12 @@ export async function getWeekendPollById(id: string): Promise<WeekendPoll | null
   }
 
   try {
-    const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
     let snapshot;
 
     if (typeof window === 'undefined') {
-      snapshot = await (db as any).ref(`weekend-polls/${id}`).once('value');
+      snapshot = await getAdminDatabase().ref(`weekend-polls/${id}`).once('value');
     } else {
-      snapshot = await get(ref(db as any, `weekend-polls/${id}`));
+      snapshot = await get(ref(getFirebaseDatabase(), `weekend-polls/${id}`));
     }
 
     if (!snapshot.exists()) return null;
@@ -232,13 +229,12 @@ export async function getPollResponses(pollId: string): Promise<PollResponse[]> 
   }
 
   try {
-    const db = typeof window === 'undefined' ? getAdminDatabase() : getFirebaseDatabase();
     let snapshot;
 
     if (typeof window === 'undefined') {
-      snapshot = await (db as any).ref(`weekend-poll-responses/${pollId}`).once('value');
+      snapshot = await getAdminDatabase().ref(`weekend-poll-responses/${pollId}`).once('value');
     } else {
-      snapshot = await get(ref(db as any, `weekend-poll-responses/${pollId}`));
+      snapshot = await get(ref(getFirebaseDatabase(), `weekend-poll-responses/${pollId}`));
     }
 
     if (!snapshot.exists()) return [];

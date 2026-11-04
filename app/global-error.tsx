@@ -42,6 +42,8 @@ export default function GlobalError({
             >
               Recharger l&apos;application
             </button>
+            {/* Plain anchor on purpose: this boundary replaces the root layout, so next/link may have no router context. */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/"
               className="w-full inline-flex items-center justify-center rounded-md border border-night-line bg-white/5 hover:bg-white/10 text-snow px-6 py-3 text-xs font-semibold uppercase tracking-wider transition-colors"

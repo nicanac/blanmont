@@ -5,6 +5,7 @@ import {
   ActivityLogFilterSchema,
   ActivityReviewUpdateSchema,
   ActivityBatchReviewSchema,
+  type ActivityLogFilterInput,
 } from '@/app/lib/validation';
 import {
   recordActivity,
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
 
     return NextResponse.json({ success: true, id: logId }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API /api/logs POST] Error:', error);
     return NextResponse.json(
       { error: 'Internal server error recording activity' },
@@ -100,10 +101,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const filterInput = {
       yearMonth: searchParams.get('yearMonth') || undefined,
-      category: (searchParams.get('category') as any) || undefined,
-      severity: (searchParams.get('severity') as any) || undefined,
-      userType: (searchParams.get('userType') as any) || undefined,
-      reviewStatus: (searchParams.get('reviewStatus') as any) || undefined,
+      category: (searchParams.get('category') as ActivityLogFilterInput['category']) || undefined,
+      severity: (searchParams.get('severity') as ActivityLogFilterInput['severity']) || undefined,
+      userType: (searchParams.get('userType') as ActivityLogFilterInput['userType']) || undefined,
+      reviewStatus: (searchParams.get('reviewStatus') as ActivityLogFilterInput['reviewStatus']) || undefined,
       searchQuery: searchParams.get('q') || undefined,
       limit: searchParams.get('limit') ? Number(searchParams.get('limit')) : undefined,
     };
@@ -115,7 +116,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const logs = await getActivityLogs(validation.data);
     return NextResponse.json({ logs, count: logs.length });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API /api/logs GET] Error:', error);
     return NextResponse.json({ error: 'Erreur lors de la récupération des logs' }, { status: 500 });
   }
@@ -201,7 +202,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
         reviewedAt,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API /api/logs PATCH] Error:', error);
     return NextResponse.json(
       { error: 'Erreur lors de la modération de la journalisation' },
@@ -230,7 +231,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
       message: `Nettoyage terminé : ${result.deletedCount} logs purgés (> ${days} jours).`,
       deletedCount: result.deletedCount,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API /api/logs DELETE] Error:', error);
     return NextResponse.json({ error: 'Erreur lors de la purge des logs' }, { status: 500 });
   }

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeftIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -81,9 +81,9 @@ export default function EditBlogPostPage({ params }: EditBlogPostPageProps): Rea
         const url = await uploadImage(file, path);
         setFormData(prev => ({ ...prev, coverImage: url }));
         toast.success('Image importée avec succès !');
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Error uploading image:', error);
-        toast.error(`Erreur lors du téléchargement de l'image: ${error.message || error}`);
+        toast.error(`Erreur lors du téléchargement de l'image: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
   };

@@ -6,8 +6,21 @@ const NOTION_TOKEN = process.env.NOTION_TOKEN || process.env.NOTION_KEY;
 const DATABASE_ID = '1e855e15-3a2c-4562-83e2-6c77052d27a3';
 const NOTION_VERSION = '2022-06-28';
 
+interface NotionTracePage {
+    id: string;
+    properties: {
+        Komoot?: { url?: string | null };
+        Elevation?: { number?: number | null };
+    };
+}
+
+interface NotionQueryResponse {
+    results: NotionTracePage[];
+    next_cursor?: string | null;
+}
+
 // Helper for Notion API requests
-function notionRequest(path: string, method: string, body?: any): Promise<any> {
+function notionRequest<T = unknown>(path: string, method: string, body?: Record<string, unknown>): Promise<T> {
     return new Promise((resolve, reject) => {
         const options = {
             hostname: 'api.notion.com',
@@ -27,7 +40,7 @@ function notionRequest(path: string, method: string, body?: any): Promise<any> {
                 if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
                     try {
                         resolve(JSON.parse(data));
-                    } catch (e) {
+                    } catch {
                         reject(new Error('Failed to parse Notion response'));
                     }
                 } else {
@@ -78,11 +91,11 @@ function extractElevation(html: string): number | null {
 }
 
 async function getTraces() {
-    const pages = [];
-    let cursor = undefined;
+    const pages: NotionTracePage[] = [];
+    let cursor: string | null | undefined = undefined;
 
     do {
-        const body: any = {
+        const body: Record<string, unknown> = {
             filter: {
                 property: 'Komoot',
                 url: {
@@ -91,7 +104,7 @@ async function getTraces() {
             },
             start_cursor: cursor
         };
-        const response = await notionRequest(`/databases/${DATABASE_ID}/query`, 'POST', body);
+        const response = await notionRequest<NotionQueryResponse>(`/databases/${DATABASE_ID}/query`, 'POST', body);
         pages.push(...response.results);
         cursor = response.next_cursor;
     } while (cursor);
@@ -150,12 +163,8 @@ export async function GET(request: Request) {
                 const elevation = extractElevation(html);
 
                 if (elevation !== null) {
-                    if (currentElevation !== elevation) {
-                        await updateTrace(trace.id, elevation);
-                        updatedCount++;
-                    } else {
-                        skippedCount++;
-                    }
+                    await updateTrace(trace.id, elevation);
+                    updatedCount++;
                 } else {
                     failCount++;
                 }
@@ -173,8 +182,8 @@ export async function GET(request: Request) {
             failed: failCount
         });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Cron job failed:', error);
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        return NextResponse.json({ success: false, error: error instanceof Error ? error.message : String(error) }, { status: 500 });
     }
 }

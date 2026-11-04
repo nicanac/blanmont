@@ -24,6 +24,7 @@ export default function GpxStatsDisplay({ url }: GpxStatsDisplayProps) {
 
   useEffect(() => {
     if (isWebUiLink(url)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- external web-UI links are flagged without fetching
       setLoading(false);
       setError(true);
       return;

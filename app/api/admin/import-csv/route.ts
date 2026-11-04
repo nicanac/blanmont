@@ -1,17 +1,14 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import {
     getCalendarEvents,
     createCalendarEvent,
-    updateCalendarEvent,
-    getEventAttendance,
     setEventAttendance,
     getLeaderboardEntries,
     createLeaderboardEntry,
     updateLeaderboardEntry,
     LeaderboardEntry,
+    AttendanceMember,
 } from '@/app/lib/firebase';
 import type { CalendarEvent } from '@/app/types';
 import { calculateMemberCarres } from '@/app/lib/carreVert';
@@ -116,7 +113,7 @@ export async function GET(request: NextRequest) {
         }
 
         // 3. Process CSV Rows
-        const attendanceUpdates: Record<string, { members: Record<string, any>, isoDate: string }> = {}; // eventId -> { members, isoDate }
+        const attendanceUpdates: Record<string, { members: Record<string, AttendanceMember>, isoDate: string }> = {}; // eventId -> { members, isoDate }
         const memberUpdates: Record<string, Partial<LeaderboardEntry>> = {}; // memberId -> updates
 
         // Helper to get or create event

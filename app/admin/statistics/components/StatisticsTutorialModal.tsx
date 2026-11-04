@@ -6,8 +6,6 @@ import {
   TrophyIcon,
   ArrowTrendingUpIcon,
   LightBulbIcon,
-  SignalIcon,
-  CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
 import AdminTutorialModal from '@/app/admin/components/AdminTutorialModal';
 

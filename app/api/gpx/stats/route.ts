@@ -40,7 +40,7 @@ function isAllowedUrl(urlString: string): boolean {
     }
 
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -153,13 +153,13 @@ export async function GET(req: NextRequest) {
         }
     };
 
-    geoJson.features.forEach((feature: any) => {
+    geoJson.features.forEach((feature) => {
         if (!feature.geometry) return;
 
         if (feature.geometry.type === 'LineString') {
-            processCoordinates(feature.geometry.coordinates);
+            processCoordinates(feature.geometry.coordinates as number[][]);
         } else if (feature.geometry.type === 'MultiLineString') {
-            feature.geometry.coordinates.forEach((coords: number[][]) => {
+            (feature.geometry.coordinates as number[][][]).forEach((coords) => {
                 processCoordinates(coords);
             });
         }

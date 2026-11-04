@@ -1,4 +1,4 @@
-import { getStravaAuthLink, fetchStravaActivityAction } from './actions';
+import { getStravaAuthLink } from './actions';
 import { cookies } from 'next/headers';
 import ImportForm from './ImportForm'; // Client component
 

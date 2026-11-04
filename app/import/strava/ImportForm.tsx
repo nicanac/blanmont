@@ -1,16 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { fetchStravaActivityAction, importStravaTraceAction, deleteTraceAction } from './actions';
 import { StravaActivity } from '../../lib/strava';
-import { CheckCircleIcon, XMarkIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import TracePreviewForm from '../../features/import/components/TracePreviewForm';
 import { toast } from 'sonner';
-
-// Dynamic import for Leaflet map to avoid SSR issues
-const MapPreview = dynamic(() => import('../../features/traces/components/MapPreview'), { ssr: false });
 
 export default function ImportForm() {
     const [url, setUrl] = useState('');

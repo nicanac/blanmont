@@ -83,7 +83,7 @@ export default function EditEquipmentPage() {
                         });
                     }
                 }
-            } catch (err) {
+            } catch {
                 // Fallback to local data on error
                 const found = EQUIPMENT_DATA.find(e => e.id === params.id);
                 if (found) {
@@ -165,9 +165,9 @@ export default function EditEquipmentPage() {
 
             const url = await uploadImage(file, path);
             setFormData(prev => ({ ...prev, imageUrl: url }));
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Error uploading image:', err);
-            setError(`Erreur lors du téléchargement: ${err.message || err}`);
+            setError(`Erreur lors du téléchargement: ${err instanceof Error ? err.message : String(err)}`);
         }
     };
 
@@ -220,7 +220,7 @@ export default function EditEquipmentPage() {
                 const data = await response.json();
                 setError(data.error || 'Erreur lors de la sauvegarde');
             }
-        } catch (err) {
+        } catch {
             setError('Erreur lors de la sauvegarde. Veuillez réessayer.');
         } finally {
             setIsSaving(false);

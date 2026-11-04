@@ -60,9 +60,9 @@ export async function POST(req: NextRequest) {
     };
 
     // Iterate features (usually LineStrings)
-    geoJson.features.forEach((feature: any) => {
+    geoJson.features.forEach((feature) => {
         if (feature.geometry.type === 'LineString') {
-            const coords = feature.geometry.coordinates;
+            const coords = feature.geometry.coordinates as number[][];
             for (let i = 0; i < coords.length - 1; i++) {
                 const p1 = coords[i];
                 const p2 = coords[i+1];
@@ -88,8 +88,8 @@ export async function POST(req: NextRequest) {
         geoJson // Return full GeoJSON for map rendering
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('GPX parse error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

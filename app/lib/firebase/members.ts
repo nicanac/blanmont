@@ -7,9 +7,6 @@ import {
   get,
   set,
   update,
-  query,
-  orderByChild,
-  equalTo,
   snapshotToArray,
   snapshotToObject,
   signInWithEmailAndPassword,
@@ -136,16 +133,16 @@ export const validateUser = async (email: string, password: string): Promise<Mem
     console.log(`[validateUser] Members snapshot exists: ${snapshot.exists()}`);
 
     if (snapshot.exists()) {
-      let foundMember: any = null;
-      snapshot.forEach((child: any) => {
-        const memberData = child.val();
+      let foundMember = null as (Member & { authUid?: string }) | null;
+      snapshot.forEach((child: { key: string | null; val: () => Record<string, unknown> }) => {
+        const memberData = child.val() as Partial<Member> & { email?: string; authUid?: string };
         // Loose check matching
         if (
           memberData.email?.toLowerCase() === email.toLowerCase() ||
           memberData.authUid === user.uid
         ) {
           console.log(`[validateUser] Match found in DB! Key: ${child.key}`);
-          foundMember = { id: child.key, ...memberData };
+          foundMember = { id: child.key, ...memberData } as Member & { authUid?: string };
         }
       });
 
@@ -204,7 +201,7 @@ export const createMember = async (
   try {
     const db = getFirebaseDatabase();
     const membersRef = ref(db, 'members');
-    const snapshot = await get(membersRef);
+    await get(membersRef);
 
     // Generate new ID
     const newId = `member_${Date.now()}`;

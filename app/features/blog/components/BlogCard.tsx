@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BlogPost } from '../../../types';
-import { NewspaperIcon, CalendarDaysIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { NewspaperIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { parseDateInfo } from '@/app/lib/carreVert';
 import Badge from '@/app/components/ui/Badge';
 

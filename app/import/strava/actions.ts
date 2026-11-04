@@ -1,14 +1,13 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { getStravaActivity, getActivityStreams, getStravaActivityPhotos } from '../../lib/strava';
+import { getStravaActivity, getStravaActivityPhotos } from '../../lib/strava';
 import { createTrace, getTracesSchema, deleteTrace } from '../../lib/firebase';
 import {
   FetchStravaActivitySchema,
   ImportStravaTraceSchema,
   safeValidate,
 } from '../../lib/validation';
-import toGeoJSON from '@tmcw/togeojson';
 import { requireAdminSession } from '@/app/lib/auth/session';
 
 import fs from 'fs';
@@ -77,7 +76,7 @@ export async function fetchStravaActivityAction(url: string) {
 // 3. Create Notion Page.
 
 export async function importStravaTraceAction(
-  activity: any,
+  activity: unknown,
   overrides?: { name?: string; direction?: string; surface?: string; rating?: string }
 ) {
   await requireAdminSession();
@@ -124,7 +123,7 @@ export async function importStravaTraceAction(
     return { error: result.error || 'Trace creation failed' };
   }
 
-  return { success: true, message: 'Trace created successfully!', traceId: (result as any).id };
+  return { success: true, message: 'Trace created successfully!', traceId: result.id };
 }
 
 export async function deleteTraceAction(traceId: string) {

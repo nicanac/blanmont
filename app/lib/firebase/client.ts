@@ -99,20 +99,26 @@ export const cleanId = (id: string | undefined): string => {
 };
 
 // Helper to convert Firebase snapshot to array
-export const snapshotToArray = <T>(snapshot: any): T[] => {
+interface SnapshotLike {
+  exists(): boolean;
+  forEach(callback: (child: { key: string | null; val(): unknown }) => unknown): unknown;
+  val(): unknown;
+}
+
+export const snapshotToArray = <T>(snapshot: SnapshotLike): T[] => {
   const result: T[] = [];
   if (snapshot.exists()) {
-    snapshot.forEach((child: any) => {
-      result.push({ id: child.key, ...child.val() } as T);
+    snapshot.forEach((child) => {
+      result.push({ id: child.key, ...(child.val() as object) } as T);
     });
   }
   return result;
 };
 
 // Helper to convert Firebase snapshot to object with ID
-export const snapshotToObject = <T>(snapshot: any, id: string): T | null => {
+export const snapshotToObject = <T>(snapshot: SnapshotLike, id: string): T | null => {
   if (snapshot.exists()) {
-    return { id, ...snapshot.val() } as T;
+    return { id, ...(snapshot.val() as object) } as T;
   }
   return null;
 };

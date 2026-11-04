@@ -7,16 +7,15 @@ import {
   ArrowDownTrayIcon,
   CalendarDaysIcon,
   GlobeAltIcon,
-  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
-import { ActivityLog, ActivityStats, LogCategory, LogSeverity } from '@/app/types/logging';
+import { ActivityLog, ActivityStats, LogCategory } from '@/app/types/logging';
 
 interface Props {
   logs: ActivityLog[];
   stats?: ActivityStats | null;
 }
 
-export default function ReviewAnalyticsTab({ logs, stats }: Props): React.ReactElement {
+export default function ReviewAnalyticsTab({ logs }: Props): React.ReactElement {
   // Aggregate daily activity timeline
   const dailyDistribution = useMemo(() => {
     const daysMap = new Map<string, number>();
@@ -288,7 +287,7 @@ export default function ReviewAnalyticsTab({ logs, stats }: Props): React.ReactE
           <div className="flex items-center gap-2 mb-2">
             <GlobeAltIcon className="w-4 h-4 text-ambre" />
             <h4 className="font-narrow font-bold uppercase tracking-wider text-xs text-ink dark:text-white">
-              Ventilation par Typologie d'Activité
+              Ventilation par Typologie d&apos;Activité
             </h4>
           </div>
 

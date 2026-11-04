@@ -44,8 +44,8 @@ export function useImageUpload(): UseImageUploadResult {
       setIsUploading(false);
       
       return data.url;
-    } catch (err: any) {
-      setError(err.message || 'Upload failed');
+    } catch (err: unknown) {
+      setError((err instanceof Error && err.message) || 'Upload failed');
       setIsUploading(false);
       throw err;
     }

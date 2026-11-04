@@ -7,8 +7,6 @@ import {
   ListBulletIcon,
   TagIcon,
   LightBulbIcon,
-  PhotoIcon,
-  LinkIcon,
 } from '@heroicons/react/24/outline';
 import AdminTutorialModal from '@/app/admin/components/AdminTutorialModal';
 

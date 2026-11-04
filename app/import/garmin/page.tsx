@@ -6,12 +6,11 @@ import { CloudArrowUpIcon, CheckCircleIcon, XMarkIcon, TrashIcon, PencilIcon } f
 import * as toGeoJSON from '@tmcw/togeojson';
 import * as mapboxPolyline from '@mapbox/polyline';
 import { importStravaTraceAction, deleteTraceAction } from '../strava/actions';
-import { StravaActivity } from '../../lib/strava';
 import Link from 'next/link';
 import { toast } from 'sonner';
 
 export default function GarminImportPage() {
-    const [file, setFile] = useState<File | null>(null);
+    const [, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<TraceImportData | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -58,7 +57,7 @@ export default function GarminImportPage() {
                     setSuccessMessage('URL loaded! Note: Retrieveing exact map data from Garmin URLs is restricted. Please verify stats below. The link will be saved.');
                 }
             }
-        } catch (e) {
+        } catch {
             setError('Failed to load URL.');
         } finally {
             setLoading(false);
@@ -76,11 +75,11 @@ export default function GarminImportPage() {
             const geojson = toGeoJSON.gpx(dom);
 
             // We expect a FeatureCollection with at least one LineString
-            const track = geojson.features.find((f: any) => f.geometry.type === 'LineString');
+            const track = geojson.features.find((f) => f.geometry.type === 'LineString');
 
             if (!track || !track.geometry || track.geometry.type !== 'LineString') {
                 // Fallback: Check for MultiLineString
-                const multiTrack = geojson.features.find((f: any) => f.geometry.type === 'MultiLineString');
+                const multiTrack = geojson.features.find((f) => f.geometry.type === 'MultiLineString');
                 if (multiTrack) throw new Error('MultiLineString not yet supported, please simplify GPX.');
 
                 throw new Error('No track found in GPX file.');
@@ -161,7 +160,7 @@ export default function GarminImportPage() {
         try {
             // The existing importStravaTraceAction expects StravaActivity but takes 'any' in implementation.
 
-            const mockActivity: any = {
+            const mockActivity: Record<string, unknown> = {
                 id: Date.now(), // Fake ID
                 name: details.name,
                 // Use edited values from form instead of preview
@@ -219,7 +218,7 @@ export default function GarminImportPage() {
                 setError('Échec de la suppression du parcours.');
                 toast.error('Échec de la suppression du parcours.');
             }
-        } catch (e) {
+        } catch {
             setError('Erreur lors de la suppression.');
             toast.error('Erreur lors de la suppression.');
         } finally {

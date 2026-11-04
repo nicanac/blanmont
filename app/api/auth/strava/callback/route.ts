@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
     try {
         const data = await exchangeToken(code);
-        const { access_token } = data;
+        const { access_token: accessToken } = data;
 
         // Redirect back to import page with cookie
         const response = NextResponse.redirect(new URL('/import/strava', request.url));
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
         // Set secure cookie (httpOnly not strictly needed if we want client access, but safer to keep it server side or httpOnly)
         // For simplicity in this demo, we'll make it accessible or pass via server action. 
         // Best practice: HttpOnly. We'll use Server Actions to fetch data, so HttpOnly is great.
-        response.cookies.set('strava_access_token', access_token, {
+        response.cookies.set('strava_access_token', accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             path: '/',

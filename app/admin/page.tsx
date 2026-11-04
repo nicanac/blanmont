@@ -3,7 +3,6 @@ import Link from 'next/link';
 import {
   UsersIcon,
   UserPlusIcon,
-  DocumentTextIcon,
   CalendarDaysIcon,
   PlusIcon,
   ChatBubbleLeftRightIcon,

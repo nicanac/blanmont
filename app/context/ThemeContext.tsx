@@ -72,6 +72,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Initial mount: synchronize with localStorage or initial HTML attribute
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- legitimate external sync: read localStorage/DOM on mount
     setIsMounted(true);
     const onAdmin = typeof window !== 'undefined' && window.location.pathname.startsWith('/admin');
     try {

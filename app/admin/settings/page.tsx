@@ -14,26 +14,14 @@ import {
 } from '@heroicons/react/24/outline';
 import ThemeToggle from '../../components/layout/ThemeToggle';
 import { useTheme } from '../../context/ThemeContext';
-import { toast } from 'sonner';
 import AdminPageHeader from '../components/AdminPageHeader';
 import SettingsTutorialModal from './components/SettingsTutorialModal';
 import { useAdminTours } from '../components/tours/adminTours';
 
 export default function AdminSettingsPage(): React.ReactElement {
-  const { theme, resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [tutorialOpen, setTutorialOpen] = useState(false);
   const { startSettingsTour } = useAdminTours();
-
-  const handleSelectTheme = (newTheme: 'light' | 'dark' | 'system') => {
-    setTheme(newTheme);
-    toast.success(
-      newTheme === 'light'
-        ? 'Mode Clair activé avec succès !'
-        : newTheme === 'dark'
-        ? 'Mode Sombre activé avec succès !'
-        : 'Mode Système activé (synchronisé avec votre appareil) !'
-    );
-  };
 
   return (
     <div className="space-y-10">

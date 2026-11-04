@@ -56,37 +56,6 @@ function NewWeekendPollForm() {
   const [isLoadingSortie, setIsLoadingSortie] = useState(false);
   const [hasAppliedInfo, setHasAppliedInfo] = useState(false);
 
-  // Fetch Saturday sortie info whenever target weekend date changes
-  useEffect(() => {
-    let isCancelled = false;
-
-    async function fetchSortie() {
-      setIsLoadingSortie(true);
-      try {
-        const info = await getSaturdaySortieInfoAction(weekendIsoDate);
-        if (!isCancelled) {
-          setSortieInfo(info);
-
-          // If auto-prefill requested via URL param on first load
-          if (urlPrefill && info.found && !hasAppliedInfo) {
-            applySortieInfo(info, false);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load Saturday sortie info:', err);
-      } finally {
-        if (!isCancelled) {
-          setIsLoadingSortie(false);
-        }
-      }
-    }
-
-    fetchSortie();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [weekendIsoDate]);
 
   // Apply Saturday Sortie details to the form
   const applySortieInfo = (info: SaturdaySortieInfo, showToast = true) => {
@@ -118,6 +87,38 @@ function NewWeekendPollForm() {
       );
     }
   };
+
+  // Fetch Saturday sortie info whenever target weekend date changes
+  useEffect(() => {
+    let isCancelled = false;
+
+    async function fetchSortie() {
+      setIsLoadingSortie(true);
+      try {
+        const info = await getSaturdaySortieInfoAction(weekendIsoDate);
+        if (!isCancelled) {
+          setSortieInfo(info);
+
+          // If auto-prefill requested via URL param on first load
+          if (urlPrefill && info.found && !hasAppliedInfo) {
+            applySortieInfo(info, false);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load Saturday sortie info:', err);
+      } finally {
+        if (!isCancelled) {
+          setIsLoadingSortie(false);
+        }
+      }
+    }
+
+    fetchSortie();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [weekendIsoDate]);
 
   // Add a new blank custom question
   const handleAddQuestion = () => {

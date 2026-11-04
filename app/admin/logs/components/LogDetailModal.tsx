@@ -6,8 +6,6 @@ import {
   ClipboardDocumentCheckIcon,
   DocumentDuplicateIcon,
   CheckCircleIcon,
-  FlagIcon,
-  ClockIcon,
 } from '@heroicons/react/24/outline';
 
 import { ActivityLog, ReviewStatus } from '@/app/types/logging';
@@ -26,6 +24,7 @@ export default function LogDetailModal({ log, onClose, onUpdateReview }: Props):
 
   useEffect(() => {
     if (log) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- resets the review form when a different log is opened
       setReviewStatus(log.review?.status || 'unreviewed');
       setReviewNotes(log.review?.notes || '');
     }
@@ -189,7 +188,7 @@ export default function LogDetailModal({ log, onClose, onUpdateReview }: Props):
             <div className="flex items-center justify-between">
               <h3 className="font-narrow font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 flex items-center gap-1.5">
                 <CheckCircleIcon className="w-4 h-4 text-brand" />
-                Tri &amp; Modération d'Audit
+                Tri &amp; Modération d&apos;Audit
               </h3>
               {log.review?.reviewedBy && (
                 <span className="text-[11px] font-sans text-ink-3 dark:text-snow-3">

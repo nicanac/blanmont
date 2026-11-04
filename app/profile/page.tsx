@@ -10,7 +10,6 @@ import getCroppedImg from '../lib/canvasUtils';
 import { SheetHeader } from '../components/carte/SheetHeader';
 import Link from 'next/link';
 import {
-  UserCircleIcon,
   CameraIcon,
   EnvelopeIcon,
   PhoneIcon,

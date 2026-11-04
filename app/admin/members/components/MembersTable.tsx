@@ -78,13 +78,6 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
     }).length;
   }, [initialMembers]);
 
-  const bureauCount = useMemo(() => {
-    return initialMembers.filter((m) => {
-      const rolesStr = Array.isArray(m.role) ? m.role.join(' ') : String(m.role || '');
-      return /président|president|tresorier|trésorier|treasurer|secrétaire|secretaire|secretary|vice/i.test(rolesStr);
-    }).length;
-  }, [initialMembers]);
-
   const adminCount = useMemo(() => {
     return initialMembers.filter((m) => {
       const rolesStr = Array.isArray(m.role) ? m.role.join(' ') : String(m.role || '');

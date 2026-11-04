@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import { checkIsAdmin } from '../../utils/auth';
@@ -19,8 +19,9 @@ interface AdminGuardProps {
 export default function AdminGuard({ children }: AdminGuardProps): React.ReactElement {
   const { user, isAuthenticated, isAdmin, isLoading } = useAuth();
   const router = useRouter();
-  const [isChecking, setIsChecking] = useState(true);
-  const [hasAccess, setHasAccess] = useState(false);
+  // Still checking while loading, or while an unauthenticated user is being redirected
+  const isChecking = isLoading || !isAuthenticated;
+  const hasAccess = isAuthenticated && (isAdmin || checkIsAdmin(user));
 
   useEffect(() => {
     if (isLoading) {
@@ -29,13 +30,8 @@ export default function AdminGuard({ children }: AdminGuardProps): React.ReactEl
 
     if (!isAuthenticated) {
       router.push('/login?redirect=/admin');
-      return;
     }
-
-    const hasAdminAccess = isAdmin || checkIsAdmin(user);
-    setHasAccess(hasAdminAccess);
-    setIsChecking(false);
-  }, [isAuthenticated, user, isAdmin, isLoading, router]);
+  }, [isAuthenticated, isLoading, router]);
 
   // Loading state
   if (isLoading || isChecking) {

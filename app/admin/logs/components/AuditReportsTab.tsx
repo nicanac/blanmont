@@ -8,9 +8,6 @@ import {
   PrinterIcon,
   ArrowDownTrayIcon,
   ShieldCheckIcon,
-  ChartPieIcon,
-  CheckCircleIcon,
-  FlagIcon,
 } from '@heroicons/react/24/outline';
 import { ActivityLog, ActivityStats } from '@/app/types/logging';
 
@@ -21,13 +18,13 @@ interface Props {
 
 type ReportPeriod = '7d' | '30d' | 'month' | 'quarter';
 
-export default function AuditReportsTab({ logs, stats }: Props): React.ReactElement {
+export default function AuditReportsTab({ logs }: Props): React.ReactElement {
   const [period, setPeriod] = useState<ReportPeriod>('30d');
   const [copiedMd, setCopiedMd] = useState(false);
+  const [now] = useState(() => Date.now());
 
   // Filter logs according to selected period
   const periodLogs = useMemo(() => {
-    const now = Date.now();
     let cutoffMs = now - 30 * 24 * 60 * 60 * 1000;
 
     if (period === '7d') {
@@ -42,7 +39,7 @@ export default function AuditReportsTab({ logs, stats }: Props): React.ReactElem
     }
 
     return logs.filter((l) => l.timestampMs >= cutoffMs);
-  }, [logs, period]);
+  }, [logs, period, now]);
 
   // Aggregate metrics for this report period
   const reportMetrics = useMemo(() => {
@@ -195,7 +192,7 @@ Sur la période de référence, la plateforme du club a enregistré **${reportMe
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-paper-2 dark:bg-night-2 border border-line dark:border-night-line">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-narrow font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 mr-1">
-            Fenêtre d'Audit :
+            Fenêtre d&apos;Audit :
           </span>
           {(
             [
@@ -346,7 +343,7 @@ Sur la période de référence, la plateforme du club a enregistré **${reportMe
           <div className="flex items-center gap-2">
             <DocumentTextIcon className="w-5 h-5 text-brand" />
             <h3 className="font-wide font-extrabold uppercase text-sm text-ink dark:text-white">
-              Compte-Rendu d'Audit Officiel
+              Compte-Rendu d&apos;Audit Officiel
             </h3>
           </div>
           <span className="text-xs font-mono text-ink-3 dark:text-snow-3">

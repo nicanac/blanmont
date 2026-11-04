@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { parsePdfForPreviewAction, saveImportedEventsAction } from './actions';
 import { CalendarEvent } from '@/app/types';
 import {
@@ -21,7 +20,6 @@ interface PreviewEventItem extends CalendarEvent {
 }
 
 export default function ImportEventsPage() {
-  const router = useRouter();
   const [step, setStep] = useState<'upload' | 'preview' | 'success'>('upload');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);

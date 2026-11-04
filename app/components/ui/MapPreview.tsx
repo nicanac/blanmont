@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, Polyline, GeoJSON, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import type { GeoJsonObject } from 'geojson';
 import polylineCodec from '@mapbox/polyline';
 import { cn } from '@/app/utils/cn';
 
@@ -16,12 +17,14 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
+const NO_POSITIONS: [number, number][] = [];
+
 function FitBounds({
   positions,
   geoJson,
 }: {
   positions?: [number, number][];
-  geoJson?: any;
+  geoJson?: GeoJsonObject;
 }) {
   const map = useMap();
 
@@ -40,7 +43,7 @@ function FitBounds({
 
 export interface MapPreviewProps {
   summaryPolyline?: string;
-  geoJson?: any;
+  geoJson?: GeoJsonObject;
   positions?: [number, number][];
   strokeColor?: string;
   strokeWeight?: number;
@@ -55,18 +58,16 @@ export default function MapPreview({
   strokeWeight = 4,
   className = '',
 }: MapPreviewProps) {
-  const [positions, setPositions] = useState<[number, number][]>(initialPositions || []);
-
-  useEffect(() => {
-    if (summaryPolyline) {
-      try {
-        const decoded = polylineCodec.decode(summaryPolyline) as [number, number][];
-        setPositions(decoded);
-      } catch (err) {
-        console.error('Failed to decode summary polyline:', err);
-      }
+  const decodedPositions = useMemo(() => {
+    if (!summaryPolyline) return null;
+    try {
+      return polylineCodec.decode(summaryPolyline) as [number, number][];
+    } catch (err) {
+      console.error('Failed to decode summary polyline:', err);
+      return null;
     }
   }, [summaryPolyline]);
+  const positions = decodedPositions ?? initialPositions ?? NO_POSITIONS;
 
   const hasData = geoJson || positions.length > 0;
 

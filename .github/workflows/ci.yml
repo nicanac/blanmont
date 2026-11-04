@@ -28,14 +28,9 @@ jobs:
         run: npx tsc --noEmit
       - name: Unit tests
         run: npx vitest run
-      # Lint has ~213 known errors (see docs/audit/2026-11-04-brain-audit.md).
-      # Advisory until they are fixed; then remove continue-on-error.
-      - name: Lint
-        run: npx eslint .
-        continue-on-error: true
-      # Advisory until a green run confirms the build needs no extra env vars.
+      - name: Lint (errors only)
+        run: npx eslint . --quiet
       - name: Build
         run: npx next build
-        continue-on-error: true
       - name: Dependency audit (critical/high)
         run: npm audit --omit=dev --audit-level=high
