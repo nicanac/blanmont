@@ -208,6 +208,18 @@ Club publications, technical gear guides, and ride reports.
 }
 ```
 
+### 3.6b. `/equipment-orders` — Member Equipment Orders
+Orders submitted from `/checkout` (server action `submitEquipmentOrderAction`, Admin SDK only). Price and availability are read server-side from `/equipment`; the client never sets them. Managed in `/admin/commandes` (status: `pending` → `confirmed` → `delivered` / `cancelled`, CSV export). Keep this node closed to client reads/writes in the RTDB rules.
+```json
+"equipment-orders": {
+  "order_1730000000000_ab12c": {
+    "memberName": "Jean Dupont", "memberEmail": "jean@example.com", "memberPhone": "0470 00 00 00",
+    "items": [{ "equipmentId": "maillot-1", "equipmentName": "Maillot été", "size": "M", "quantity": 1, "unitPrice": 79.5 }],
+    "totalPrice": 79.5, "status": "pending", "notes": "", "createdAt": "2026-11-04T10:00:00.000Z"
+  }
+}
+```
+
 ### 3.7. `/equipment` — Apparel Catalogue (Gobik)
 Club cycling kit models, categories, and availability.
 ```json
@@ -294,6 +306,7 @@ The application isolates database access in `app/lib/firebase/`:
 | [`saturday-ride.ts`](app/lib/firebase/saturday-ride.ts) | Active weekly ride proposal, vote casting and vote tallying | `getActiveRides`, `voteForTrace`, `createSaturdayRide` |
 | [`blog.ts`](app/lib/firebase/blog.ts) | Blog articles, slug querying, Markdown conversion, admin post editor | `getBlogPosts`, `getBlogPostBySlug`, `createBlogPost`, `updateBlogPost` |
 | [`equipment.ts`](app/lib/firebase/equipment.ts) | Gobik gear items, categories, ordering, availability | `getEquipment`, `getEquipmentById`, `updateEquipment` |
+| [`equipment-orders.ts`](app/lib/firebase/equipment-orders.ts) | Member equipment orders (create, list, status, delete) | `createEquipmentOrder`, `getEquipmentOrders`, `updateEquipmentOrderStatus` |
 | [`leaderboard.ts`](app/lib/firebase/leaderboard.ts) | Member ranking calculations, attendance date sync | `getLeaderboard`, `updateLeaderboardEntry` |
 | [`feedback.ts`](app/lib/firebase/feedback.ts) | Route reviews and star ratings | `getFeedbackForTrace`, `submitFeedback` |
 | [`galleries.ts`](app/lib/firebase/galleries.ts) | Photo album chronicles, historical archives, Google Photos collections | `getPhotoAlbums`, `getPhotoAlbumById`, `createPhotoAlbum`, `updatePhotoAlbum`, `deletePhotoAlbum` |

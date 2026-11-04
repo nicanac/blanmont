@@ -20,6 +20,7 @@ import {
   ClipboardDocumentCheckIcon,
   ClipboardDocumentListIcon,
   Cog6ToothIcon,
+  ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
@@ -105,6 +106,7 @@ const navigationGroups: NavigationGroup[] = [
       },
       { name: 'Portraits & Cadrage', href: '/admin/members/photos', icon: UserCircleIcon },
       { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
+      { name: 'Commandes Équipement', href: '/admin/commandes', icon: ShoppingBagIcon },
       { name: "Journal d'Activité", href: '/admin/logs', icon: ClipboardDocumentListIcon, badge: 'Audit' },
       { name: 'Paramètres', href: '/admin/settings', icon: Cog6ToothIcon, matchExtra: ['/admin/parametres'] },
     ],
