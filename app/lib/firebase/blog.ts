@@ -200,16 +200,14 @@ export const seedBlogPosts = async (posts: Omit<BlogPost, 'id'>[]): Promise<void
   const db = getAdminDatabase();
   const blogRef = db.ref('blog');
 
-  await Promise.all(
-    posts.map(async (post) => {
-      const newPostRef = blogRef.push();
-      const newPost: BlogPost = {
-        ...post,
-        id: newPostRef.key!,
-      };
-      await newPostRef.set(newPost);
-    })
-  );
+  for (const post of posts) {
+    const newPostRef = blogRef.push();
+    const newPost: BlogPost = {
+      ...post,
+      id: newPostRef.key!,
+    };
+    await newPostRef.set(newPost);
+  }
 
   await revalidateBlogCache();
 };
@@ -242,8 +240,7 @@ Un immense merci à **Fabian** et **Nicolas** pour le temps et l'énergie consac
 
 Le résultat est à la hauteur de nos ambitions et nous avons hâte de voir le peloton aux couleurs du club sur toutes les routes de la région !
       `,
-      coverImage:
-        'https://res.cloudinary.com/dizy3s5zh/image/upload/v1770491369/blog/uploads/2026-02-07-hydra.png',
+      coverImage: 'https://res.cloudinary.com/dizy3s5zh/image/upload/v1770491369/blog/uploads/2026-02-07-hydra.png',
       author: 'Nicolas Bruyere',
       authorAvatar: '/images/home-hero.jpg',
       publishedAt: '2026-02-04T15:55:59.124Z',
@@ -285,7 +282,7 @@ Un grand merci à tous les participants pour leur bonne humeur communicative. La
       id: 'mock-3',
       title: 'Sortie patrimoine : pause photo devant la chapelle brabançonne',
       excerpt:
-        "Nos sorties dominicales sont aussi l'occasion de découvrir les trésors architecturaux et chapelles de campagne qui font le charme de notre belle région.",
+        'Nos sorties dominicales sont aussi l\'occasion de découvrir les trésors architecturaux et chapelles de campagne qui font le charme de notre belle région.',
       content: `
 # Sortie patrimoine : pause photo devant la chapelle brabançonne
 
@@ -314,9 +311,9 @@ Retrouvez la trace GPX de cette boucle sur notre page dédiée aux parcours !
     },
     {
       id: 'mock-4',
-      title: "Conseils d'entraînement pour réussir vos sorties longue distance",
+      title: 'Conseils d\'entraînement pour réussir vos sorties longue distance',
       excerpt:
-        "Gestion de l'effort, hydratation et préparation mentale : toutes les clés pour franchir le cap des 100 kilomètres avec le sourire et sans coup de pompe.",
+        'Gestion de l\'effort, hydratation et préparation mentale : toutes les clés pour franchir le cap des 100 kilomètres avec le sourire et sans coup de pompe.',
       content: `
 # Conseils d'entraînement pour réussir vos sorties longue distance
 
@@ -385,7 +382,7 @@ Rejoignez nos entraînements du week-end pour vivre cette expérience sportive e
     },
     {
       id: 'mock-6',
-      title: "La check-list du cycliste : l'équipement indispensable pour rouler serein",
+      title: 'La check-list du cycliste : l\'équipement indispensable pour rouler serein',
       excerpt:
         'Casque, éclairages, kit de dépannage et textile adapté : faites le point sur le matériel essentiel pour aborder chaque sortie en toute tranquillité.',
       content: `
@@ -425,9 +422,9 @@ Avec ce kit de base, vous êtes prêt pour des heures de pur plaisir sur votre m
     },
     {
       id: 'mock-7',
-      title: "Après l'effort, la convivialité : nos plus beaux circuits en Brabant wallon",
+      title: 'Après l\'effort, la convivialité : nos plus beaux circuits en Brabant wallon',
       excerpt:
-        "Découvrez notre sélection de parcours à travers monts et vallées brabançonnes, et l'ambiance chaleureuse d'après-sortie qui fait l'âme de notre club.",
+        'Découvrez notre sélection de parcours à travers monts et vallées brabançonnes, et l\'ambiance chaleureuse d\'après-sortie qui fait l\'âme de notre club.',
       content: `
 # Après l'effort, la convivialité : nos plus beaux circuits en Brabant wallon
 
