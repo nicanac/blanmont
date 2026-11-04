@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import CookieConsentCartouche from '@/app/components/consent/CookieConsentCartouche';
 import OpenCookiePreferencesButton from '@/app/components/consent/OpenCookiePreferencesButton';
@@ -10,7 +10,6 @@ import {
   getCookieConsent,
   saveCookieConsent,
   purgeConsent,
-  triggerOpenConsentModal,
 } from '@/app/lib/consent/cookieConsent';
 
 vi.mock('next/link', () => ({

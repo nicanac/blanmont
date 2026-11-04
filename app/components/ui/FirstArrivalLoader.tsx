@@ -29,6 +29,7 @@ export default function FirstArrivalLoader() {
     }
 
     // Show first arrival intro
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync with sessionStorage/matchMedia, only readable on the client after mount
     setIsVisible(true);
 
     // Progress animation

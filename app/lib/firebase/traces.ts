@@ -174,7 +174,11 @@ export const getTracesSchema = async () => {
 /**
  * Creates a new trace in Firebase
  */
-export const createTrace = async (traceData: Partial<Trace> & { photos?: string[] }) => {
+export const createTrace = async (traceData: Partial<Trace> & {
+  photos?: string[];
+  photoUrl?: string;
+  photoAlbumUrl?: string;
+}) => {
   const validation = safeValidate(CreateTraceSchema.partial(), traceData);
 
   if (!validation.success) {
@@ -200,7 +204,7 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
     const ratingStr = validData.rating || '';
     const quality = ratingStr.replace(/[^⭐]/g, '').length || 3;
 
-    const traceRecord: any = {
+    const traceRecord: Record<string, unknown> = {
       name: validData.name || '',
       distance: validData.distance || 0,
       elevation: validData.elevation || 0,
@@ -210,8 +214,8 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
       description: validData.description || '',
       mapUrl: validData.mapUrl || '',
       gpxUrl: validData.gpxUrl || '',
-      photoUrl: (traceData as any).photoUrl || '',
-      photoAlbumUrl: (traceData as any).photoAlbumUrl || '',
+      photoUrl: traceData.photoUrl || '',
+      photoAlbumUrl: traceData.photoAlbumUrl || '',
       direction: validData.direction || '',
       start: validData.start || '',
       end: validData.end || '',
@@ -220,8 +224,8 @@ export const createTrace = async (traceData: Partial<Trace> & { photos?: string[
     };
 
     // Handle photos array
-    if ((traceData as any).photos?.length > 0) {
-      traceRecord.photoPreviews = (traceData as any).photos;
+    if (traceData.photos && traceData.photos.length > 0) {
+      traceRecord.photoPreviews = traceData.photos;
     }
 
     await set(traceRef, traceRecord);
@@ -259,7 +263,7 @@ export const updateTrace = async (
     const db = getFirebaseDatabase();
     const traceRef = ref(db, `traces/${traceId}`);
 
-    const updates: any = {
+    const updates: Record<string, unknown> = {
       ...traceData,
       updatedAt: new Date().toISOString(),
     };
@@ -425,7 +429,7 @@ export const createTraceWithGPX = async (
     const newId = `trace_${Date.now()}`;
     const traceRef = ref(db, `traces/${newId}`);
 
-    const traceRecord: any = {
+    const traceRecord: Record<string, unknown> = {
       name: traceData.name,
       distance: traceData.distance || 0,
       elevation: traceData.elevation || 0,

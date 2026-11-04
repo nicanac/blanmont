@@ -179,7 +179,7 @@ export default function NewMemberPage(): React.ReactElement {
                   <select
                     id="member-new-cotisation"
                     value={formData.cotisation2026Status}
-                    onChange={(e) => setFormData({ ...formData, cotisation2026Status: e.target.value as any })}
+                    onChange={(e) => setFormData({ ...formData, cotisation2026Status: e.target.value as typeof formData.cotisation2026Status })}
                     className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                   >
                     <option value="pending">⏳ En attente de paiement</option>
@@ -278,7 +278,7 @@ export default function NewMemberPage(): React.ReactElement {
                 <select
                   id="member-new-group"
                   value={formData.preferredGroup}
-                  onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value as any })}
+                  onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value as typeof formData.preferredGroup })}
                   className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                 >
                   <option value="A">Groupe A (&gt; 30 km/h)</option>

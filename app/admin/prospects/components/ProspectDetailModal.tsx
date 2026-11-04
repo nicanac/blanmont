@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   XMarkIcon,
@@ -10,8 +10,6 @@ import {
   CheckBadgeIcon,
   TrashIcon,
   ArchiveBoxIcon,
-  ClockIcon,
-  CalendarDaysIcon,
   CheckCircleIcon,
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline';
@@ -63,17 +61,19 @@ export default function ProspectDetailModal({
 }: ProspectDetailModalProps): React.ReactElement | null {
   const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
-  const [notes, setNotes] = useState('');
-  const [selectedCaptainId, setSelectedCaptainId] = useState('');
+  const [notes, setNotes] = useState(prospect?.adminNotes || '');
+  const [selectedCaptainId, setSelectedCaptainId] = useState(prospect?.mentorCaptainId || '');
   const [isSavingNotes, setIsSavingNotes] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
   const [convertError, setConvertError] = useState<string | null>(null);
-  const [convertSuccess, setConvertSuccess] = useState(false);
+  const [convertSuccess, setConvertSuccess] = useState(prospect?.status === 'converted');
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Sync state when prospect changes
-  useEffect(() => {
+  const [syncedProspect, setSyncedProspect] = useState(prospect);
+  if (prospect !== syncedProspect) {
+    setSyncedProspect(prospect);
     if (prospect) {
       setNotes(prospect.adminNotes || '');
       setSelectedCaptainId(prospect.mentorCaptainId || '');
@@ -81,7 +81,7 @@ export default function ProspectDetailModal({
       setConvertError(null);
       setConvertSuccess(prospect.status === 'converted');
     }
-  }, [prospect]);
+  }
 
   if (!isOpen || !prospect) return null;
 

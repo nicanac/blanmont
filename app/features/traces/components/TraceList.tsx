@@ -5,7 +5,7 @@ import { Trace } from '../../../types';
 import FilterPanel, { FilterState } from './FilterPanel';
 import TraceCard from './TraceCard';
 import { SheetHeader } from '../../../components/carte/SheetHeader';
-import { FunnelIcon, Squares2X2Icon, MapIcon } from '@heroicons/react/20/solid';
+import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';

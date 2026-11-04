@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import {
   PhotoIcon,
