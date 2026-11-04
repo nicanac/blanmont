@@ -2,9 +2,27 @@
 
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import toGeoJSON from '@mapbox/polyline';
-// @ts-expect-error -- togpx ships no type declarations
-import togpx from 'togpx';
 import { toast } from 'sonner';
+
+const escapeXml = (value: string) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+
+/** Builds a minimal GPX 1.1 document with a single track from [lon, lat] pairs. */
+export function buildGpx(name: string, lonLat: number[][]): string {
+  const points = lonLat
+    .map(([lon, lat]) => `<trkpt lat="${lat}" lon="${lon}"></trkpt>`)
+    .join('');
+  return (
+    '<?xml version="1.0" encoding="UTF-8"?>' +
+    '<gpx version="1.1" creator="Sidereal Satellite" xmlns="http://www.topografix.com/GPX/1/1">' +
+    `<trk><name>${escapeXml(name)}</name><trkseg>${points}</trkseg></trk></gpx>`
+  );
+}
 
 interface Props {
   polyline?: string;
@@ -19,23 +37,7 @@ export default function DownloadGPXButton({ polyline, traceName }: Props) {
       const coordinates = toGeoJSON.decode(polyline);
       const flipped = coordinates.map((c: number[]) => [c[1], c[0]]);
 
-      const geoJson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: {
-              name: traceName,
-            },
-            geometry: {
-              type: 'LineString',
-              coordinates: flipped,
-            },
-          },
-        ],
-      };
-
-      const gpxData = togpx(geoJson);
+      const gpxData = buildGpx(traceName, flipped);
       const blob = new Blob([gpxData], { type: 'application/gpx+xml' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');

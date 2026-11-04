@@ -81,6 +81,7 @@ export default function PointageExpressClient({
     const params = new URLSearchParams(window.location.search);
     const eventIdFromUrl = params.get('eventId');
     if (eventIdFromUrl && initialEvents.some((e) => e.id === eventIdFromUrl)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncs selection from the URL query on mount
       setSelectedEventId(eventIdFromUrl);
     } else if (!selectedEventId && defaultEventId) {
       setSelectedEventId(defaultEventId);
@@ -268,6 +269,7 @@ export default function PointageExpressClient({
     if (targetMember) {
       hasHandledQrRef.current = true;
       if (!presentMemberIds.has(targetMember.id)) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot attendance toggle from a scanned QR code in the URL
         handleToggleAttendance(targetMember);
         toast.success(`Pointage QR validé : ${targetMember.name} !`);
       } else {

@@ -24,6 +24,7 @@ export default function LogDetailModal({ log, onClose, onUpdateReview }: Props):
 
   useEffect(() => {
     if (log) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- resets the review form when a different log is opened
       setReviewStatus(log.review?.status || 'unreviewed');
       setReviewNotes(log.review?.notes || '');
     }

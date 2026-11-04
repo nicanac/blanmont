@@ -90,6 +90,7 @@ export default function ReviewTriageTab({
 
     // Time filter
     if (timeFilter !== 'all') {
+      // eslint-disable-next-line react-hooks/purity -- the time window is relative to the moment the filter is applied
       const now = Date.now();
       let windowMs = 0;
       if (timeFilter === 'today') windowMs = 24 * 60 * 60 * 1000;

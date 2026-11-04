@@ -144,6 +144,7 @@ export default function AdminOnboardingChecklist({
       const savedTasks = localStorage.getItem(STORAGE_TASKS_KEY);
 
       if (savedDismissed === 'true') {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- restores persisted UI state from localStorage on mount
         setIsDismissed(true);
       }
       if (savedCollapsed === 'true') {
@@ -155,6 +156,7 @@ export default function AdminOnboardingChecklist({
     } catch {
       // Ignore local storage error
     } finally {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- marks localStorage as read after mount
       setIsLoaded(true);
     }
 

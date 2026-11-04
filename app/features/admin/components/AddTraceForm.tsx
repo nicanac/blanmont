@@ -94,6 +94,7 @@ export default function AddTraceForm() {
 
             // Only auto-fill if currently empty to avoid overwriting user custom input
             if (!formData.gpxLink) {
+                // eslint-disable-next-line react-hooks/set-state-in-effect -- derives the GPX link from the pasted Komoot URL
                 setFormData(prev => ({ ...prev, gpxLink: downloadUrl }));
             }
         }
