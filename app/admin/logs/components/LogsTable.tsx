@@ -198,6 +198,7 @@ export default function LogsTable({
               onClick={onRefresh}
               disabled={isLoading}
               title="Actualiser la liste"
+              aria-label="Actualiser la liste"
               className="p-2 rounded-md bg-paper dark:bg-night border border-line dark:border-night-line text-ink-3 hover:text-ink dark:hover:text-white disabled:opacity-50 transition-colors"
             >
               <ArrowPathIcon className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
