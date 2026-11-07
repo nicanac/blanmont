@@ -1,7 +1,13 @@
 'use client';
 
 import React from 'react';
-import { XMarkIcon, ShieldCheckIcon, EyeIcon, UserGroupIcon, CommandLineIcon } from '@heroicons/react/24/outline';
+import {
+  XMarkIcon,
+  ShieldCheckIcon,
+  EyeIcon,
+  UserGroupIcon,
+  CommandLineIcon,
+} from '@heroicons/react/24/outline';
 
 interface Props {
   isOpen: boolean;
@@ -34,6 +40,7 @@ export default function LogsTutorialModal({ isOpen, onClose }: Props): React.Rea
             </div>
           </div>
           <button
+            aria-label="Fermer"
             type="button"
             onClick={onClose}
             className="p-1.5 rounded-md text-ink-3 hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
@@ -50,7 +57,14 @@ export default function LogsTutorialModal({ isOpen, onClose }: Props): React.Rea
               1. Visiteurs Anonymes vs Membres Connectés
             </h3>
             <p className="leading-relaxed">
-              Le journal consigne automatiquement les parcours des visiteurs non connectés (téléchargements GPX, consultations de traces, demandes d&apos;inscription) via un identifiant de session anonyme (<code className="px-1 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono text-xs">anon_...</code>). Dès qu&apos;un membre se connecte, toutes ses interactions (votes, réponses aux sondages, débriefs de sorties) sont nominativement attribuées.
+              Le journal consigne automatiquement les parcours des visiteurs non connectés
+              (téléchargements GPX, consultations de traces, demandes d&apos;inscription) via un
+              identifiant de session anonyme (
+              <code className="px-1 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono text-xs">
+                anon_...
+              </code>
+              ). Dès qu&apos;un membre se connecte, toutes ses interactions (votes, réponses aux
+              sondages, débriefs de sorties) sont nominativement attribuées.
             </p>
           </div>
 
@@ -85,7 +99,13 @@ export default function LogsTutorialModal({ isOpen, onClose }: Props): React.Rea
               3. Protection des Données &amp; Masquage IP (RGPD)
             </h3>
             <p className="leading-relaxed">
-              Conformément à la réglementation belge et européenne, aucune adresse IP brute n&apos;est persistée. Les adresses IPv4 sont systématiquement tronquées (<code className="px-1 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono text-xs">xxx.xxx.xxx.xxx</code>) pour interdire toute géolocalisation abusive tout en préservant le diagnostic réseau.
+              Conformément à la réglementation belge et européenne, aucune adresse IP brute
+              n&apos;est persistée. Les adresses IPv4 sont systématiquement tronquées (
+              <code className="px-1 py-0.5 rounded bg-black/5 dark:bg-white/10 font-mono text-xs">
+                xxx.xxx.xxx.xxx
+              </code>
+              ) pour interdire toute géolocalisation abusive tout en préservant le diagnostic
+              réseau.
             </p>
           </div>
 
@@ -95,7 +115,9 @@ export default function LogsTutorialModal({ isOpen, onClose }: Props): React.Rea
               4. Export &amp; Rétention
             </h3>
             <p className="leading-relaxed">
-              Vous pouvez exporter l&apos;intégralité du tableau filtré au format CSV en un clic. La politique de rétention recommandée est de 90 jours. Utilisez le bouton &laquo; Purger les anciens logs &raquo; pour libérer l&apos;espace de base de données.
+              Vous pouvez exporter l&apos;intégralité du tableau filtré au format CSV en un clic. La
+              politique de rétention recommandée est de 90 jours. Utilisez le bouton &laquo; Purger
+              les anciens logs &raquo; pour libérer l&apos;espace de base de données.
             </p>
           </div>
         </div>
