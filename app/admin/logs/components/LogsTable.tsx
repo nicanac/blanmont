@@ -105,7 +105,15 @@ export default function LogsTable({
     }
 
     return result;
-  }, [logs, nowMs, timeFilter, selectedCategory, selectedSeverity, selectedUserSegment, searchQuery]);
+  }, [
+    logs,
+    nowMs,
+    timeFilter,
+    selectedCategory,
+    selectedSeverity,
+    selectedUserSegment,
+    searchQuery,
+  ]);
 
   const categories: { id: LogCategory | 'all'; label: string }[] = [
     { id: 'all', label: 'Toutes catégories' },
@@ -194,6 +202,7 @@ export default function LogsTable({
             </button>
 
             <button
+              aria-label="Actualiser la liste"
               type="button"
               onClick={onRefresh}
               disabled={isLoading}
@@ -215,7 +224,7 @@ export default function LogsTable({
             {(
               [
                 { id: 'all', label: 'Mois' },
-                { id: 'today', label: 'Aujourd\'hui' },
+                { id: 'today', label: "Aujourd'hui" },
                 { id: '7d', label: '7 jours' },
                 { id: '30d', label: '30 jours' },
               ] as const
@@ -305,8 +314,9 @@ export default function LogsTable({
       {/* Counter summary */}
       <div className="flex items-center justify-between text-xs font-narrow font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 px-1">
         <span>
-          Affichage de <strong className="text-ink dark:text-white tabular-nums">{filteredLogs.length}</strong> sur{' '}
-          <span className="tabular-nums">{logs.length}</span> événements consignés
+          Affichage de{' '}
+          <strong className="text-ink dark:text-white tabular-nums">{filteredLogs.length}</strong>{' '}
+          sur <span className="tabular-nums">{logs.length}</span> événements consignés
         </span>
         {filteredLogs.length !== logs.length && (
           <button
@@ -336,7 +346,8 @@ export default function LogsTable({
               Aucun événement trouvé
             </h3>
             <p className="text-xs text-ink-3 dark:text-snow-3 max-w-sm mx-auto">
-              Aucune activité ne correspond à vos filtres actuels. Modifiez vos critères de recherche ou réinitialisez les filtres.
+              Aucune activité ne correspond à vos filtres actuels. Modifiez vos critères de
+              recherche ou réinitialisez les filtres.
             </p>
           </div>
         ) : (
@@ -373,7 +384,9 @@ export default function LogsTable({
                     >
                       {/* Timestamp */}
                       <td className="py-2.5 px-3 whitespace-nowrap text-ink-3 dark:text-snow-3 font-mono text-[11px] tabular-nums">
-                        <span className="font-semibold text-ink dark:text-snow mr-1">{dateFormatted}</span>
+                        <span className="font-semibold text-ink dark:text-snow mr-1">
+                          {dateFormatted}
+                        </span>
                         <span>{timeFormatted}</span>
                       </td>
 
@@ -415,7 +428,9 @@ export default function LogsTable({
 
                       {/* Action & Title */}
                       <td className="py-2.5 px-3 min-w-0">
-                        <p className="font-semibold text-ink dark:text-snow truncate">{log.title}</p>
+                        <p className="font-semibold text-ink dark:text-snow truncate">
+                          {log.title}
+                        </p>
                         <div className="flex items-center gap-2 text-[11px] text-ink-3 dark:text-snow-3 font-mono truncate mt-0.5">
                           <span className="text-brand dark:text-brand-vif">{log.action}</span>
                           {log.context.path && (
@@ -455,10 +470,7 @@ export default function LogsTable({
       </div>
 
       {/* Log Detail Modal */}
-      <LogDetailModal
-        log={selectedLog}
-        onClose={() => setSelectedLog(null)}
-      />
+      <LogDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} />
     </div>
   );
 }

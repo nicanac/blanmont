@@ -142,7 +142,15 @@ export default function ReviewTriageTab({
     }
 
     return result;
-  }, [logs, reviewFilter, timeFilter, selectedCategory, selectedSeverity, selectedUserSegment, searchQuery]);
+  }, [
+    logs,
+    reviewFilter,
+    timeFilter,
+    selectedCategory,
+    selectedSeverity,
+    selectedUserSegment,
+    searchQuery,
+  ]);
 
   // Bulk selection handlers
   const handleSelectAll = () => {
@@ -222,8 +230,7 @@ export default function ReviewTriageTab({
     }
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-narrow font-bold uppercase tracking-wider bg-paper-2 dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3">
-        <ClockIcon className="w-3 h-3" />
-        À examiner
+        <ClockIcon className="w-3 h-3" />À examiner
       </span>
     );
   };
@@ -259,8 +266,7 @@ export default function ReviewTriageTab({
                 : 'border-transparent text-ink-3 hover:text-ink dark:hover:text-snow'
             }`}
           >
-            <ClockIcon className="w-3.5 h-3.5 text-ink-3" />
-            À examiner
+            <ClockIcon className="w-3.5 h-3.5 text-ink-3" />À examiner
             <span className="px-1.5 py-0.2 rounded-full text-[10px] font-mono tabular-nums bg-ambre/20 text-ambre font-extrabold">
               {reviewCounts.unreviewed}
             </span>
@@ -317,6 +323,7 @@ export default function ReviewTriageTab({
           </button>
 
           <button
+            aria-label="Rafraîchir"
             type="button"
             onClick={onRefresh}
             disabled={isLoading}
@@ -513,10 +520,10 @@ export default function ReviewTriageTab({
                       isSelected
                         ? 'bg-brand/5 dark:bg-brand/10'
                         : isFlagged
-                        ? 'bg-brand/5'
-                        : isReviewed
-                        ? 'opacity-80'
-                        : ''
+                          ? 'bg-brand/5'
+                          : isReviewed
+                            ? 'opacity-80'
+                            : ''
                     }`}
                   >
                     {/* Checkbox */}
@@ -577,9 +584,7 @@ export default function ReviewTriageTab({
                       <div className="text-[10px] text-ink-3 dark:text-snow-3 font-mono mt-0.5 line-clamp-1 flex items-center gap-2">
                         <span>{log.action}</span>
                         {log.context.path && (
-                          <span className="text-ink-4 dark:text-snow-4">
-                            · {log.context.path}
-                          </span>
+                          <span className="text-ink-4 dark:text-snow-4">· {log.context.path}</span>
                         )}
                         {log.review?.notes && (
                           <span className="text-bistre dark:text-ambre font-sans font-semibold">

@@ -99,7 +99,7 @@ const navigationGroups: NavigationGroup[] = [
     items: [
       { name: 'Membres du Club', href: '/admin/members', icon: UsersIcon },
       {
-        name: "Candidatures & Essais",
+        name: 'Candidatures & Essais',
         href: '/admin/prospects',
         icon: UserPlusIcon,
         matchExtra: ['/admin/sorties-essai'],
@@ -107,8 +107,18 @@ const navigationGroups: NavigationGroup[] = [
       { name: 'Portraits & Cadrage', href: '/admin/members/photos', icon: UserCircleIcon },
       { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
       { name: 'Commandes Équipement', href: '/admin/commandes', icon: ShoppingBagIcon },
-      { name: "Journal d'Activité", href: '/admin/logs', icon: ClipboardDocumentListIcon, badge: 'Audit' },
-      { name: 'Paramètres', href: '/admin/settings', icon: Cog6ToothIcon, matchExtra: ['/admin/parametres'] },
+      {
+        name: "Journal d'Activité",
+        href: '/admin/logs',
+        icon: ClipboardDocumentListIcon,
+        badge: 'Audit',
+      },
+      {
+        name: 'Paramètres',
+        href: '/admin/settings',
+        icon: Cog6ToothIcon,
+        matchExtra: ['/admin/parametres'],
+      },
     ],
   },
 ];
@@ -198,7 +208,9 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
       if (pathname === item.href || pathname.startsWith(item.href + '/')) {
         return true;
       }
-      if (item.matchExtra?.some((extra) => pathname === extra || pathname.startsWith(extra + '/'))) {
+      if (
+        item.matchExtra?.some((extra) => pathname === extra || pathname.startsWith(extra + '/'))
+      ) {
         return true;
       }
       return false;
@@ -243,9 +255,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                   }}
                   className={cn(
                     'group relative flex items-center rounded-md transition-all text-xs font-narrow font-semibold uppercase tracking-wider',
-                    isCollapsed && !isDrawer
-                      ? 'justify-center p-2.5'
-                      : 'gap-3 px-3 py-2.5',
+                    isCollapsed && !isDrawer ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5',
                     active
                       ? 'bg-paper-2 dark:bg-night-2 text-brand dark:text-brand-vif font-bold border border-line dark:border-night-line'
                       : 'text-ink-3 dark:text-snow-3 hover:bg-paper-2 dark:hover:bg-night-2 hover:text-ink dark:hover:text-white'
@@ -268,9 +278,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                         <span
                           className={cn(
                             'ml-2 rounded-xs px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider',
-                            active
-                              ? 'bg-brand text-white'
-                              : 'bg-paper-2 dark:bg-night-2 text-ink-3'
+                            active ? 'bg-brand text-white' : 'bg-paper-2 dark:bg-night-2 text-ink-3'
                           )}
                         >
                           {item.badge}
@@ -314,6 +322,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                   </div>
                 </div>
                 <button
+                  aria-label="Fermer"
                   type="button"
                   onClick={closeMobileSidebar}
                   className="p-1.5 rounded-md text-ink-3 hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
@@ -322,9 +331,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto">
-                {renderNavItems(true)}
-              </div>
+              <div className="flex-1 overflow-y-auto">{renderNavItems(true)}</div>
 
               <div className="p-4 border-t border-line dark:border-night-line space-y-2">
                 <button
@@ -466,9 +473,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
           />
 
           {/* Main workspace */}
-          <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
-            {children}
-          </main>
+          <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">{children}</main>
         </div>
 
         {/* Command Palette Modal (Ctrl+K / Cmd+K) */}

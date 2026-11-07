@@ -16,7 +16,11 @@ interface Props {
   onUpdateReview?: (logId: string, status: ReviewStatus, notes?: string) => Promise<void>;
 }
 
-export default function LogDetailModal({ log, onClose, onUpdateReview }: Props): React.ReactElement | null {
+export default function LogDetailModal({
+  log,
+  onClose,
+  onUpdateReview,
+}: Props): React.ReactElement | null {
   const [copied, setCopied] = useState(false);
   const [reviewStatus, setReviewStatus] = useState<ReviewStatus>('unreviewed');
   const [reviewNotes, setReviewNotes] = useState<string>('');
@@ -95,6 +99,7 @@ export default function LogDetailModal({ log, onClose, onUpdateReview }: Props):
             </p>
           </div>
           <button
+            aria-label="Fermer"
             type="button"
             onClick={onClose}
             className="p-1.5 rounded-md text-ink-3 hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
@@ -160,7 +165,9 @@ export default function LogDetailModal({ log, onClose, onUpdateReview }: Props):
               </div>
               <div>
                 <span className="text-ink-3 dark:text-snow-3">Appareil : </span>
-                <span className="font-semibold capitalize">{log.context.deviceType || 'Desktop'}</span>
+                <span className="font-semibold capitalize">
+                  {log.context.deviceType || 'Desktop'}
+                </span>
               </div>
               <div className="col-span-2">
                 <span className="text-ink-3 dark:text-snow-3">Chemin URL : </span>
@@ -192,7 +199,8 @@ export default function LogDetailModal({ log, onClose, onUpdateReview }: Props):
               </h3>
               {log.review?.reviewedBy && (
                 <span className="text-[11px] font-sans text-ink-3 dark:text-snow-3">
-                  Examiné par <strong className="text-ink dark:text-snow">{log.review.reviewedBy}</strong>
+                  Examiné par{' '}
+                  <strong className="text-ink dark:text-snow">{log.review.reviewedBy}</strong>
                   {log.review.reviewedAt && (
                     <> le {new Date(log.review.reviewedAt).toLocaleDateString('fr-BE')}</>
                   )}
@@ -239,7 +247,10 @@ export default function LogDetailModal({ log, onClose, onUpdateReview }: Props):
 
             {/* Audit Notes field */}
             <div className="space-y-1.5">
-              <label htmlFor="review-notes-input" className="block text-[11px] font-narrow font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
+              <label
+                htmlFor="review-notes-input"
+                className="block text-[11px] font-narrow font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3"
+              >
                 Notes Internes de Contrôle
               </label>
               <textarea

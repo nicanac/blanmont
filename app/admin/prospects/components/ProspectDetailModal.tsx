@@ -32,7 +32,9 @@ interface ProspectDetailModalProps {
       status?: TrialRideStatus;
     }
   ) => Promise<boolean>;
-  onConvertToMember: (id: string) => Promise<{ success: boolean; memberId?: string; error?: string }>;
+  onConvertToMember: (
+    id: string
+  ) => Promise<{ success: boolean; memberId?: string; error?: string }>;
   onDelete: (id: string) => Promise<boolean>;
 }
 
@@ -105,7 +107,11 @@ export default function ProspectDetailModal({
   };
 
   const handleConvert = async (): Promise<void> => {
-    if (!window.confirm(`Confirmez-vous la création du compte membre officiel pour ${prospect.name} ?`)) {
+    if (
+      !window.confirm(
+        `Confirmez-vous la création du compte membre officiel pour ${prospect.name} ?`
+      )
+    ) {
       return;
     }
     setIsConverting(true);
@@ -149,7 +155,7 @@ export default function ProspectDetailModal({
     { status: 'contacted', label: 'Contacté', desc: 'Message envoyé' },
     { status: 'ride_1', label: 'Sortie 1', desc: '1ère découverte' },
     { status: 'ride_2', label: 'Sortie 2', desc: 'Confirmation rythme' },
-    { status: 'ride_3', label: 'Sortie 3', desc: 'Dernier galop d\'essai' },
+    { status: 'ride_3', label: 'Sortie 3', desc: "Dernier galop d'essai" },
     { status: 'converted', label: 'Adhésion', desc: 'Membre officiel' },
   ];
 
@@ -197,6 +203,7 @@ export default function ProspectDetailModal({
           </div>
 
           <button
+            aria-label="Fermer la fiche candidat"
             type="button"
             onClick={onClose}
             className="rounded-md p-1.5 text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors"
@@ -346,7 +353,10 @@ export default function ProspectDetailModal({
                 <option value="">-- Aucun capitaine assigné --</option>
                 {captains.map((cap) => (
                   <option key={cap.id} value={cap.id}>
-                    {cap.name} {cap.role?.length ? `(${Array.isArray(cap.role) ? cap.role.join(', ') : cap.role})` : ''}
+                    {cap.name}{' '}
+                    {cap.role?.length
+                      ? `(${Array.isArray(cap.role) ? cap.role.join(', ') : cap.role})`
+                      : ''}
                   </option>
                 ))}
               </select>

@@ -226,7 +226,10 @@ export default function AdminOnboardingChecklist({
   }
 
   return (
-    <section aria-labelledby="onboarding-guide-heading" className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden transition-all">
+    <section
+      aria-labelledby="onboarding-guide-heading"
+      className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden transition-all"
+    >
       {/* Header Band */}
       <div className="bg-paper-2 dark:bg-night border-b border-line dark:border-night-line p-4 sm:p-5 text-ink dark:text-snow">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -240,11 +243,15 @@ export default function AdminOnboardingChecklist({
                 Administration du Club
               </span>
             </div>
-            <h2 id="onboarding-guide-heading" className="text-base sm:text-lg font-wide font-extrabold tracking-tight text-ink dark:text-white">
+            <h2
+              id="onboarding-guide-heading"
+              className="text-base sm:text-lg font-wide font-extrabold tracking-tight text-ink dark:text-white"
+            >
               Prise en main des opérations de CC Saint-Martin Blanmont
             </h2>
             <p className="text-xs text-ink-3 dark:text-snow-3 max-w-2xl">
-              Suivez ces étapes clés pour coordonner le peloton, gérer les présences et animer la saison.
+              Suivez ces étapes clés pour coordonner le peloton, gérer les présences et animer la
+              saison.
             </p>
           </div>
 
@@ -275,6 +282,7 @@ export default function AdminOnboardingChecklist({
             </button>
 
             <button
+              aria-label="Masquer le guide"
               type="button"
               onClick={handleDismiss}
               className="rounded-md p-1.5 text-ink-3 hover:bg-paper-2 dark:hover:bg-night-3 hover:text-ink dark:hover:text-white transition-colors"
@@ -324,7 +332,9 @@ export default function AdminOnboardingChecklist({
               <div
                 key={step.id}
                 className={`p-4 sm:p-5 transition-colors flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${
-                  completed ? 'bg-paper-2/60 dark:bg-night-2/60' : 'bg-paper dark:bg-night-2 hover:bg-paper-2 dark:hover:bg-night-3'
+                  completed
+                    ? 'bg-paper-2/60 dark:bg-night-2/60'
+                    : 'bg-paper dark:bg-night-2 hover:bg-paper-2 dark:hover:bg-night-3'
                 }`}
               >
                 <div className="flex items-start gap-3.5">
@@ -348,7 +358,9 @@ export default function AdminOnboardingChecklist({
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
                         className={`text-sm font-bold ${
-                          completed ? 'text-ink-3 dark:text-snow-3 line-through decoration-ink-3' : 'text-ink dark:text-white'
+                          completed
+                            ? 'text-ink-3 dark:text-snow-3 line-through decoration-ink-3'
+                            : 'text-ink dark:text-white'
                         }`}
                       >
                         {step.title}
@@ -357,7 +369,9 @@ export default function AdminOnboardingChecklist({
                         {step.category}
                       </span>
                       <span className="inline-flex items-center gap-1.5 text-xs font-narrow font-semibold px-2 py-0.5 rounded-full border border-line dark:border-night-line bg-paper dark:bg-night-2 text-ink dark:text-snow">
-                        <span className={`h-1.5 w-1.5 rounded-full ${completed ? 'bg-vert' : 'bg-brand'}`} />
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${completed ? 'bg-vert' : 'bg-brand'}`}
+                        />
                         {step.statusBadge}
                       </span>
                     </div>
@@ -367,7 +381,10 @@ export default function AdminOnboardingChecklist({
                     </p>
 
                     <p className="text-xs text-ink-3 dark:text-snow-3 italic">
-                      <span className="font-semibold text-ink-3 dark:text-snow-3 not-italic">Conseil :</span> {step.tip}
+                      <span className="font-semibold text-ink-3 dark:text-snow-3 not-italic">
+                        Conseil :
+                      </span>{' '}
+                      {step.tip}
                     </p>
                   </div>
                 </div>
@@ -394,7 +411,8 @@ export default function AdminOnboardingChecklist({
             <div className="flex items-center gap-2">
               <CheckCircleIcon className="h-4 w-4 text-brand" />
               <span>
-                Ce guide reste accessible à tout moment depuis le bouton <strong>&laquo; Guide &amp; Raccourcis &raquo;</strong> du menu latéral.
+                Ce guide reste accessible à tout moment depuis le bouton{' '}
+                <strong>&laquo; Guide &amp; Raccourcis &raquo;</strong> du menu latéral.
               </span>
             </div>
 

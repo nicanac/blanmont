@@ -142,7 +142,15 @@ const COMMAND_ITEMS: CommandItem[] = [
     description: 'Suivi des prospects /rejoindre, mentors capitaines et adhésions',
     href: '/admin/prospects',
     icon: UserPlusIcon,
-    keywords: ['prospects', 'candidatures', 'sorties', 'essai', 'rejoindre', 'recrutement', 'nouveaux'],
+    keywords: [
+      'prospects',
+      'candidatures',
+      'sorties',
+      'essai',
+      'rejoindre',
+      'recrutement',
+      'nouveaux',
+    ],
   },
   {
     id: 'page-members-photos',
@@ -272,10 +280,14 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
         onClose();
       } else if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSelectedIndex((prev) => (filteredItems.length > 0 ? (prev + 1) % filteredItems.length : 0));
+        setSelectedIndex((prev) =>
+          filteredItems.length > 0 ? (prev + 1) % filteredItems.length : 0
+        );
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSelectedIndex((prev) => (filteredItems.length > 0 ? (prev - 1 + filteredItems.length) % filteredItems.length : 0));
+        setSelectedIndex((prev) =>
+          filteredItems.length > 0 ? (prev - 1 + filteredItems.length) % filteredItems.length : 0
+        );
       } else if (e.key === 'Enter') {
         e.preventDefault();
         if (filteredItems.length > 0 && filteredItems[selectedIndex]) {
@@ -321,6 +333,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
             className="w-full bg-transparent border-none text-sm font-medium text-ink dark:text-snow-1 placeholder-ink-3 dark:placeholder-snow-3 focus:outline-hidden focus:ring-0"
           />
           <button
+            aria-label="Fermer"
             type="button"
             onClick={onClose}
             className="p-1 rounded-sm text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-snow-1 hover:bg-paper-3 dark:hover:bg-night-3 transition-colors"
@@ -337,7 +350,8 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
                 Aucun résultat pour &ldquo;{query}&rdquo;
               </p>
               <p className="mt-1 text-xs text-ink-3 dark:text-snow-3">
-                Essayez des mots-clés comme &ldquo;sondage&rdquo;, &ldquo;membres&rdquo;, &ldquo;parcours&rdquo; ou &ldquo;sortie&rdquo;.
+                Essayez des mots-clés comme &ldquo;sondage&rdquo;, &ldquo;membres&rdquo;,
+                &ldquo;parcours&rdquo; ou &ldquo;sortie&rdquo;.
               </p>
             </div>
           ) : (
@@ -399,27 +413,40 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
         <div className="flex items-center justify-between px-4 py-2.5 border-t border-line dark:border-night-line bg-paper-2 dark:bg-night text-xs text-ink-3 dark:text-snow-3">
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">↑</kbd>
-              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">↓</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">
+                ↑
+              </kbd>
+              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">
+                ↓
+              </kbd>
               Naviguer
             </span>
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">↵</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">
+                ↵
+              </kbd>
               Ouvrir
             </span>
             <span className="inline-flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">Esc</kbd>
+              <kbd className="px-1.5 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line font-mono text-xs text-ink dark:text-snow-2">
+                Esc
+              </kbd>
               Fermer
             </span>
           </div>
-          <span className="font-semibold text-ink-3 dark:text-snow-3 font-mono text-xs">CC Blanmont Command</span>
+          <span className="font-semibold text-ink-3 dark:text-snow-3 font-mono text-xs">
+            CC Blanmont Command
+          </span>
         </div>
       </div>
     </div>
   );
 }
 
-export default function AdminCommandPalette({ isOpen, onClose }: AdminCommandPaletteProps): React.ReactElement | null {
+export default function AdminCommandPalette({
+  isOpen,
+  onClose,
+}: AdminCommandPaletteProps): React.ReactElement | null {
   if (!isOpen) return null;
   return <CommandPaletteModal onClose={onClose} />;
 }

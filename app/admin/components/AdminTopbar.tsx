@@ -107,7 +107,10 @@ export default function AdminTopbar({
     } else if (pathname.startsWith('/admin/galerie')) {
       parts.push({ label: 'Contenu' });
       parts.push({ label: 'Galeries Photos', href: '/admin/galerie' });
-    } else if (pathname.startsWith('/admin/prospects') || pathname.startsWith('/admin/sorties-essai')) {
+    } else if (
+      pathname.startsWith('/admin/prospects') ||
+      pathname.startsWith('/admin/sorties-essai')
+    ) {
       parts.push({ label: 'Gestion' });
       parts.push({ label: 'Candidatures & Sorties d’essai', href: '/admin/prospects' });
     } else if (pathname.startsWith('/admin/members/photos')) {
@@ -189,7 +192,11 @@ export default function AdminTopbar({
           type="button"
           onClick={onToggleSidebar}
           className="hidden md:flex items-center justify-center h-8 w-8 rounded-md text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"
-          title={isSidebarCollapsed ? 'Déplier la barre latérale (Ctrl+B)' : 'Replier la barre latérale (Ctrl+B)'}
+          title={
+            isSidebarCollapsed
+              ? 'Déplier la barre latérale (Ctrl+B)'
+              : 'Replier la barre latérale (Ctrl+B)'
+          }
         >
           {isSidebarCollapsed ? (
             <ArrowsPointingOutIcon className="h-4 w-4" />
@@ -202,18 +209,17 @@ export default function AdminTopbar({
         <div className="hidden md:block h-4 w-px bg-line dark:bg-night-line" />
 
         {/* Breadcrumbs */}
-        <nav className="flex items-center gap-1.5 text-xs font-semibold overflow-hidden" aria-label="Breadcrumb">
+        <nav
+          className="flex items-center gap-1.5 text-xs font-semibold overflow-hidden"
+          aria-label="Breadcrumb"
+        >
           {breadcrumbs.map((crumb, idx) => {
             const isLast = idx === breadcrumbs.length - 1;
             return (
               <React.Fragment key={crumb.label + idx}>
-                {idx > 0 && (
-                  <ChevronRightIcon className="h-3 w-3 text-ink-3 shrink-0" />
-                )}
+                {idx > 0 && <ChevronRightIcon className="h-3 w-3 text-ink-3 shrink-0" />}
                 {isLast ? (
-                  <span className="font-bold text-ink dark:text-white truncate">
-                    {crumb.label}
-                  </span>
+                  <span className="font-bold text-ink dark:text-white truncate">{crumb.label}</span>
                 ) : crumb.href ? (
                   <Link
                     href={crumb.href}
@@ -222,9 +228,7 @@ export default function AdminTopbar({
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-ink-3 truncate hidden sm:inline">
-                    {crumb.label}
-                  </span>
+                  <span className="text-ink-3 truncate hidden sm:inline">{crumb.label}</span>
                 )}
               </React.Fragment>
             );
@@ -279,12 +283,8 @@ export default function AdminTopbar({
                       <action.icon className="h-3.5 w-3.5" />
                     </div>
                     <div>
-                      <div className="font-bold text-ink dark:text-white">
-                        {action.name}
-                      </div>
-                      <div className="text-xs text-ink-3">
-                        {action.desc}
-                      </div>
+                      <div className="font-bold text-ink dark:text-white">{action.name}</div>
+                      <div className="text-xs text-ink-3">{action.desc}</div>
                     </div>
                   </Link>
                 ))}
@@ -298,6 +298,7 @@ export default function AdminTopbar({
 
         {/* Guide & Raccourcis */}
         <button
+          aria-label="Guide & Raccourcis d'administration"
           type="button"
           onClick={onOpenHelpModal}
           className="p-1.5 rounded-md text-ink-3 dark:text-snow-3 hover:bg-black/5 dark:hover:bg-white/5 hover:text-ink dark:hover:text-white transition-colors"

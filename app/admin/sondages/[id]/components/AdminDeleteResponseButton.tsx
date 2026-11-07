@@ -34,6 +34,7 @@ export default function AdminDeleteResponseButton({
 
   return (
     <button
+      aria-label="Supprimer cette réponse"
       type="button"
       onClick={handleDelete}
       disabled={isPending}
