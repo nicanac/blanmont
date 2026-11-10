@@ -2,7 +2,7 @@
 import GpxStatsDisplay from '../ui/GpxStatsDisplay';
 import { isWebUiLink } from '@/app/lib/urlUtils';
 
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowRightIcon, ArrowDownTrayIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
@@ -40,6 +40,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const pathname = usePathname();
   const { resolvedTheme } = useTheme();
+  const contentId = useId();
 
   // On the homepage the next departure is already the cover of the sheet
   if (pathname === '/') {
@@ -58,6 +59,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
           onClick={() => setIsExpanded(!isExpanded)}
           className="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left transition-colors hover:bg-paper dark:hover:bg-night-3"
           aria-expanded={isExpanded}
+          aria-controls={contentId}
         >
           <span className="flex items-center gap-2">
             <HeartLineMark className="size-3.5 text-brand-vif" />
@@ -89,7 +91,10 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
         </div>
 
         {isExpanded && (
-          <div className="space-y-3.5 border-t border-line px-4 pb-4 pt-3.5 dark:border-night-line">
+          <div
+            id={contentId}
+            className="space-y-3.5 border-t border-line px-4 pb-4 pt-3.5 dark:border-night-line"
+          >
             {(nextRide.address || nextRide.remarks) && (
               <dl className="space-y-1.5 text-xs">
                 {nextRide.address && (
