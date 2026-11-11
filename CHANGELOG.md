@@ -3,6 +3,11 @@
 All notable changes to **blanmont** are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.29.1] - 2026-11-11
+
+### Chores
+- chore(ci): switch to Variant C zero-Actions VPS CI & release workflow (`0313276`)
 ## [0.29.0] - 2026-11-04
 
 ### Added
