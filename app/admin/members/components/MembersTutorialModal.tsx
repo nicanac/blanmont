@@ -1,5 +1,6 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
 import React from 'react';
 import {
   UsersIcon,
@@ -41,7 +42,7 @@ export default function MembersTutorialModal({
                 Création d&apos;un Nouveau Compte Cycliste
               </h4>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-                Cliquez sur <strong>« Nouveau Membre »</strong> pour saisir son prénom, nom, adresse email de contact et lui attribuer un groupe de niveau habituel (A, B, C ou VTT).
+                Cliquez sur <strong>« Nouveau Membre »</strong> pour saisir son prénom, nom, adresse email de contact et lui attribuer un groupe de niveau habituel (<GroupList conjunction="ou" />).
               </p>
             </div>
 

@@ -20,8 +20,13 @@ async function run() {
   const auth = getAuth(app);
   const db = getDatabase(app);
 
-  const email = 'bruyere.nicolas@gmail.com';
-  const password = '__AA0436aa__';
+  // Credentials come from the environment, never from source control.
+  const email = process.env.CHECK_MEMBER_EMAIL;
+  const password = process.env.CHECK_MEMBER_PASSWORD;
+  if (!email || !password) {
+    console.error('Set CHECK_MEMBER_EMAIL and CHECK_MEMBER_PASSWORD (e.g. in .env.local) to run this script.');
+    process.exit(1);
+  }
 
   console.log(`Signing in as ${email}...`);
   try {

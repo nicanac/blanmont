@@ -10,10 +10,15 @@ dotenv.config({ path: resolve(process.cwd(), '.env.local') });
 async function run() {
   console.log('\n--- Test Client Login Script ---');
 
-  const email = 'bruyere.nicolas@gmail.com';
-  const password = '__AA0436aa__';
+  // Credentials come from the environment, never from source control.
+  const email = process.env.CHECK_MEMBER_EMAIL;
+  const password = process.env.CHECK_MEMBER_PASSWORD;
+  if (!email || !password) {
+    console.error('Set CHECK_MEMBER_EMAIL and CHECK_MEMBER_PASSWORD (e.g. in .env.local) to run this script.');
+    process.exit(1);
+  }
 
-  console.log(`Attempting to sign in with: ${email} / ${password}`);
+  console.log(`Attempting to sign in with: ${email}`);
 
   try {
     const { initializeApp } = await import('firebase/app');

@@ -1,5 +1,6 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
 import React from 'react';
 import {
   TrophyIcon,
@@ -61,7 +62,7 @@ export default function CarreVertTutorialModal({
                 </h4>
               </div>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-                Le classement public (<span className="text-brand font-mono text-xs">/leaderboard</span>) affiche les cyclistes par rang global, avec des filtres par groupe de niveau (Groupe A, B, C, VTT).
+                Le classement public (<span className="text-brand font-mono text-xs">/leaderboard</span>) affiche les cyclistes par rang global, avec des filtres par groupe de niveau (<GroupList />).
               </p>
             </div>
           </div>
