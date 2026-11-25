@@ -758,11 +758,8 @@ export function computeClubStatistics(params: {
   // Count from processed entries
   processedEntries.forEach((e) => {
     if (e.rides === 0) return;
-    let grp = (e.group || 'Sans groupe').trim();
-    if (grp.toUpperCase() === 'V') grp = 'Groupe V (Vert / Allure A)';
-    else if (grp.toUpperCase() === 'J') grp = 'Groupe J (Jaune / Allure B)';
-    else if (grp.toUpperCase() === 'B') grp = 'Groupe B (Bleu / Allure C)';
-    else if (grp.toUpperCase() === 'R') grp = 'Groupe R (Rouge / Sport)';
+    // Raw stored code: names and merges come from the admin group settings on display.
+    const grp = (e.group || 'Sans groupe').trim();
 
     const current = groupMap.get(grp) || { count: 0, rides: 0 };
     groupMap.set(grp, {

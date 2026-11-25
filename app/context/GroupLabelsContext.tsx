@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import { DEFAULT_GROUP_SETTINGS, type GroupSettings } from '@/app/constants/groups';
-import { compareGroups, groupFullName, groupLabel } from '@/app/lib/groupLabels';
+import { canonicalGroup, compareGroups, groupFullName, groupLabel } from '@/app/lib/groupLabels';
 
 interface GroupLabelsValue {
   settings: GroupSettings;
@@ -12,6 +12,8 @@ interface GroupLabelsValue {
   fullName: (code: string | null | undefined) => string;
   /** Sort comparator following the admin-defined order. */
   compare: (a: string, b: string) => number;
+  /** Bucket key: merged codes (A, A-) share their group's code, so they list and rank together. */
+  key: (code: string | null | undefined) => string;
   /** Replaces the settings client-side right after an admin save. */
   setSettings: (settings: GroupSettings) => void;
 }
@@ -27,6 +29,7 @@ function buildValue(
     label: (code) => groupLabel(code, settings),
     fullName: (code) => groupFullName(code, settings),
     compare: (a, b) => compareGroups(a, b, settings),
+    key: (code) => canonicalGroup(code, settings),
     setSettings,
   };
 }

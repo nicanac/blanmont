@@ -1,6 +1,7 @@
 'use client';
 
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { mergeGroupStats } from '@/app/lib/groupLabels';
 
 import React, { useState, useMemo } from 'react';
 import {
@@ -684,17 +685,20 @@ export function resolveGroupColors(groups: Array<{ group: string }>): Map<string
 export function GroupCompositionChart({
   groupDynamics,
 }: GroupCompositionChartProps): React.ReactElement {
-  const { label: groupLabel } = useGroupLabels();
-  const groupColorMap = useMemo(() => {
-    return resolveGroupColors(groupDynamics.groupStats);
-  }, [groupDynamics.groupStats]);
+  const { label: groupLabel, settings } = useGroupLabels();
+  // Merged codes (A + A-) become one slice under their group name.
+  const groupStats = useMemo(
+    () => mergeGroupStats(groupDynamics.groupStats, settings),
+    [groupDynamics.groupStats, settings]
+  );
+  const groupColorMap = useMemo(() => resolveGroupColors(groupStats), [groupStats]);
 
   const data = {
-    labels: groupDynamics.groupStats.map((g) => groupLabel(g.group)),
+    labels: groupStats.map((g) => groupLabel(g.group)),
     datasets: [
       {
-        data: groupDynamics.groupStats.map((g) => g.totalAttendances),
-        backgroundColor: groupDynamics.groupStats.map(
+        data: groupStats.map((g) => g.totalAttendances),
+        backgroundColor: groupStats.map(
           (g) => groupColorMap.get(g.group) || getGroupColor(g.group)
         ),
         hoverOffset: 6,
@@ -704,7 +708,7 @@ export function GroupCompositionChart({
     ],
   };
 
-  const total = groupDynamics.groupStats.reduce((sum, g) => sum + g.totalAttendances, 0);
+  const total = groupStats.reduce((sum, g) => sum + g.totalAttendances, 0);
 
   const options = {
     responsive: true,
@@ -755,7 +759,7 @@ export function GroupCompositionChart({
         </div>
 
         <div className="space-y-1.5 min-w-0">
-          {groupDynamics.groupStats.map((g) => (
+          {groupStats.map((g) => (
             <div
               key={g.group}
               className="flex items-center justify-between gap-3 rounded-md border border-line dark:border-night-line bg-paper-2/70 dark:bg-night-3/60 px-3 py-2 text-xs"

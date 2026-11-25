@@ -94,7 +94,7 @@ describe('Admin Groupes page (/admin/groupes)', () => {
     // D is used in the data but not configured: offered as a one-click add
     expect(screen.getByRole('button', { name: /D\s*· 2/ })).toBeInTheDocument();
     // Nothing changed yet: save disabled
-    expect(screen.getByRole('button', { name: 'Enregistrer les noms' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Enregistrer les groupes' })).toBeDisabled();
   });
 
   it('renames A→GR1, B→gr2, C→gr3, saves and updates labels app-wide', async () => {
@@ -104,7 +104,7 @@ describe('Admin Groupes page (/admin/groupes)', () => {
     fireEvent.change(inputs[2], { target: { value: 'gr2' } });
     fireEvent.change(inputs[3], { target: { value: 'gr3' } });
 
-    const save = screen.getByRole('button', { name: 'Enregistrer les noms' });
+    const save = screen.getByRole('button', { name: 'Enregistrer les groupes' });
     expect(save).toBeEnabled();
     fireEvent.click(save);
 
@@ -126,7 +126,7 @@ describe('Admin Groupes page (/admin/groupes)', () => {
     renderPage();
     const inputs = await screen.findAllByLabelText('Nom affiché');
     fireEvent.change(inputs[0], { target: { value: 'B' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Enregistrer les noms' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Enregistrer les groupes' }));
 
     expect(await screen.findAllByText(/déjà utilisé par un autre groupe/)).toHaveLength(2);
     expect(inputs[0]).toHaveAttribute('aria-invalid', 'true');
@@ -156,6 +156,56 @@ describe('Admin Groupes page (/admin/groupes)', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Retirer le groupe C de la liste' }));
     expect(screen.queryByRole('button', { name: 'Retirer le groupe C de la liste' })).toBeNull();
     expect(screen.getByRole('status')).toHaveTextContent('Groupe C retiré de la liste.');
+  });
+
+  it('proposes the GR1–GR4 + VTT merge, applies it and still lets the admin rename', async () => {
+    renderPage();
+    await screen.findAllByLabelText('Nom affiché');
+    expect(
+      screen.getByRole('heading', { name: 'Proposition de regroupement' })
+    ).toBeInTheDocument();
+    // D is not a known code: left as stored
+    expect(screen.getByText(/Codes non reconnus/)).toHaveTextContent('D');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Appliquer la proposition' }));
+    const inputs = screen.getAllByLabelText('Nom affiché') as HTMLInputElement[];
+    expect(inputs.map((i) => i.value)).toEqual(['GR1', 'GR2', 'GR3', 'GR4', 'VTT']);
+    expect(screen.getByRole('status')).toHaveTextContent('Proposition appliquée.');
+    // Applied: the panel goes away, A- now shows as a merged code of GR1
+    expect(screen.queryByRole('heading', { name: 'Proposition de regroupement' })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Détacher le code A- de GR1' })).toBeInTheDocument();
+
+    // Renaming stays possible before saving
+    fireEvent.change(inputs[2], { target: { value: 'Groupe 3' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Enregistrer les groupes' }));
+    await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
+    const putCall = fetchMock.mock.calls.find(([, init]) => init?.method === 'PUT');
+    expect(JSON.parse(String(putCall?.[1]?.body))).toEqual({
+      groups: [
+        { code: 'A', label: 'GR1', aliases: ['A-'] },
+        { code: 'B', label: 'GR2' },
+        { code: 'BC', label: 'Groupe 3' },
+        { code: 'C', label: 'GR4' },
+        { code: 'VTT', label: 'VTT' },
+      ],
+    });
+  });
+
+  it('merges an unattached code into a group and detaches it again', async () => {
+    renderPage();
+    await screen.findAllByLabelText('Nom affiché');
+    fireEvent.change(screen.getByLabelText('Fusionner un code dans B'), {
+      target: { value: 'D' },
+    });
+    expect(screen.getByRole('status')).toHaveTextContent('Code D fusionné dans B.');
+    // D is attached now: no longer offered as a new group
+    expect(screen.queryByRole('button', { name: /D\s*· 2/ })).toBeNull();
+    // Usage of the row adds the merged code: B 9 + D 2
+    expect(screen.getByText('11')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Détacher le code D de B' }));
+    expect(screen.getByRole('status')).toHaveTextContent('Code D détaché de B.');
+    expect(screen.getByRole('button', { name: /D\s*· 2/ })).toBeInTheDocument();
   });
 
   it('shows a retry action when loading fails', async () => {

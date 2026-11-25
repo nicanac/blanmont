@@ -169,7 +169,7 @@ export default function HomeCover({
               <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                 Groupes{distance ? ` · ${distance}` : ''}
               </dt>
-              <dd className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-4">
+              <dd className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 lg:grid-cols-5">
                 {PACE_GROUPS.map((g) => (
                   <span key={g.id} className="flex items-center gap-2">
                     <RoadSwatch group={g.id} className="w-8" />
