@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.33.0] - 2026-11-25
+
+### Added
+- feat(groups): GR3 in every picker and configured group names across the site (#191) (`9946605`)
 ## [0.32.0] - 2026-11-25
 
 ### Added
