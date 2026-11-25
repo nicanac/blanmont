@@ -291,16 +291,21 @@ Reads fetch **whole nodes** (`ref('x').once('value')`) and filter in memory. Fin
 
 ## 12. Known issues and doc drift (2026-11-25)
 
-Ranked by risk. Each is a candidate ticket.
+Ranked by risk. Status is tracked here; update the line when the fix lands.
 
-1. **`/api/cron/sync-leaderboard` has no auth.** Anyone can trigger a Sheet fetch and leaderboard/attendance rewrite. Add the same `CRON_SECRET` check as the other crons (and make `CRON_SECRET` mandatory, not "if set").
-2. **Session secret fallback.** `getSessionSecret()` falls back to `FIREBASE_SERVICE_ACCOUNT_KEY` and then to a hard-coded string. Fail closed in production when `SESSION_SECRET` is missing.
-3. **RTDB rules are not in the repo** (`firebase.json` only declares Storage). Browser SDK reads depend on rules nobody can review.
-4. **`/api/cron/sync-elevation` still writes to Notion** although Firebase is the source of truth — dead or wrong job running daily.
-5. **Admin e-mail allow-list hard-coded** (`app/utils/auth.ts` `ADMIN_EMAILS`) — move to config/roles.
-6. **Google Sheet URL hard-coded** in the leaderboard cron — move to env.
-7. **No scheduled backup** of RTDB.
-8. Doc drift: `architecture.md` still says "all data access through `app/lib/notion.ts`" (file no longer exists) and gives a branch convention (`user/type/name`) that contradicts Variant C (`feat/<slug>`). `database.md` says admin pages are guarded by `AdminGuard.tsx`; the real perimeter is `middleware.ts`.
+| # | Issue | Status |
+|---|---|---|
+| 1 | `/api/cron/sync-leaderboard` had no auth; other crons checked `CRON_SECRET` only if set | Fix in [nicanac/blanmont#188](https://github.com/nicanac/blanmont/pull/188): shared `verifyCronRequest`, fails closed in production |
+| 2 | Session secret fell back to `FIREBASE_SERVICE_ACCOUNT_KEY`, then to a committed string | Fix in #188: `SESSION_SECRET` (≥ 32 chars) required in production |
+| 3 | RTDB rules not in the repo | Fix in #188: `database.rules.json` = live rules (deny all client access) |
+| 4 | `/api/cron/sync-elevation` wrote to the legacy Notion DB | Fix in #188: ported to Firebase `/traces` |
+| 5 | Admin e-mail allow-list hard-coded (incl. a personal address) | Fix in #188: `ADMIN_EMAILS` env; client uses the session's `isAdmin` |
+| 6 | Google Sheet URL hard-coded | Fix in #188: `LEADERBOARD_SHEET_CSV_URL` env |
+| 7 | No scheduled RTDB backup | Fix in #188: daily `/api/cron/backup-db` → Storage `backups/`, 30 days |
+| 8 | Doc drift in `architecture.md` (Notion data layer, old branch convention) and `database.md` (`AdminGuard` as perimeter) | Fixed in this PR |
+| 9 | Some server-side helpers (e.g. `updateTrace`, used by `PATCH /api/traces/[id]`) go through the Web SDK (`getFirebaseDatabase`); under the live deny-all rules those calls should be rejected (inferred from code + rules, not reproduced) | Open: verify, then switch them to the Admin SDK |
+
+Until #188 is merged and its four env vars are set on Vercel, rows 1–7 describe production as it runs today.
 
 ---
 

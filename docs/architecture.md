@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Sidereal Satellite is a web application for the **Club de Blanmont**. It serves as a central hub for managing cycling routes ("Traces"), club members, the annual calendar, news/blog, club gear, Carré Vert attendance, and coordinating the weekly "Saturday Ride". The application leverages **Firebase Realtime Database (RTDB)** as its primary backend and database (with Cloudinary for media storage and optional Notion fallback). Detailed database wiring and schemas are documented in [database.md](database.md), and the future evolution plan is detailed in [ROADMAP.md](../ROADMAP.md).
+Sidereal Satellite is a web application for the **Club de Blanmont**. It serves as a central hub for managing cycling routes ("Traces"), club members, the annual calendar, news/blog, club gear, Carré Vert attendance, and coordinating the weekly "Saturday Ride". The application uses **Firebase Realtime Database (RTDB)** as its single backend and database, with Cloudinary for media storage. Notion was the original data source; it is no longer read at runtime (only `scripts/migrate-notion-to-firebase.ts` remains). The as-built overview is [system-design.md](system-design.md). Detailed database wiring and schemas are documented in [database.md](database.md), and the future evolution plan is detailed in [ROADMAP.md](../ROADMAP.md).
 
 ## Tech Stack
 
@@ -33,7 +33,8 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
     AuthContext.tsx   # React Context for User Authentication state
   /le-club/           # Feature: Club information page (Bento layout)
   /lib/
-    notion.ts         # CORE DATA LAYER: Fetching & Mapping (incl. new 'Direction' field)
+    firebase/         # CORE DATA LAYER: one module per RTDB node (traces.ts, members.ts, calendar.ts…), admin.ts / client.ts SDK setup
+    auth/             # session-token.ts (edge-safe HMAC cookie), session.ts (server helpers)
   /login/             # Feature: User Login page
   /saturday-ride/     # Feature: Weekly voting system interactions
   /traces/            # Feature: Route browsing and details
@@ -50,7 +51,7 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 ### 1. Trace Management
 
 - **Goal**: Catalog valid cycling routes.
-- **Data**: Stored in Notion "Traces" DB.
+- **Data**: Stored in Firebase RTDB `/traces` (`app/lib/firebase/traces.ts`).
 - **Features**:
   - browsing traces with stats (Distance, Elevation, Surface, Direction).
   - Advanced Filtering: Sidebar Drawer (Distance, Elevation, Ratings, etc.).
@@ -91,7 +92,7 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 ### 6. Calendar & Weather System
 
 - **Goal**: Display the club's annual schedule, live meteorological forecasts, and automatic agenda synchronization.
-- **Data**: Stored in Firebase Realtime Database `calendar-events` (with Notion fallback).
+- **Data**: Stored in Firebase Realtime Database `calendar-events`.
 - **Features**:
   - **Month View**: Client-side interactive calendar (`CalendarView.tsx`).
   - **iCalendar Feed Sync**: Live dynamic `.ics` subscription (`/api/calendar/subscribe.ics` & `/api/calendar/ics`) supporting Apple Calendar (`webcal://`), Google Calendar, Outlook, and manual download.
@@ -115,9 +116,10 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 ## Key Technical Conventions
 
 1.  **Data Fetching**:
-    - All data access must go through `app/lib/notion.ts`.
-    - Do NOT call Notion API directly in components; use the helper functions (`getTraces`, `getActiveRides`).
-    - Use `cleanId()` to handle Notion UUIDs safely.
+    - All data access goes through the modules in `app/lib/firebase/` (re-exported by `app/lib/firebase/index.ts`).
+    - Do NOT call the Firebase SDKs directly in components; use the helpers (`getTraces`, `getActiveRides`, …).
+    - Server code uses the Admin SDK (`getAdminDatabase`). The RTDB security rules (`database.rules.json`) deny all client access, so browser-side reads through the Web SDK fail by design.
+    - Use `cleanId()` to normalise legacy Notion-style ids.
 
 2.  **State & Mutations**:
     - Use **Server Actions** (`actions.ts`) for all writes (POST/PATCH).
@@ -138,18 +140,14 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
       - "Rides" -> "Sorties"
       - "Members" -> "Membres"
 
-5.  **Notion Quirk Handling**:
-    - The Notion API is strict. Use `isMockMode` check for local dev without secrets.
-    - DB Queries often return raw pages; these MUST be mapped to clean interfaces (e.g., `mapPageToTrace`) immediately.
-    - `Status` properties are type `active_status` or `status`, NOT `select`.
+5.  **Mock Mode**:
+    - Without Firebase keys the data layer runs in mock mode (`isMockMode`) and returns fixtures, so the UI can be developed locally without secrets.
 
 6.  **Version Control**:
-    - **Branch Naming**: All branches must follow the pattern `user_name/type/feature_explanation_name`.
-      - Example: `nicolas_bruyere/feature/trace-filtering`
-      - Types: `feature`, `fix`, `chore`, `refactor`, `docs`.
-    - **Commit Messages**: Follow the Semantic Commit pattern: `type(scope): subject`.
-      - Example: `feature(voting): add optimistic UI for vote button`
-      - Types match the branch types.
+    - Follow the Variant C workflow in [AGENTS.md](../AGENTS.md) and [git-workflow.md](git-workflow.md).
+    - **Branch Naming**: one short-lived branch per change, `<type>/<slug>` with `feat`, `fix`, `perf`, `refactor`, `chore` or `docs` (e.g. `feat/trace-filtering`).
+    - **Commit Messages**: Conventional Commits, `type(scope): subject` (e.g. `feat(voting): add optimistic UI for vote button`); breaking changes use `!` or a `BREAKING CHANGE:` footer.
+    - Merging to `master` triggers `nicode-ci`, which bumps SemVer, updates `CHANGELOG.md` and tags the release.
     - **Task Completion Rule**:
       - When a task or sub-task is verified and completed, **ALWAYS** commit and push the changes immediately.
       - Do not leave uncommitted changes at the end of a session or task block.
