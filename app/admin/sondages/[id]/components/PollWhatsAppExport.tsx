@@ -34,7 +34,7 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
 
     if (saturday.length > 0) {
       msg += `🔵 *SAMEDI MATIN (${saturday.length})* :\n`;
-      ['Groupe A', 'Groupe B', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
+      ['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
         const line = formatGroupList(saturday, grp);
         if (line) msg += `${line}\n`;
       });
@@ -43,7 +43,7 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
 
     if (sunday.length > 0) {
       msg += `🟡 *DIMANCHE MATIN (${sunday.length})* :\n`;
-      ['Groupe A', 'Groupe B', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
+      ['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
         const line = formatGroupList(sunday, grp);
         if (line) msg += `${line}\n`;
       });

@@ -81,6 +81,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   const groupCounts: Record<string, number> = {
     'Groupe A': 0,
     'Groupe B': 0,
+    'Groupe BC': 0,
     'Groupe C': 0,
     'Groupe VTT': 0,
   };
@@ -218,6 +219,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                 groups={[
                   { name: 'Groupe A', count: groupCounts['Groupe A'] },
                   { name: 'Groupe B', count: groupCounts['Groupe B'] },
+                  { name: 'Groupe BC', count: groupCounts['Groupe BC'] },
                   { name: 'Groupe C', count: groupCounts['Groupe C'] },
                   { name: 'Groupe VTT', count: groupCounts['Groupe VTT'] },
                   ...(otherGroupCount > 0 ? [{ name: 'Autre', count: otherGroupCount }] : []),
@@ -304,6 +306,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                 {[
                   { name: 'Groupe A', count: groupCounts['Groupe A'], pace: '> 29 km/h', ink: 'text-brand' },
                   { name: 'Groupe B', count: groupCounts['Groupe B'], pace: '26 - 28 km/h', ink: 'text-hydro' },
+                  { name: 'Groupe BC', count: groupCounts['Groupe BC'], pace: '24 - 27 km/h', ink: 'text-ambre-ink' },
                   { name: 'Groupe C', count: groupCounts['Groupe C'], pace: '23 - 25 km/h', ink: 'text-vert' },
                   { name: 'Groupe VTT', count: groupCounts['Groupe VTT'], pace: 'Chemins & Bois', ink: 'text-bistre' },
                 ].map((grp) => (

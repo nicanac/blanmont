@@ -17,6 +17,7 @@ import {
 import MemberRoleSelector from '../../components/MemberRoleSelector';
 import { Spinner } from '@/app/components/ui/Spinner';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
 
 interface EditMemberPageProps {
   params: Promise<{ id: string }>;
@@ -44,7 +45,7 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
     iceContactName: '',
     iceContactPhone: '',
     iceRelationship: '',
-    preferredGroup: 'B' as 'A' | 'B' | 'C' | 'VTT',
+    preferredGroup: 'B' as CyclingGroup,
   });
 
   useEffect(() => {
@@ -458,10 +459,11 @@ export default function EditMemberPage({ params }: EditMemberPageProps): React.R
                   onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value as typeof formData.preferredGroup })}
                   className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                 >
-                  <option value="A">{groupFullName('A')} (&gt; 30 km/h)</option>
-                  <option value="B">{groupFullName('B')} (25 – 28 km/h)</option>
-                  <option value="C">{groupFullName('C')} (&lt; 25 km/h)</option>
-                  <option value="VTT">{groupFullName('VTT')}</option>
+                  {PACE_GROUPS.map((g) => (
+                    <option key={g.id} value={g.id}>
+                      {groupFullName(g.id)} ({g.speed})
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

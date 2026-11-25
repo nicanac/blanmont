@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import type { CyclingGroup } from '../constants/cycling';
 import { updateMemberPhoto } from '../lib/firebase';
 import { uploadImageToCloudinary } from '../lib/cloudinary';
 import { getSessionUser } from '../lib/auth/session';
@@ -92,7 +93,7 @@ export async function updateMemberEmergencyAction(payload: {
   iceContactName?: string;
   iceContactPhone?: string;
   iceRelationship?: string;
-  preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
+  preferredGroup?: CyclingGroup;
   phone?: string;
   ffbcLicenseNumber?: string;
 }) {

@@ -8,6 +8,7 @@ import {
   EyeIcon,
 } from '@heroicons/react/24/outline';
 import PollWhatsAppExport from './components/PollWhatsAppExport';
+import GroupName from '@/app/components/shared/GroupName';
 import AdminDeletePollButton from './components/AdminDeletePollButton';
 import AdminDeleteResponseButton from './components/AdminDeleteResponseButton';
 
@@ -36,6 +37,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
   const groupCounts: Record<string, number> = {
     'Groupe A': 0,
     'Groupe B': 0,
+    'Groupe BC': 0,
     'Groupe C': 0,
     'Groupe VTT': 0,
     'Autre': 0,
@@ -145,10 +147,12 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
             <h3 className="text-xs font-bold uppercase tracking-wider text-ink-2 dark:text-snow-2 font-mono">
               Répartition par groupe
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {['Groupe A', 'Groupe B', 'Groupe C', 'Groupe VTT'].map((grp) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              {['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].map((grp) => (
                 <div key={grp} className="rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night p-3">
-                  <div className="text-xs font-bold text-ink dark:text-snow-1">{grp}</div>
+                  <div className="text-xs font-bold text-ink dark:text-snow-1">
+                    <GroupName code={grp} variant="full" />
+                  </div>
                   <div className="text-lg font-extrabold text-ink dark:text-snow-1 font-mono tabular-nums mt-1">
                     {groupCounts[grp] || 0}
                   </div>
