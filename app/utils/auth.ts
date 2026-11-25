@@ -4,7 +4,7 @@
  */
 export {
   ADMIN_ROLES,
-  ADMIN_EMAILS,
+  getAdminEmails,
   isAdminRole,
   checkIsAdmin,
 } from '../constants/roles';

@@ -1,14 +1,12 @@
 import { NextResponse } from 'next/server';
 import { autoCreateUpcomingWeekendPoll } from '@/app/lib/sondage-automation';
+import { verifyCronRequest } from '@/app/lib/auth/cron';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request): Promise<NextResponse> {
-  // Optional authorization check: Vercel Cron sends Bearer token with CRON_SECRET
-  const authHeader = request.headers.get('authorization');
-  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const denied = verifyCronRequest(request);
+  if (denied) return denied;
 
   try {
     const result = await autoCreateUpcomingWeekendPoll();

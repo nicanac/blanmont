@@ -9,6 +9,8 @@ export interface User {
   name: string;
   phone?: string;
   role?: string[];
+  /** Server-computed admin flag from the signed session (roles or ADMIN_EMAILS). */
+  isAdmin?: boolean;
 }
 
 /**

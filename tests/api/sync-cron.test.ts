@@ -1,35 +1,37 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET as getSyncElevation } from '@/app/api/cron/sync-elevation/route';
 import { GET as getSyncLeaderboard, POST as postSyncLeaderboard } from '@/app/api/cron/sync-leaderboard/route';
 import * as firebaseRoot from '@/app/lib/firebase';
 
 describe('Synchronization Cron Endpoints', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-  });
-
-  describe('GET /api/cron/sync-elevation', () => {
-    it('returns 500 when NOTION_TOKEN is not configured', async () => {
-      const origToken = process.env.NOTION_TOKEN;
-      const origKey = process.env.NOTION_KEY;
-      delete process.env.NOTION_TOKEN;
-      delete process.env.NOTION_KEY;
-
-      try {
-        const req = new Request('http://localhost:3000/api/cron/sync-elevation');
-        const res = await getSyncElevation(req);
-
-        expect(res.status).toBe(500);
-        const data = await res.json();
-        expect(data.error).toBe('Missing NOTION_TOKEN');
-      } finally {
-        if (origToken) process.env.NOTION_TOKEN = origToken;
-        if (origKey) process.env.NOTION_KEY = origKey;
-      }
-    });
+    vi.unstubAllEnvs();
+    vi.stubEnv(
+      'LEADERBOARD_SHEET_CSV_URL',
+      'https://docs.google.com/spreadsheets/d/example-sheet-id/export?format=csv&gid=0'
+    );
   });
 
   describe('GET & POST /api/cron/sync-leaderboard', () => {
+    it('returns 500 without fetching when LEADERBOARD_SHEET_CSV_URL is missing', async () => {
+      vi.stubEnv('LEADERBOARD_SHEET_CSV_URL', '');
+      global.fetch = vi.fn();
+
+      const res = await getSyncLeaderboard();
+      expect(res.status).toBe(500);
+      expect((await res.json()).error).toContain('LEADERBOARD_SHEET_CSV_URL');
+      expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it('rejects requests without the cron bearer token when CRON_SECRET is set', async () => {
+      vi.stubEnv('CRON_SECRET', 'example_cron_secret_for_tests_only');
+      global.fetch = vi.fn();
+
+      const res = await getSyncLeaderboard(new Request('http://localhost:3000/api/cron/sync-leaderboard'));
+      expect(res.status).toBe(401);
+      expect(global.fetch).not.toHaveBeenCalled();
+    });
+
     it('returns 500 when Google Sheet CSV fetch fails', async () => {
       global.fetch = vi.fn().mockResolvedValue({
         ok: false,

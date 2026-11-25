@@ -13,6 +13,7 @@ import {
 import type { CalendarEvent } from '@/app/types';
 import { calculateMemberCarres } from '@/app/lib/carreVert';
 import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { getLeaderboardSheetCsvUrl, LEADERBOARD_SHEET_MISSING_ERROR } from '@/app/lib/leaderboard-sheet';
 
 export async function GET(request: NextRequest) {
     const authCheck = await verifyAdminRequest(request);
@@ -31,7 +32,10 @@ export async function GET(request: NextRequest) {
             }
         }
 
-        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1iKk938MCgkKn7CXconmZpjmy0xmSFaEPhYOqf0Nis84/export?format=csv&gid=1551990117';
+        const GOOGLE_SHEET_CSV_URL = getLeaderboardSheetCsvUrl();
+        if (!GOOGLE_SHEET_CSV_URL) {
+            return NextResponse.json({ error: LEADERBOARD_SHEET_MISSING_ERROR }, { status: 500 });
+        }
         
         const response = await fetch(GOOGLE_SHEET_CSV_URL);
         if (!response.ok) {
