@@ -1,5 +1,6 @@
 import {
   DEFAULT_GROUP_SETTINGS,
+  GROUP_ALIAS_MAX_COUNT,
   GROUP_CODE_MAX_LENGTH,
   GROUP_LABEL_MAX_LENGTH,
   GROUP_MAX_COUNT,
@@ -32,7 +33,7 @@ export function normalizeGroupSettings(input: unknown): GroupSettings {
       : [];
 
   const seen = new Set<string>();
-  const groups: GroupDefinition[] = [];
+  const groups: Array<GroupDefinition & { rawAliases?: unknown }> = [];
   for (const row of rawGroups) {
     if (!row || typeof row !== 'object') continue;
     const { code, label } = row as { code?: unknown; label?: unknown };
@@ -44,13 +45,32 @@ export function normalizeGroupSettings(input: unknown): GroupSettings {
         ? label.trim().slice(0, GROUP_LABEL_MAX_LENGTH)
         : cleanCode;
     seen.add(groupKey(cleanCode));
-    groups.push({ code: cleanCode, label: cleanLabel });
+    groups.push({ code: cleanCode, label: cleanLabel, rawAliases: (row as { aliases?: unknown }).aliases });
     if (groups.length >= GROUP_MAX_COUNT) break;
   }
 
-  if (groups.length === 0) return DEFAULT_GROUP_SETTINGS;
+  // Aliases second, so a primary code always wins over the same value merged elsewhere.
+  const result: GroupDefinition[] = groups.map(({ code, label, rawAliases }) => {
+    const list: unknown[] = Array.isArray(rawAliases)
+      ? rawAliases
+      : rawAliases && typeof rawAliases === 'object'
+        ? Object.values(rawAliases)
+        : [];
+    const aliases: string[] = [];
+    for (const alias of list) {
+      if (typeof alias !== 'string') continue;
+      const clean = alias.trim().slice(0, GROUP_CODE_MAX_LENGTH);
+      if (!clean || seen.has(groupKey(clean))) continue;
+      seen.add(groupKey(clean));
+      aliases.push(clean);
+      if (aliases.length >= GROUP_ALIAS_MAX_COUNT) break;
+    }
+    return aliases.length > 0 ? { code, label, aliases } : { code, label };
+  });
+
+  if (result.length === 0) return DEFAULT_GROUP_SETTINGS;
   return {
-    groups,
+    groups: result,
     ...(typeof data.updatedAt === 'string' ? { updatedAt: data.updatedAt } : {}),
   };
 }
@@ -63,10 +83,61 @@ export function findGroup(
   if (!raw) return undefined;
   const direct = groupKey(raw);
   const stripped = groupKey(stripGroupPrefix(raw));
+  const matches = (g: GroupDefinition, key: string): boolean =>
+    groupKey(g.code) === key || (g.aliases ?? []).some((a) => groupKey(a) === key);
   return (
-    settings.groups.find((g) => groupKey(g.code) === direct) ??
-    settings.groups.find((g) => groupKey(g.code) === stripped)
+    settings.groups.find((g) => matches(g, direct)) ??
+    settings.groups.find((g) => matches(g, stripped))
   );
+}
+
+/** Every stored code a group stands for: its own code first, then the merged ones. */
+export function groupCodes(group: GroupDefinition): string[] {
+  return [group.code, ...(group.aliases ?? [])];
+}
+
+/**
+ * Key to group records by: the configured group's own code, so merged codes (A, A-)
+ * land in the same bucket. Unknown values are returned trimmed, as stored.
+ */
+export function canonicalGroup(raw: string | null | undefined, settings: GroupSettings): string {
+  if (!raw) return '';
+  return findGroup(raw, settings)?.code ?? raw.trim();
+}
+
+/** Per-group statistics row, as produced by the club statistics. */
+export interface GroupStatRow {
+  group: string;
+  count: number;
+  totalAttendances: number;
+  avgRides: number;
+  percentOfTotal: number;
+}
+
+/**
+ * Merges statistics rows whose codes belong to the same configured group
+ * (A + A- → one GR1 row), then recomputes averages and shares, biggest first.
+ */
+export function mergeGroupStats(rows: GroupStatRow[], settings: GroupSettings): GroupStatRow[] {
+  const merged = new Map<string, { count: number; totalAttendances: number }>();
+  for (const row of rows) {
+    const key = canonicalGroup(row.group, settings) || row.group;
+    const current = merged.get(key) ?? { count: 0, totalAttendances: 0 };
+    merged.set(key, {
+      count: current.count + row.count,
+      totalAttendances: current.totalAttendances + row.totalAttendances,
+    });
+  }
+  const total = Array.from(merged.values()).reduce((sum, g) => sum + g.totalAttendances, 0);
+  return Array.from(merged.entries())
+    .map(([group, g]) => ({
+      group,
+      count: g.count,
+      totalAttendances: g.totalAttendances,
+      avgRides: g.count > 0 ? Math.round(g.totalAttendances / g.count) : 0,
+      percentOfTotal: total > 0 ? Math.round((g.totalAttendances / total) * 100) : 0,
+    }))
+    .sort((a, b) => b.totalAttendances - a.totalAttendances);
 }
 
 /**

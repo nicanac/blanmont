@@ -410,7 +410,7 @@ export default function CalendarDrawer({
   onReviewsUpdated,
 }: CalendarDrawerProps): React.ReactElement | null {
   const { user, isAuthenticated, isAdmin } = useAuth();
-  const { fullName: groupFullName, compare: compareGroups } = useGroupLabels();
+  const { fullName: groupFullName, compare: compareGroups, key: groupBucket } = useGroupLabels();
   const mounted = useIsMounted();
   const [activeTab, setActiveTab] = useState<'details' | 'debrief'>('details');
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -470,7 +470,8 @@ export default function CalendarDrawer({
 
   // Attendees grouped by cycling group
   const groupedAttendees = attendees.reduce<Record<string, AttendeeInfo[]>>((acc, curr) => {
-    const grp = curr.group || 'Sans groupe';
+    // Merged codes (A, A-) share one heading.
+    const grp = groupBucket(curr.group) || 'Sans groupe';
     if (!acc[grp]) acc[grp] = [];
     acc[grp].push(curr);
     return acc;

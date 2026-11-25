@@ -3,11 +3,11 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
+import { PACE_GROUPS, type PaceGroupCode } from '@/app/constants/cycling';
 import { useSheetMotion } from '@/app/lib/useSheetMotion';
 import GroupName from '@/app/components/shared/GroupName';
 
-function Road({ group }: { group: CyclingGroup }): React.ReactElement {
+function Road({ group }: { group: PaceGroupCode }): React.ReactElement {
   return (
     <svg
       viewBox="0 0 1000 24"
@@ -56,6 +56,28 @@ function Road({ group }: { group: CyclingGroup }): React.ReactElement {
             y2="12"
             strokeWidth="8.5"
             className="stroke-ambre"
+            vectorEffect="non-scaling-stroke"
+          />
+        </>
+      )}
+      {group === 'BC' && (
+        <>
+          <line
+            x1="0"
+            y1="12"
+            x2="1000"
+            y2="12"
+            strokeWidth="11"
+            className="stroke-ambre-ink"
+            vectorEffect="non-scaling-stroke"
+          />
+          <line
+            x1="0"
+            y1="12"
+            x2="1000"
+            y2="12"
+            strokeWidth="7"
+            className="stroke-white dark:stroke-night-2"
             vectorEffect="non-scaling-stroke"
           />
         </>
@@ -138,7 +160,7 @@ export default function GroupRoads(): React.ReactElement {
             id="groupes-title"
             className="text-balance font-wide text-[clamp(2rem,4.4vw,3.75rem)] font-extrabold uppercase leading-[0.94] text-ink lg:col-span-7 dark:text-snow"
           >
-            Quatre groupes, une seule place de départ
+            Quatre groupes route, un VTT, une seule place de départ
           </h2>
           <p className="max-w-[46ch] text-base leading-relaxed text-ink-2 lg:col-span-5 dark:text-snow-2">
             « On part ensemble, on rentre ensemble. » Chaque groupe roule à son allure, encadré par
@@ -173,8 +195,8 @@ export default function GroupRoads(): React.ReactElement {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
           <p className="text-sm text-ink-3 dark:text-snow-3">
-            Samedi matin : route. Dimanche matin : route et VTT. Vélos électriques bienvenus dans le
-            groupe C.
+            Samedi matin : route. Dimanche matin : route et VTT. Vélos électriques bienvenus en{' '}
+            <GroupName code="C" />.
           </p>
           <Link
             href="/le-club"

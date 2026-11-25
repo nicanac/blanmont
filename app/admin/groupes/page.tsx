@@ -7,31 +7,47 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
   ArrowUturnLeftIcon,
+  ArrowsPointingInIcon,
   PlusIcon,
   TagIcon,
   TrashIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import AdminPageHeader from '../components/AdminPageHeader';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 import {
+  GROUP_ALIAS_MAX_COUNT,
   GROUP_CODE_MAX_LENGTH,
   GROUP_LABEL_MAX_LENGTH,
   GROUP_MAX_COUNT,
   type GroupDefinition,
   type GroupSettings,
 } from '@/app/constants/groups';
-import { groupKey } from '@/app/lib/groupLabels';
+import { groupCodes, groupKey } from '@/app/lib/groupLabels';
+import { isSameGrouping, proposeGroupMerge } from '@/app/lib/groupMergeProposal';
 
 type Usage = Record<string, { code: string; count: number }>;
 
 /** Editable row; `id` keeps React from recreating inputs when rows move. */
 interface Row extends GroupDefinition {
   id: string;
+  aliases: string[];
 }
 
 let rowSeq = 0;
 const toRows = (groups: GroupDefinition[]): Row[] =>
-  groups.map((g) => ({ ...g, id: `row-${rowSeq++}` }));
+  groups.map((g) => ({ ...g, aliases: g.aliases ?? [], id: `row-${rowSeq++}` }));
+
+/** Rows as sent to the API: trimmed, merged codes only when there are some. */
+const toDefinitions = (rows: Array<GroupDefinition>): GroupDefinition[] =>
+  rows.map(({ code, label, aliases }) =>
+    aliases && aliases.length > 0
+      ? { code: code.trim(), label: label.trim(), aliases }
+      : { code: code.trim(), label: label.trim() }
+  );
+
+/** "A, A-" for previews and status messages. */
+const codeList = (group: GroupDefinition): string => groupCodes(group).join(', ');
 
 /** Per-row error messages (French), computed on the client before saving. */
 function validateRows(rows: Row[]): Record<string, { code?: string; label?: string }> {
@@ -40,9 +56,12 @@ function validateRows(rows: Row[]): Record<string, { code?: string; label?: stri
   const codeCount = new Map<string, number>();
   const labelCount = new Map<string, number>();
   for (const row of rows) {
-    const code = groupKey(row.code);
     const label = groupKey(row.label);
-    if (code) codeCount.set(code, (codeCount.get(code) ?? 0) + 1);
+    // Merged codes count too: a stored code belongs to one group only.
+    for (const c of groupCodes(row)) {
+      const code = groupKey(c);
+      if (code) codeCount.set(code, (codeCount.get(code) ?? 0) + 1);
+    }
     if (label) labelCount.set(label, (labelCount.get(label) ?? 0) + 1);
   }
   for (const row of rows) {
@@ -51,7 +70,7 @@ function validateRows(rows: Row[]): Record<string, { code?: string; label?: stri
     const label = groupKey(row.label);
     if (!code) e.code = 'Saisissez le code enregistré, par exemple A.';
     else if ((codeCount.get(code) ?? 0) > 1)
-      e.code = `Le code ${row.code.trim()} apparaît plusieurs fois. Gardez une seule ligne.`;
+      e.code = `Le code ${row.code.trim()} est déjà utilisé par un autre groupe. Gardez-le à un seul endroit.`;
     if (!label) e.label = 'Saisissez le nom à afficher, par exemple GR1.';
     else if ((labelCount.get(label) ?? 0) > 1)
       e.label = `Le nom ${row.label.trim()} est déjà utilisé par un autre groupe. Choisissez un nom unique.`;
@@ -112,16 +131,26 @@ export default function AdminGroupesPage(): React.ReactElement {
   const errors = useMemo(() => validateRows(rows), [rows]);
   const hasErrors = Object.keys(errors).length > 0;
   const dirty = useMemo(
-    () =>
-      JSON.stringify(
-        rows.map(({ code, label }) => ({ code: code.trim(), label: label.trim() }))
-      ) !== JSON.stringify(saved),
+    () => JSON.stringify(toDefinitions(rows)) !== JSON.stringify(toDefinitions(saved)),
     [rows, saved]
   );
 
-  // Codes present in members / leaderboard data but missing from the list.
+  // Proposed merge into GR1–GR4 + VTT, from the codes on screen and those found in the data.
+  const proposal = useMemo(
+    () =>
+      proposeGroupMerge(
+        toDefinitions(rows),
+        Object.values(usage).map((u) => u.code)
+      ),
+    [rows, usage]
+  );
+  const proposalPending = !isSameGrouping(toDefinitions(rows), proposal.groups);
+  const usageOf = (group: GroupDefinition): number =>
+    groupCodes(group).reduce((sum, c) => sum + (usage[groupKey(c)]?.count ?? 0), 0);
+
+  // Codes present in members / leaderboard data but attached to no group.
   const unconfigured = useMemo(() => {
-    const configured = new Set(rows.map((r) => groupKey(r.code)));
+    const configured = new Set(rows.flatMap((r) => groupCodes(r).map(groupKey)));
     return Object.entries(usage)
       .filter(([key]) => !configured.has(key))
       .map(([, u]) => u)
@@ -136,7 +165,7 @@ export default function AdminGroupesPage(): React.ReactElement {
     return () => window.removeEventListener('beforeunload', handler);
   }, [dirty]);
 
-  const updateRow = (id: string, patch: Partial<GroupDefinition>): void =>
+  const updateRow = (id: string, patch: Partial<Omit<Row, 'id'>>): void =>
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, ...patch } : r)));
 
   const move = (index: number, delta: -1 | 1): void => {
@@ -156,6 +185,10 @@ export default function AdminGroupesPage(): React.ReactElement {
       toast.error(`Le code ${clean} est déjà dans la liste.`);
       return;
     }
+    if (rows.some((r) => r.aliases.some((a) => groupKey(a) === groupKey(clean)))) {
+      toast.error(`Le code ${clean} est déjà fusionné dans un groupe. Détachez-le d'abord.`);
+      return;
+    }
     setRows((prev) => [...prev, ...toRows([{ code: clean, label: clean }])]);
     setStatus(`Groupe ${clean} ajouté en fin de liste.`);
   };
@@ -163,7 +196,26 @@ export default function AdminGroupesPage(): React.ReactElement {
   const removeRow = (row: Row): void => {
     setRows((prev) => prev.filter((r) => r.id !== row.id));
     setStatus(
-      `Groupe ${row.code} retiré de la liste. Ses membres afficheront à nouveau le code ${row.code}.`
+      `Groupe ${row.label || row.code} retiré de la liste. Les fiches ${codeList(row)} afficheront à nouveau leur code.`
+    );
+  };
+
+  const attachCode = (row: Row, code: string): void => {
+    if (!code || row.aliases.length >= GROUP_ALIAS_MAX_COUNT) return;
+    updateRow(row.id, { aliases: [...row.aliases, code] });
+    setStatus(`Code ${code} fusionné dans ${row.label || row.code}.`);
+  };
+
+  const detachCode = (row: Row, code: string): void => {
+    updateRow(row.id, { aliases: row.aliases.filter((a) => a !== code) });
+    setStatus(`Code ${code} détaché de ${row.label || row.code}. Il s'affichera tel quel.`);
+  };
+
+  const applyProposal = (): void => {
+    setRows(toRows(proposal.groups));
+    setSubmitted(false);
+    setStatus(
+      'Proposition appliquée. Renommez les groupes si besoin, puis enregistrez pour la mettre en ligne.'
     );
   };
 
@@ -178,9 +230,7 @@ export default function AdminGroupesPage(): React.ReactElement {
     }
     setSaving(true);
     try {
-      const payload = {
-        groups: rows.map(({ code, label }) => ({ code: code.trim(), label: label.trim() })),
-      };
+      const payload = { groups: toDefinitions(rows) };
       const res = await fetch('/api/admin/group-settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -212,7 +262,7 @@ export default function AdminGroupesPage(): React.ReactElement {
         title="Groupes & Pelotons"
         sheet="Feuille · Groupes"
         badge={{ icon: TagIcon, label: 'Administration · Groupes' }}
-        description="Choisissez le nom affiché de chaque groupe (classement Carré Vert, pointage, calendrier, statistiques, accueil). Les codes enregistrés ne changent pas : renommer A en GR1 ne modifie aucun historique."
+        description="Choisissez le nom affiché de chaque groupe et fusionnez les anciens codes (A et A- dans GR1, par exemple). Les codes enregistrés ne changent pas : renommer ou fusionner ne modifie aucun historique, et chaque fusion se défait."
       />
 
       <p role="status" className="sr-only">
@@ -243,6 +293,65 @@ export default function AdminGroupesPage(): React.ReactElement {
         </div>
       ) : (
         <form onSubmit={handleSubmit} noValidate className="space-y-6">
+          {proposalPending && (
+            <section
+              aria-labelledby="groupes-proposal-title"
+              className="space-y-3 rounded-md border border-line bg-paper px-4 py-4 corner-ticks sm:px-5"
+            >
+              <div>
+                <h2
+                  id="groupes-proposal-title"
+                  className="font-semiwide text-base font-extrabold uppercase tracking-tight text-ink"
+                >
+                  Proposition de regroupement
+                </h2>
+                <p className="mt-1 text-sm text-ink-2">
+                  Le club roule désormais en quatre groupes route et un groupe VTT. Les anciens
+                  codes sont fusionnés dans le groupe correspondant. Vous pourrez renommer chaque
+                  groupe avant d&apos;enregistrer.
+                </p>
+              </div>
+              <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {proposal.groups.map((g) => {
+                  const n = usageOf(g);
+                  return (
+                    <li
+                      key={g.code}
+                      className="flex items-baseline justify-between gap-3 rounded-sm border border-line bg-paper-2 px-3 py-2 text-sm"
+                    >
+                      <span className="min-w-0">
+                        <span className="font-narrow font-bold text-ink">{g.label}</span>
+                        <span className="sr-only"> regroupe </span>
+                        <span aria-hidden="true" className="text-ink-3">
+                          {' '}
+                          ←{' '}
+                        </span>
+                        <span className="break-words font-mono text-ink-2">{codeList(g)}</span>
+                      </span>
+                      <span className="shrink-0 font-mono text-xs text-ink-3 tabular-nums">
+                        {n} {n > 1 ? 'fiches' : 'fiche'}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+              {proposal.unmatched.length > 0 && (
+                <p className="text-xs text-ink-3">
+                  Codes non reconnus, laissés tels quels :{' '}
+                  <span className="font-mono text-ink-2">{proposal.unmatched.join(', ')}</span>
+                </p>
+              )}
+              <button
+                type="button"
+                onClick={applyProposal}
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-md border border-ink bg-ink px-4 py-2 text-xs font-bold uppercase tracking-wider text-paper hover:bg-ink-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand transition-colors"
+              >
+                <ArrowsPointingInIcon className="h-4 w-4" aria-hidden="true" />
+                Appliquer la proposition
+              </button>
+            </section>
+          )}
+
           <section
             aria-labelledby="groupes-list-title"
             className="rounded-md border border-line bg-paper corner-ticks"
@@ -272,7 +381,7 @@ export default function AdminGroupesPage(): React.ReactElement {
             ) : (
               <ol className="divide-y divide-line">
                 {rows.map((row, index) => {
-                  const count = usage[groupKey(row.code)]?.count ?? 0;
+                  const count = usageOf(row);
                   const isSavedCode = saved.some((g) => groupKey(g.code) === groupKey(row.code));
                   const codeError = showError(row.id, 'code');
                   const labelError = showError(row.id, 'label');
@@ -385,6 +494,57 @@ export default function AdminGroupesPage(): React.ReactElement {
                       >
                         <TrashIcon className="h-4 w-4" aria-hidden="true" />
                       </button>
+
+                      {/* Merged codes */}
+                      {(row.aliases.length > 0 || unconfigured.length > 0) && (
+                        <div className="col-span-full flex flex-wrap items-center gap-2 sm:col-start-2 sm:col-end-5">
+                          <span className="font-narrow text-xs font-bold uppercase tracking-wider text-ink-3">
+                            Codes fusionnés
+                          </span>
+                          {row.aliases.length === 0 && (
+                            <span className="text-xs text-ink-3">aucun</span>
+                          )}
+                          {row.aliases.map((alias) => (
+                            <span
+                              key={alias}
+                              className="inline-flex items-center gap-1 rounded-full border border-line bg-paper-2 py-0.5 pl-2.5 pr-1 text-xs"
+                            >
+                              <span className="font-mono font-bold text-ink">{alias}</span>
+                              <span className="text-ink-3 tabular-nums">
+                                · {usage[groupKey(alias)]?.count ?? 0}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => detachCode(row, alias)}
+                                aria-label={`Détacher le code ${alias} de ${row.label || row.code}`}
+                                className="inline-flex h-6 w-6 items-center justify-center rounded-full text-ink-3 hover:bg-line hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+                              >
+                                <XMarkIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                              </button>
+                            </span>
+                          ))}
+                          {unconfigured.length > 0 && row.aliases.length < GROUP_ALIAS_MAX_COUNT && (
+                            <>
+                              <label htmlFor={`attach-${row.id}`} className="sr-only">
+                                Fusionner un code dans {row.label || row.code}
+                              </label>
+                              <select
+                                id={`attach-${row.id}`}
+                                value=""
+                                onChange={(e) => attachCode(row, e.target.value)}
+                                className="rounded-md border border-dashed border-line bg-paper px-2 py-1 text-xs text-ink-2 hover:border-ink-3 focus:border-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
+                              >
+                                <option value="">+ Fusionner un code…</option>
+                                {unconfigured.map((u) => (
+                                  <option key={u.code} value={u.code}>
+                                    {u.code} ({u.count})
+                                  </option>
+                                ))}
+                              </select>
+                            </>
+                          )}
+                        </div>
+                      )}
                     </li>
                   );
                 })}
@@ -395,7 +555,9 @@ export default function AdminGroupesPage(): React.ReactElement {
               {unconfigured.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-xs text-ink-2">
-                    Codes trouvés dans les fiches mais absents de la liste (affichés tels quels) :
+                    Codes trouvés dans les fiches mais rattachés à aucun groupe (affichés tels
+                    quels). Ajoutez-en un comme nouveau groupe, ou fusionnez-le dans un groupe
+                    existant ci-dessus :
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {unconfigured.map((u) => (
@@ -475,7 +637,7 @@ export default function AdminGroupesPage(): React.ReactElement {
                   key={row.id}
                   className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper-2 px-3 py-1 text-xs"
                 >
-                  <span className="font-mono text-ink-3">{row.code.trim() || '?'}</span>
+                  <span className="font-mono text-ink-3">{codeList(row).trim() || '?'}</span>
                   <span aria-hidden="true" className="text-ink-3">
                     →
                   </span>
@@ -508,7 +670,7 @@ export default function AdminGroupesPage(): React.ReactElement {
               disabled={!dirty || saving}
               className="inline-flex min-h-[40px] items-center gap-2 rounded-md bg-brand px-6 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-brand-strong disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
             >
-              {saving ? 'Enregistrement…' : 'Enregistrer les noms'}
+              {saving ? 'Enregistrement…' : 'Enregistrer les groupes'}
             </button>
           </div>
         </form>
