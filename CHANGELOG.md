@@ -7,6 +7,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.31.1] - 2026-11-25
+
+### Chores
+- 🔧 [chore] deps: make graft optional so CI installs survive (#189) (`ba2cc69`)
 ## [0.31.0] - 2026-11-25
 
 ### Added
