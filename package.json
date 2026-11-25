@@ -1,6 +1,6 @@
 {
   "name": "sidereal-satellite",
-  "version": "0.30.0",
+  "version": "0.31.0",
   "private": true,
   "packageManager": "npm@11.8.0",
   "scripts": {
@@ -63,7 +63,6 @@
     "zod": "^4.3.5"
   },
   "devDependencies": {
-    "@nanonets/graft": "^0.13.0",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.11",
@@ -89,6 +88,9 @@
     "typescript": "5.9.3",
     "vite": "^8.2.2",
     "vitest": "^5.0.0"
+  },
+  "optionalDependencies": {
+    "@nanonets/graft": "^0.13.0"
   },
   "overrides": {
     "@grpc/grpc-js": "^1.14.7"

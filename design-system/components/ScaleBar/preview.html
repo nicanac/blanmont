@@ -1,0 +1,20 @@
+<!-- @dsCard group="Carte" height=110 subtitle="5 km graphic scale and north arrow" -->
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>ScaleBar</title>
+<style>body { margin: 0; padding: 24px; background: var(--surface); } .bar { width: 240px; }</style>
+</head>
+<body>
+  <div class="bl-scale">
+    <div role="img" aria-label="Échelle graphique : 5 kilomètres">
+      <div class="bl-scale__bar bar"><span class="bl-scale__seg"></span><span class="bl-scale__seg"></span><span class="bl-scale__seg"></span><span class="bl-scale__seg"></span><span class="bl-scale__seg"></span></div>
+      <div class="bl-scale__labels bar"><span>0</span><span>5 km</span></div>
+    </div>
+    <svg class="bl-north" viewBox="0 0 20 34" role="img" aria-label="Nord">
+      <path d="M10 1 17 22 10 18 3 22Z" fill="currentColor"/>
+      <path class="bl-north__half" d="M10 1 10 18 3 22Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+      <text x="10" y="33" text-anchor="middle" fill="currentColor" font-family="Archivo, sans-serif" font-size="9" font-weight="700">N</text>
+    </svg>
+  </div>
+</body>
+</html>
