@@ -5,6 +5,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.30.0] - 2026-11-25
+
+### Added
+- feat(admin): let administrators rename cycling groups (#186) (`386c65d`)
 ## [0.29.2] - 2026-11-25
 
 ### Fixed
