@@ -1,0 +1,27 @@
+<!-- @dsCard group="Actions" height=150 subtitle="Primary, outline, secondary, ghost, link; three sizes" -->
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Button</title>
+<style>
+  body { margin: 0; padding: 20px; background: var(--surface); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .row + .row { margin-top: 16px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <button class="bl-btn bl-btn--primary" type="button">Rejoindre le peloton</button>
+    <button class="bl-btn bl-btn--outline" type="button">Télécharger le GPX</button>
+    <button class="bl-btn bl-btn--secondary" type="button">Voir le parcours</button>
+    <button class="bl-btn bl-btn--ghost" type="button">Annuler</button>
+    <button class="bl-btn bl-btn--link" type="button">Lire le règlement</button>
+  </div>
+  <div class="row">
+    <button class="bl-btn bl-btn--primary bl-btn--sm" type="button">S'inscrire</button>
+    <button class="bl-btn bl-btn--primary" type="button">S'inscrire</button>
+    <button class="bl-btn bl-btn--primary bl-btn--lg" type="button">S'inscrire</button>
+    <button class="bl-btn bl-btn--destructive bl-btn--sm" type="button">Supprimer la sortie</button>
+    <button class="bl-btn bl-btn--primary bl-btn--sm" type="button" disabled>Complet</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!-- @dsCard group="Carte" height=200 subtitle="neatline, corner-ticks, scale-strip, map-grid" -->
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>SheetPrimitives</title>
+<style>
+  body { margin: 0; padding: 20px; background: var(--surface); font-family: var(--font-sans); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .tile { height: 150px; box-sizing: border-box; padding: 16px; display: flex; align-items: flex-end; background: var(--surface-raised); }
+  .cap { font-stretch: var(--stretch-narrow); font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+  .col { flex-direction: column; align-items: flex-start; justify-content: space-between; }
+  .strip { height: 5px; width: 100%; --seg: 24px; }
+  .ticks { border: 1px solid var(--rule); }
+  .gridtile { --grid: 32px; background-color: var(--map-paper); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="tile bl-neatline"><span class="cap">neatline</span></div>
+    <div class="tile ticks bl-corner-ticks"><span class="cap">corner-ticks</span></div>
+    <div class="tile col"><div class="strip bl-scale-strip"></div><span class="cap">scale-strip</span></div>
+    <div class="tile gridtile bl-map-grid"><span class="cap bl-map-label">map-grid · 2 km</span></div>
+  </div>
+</body>
+</html>
