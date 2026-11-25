@@ -52,8 +52,15 @@ describe('Design System & AI Agent Alignment Integrity', () => {
     for (const file of agentFiles) {
       const filePath = path.join(rootDir, file);
       expect(fs.existsSync(filePath), `File ${file} should exist`).toBe(true);
-      const content = fs.readFileSync(filePath, 'utf8');
-      expect(content).toContain('La Feuille de Blanmont — Carte IGN');
+      // CLAUDE.md / GEMINI.md pull AGENTS.md in with an `@AGENTS.md` import line (Variant C):
+      // the agent reads the imported text, so the check does too.
+      const raw = fs.readFileSync(filePath, 'utf8');
+      const imported = [...raw.matchAll(/^@(\S+)\s*$/gm)]
+        .map((m) => path.join(rootDir, m[1]))
+        .filter((p) => fs.existsSync(p))
+        .map((p) => fs.readFileSync(p, 'utf8'));
+      const content = [raw, ...imported].join('\n');
+      expect(content, `${file} (with its @imports)`).toContain('La Feuille de Blanmont — Carte IGN');
       expect(content).toContain('Archivo');
       expect(content).toContain('SheetHeader');
     }

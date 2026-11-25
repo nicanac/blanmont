@@ -2,6 +2,14 @@ import { describe, it, expect } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 
+/**
+ * The guard hook is a Python script. Pick whichever interpreter exists: `python` on Windows dev
+ * machines, `python3` on most Linux hosts, none in the node:*-slim image the CI runner uses.
+ */
+const pythonBin = ['python3', 'python'].find(
+  (bin) => spawnSync(bin, ['--version'], { encoding: 'utf-8' }).status === 0
+);
+
 describe('Antigravity Lifecycle Hooks', () => {
   const repoRoot = path.resolve(__dirname, '..', '..');
   const guardsScript = path.join(repoRoot, '.agents', 'hooks', 'antigravity_guards.py');
@@ -9,7 +17,7 @@ describe('Antigravity Lifecycle Hooks', () => {
   const stopScript = path.join(repoRoot, '.agents', 'hooks', 'antigravity_stop.mjs');
 
   const runGuard = (payload: unknown) => {
-    const res = spawnSync('python', [guardsScript], {
+    const res = spawnSync(pythonBin as string, [guardsScript], {
       input: JSON.stringify(payload),
       encoding: 'utf-8',
       cwd: repoRoot,
@@ -17,7 +25,8 @@ describe('Antigravity Lifecycle Hooks', () => {
     return JSON.parse(res.stdout || '{}');
   };
 
-  describe('PreToolUse Security Guards (antigravity_guards.py)', () => {
+  // Skipped (not failed) where no Python is installed, e.g. the CI container.
+  describe.skipIf(!pythonBin)('PreToolUse Security Guards (antigravity_guards.py)', () => {
     it('blocks reading or leaking secret files via run_command', () => {
       const res = runGuard({
         toolCall: {
