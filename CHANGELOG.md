@@ -10,6 +10,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.33.1] - 2026-11-25
+
+### Fixed
+- fix(le-club): widen group label column so GRx no longer overlaps the title (#192) (`52514d6`)
 ## [0.33.0] - 2026-11-25
 
 ### Added
