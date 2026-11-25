@@ -1,16 +1,16 @@
 import React from 'react';
 import { cn } from '@/app/utils/cn';
-import type { CyclingGroup } from '@/app/constants/cycling';
+import type { PaceGroupCode } from '@/app/constants/cycling';
 
 interface RoadSwatchProps {
-  group: CyclingGroup;
+  group: PaceGroupCode;
   className?: string;
 }
 
 /**
  * Legend swatch: each weekend group is printed as a road class of the sheet —
- * A the red main road, B the amber secondary road, C the cased local road,
- * VTT the dashed track through the woods.
+ * A the red main road, B the amber secondary road, BC the amber-cased link road,
+ * C the cased local road, VTT the dashed track through the woods.
  */
 export function RoadSwatch({ group, className }: RoadSwatchProps): React.ReactElement {
   return (
@@ -61,6 +61,28 @@ export function RoadSwatch({ group, className }: RoadSwatchProps): React.ReactEl
             strokeWidth="4.5"
             strokeLinecap="butt"
             className="stroke-ambre"
+          />
+        </>
+      )}
+      {group === 'BC' && (
+        <>
+          <line
+            x1="1"
+            y1="6"
+            x2="47"
+            y2="6"
+            strokeWidth="6.5"
+            strokeLinecap="butt"
+            className="stroke-ambre-ink"
+          />
+          <line
+            x1="1"
+            y1="6"
+            x2="47"
+            y2="6"
+            strokeWidth="4"
+            strokeLinecap="butt"
+            className="stroke-white dark:stroke-night"
           />
         </>
       )}

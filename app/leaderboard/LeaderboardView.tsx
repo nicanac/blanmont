@@ -448,6 +448,8 @@ export default function LeaderboardView({
         };
     }, [open, handleClose]);
 
+    const { key: groupBucket } = useGroupLabels();
+
     // Seasonal computations (only members with rides > 0)
     const sortedSeasonalEntries = useMemo(() => {
         return [...entries].sort((a, b) => b.rides - a.rides);
@@ -475,9 +477,11 @@ export default function LeaderboardView({
         const ranks: Record<string, number> = {};
         const groupLists: Record<string, LeaderboardEntry[]> = {};
 
+        // Merged codes (A, A-) rank together in their group.
         activeSeasonalEntries.forEach((entry) => {
-            if (!groupLists[entry.group]) groupLists[entry.group] = [];
-            groupLists[entry.group].push(entry);
+            const key = groupBucket(entry.group);
+            if (!groupLists[key]) groupLists[key] = [];
+            groupLists[key].push(entry);
         });
 
         Object.values(groupLists).forEach((groupMembers) => {
@@ -491,7 +495,7 @@ export default function LeaderboardView({
         });
 
         return ranks;
-    }, [activeSeasonalEntries]);
+    }, [activeSeasonalEntries, groupBucket]);
 
     const seasonalTop3 = activeSeasonalEntries.slice(0, 3);
     const seasonalOthers = activeSeasonalEntries.slice(3);
