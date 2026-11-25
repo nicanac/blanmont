@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
 import { useSheetMotion } from '@/app/lib/useSheetMotion';
+import GroupName from '@/app/components/shared/GroupName';
 
 function Road({ group }: { group: CyclingGroup }): React.ReactElement {
   return (
@@ -152,7 +153,7 @@ export default function GroupRoads(): React.ReactElement {
               className="grid grid-cols-[6rem_minmax(0,1fr)] items-center gap-x-4 gap-y-3 border-b border-line py-7 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-x-5 lg:grid-cols-[7rem_minmax(0,1fr)_17rem_minmax(0,22rem)] lg:gap-x-8 dark:border-night-line"
             >
               <span className="min-w-0 font-wide text-[1.875rem] font-extrabold leading-none text-ink sm:text-[3.4rem] dark:text-snow">
-                {g.id}
+                <GroupName code={g.id} />
               </span>
               <div data-road className="min-w-0">
                 <Road group={g.id} />

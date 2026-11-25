@@ -1,5 +1,7 @@
 'use client';
 
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import {
@@ -71,10 +73,11 @@ const roadClassOf = (group: string): CyclingGroup | null => {
 
 const GroupBadge = ({ group }: { group: string }): React.ReactElement => {
     const road = roadClassOf(group);
+    const { label } = useGroupLabels();
     return (
         <span className="inline-flex items-center gap-2 font-narrow text-sm font-bold text-ink dark:text-snow">
             {road ? <RoadSwatch group={road} className="w-7" /> : null}
-            <span>{group}</span>
+            <span title={label(group) !== group ? `Code ${group}` : undefined}>{label(group)}</span>
         </span>
     );
 };

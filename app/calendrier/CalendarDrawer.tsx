@@ -12,6 +12,7 @@ import {
   RideWeatherFeedback,
 } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { useGroupLabels } from '../context/GroupLabelsContext';
 import { useIsMounted } from '../utils/useIsMounted';
 import { cn } from '../utils/cn';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
@@ -409,6 +410,7 @@ export default function CalendarDrawer({
   onReviewsUpdated,
 }: CalendarDrawerProps): React.ReactElement | null {
   const { user, isAuthenticated, isAdmin } = useAuth();
+  const { fullName: groupFullName, compare: compareGroups } = useGroupLabels();
   const mounted = useIsMounted();
   const [activeTab, setActiveTab] = useState<'details' | 'debrief'>('details');
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -780,12 +782,14 @@ export default function CalendarDrawer({
 
                   {attendees.length > 0 ? (
                     <div className="space-y-4">
-                      {Object.entries(groupedAttendees).map(([groupName, members]) => (
+                      {Object.entries(groupedAttendees)
+                        .sort(([a], [b]) => compareGroups(a, b))
+                        .map(([groupName, members]) => (
                         <div key={groupName} className="space-y-2">
                           <div className="flex items-center gap-2">
                             <span className="h-1.5 w-1.5 rounded-full bg-brand" />
                             <span className="text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3">
-                              {groupName} ({members.length})
+                              {groupName === 'Sans groupe' ? groupName : groupFullName(groupName)} ({members.length})
                             </span>
                           </div>
 

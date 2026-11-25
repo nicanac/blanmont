@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 import dynamic from 'next/dynamic';
 import {
   UserGroupIcon,
@@ -72,6 +73,7 @@ export default function StatsCharts({
   votes = [],
   feedback = [],
 }: StatsChartsProps): React.ReactElement {
+  const { label: groupLabel } = useGroupLabels();
   // 1. Initial year calculation
   const initialYears = useMemo(() => {
     const currentYear = new Date().getFullYear();
@@ -882,7 +884,7 @@ export default function StatsCharts({
                         {/* Group */}
                         <td className="whitespace-nowrap px-5 py-3">
                           <span className="inline-flex rounded-xs px-2 py-0.5 text-xs font-bold uppercase tracking-wider bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line font-narrow">
-                            {entry.group || 'Sans groupe'}
+                            {entry.group ? groupLabel(entry.group) : 'Sans groupe'}
                           </span>
                         </td>
 

@@ -19,6 +19,7 @@ import {
 import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import DeleteMemberButton from './DeleteMemberButton';
 import { Member } from '@/app/types';
+import GroupName from '@/app/components/shared/GroupName';
 
 interface MembersTableProps {
   initialMembers: Member[];
@@ -529,7 +530,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
               <div className="space-y-1 pt-1 text-xs text-ink-3">
                 <p>• <strong>Téléphone du membre</strong> : {selectedIceMember.phone || 'Non renseigné'}</p>
                 <p>• <strong>N° Licence FFBC</strong> : {selectedIceMember.ffbcLicenseNumber || 'Non renseigné'}</p>
-                <p>• <strong>Groupe habituel</strong> : Groupe {selectedIceMember.preferredGroup || 'B'}</p>
+                <p>• <strong>Groupe habituel</strong> : <GroupName code={selectedIceMember.preferredGroup || 'B'} variant="full" /></p>
               </div>
             </div>
 
