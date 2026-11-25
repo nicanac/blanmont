@@ -1,5 +1,7 @@
 'use client';
 
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+
 import React, { useState, useTransition } from 'react';
 import { RoadSwatch } from '@/app/components/carte/RoadSwatch';
 import type { CyclingGroup } from '@/app/constants/cycling';
@@ -52,6 +54,7 @@ const DAY_OPTIONS: DayOption[] = [
 const GROUP_OPTIONS: { id: CyclingGroupChoice; label: string; speed: string }[] = [
   { id: 'Groupe A', label: 'Groupe A', speed: '> 30 km/h' },
   { id: 'Groupe B', label: 'Groupe B', speed: '25 - 28 km/h' },
+  { id: 'Groupe BC', label: 'Groupe BC', speed: '24 - 27 km/h' },
   { id: 'Groupe C', label: 'Groupe C', speed: '< 25 km/h' },
   { id: 'Groupe VTT', label: 'Groupe VTT', speed: 'Sentiers & Bois' },
   { id: 'Autre', label: 'Autre / Libre', speed: 'Horaires décalés' },
@@ -65,6 +68,10 @@ function getInitials(name: string): string {
 }
 
 export default function WeekendPollView({ poll, responses, members: _members }: WeekendPollViewProps): React.ReactElement {
+  const { fullName: groupFullName } = useGroupLabels();
+  // 'Groupe A' → the admin-configured name (GR1); 'Autre' keeps its own label.
+  const optionLabel = (grp: { id: string; label: string }): string =>
+    grp.id === 'Autre' ? grp.label : groupFullName(grp.id);
   const { user, isAuthenticated } = useAuth();
   const [isPending, startTransition] = useTransition();
 
@@ -182,6 +189,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
   const groupCounts: Record<string, number> = {
     'Groupe A': 0,
     'Groupe B': 0,
+    'Groupe BC': 0,
     'Groupe C': 0,
     'Groupe VTT': 0,
     'Autre': 0,
@@ -393,7 +401,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                       >
                         <span className="flex items-center gap-2.5">
                           {grp.id !== 'Autre' && <RoadSwatch group={grp.id.replace('Groupe ', '') as CyclingGroup} className="w-9" />}
-                          <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{grp.label}</span>
+                          <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{optionLabel(grp)}</span>
                         </span>
                         <span className="font-narrow text-xs font-bold text-ink-3 dark:text-snow-3 tabular-nums">{grp.speed}</span>
                       </button>
@@ -553,7 +561,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2.5">
                         <RoadSwatch group={grp.id.replace('Groupe ', '') as CyclingGroup} className="w-9" />
-                        <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{grp.label}</span>
+                        <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{optionLabel(grp)}</span>
                       </span>
                       <span className="font-narrow text-xs font-extrabold tabular-nums text-ink dark:text-snow">
                         {count} coureur{count > 1 ? 's' : ''}

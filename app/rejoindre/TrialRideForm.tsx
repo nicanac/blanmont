@@ -1,5 +1,7 @@
 'use client';
 
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+
 import React, { useState } from 'react';
 import {
   CheckCircleIcon,
@@ -19,11 +21,13 @@ import {
 const GROUPS = [
   { id: 'A', name: 'Groupe A', speed: '> 30 km/h', desc: 'Sportif & rythmé' },
   { id: 'B', name: 'Groupe B', speed: '25 – 28 km/h', desc: 'Cœur du peloton' },
+  { id: 'BC', name: 'Groupe BC', speed: '24 – 27 km/h', desc: 'Allure intermédiaire' },
   { id: 'C', name: 'Groupe C', speed: '< 25 km/h', desc: 'Rando & progression' },
   { id: 'VTT', name: 'Groupe VTT', speed: 'Chemins & bois', desc: 'Sentiers techniques' },
 ] as const;
 
 export default function TrialRideForm(): React.ReactElement {
+  const { fullName: groupFullName } = useGroupLabels();
   const [formData, setFormData] = useState<{
     name: string;
     email: string;
@@ -86,7 +90,7 @@ export default function TrialRideForm(): React.ReactElement {
             Demande d&apos;essai bien reçue !
           </h3>
           <p className="text-sm text-ink-3 dark:text-snow-3 leading-relaxed">
-            Merci <strong className="text-ink dark:text-white">{formData.name}</strong>. Un capitaine de route du {formData.preferredGroup === 'VTT' ? 'Groupe VTT' : `Groupe ${formData.preferredGroup}`} prendra contact avec vous par email ou téléphone avant votre première sortie.
+            Merci <strong className="text-ink dark:text-white">{formData.name}</strong>. Un capitaine de route du {groupFullName(formData.preferredGroup)} prendra contact avec vous par email ou téléphone avant votre première sortie.
           </p>
         </div>
 
@@ -165,7 +169,7 @@ export default function TrialRideForm(): React.ReactElement {
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-bold text-sm text-ink dark:text-white">{g.name}</span>
+                  <span className="font-bold text-sm text-ink dark:text-white">{groupFullName(g.id)}</span>
                   <span
                     className={`h-2 w-2 rounded-full ${isSelected ? 'bg-brand' : 'bg-transparent'}`}
                   />

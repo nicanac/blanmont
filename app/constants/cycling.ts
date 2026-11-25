@@ -2,12 +2,14 @@
  * Cycling domain constants for the CC Saint-Martin Blanmont club.
  */
 
-export const CYCLING_GROUPS = ['A', 'B', 'C', 'VTT'] as const;
+/** Stored group codes members, prospects and poll answers can pick (BC is shown as GR3). */
+export const CYCLING_GROUPS = ['A', 'B', 'BC', 'C', 'VTT'] as const;
 export type CyclingGroup = (typeof CYCLING_GROUPS)[number];
 
 export const CYCLING_GROUP_CHOICES = [
   'Groupe A',
   'Groupe B',
+  'Groupe BC',
   'Groupe C',
   'Groupe VTT',
   'Autre',
@@ -33,6 +35,10 @@ export const GROUP_DESCRIPTIONS: Record<CyclingGroup, { speed: string; descripti
     speed: '25 - 28 km/h',
     description: 'Peloton régulier, allure soutenue et dynamique.',
   },
+  BC: {
+    speed: '24 - 27 km/h',
+    description: 'Allure intermédiaire et régulière, pour progresser sans brûler les étapes.',
+  },
   C: {
     speed: '22 - 25 km/h',
     description: 'Peloton convivial, accent sur le plaisir et l’esprit de groupe.',
@@ -54,7 +60,7 @@ export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
  * territory sheet as a road class of the map legend (main road, secondary, local, track).
  */
 /** Stored code of every pace group the site presents: the four road groups plus VTT. */
-export type PaceGroupCode = CyclingGroup | 'BC';
+export type PaceGroupCode = CyclingGroup;
 
 export interface PaceGroup {
   id: PaceGroupCode;
