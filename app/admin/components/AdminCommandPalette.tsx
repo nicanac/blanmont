@@ -20,6 +20,7 @@ import {
   UserCircleIcon,
   UserPlusIcon,
   ClipboardDocumentCheckIcon,
+  TagIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 
@@ -125,6 +126,15 @@ const COMMAND_ITEMS: CommandItem[] = [
     href: '/admin/hero',
     icon: WindowIcon,
     keywords: ['hero', 'slider', 'banniere', 'telemetrie', 'photos', 'accueil'],
+  },
+  {
+    id: 'page-groupes',
+    name: 'Groupes & Pelotons',
+    category: 'Pages',
+    description: 'Renommer les groupes (A, A-, B, C…) affichés sur tout le site',
+    href: '/admin/groupes',
+    icon: TagIcon,
+    keywords: ['groupes', 'pelotons', 'renommer', 'niveaux', 'gr1', 'noms'],
   },
   {
     id: 'page-members',

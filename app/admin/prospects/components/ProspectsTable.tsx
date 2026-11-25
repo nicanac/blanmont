@@ -20,6 +20,7 @@ import {
   convertProspectToMemberAction,
   deleteProspectAction,
 } from '../actions';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 
 interface ProspectsTableProps {
   initialProspects: TrialRideRequest[];
@@ -92,30 +93,30 @@ function getStatusBadge(status: TrialRideStatus): {
   }
 }
 
-function getGroupBadge(group: string): { label: string; classes: string } {
+function getGroupBadge(group: string, label: (code: string) => string): { label: string; classes: string } {
   switch (group) {
     case 'A':
       return {
-        label: 'Gr. A (>28 km/h)',
+        label: `${label('A')} (>28 km/h)`,
         classes:
           'bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/60',
       };
     case 'B':
       return {
-        label: 'Gr. B (25-27 km/h)',
+        label: `${label('B')} (25-27 km/h)`,
         classes:
           'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/60',
       };
     case 'C':
       return {
-        label: 'Gr. C (22-24 km/h)',
+        label: `${label('C')} (22-24 km/h)`,
         classes:
           'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/60',
       };
     case 'VTT':
     default:
       return {
-        label: 'VTT',
+        label: label(group || 'VTT'),
         classes:
           'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/60',
       };
@@ -126,6 +127,7 @@ export default function ProspectsTable({
   initialProspects,
   captains,
 }: ProspectsTableProps): React.ReactElement {
+  const { label: groupLabel, fullName: groupFullName } = useGroupLabels();
   const [prospects, setProspects] = useState<TrialRideRequest[]>(initialProspects);
   const [searchTerm, setSearchTerm] = useState('');
   const [tabFilter, setTabFilter] = useState<TabFilter>('all');
@@ -426,10 +428,10 @@ export default function ProspectsTable({
             aria-label="Filtrer par groupe de vitesse"
           >
             <option value="all">Tous les groupes</option>
-            <option value="A">Groupe A</option>
-            <option value="B">Groupe B</option>
-            <option value="C">Groupe C</option>
-            <option value="VTT">VTT</option>
+            <option value="A">{groupFullName('A')}</option>
+            <option value="B">{groupFullName('B')}</option>
+            <option value="C">{groupFullName('C')}</option>
+            <option value="VTT">{groupFullName('VTT')}</option>
           </select>
 
           {/* Bike Filter */}
@@ -538,14 +540,14 @@ export default function ProspectsTable({
               <tbody className="divide-y divide-paper-2 dark:divide-night-3 bg-white dark:bg-night-2 text-xs">
                 {filteredProspects.map((p) => {
                   const statusInfo = getStatusBadge(p.status);
-                  const groupInfo = getGroupBadge(p.preferredGroup);
+                  const groupInfo = getGroupBadge(p.preferredGroup, groupLabel);
                   const cleanPhone = cleanPhoneForWhatsApp(p.phone);
                   const firstName = p.name.split(' ')[0] || p.name;
                   const mentorGreeting = p.mentorCaptainName
                     ? `C'est ${p.mentorCaptainName}, capitaine au CC Saint-Martin Blanmont`
                     : `C'est le secrétariat du CC Saint-Martin Blanmont`;
                   const waMsg = encodeURIComponent(
-                    `Bonjour ${firstName} ! 👋\n${mentorGreeting}.\nNous avons bien reçu ta demande de sortie d'essai dans le Groupe ${p.preferredGroup} (${p.bikeType}). Serais-tu disponible pour rouler ce weekend ? 🚴‍♂️`
+                    `Bonjour ${firstName} ! 👋\n${mentorGreeting}.\nNous avons bien reçu ta demande de sortie d'essai dans le ${groupFullName(p.preferredGroup)} (${p.bikeType}). Serais-tu disponible pour rouler ce weekend ? 🚴‍♂️`
                   );
                   const waUrl = `https://wa.me/${cleanPhone}?text=${waMsg}`;
 

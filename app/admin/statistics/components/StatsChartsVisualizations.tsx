@@ -1,5 +1,7 @@
 'use client';
 
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+
 import React, { useState, useMemo } from 'react';
 import {
   Chart as ChartJS,
@@ -682,12 +684,13 @@ export function resolveGroupColors(groups: Array<{ group: string }>): Map<string
 export function GroupCompositionChart({
   groupDynamics,
 }: GroupCompositionChartProps): React.ReactElement {
+  const { label: groupLabel } = useGroupLabels();
   const groupColorMap = useMemo(() => {
     return resolveGroupColors(groupDynamics.groupStats);
   }, [groupDynamics.groupStats]);
 
   const data = {
-    labels: groupDynamics.groupStats.map((g) => g.group),
+    labels: groupDynamics.groupStats.map((g) => groupLabel(g.group)),
     datasets: [
       {
         data: groupDynamics.groupStats.map((g) => g.totalAttendances),
@@ -763,7 +766,7 @@ export function GroupCompositionChart({
                   style={{ backgroundColor: groupColorMap.get(g.group) || getGroupColor(g.group) }}
                 />
                 <span className="font-bold text-ink dark:text-snow-1 truncate" title={g.group}>
-                  {g.group}
+                  {groupLabel(g.group)}
                 </span>
               </div>
               <div className="text-right shrink-0 font-mono whitespace-nowrap">
