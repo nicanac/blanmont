@@ -77,8 +77,11 @@ export default async function Footer(): Promise<React.JSX.Element> {
         Pied de page
       </h2>
 
-      {/* Carte de situation: the meeting point on the real territory */}
-      <div className="relative h-60 overflow-hidden border-b border-line [--sheet:1700px] sm:h-64 sm:[--sheet:2100px] dark:border-night-line">
+      {/* Carte de situation: the meeting point on the real territory.
+          The sheet is centred at 62–64% of the band, so it must be at least ~128% of the
+          band width to reach the left edge: 130cqw keeps it full-bleed on wide screens
+          (the band is an inline-size container, so cqw tracks the band, not the viewport). */}
+      <div className="@container relative h-60 overflow-hidden border-b border-line [--sheet:max(1700px,130cqw)] sm:h-64 sm:[--sheet:max(2100px,130cqw)] dark:border-night-line">
         <TerritoryMap
           labels={2}
           marker="point"
