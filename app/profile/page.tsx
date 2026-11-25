@@ -21,6 +21,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 import { Spinner } from '../components/ui/Spinner';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
 
 // Helper function to read file as Data URL
 const readFile = (file: File): Promise<string> => {
@@ -41,6 +43,7 @@ function getInitials(name: string): string {
 export default function ProfilePage(): React.ReactElement | null {
   const { user, isAuthenticated, updateUser } = useAuth();
   const router = useRouter();
+  const { fullName: groupFullName } = useGroupLabels();
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
   const [isSavingPhoto, setIsSavingPhoto] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -118,7 +121,7 @@ export default function ProfilePage(): React.ReactElement | null {
     iceContactName?: string;
     iceContactPhone?: string;
     iceRelationship?: string;
-    preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
+    preferredGroup?: CyclingGroup;
     phone?: string;
   } | null>(null);
   const [isEditingEmergency, setIsEditingEmergency] = useState(false);
@@ -129,7 +132,7 @@ export default function ProfilePage(): React.ReactElement | null {
     iceContactName: '',
     iceContactPhone: '',
     iceRelationship: '',
-    preferredGroup: 'B' as 'A' | 'B' | 'C' | 'VTT',
+    preferredGroup: 'B' as CyclingGroup,
   });
 
   useEffect(() => {
@@ -150,7 +153,7 @@ export default function ProfilePage(): React.ReactElement | null {
               iceContactName: data.iceContactName || '',
               iceContactPhone: data.iceContactPhone || '',
               iceRelationship: data.iceRelationship || '',
-              preferredGroup: (data.preferredGroup as 'A' | 'B' | 'C' | 'VTT') || 'B',
+              preferredGroup: (data.preferredGroup as CyclingGroup) || 'B',
             });
           }
         })
@@ -287,7 +290,7 @@ export default function ProfilePage(): React.ReactElement | null {
               <div className="flex items-center justify-between text-xs">
                 <span className="text-ink-3 dark:text-snow-3">Allure de référence</span>
                 <span className="font-bold text-ink dark:text-snow">
-                  Groupe {profileData?.preferredGroup || 'B'}
+                  {groupFullName(profileData?.preferredGroup || 'B')}
                 </span>
               </div>
 
@@ -489,15 +492,16 @@ export default function ProfilePage(): React.ReactElement | null {
                       onChange={(e) =>
                         setEmergencyForm({
                           ...emergencyForm,
-                          preferredGroup: e.target.value as 'A' | 'B' | 'C' | 'VTT',
+                          preferredGroup: e.target.value as CyclingGroup,
                         })
                       }
                       className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-3 py-2 text-xs text-ink dark:text-snow focus:border-brand focus:outline-hidden"
                     >
-                      <option value="A">Groupe A (30-32 km/h)</option>
-                      <option value="B">Groupe B (27-29 km/h)</option>
-                      <option value="C">Groupe C (24-26 km/h)</option>
-                      <option value="VTT">Groupe VTT / Gravel</option>
+                      {PACE_GROUPS.map((g) => (
+                        <option key={g.id} value={g.id}>
+                          {groupFullName(g.id)} ({g.speed})
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>

@@ -11,11 +11,14 @@ import {
 import PollStatusToggle from './components/PollStatusToggle';
 import AdminEmptyState from '../components/AdminEmptyState';
 import SondagesHeader from './components/SondagesHeader';
+import { getCachedGroupSettings } from '@/app/lib/firebase/group-settings';
+import { groupSummaryText } from '@/app/lib/groupSummary';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminSondagesPage(): Promise<React.ReactElement> {
   const polls = await getAllWeekendPolls();
+  const groupNames = groupSummaryText(await getCachedGroupSettings());
 
   const pollsWithCounts = await Promise.all(
     polls.map(async (p) => {
@@ -97,7 +100,7 @@ export default async function AdminSondagesPage(): Promise<React.ReactElement> {
             <AdminEmptyState
               icon={ChatBubbleLeftRightIcon}
               title="Aucun sondage de weekend enregistré"
-              description="Les sondages permettent aux membres d'indiquer leur présence (Samedi / Dimanche) et de constituer les groupes de niveau (A, B, C, VTT)."
+              description={`Les sondages permettent aux membres d'indiquer leur présence (Samedi / Dimanche) et de constituer les groupes de niveau (${groupNames}).`}
               primaryAction={{
                 label: 'Créer le premier sondage',
                 href: '/admin/sondages/new',

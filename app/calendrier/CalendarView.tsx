@@ -26,6 +26,7 @@ import {
 import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
 import { useAuth } from '../context/AuthContext';
+import { useGroupLabels } from '../context/GroupLabelsContext';
 import { useIsMounted } from '../utils/useIsMounted';
 
 const MONTH_NAMES = [
@@ -101,6 +102,7 @@ function AgendaItem({
   isAdmin,
   mounted,
 }: AgendaItemProps) {
+  const { label: groupLabel } = useGroupLabels();
   const dateInfo = parseDateInfo(event.isoDate);
   const isWeekend = dateInfo?.isWeekend ?? false;
   let weekdayStr = '';
@@ -225,9 +227,9 @@ function AgendaItem({
             {event.group && (
               <span
                 className="inline-flex items-center rounded-full bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-medium"
-                title={`Peloton : ${event.group}`}
+                title={`Peloton : ${groupLabel(event.group)}`}
               >
-                {event.group}
+                {groupLabel(event.group)}
               </span>
             )}
           </div>

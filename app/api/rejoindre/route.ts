@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { CYCLING_GROUPS } from '@/app/constants/cycling';
 import { createTrialRequest } from '@/app/lib/firebase/trial-requests';
 
 const TrialRequestSchema = z.object({
   name: z.string().min(2, 'Le nom doit comporter au moins 2 caractères'),
   email: z.string().email('Adresse email invalide'),
   phone: z.string().min(6, 'Numéro de téléphone requis'),
-  preferredGroup: z.enum(['A', 'B', 'C', 'VTT']),
+  preferredGroup: z.enum(CYCLING_GROUPS),
   bikeType: z.enum(['Route', 'VTT', 'Gravel', 'VAE']),
   experienceLevel: z.enum(['Débutant', 'Intermédiaire', 'Confirmé', 'Compétiteur']),
   firstRideDate: z.string().optional(),

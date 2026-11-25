@@ -1,5 +1,6 @@
 import type { CalendarEvent, PollResponse } from '@/app/types';
 import type { RideWeather } from '@/app/lib/weather';
+import type { CyclingGroup } from '@/app/constants/cycling';
 
 const CARDINAL_NAMES: Record<string, string> = {
   N: 'nord',
@@ -68,7 +69,7 @@ export interface PollTally {
   absent: number;
   riders: number;
   total: number;
-  byGroup: Record<'A' | 'B' | 'C' | 'VTT' | 'Autre', number>;
+  byGroup: Record<CyclingGroup | 'Autre', number>;
 }
 
 export function tallyPoll(responses: PollResponse[]): PollTally {
@@ -79,7 +80,7 @@ export function tallyPoll(responses: PollResponse[]): PollTally {
     absent: 0,
     riders: 0,
     total: responses.length,
-    byGroup: { A: 0, B: 0, C: 0, VTT: 0, Autre: 0 },
+    byGroup: { A: 0, B: 0, BC: 0, C: 0, VTT: 0, Autre: 0 },
   };
   for (const r of responses) {
     if (r.dayChoice === 'absent') {

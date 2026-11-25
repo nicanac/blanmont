@@ -74,14 +74,16 @@ describe('home sheet data helpers', () => {
       response({ dayChoice: 'dimanche', groupChoice: 'Groupe VTT' }),
       response({ dayChoice: 'absent', groupChoice: 'Groupe C' }),
       response({ dayChoice: 'samedi', groupChoice: 'Autre' }),
+      // GR3 (code BC) is counted on its own
+      response({ dayChoice: 'dimanche', groupChoice: 'Groupe BC' }),
     ]);
-    expect(tally.total).toBe(5);
-    expect(tally.riders).toBe(4);
+    expect(tally.total).toBe(6);
+    expect(tally.riders).toBe(5);
     expect(tally.saturday).toBe(3);
-    expect(tally.sunday).toBe(2);
+    expect(tally.sunday).toBe(3);
     expect(tally.both).toBe(1);
     expect(tally.absent).toBe(1);
-    expect(tally.byGroup).toEqual({ A: 1, B: 1, C: 0, VTT: 1, Autre: 1 });
+    expect(tally.byGroup).toEqual({ A: 1, B: 1, BC: 1, C: 0, VTT: 1, Autre: 1 });
   });
 
   it('lists upcoming events in chronological order from today', () => {

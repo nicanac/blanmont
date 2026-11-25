@@ -1,5 +1,6 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -137,7 +138,7 @@ export default function AdminHelpModal({
                     <h4 className="font-bold text-ink dark:text-white text-sm">Ouverture Automatique du Sondage</h4>
                   </div>
                   <p className="text-ink-3 dark:text-snow-3 text-xs">
-                    Création du sondage du weekend (automatique via cron ou manuelle sur <span className="font-mono text-xs">/admin/sondages</span>). Les membres votent sur <span className="font-mono text-xs">/sondage</span> pour leur présence (Samedi / Dimanche / Les deux) et leur groupe (A, B, C, VTT).
+                    Création du sondage du weekend (automatique via cron ou manuelle sur <span className="font-mono text-xs">/admin/sondages</span>). Les membres votent sur <span className="font-mono text-xs">/sondage</span> pour leur présence (Samedi / Dimanche / Les deux) et leur groupe (<GroupList />).
                   </p>
                 </div>
 

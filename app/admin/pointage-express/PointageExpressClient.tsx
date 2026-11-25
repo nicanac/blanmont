@@ -114,7 +114,7 @@ export default function PointageExpressClient({
   }, [initialEvents, todayIso]);
   const [attendanceMap, setAttendanceMap] = useState(initialAttendanceMap);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTab, setSelectedTab] = useState<'all' | 'present' | 'absent' | 'A' | 'B' | 'C' | 'VTT'>('all');
+  const [selectedTab, setSelectedTab] = useState<'all' | 'present' | 'absent' | 'A' | 'B' | 'BC' | 'C' | 'VTT'>('all');
   const [activeIceMember, setActiveIceMember] = useState<Member | null>(null);
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
 
@@ -138,6 +138,7 @@ export default function PointageExpressClient({
     const presentCount = presentMemberIds.size;
     let groupACount = 0;
     let groupBCount = 0;
+    let groupBCCount = 0;
     let groupCCount = 0;
     let groupVTTCount = 0;
 
@@ -146,6 +147,7 @@ export default function PointageExpressClient({
         const grp = eventAttendance[m.id]?.group || m.preferredGroup || 'B';
         if (grp === 'A') groupACount++;
         else if (grp === 'B') groupBCount++;
+        else if (grp === 'BC') groupBCCount++;
         else if (grp === 'C') groupCCount++;
         else if (grp === 'VTT') groupVTTCount++;
       }
@@ -156,6 +158,7 @@ export default function PointageExpressClient({
       total: members.length,
       groupA: groupACount,
       groupB: groupBCount,
+      groupBC: groupBCCount,
       groupC: groupCCount,
       groupVTT: groupVTTCount,
     };
@@ -179,6 +182,7 @@ export default function PointageExpressClient({
       if (selectedTab === 'absent') return !isPresent;
       if (selectedTab === 'A') return (member.preferredGroup || 'B') === 'A';
       if (selectedTab === 'B') return (member.preferredGroup || 'B') === 'B';
+      if (selectedTab === 'BC') return member.preferredGroup === 'BC';
       if (selectedTab === 'C') return (member.preferredGroup || 'B') === 'C';
       if (selectedTab === 'VTT') return member.preferredGroup === 'VTT';
 
@@ -359,7 +363,7 @@ export default function PointageExpressClient({
         </div>
 
         {/* Live Counters */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-line/40 dark:border-night-line">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-2 border-t border-line/40 dark:border-night-line">
           <div className="p-2.5 rounded-sm bg-vert/10 border border-vert/30 text-center col-span-2 sm:col-span-1">
             <div className="text-lg font-bold text-vert dark:text-vert-light tabular-nums font-mono">
               {stats.present} / {stats.total}
@@ -375,6 +379,10 @@ export default function PointageExpressClient({
           <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
             <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupB}</div>
             <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">{groupFullName('B')}</div>
+          </div>
+          <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
+            <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupBC}</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">{groupFullName('BC')}</div>
           </div>
           <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
             <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupC}</div>
@@ -468,6 +476,17 @@ export default function PointageExpressClient({
             }`}
           >
             {groupFullName('B')}
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedTab('BC')}
+            className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
+              selectedTab === 'BC'
+                ? 'bg-brand text-white'
+                : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
+            }`}
+          >
+            {groupFullName('BC')}
           </button>
           <button
             type="button"

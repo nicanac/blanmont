@@ -21,6 +21,7 @@ import {
   deleteProspectAction,
 } from '../actions';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { PACE_GROUPS } from '@/app/constants/cycling';
 
 interface ProspectsTableProps {
   initialProspects: TrialRideRequest[];
@@ -428,10 +429,11 @@ export default function ProspectsTable({
             aria-label="Filtrer par groupe de vitesse"
           >
             <option value="all">Tous les groupes</option>
-            <option value="A">{groupFullName('A')}</option>
-            <option value="B">{groupFullName('B')}</option>
-            <option value="C">{groupFullName('C')}</option>
-            <option value="VTT">{groupFullName('VTT')}</option>
+            {PACE_GROUPS.map((g) => (
+              <option key={g.id} value={g.id}>
+                {groupFullName(g.id)}
+              </option>
+            ))}
           </select>
 
           {/* Bike Filter */}
