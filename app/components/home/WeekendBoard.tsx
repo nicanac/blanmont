@@ -8,6 +8,7 @@ import type { PollTally } from './homeData';
 import { departureDateParts, humanizePollTitle } from './homeData';
 import CountUp from './CountUp';
 import { cn } from '@/app/utils/cn';
+import GroupName from '@/app/components/shared/GroupName';
 
 interface WeekendBoardProps {
   poll: WeekendPoll | null;
@@ -152,7 +153,7 @@ export default function WeekendBoard({ poll, tally }: WeekendBoardProps): React.
                   <li key={g.id} className="border-t border-ink pt-3 dark:border-snow-3">
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-wide text-xl font-extrabold text-ink dark:text-snow">
-                        {g.id}
+                        <GroupName code={g.id} />
                       </span>
                       <RoadSwatch group={g.id} className="w-10" />
                     </div>

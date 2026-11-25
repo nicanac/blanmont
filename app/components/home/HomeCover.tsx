@@ -14,6 +14,7 @@ import type { HeroSettings, WeekendPoll } from '@/app/types';
 import type { ScheduledRideInfo } from '@/app/lib/firebase/calendar';
 import { departureDateParts, windAdvice, cardinalName, formatDistance } from './homeData';
 import { cn } from '@/app/utils/cn';
+import GroupName from '@/app/components/shared/GroupName';
 
 interface HomeCoverProps {
   nextRide: ScheduledRideInfo;
@@ -173,7 +174,7 @@ export default function HomeCover({
                   <span key={g.id} className="flex items-center gap-2">
                     <RoadSwatch group={g.id} className="w-8" />
                     <span className="font-narrow text-sm font-bold text-ink dark:text-snow">
-                      {g.id}
+                      <GroupName code={g.id} />
                     </span>
                     <span className="font-narrow text-xs tabular-nums text-ink-3 dark:text-snow-3">
                       {g.speed.replace(' km/h', '')}

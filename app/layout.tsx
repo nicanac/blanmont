@@ -4,6 +4,8 @@ import './globals.css';
 import { Archivo } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { GroupLabelsProvider } from './context/GroupLabelsContext';
+import { getCachedGroupSettings } from './lib/firebase/group-settings';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ConditionalFooter from './components/layout/ConditionalFooter';
@@ -102,7 +104,10 @@ const themeInitScript = `
  *
  * @param children - The page content to render.
  */
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Admin-configured group names (cached by tag, refreshed when an admin saves them).
+  const groupSettings = await getCachedGroupSettings();
+
   return (
     <html lang="fr" className={archivo.variable} suppressHydrationWarning>
       <head>
@@ -115,26 +120,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div hidden aria-hidden="true" dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <ThemeProvider>
           <AuthProvider>
-            <Suspense fallback={null}>
-              <ActivityTracker />
-              <CookieConsentCartouche />
-            </Suspense>
-            <Navbar />
+            <GroupLabelsProvider initialSettings={groupSettings}>
+              <Suspense fallback={null}>
+                <ActivityTracker />
+                <CookieConsentCartouche />
+              </Suspense>
+              <Navbar />
 
-            <main id="contenu" className="min-h-[80vh] flex-grow">
-              {children}
-            </main>
+              <main id="contenu" className="min-h-[80vh] flex-grow">
+                {children}
+              </main>
 
-            <ConditionalFooter>
-              <Footer />
-            </ConditionalFooter>
+              <ConditionalFooter>
+                <Footer />
+              </ConditionalFooter>
 
-            <Toaster
-              position="top-right"
-              richColors
-              closeButton
-              toastOptions={{ className: 'font-sans' }}
-            />
+              <Toaster
+                position="top-right"
+                richColors
+                closeButton
+                toastOptions={{ className: 'font-sans' }}
+              />
+            </GroupLabelsProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

@@ -21,6 +21,7 @@ import {
   ClipboardDocumentListIcon,
   Cog6ToothIcon,
   ShoppingBagIcon,
+  TagIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
@@ -104,6 +105,7 @@ const navigationGroups: NavigationGroup[] = [
         icon: UserPlusIcon,
         matchExtra: ['/admin/sorties-essai'],
       },
+      { name: 'Groupes & Pelotons', href: '/admin/groupes', icon: TagIcon },
       { name: 'Portraits & Cadrage', href: '/admin/members/photos', icon: UserCircleIcon },
       { name: 'Équipements Club', href: '/admin/equipements', icon: JerseyIcon },
       { name: 'Commandes Équipement', href: '/admin/commandes', icon: ShoppingBagIcon },
