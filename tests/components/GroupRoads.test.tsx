@@ -29,13 +29,13 @@ describe('GroupRoads Component (app/components/home/GroupRoads.tsx)', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: /Quatre groupes, une seule place de départ/i,
+        name: /Quatre groupes route, un VTT, une seule place de départ/i,
       })
     ).toBeInTheDocument();
     expect(screen.getByText(/On part ensemble, on rentre ensemble/i)).toBeInTheDocument();
   });
 
-  it('renders pace groups A, B, C, and VTT with details', () => {
+  it('renders pace groups A, B, BC, C, and VTT with details', () => {
     render(<GroupRoads />);
 
     expect(screen.getByText('A')).toBeInTheDocument();
@@ -43,6 +43,10 @@ describe('GroupRoads Component (app/components/home/GroupRoads.tsx)', () => {
 
     expect(screen.getByText('B')).toBeInTheDocument();
     expect(screen.getByText('25 – 28 km/h')).toBeInTheDocument();
+
+    // GR3 (code BC) sits between B and C
+    expect(screen.getByText('BC')).toBeInTheDocument();
+    expect(screen.getByText('24 – 27 km/h')).toBeInTheDocument();
 
     expect(screen.getByText('C')).toBeInTheDocument();
     expect(screen.getByText('< 25 km/h')).toBeInTheDocument();
@@ -59,7 +63,7 @@ describe('GroupRoads Component (app/components/home/GroupRoads.tsx)', () => {
   it('allocates sufficient column width for pace groups on mobile to prevent overflow', () => {
     const { container } = render(<GroupRoads />);
     const listItems = container.querySelectorAll('ol > li');
-    expect(listItems.length).toBe(4);
+    expect(listItems.length).toBe(5);
     listItems.forEach((li) => {
       expect(li.className).toContain('grid-cols-[6rem_minmax(0,1fr)]');
     });

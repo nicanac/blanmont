@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { GROUP_CODE_MAX_LENGTH, GROUP_LABEL_MAX_LENGTH, GROUP_MAX_COUNT } from '@/app/constants/groups';
+import {
+  GROUP_ALIAS_MAX_COUNT,
+  GROUP_CODE_MAX_LENGTH,
+  GROUP_LABEL_MAX_LENGTH,
+  GROUP_MAX_COUNT,
+} from '@/app/constants/groups';
 
 // === Common validators ===
 
@@ -234,6 +239,16 @@ export const GroupSettingsSchema = z
             .trim()
             .min(1, 'Le nom affiché est requis')
             .max(GROUP_LABEL_MAX_LENGTH, `Le nom ne peut pas dépasser ${GROUP_LABEL_MAX_LENGTH} caractères`),
+          aliases: z
+            .array(
+              z
+                .string()
+                .trim()
+                .min(1, 'Un code fusionné ne peut pas être vide')
+                .max(GROUP_CODE_MAX_LENGTH, `Le code ne peut pas dépasser ${GROUP_CODE_MAX_LENGTH} caractères`)
+            )
+            .max(GROUP_ALIAS_MAX_COUNT, `${GROUP_ALIAS_MAX_COUNT} codes fusionnés maximum par groupe`)
+            .optional(),
         })
       )
       .min(1, 'Au moins un groupe est requis')
@@ -248,10 +263,21 @@ export const GroupSettingsSchema = z
       if (seenCodes.has(code)) {
         ctx.addIssue({ code: 'custom', path: ['groups', index, 'code'], message: `Le code « ${g.code} » est en double` });
       }
+      seenCodes.add(code);
+      (g.aliases ?? []).forEach((alias, aliasIndex) => {
+        const key = alias.toUpperCase();
+        if (seenCodes.has(key)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['groups', index, 'aliases', aliasIndex],
+            message: `Le code « ${alias} » est rattaché à plusieurs groupes`,
+          });
+        }
+        seenCodes.add(key);
+      });
       if (seenLabels.has(label)) {
         ctx.addIssue({ code: 'custom', path: ['groups', index, 'label'], message: `Le nom « ${g.label} » est déjà utilisé` });
       }
-      seenCodes.add(code);
       seenLabels.add(label);
     });
   });

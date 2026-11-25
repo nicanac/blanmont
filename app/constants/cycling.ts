@@ -53,8 +53,11 @@ export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
  * The four weekend groups as the club presents them publicly, each printed on the
  * territory sheet as a road class of the map legend (main road, secondary, local, track).
  */
+/** Stored code of every pace group the site presents: the four road groups plus VTT. */
+export type PaceGroupCode = CyclingGroup | 'BC';
+
 export interface PaceGroup {
-  id: CyclingGroup;
+  id: PaceGroupCode;
   name: string;
   speed: string;
   roadClass: string;
@@ -77,6 +80,14 @@ export const PACE_GROUPS: readonly PaceGroup[] = [
     roadClass: 'Route secondaire',
     description:
       'Équilibré, fluide et convivial en peloton régulier. Idéal pour progresser et rouler groupé.',
+  },
+  {
+    id: 'BC',
+    name: 'Groupe BC',
+    speed: '24 – 27 km/h',
+    roadClass: 'Route de liaison',
+    description:
+      'Allure intermédiaire et régulière. Pour progresser vers le groupe supérieur sans brûler les étapes.',
   },
   {
     id: 'C',
