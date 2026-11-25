@@ -1,0 +1,28 @@
+<!-- @dsCard group="Status" height=130 subtitle="Status variants and filter pills" -->
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Badge</title>
+<style>
+  body { margin: 0; padding: 20px; background: var(--surface); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .row + .row { margin-top: 14px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <span class="bl-badge bl-badge--brand">Prochain départ · 08:30</span>
+    <span class="bl-badge bl-badge--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Carré Vert validé</span>
+    <span class="bl-badge bl-badge--warning">Déviation</span>
+    <span class="bl-badge bl-badge--paper bl-tabular">84,5 km</span>
+    <span class="bl-badge bl-badge--neutral">Groupe A</span>
+    <span class="bl-badge bl-badge--outline">Gravel</span>
+    <span class="bl-badge bl-badge--brand-solid bl-badge--sm">Live</span>
+  </div>
+  <div class="row">
+    <span class="bl-badge bl-badge--pill-active bl-badge--lg">Tous</span>
+    <span class="bl-badge bl-badge--pill-inactive bl-badge--lg">Route</span>
+    <span class="bl-badge bl-badge--pill-inactive bl-badge--lg">Gravel</span>
+    <span class="bl-badge bl-badge--pill-inactive bl-badge--lg">Groupe B</span>
+  </div>
+</body>
+</html>

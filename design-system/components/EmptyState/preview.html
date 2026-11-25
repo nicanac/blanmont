@@ -1,0 +1,22 @@
+<!-- @dsCard group="Feedback" height=330 subtitle="Corner-ticked empty state with two actions" -->
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>EmptyState</title>
+<style>body { margin: 0; padding: 20px; background: var(--surface); } .bl-empty { max-width: 640px; }</style>
+</head>
+<body>
+  <div class="bl-empty bl-corner-ticks">
+    <div class="bl-empty__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 22"><path d="M12 1.2 23 20.8H1Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="14.2" r="2.2" fill="currentColor"/></svg>
+    </div>
+    <div class="bl-empty__text">
+      <h3 class="bl-empty__title">Aucun parcours identifié</h3>
+      <p class="bl-empty__desc">Aucun tracé ne correspond à ces filtres. Élargissez la distance ou choisissez un autre secteur.</p>
+    </div>
+    <div class="bl-empty__actions">
+      <button class="bl-btn bl-btn--primary bl-btn--sm" type="button">Réinitialiser les filtres</button>
+      <button class="bl-btn bl-btn--outline bl-btn--sm" type="button">Proposer un parcours</button>
+    </div>
+  </div>
+</body>
+</html>
