@@ -107,10 +107,10 @@ export default async function LeClubPage(): Promise<React.ReactElement> {
             return (
             <li
               key={g.id}
-              className="grid gap-x-8 gap-y-4 border-b border-line py-8 md:grid-cols-[6rem_minmax(0,1fr)] lg:grid-cols-[7rem_minmax(0,1.1fr)_minmax(0,1fr)_13rem] dark:border-night-line"
+              className="grid gap-x-8 gap-y-4 border-b border-line py-8 md:grid-cols-[10rem_minmax(0,1fr)] lg:grid-cols-[10rem_minmax(0,1.1fr)_minmax(0,1fr)_13rem] dark:border-night-line"
             >
               <div className="flex items-center gap-4 md:block">
-                <span className="font-wide text-5xl font-extrabold leading-none text-ink sm:text-6xl dark:text-snow">
+                <span className="font-wide text-5xl font-extrabold leading-none text-ink dark:text-snow">
                   {label}
                 </span>
                 <RoadSwatch group={g.id} className="w-16 md:mt-4 md:w-20" />
