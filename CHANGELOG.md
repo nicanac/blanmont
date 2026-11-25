@@ -8,6 +8,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.32.0] - 2026-11-25
+
+### Added
+- feat(groups): propose merging legacy codes into GR1–GR4 + VTT (#190) (`0e7c7bf`)
 ## [0.31.1] - 2026-11-25
 
 ### Chores
