@@ -1,5 +1,6 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
 import React from 'react';
 import {
   BoltIcon,
@@ -47,7 +48,7 @@ export default function PointageExpressTutorialModal({
                 </h4>
               </div>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-                Touchez la case à cocher d&apos;un cycliste pour l&apos;émarger au départ. Le compteur global et le compteur de son groupe (A, B, C ou VTT) s&apos;incrémentent instantanément.
+                Touchez la case à cocher d&apos;un cycliste pour l&apos;émarger au départ. Le compteur global et le compteur de son groupe (<GroupList conjunction="ou" />) s&apos;incrémentent instantanément.
               </p>
             </div>
 
@@ -71,7 +72,7 @@ export default function PointageExpressTutorialModal({
               Filtres Rapides &amp; Recherche
             </h4>
             <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-              Utilisez la barre de recherche par nom ou les onglets rapides <em>(Tous, Pointés, Non pointés, Groupe A, Groupe B, Groupe C, VTT)</em> pour retrouver un coureur sans faire défiler tout l&apos;annuaire.
+              Utilisez la barre de recherche par nom ou les onglets rapides <em>(Tous, Pointés, Non pointés, <GroupList conjunction="et" />)</em> pour retrouver un coureur sans faire défiler tout l&apos;annuaire.
             </p>
           </div>
 

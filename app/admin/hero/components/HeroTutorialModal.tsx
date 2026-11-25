@@ -1,5 +1,6 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
 import React from 'react';
 import {
   WindowIcon,
@@ -136,7 +137,7 @@ export default function HeroTutorialModal({
                 </h4>
               </div>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-                Personnalisez le lieu de départ (Place de la Féchère), les horaires du peloton, les groupes de niveau (A, B, C, VTT) et le challenge d&apos;assiduité Carré Vert.
+                Personnalisez le lieu de départ (Place de la Féchère), les horaires du peloton, les groupes de niveau (<GroupList />) et le challenge d&apos;assiduité Carré Vert.
               </p>
             </div>
 

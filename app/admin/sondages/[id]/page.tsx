@@ -261,7 +261,9 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                       </span>
                     </td>
                     <td className="px-4 py-3.5 font-semibold text-ink-2 dark:text-snow-2">
-                      {r.dayChoice !== 'absent' ? r.groupChoice : '—'}
+                      {r.dayChoice !== 'absent' ? (
+                        r.groupChoice === 'Autre' ? r.groupChoice : <GroupName code={r.groupChoice} variant="full" />
+                      ) : '—'}
                     </td>
                     <td className="px-4 py-3.5 text-ink-2 dark:text-snow-3 max-w-sm">
                       {r.customAnswers && Object.keys(r.customAnswers).length > 0 && (

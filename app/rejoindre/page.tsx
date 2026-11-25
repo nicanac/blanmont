@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import TrialRideForm from './TrialRideForm';
 import { SheetHeader } from '../components/carte/SheetHeader';
+import GroupList from '../components/shared/GroupList';
+import GroupName from '../components/shared/GroupName';
 
 export const metadata: Metadata = {
   title: "Rejoindre le Club · Sorties d'essai gratuites | CC Saint-Martin Blanmont",
@@ -11,18 +13,34 @@ export const metadata: Metadata = {
     "Rejoignez le Cyclo Club Saint-Martin de Blanmont. Profitez de 3 sorties d'essai gratuites et encadrées en Brabant wallon sans engagement.",
 };
 
-const FAQS = [
+const FAQS: Array<{ q: string; a: React.ReactNode }> = [
   {
     q: 'Faut-il être membre ou payer une cotisation dès la première sortie ?',
     a: "Non, absolument pas ! Le club offre jusqu'à 3 sorties d'essai entièrement gratuites et sans engagement. Vous venez avec votre vélo, vous roulez dans le groupe de votre choix, et vous décidez ensuite en toute liberté si l'ambiance vous plaît.",
   },
   {
     q: "Quelle allure choisir si j'hésite entre deux groupes ?",
-    a: "Pour votre première sortie, nous vous recommandons systématiquement de tester le groupe inférieur (par exemple le Groupe C plutôt que le B, ou le B plutôt que le A). Il est toujours plus agréable de terminer sa sortie avec de l'énergie en réserve plutôt que de subir le rythme.",
+    a: (
+      <>
+        Pour votre première sortie, nous vous recommandons systématiquement de tester le groupe
+        inférieur (par exemple le <GroupName code="BC" /> plutôt que le <GroupName code="B" />, ou
+        le <GroupName code="B" /> plutôt que le <GroupName code="A" />). Il est toujours plus
+        agréable de terminer sa sortie avec de l&apos;énergie en réserve plutôt que de subir le
+        rythme.
+      </>
+    ),
   },
   {
     q: 'Les vélos à assistance électrique (VAE) sont-ils acceptés ?',
-    a: "Oui ! Les vélos de route électriques homologués (25 km/h) sont les bienvenus dans les Groupes B et C, ainsi que les VTT électriques dans le groupe VTT. La seule règle est le respect de l'allure collective : on ne sprinte pas devant le groupe en côte avec le moteur !",
+    a: (
+      <>
+        Oui ! Les vélos de route électriques homologués (25 km/h) sont les bienvenus dans les
+        groupes <GroupName code="B" />, <GroupName code="BC" /> et <GroupName code="C" />, ainsi
+        que les VTT électriques dans le groupe <GroupName code="VTT" />. La seule règle est le
+        respect de l&apos;allure collective : on ne sprinte pas devant le groupe en côte avec le
+        moteur !
+      </>
+    ),
   },
   {
     q: 'Quel équipement matériel est indispensable dès la première sortie ?',
@@ -38,10 +56,15 @@ const FAQS = [
   },
 ];
 
-const STEPS = [
+const STEPS: Array<{ title: string; text: React.ReactNode }> = [
   {
     title: 'Choisissez votre groupe',
-    text: 'Repérez le peloton correspondant à votre niveau : A (> 30 km/h), B (25–28 km/h), C (< 25 km/h) ou VTT. En cas d’hésitation, optez toujours pour le groupe le plus modéré.',
+    text: (
+      <>
+        Repérez le peloton correspondant à votre niveau : <GroupList withPaces />. En cas
+        d’hésitation, optez toujours pour le groupe le plus modéré.
+      </>
+    ),
   },
   {
     title: 'Rendez-vous à 8h15',
@@ -78,7 +101,7 @@ export default function RejoindrePage(): React.ReactElement {
         legend={[
           { term: 'Essai libre & gratuit', value: '3 sorties' },
           { term: 'Rendez-vous', value: 'Place de Blanmont', hint: 'Samedi 8h15 (départ 8h30)' },
-          { term: 'Quatre allures', value: 'Groupes A, B, C & VTT' },
+          { term: 'Allures', value: <GroupList /> },
         ]}
         actions={
           <a
