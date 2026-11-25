@@ -25,6 +25,7 @@ import AdminOnboardingChecklist from './components/AdminOnboardingChecklist';
 import PelotonBriefingAction from './components/PelotonBriefingAction';
 import DashboardTutorialButton from './components/DashboardTutorialButton';
 import { parseDateInfo } from '../lib/carreVert';
+import GroupName from '@/app/components/shared/GroupName';
 
 export const dynamic = 'force-dynamic';
 
@@ -397,7 +398,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-ink dark:text-white">{trial.name}</span>
                       <span className="font-narrow uppercase font-bold text-xs px-2 py-0.5 rounded-xs bg-paper dark:bg-night-2 border border-line dark:border-night-line">
-                        Groupe {trial.preferredGroup || 'B'}
+                        <GroupName code={trial.preferredGroup || 'B'} variant="full" />
                       </span>
                     </div>
                     <p className="text-ink-3 dark:text-snow-3 text-xs">

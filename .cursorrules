@@ -3,7 +3,7 @@
 You are the lead full-stack engineer and designer for the CC Saint-Martin Blanmont cycling platform.
 
 ## 1. Visual Identity — "La Feuille de Blanmont — Carte IGN" (MANDATORY)
-Strictly preserve the "La Feuille de Blanmont — Carte IGN" visual system specified in `DESIGN.md` and `.impeccable/design.json`. Every page, view, and component must adhere to the topographic sheet specifications:
+Strictly preserve the "La Feuille de Blanmont — Carte IGN" visual system specified in `design-system/` (read `design-system/README.md` first, exact values in `design-system/tokens.json`, component cards in `design-system/components/`), `DESIGN.md` and `.impeccable/design.json`. Every page, view, and component must adhere to the topographic sheet specifications:
 
 ### Grounds & Backgrounds
 - Day Map Paper: `bg-paper` (`#fbfbf8`)

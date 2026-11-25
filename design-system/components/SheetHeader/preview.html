@@ -1,0 +1,61 @@
+<!-- @dsCard group="Carte" height=560 width=1100 subtitle="Page cartouche over the territory band (tone paper)" -->
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>SheetHeader</title>
+<style>
+  body { margin: 0; background: var(--surface); }
+  .woods { background: var(--map-woods); -webkit-mask-image: url('/_blob/dc923575dfb4f99885796793c40b2730'); mask-image: url('/_blob/dc923575dfb4f99885796793c40b2730'); }
+  .lakes { background: var(--map-lake); -webkit-mask-image: url('/_blob/d555e9a08e0d64f92341377efe26d36b'); mask-image: url('/_blob/d555e9a08e0d64f92341377efe26d36b'); }
+  .relief { background: var(--map-contour); -webkit-mask-image: url('/_blob/f5446a940eb2db56224fc739216f6988'); mask-image: url('/_blob/f5446a940eb2db56224fc739216f6988'); }
+  .relief-index { background: var(--map-contour-index); -webkit-mask-image: url('/_blob/8ccd241bdb71804d432a029617e074f4'); mask-image: url('/_blob/8ccd241bdb71804d432a029617e074f4'); }
+  .water { background: var(--map-water); -webkit-mask-image: url('/_blob/f4257cbffbae871816ab5d0c663d238c'); mask-image: url('/_blob/f4257cbffbae871816ab5d0c663d238c'); }
+  .road-tertiary { background: var(--map-road-tertiary); -webkit-mask-image: url('/_blob/891b29a9c7117b58ba8c8f7f3fb94b84'); mask-image: url('/_blob/891b29a9c7117b58ba8c8f7f3fb94b84'); }
+  .road-secondary { background: var(--map-road-secondary); -webkit-mask-image: url('/_blob/4c27ff7994d1a22d72620e653df46a06'); mask-image: url('/_blob/4c27ff7994d1a22d72620e653df46a06'); }
+  .road-primary { background: var(--map-road-primary); -webkit-mask-image: url('/_blob/a9633eae86619a0b469039c658ceacab'); mask-image: url('/_blob/a9633eae86619a0b469039c658ceacab'); }
+  .road-major { background: var(--map-road-major); -webkit-mask-image: url('/_blob/c788f95998b895fda9d82dfdc6f2a292'); mask-image: url('/_blob/c788f95998b895fda9d82dfdc6f2a292'); }
+  .rail { background: var(--map-rail); -webkit-mask-image: url('/_blob/c23f6e668d4df9cc8cd90fac27efbdee'); mask-image: url('/_blob/c23f6e668d4df9cc8cd90fac27efbdee'); }
+  .point { position: absolute; left: 50%; top: 50%; width: 18px; height: 16px; margin: -12px 0 0 -9px; color: var(--text); }
+  .point circle { fill: var(--map-paper); }
+  .bl-sheet__band { --sheet: 2300px; }
+  .bl-sheet__band .bl-map-grid { --grid: calc(2300px / 16); background-position: calc(50% - 1150px) calc(50% - 1150px); }
+</style>
+</head>
+<body>
+  <header class="bl-sheet">
+    <div class="bl-sheet__band" aria-hidden="true">
+      <div class="bl-sheet__map">
+        <div class="bl-carte-layer woods"></div>
+        <div class="bl-carte-layer lakes"></div>
+        <div class="bl-carte-layer relief"></div>
+        <div class="bl-carte-layer relief-index"></div>
+        <div class="bl-carte-layer water"></div>
+        <div class="bl-carte-layer road-tertiary"></div>
+        <div class="bl-carte-layer road-secondary"></div>
+        <div class="bl-carte-layer road-primary"></div>
+        <div class="bl-carte-layer road-major"></div>
+        <div class="bl-carte-layer rail"></div>
+      </div>
+      <div class="bl-map-grid"></div>
+      <svg class="point" viewBox="0 0 24 22"><path d="M12 1.2 23 20.8H1Z" fill="currentColor"/><circle cx="12" cy="14.2" r="2.6"/></svg>
+    </div>
+    <div class="bl-sheet__wrap">
+      <div class="bl-sheet__panel bl-neatline">
+        <div class="bl-sheet__main">
+          <h1 class="bl-sheet__title">Calendrier des sorties</h1>
+          <p class="bl-sheet__desc">Chaque samedi et dimanche, départ Place de la Féchère. Trois groupes, un regroupement au sommet de chaque côte.</p>
+          <div class="bl-sheet__actions">
+            <button class="bl-btn bl-btn--primary" type="button">S'inscrire à la sortie</button>
+            <button class="bl-btn bl-btn--outline" type="button">Télécharger le PDF</button>
+          </div>
+        </div>
+        <dl class="bl-sheet__legend">
+          <div class="bl-sheet__row"><dt class="bl-sheet__term">Prochaine sortie</dt><dd class="bl-sheet__value">Sam. 29 nov. · 08:30</dd><dd class="bl-sheet__hint">Groupe A, 84,5 km</dd></div>
+          <div class="bl-sheet__row"><dt class="bl-sheet__term">Saison 2026</dt><dd class="bl-sheet__value">104 sorties</dd></div>
+          <div class="bl-sheet__row"><dt class="bl-sheet__term">Dénivelé moyen</dt><dd class="bl-sheet__value">720 m D+</dd></div>
+        </dl>
+      </div>
+      <div class="bl-sheet__margin"><span>Feuille · Calendrier</span><span class="bl-sheet__coords">50°37′23″ N · 4°38′32″ E</span></div>
+    </div>
+  </header>
+</body>
+</html>

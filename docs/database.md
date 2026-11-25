@@ -289,6 +289,21 @@ Historical and ongoing photo albums of the club, containing Google Photos album 
 }
 ```
 
+### 3.11. `/group-settings` — Group Display Names
+Display name of each group code, managed from `/admin/groupes`. Stored codes (`A`, `A-`, `B`, `C`, `VTT`) on `/leaderboard`, `/attendance`, `/members` and trial requests never change; only what is shown changes. Array order = display order (filters, legends, statistics). Codes absent from the list are shown as stored.
+```json
+{
+  "groups": [
+    { "code": "A", "label": "GR1" },
+    { "code": "A-", "label": "A-" },
+    { "code": "B", "label": "gr2" },
+    { "code": "C", "label": "gr3" }
+  ],
+  "updatedAt": "2026-11-25T10:00:00.000Z"
+}
+```
+Read once per render in the root layout (`getCachedGroupSettings`, `unstable_cache` tag `group-settings`) and exposed to client components via `useGroupLabels()` / `<GroupName code="A" />`. `PUT /api/admin/group-settings` validates with `GroupSettingsSchema`, then calls `revalidateTag('group-settings', { expire: 0 })` and `revalidatePath('/', 'layout')`.
+
 ---
 
 ## 4. 🔌 Code Wiring: Data Access Layers (`app/lib/firebase/`)

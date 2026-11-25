@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { GROUP_CODE_MAX_LENGTH, GROUP_LABEL_MAX_LENGTH, GROUP_MAX_COUNT } from '@/app/constants/groups';
 
 // === Common validators ===
 
@@ -215,6 +216,47 @@ export const SubmitEventReviewSchema = z.object({
 });
 
 export type SubmitEventReviewInput = z.infer<typeof SubmitEventReviewSchema>;
+
+// === Group Naming Settings Validation ===
+
+export const GroupSettingsSchema = z
+  .object({
+    groups: z
+      .array(
+        z.object({
+          code: z
+            .string()
+            .trim()
+            .min(1, 'Le code du groupe est requis')
+            .max(GROUP_CODE_MAX_LENGTH, `Le code ne peut pas dépasser ${GROUP_CODE_MAX_LENGTH} caractères`),
+          label: z
+            .string()
+            .trim()
+            .min(1, 'Le nom affiché est requis')
+            .max(GROUP_LABEL_MAX_LENGTH, `Le nom ne peut pas dépasser ${GROUP_LABEL_MAX_LENGTH} caractères`),
+        })
+      )
+      .min(1, 'Au moins un groupe est requis')
+      .max(GROUP_MAX_COUNT, `${GROUP_MAX_COUNT} groupes maximum`),
+  })
+  .superRefine((value, ctx) => {
+    const seenCodes = new Set<string>();
+    const seenLabels = new Set<string>();
+    value.groups.forEach((g, index) => {
+      const code = g.code.toUpperCase();
+      const label = g.label.toUpperCase();
+      if (seenCodes.has(code)) {
+        ctx.addIssue({ code: 'custom', path: ['groups', index, 'code'], message: `Le code « ${g.code} » est en double` });
+      }
+      if (seenLabels.has(label)) {
+        ctx.addIssue({ code: 'custom', path: ['groups', index, 'label'], message: `Le nom « ${g.label} » est déjà utilisé` });
+      }
+      seenCodes.add(code);
+      seenLabels.add(label);
+    });
+  });
+
+export type GroupSettingsInput = z.infer<typeof GroupSettingsSchema>;
 
 // === Utility function for safe parsing with error formatting ===
 

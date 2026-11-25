@@ -6,8 +6,10 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import MemberRoleSelector from '../components/MemberRoleSelector';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 
 export default function NewMemberPage(): React.ReactElement {
+  const { fullName: groupFullName } = useGroupLabels();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -281,10 +283,10 @@ export default function NewMemberPage(): React.ReactElement {
                   onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value as typeof formData.preferredGroup })}
                   className="w-full rounded-md border border-line bg-white px-3.5 py-2 text-xs font-semibold text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand shadow-xs"
                 >
-                  <option value="A">Groupe A (&gt; 30 km/h)</option>
-                  <option value="B">Groupe B (25 – 28 km/h)</option>
-                  <option value="C">Groupe C (&lt; 25 km/h)</option>
-                  <option value="VTT">Groupe VTT</option>
+                  <option value="A">{groupFullName('A')} (&gt; 30 km/h)</option>
+                  <option value="B">{groupFullName('B')} (25 – 28 km/h)</option>
+                  <option value="C">{groupFullName('C')} (&lt; 25 km/h)</option>
+                  <option value="VTT">{groupFullName('VTT')}</option>
                 </select>
               </div>
             </div>

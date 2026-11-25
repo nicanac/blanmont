@@ -16,7 +16,8 @@ Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS
 - System Design (as-built overview, read first): [docs/system-design.md](docs/system-design.md)
 - Architecture & Business Logic: [docs/architecture.md](docs/architecture.md)
 - Database Schemas & Access: [docs/database.md](docs/database.md)
-- Design Tokens & Typography: [DESIGN.md](DESIGN.md)
+- Design System (tool-agnostic package, read first for any UI work): [design-system/README.md](design-system/README.md), exact tokens in `design-system/tokens.json`, one card per component in `design-system/components/<Name>/`
+- Design Tokens & Typography (narrative): [DESIGN.md](DESIGN.md)
 - Input Validation (Zod): [docs/validation.md](docs/validation.md)
 - Admin Security & Roles: [docs/admin-guide.md](docs/admin-guide.md)
 - Product Vision & Personas: [PRODUCT.md](PRODUCT.md)
@@ -25,7 +26,7 @@ Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS
 ## Core Non-Negotiables
 
 - **UI Language**: French (Français) for all user-facing text and copy. English for code, commits, and comments.
-- **Visual Identity & Design System**: Strictly preserve the **"La Feuille de Blanmont — Carte IGN"** visual system specified in `DESIGN.md` and `.impeccable/design.json`. Every page, view, and component must adhere to the topographic sheet specifications:
+- **Visual Identity & Design System**: Strictly preserve the **"La Feuille de Blanmont — Carte IGN"** visual system specified in `design-system/` (start at `design-system/README.md`; code truth is `app/globals.css`), `DESIGN.md` and `.impeccable/design.json`. Every page, view, and component must adhere to the topographic sheet specifications:
   - **Grounds**: Day Map Paper (`bg-paper` / `#fbfbf8`), recessed paper (`bg-paper-2` / `#f0f1eb`), and nocturnal dark sheet (`bg-night` / `#0d1013`, `bg-night-2` / `#151a1f`).
   - **Spot Inks**: Route Red (`brand` / `#d63535`, map roads `brand-vif` / `#e03e3e`), Relief Bistre (`bistre` / `#b0703b`), Hydro Blue (`hydro` / `#1f6fbf`), Woodland Green (`vert` / `#2e7d45`, `bois` / `#dcebcf`), and Amber (`ambre` / `#e8962a`). Never use arbitrary saturated colors or generic SaaS blues.
   - **Typography**: Google variable font `Archivo` (`var(--font-archivo)`) with width-driven hierarchy (`font-wide` display, `font-semiwide` headlines, `font-narrow` labels/badges). Never use Poppins, Inter, or arbitrary fonts.

@@ -5,6 +5,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+
+## [0.31.0] - 2026-11-25
+
+### Added
+- feat: Blanmont Carte IGN design system package and Heart Line app icon (#187) (`7c118e5`)
+## [0.30.0] - 2026-11-25
+
+### Added
+- feat(admin): let administrators rename cycling groups (#186) (`386c65d`)
 ## [0.29.2] - 2026-11-25
 
 ### Fixed

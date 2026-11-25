@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 import {
   ArrowDownTrayIcon,
   PrinterIcon,
@@ -19,6 +20,7 @@ interface StatsAgSummaryProps {
 }
 
 export default function StatsAgSummary({ stats }: StatsAgSummaryProps): React.ReactElement {
+  const { label: groupLabel } = useGroupLabels();
   const handleDownloadAgCsv = (): void => {
     const csvContent = generateClubAgSummaryCsv(stats);
     const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -219,7 +221,7 @@ export default function StatsAgSummary({ stats }: StatsAgSummaryProps): React.Re
                     {p.rank === 1 ? '1er 🥇 Champion' : p.rank === 2 ? '2e 🥈 Vice-champion' : '3e 🥉 Podium'}
                   </span>
                   <span className="text-xs font-bold text-ink-3 dark:text-snow-3">
-                    {p.group ? `Gr. ${p.group}` : 'Cyclo'}
+                    {p.group ? groupLabel(p.group) : 'Cyclo'}
                   </span>
                 </div>
                 <p className="mt-3 text-base font-extrabold text-ink dark:text-snow-1">

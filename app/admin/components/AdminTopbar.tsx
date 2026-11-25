@@ -125,6 +125,9 @@ export default function AdminTopbar({
     } else if (pathname.startsWith('/admin/statistics')) {
       parts.push({ label: "Vue d'ensemble" });
       parts.push({ label: 'Statistiques & Rapports' });
+    } else if (pathname.startsWith('/admin/groupes')) {
+      parts.push({ label: 'Gestion' });
+      parts.push({ label: 'Groupes & Pelotons' });
     } else if (pathname.startsWith('/admin/settings') || pathname.startsWith('/admin/parametres')) {
       parts.push({ label: 'Gestion' });
       parts.push({ label: 'Paramètres' });

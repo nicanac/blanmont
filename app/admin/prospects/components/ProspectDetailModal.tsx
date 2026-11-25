@@ -16,6 +16,8 @@ import {
 import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import { TrialRideRequest, TrialRideStatus, Member } from '@/app/types';
 import { useFocusTrap } from '@/app/hooks/useFocusTrap';
+import GroupName from '@/app/components/shared/GroupName';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 
 interface ProspectDetailModalProps {
   isOpen: boolean;
@@ -59,6 +61,7 @@ export default function ProspectDetailModal({
   onConvertToMember,
   onDelete,
 }: ProspectDetailModalProps): React.ReactElement | null {
+  const { fullName: groupFullName } = useGroupLabels();
   const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   const [notes, setNotes] = useState(prospect?.adminNotes || '');
@@ -140,7 +143,7 @@ export default function ProspectDetailModal({
     : `C'est le secrétariat du CC Saint-Martin Blanmont`;
 
   const waMessage = encodeURIComponent(
-    `Bonjour ${firstName} ! 👋\n${mentorGreeting}.\n\nNous avons bien reçu ta demande pour une sortie d'essai dans le Groupe ${prospect.preferredGroup} (${prospect.bikeType}).\n\nNos sorties partent le samedi à 9h00 (ou dimanche selon météo) depuis la place de Blanmont. Serais-tu disponible pour rouler avec nous prochainement ?\n\nAu plaisir d'échanger et de rouler ensemble ! 🚴‍♂️`
+    `Bonjour ${firstName} ! 👋\n${mentorGreeting}.\n\nNous avons bien reçu ta demande pour une sortie d'essai dans le ${groupFullName(prospect.preferredGroup)} (${prospect.bikeType}).\n\nNos sorties partent le samedi à 9h00 (ou dimanche selon météo) depuis la place de Blanmont. Serais-tu disponible pour rouler avec nous prochainement ?\n\nAu plaisir d'échanger et de rouler ensemble ! 🚴‍♂️`
   );
   const waUrl = `https://wa.me/${cleanPhone}?text=${waMessage}`;
 
@@ -253,7 +256,7 @@ export default function ProspectDetailModal({
                 Groupe Souhaité
               </span>
               <span className="mt-1 inline-block font-extrabold text-sm text-ink dark:text-snow-1">
-                Groupe {prospect.preferredGroup}
+                <GroupName code={prospect.preferredGroup} variant="full" />
               </span>
             </div>
 

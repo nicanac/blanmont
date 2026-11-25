@@ -1,5 +1,7 @@
 'use client';
 
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import type { CalendarEvent, Member } from '@/app/types';
@@ -74,6 +76,7 @@ export default function PointageExpressClient({
   }, [initialEvents, todayIso]);
 
   const [selectedEventId, setSelectedEventId] = useState<string>(defaultEventId);
+  const { fullName: groupFullName } = useGroupLabels();
 
   // Sync selectedEventId if query param ?eventId=... is passed or if initial selection needs refresh
   useEffect(() => {
@@ -367,15 +370,15 @@ export default function PointageExpressClient({
           </div>
           <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
             <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupA}</div>
-            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">Groupe A</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">{groupFullName('A')}</div>
           </div>
           <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
             <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupB}</div>
-            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">Groupe B</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">{groupFullName('B')}</div>
           </div>
           <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
             <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupC}</div>
-            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">Groupe C</div>
+            <div className="text-xs font-medium text-ink-3 dark:text-snow-3 font-mono">{groupFullName('C')}</div>
           </div>
           <div className="p-2.5 rounded-sm bg-paper-2 dark:bg-night border border-line dark:border-night-line text-center">
             <div className="text-base font-bold text-ink dark:text-snow-1 tabular-nums font-mono">{stats.groupVTT}</div>
@@ -453,7 +456,7 @@ export default function PointageExpressClient({
                 : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
-            Groupe A
+            {groupFullName('A')}
           </button>
           <button
             type="button"
@@ -464,7 +467,7 @@ export default function PointageExpressClient({
                 : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
-            Groupe B
+            {groupFullName('B')}
           </button>
           <button
             type="button"
@@ -475,7 +478,7 @@ export default function PointageExpressClient({
                 : 'bg-paper dark:bg-night-2 border border-line dark:border-night-line text-ink-3 dark:text-snow-3 hover:bg-paper-2'
             }`}
           >
-            Groupe C
+            {groupFullName('C')}
           </button>
         </div>
       </div>
@@ -538,7 +541,7 @@ export default function PointageExpressClient({
                     </div>
                     <div className="flex items-center gap-2 mt-0.5 text-xs font-mono">
                       <span className="font-semibold text-ink-3 dark:text-snow-3">
-                        Groupe {member.preferredGroup || 'B'}
+                        {groupFullName(member.preferredGroup || 'B')}
                       </span>
                       {member.phone && (
                         <span className="text-ink-3 dark:text-snow-3 font-mono tabular-nums text-xs">

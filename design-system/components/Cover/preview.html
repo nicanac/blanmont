@@ -1,0 +1,66 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Blanmont Carte IGN</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--surface); color: var(--text); font-family: var(--font-sans); overflow: hidden; }
+  .cover { position: relative; width: 960px; height: 288px; overflow: hidden; }
+  .art { position: absolute; top: 0; left: 480px; width: 480px; height: 288px; overflow: hidden; }
+  .art svg { display: block; width: 480px; height: 288px; }
+  .brand { fill: var(--brand); }
+  .bistre { fill: var(--bistre); }
+  .hydro { fill: var(--hydro); }
+  .vert { fill: var(--vert); }
+  .ink { fill: var(--text); }
+  .blk { rx: var(--radius-md); }
+  .plus { stroke: var(--hydro); stroke-width: 1; opacity: 0.45; }
+  .seg { fill: var(--strip); }
+  .rule { fill: var(--strip); }
+  .words { position: absolute; left: var(--space-6); bottom: var(--space-6); max-width: 440px; }
+  .name { margin: 0; font-size: 64px; line-height: 0.95; font-weight: 800; font-stretch: var(--stretch-semiwide); letter-spacing: -0.01em; color: var(--text); }
+  .tag { margin: var(--space-3) 0 0 2px; font-size: 14px; line-height: 20px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="art" aria-hidden="true">
+    <svg viewBox="0 0 480 288" width="480" height="288">
+      <!--
+        blocks      brand 144x230 bled off the top (route red, the club colour, largest) · bistre 96x128 · hydro 96x96 · vert 184x88 bled off the right · text (ink/snow) 80x126 bled off the top-right corner; radius-md corners
+        arrangement one tall route-red slab with map-ink satellites, bottoms on one line at y=224, space-4 gutters
+        pattern     "precise, technical, a 4px grid": the sheet's kilometric grid as plus marks at space-12 pitch in hydro, plus one graduated scale strip (32px segments in strip ink) under the blocks, as on a map frame
+        scales      space-4 (16) gutters, space-6 (24) inset, space-12 (48) grid pitch, radius-md (3) corners, 1px hairlines
+      -->
+      <g>
+        <path class="plus" d="M24 19v10M19 24h10M72 19v10M67 24h10M120 19v10M115 24h10M168 19v10M163 24h10M216 19v10M211 24h10M264 19v10M259 24h10M312 19v10M307 24h10M360 19v10M355 24h10M408 19v10M403 24h10M456 19v10M451 24h10"/>
+        <path class="plus" d="M24 67v10M19 72h10M72 67v10M67 72h10M120 67v10M115 72h10M168 67v10M163 72h10M216 67v10M211 72h10M264 67v10M259 72h10M312 67v10M307 72h10M360 67v10M355 72h10M408 67v10M403 72h10M456 67v10M451 72h10"/>
+        <path class="plus" d="M24 115v10M19 120h10M72 115v10M67 120h10M120 115v10M115 120h10M168 115v10M163 120h10M216 115v10M211 120h10M264 115v10M259 120h10M312 115v10M307 120h10M360 115v10M355 120h10M408 115v10M403 120h10M456 115v10M451 120h10"/>
+        <path class="plus" d="M24 163v10M19 168h10M72 163v10M67 168h10M120 163v10M115 168h10M168 163v10M163 168h10M216 163v10M211 168h10M264 163v10M259 168h10M312 163v10M307 168h10M360 163v10M355 168h10M408 163v10M403 168h10M456 163v10M451 168h10"/>
+        <path class="plus" d="M24 211v10M19 216h10M72 211v10M67 216h10M120 211v10M115 216h10M168 211v10M163 216h10M216 211v10M211 216h10M264 211v10M259 216h10M312 211v10M307 216h10M360 211v10M355 216h10M408 211v10M403 216h10M456 211v10M451 216h10"/>
+      </g>
+      <rect class="brand blk" x="24" y="-6" width="144" height="230"/>
+      <rect class="bistre blk" x="184" y="96" width="96" height="128"/>
+      <rect class="hydro blk" x="296" y="24" width="96" height="96"/>
+      <rect class="vert blk" x="296" y="136" width="190" height="88"/>
+      <rect class="ink blk" x="408" y="-6" width="80" height="110"/>
+      <rect class="rule" x="24" y="248" width="432" height="1"/>
+      <rect class="rule" x="24" y="255" width="432" height="1"/>
+      <rect class="seg" x="24" y="250" width="32" height="4"/>
+      <rect class="seg" x="88" y="250" width="32" height="4"/>
+      <rect class="seg" x="152" y="250" width="32" height="4"/>
+      <rect class="seg" x="216" y="250" width="32" height="4"/>
+      <rect class="seg" x="280" y="250" width="32" height="4"/>
+      <rect class="seg" x="344" y="250" width="32" height="4"/>
+      <rect class="seg" x="408" y="250" width="32" height="4"/>
+    </svg>
+  </div>
+  <div class="words">
+    <h1 class="name">Blanmont<br>Carte IGN</h1>
+    <p class="tag">La feuille topographique du CC Saint-Martin Blanmont.</p>
+  </div>
+</div>
+</body>
+</html>

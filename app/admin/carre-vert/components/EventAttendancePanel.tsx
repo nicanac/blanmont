@@ -6,6 +6,7 @@ import { CalendarEvent } from '@/app/types';
 import { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
 import { toast } from 'sonner';
 import { parseDateInfo } from '@/app/lib/carreVert';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 
 type AttendanceInfo = { name: string; group: string; markedAt: string };
 
@@ -25,12 +26,13 @@ export default function EventAttendancePanel({
   const [loading, setLoading] = useState<Record<string, boolean>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [groupFilter, setGroupFilter] = useState<string>('all');
+  const { label: groupLabel, compare: compareGroups } = useGroupLabels();
 
   // Get unique groups from members
   const groups = useMemo(() => {
     const g = new Set(members.map((m) => m.group));
-    return Array.from(g).sort();
-  }, [members]);
+    return Array.from(g).sort(compareGroups);
+  }, [members, compareGroups]);
 
   // Filter members
   const filteredMembers = useMemo(() => {
@@ -182,7 +184,7 @@ export default function EventAttendancePanel({
                   : 'bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-3 hover:bg-line dark:hover:bg-night-line'
               }`}
             >
-              {g} ({members.filter((m) => m.group === g).length})
+              {groupLabel(g)} ({members.filter((m) => m.group === g).length})
             </button>
           ))}
         </div>
@@ -250,7 +252,7 @@ export default function EventAttendancePanel({
                       : 'bg-paper-2 dark:bg-night-3 text-ink-3 dark:text-snow-3 ring-line dark:ring-night-line'
                   }`}
                 >
-                  {member.group}
+                  {groupLabel(member.group)}
                 </span>
               </div>
             </div>

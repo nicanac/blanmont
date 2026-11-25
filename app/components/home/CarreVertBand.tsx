@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRightIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import { useSheetMotion } from '@/app/lib/useSheetMotion';
 import { useAuthOptional } from '@/app/context/AuthContext';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 
 export interface CarreVertRider {
   id: string;
@@ -32,6 +33,7 @@ export default function CarreVertBand({
 }: CarreVertBandProps): React.ReactElement | null {
   const root = useRef<HTMLElement>(null);
   const auth = useAuthOptional();
+  const { label: groupLabel } = useGroupLabels();
   const isAuthed = isAuthenticatedProp !== undefined ? isAuthenticatedProp : Boolean(auth?.isAuthenticated);
 
   useSheetMotion(root, ({ gsap }, scope) => {
@@ -115,7 +117,7 @@ export default function CarreVertBand({
                   {rider.name}
                   {rider.group && (
                     <span className="ml-1.5 font-narrow text-xs font-bold text-white/90">
-                      {rider.group}
+                      {groupLabel(rider.group)}
                     </span>
                   )}
                 </span>
