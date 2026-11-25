@@ -26,6 +26,9 @@ import PelotonBriefingAction from './components/PelotonBriefingAction';
 import DashboardTutorialButton from './components/DashboardTutorialButton';
 import { parseDateInfo } from '../lib/carreVert';
 import GroupName from '@/app/components/shared/GroupName';
+import { PACE_GROUPS } from '@/app/constants/cycling';
+import { getCachedGroupSettings } from '../lib/firebase/group-settings';
+import { groupFullName } from '../lib/groupLabels';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,6 +80,8 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   const nextRide = sortedUpcomingEvents[0] || null;
 
   // Group and day breakdown
+  const groupSettings = await getCachedGroupSettings();
+  const paceOf = (code: string): string => PACE_GROUPS.find((g) => g.id === code)?.speed ?? '';
   const attendingResponses = pollResponses.filter((r) => r.dayChoice !== 'absent');
   const groupCounts: Record<string, number> = {
     'Groupe A': 0,
@@ -217,11 +222,10 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                 }
                 attendeesCount={activeAttendees}
                 groups={[
-                  { name: 'Groupe A', count: groupCounts['Groupe A'] },
-                  { name: 'Groupe B', count: groupCounts['Groupe B'] },
-                  { name: 'Groupe BC', count: groupCounts['Groupe BC'] },
-                  { name: 'Groupe C', count: groupCounts['Groupe C'] },
-                  { name: 'Groupe VTT', count: groupCounts['Groupe VTT'] },
+                  ...(['A', 'B', 'BC', 'C', 'VTT'] as const).map((code) => ({
+                    name: groupFullName(code, groupSettings),
+                    count: groupCounts[`Groupe ${code}`],
+                  })),
                   ...(otherGroupCount > 0 ? [{ name: 'Autre', count: otherGroupCount }] : []),
                 ]}
                 departureLocation={nextRide?.location}
@@ -304,26 +308,26 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
-                  { name: 'Groupe A', count: groupCounts['Groupe A'], pace: '> 29 km/h', ink: 'text-brand' },
-                  { name: 'Groupe B', count: groupCounts['Groupe B'], pace: '26 - 28 km/h', ink: 'text-hydro' },
-                  { name: 'Groupe BC', count: groupCounts['Groupe BC'], pace: '24 - 27 km/h', ink: 'text-ambre-ink' },
-                  { name: 'Groupe C', count: groupCounts['Groupe C'], pace: '23 - 25 km/h', ink: 'text-vert' },
-                  { name: 'Groupe VTT', count: groupCounts['Groupe VTT'], pace: 'Chemins & Bois', ink: 'text-bistre' },
+                  { code: 'A', ink: 'text-brand' },
+                  { code: 'B', ink: 'text-hydro' },
+                  { code: 'BC', ink: 'text-ambre-ink' },
+                  { code: 'C', ink: 'text-vert' },
+                  { code: 'VTT', ink: 'text-bistre' },
                 ].map((grp) => (
                   <div
-                    key={grp.name}
+                    key={grp.code}
                     className="p-3 rounded-md bg-paper-2 dark:bg-night border border-line dark:border-night-line text-left space-y-1"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-narrow font-bold uppercase tracking-wider text-ink dark:text-white">
-                        {grp.name}
+                        <GroupName code={grp.code} variant="full" />
                       </span>
                       <span className={`text-base font-extrabold tabular-nums ${grp.ink}`}>
-                        {grp.count}
+                        {groupCounts[`Groupe ${grp.code}`]}
                       </span>
                     </div>
                     <p className="text-xs text-ink-3 dark:text-snow-3 font-mono">
-                      {grp.pace}
+                      {paceOf(grp.code)}
                     </p>
                   </div>
                 ))}

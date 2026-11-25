@@ -982,7 +982,7 @@ export default function CalendarDrawer({
                                     </span>
                                     {rev.memberGroup && (
                                       <span className="rounded-xs border border-line dark:border-night-line bg-paper dark:bg-night-2 px-1.5 py-0.5 text-xs font-bold uppercase text-ink-3 dark:text-snow-3 shrink-0">
-                                        {rev.memberGroup}
+                                        {groupFullName(rev.memberGroup)}
                                       </span>
                                     )}
                                   </div>

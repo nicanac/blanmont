@@ -27,7 +27,7 @@ const GROUPS = [
 ] as const;
 
 export default function TrialRideForm(): React.ReactElement {
-  const { fullName: groupFullName } = useGroupLabels();
+  const { fullName: groupFullName, label: groupLabel } = useGroupLabels();
   const [formData, setFormData] = useState<{
     name: string;
     email: string;
@@ -314,7 +314,7 @@ export default function TrialRideForm(): React.ReactElement {
             rows={3}
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            placeholder="Ex : Je roule habituellement seul à 27 km/h, j'aimerais tester le peloton en groupe B..."
+            placeholder={`Ex : Je roule habituellement seul à 27 km/h, j'aimerais tester le peloton en groupe ${groupLabel('B')}...`}
             className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-ink px-3.5 py-2.5 text-xs text-ink dark:text-white placeholder-ink-3 dark:placeholder-snow-3 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand caret-brand"
           />
         </div>

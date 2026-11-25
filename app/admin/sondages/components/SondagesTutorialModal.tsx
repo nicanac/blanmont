@@ -1,5 +1,8 @@
 'use client';
 
+import GroupName from '@/app/components/shared/GroupName';
+import { PACE_GROUPS } from '@/app/constants/cycling';
+
 import React from 'react';
 import {
   ChatBubbleLeftRightIcon,
@@ -17,6 +20,9 @@ interface SondagesTutorialModalProps {
   onClose: () => void;
   onStartTour: () => void;
 }
+
+/** Pace of a group code, straight from PACE_GROUPS ("> 30 km/h"). */
+const paceOf = (code: string): string => PACE_GROUPS.find((g) => g.id === code)?.speed ?? '';
 
 export default function SondagesTutorialModal({
   isOpen,
@@ -135,8 +141,8 @@ export default function SondagesTutorialModal({
             <div className="font-mono text-xs p-3 rounded-xs bg-paper dark:bg-night border border-line dark:border-night-line text-ink dark:text-snow space-y-1 select-all">
               <p>🚴 CC SAINT-MARTIN BLANMONT · WEEKEND</p>
               <p>📍 Départ : Place de la Féchère · 09h00</p>
-              <p>🟢 Groupe B (26-28 km/h) : Laurent, Nicolas, Marc, Sophie (4)</p>
-              <p>🔴 Groupe A (&gt;29 km/h) : Pierre, Thomas (2)</p>
+              <p>🟢 <GroupName code="B" variant="full" /> ({paceOf('B')}) : Laurent, Nicolas, Marc, Sophie (4)</p>
+              <p>🔴 <GroupName code="A" variant="full" /> ({paceOf('A')}) : Pierre, Thomas (2)</p>
               <p>🗺️ Traces GPX disponibles sur le site du club</p>
             </div>
           </div>
@@ -151,13 +157,13 @@ export default function SondagesTutorialModal({
       content: (
         <div className="space-y-4">
           <div className="rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-2 p-4 text-xs sm:text-sm text-ink dark:text-snow leading-relaxed">
-            Pour assurer l&apos;homogénéité des allures et la sécurité sur la route, les cyclistes sont répartis en 4 groupes distincts avec leurs vitesses indicatives :
+            Pour assurer l&apos;homogénéité des allures et la sécurité sur la route, les cyclistes sont répartis en plusieurs groupes distincts avec leurs vitesses indicatives :
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="p-3 rounded-md border border-brand/30 bg-brand/5 space-y-1">
               <span className="font-bold text-brand text-xs uppercase tracking-wider font-narrow">
-                Groupe A · Sportif (&gt; 29 km/h)
+                <GroupName code="A" variant="full" /> · Sportif ({paceOf('A')})
               </span>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
                 Relais actifs, rythme soutenu et gestion des bosses à allure élevée. Capitaine désigné à l&apos;avant.
@@ -166,16 +172,25 @@ export default function SondagesTutorialModal({
 
             <div className="p-3 rounded-md border border-hydro/30 bg-hydro/5 space-y-1">
               <span className="font-bold text-hydro text-xs uppercase tracking-wider font-narrow">
-                Groupe B · Régulier (26 - 28 km/h)
+                <GroupName code="B" variant="full" /> · Régulier ({paceOf('B')})
               </span>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
                 Le gros du peloton du club. Allure constante, solidarité dans les montées, regroupement au sommet.
               </p>
             </div>
 
+            <div className="p-3 rounded-md border border-ambre/30 bg-ambre/5 space-y-1">
+              <span className="font-bold text-ambre-ink text-xs uppercase tracking-wider font-narrow">
+                <GroupName code="BC" variant="full" /> · Intermédiaire ({paceOf('BC')})
+              </span>
+              <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
+                Allure intermédiaire et régulière, pour progresser vers le groupe supérieur sans brûler les étapes.
+              </p>
+            </div>
+
             <div className="p-3 rounded-md border border-vert/30 bg-vert/5 space-y-1">
               <span className="font-bold text-vert text-xs uppercase tracking-wider font-narrow">
-                Groupe C · Randonnée (23 - 25 km/h)
+                <GroupName code="C" variant="full" /> · Randonnée ({paceOf('C')})
               </span>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
                 Sortie conviviale, priorité au plaisir et découverte du patrimoine. Idéal pour reprise ou endurance douce.
@@ -184,7 +199,7 @@ export default function SondagesTutorialModal({
 
             <div className="p-3 rounded-md border border-bistre/30 bg-bistre/5 space-y-1">
               <span className="font-bold text-bistre text-xs uppercase tracking-wider font-narrow">
-                Groupe VTT · Chemins &amp; Forêt
+                <GroupName code="VTT" variant="full" /> · Chemins &amp; Forêt
               </span>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
                 Parcours tout-terrain à travers les sentiers du Brabant wallon et du Namurois (bois de Lauzelle, Meerdaal).

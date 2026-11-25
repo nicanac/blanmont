@@ -178,7 +178,7 @@ FN:ICE - ${memberData.iceContactName || 'Contact Urgence'} (${memberData.name})
 TEL;TYPE=CELL:${memberData.iceContactPhone || ''}
 NOTE:Contact urgence cycliste CC Saint-Martin Blanmont. Licence FFBC: ${
         memberData.ffbcLicenseNumber || 'Non renseignee'
-      }. Groupe: ${memberData.preferredGroup || 'B'}.
+      }. Groupe: ${groupFullName(memberData.preferredGroup || 'B')}.
 END:VCARD`;
     }
   }, [memberData, qrMode]);
@@ -432,7 +432,7 @@ END:VCARD`;
                   {/* Group badge overlay */}
                   <div className="absolute bottom-1.5 left-1.5 right-1.5">
                     <span className="block w-full py-0.5 text-center text-xs font-bold uppercase tracking-wider rounded bg-black/80 text-white backdrop-blur-xs">
-                      Groupe {memberData.preferredGroup || 'B'}
+                      {groupFullName(memberData.preferredGroup || 'B')}
                     </span>
                   </div>
                 </div>

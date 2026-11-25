@@ -798,7 +798,7 @@ export default function StatsCharts({
 
                   {/* Group Filter Selector */}
                   <div className="flex items-center rounded-md border border-line dark:border-night-line bg-paper-2 dark:bg-night-3 p-0.5 text-xs">
-                    {['all', 'A', 'B', 'C', 'VTT'].map((g) => (
+                    {['all', 'A', 'B', 'BC', 'C', 'VTT'].map((g) => (
                       <button
                         key={g}
                         type="button"
@@ -809,7 +809,7 @@ export default function StatsCharts({
                             : 'text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-snow-1'
                         }`}
                       >
-                        {g === 'all' ? 'Tous' : `Gr. ${g}`}
+                        {g === 'all' ? 'Tous' : groupLabel(g)}
                       </button>
                     ))}
                   </div>

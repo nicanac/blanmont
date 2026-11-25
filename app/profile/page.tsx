@@ -290,7 +290,7 @@ export default function ProfilePage(): React.ReactElement | null {
               <div className="flex items-center justify-between text-xs">
                 <span className="text-ink-3 dark:text-snow-3">Allure de référence</span>
                 <span className="font-bold text-ink dark:text-snow">
-                  Groupe {profileData?.preferredGroup || 'B'}
+                  {groupFullName(profileData?.preferredGroup || 'B')}
                 </span>
               </div>
 

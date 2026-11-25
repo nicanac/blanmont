@@ -4,8 +4,9 @@ import React from 'react';
  * LocalClubJsonLd Component
  * Generates Schema.org SportsClub & SportsActivityLocation structured data
  * for local and GEO SEO targeting Walloon Brabant (Chastre, Blanmont, Ottignies, Gembloux, Wavre).
+ * `groups` is the configured group list ("GR1, GR2, GR3, GR4 & VTT").
  */
-export default function LocalClubJsonLd(): React.ReactElement {
+export default function LocalClubJsonLd({ groups }: { groups: string }): React.ReactElement {
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -15,7 +16,7 @@ export default function LocalClubJsonLd(): React.ReactElement {
         name: 'Cyclo Club Saint-Martin Blanmont',
         alternateName: ['CC Saint-Martin Blanmont', 'Cyclo Blanmont'],
         description:
-          'Club de cyclisme sur route et VTT basé à Blanmont (Chastre, Brabant Wallon). Sorties hebdomadaires encadrées le samedi et dimanche matin en 3 groupes de niveau (A, B, C). Affilié FFBC.',
+          `Club de cyclisme sur route et VTT basé à Blanmont (Chastre, Brabant Wallon). Sorties hebdomadaires encadrées le samedi et dimanche matin en groupes de niveau (${groups}). Affilié FFBC.`,
         url: 'https://cc-blanmont.be',
         telephone: '+32 470 00 00 00',
         sport: ['Road Cycling', 'Cyclisme sur route', 'VTT', 'Gravel'],

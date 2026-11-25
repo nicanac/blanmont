@@ -72,6 +72,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
   // 'Groupe A' → the admin-configured name (GR1); 'Autre' keeps its own label.
   const optionLabel = (grp: { id: string; label: string }): string =>
     grp.id === 'Autre' ? grp.label : groupFullName(grp.id);
+  const choiceName = (choice: string): string => (choice === 'Autre' ? choice : groupFullName(choice));
   const { user, isAuthenticated } = useAuth();
   const [isPending, startTransition] = useTransition();
 
@@ -286,7 +287,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                 </div>
                 <div className="flex justify-between py-2 border-b border-line dark:border-night-line">
                   <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">Groupe :</span>
-                  <span className="font-semiwide text-ink dark:text-snow">{myResponse.groupChoice}</span>
+                  <span className="font-semiwide text-ink dark:text-snow">{choiceName(myResponse.groupChoice)}</span>
                 </div>
                 {myResponse.comment && (
                   <div className="py-2 border-b border-line dark:border-night-line">
@@ -610,10 +611,11 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                   aria-label="Filtrer par groupe"
                 >
                   <option value="all">Tous les groupes</option>
-                  <option value="Groupe A">Groupe A</option>
-                  <option value="Groupe B">Groupe B</option>
-                  <option value="Groupe C">Groupe C</option>
-                  <option value="Groupe VTT">Groupe VTT</option>
+                  {['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].map((grp) => (
+                    <option key={grp} value={grp}>
+                      {groupFullName(grp)}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -673,7 +675,7 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
                             {!isAbsent && (
                               <>
                                 <span>•</span>
-                                <span className="font-bold text-ink-2 dark:text-snow-2 shrink-0">{res.groupChoice}</span>
+                                <span className="font-bold text-ink-2 dark:text-snow-2 shrink-0">{choiceName(res.groupChoice)}</span>
                               </>
                             )}
                           </div>

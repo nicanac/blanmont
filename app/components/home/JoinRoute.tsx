@@ -1,11 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import GroupList from '../shared/GroupList';
 
-const WAYPOINTS = [
+const WAYPOINTS: Array<{ title: string; text: React.ReactNode }> = [
   {
     title: 'Choisissez votre groupe',
-    text: 'A (> 30 km/h), B (25 – 28 km/h), C (< 25 km/h) ou VTT. En cas d’hésitation, le groupe le plus modéré.',
+    text: (
+      <>
+        <GroupList withPaces />. En cas d’hésitation, le groupe le plus modéré.
+      </>
+    ),
   },
   {
     title: 'Rendez-vous à 8h15',

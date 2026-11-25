@@ -3,6 +3,8 @@
 import { useEffect, useCallback } from 'react';
 import { driver, Driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { groupSummaryText } from '@/app/lib/groupSummary';
 
 // Custom CSS for Driver.js styled with La Feuille de Blanmont aesthetic
 export const DRIVER_PELOTON_STYLES = `
@@ -145,6 +147,9 @@ export function useAdminTours(): {
       document.head.appendChild(styleEl);
     }
   }, []);
+
+  const { settings: groupSettings } = useGroupLabels();
+  const groupNames = groupSummaryText(groupSettings);
 
   const createDriver = useCallback(
     (steps: Array<{ element: string; popover: { title: string; description: string; side?: 'top' | 'bottom' | 'left' | 'right'; align?: 'start' | 'center' | 'end' } }>): Driver => {
@@ -388,14 +393,14 @@ export function useAdminTours(): {
         popover: {
           title: 'Graphiques d’Évolution & Groupes',
           description:
-            'Analysez la répartition de l’affluence selon les groupes de niveau (A, B, C, VTT) et la progression au fil des mois.',
+            `Analysez la répartition de l’affluence selon les groupes de niveau (${groupNames}) et la progression au fil des mois.`,
           side: 'top',
           align: 'center',
         },
       },
     ]);
     d.drive();
-  }, [createDriver]);
+  }, [createDriver, groupNames]);
 
   // 6. Traces GPS Tour
   const startTracesTour = useCallback((): void => {
@@ -499,7 +504,7 @@ export function useAdminTours(): {
         popover: {
           title: 'Poste de Commandement du Peloton',
           description:
-            'Retrouvez en direct la sortie du weekend, les inscrits confirmés et la répartition par allure (Groupe A, B, C, VTT).',
+            `Retrouvez en direct la sortie du weekend, les inscrits confirmés et la répartition par allure (${groupNames}).`,
           side: 'bottom',
           align: 'start',
         },
@@ -526,7 +531,7 @@ export function useAdminTours(): {
       },
     ]);
     d.drive();
-  }, [createDriver]);
+  }, [createDriver, groupNames]);
 
   // 9. Pointage Express Tour
   const startPointageExpressTour = useCallback((): void => {
@@ -556,7 +561,7 @@ export function useAdminTours(): {
         popover: {
           title: 'Recherche Rapide & Filtres',
           description:
-            'Tapez le nom ou GSM d’un coureur ou filtrez par peloton (Tous, Pointés, Non pointés, A, B, C, VTT).',
+            `Tapez le nom ou GSM d’un coureur ou filtrez par peloton (Tous, Pointés, Non pointés, ${groupNames}).`,
           side: 'bottom',
           align: 'start',
         },
@@ -573,7 +578,7 @@ export function useAdminTours(): {
       },
     ]);
     d.drive();
-  }, [createDriver]);
+  }, [createDriver, groupNames]);
 
   // 10. Prospects / Sorties d'Essai Tour
   const startProspectsTour = useCallback((): void => {
