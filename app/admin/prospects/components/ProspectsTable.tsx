@@ -491,7 +491,7 @@ export default function ProspectsTable({
             )}
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto table-stack">
             <table className="min-w-full divide-y divide-line dark:divide-night-3">
               <thead className="bg-paper-2 dark:bg-night">
                 <tr>
@@ -570,7 +570,7 @@ export default function ProspectsTable({
                       </td>
 
                       {/* Contact Actions (WhatsApp, Tel, Email) */}
-                      <td
+                      <td data-label="Contact Rapide"
                         className="px-4 sm:px-6 py-3.5 whitespace-nowrap"
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -611,7 +611,7 @@ export default function ProspectsTable({
                       </td>
 
                       {/* Group & Bike */}
-                      <td className="px-4 sm:px-6 py-3.5 whitespace-nowrap">
+                      <td data-label="Groupe &amp; Vélo" className="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <span
                             className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold border ${groupInfo.classes}`}
@@ -625,7 +625,7 @@ export default function ProspectsTable({
                       </td>
 
                       {/* First Ride Desired Date */}
-                      <td className="px-4 sm:px-6 py-3.5 whitespace-nowrap text-ink-3 dark:text-snow-3">
+                      <td data-label="1ère Sortie Voulue" className="px-4 sm:px-6 py-3.5 whitespace-nowrap text-ink-3 dark:text-snow-3">
                         <div className="flex items-center gap-1.5">
                           <CalendarDaysIcon className="h-4 w-4 text-brand" />
                           <span className="tabular-nums font-semibold text-ink dark:text-white font-mono">
@@ -635,7 +635,7 @@ export default function ProspectsTable({
                       </td>
 
                       {/* Mentor Captain */}
-                      <td className="px-4 sm:px-6 py-3.5 whitespace-nowrap">
+                      <td data-label="Capitaine Mentor" className="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                         {p.mentorCaptainName ? (
                           <span className="font-semibold text-ink dark:text-white">
                             {p.mentorCaptainName}
@@ -646,7 +646,7 @@ export default function ProspectsTable({
                       </td>
 
                       {/* Status */}
-                      <td className="px-4 sm:px-6 py-3.5 whitespace-nowrap">
+                      <td data-label="Statut CRM" className="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                         <span
                           className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider border ${statusInfo.classes}`}
                         >
@@ -655,7 +655,7 @@ export default function ProspectsTable({
                       </td>
 
                       {/* Action */}
-                      <td className="px-4 sm:px-6 py-3.5 whitespace-nowrap text-right">
+                      <td data-label="Action" className="px-4 sm:px-6 py-3.5 whitespace-nowrap text-right">
                         <button
                           type="button"
                           onClick={(e) => {

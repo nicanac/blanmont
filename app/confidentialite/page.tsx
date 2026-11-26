@@ -125,7 +125,7 @@ export default function ConfidentialitePage(): React.JSX.Element {
               déposés sur votre terminal :
             </p>
 
-            <div className="mt-6 overflow-x-auto">
+            <div className="mt-6 overflow-x-auto table-stack">
               <table className="w-full border-collapse border border-line text-left font-sans text-xs dark:border-night-line">
                 <thead>
                   <tr className="bg-paper border-b border-line font-narrow uppercase tracking-wider text-ink dark:bg-night dark:border-night-line dark:text-snow">
@@ -140,44 +140,44 @@ export default function ConfidentialitePage(): React.JSX.Element {
                     <td className="p-3 font-mono font-bold text-ink dark:text-snow">
                       ccb_cookie_consent
                     </td>
-                    <td className="p-3">
+                    <td data-label="Catégorie" className="p-3">
                       <span className="rounded-full bg-vert/10 px-2 py-0.5 font-narrow text-[10px] font-bold text-vert border border-vert/20 uppercase">
                         Essentiel
                       </span>
                     </td>
-                    <td className="p-3 text-ink-2 dark:text-snow-2">
+                    <td data-label="Finalité" className="p-3 text-ink-2 dark:text-snow-2">
                       Mémorise vos préférences de consentement aux cookies.
                     </td>
-                    <td className="p-3 tabular-nums text-ink-3 dark:text-snow-3">6 mois</td>
+                    <td data-label="Durée de conservation" className="p-3 tabular-nums text-ink-3 dark:text-snow-3">6 mois</td>
                   </tr>
                   <tr className="bg-white/70 dark:bg-night-2/40">
                     <td className="p-3 font-mono font-bold text-ink dark:text-snow">
                       ccb_session / session
                     </td>
-                    <td className="p-3">
+                    <td data-label="Catégorie" className="p-3">
                       <span className="rounded-full bg-vert/10 px-2 py-0.5 font-narrow text-[10px] font-bold text-vert border border-vert/20 uppercase">
                         Essentiel
                       </span>
                     </td>
-                    <td className="p-3 text-ink-2 dark:text-snow-2">
+                    <td data-label="Finalité" className="p-3 text-ink-2 dark:text-snow-2">
                       Permet l&apos;authentification et la persistance de session membre.
                     </td>
-                    <td className="p-3 text-ink-3 dark:text-snow-3">Session (30 jours)</td>
+                    <td data-label="Durée de conservation" className="p-3 text-ink-3 dark:text-snow-3">Session (30 jours)</td>
                   </tr>
                   <tr className="bg-white/70 dark:bg-night-2/40">
                     <td className="p-3 font-mono font-bold text-ink dark:text-snow">
                       ccb_visitor_id
                     </td>
-                    <td className="p-3">
+                    <td data-label="Catégorie" className="p-3">
                       <span className="rounded-full bg-ambre/10 px-2 py-0.5 font-narrow text-[10px] font-bold text-ambre border border-ambre/20 uppercase">
                         Analytique (Optionnel)
                       </span>
                     </td>
-                    <td className="p-3 text-ink-2 dark:text-snow-2">
+                    <td data-label="Finalité" className="p-3 text-ink-2 dark:text-snow-2">
                       Mesure anonymisée de l&apos;audience des parcours et téléchargements GPX. Bloqué
                       et purgé immédiatement en cas de refus.
                     </td>
-                    <td className="p-3 tabular-nums text-ink-3 dark:text-snow-3">30 jours</td>
+                    <td data-label="Durée de conservation" className="p-3 tabular-nums text-ink-3 dark:text-snow-3">30 jours</td>
                   </tr>
                 </tbody>
               </table>
