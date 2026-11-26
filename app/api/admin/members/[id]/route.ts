@@ -49,7 +49,11 @@ export async function PUT(request: NextRequest, context: RouteContext): Promise<
 
   try {
     const { id } = await context.params;
-    const data = await request.json();
+    const data = await request.json().catch(() => null);
+    // "role/1" would be written by the Admin SDK as a deep path and slip past the key checks below.
+    if (!data || typeof data !== 'object' || Array.isArray(data) || Object.keys(data).some((k) => /[/.$#[\]]/.test(k))) {
+      return NextResponse.json({ error: 'Données invalides.' }, { status: 400 });
+    }
     const denied = await delegatedDenial(authCheck.user, id, data);
     if (denied) return denied;
     const db = getAdminDatabase();

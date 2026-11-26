@@ -113,8 +113,13 @@ export async function updateMemberEmergencyAction(payload: {
 
   const { getAdminDatabase } = await import('../lib/firebase/admin');
   const db = getAdminDatabase();
+  // Server actions take any JSON: copy only the editable fields, never role/email/authUid.
+  const allowed = ['iceContactName', 'iceContactPhone', 'iceRelationship', 'preferredGroup', 'phone', 'ffbcLicenseNumber'] as const;
+  const changes = Object.fromEntries(
+    allowed.filter((k) => typeof payload?.[k] === 'string').map((k) => [k, (payload[k] as string).slice(0, 200)])
+  );
   await db.ref(`members/${session.id}`).update({
-    ...payload,
+    ...changes,
     updatedAt: new Date().toISOString(),
   });
 

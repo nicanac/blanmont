@@ -220,6 +220,14 @@ export function delegatedMemberChangeError(
   if ('role' in changes && roleSignature(changes.role) !== roleSignature(stored?.role)) {
     return 'Seul un administrateur peut attribuer des rôles.';
   }
+  if (
+    'email' in changes &&
+    isOfficer(stored) &&
+    String(changes.email ?? '').trim().toLowerCase() !== String(stored?.email ?? '').trim().toLowerCase()
+  ) {
+    // The login email decides who logs in as this officer.
+    return 'Seul un administrateur peut modifier l’email d’un responsable.';
+  }
   if ('authUid' in changes && (changes.authUid ?? null) !== (stored?.authUid ?? null)) {
     return 'Seul un administrateur peut modifier le compte de connexion d’un membre.';
   }
@@ -229,13 +237,14 @@ export function delegatedMemberChangeError(
   return null;
 }
 
+function isOfficer(stored: MemberFields | null): boolean {
+  return MATRIX_ROLES.some(({ key }) => key !== 'Member' && hasMatrixRole(stored?.role as string[] | string | null, key));
+}
+
 /** Setting a password means logging in as that member: only an admin may do it for an admin or an officer. */
 export function delegatedPasswordResetError(session: SessionUser, stored: MemberFields | null): string | null {
   if (isSessionAdmin(session)) return null;
-  const officer = MATRIX_ROLES.some(
-    ({ key }) => key !== 'Member' && hasMatrixRole(stored?.role as string[] | string | null, key)
-  );
-  return grantsAdmin(stored) || officer
+  return grantsAdmin(stored) || isOfficer(stored)
     ? 'Seul un administrateur peut réinitialiser le mot de passe d’un responsable.'
     : null;
 }

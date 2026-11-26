@@ -196,6 +196,14 @@ describe('delegated member changes (role assignment stays admin-only)', () => {
     expect(delegatedMemberChangeError(sec, plain, { email: 'boss@example.test' })).toMatch(/droits administrateur/);
   });
 
+  it("refuses a delegate's change of an officer's email, allows the same email or a plain member's", () => {
+    const tres = { role: ['Trésorier'], email: 'tres@example.test' };
+    expect(delegatedMemberChangeError(sec, tres, { email: 'other@example.test' })).toMatch(/email d’un responsable/);
+    expect(delegatedMemberChangeError(sec, tres, { email: ' TRES@example.test ' })).toBeNull();
+    expect(delegatedMemberChangeError(sec, plain, { email: 'new@example.test' })).toBeNull();
+    expect(delegatedMemberChangeError(asSession(USERS.admin), tres, { email: 'other@example.test' })).toBeNull();
+  });
+
   it('only lets an admin reset the password of an officer or an admin', () => {
     expect(delegatedPasswordResetError(sec, plain)).toBeNull();
     expect(delegatedPasswordResetError(sec, { role: ['Trésorier'] })).toMatch(/administrateur/);

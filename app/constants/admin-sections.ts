@@ -53,7 +53,7 @@ export const ADMIN_ONLY_PATHS = { pages: ['/admin/acces'], apis: [] as string[] 
 /** Owner-only (OWNER_EMAILS), not open to other admins: Paramètres and its API. */
 export const OWNER_ONLY_PATHS = {
   pages: ['/admin/settings', '/admin/parametres'],
-  apis: ['/api/admin/feedback-settings'],
+  apis: ['/api/admin/feedback-settings', '/api/admin/feedback-token'],
 };
 
 export const ADMIN_ONLY = 'admin-only';

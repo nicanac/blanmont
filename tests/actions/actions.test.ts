@@ -329,6 +329,17 @@ describe('Server Actions (app/actions.ts)', () => {
   });
 
   describe('updateMemberEmergencyAction & getMemberProfileAction', () => {
+    it('writes only the editable profile fields (no role, email or authUid)', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({ id: 'mem-1', name: 'Julien' } as any);
+      const updateMock = vi.fn().mockResolvedValue(undefined);
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: vi.fn().mockReturnValue({ update: updateMock }) } as any);
+
+      await updateMemberEmergencyAction({ phone: '+32470000000', role: ['Admin'], 'role/1': 'Admin', email: 'x@example.test', authUid: 'u' } as any);
+
+      const written = updateMock.mock.calls[0][0];
+      expect(Object.keys(written).sort()).toEqual(['phone', 'updatedAt']);
+    });
+
     it('updates member ICE emergency contact and preferred group in database', async () => {
       vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
         id: 'mem-1',
