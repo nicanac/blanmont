@@ -5,7 +5,8 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    maxWorkers: 4,
+    // 2 workers: parallel agent sessions each run their own suite, so one run must not take the whole machine
+    maxWorkers: 2,
     include: ['tests/**/*.test.{ts,tsx}', 'tests/**/*.spec.{ts,tsx}'],
     exclude: ['**/node_modules/**', 'tests/e2e/**', '**/*.e2e.*'],
     setupFiles: ['./tests/setup.ts'],
