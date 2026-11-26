@@ -72,6 +72,9 @@ All database and cloud connections are configured via `.env.local`:
 | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Cloudinary cloud identifier | **Public / Client** |
 | `NOTION_TOKEN` / `NOTION_*_DB_ID` | Notion API access token and database UUIDs (used for migration & legacy fallback) | **Server Only** |
 | `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` | Strava OAuth credentials for syncing club rides | **Server Only** |
+| `GITHUB_FEEDBACK_TOKEN` | GitHub token (fine-grained, `Issues` + `Contents` write on the target repo) used by the in-app feedback tool | **Server Only** |
+| `GITHUB_FEEDBACK_REPO` | `owner/repo` receiving feedback issues and screenshots (default `nicanac/blanmont`, **public**) | **Server Only** |
+| `NEXT_PUBLIC_FEEDBACK_ENABLED` | Set to `false` to disable the feedback tool globally, whatever the admin switch says | **Public / Client** |
 
 ---
 
@@ -252,6 +255,13 @@ Member reviews, comments, and star ratings for specific routes.
   }
 }
 ```
+
+### 3.8b. `/visual-feedback-settings` — In-app Feedback Tool Switch
+Single object toggled from `/admin/settings` (admins only). Read server-side through `/api/feedback/config`; reports themselves are GitHub issues, not RTDB records.
+```json
+{ "enabled": true, "audience": "members", "updatedAt": "2026-11-26T08:00:00.000Z", "updatedBy": "member_…" }
+```
+`audience` is `admins` (default), `members` (any logged-in member) or `everyone`. Missing or invalid data means disabled.
 
 ### 3.9. `/leaderboard` — Participation Ranking
 Aggregated attendance count and historical participation dates per member.

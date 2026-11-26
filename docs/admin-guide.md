@@ -113,6 +113,18 @@ Une fois connecté, le nouvel administrateur a accès à tous les modules de ges
 
 ---
 
+## 5b. Retours visuels (capture d'écran + annotation)
+
+Réglage : **Admin → Paramètres → Retours & captures d'écran**.
+
+- **Interrupteur** : active ou coupe l'outil. Coupé, aucun code de retour n'est chargé chez les utilisateurs.
+- **Qui voit le bouton** : administrateurs (test), membres connectés, ou tout le monde.
+- Les utilisateurs cliquent sur « Donner un avis », annotent la capture (flèche, cadre, crayon, flou) et envoient. Chaque retour devient une **issue GitHub** (label `visual-feedback`) ; la capture est commitée sur la branche `feedback-assets` (aucun déploiement déclenché).
+- Le dépôt cible est **public** par défaut : l'utilisateur doit cocher qu'aucune donnée personnelle n'apparaît. Pour un dépôt privé, définir `GITHUB_FEEDBACK_REPO`.
+- Prérequis serveur : `GITHUB_FEEDBACK_TOKEN` (Vercel). Sans lui, la carte l'indique et les envois échouent.
+- Coupure d'urgence sans code : `NEXT_PUBLIC_FEEDBACK_ENABLED=false` puis redéploiement.
+- Traitement : `gh issue list --label visual-feedback --state open`, corriger, puis fermer l'issue avec le commit.
+
 ## 6. Dépannage & Bonnes Pratiques
 
 - **Le membre se connecte mais est redirigé vers `/login` lorsqu'il clique sur `/admin` :**  
