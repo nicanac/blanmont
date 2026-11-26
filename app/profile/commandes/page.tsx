@@ -9,6 +9,7 @@ import { getPaymentSettings } from '@/app/lib/firebase/payment-settings';
 import { buildEpcPayload } from '@/app/lib/payments/epc';
 import type { EquipmentOrder } from '@/app/types/equipment';
 import OrderCard from './OrderCard';
+import OrderHowTo from '@/app/components/payments/OrderHowTo';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,6 +79,7 @@ export default async function MemberOrdersPage() {
             ))}
           </ul>
         )}
+        <OrderHowTo showDates />
       </div>
     </main>
   );

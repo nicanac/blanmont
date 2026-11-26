@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 import { SheetHeader } from '@/app/components/carte/SheetHeader';
 import Badge from '@/app/components/ui/Badge';
 import { formatCampaignDeadline } from '@/app/components/payments/format';
+import OrderHowTo from '@/app/components/payments/OrderHowTo';
 
 interface OpenCampaign {
   id: string;
@@ -193,6 +194,8 @@ MODALITÉS CLUB :
             <ArrowRightIcon className="h-3.5 w-3.5" />
           </Link>
         </div>
+
+        <OrderHowTo />
 
         {/* Category Filter Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink shadow-xs transition-colors">

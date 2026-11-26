@@ -9,7 +9,7 @@ import {
   BuildingLibraryIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline';
-import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
+import MaillotsPageHeader from './MaillotsPageHeader';
 import Badge, { type BadgeVariant } from '@/app/components/ui/Badge';
 import { Button } from '@/app/components/ui/Button';
 import { formatPaymentReference } from '@/app/lib/payments/ogm';
@@ -130,7 +130,8 @@ export default function OrdersTable({
 
   return (
     <div className="space-y-6">
-      <AdminPageHeader
+      <MaillotsPageHeader
+        initialTab="payments"
         sheet="Feuille · Commandes"
         title="Commandes équipement"
         badge={{ icon: ShoppingBagIcon, label: `${pending.length} à payer` }}

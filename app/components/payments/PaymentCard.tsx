@@ -106,6 +106,8 @@ export default function PaymentCard({ reference, amountEur, epcPayload, iban, be
         </p>
       )}
 
+      <p className="text-xs font-semibold text-ink dark:text-snow">Montant exact et communication structurée obligatoires.</p>
+
       <CopyRow label="Communication structurée" value={formattedReference} copyValue={formattedReference} />
       {epcPayload && iban && (
         <CopyRow

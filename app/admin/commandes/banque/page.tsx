@@ -1,6 +1,6 @@
 import React from 'react';
 import { BuildingLibraryIcon, ShoppingBagIcon, UserGroupIcon } from '@heroicons/react/24/outline';
-import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
+import MaillotsPageHeader from '../components/MaillotsPageHeader';
 import { listBankTransactions } from '@/app/lib/firebase/bank-transactions';
 import { getEquipmentOrders } from '@/app/lib/firebase/equipment-orders';
 import BankClient from './components/BankClient';
@@ -22,7 +22,8 @@ export default async function AdminBankPage(): Promise<React.ReactElement> {
 
   return (
     <div className="space-y-6">
-      <AdminPageHeader
+      <MaillotsPageHeader
+        initialTab="payments"
         sheet="Feuille · Banque"
         title="Banque du club"
         badge={{ icon: BuildingLibraryIcon, label: `${unmatched.length} à traiter` }}
