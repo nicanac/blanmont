@@ -21,6 +21,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.40.1] - 2026-11-26
+
+### Fixed
+- fix(auth): send the activation link by email instead of returning it (#205) (`3567128`)
 ## [0.40.0] - 2026-11-26
 
 ### Added
