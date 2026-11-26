@@ -13,6 +13,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.34.1] - 2026-11-26
+
+### Chores
+- 📝 [docs] architecture: add as-built system design and fix doc drift (#185) (`1c504b5`)
 ## [0.34.0] - 2026-11-26
 
 ### Added
