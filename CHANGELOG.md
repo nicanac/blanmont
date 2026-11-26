@@ -29,6 +29,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.44.1] - 2026-11-26
+
+### Fixed
+- fix(calendar): agenda lists next ride first, then past rides newest to oldest (#214) (#221) (`5778480`)
 ## [0.44.0] - 2026-11-26
 
 ### Added
