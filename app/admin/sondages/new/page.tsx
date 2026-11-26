@@ -63,29 +63,12 @@ function NewWeekendPollForm() {
   const applySortieInfo = (info: SaturdaySortieInfo, showToast = true) => {
     setTitle(info.suggestedTitle);
     setDescription(info.suggestedDescription);
-
-    // Create the QCM distance question based on the Saturday ride
-    const distanceQuestion: PollCustomQuestion = {
-      id: `q-distance-${Date.now()}`,
-      title: info.suggestedQuestionTitle,
-      options: info.distanceOptions,
-      allowMultiple: false,
-    };
-
-    // Filter out previous distance questions and prepend new one
-    setCustomQuestions((prev) => {
-      const remaining = prev.filter(
-        (q) =>
-          !q.title.toLowerCase().includes('distance') &&
-          !q.title.toLowerCase().includes('parcours')
-      );
-      return [distanceQuestion, ...remaining];
-    });
+    // No distance question: members pick a group, and the group decides the route.
 
     setHasAppliedInfo(true);
     if (showToast) {
       toast.success(
-        `Informations de la sortie du samedi appliquées (lieu, départs et ${info.distanceOptions.length} options de distance) !`
+        'Informations de la sortie du samedi appliquées (lieu et départs) !'
       );
     }
   };

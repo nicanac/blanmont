@@ -6,7 +6,7 @@ import {
   updateWeekendPoll,
 } from './firebase/polls';
 import { getUpcomingSaturdayIso, getSaturdaySortieDetails, SaturdaySortieInfo } from './sondage-helpers';
-import { WeekendPoll, PollCustomQuestion } from '../types';
+import { WeekendPoll } from '../types';
 
 export interface AutoCreatePollOptions {
   force?: boolean;
@@ -35,7 +35,7 @@ export interface AutoCreatePollResult {
  * Safe & Idempotent:
  * - Does not overwrite or recreate if a poll already exists for that weekend (unless force=true).
  * - Automatically archives / closes past active polls so only the new poll remains open for votes.
- * - Adds parsed distance options from candidate traces / calendar as custom QCM question.
+ * - No distance question: the group a member picks decides the route.
  */
 export async function autoCreateUpcomingWeekendPoll(
   options?: AutoCreatePollOptions
@@ -60,16 +60,7 @@ export async function autoCreateUpcomingWeekendPoll(
     // 2. Retrieve upcoming Saturday ride info (calendar + traces)
     const sortieInfo: SaturdaySortieInfo = await getSaturdaySortieDetails(targetSaturdayIso);
 
-    // 3. Build custom QCM questions (e.g. Saturday distance choices)
-    const customQuestions: PollCustomQuestion[] = [];
-    if (sortieInfo.distanceOptions && sortieInfo.distanceOptions.length > 0) {
-      customQuestions.push({
-        id: `q-distance-${Date.now()}`,
-        title: sortieInfo.suggestedQuestionTitle || 'Option de distance / parcours (Samedi)',
-        options: sortieInfo.distanceOptions,
-        allowMultiple: false,
-      });
-    }
+    // 3. No distance question any more: the chosen group decides the route (2026-11).
 
     // 4. Close any older polls that are still marked 'active'
     let closedPreviousPollsCount = 0;
@@ -95,7 +86,6 @@ export async function autoCreateUpcomingWeekendPoll(
         sortieInfo.suggestedDescription ||
         'Indiquez vos disponibilités et votre groupe de niveau pour les sorties de ce weekend !',
       status: 'active',
-      customQuestions: customQuestions.length > 0 ? customQuestions : undefined,
     };
 
     // 6. Persist to Firebase

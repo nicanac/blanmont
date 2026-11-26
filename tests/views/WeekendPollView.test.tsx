@@ -2,11 +2,12 @@
  * @vitest-environment jsdom
  */
 import React from 'react';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import WeekendPollView from '@/app/features/sondage/components/WeekendPollView';
 import type { WeekendPoll, PollResponse, Member } from '@/app/types';
 import { GroupLabelsProvider } from '@/app/context/GroupLabelsContext';
+import { submitWeekendPollResponseAction, deleteWeekendPollResponseAction } from '@/app/actions';
 
 // Mock next/image
 vi.mock('next/image', () => ({
@@ -112,24 +113,20 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     expect(screen.getByText('Consulter le calendrier des sorties')).toBeDefined();
   });
 
-  it('renders poll stats tally and participants when poll is active', () => {
+  it('renders slot tally and participants when poll is active', () => {
     render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
 
-    // Tally metrics
+    // Legacy dayChoice answers are read as slots: samedi + les-deux → 2 on Saturday morning.
     const tallySection = screen.getByLabelText('Télémétrie des pelotons');
-    expect(within(tallySection).getByText('Samedi matin')).toBeDefined();
-    expect(within(tallySection).getByText('Dimanche matin')).toBeDefined();
-    expect(within(tallySection).getByText('Les 2 jours')).toBeDefined();
-    expect(within(tallySection).getByText('Absents')).toBeDefined();
+    for (const label of ['Samedi matin', 'Samedi après-midi', 'Dimanche matin', 'Absents']) {
+      expect(within(tallySection).getByText(label)).toBeDefined();
+    }
+    expect(within(tallySection).getAllByText('2').length).toBe(2);
 
-    // Group breakdown
     expect(screen.getByText('Répartition par Groupe de niveau')).toBeDefined();
-
-    // Participants list
     expect(screen.getByText(/Liste des participants/i)).toBeDefined();
     expect(screen.getByText('Nicolas Bruyère')).toBeDefined();
-    expect(screen.getByText('Laurent Cycliste')).toBeDefined();
-    expect(screen.getByText('Alain D')).toBeDefined();
+    expect(screen.getByText('Samedi matin + Dimanche matin')).toBeDefined();
   });
 
   it('renders login required prompt for unauthenticated users', () => {
@@ -139,7 +136,7 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     expect(screen.getByText('Se connecter pour répondre')).toBeDefined();
   });
 
-  it('renders voting form for authenticated user who has not voted yet', () => {
+  it('shows the quick vote card with slots, groups and no submit button', () => {
     mockAuthState = {
       user: { id: 'm99', name: 'Nouveau Membre', avatarUrl: '' },
       isAuthenticated: true,
@@ -147,14 +144,15 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
 
     render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
 
-    expect(screen.getByText('Votre réponse au sondage')).toBeDefined();
-    expect(screen.getByText('Connecté en tant que')).toBeDefined();
-    expect(screen.getByText('1. Quel(s) jour(s) roulez-vous ce week-end ? *')).toBeDefined();
-    expect(screen.getByText('2. Dans quel groupe souhaitez-vous rouler ? *')).toBeDefined();
-    expect(screen.getByRole('button', { name: /Confirmer ma participation/i })).toBeDefined();
+    expect(screen.getByRole('heading', { level: 1, name: 'Votre week-end à vélo' })).toBeDefined();
+    for (const name of ['Samedi matin', 'Samedi après-midi', 'Dimanche matin', 'Absent ce week-end']) {
+      expect(screen.getByRole('checkbox', { name: new RegExp(name) })).toBeDefined();
+    }
+    expect(screen.getAllByRole('radio').length).toBe(6);
+    expect(screen.queryByRole('button', { name: /Confirmer/i })).toBeNull();
   });
 
-  it('offers GR3 (code BC) and shows the admin group names in the group choice', () => {
+  it('names GR2+ / GR2− after the admin group names', () => {
     mockAuthState = {
       user: { id: 'm99', name: 'Nouveau Membre', avatarUrl: '' },
       isAuthenticated: true,
@@ -176,13 +174,36 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
       </GroupLabelsProvider>
     );
 
-    for (const name of ['GR1', 'GR2', 'GR3', 'GR4', 'Groupe VTT', 'Autre / Libre']) {
-      expect(screen.getAllByText(name).length).toBeGreaterThan(0);
-    }
-    expect(screen.getByText('24 - 27 km/h')).toBeDefined();
+    const titles = screen
+      .getAllByRole('radio')
+      .map((radio) => radio.closest('label')?.querySelector('span span')?.textContent);
+    expect(titles).toEqual(['GR1 · 1 coureur', 'GR2+', 'GR2−', 'GR3', 'GR4', 'VTT']);
+    expect(screen.getByText('25–28 km/h · même parcours que GR1')).toBeDefined();
   });
 
-  it('renders summary card when logged-in user has already voted, and toggles edit mode', () => {
+  it('auto-saves once a slot and a group are picked', async () => {
+    mockAuthState = {
+      user: { id: 'm99', name: 'Nouveau Membre', avatarUrl: '' },
+      isAuthenticated: true,
+    };
+    window.localStorage.clear();
+
+    render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: /Samedi matin/ }));
+    expect(submitWeekendPollResponseAction).not.toHaveBeenCalled();
+    expect(screen.getByText('Choisissez votre groupe pour enregistrer.')).toBeDefined();
+
+    fireEvent.click(screen.getByRole('radio', { name: /parcours plus court/ }));
+    await waitFor(() =>
+      expect(submitWeekendPollResponseAction).toHaveBeenCalledWith(
+        expect.objectContaining({ slots: ['samedi-matin'], groupChoice: 'Groupe B', groupVariant: 'moins' })
+      )
+    );
+    expect(window.localStorage.getItem('blanmont:sondage-group')).toBe('B-');
+  });
+
+  it('prefills an existing answer and withdraws it when every slot is unticked', async () => {
     mockAuthState = {
       user: { id: 'm1', name: 'Nicolas Bruyère', avatarUrl: '' },
       isAuthenticated: true,
@@ -190,28 +211,22 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
 
     render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
 
-    // Summary card shown
-    expect(screen.getByText('Votre participation est confirmée')).toBeDefined();
-    expect(screen.getByText('Annuler ma participation')).toBeDefined();
+    const saturday = screen.getByRole('checkbox', { name: /Samedi matin/ }) as HTMLInputElement;
+    expect(saturday.checked).toBe(true);
+    expect(screen.getByText('Samedi matin enregistré · modifiable à tout moment')).toBeDefined();
 
-    // Click modifier
-    const editBtn = screen.getByRole('button', { name: /Modifier mon choix/i });
-    fireEvent.click(editBtn);
-
-    // Form now visible
-    expect(screen.getByText('Modifier votre réponse')).toBeDefined();
-    expect(screen.getByRole('button', { name: /Mettre à jour ma réponse/i })).toBeDefined();
+    fireEvent.click(saturday);
+    await waitFor(() => expect(deleteWeekendPollResponseAction).toHaveBeenCalledWith('poll-123', 'm1'));
   });
 
-  it('filters participants list by day choice and group choice', () => {
+  it('filters participants by slot', () => {
     render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
 
-    const daySelect = screen.getByLabelText(/Filtrer par jour/i);
-    fireEvent.change(daySelect, { target: { value: 'dimanche' } });
+    fireEvent.change(screen.getByLabelText(/Filtrer par créneau/i), { target: { value: 'dimanche-matin' } });
 
-    // Laurent Cycliste voted dimanche, Alain D voted les-deux (includes dimanche)
+    // Laurent voted dimanche, Alain les-deux (includes Sunday morning)
     expect(screen.getByText('Laurent Cycliste')).toBeDefined();
     expect(screen.getByText('Alain D')).toBeDefined();
-    expect(screen.queryByText('Nicolas Bruyère')).toBeNull(); // Saturday only
+    expect(screen.queryByText('Nicolas Bruyère')).toBeNull();
   });
 });

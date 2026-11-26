@@ -1,6 +1,7 @@
 import type { CalendarEvent, PollResponse } from '@/app/types';
 import type { RideWeather } from '@/app/lib/weather';
 import type { CyclingGroup } from '@/app/constants/cycling';
+import { isAbsent, tallySlots } from '@/app/lib/poll-slots';
 
 const CARDINAL_NAMES: Record<string, string> = {
   N: 'nord',
@@ -82,15 +83,16 @@ export function tallyPoll(responses: PollResponse[]): PollTally {
     total: responses.length,
     byGroup: { A: 0, B: 0, BC: 0, C: 0, VTT: 0, Autre: 0 },
   };
+  const days = tallySlots(responses);
+  Object.assign(tally, {
+    saturday: days.saturday,
+    sunday: days.sunday,
+    both: days.both,
+    absent: days.absent,
+    riders: days.riders,
+  });
   for (const r of responses) {
-    if (r.dayChoice === 'absent') {
-      tally.absent += 1;
-      continue;
-    }
-    tally.riders += 1;
-    if (r.dayChoice === 'samedi' || r.dayChoice === 'les-deux') tally.saturday += 1;
-    if (r.dayChoice === 'dimanche' || r.dayChoice === 'les-deux') tally.sunday += 1;
-    if (r.dayChoice === 'les-deux') tally.both += 1;
+    if (isAbsent(r)) continue;
     const group = r.groupChoice?.replace('Groupe ', '') as keyof PollTally['byGroup'];
     if (group in tally.byGroup) tally.byGroup[group] += 1;
     else tally.byGroup.Autre += 1;
