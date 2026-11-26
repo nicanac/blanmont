@@ -18,6 +18,7 @@ import {
   CheckCircleIcon,
   ClockIcon,
   QrCodeIcon,
+  ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 import { Spinner } from '../components/ui/Spinner';
@@ -305,7 +306,14 @@ export default function ProfilePage(): React.ReactElement | null {
               </div>
 
               {/* Link to Official Digital Pass */}
-              <div className="pt-2">
+              <div className="pt-2 space-y-2">
+                <Link
+                  href="/profile/commandes"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md border border-line dark:border-night-line text-ink dark:text-snow text-xs font-bold uppercase tracking-wider hover:bg-paper-2 dark:hover:bg-night-3 transition-colors min-h-[44px]"
+                >
+                  <ShoppingBagIcon className="h-4 w-4 text-brand" />
+                  <span>Mes commandes</span>
+                </Link>
                 <Link
                   href="/profile/pass"
                   className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-ink hover:bg-night-line dark:bg-white dark:hover:bg-paper-2 text-white dark:text-ink text-xs font-bold uppercase tracking-wider transition-colors shadow-2xs min-h-[44px]"
