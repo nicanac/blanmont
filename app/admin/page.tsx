@@ -29,6 +29,7 @@ import GroupName from '@/app/components/shared/GroupName';
 import { PACE_GROUPS } from '@/app/constants/cycling';
 import { getCachedGroupSettings } from '../lib/firebase/group-settings';
 import { groupFullName } from '../lib/groupLabels';
+import { isAbsent, ridesSaturday, ridesSunday } from '../lib/poll-slots';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +59,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   ]);
 
   const pollResponses = activePoll ? await getPollResponses(activePoll.id) : [];
-  const activeAttendees = pollResponses.filter((r) => r.dayChoice !== 'absent').length;
+  const activeAttendees = pollResponses.filter((r) => !isAbsent(r)).length;
   const pendingTrials = trialRequests.filter((t) => t.status === 'pending');
   const pendingTrialsCount = pendingTrials.length;
 
@@ -82,7 +83,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   // Group and day breakdown
   const groupSettings = await getCachedGroupSettings();
   const paceOf = (code: string): string => PACE_GROUPS.find((g) => g.id === code)?.speed ?? '';
-  const attendingResponses = pollResponses.filter((r) => r.dayChoice !== 'absent');
+  const attendingResponses = pollResponses.filter((r) => !isAbsent(r));
   const groupCounts: Record<string, number> = {
     'Groupe A': 0,
     'Groupe B': 0,
@@ -101,8 +102,8 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
   });
 
   const dayCounts = {
-    samedi: attendingResponses.filter((r) => r.dayChoice === 'samedi' || r.dayChoice === 'les-deux').length,
-    dimanche: attendingResponses.filter((r) => r.dayChoice === 'dimanche' || r.dayChoice === 'les-deux').length,
+    samedi: attendingResponses.filter(ridesSaturday).length,
+    dimanche: attendingResponses.filter(ridesSunday).length,
   };
 
   const recentPosts = blogPosts.slice(0, 5);

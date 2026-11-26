@@ -273,7 +273,12 @@ export interface BlogPost {
   isPublished: boolean;
 }
 
+/** Legacy single-day answer, read only for responses saved before slots (2026-11). */
 export type PollDayChoice = 'samedi' | 'dimanche' | 'les-deux' | 'absent';
+/** Weekend ride slots; an answer with no slot is an absence. */
+export type PollSlot = 'samedi-matin' | 'samedi-apres-midi' | 'dimanche-matin';
+/** GR2 objective of the day: the GR1 route ('plus') or a shorter one ('moins'). */
+export type PollGroupVariant = 'plus' | 'moins';
 export type CyclingGroupChoice = `Groupe ${CyclingGroup}` | 'Autre';
 
 export interface PollCustomQuestion {
@@ -300,8 +305,12 @@ export interface PollResponse {
   memberId: string;
   memberName: string;
   memberPhotoUrl?: string;
-  dayChoice: PollDayChoice;
-  groupChoice: CyclingGroupChoice;
+  /** Ticked slots; missing or empty means absent (RTDB drops empty arrays). */
+  slots?: PollSlot[];
+  /** Legacy answers only: use responseSlots() from app/lib/poll-slots to read days. */
+  dayChoice?: PollDayChoice;
+  groupChoice?: CyclingGroupChoice;
+  groupVariant?: PollGroupVariant;
   customAnswers?: Record<string, string | string[]>;
   comment?: string;
   updatedAt: string;

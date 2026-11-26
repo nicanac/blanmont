@@ -11,7 +11,9 @@ import {
 import { getSaturdaySortieDetails, type SaturdaySortieInfo } from '../lib/sondage-helpers';
 import { autoCreateUpcomingWeekendPoll, type AutoCreatePollResult } from '../lib/sondage-automation';
 import { requireAdminSession, getSessionUser } from '../lib/auth/session';
-import type { WeekendPoll, PollDayChoice, CyclingGroupChoice } from '../types';
+import type { WeekendPoll, PollSlot, CyclingGroupChoice, PollGroupVariant, PollResponse } from '../types';
+import { POLL_SLOT_IDS } from '../lib/poll-slots';
+import { CYCLING_GROUP_CHOICES } from '../constants/cycling';
 import { recordActivity } from '../lib/logging/activityLogger';
 
 /**
@@ -22,8 +24,10 @@ export async function submitWeekendPollResponseAction(payload: {
   memberId: string;
   memberName: string;
   memberPhotoUrl?: string;
-  dayChoice: PollDayChoice;
-  groupChoice: CyclingGroupChoice;
+  /** Ticked slots; empty means absent this weekend. */
+  slots: PollSlot[];
+  groupChoice?: CyclingGroupChoice;
+  groupVariant?: PollGroupVariant;
   customAnswers?: Record<string, string | string[]>;
   comment?: string;
 }) {
@@ -32,7 +36,35 @@ export async function submitWeekendPollResponseAction(payload: {
     throw new Error('Action non autorisée pour ce membre.');
   }
 
-  const result = await submitPollResponse(payload);
+  const slots = POLL_SLOT_IDS.filter((s) => payload.slots?.includes(s));
+  if (!Array.isArray(payload.slots) || slots.length !== payload.slots.length) {
+    throw new Error('Créneau inconnu.');
+  }
+  const groupChoice = payload.groupChoice;
+  if (groupChoice !== undefined && !CYCLING_GROUP_CHOICES.includes(groupChoice)) {
+    throw new Error('Groupe inconnu.');
+  }
+  if (slots.length > 0 && !groupChoice) {
+    throw new Error('Choisissez votre groupe.');
+  }
+  // RTDB rejects undefined values: only set what is present.
+  const response: Omit<PollResponse, 'id' | 'updatedAt'> = {
+    pollId: payload.pollId,
+    memberId: payload.memberId,
+    memberName: payload.memberName,
+    slots,
+    ...(payload.memberPhotoUrl ? { memberPhotoUrl: payload.memberPhotoUrl } : {}),
+    ...(groupChoice ? { groupChoice } : {}),
+    ...(groupChoice === 'Groupe B' && (payload.groupVariant === 'plus' || payload.groupVariant === 'moins')
+      ? { groupVariant: payload.groupVariant }
+      : {}),
+    ...(payload.customAnswers && Object.keys(payload.customAnswers).length > 0
+      ? { customAnswers: payload.customAnswers }
+      : {}),
+    ...(payload.comment?.trim() ? { comment: payload.comment.trim().slice(0, 500) } : {}),
+  };
+
+  const result = await submitPollResponse(response);
   if (!result.success) {
     throw new Error(result.error || 'Erreur lors de l’enregistrement du vote.');
   }
@@ -51,8 +83,9 @@ export async function submitWeekendPollResponseAction(payload: {
     },
     metadata: {
       pollId: payload.pollId,
-      dayChoice: payload.dayChoice,
-      groupChoice: payload.groupChoice,
+      slots,
+      groupChoice: groupChoice ?? null,
+      groupVariant: response.groupVariant ?? null,
     },
   });
 

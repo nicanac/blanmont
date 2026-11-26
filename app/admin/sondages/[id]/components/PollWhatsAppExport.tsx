@@ -9,6 +9,15 @@ import {
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { POLL_SLOTS, isAbsent, pollGroupName, responseSlots } from '@/app/lib/poll-slots';
+
+const GROUP_ORDER = ['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT', 'Autre'];
+const VARIANT_ORDER = ['plus', undefined, 'moins'];
+const SLOT_EMOJI: Record<string, string> = {
+  'samedi-matin': '🔵',
+  'samedi-apres-midi': '🟠',
+  'dimanche-matin': '🟡',
+};
 
 interface PollWhatsAppExportProps {
   poll: WeekendPoll;
@@ -19,14 +28,20 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
   const [copied, setCopied] = useState(false);
   const { fullName: groupFullName } = useGroupLabels();
 
-  const active = responses.filter((r) => r.dayChoice !== 'absent');
-  const saturday = responses.filter((r) => r.dayChoice === 'samedi' || r.dayChoice === 'les-deux');
-  const sunday = responses.filter((r) => r.dayChoice === 'dimanche' || r.dayChoice === 'les-deux');
+  const active = responses.filter((r) => !isAbsent(r));
 
-  const formatGroupList = (list: PollResponse[], groupName: string) => {
-    const membersInGroup = list.filter((r) => r.groupChoice === groupName);
-    if (membersInGroup.length === 0) return null;
-    return `• *${groupFullName(groupName)}* (${membersInGroup.length}) : ${membersInGroup.map((m) => m.memberName).join(', ')}`;
+  // One line per group (GR2+ and GR2− apart), in the club's group order.
+  const formatGroupLines = (list: PollResponse[]): string[] => {
+    const rank = (r: PollResponse): number =>
+      GROUP_ORDER.indexOf(r.groupChoice ?? 'Autre') * 10 + VARIANT_ORDER.indexOf(r.groupVariant);
+    const byName = new Map<string, string[]>();
+    [...list]
+      .sort((a, b) => rank(a) - rank(b))
+      .forEach((r) => {
+        const name = pollGroupName(r, groupFullName);
+        byName.set(name, [...(byName.get(name) ?? []), r.memberName]);
+      });
+    return [...byName].map(([name, names]) => `• *${name}* (${names.length}) : ${names.join(', ')}`);
   };
 
   const generateWhatsAppMessage = () => {
@@ -34,23 +49,13 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
     msg += `📅 Weekend du ${poll.weekendIsoDate}\n`;
     msg += `👥 Total inscrits : ${active.length} cyclistes\n\n`;
 
-    if (saturday.length > 0) {
-      msg += `🔵 *SAMEDI MATIN (${saturday.length})* :\n`;
-      ['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
-        const line = formatGroupList(saturday, grp);
-        if (line) msg += `${line}\n`;
-      });
+    POLL_SLOTS.forEach((slot) => {
+      const riders = responses.filter((r) => responseSlots(r).includes(slot.id));
+      if (riders.length === 0) return;
+      msg += `${SLOT_EMOJI[slot.id]} *${slot.label.toUpperCase()} (${riders.length})* :\n`;
+      formatGroupLines(riders).forEach((line) => (msg += `${line}\n`));
       msg += `\n`;
-    }
-
-    if (sunday.length > 0) {
-      msg += `🟡 *DIMANCHE MATIN (${sunday.length})* :\n`;
-      ['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
-        const line = formatGroupList(sunday, grp);
-        if (line) msg += `${line}\n`;
-      });
-      msg += `\n`;
-    }
+    });
 
     if (poll.customQuestions && poll.customQuestions.length > 0) {
       poll.customQuestions.forEach((q) => {

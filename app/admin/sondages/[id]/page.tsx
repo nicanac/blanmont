@@ -11,6 +11,7 @@ import PollWhatsAppExport from './components/PollWhatsAppExport';
 import GroupName from '@/app/components/shared/GroupName';
 import AdminDeletePollButton from './components/AdminDeletePollButton';
 import AdminDeleteResponseButton from './components/AdminDeleteResponseButton';
+import { POLL_SLOTS, responseSlots, slotsLabel, tallySlots } from '@/app/lib/poll-slots';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,10 +30,8 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
     notFound();
   }
 
-  const activeAttendees = responses.filter((r) => r.dayChoice !== 'absent');
-  const saturdayCount = responses.filter((r) => r.dayChoice === 'samedi' || r.dayChoice === 'les-deux').length;
-  const sundayCount = responses.filter((r) => r.dayChoice === 'dimanche' || r.dayChoice === 'les-deux').length;
-  const absentCount = responses.filter((r) => r.dayChoice === 'absent').length;
+  const tally = tallySlots(responses);
+  const activeAttendees = responses.filter((r) => responseSlots(r).length > 0);
 
   const groupCounts: Record<string, number> = {
     'Groupe A': 0,
@@ -44,7 +43,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
   };
 
   activeAttendees.forEach((r) => {
-    if (groupCounts[r.groupChoice] !== undefined) {
+    if (r.groupChoice && groupCounts[r.groupChoice] !== undefined) {
       groupCounts[r.groupChoice]++;
     } else {
       groupCounts['Autre']++;
@@ -115,19 +114,15 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Stats Grid */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-4 text-center">
-              <div className="text-2xl font-bold text-ink dark:text-snow-1 font-mono tabular-nums">{saturdayCount}</div>
-              <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5 font-mono">
-                Samedi
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            {POLL_SLOTS.map((slot) => (
+              <div key={slot.id} className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-4 text-center">
+                <div className="text-2xl font-bold text-ink dark:text-snow-1 font-mono tabular-nums">{tally.bySlot[slot.id]}</div>
+                <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5 font-mono">
+                  {slot.label}
+                </div>
               </div>
-            </div>
-            <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-4 text-center">
-              <div className="text-2xl font-bold text-ink dark:text-snow-1 font-mono tabular-nums">{sundayCount}</div>
-              <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5 font-mono">
-                Dimanche
-              </div>
-            </div>
+            ))}
             <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-4 text-center">
               <div className="text-2xl font-bold text-vert dark:text-vert-light font-mono tabular-nums">{activeAttendees.length}</div>
               <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5 font-mono">
@@ -135,7 +130,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
               </div>
             </div>
             <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 p-4 text-center">
-              <div className="text-2xl font-bold text-ink-3 dark:text-snow-3 font-mono tabular-nums">{absentCount}</div>
+              <div className="text-2xl font-bold text-ink-3 dark:text-snow-3 font-mono tabular-nums">{tally.absent}</div>
               <div className="text-xs font-medium text-ink-3 dark:text-snow-3 uppercase tracking-wider mt-0.5 font-mono">
                 Absents
               </div>
@@ -246,23 +241,24 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                     <td className="px-4 py-3.5">
                       <span
                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                          r.dayChoice === 'absent'
+                          responseSlots(r).length === 0
                             ? 'bg-paper-2 dark:bg-night text-ink-3 dark:text-snow-3 border border-line dark:border-night-line'
                             : 'bg-vert/10 text-vert dark:text-vert-light border border-vert/30'
                         }`}
                       >
-                        {r.dayChoice === 'samedi'
-                          ? 'Samedi matin'
-                          : r.dayChoice === 'dimanche'
-                            ? 'Dimanche matin'
-                            : r.dayChoice === 'les-deux'
-                              ? 'Samedi & Dimanche'
-                              : 'Absent'}
+                        {slotsLabel(responseSlots(r))}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 font-semibold text-ink-2 dark:text-snow-2">
-                      {r.dayChoice !== 'absent' ? (
-                        r.groupChoice === 'Autre' ? r.groupChoice : <GroupName code={r.groupChoice} variant="full" />
+                      {responseSlots(r).length > 0 && r.groupChoice ? (
+                        r.groupChoice === 'Autre' ? (
+                          r.groupChoice
+                        ) : (
+                          <>
+                            <GroupName code={r.groupChoice} variant="full" />
+                            {r.groupVariant === 'plus' ? '+' : r.groupVariant === 'moins' ? '−' : ''}
+                          </>
+                        )
                       ) : '—'}
                     </td>
                     <td className="px-4 py-3.5 text-ink-2 dark:text-snow-3 max-w-sm">
