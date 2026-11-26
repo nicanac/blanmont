@@ -17,6 +17,7 @@ import { useTheme } from '../../context/ThemeContext';
 import AdminPageHeader from '../components/AdminPageHeader';
 import SettingsTutorialModal from './components/SettingsTutorialModal';
 import VisualFeedbackCard from './components/VisualFeedbackCard';
+import PaymentSettingsCard from './components/PaymentSettingsCard';
 import { useAdminTours } from '../components/tours/adminTours';
 
 export default function AdminSettingsPage(): React.ReactElement {
@@ -177,6 +178,8 @@ export default function AdminSettingsPage(): React.ReactElement {
           </div>
         </div>
       </section>
+
+      <PaymentSettingsCard />
 
       {/* ── Retours visuels (capture + annotation -> issue GitHub) ── */}
       <VisualFeedbackCard />
