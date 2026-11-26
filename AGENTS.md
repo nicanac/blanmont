@@ -37,6 +37,13 @@ Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS
 - **Database**: Firebase RTDB is the single source of truth (Admin SDK on server, Client SDK on client).
 - **Test Verification & Completion**: Whenever editing, modifying, or creating code, always run related tests, complete any missing test coverage for changed or new code, and ensure all tests pass (`npm test`) before considering the task complete.
 - **Reactive Updates**: Only add new rules here reactively when an error recurs, never preemptively.
+- **Issue fix → ship and close**: When you fix a GitHub issue (from `nicanac/blanmont`, including reports from the feedback tool), take it all the way to production without asking, then close the issue:
+  1. Branch from `master` (`<user>/fix/<name>`), fix the root cause, add or update the tests, run `npm test`, lint and the build.
+  2. Commit (`fix(<scope>): <summary> (#<issue>)`), push, open the PR with `Fixes #<issue>` in the body.
+  3. Merge it (`gh pr merge --squash --delete-branch`) once the checks are green.
+  4. Wait for the Vercel production deploy of the merge commit: the `Vercel` commit status must be `success` (`gh api repos/nicanac/blanmont/commits/<sha>/status`).
+  5. Close the issue with a comment: what was wrong, the PR, the released version and the deploy.
+  - **Any step fails** (test, build, check, merge conflict, deploy) → stop, leave the issue open and comment what failed and where it stopped. Never close an issue whose fix is not live.
 - **Documentation Git Automation**: Whenever documenting design system changes (`/impeccable document` or updates to `DESIGN.md` / `.impeccable/design.json`), automatically execute the full Git flow defined in [docs/git-workflow.md](docs/git-workflow.md):
   1. Branch: create a branch following conventions (`bash scripts/git-branch.sh docs <name>` or `<user>/docs/<name>`).
   2. Commit: commit using Conventional Commits (`docs(design): ...`).
