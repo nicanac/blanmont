@@ -7,7 +7,9 @@ import { ArrowDownTrayIcon, ArrowUpTrayIcon, XMarkIcon } from '@heroicons/react/
 import type { Member } from '@/app/types';
 import { downloadCsv } from '@/app/lib/csv';
 import {
+  MAX_MEMBER_IMPORT_BYTES,
   MEMBER_CSV_SEPARATOR,
+  MEMBER_IMPORT_TOO_LARGE,
   memberCsvHeader,
   membersToCsvRows,
   type MemberImportPlan,
@@ -42,6 +44,11 @@ export default function MembersCsvActions({ members }: { members: Member[] }): R
   const preview = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     const picked = e.target.files?.[0];
     if (!picked) return;
+    if (picked.size > MAX_MEMBER_IMPORT_BYTES) {
+      toast.error(MEMBER_IMPORT_TOO_LARGE);
+      reset();
+      return;
+    }
     setBusy(true);
     try {
       const content = await picked.text();

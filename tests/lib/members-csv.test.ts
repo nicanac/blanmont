@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { parseCsv, toCsv } from '@/app/lib/csv';
 import {
+  MAX_MEMBER_IMPORT_BYTES,
   MAX_MEMBER_IMPORT_ROWS,
   MEMBER_CSV_SEPARATOR,
   MemberCsvRowSchema,
@@ -114,6 +115,32 @@ describe('planMembersImport', () => {
   it('refuses to move an email onto another member', () => {
     const plan = planMembersImport('ID;Email\nm1;bob@example.test', stored(alice, bob));
     expect(plan.rejected).toEqual([{ line: 2, reason: 'Email déjà utilisé par un autre membre.' }]);
+  });
+
+  it('refuses an email that another row of the same file already assigns', () => {
+    const carl = member('m3', { email: 'carl@example.test' });
+    const csv = [
+      'ID;Nom;Email',
+      'm1;Alice;new@example.test',
+      'm3;Carl;NEW@example.test',
+      ';Zoé;new@example.test',
+      ';Yan;yan@example.test',
+      'm3;Carl;yan@example.test',
+    ].join('\n');
+    const plan = planMembersImport(csv, stored(alice, carl));
+    expect(plan.updates.map((u) => u.line)).toEqual([2]);
+    expect(plan.creates.map((c) => c.line)).toEqual([5]);
+    expect(plan.rejected).toEqual([
+      { line: 3, reason: 'Email déjà attribué à la ligne 2 de ce fichier.' },
+      { line: 4, reason: 'Email déjà attribué à la ligne 2 de ce fichier.' },
+      { line: 6, reason: 'Même membre que la ligne 3.' },
+    ]);
+  });
+
+  it('caps the file in bytes, not characters', () => {
+    const accents = 'Nom\n' + 'é'.repeat(MAX_MEMBER_IMPORT_BYTES / 2 + 1);
+    expect(accents.length).toBeLessThan(MAX_MEMBER_IMPORT_BYTES);
+    expect(() => planMembersImport(accents, new Map())).toThrow(/500 Ko/);
   });
 
   it('ignores role, admin and login columns', () => {
