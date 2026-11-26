@@ -378,7 +378,8 @@ export const revalidateTracesCache = async () => {
    - The user's Firebase Auth `UID` is stored in `/members/<id>/authUid`.
 3. **Role-Based Access Control (RBAC)**:
    - User roles (`['President']`, `['Admin']`, `['Member']`) are checked server-side and in `AuthContext.tsx`.
-   - Admin routes (`/admin/*`) are protected by [`AdminGuard.tsx`](app/admin/components/AdminGuard.tsx).
+   - Admin routes are protected server-side by `middleware.ts` (verifies the signed `ccb_session` cookie: `/admin/*` redirects to `/login`, `/api/admin/*` returns 401/403) and again by `verifyAdminRequest` in each admin route handler.
+   - [`AdminGuard.tsx`](app/admin/components/AdminGuard.tsx) only handles the client-side redirect and loading state; it is not a security boundary.
    - Custom claims (`{ admin: true }`) can be verified or granted using Admin SDK scripts.
 
 ---

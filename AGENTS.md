@@ -13,6 +13,7 @@ Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS
 
 ## Detailed Conventions & Guides
 
+- System Design (as-built overview, read first): [docs/system-design.md](docs/system-design.md)
 - Architecture & Business Logic: [docs/architecture.md](docs/architecture.md)
 - Database Schemas & Access: [docs/database.md](docs/database.md)
 - Design System (tool-agnostic package, read first for any UI work): [design-system/README.md](design-system/README.md), exact tokens in `design-system/tokens.json`, one card per component in `design-system/components/<Name>/`
