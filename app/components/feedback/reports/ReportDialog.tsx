@@ -6,10 +6,12 @@ import {
   ArrowTopRightOnSquareIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  HandThumbUpIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import type { FeedbackReport, ReportAction, ReportComment } from '@/app/lib/feedback/reports';
 import { CategoryChip, PriorityChip, StatusChip } from './chips';
+import { cn } from '@/app/utils/cn';
 import { relativeDate } from './filters';
 
 interface ReportDialogProps {
@@ -48,6 +50,7 @@ export default function ReportDialog({
   const [loadError, setLoadError] = useState(false);
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
+  const [voting, setVoting] = useState(false);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -98,6 +101,23 @@ export default function ReportDialog({
       toast.error('Action impossible pour le moment.');
     } finally {
       setBusy(false);
+    }
+  };
+
+  const vote = async (): Promise<void> => {
+    setVoting(true);
+    try {
+      const res = await fetch('/api/feedback/reports/' + report.number + '/vote', { method: 'POST', credentials: 'same-origin' });
+      const data = (await res.json().catch(() => ({}))) as { votes?: number; voted?: boolean; error?: string };
+      if (!res.ok || typeof data.votes !== 'number') {
+        toast.error(data.error ?? 'Vote impossible pour le moment.');
+        return;
+      }
+      onUpdated({ ...report, votes: data.votes, voted: data.voted });
+    } catch {
+      toast.error('Vote impossible pour le moment.');
+    } finally {
+      setVoting(false);
     }
   };
 
@@ -312,6 +332,22 @@ export default function ReportDialog({
                   className={btn + ' border border-line dark:border-night-line'}
                 >
                   Répondre seulement
+                </button>
+                <button
+                  type="button"
+                  disabled={voting}
+                  onClick={vote}
+                  aria-pressed={Boolean(report.voted)}
+                  aria-label={(report.voted ? 'Retirer mon +1' : 'Ajouter un +1') + ' (' + (report.votes ?? 0) + ')'}
+                  className={cn(
+                    btn,
+                    'border',
+                    report.voted ? 'border-brand bg-brand text-white' : 'border-line dark:border-night-line'
+                  )}
+                >
+                  <HandThumbUpIcon className="h-4 w-4" aria-hidden="true" />
+                  +1
+                  <span className="tabular-nums">{report.votes ?? 0}</span>
                 </button>
                 <a
                   href={report.issueUrl}

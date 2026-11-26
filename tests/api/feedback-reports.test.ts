@@ -2,8 +2,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
 import { GET as listRoute } from '@/app/api/feedback/reports/route';
 import { GET as detailRoute, POST as actRoute } from '@/app/api/feedback/reports/[number]/route';
+import { POST as voteRoute } from '@/app/api/feedback/reports/[number]/vote/route';
 import * as sessionModule from '@/app/lib/auth/session';
 import * as reportsModule from '@/app/lib/feedback/reports';
+import * as votesModule from '@/app/lib/feedback/votes';
 
 const user = (over: object) => ({ id: 'u1', name: 'Paul Dupont', role: ['Member'], isAdmin: false, ...over });
 const session = (u: object | null) => vi.spyOn(sessionModule, 'getSessionUserFromRequest').mockResolvedValue(u as never);
@@ -60,5 +62,47 @@ describe('feedback reports API', () => {
   it('a plain member cannot act', async () => {
     session(user({}));
     expect((await actRoute(req({ action: 'resolve' }), ctx('7'))).status).toBe(403);
+  });
+
+  it('list: adds the vote count and the viewer own vote', async () => {
+    vi.spyOn(reportsModule, 'listReports').mockResolvedValue([{ number: 1 }, { number: 2 }] as never);
+    vi.spyOn(votesModule, 'readVotes').mockResolvedValue({ 1: { u1: 't', u2: 't' }, 2: { u2: 't' } });
+    session(user({ role: ['Trésorier'] }));
+    const { reports } = await (await listRoute(req())).json();
+    expect(reports).toEqual([
+      { number: 1, votes: 2, voted: true },
+      { number: 2, votes: 1, voted: false },
+    ]);
+  });
+
+  it('vote: same access as the board, voter taken from the session only', async () => {
+    const toggle = vi.spyOn(votesModule, 'toggleVote').mockResolvedValue({ votes: 1, voted: true });
+    const check = vi.spyOn(reportsModule, 'assertReport').mockResolvedValue();
+    session(null);
+    expect((await voteRoute(req({}), ctx('7'))).status).toBe(401);
+    session(user({}));
+    expect((await voteRoute(req({}), ctx('7'))).status).toBe(403);
+    expect(toggle).not.toHaveBeenCalled();
+
+    session(user({ role: ['Capitaine de Route'] }));
+    const res = await voteRoute(req({ memberId: 'someone-else' }), ctx('7'));
+    expect(await res.json()).toEqual({ votes: 1, voted: true });
+    expect(check).toHaveBeenCalledWith(7);
+    expect(toggle).toHaveBeenCalledWith(7, 'u1');
+  });
+
+  it('vote: 404 on a bad number or a non-report issue, 502 on storage errors', async () => {
+    const toggle = vi.spyOn(votesModule, 'toggleVote').mockResolvedValue({ votes: 1, voted: true });
+    session(user({ isAdmin: true }));
+    expect((await voteRoute(req({}), ctx('0'))).status).toBe(404);
+    expect((await voteRoute(req({}), ctx('1.5'))).status).toBe(404);
+    vi.spyOn(reportsModule, 'assertReport').mockRejectedValue(new reportsModule.ReportNotFoundError());
+    expect((await voteRoute(req({}), ctx('7'))).status).toBe(404);
+    expect(toggle).not.toHaveBeenCalled();
+
+    vi.spyOn(reportsModule, 'assertReport').mockResolvedValue();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    toggle.mockRejectedValue(new Error('rtdb down'));
+    expect((await voteRoute(req({}), ctx('7'))).status).toBe(502);
   });
 });

@@ -2,16 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { requireReviewer } from '@/app/lib/feedback/guard';
 import { reviewerRoleLabel } from '@/app/lib/feedback/access';
-import { actOnReport, getReportDetail, ReportNotFoundError } from '@/app/lib/feedback/reports';
+import { actOnReport, getReportDetail, parseReportNumber, ReportNotFoundError } from '@/app/lib/feedback/reports';
 
 interface Context {
   params: Promise<{ number: string }>;
 }
-
-const parseNumber = (raw: string): number | null => {
-  const n = Number(raw);
-  return Number.isInteger(n) && n > 0 ? n : null;
-};
 
 const bodySchema = z
   .object({
@@ -23,7 +18,7 @@ const bodySchema = z
 export async function GET(request: NextRequest, context: Context): Promise<NextResponse> {
   const guard = await requireReviewer(request);
   if (!guard.ok) return guard.response;
-  const number = parseNumber((await context.params).number);
+  const number = parseReportNumber((await context.params).number);
   if (!number) return NextResponse.json({ error: 'Retour introuvable.' }, { status: 404 });
 
   try {
@@ -41,7 +36,7 @@ export async function GET(request: NextRequest, context: Context): Promise<NextR
 export async function POST(request: NextRequest, context: Context): Promise<NextResponse> {
   const guard = await requireReviewer(request);
   if (!guard.ok) return guard.response;
-  const number = parseNumber((await context.params).number);
+  const number = parseReportNumber((await context.params).number);
   if (!number) return NextResponse.json({ error: 'Retour introuvable.' }, { status: 404 });
 
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));
