@@ -34,6 +34,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.47.1] - 2026-11-26
+
+### Fixed
+- fix(home): let the groups heading use the full width (#226) (`c9ecea1`)
+- fix(home): dynamic groups and seasonal departure times in the info strip (#228) (`e5ffaf0`)
+- fix(sondage): count members, not coureurs (#227) (`59c6951`)
 ## [0.47.0] - 2026-11-26
 
 ### Added
