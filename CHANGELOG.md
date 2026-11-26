@@ -27,6 +27,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.43.3] - 2026-11-26
+
+### Fixed
+- fix(auth): login pages follow the chosen light/dark theme (#215) (`f7105a7`)
 ## [0.43.2] - 2026-11-26
 
 ### Chores
