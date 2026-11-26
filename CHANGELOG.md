@@ -11,6 +11,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.33.2] - 2026-11-26
+
+### Fixed
+- fix(profile): downscale cropped avatar so the upload fits the Server Action limit (#193) (`1f3616c`)
 ## [0.33.1] - 2026-11-25
 
 ### Fixed
