@@ -4,48 +4,50 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { requestAccountActivationAction } from '../../actions';
 import TerritoryMap from '../../components/carte/TerritoryMap';
+import { getFirebaseAuth, isMockMode, sendPasswordResetEmail } from '../../lib/firebase/client';
 import {
   ArrowLeftIcon,
   EnvelopeIcon,
   ExclamationCircleIcon,
   CheckCircleIcon,
   ArrowPathIcon,
-  ArrowRightIcon,
 } from '@heroicons/react/24/outline';
 
 export default function ForgotPasswordPage(): React.ReactElement {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [directLink, setDirectLink] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setMessage(null);
-    setDirectLink(null);
     setIsSubmitting(true);
 
     try {
       const result = await requestAccountActivationAction(email.trim());
       if (result.success) {
+        // Firebase emails the link to the owner of the address. Errors (unknown user, rate limit...)
+        // are ignored so the answer never reveals whether the address is a member.
+        if (!isMockMode) {
+          await sendPasswordResetEmail(getFirebaseAuth(), email.trim(), {
+            url: `${window.location.origin}/login`,
+          }).catch(() => undefined);
+        }
         setMessage({
           type: 'success',
           text: result.message,
         });
-        if (result.directLink) {
-          setDirectLink(result.directLink);
-        }
       } else {
         setMessage({
           type: 'error',
-          text: result.message || 'Impossible de générer le lien.',
+          text: result.message || 'Impossible d\'envoyer le lien.',
         });
       }
     } catch (error: unknown) {
       console.error(error);
       setMessage({
         type: 'error',
-        text: 'Une erreur est survenue lors de la création du lien.',
+        text: 'Une erreur est survenue lors de l\'envoi du lien.',
       });
     } finally {
       setIsSubmitting(false);
@@ -91,16 +93,6 @@ export default function ForgotPasswordPage(): React.ReactElement {
                   )}
                   <span className="leading-relaxed">{message.text}</span>
                 </div>
-
-                {directLink && (
-                  <a
-                    href={directLink}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
-                  >
-                    <span>Définir mon mot de passe maintenant</span>
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </a>
-                )}
               </div>
             )}
 
@@ -137,10 +129,10 @@ export default function ForgotPasswordPage(): React.ReactElement {
                 {isSubmitting ? (
                   <>
                     <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                    <span>Création du lien en cours...</span>
+                    <span>Envoi en cours...</span>
                   </>
                 ) : (
-                  <span>Générer mon lien d&apos;accès</span>
+                  <span>Recevoir le lien par email</span>
                 )}
               </button>
             </div>
