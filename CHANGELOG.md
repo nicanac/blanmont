@@ -12,6 +12,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.34.0] - 2026-11-26
+
+### Added
+- feat(feedback): admin-activated screenshot feedback tool that files GitHub issues (#194) (`cdaf8a6`)
 ## [0.33.2] - 2026-11-26
 
 ### Fixed
