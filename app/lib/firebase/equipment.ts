@@ -157,6 +157,35 @@ export const updateEquipment = async (
 };
 
 /**
+ * Adds `delta` (negative to reserve) to /equipment/{id}/stock/{size} in an RTDB transaction.
+ * Returns false, writing nothing, when the stock would go below 0.
+ */
+export const adjustEquipmentStock = async (
+  equipmentId: string,
+  size: string,
+  delta: number
+): Promise<boolean> => {
+  if (isMockMode) {
+    const item = getMockEquipment().find((i) => i.id === equipmentId);
+    const next = (item?.stock[size] ?? 0) + delta;
+    if (!item || next < 0) return false;
+    item.stock[size] = next;
+    return true;
+  }
+
+  const { committed, snapshot } = await getAdminDatabase()
+    .ref(`equipment/${equipmentId}/stock/${size}`)
+    .transaction((current: number | null) => {
+      // The first call may see null before the server value is known; the server retries
+      // when it differs. A real null means no stock: a reservation then writes nothing.
+      if (current === null) return delta >= 0 ? delta : null;
+      const next = Number(current) + delta;
+      return next < 0 ? undefined : next;
+    });
+  return committed && typeof snapshot.val() === 'number';
+};
+
+/**
  * Deletes an equipment item
  */
 export const deleteEquipment = async (id: string): Promise<void> => {
