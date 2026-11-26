@@ -16,6 +16,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.37.0] - 2026-11-26
+
+### Added
+- feat(feedback): let admins paste the GitHub token in settings (#197) (`43bb281`)
 ## [0.36.0] - 2026-11-26
 
 ### Added
