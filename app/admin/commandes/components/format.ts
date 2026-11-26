@@ -19,29 +19,7 @@ export const STATUS_LABELS: Record<EquipmentOrderStatus, string> = {
   cancelled: 'Annulée',
 };
 
-type CsvCell = string | number | undefined;
-
-/** Quoted CSV. A text cell that a spreadsheet would run as a formula gets a leading quote. */
-export function toCsv(rows: CsvCell[][]): string {
-  const esc = (v: CsvCell): string => {
-    const text = typeof v === 'string' && /^[=+\-@\t\r]/.test(v) ? `'${v}` : String(v ?? '');
-    return `"${text.replace(/"/g, '""')}"`;
-  };
-  return rows.map((r) => r.map(esc).join(',')).join('\n');
-}
-
-/** Excel-friendly CSV download (BOM so accents survive). */
-export function downloadCsv(filename: string, rows: CsvCell[][]): void {
-  const csv = toCsv(rows);
-  const url = URL.createObjectURL(
-    new Blob([String.fromCharCode(0xfeff) + csv], { type: 'text/csv;charset=utf-8' })
-  );
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
+export { toCsv, downloadCsv } from '@/app/lib/csv';
 
 export const INPUT_CLASS =
   'min-h-[44px] w-full rounded-md border border-line bg-paper px-3.5 py-2.5 text-sm text-ink placeholder-ink-3 focus:border-brand focus:outline-hidden dark:border-night-line dark:bg-night-2 dark:text-white';
