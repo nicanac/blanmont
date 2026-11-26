@@ -7,7 +7,7 @@ Status: v1 spec, 2026-11-26. Decisions (Nico): one switch per section, roles and
 - **Admin** (`checkIsAdmin` / `isSessionAdmin`, unchanged) has every access, always. It is not in the matrix and cannot be restricted.
 - Every other role of `CLUB_ROLES` (`app/constants/roles.ts`) gets, per **admin section**, access or no access. Access = see the pages **and** run the actions/APIs of that section. A member with several roles gets the union.
 - **Admin-only, never in the matrix:** the `/admin/acces` page and its action, and **assigning roles to members** (role selector in Membres and any action/API that changes `role`), so a delegated role can never grant itself Admin.
-- `/admin` (dashboard) is open to anyone with at least one section; its widgets for other sections are hidden.
+- `/admin` (dashboard) is open to anyone with at least one section. Admins get the full dashboard; other roles get links to their sections only (`DelegatedDashboard`), so no club-wide data (members, prospects) is loaded for them.
 
 ## Sections
 

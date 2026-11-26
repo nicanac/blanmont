@@ -11,6 +11,7 @@ import {
   MATRIX_ROLES,
   OWNER_ONLY,
   OWNER_ONLY_PATHS,
+  canOpenAdminPath,
   sectionForPath,
 } from '@/app/constants/admin-sections';
 
@@ -108,5 +109,34 @@ describe('admin section registry', () => {
       expect(roleKeys).toContain(role);
       ids.forEach((id) => expect(ADMIN_SECTION_IDS).toContain(id));
     }
+  });
+});
+
+describe('canOpenAdminPath (sidebar, palette, dashboard)', () => {
+  const none = { isAdmin: false, isOwner: false, sections: [] };
+  const tresorier = { isAdmin: false, isOwner: false, sections: ['commandes', 'equipements'] };
+  const admin = { isAdmin: true, isOwner: false, sections: ADMIN_SECTION_IDS };
+  const owner = { ...admin, isOwner: true };
+
+  it('shows a delegated role its sections and the dashboard only', () => {
+    expect(canOpenAdminPath(tresorier, '/admin')).toBe(true);
+    expect(canOpenAdminPath(tresorier, '/admin/commandes/banque')).toBe(true);
+    expect(canOpenAdminPath(tresorier, '/admin/members')).toBe(false);
+    expect(canOpenAdminPath(tresorier, '/admin/acces')).toBe(false);
+    expect(canOpenAdminPath(tresorier, '/admin/settings')).toBe(false);
+    expect(canOpenAdminPath(tresorier, '/admin/unknown')).toBe(false);
+  });
+
+  it('shows nothing to a role without sections', () => {
+    expect(canOpenAdminPath(none, '/admin')).toBe(false);
+    expect(canOpenAdminPath(none, '/admin/members')).toBe(false);
+  });
+
+  it('shows admins everything but Paramètres, which is owner-only', () => {
+    expect(canOpenAdminPath(admin, '/admin/acces')).toBe(true);
+    expect(canOpenAdminPath(admin, '/admin/members')).toBe(true);
+    expect(canOpenAdminPath(admin, '/admin/settings')).toBe(false);
+    expect(canOpenAdminPath(owner, '/admin/settings')).toBe(true);
+    expect(canOpenAdminPath(owner, '/admin/parametres')).toBe(true);
   });
 });

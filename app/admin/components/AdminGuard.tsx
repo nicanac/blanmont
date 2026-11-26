@@ -7,21 +7,25 @@ import { checkIsAdmin } from '../../utils/auth';
 import Link from 'next/link';
 import { ShieldExclamationIcon } from '@heroicons/react/24/outline';
 import { Spinner } from '@/app/components/ui/Spinner';
+import type { MyAdminAccess } from '@/app/constants/admin-sections';
 
 interface AdminGuardProps {
   children: React.ReactNode;
+  /** From useMyAdminAccess; null while loading. */
+  access: MyAdminAccess | null;
 }
 
 /**
- * AdminGuard protects admin routes by checking if the user has admin privileges.
- * Only users with 'Admin' or 'President' roles can access admin pages.
+ * AdminGuard lets in admins and any role with at least one back-office section (docs/admin-rbac.md).
+ * Cosmetic: proxy.ts and the server guards decide what each section may see and do.
  */
-export default function AdminGuard({ children }: AdminGuardProps): React.ReactElement {
+export default function AdminGuard({ children, access }: AdminGuardProps): React.ReactElement {
   const { user, isAuthenticated, isAdmin, isLoading } = useAuth();
   const router = useRouter();
   // Still checking while loading, or while an unauthenticated user is being redirected
-  const isChecking = isLoading || !isAuthenticated;
-  const hasAccess = isAuthenticated && (isAdmin || checkIsAdmin(user));
+  const knownAdmin = isAdmin || checkIsAdmin(user);
+  const isChecking = isLoading || !isAuthenticated || (!knownAdmin && access === null);
+  const hasAccess = isAuthenticated && (knownAdmin || (access?.sections.length ?? 0) > 0);
 
   useEffect(() => {
     if (isLoading) {
@@ -58,7 +62,8 @@ export default function AdminGuard({ children }: AdminGuardProps): React.ReactEl
           </h2>
           <p className="mt-2 text-gray-600">
             Vous n&apos;avez pas les permissions nécessaires pour accéder à cette section.
-            Seuls les administrateurs et le président peuvent accéder au tableau de bord.
+            Votre rôle ne donne accès à aucune section de l&apos;administration. Un administrateur peut
+            l&apos;ouvrir depuis « Accès &amp; rôles ».
           </p>
           <div className="mt-8 flex flex-col gap-3">
             <Link
