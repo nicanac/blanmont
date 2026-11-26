@@ -8,7 +8,7 @@ import {
   ExclamationTriangleIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline';
-import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
+import MaillotsPageHeader from '../../components/MaillotsPageHeader';
 import { Button } from '@/app/components/ui/Button';
 import type { SizeMatrix } from '@/app/lib/firebase/equipment-campaigns';
 import { formatPaymentReference } from '@/app/lib/payments/ogm';
@@ -87,7 +87,8 @@ export default function CampaignDetail({
 
   return (
     <div className="space-y-6">
-      <AdminPageHeader
+      <MaillotsPageHeader
+        initialTab="order"
         sheet="Feuille · Commande groupée"
         title={campaign.title}
         badge={{ icon: UserGroupIcon, label: CAMPAIGN_STATUS_LABELS[campaign.status] }}

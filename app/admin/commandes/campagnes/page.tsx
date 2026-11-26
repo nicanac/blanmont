@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { UserGroupIcon, ShoppingBagIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline';
-import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
+import MaillotsPageHeader from '../components/MaillotsPageHeader';
 import Badge from '@/app/components/ui/Badge';
 import { getEquipment } from '@/app/lib/firebase/equipment';
 import { getEquipmentCampaigns } from '@/app/lib/firebase/equipment-campaigns';
@@ -26,7 +26,8 @@ export default async function AdminCampaignsPage(): Promise<React.ReactElement> 
 
   return (
     <div className="space-y-6">
-      <AdminPageHeader
+      <MaillotsPageHeader
+        initialTab="setup"
         sheet="Feuille · Commandes groupées"
         title="Commandes groupées"
         badge={{ icon: UserGroupIcon, label: `${campaigns.length} campagne${campaigns.length > 1 ? 's' : ''}` }}
