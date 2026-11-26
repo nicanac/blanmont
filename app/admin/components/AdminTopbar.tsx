@@ -17,6 +17,7 @@ import {
   UsersIcon,
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
+  MapIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
 
@@ -157,13 +158,12 @@ export default function AdminTopbar({
       href: '/admin/blog/new',
       icon: DocumentTextIcon,
     },
-    // Masqué temporairement / Hidden for now
-    // {
-    //   name: 'Ajouter une Trace',
-    //   desc: 'Créer ou importer un parcours GPX',
-    //   href: '/admin/add-trace',
-    //   icon: MapIcon,
-    // },
+    {
+      name: 'Ajouter une Trace',
+      desc: 'Créer ou importer un parcours GPX',
+      href: '/admin/add-trace',
+      icon: MapIcon,
+    },
     {
       name: 'Inscrire un Membre',
       desc: 'Ajouter un cycliste à l’annuaire',

@@ -22,6 +22,7 @@ import {
   ClipboardDocumentCheckIcon,
   TagIcon,
   ShieldCheckIcon,
+  MapIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { canOpenAdminPath, type MyAdminAccess } from '@/app/constants/admin-sections';
@@ -74,16 +75,15 @@ const COMMAND_ITEMS: CommandItem[] = [
     icon: CalendarDaysIcon,
     keywords: ['evenements', 'sorties', 'calendrier', 'agenda', 'pdf'],
   },
-  // Masqué temporairement / Hidden for now
-  // {
-  //   id: 'page-traces',
-  //   name: 'Traces & Parcours GPS',
-  //   category: 'Pages',
-  //   description: 'Bibliothèque des parcours, imports GPX et Strava',
-  //   href: '/admin/traces',
-  //   icon: MapIcon,
-  //   keywords: ['traces', 'parcours', 'gpx', 'strava', 'garmin', 'gps'],
-  // },
+  {
+    id: 'page-traces',
+    name: 'Traces & Parcours GPS',
+    category: 'Pages',
+    description: 'Bibliothèque des parcours, imports GPX et Strava',
+    href: '/admin/traces',
+    icon: MapIcon,
+    keywords: ['traces', 'parcours', 'gpx', 'strava', 'garmin', 'gps'],
+  },
   {
     id: 'page-pointage-express',
     name: 'Pointage Express',
@@ -247,16 +247,15 @@ const COMMAND_ITEMS: CommandItem[] = [
     icon: PlusCircleIcon,
     keywords: ['rediger', 'ecrire', 'article', 'news', 'blog', 'publier'],
   },
-  // Masqué temporairement / Hidden for now
-  // {
-  //   id: 'action-add-trace',
-  //   name: 'Ajouter une Trace GPX',
-  //   category: 'Actions Rapides',
-  //   description: 'Enregistrer manuellement un itinéraire GPS pour le club',
-  //   href: '/admin/add-trace',
-  //   icon: PlusCircleIcon,
-  //   keywords: ['ajouter', 'trace', 'gpx', 'parcours', 'gps', 'creer'],
-  // },
+  {
+    id: 'action-add-trace',
+    name: 'Ajouter une Trace GPX',
+    category: 'Actions Rapides',
+    description: 'Enregistrer manuellement un itinéraire GPS pour le club',
+    href: '/admin/add-trace',
+    icon: PlusCircleIcon,
+    keywords: ['ajouter', 'trace', 'gpx', 'parcours', 'gps', 'creer'],
+  },
   {
     id: 'action-new-member',
     name: 'Inscrire un Nouveau Membre',
