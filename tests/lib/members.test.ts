@@ -169,11 +169,13 @@ describe('Firebase Members Service (app/lib/firebase/members.ts)', () => {
 
   describe('updateMemberPhoto', () => {
     it('updates photoUrl on member record', async () => {
-      const updateMock = vi.spyOn(clientModule, 'update').mockResolvedValue(undefined as any);
+      const updateMock = vi.fn().mockResolvedValue(undefined);
+      const refMock = vi.fn().mockReturnValue({ update: updateMock });
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
 
       await updateMemberPhoto('m-1', 'https://res.cloudinary.com/new-avatar.jpg');
-      expect(updateMock).toHaveBeenCalled();
-      const payload = updateMock.mock.calls[0][1];
+      expect(refMock).toHaveBeenCalledWith('members/m-1');
+      const payload = updateMock.mock.calls[0][0];
       expect(payload).toEqual({ photoUrl: 'https://res.cloudinary.com/new-avatar.jpg' });
     });
   });
