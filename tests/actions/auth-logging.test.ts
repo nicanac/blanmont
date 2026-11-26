@@ -39,6 +39,27 @@ describe('Auth Actions Activity Logging', () => {
     );
   });
 
+  it('refuses the login and logs an error when the session cannot be signed', async () => {
+    const mockMember = { id: 'member-9', name: 'Membre', email: 'm@blanmont.be', role: ['Member'] };
+    vi.spyOn(firebaseMembers, 'validateUser').mockResolvedValue(mockMember as any);
+    vi.spyOn(sessionModule, 'setSessionCookie').mockRejectedValue(
+      Object.assign(new Error('SESSION_SECRET is not configured'), { name: 'SessionSecretMissingError' })
+    );
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const recordSpy = vi.spyOn(activityLoggerModule, 'recordActivity').mockResolvedValue('log_3');
+
+    const result = await loginAction('m@blanmont.be', 'password123');
+    expect(result).toBeNull();
+    expect(recordSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: 'auth:login_failure',
+        severity: 'error',
+        metadata: { reason: 'SessionSecretMissingError' },
+      })
+    );
+    expect(recordSpy).not.toHaveBeenCalledWith(expect.objectContaining({ action: 'auth:login_success' }));
+  });
+
   it('records auth:login_failure when member credentials are invalid', async () => {
     vi.spyOn(firebaseMembers, 'validateUser').mockResolvedValue(null);
     const recordSpy = vi.spyOn(activityLoggerModule, 'recordActivity').mockResolvedValue('log_2');

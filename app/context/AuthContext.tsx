@@ -36,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                         avatarUrl: sessionUser.photoUrl || '/images/default-avatar.png',
                         email: sessionUser.email || undefined,
                         role: sessionUser.role,
+                        isAdmin: sessionUser.isAdmin,
                     };
                     setUser(authenticatedUser);
                 }
@@ -68,6 +69,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     phone: member.phone,
                     role: member.role
                 };
+                // The admin flag is decided server-side (roles + ADMIN_EMAILS env), read it back.
+                try {
+                    const sessionUser = await getCurrentSessionUserAction();
+                    newUser.isAdmin = sessionUser?.isAdmin ?? false;
+                } catch {
+                    newUser.isAdmin = false;
+                }
                 setUser(newUser);
                 return true;
             }

@@ -1,8 +1,12 @@
-import { describe, it, expect } from 'vitest';
-import { checkIsAdmin, ADMIN_ROLES, ADMIN_EMAILS } from '@/app/utils/auth';
+import { describe, it, expect, afterEach, vi } from 'vitest';
+import { checkIsAdmin, ADMIN_ROLES, getAdminEmails } from '@/app/utils/auth';
 import { User } from '@/app/types';
 
 describe('auth utils - checkIsAdmin', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it('returns true when user has an admin role', () => {
     for (const role of ADMIN_ROLES) {
       const user: User = {
@@ -39,7 +43,9 @@ describe('auth utils - checkIsAdmin', () => {
   });
 
   it('returns true when user email matches an admin email', () => {
-    for (const email of ADMIN_EMAILS) {
+    vi.stubEnv('ADMIN_EMAILS', 'admin@blanmont.be,president@blanmont.be');
+    expect(getAdminEmails()).toHaveLength(2);
+    for (const email of getAdminEmails()) {
       const user: User = {
         id: 'user-admin-email',
         username: 'admin-email',

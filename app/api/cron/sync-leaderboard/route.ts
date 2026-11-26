@@ -10,10 +10,15 @@ import {
 } from '@/app/lib/firebase';
 import type { CalendarEvent } from '@/app/types';
 import { calculateMemberCarres } from '@/app/lib/carreVert';
+import { verifyCronRequest } from '@/app/lib/auth/cron';
+import { getLeaderboardSheetCsvUrl, LEADERBOARD_SHEET_MISSING_ERROR } from '@/app/lib/leaderboard-sheet';
 
 export const dynamic = 'force-dynamic'; // Ensure no caching for this route
 
 export async function GET(request?: Request) {
+    const denied = verifyCronRequest(request);
+    if (denied) return denied;
+
     try {
         const currentYear = new Date().getFullYear();
         let targetYear = currentYear;
@@ -32,7 +37,10 @@ export async function GET(request?: Request) {
             }
         }
 
-        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1iKk938MCgkKn7CXconmZpjmy0xmSFaEPhYOqf0Nis84/export?format=csv&gid=1551990117';
+        const GOOGLE_SHEET_CSV_URL = getLeaderboardSheetCsvUrl();
+        if (!GOOGLE_SHEET_CSV_URL) {
+            return NextResponse.json({ error: LEADERBOARD_SHEET_MISSING_ERROR }, { status: 500 });
+        }
         
         const response = await fetch(GOOGLE_SHEET_CSV_URL);
         if (!response.ok) {
