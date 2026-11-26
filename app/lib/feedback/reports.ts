@@ -1,5 +1,6 @@
 import { gh, getFeedbackRepo, neutralize, ZWSP } from './github';
 import { FEEDBACK_CATEGORIES, FEEDBACK_PRIORITIES } from './schema';
+import { getFeedbackToken } from './token-store';
 import type { FeedbackCategory, FeedbackPriority, ReportStatus } from './labels';
 
 export interface FeedbackReport {
@@ -132,9 +133,9 @@ export function parseComment(c: { id: number; body: string; created_at: string; 
   };
 }
 
-const ctx = (): { token: string; repo: string } => {
-  const token = process.env.GITHUB_FEEDBACK_TOKEN;
-  if (!token) throw new Error('GITHUB_FEEDBACK_TOKEN is not set');
+const ctx = async (): Promise<{ token: string; repo: string }> => {
+  const token = await getFeedbackToken();
+  if (!token) throw new Error('GitHub feedback token is not configured');
   return { token, repo: getFeedbackRepo() };
 };
 
@@ -143,7 +144,7 @@ const MAX_PAGES = 3; // shortcut: 300 most recent reports; add server-side pagin
 
 /** Every report (open and closed), newest first. */
 export async function listReports(): Promise<FeedbackReport[]> {
-  const { token, repo } = ctx();
+  const { token, repo } = await ctx();
   const out: FeedbackReport[] = [];
   for (let page = 1; page <= MAX_PAGES; page++) {
     const res = await gh<GhIssue[]>(
@@ -168,7 +169,7 @@ async function loadReport(token: string, repo: string, number: number): Promise<
 }
 
 export async function getReportDetail(number: number): Promise<{ report: FeedbackReport; comments: ReportComment[] }> {
-  const { token, repo } = ctx();
+  const { token, repo } = await ctx();
   const issue = await loadReport(token, repo, number);
   const res = await gh<{ id: number; body: string; created_at: string; user?: { login?: string } }[]>(
     token,
@@ -191,7 +192,7 @@ export async function actOnReport(
   text: string | undefined,
   actor: { name: string; role: string }
 ): Promise<FeedbackReport> {
-  const { token, repo } = ctx();
+  const { token, repo } = await ctx();
   await loadReport(token, repo, number);
 
   if (action !== 'comment') {

@@ -34,7 +34,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Les retours ne sont pas disponibles.' }, { status });
   }
 
-  if (!isGithubConfigured()) {
+  if (!(await isGithubConfigured())) {
     return NextResponse.json(
       { error: 'Les retours ne sont pas encore configurés côté serveur.' },
       { status: 503 }
