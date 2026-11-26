@@ -181,7 +181,7 @@ export default function AdminEquipementsPage() {
 
       {/* Equipment Table */}
       <div id="equipements-grid-section" className="overflow-hidden rounded-lg border border-line bg-white shadow-xs">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto table-stack">
           <table className="min-w-full divide-y divide-line">
             <thead className="bg-paper-2">
               <tr>
@@ -232,15 +232,15 @@ export default function AdminEquipementsPage() {
                       </div>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td data-label="Catégorie" className="whitespace-nowrap px-6 py-4">
                     <span className="inline-flex rounded-full bg-paper-2 border border-line px-2.5 py-0.5 text-xs font-semibold text-ink-3">
                       {item.category}
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-xs font-bold text-ink tabular-nums">
+                  <td data-label="Prix" className="whitespace-nowrap px-6 py-4 text-xs font-bold text-ink tabular-nums">
                     {item.price.toFixed(2)} €
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td data-label="Stock" className="whitespace-nowrap px-6 py-4">
                     <div className="text-xs font-bold text-ink tabular-nums">
                       {getTotalStock(item.stock)} pièces
                     </div>
@@ -259,7 +259,7 @@ export default function AdminEquipementsPage() {
                       ))}
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td data-label="Statut" className="whitespace-nowrap px-6 py-4">
                     <span
                       className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider border ${
                         item.isAvailable
@@ -270,7 +270,7 @@ export default function AdminEquipementsPage() {
                       {item.isAvailable ? 'En stock' : 'Épuisé'}
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-right">
+                  <td data-label="Actions" className="whitespace-nowrap px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-1">
                       <Link
                         href={`/admin/equipements/${item.id}`}

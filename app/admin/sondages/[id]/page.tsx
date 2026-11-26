@@ -220,7 +220,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
             Aucun membre n&apos;a encore répondu à ce sondage.
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto table-stack">
             <table className="min-w-full divide-y divide-line dark:divide-night-line text-left text-xs">
               <thead className="bg-paper-2 dark:bg-night text-ink-3 dark:text-snow-3 font-bold font-mono">
                 <tr>
@@ -238,7 +238,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                     <td className="px-5 py-3.5 font-bold text-ink dark:text-snow-1">
                       {r.memberName}
                     </td>
-                    <td className="px-4 py-3.5">
+                    <td data-label="Disponibilité" className="px-4 py-3.5">
                       <span
                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                           responseSlots(r).length === 0
@@ -249,7 +249,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                         {slotsLabel(responseSlots(r))}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 font-semibold text-ink-2 dark:text-snow-2">
+                    <td data-label="Groupe" className="px-4 py-3.5 font-semibold text-ink-2 dark:text-snow-2">
                       {responseSlots(r).length > 0 && r.groupChoice ? (
                         r.groupChoice === 'Autre' ? (
                           r.groupChoice
@@ -261,7 +261,7 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                         )
                       ) : '—'}
                     </td>
-                    <td className="px-4 py-3.5 text-ink-2 dark:text-snow-3 max-w-sm">
+                    <td data-label="Remarques / Réponses" className="px-4 py-3.5 text-ink-2 dark:text-snow-3 max-w-sm">
                       {r.customAnswers && Object.keys(r.customAnswers).length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-1">
                           {Object.values(r.customAnswers).map((ans, idx) => (
@@ -280,10 +280,10 @@ export default async function AdminPollDetailPage({ params }: AdminPollDetailPag
                         (!r.customAnswers || Object.keys(r.customAnswers).length === 0) && '—'
                       )}
                     </td>
-                    <td className="px-4 py-3.5 text-ink-3 dark:text-snow-3 font-mono text-xs tabular-nums">
+                    <td data-label="Date" className="px-4 py-3.5 text-ink-3 dark:text-snow-3 font-mono text-xs tabular-nums">
                       {r.updatedAt ? new Date(r.updatedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '—'}
                     </td>
-                    <td className="px-4 py-3.5 text-center">
+                    <td data-label="Action" className="px-4 py-3.5 text-center">
                       <AdminDeleteResponseButton pollId={poll.id} memberId={r.memberId} />
                     </td>
                   </tr>

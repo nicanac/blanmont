@@ -169,6 +169,56 @@ a {
   text-decoration-thickness: 1px;
 }
 
+/* Data tables (#209): below 640px of wrapper width, rows become labelled cards.
+   Put .table-stack on the overflow wrapper and data-label="<column>" on each body cell;
+   a cell without data-label is the card title. Unlayered so it beats the px-6/whitespace-nowrap utilities. */
+.table-stack {
+  container-type: inline-size;
+}
+@container (width < 640px) {
+  .table-stack :is(table, tbody, tr, td) {
+    display: block;
+  }
+  .table-stack table {
+    min-width: 0;
+  }
+  .table-stack thead {
+    display: none;
+  }
+  .table-stack tbody tr {
+    padding: 0.75rem 1rem;
+  }
+  .table-stack td {
+    padding: 0.25rem 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .table-stack td[data-label] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.25rem 0.5rem;
+    text-align: end;
+  }
+  .table-stack td[data-label] > * {
+    min-width: 0;
+  }
+  .table-stack td[data-label]::before {
+    content: attr(data-label);
+    margin-inline-end: auto; /* label left, cell content packed right */
+    text-align: start;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+  .dark .table-stack td[data-label]::before {
+    color: var(--color-snow-3);
+  }
+}
+
 .tabular-nums,
 table td,
 table th,
