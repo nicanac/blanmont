@@ -5,7 +5,7 @@ const ASSET_DIR = 'docs/reviews/assets';
 /** Screenshots live on their own branch so they never trigger a Vercel deploy or a nicode-ci release on master. */
 const ASSET_BRANCH = 'feedback-assets';
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
-const ZWSP = String.fromCharCode(0x200b);
+export const ZWSP = String.fromCharCode(0x200b);
 
 export function getFeedbackRepo(): string {
   return process.env.GITHUB_FEEDBACK_REPO || 'nicanac/blanmont';
@@ -96,7 +96,7 @@ export function buildIssueBody({ id, report, author, imageUrl }: IssueBodyInput)
   ].join('\n');
 }
 
-async function gh<T>(token: string, path: string, init?: RequestInit): Promise<{ status: number; data: T }> {
+export async function gh<T>(token: string, path: string, init?: RequestInit): Promise<{ status: number; data: T }> {
   const res = await fetch(API + path, {
     ...init,
     headers: {
