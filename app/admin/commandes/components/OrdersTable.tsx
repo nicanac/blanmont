@@ -2,36 +2,48 @@
 
 import React, { useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { ShoppingBagIcon, TrashIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-import AdminPageHeader from '@/app/admin/components/AdminPageHeader';
+import {
+  ShoppingBagIcon,
+  TrashIcon,
+  ArrowDownTrayIcon,
+  BuildingLibraryIcon,
+  UserGroupIcon,
+} from '@heroicons/react/24/outline';
+import MaillotsPageHeader from './MaillotsPageHeader';
+import Badge, { type BadgeVariant } from '@/app/components/ui/Badge';
+import { Button } from '@/app/components/ui/Button';
+import { formatPaymentReference } from '@/app/lib/payments/ogm';
 import { EquipmentOrder, EquipmentOrderStatus } from '@/app/types/equipment';
-import { deleteOrderAction, updateOrderStatusAction } from '../actions';
+import {
+  cancelOrderAction,
+  deleteOrderAction,
+  markOrderDeliveredAction,
+  markOrderPaidAction,
+} from '../actions';
+import { downloadCsv, formatDate, formatEuro, STATUS_LABELS } from './format';
 
-const STATUS_LABELS: Record<EquipmentOrderStatus, string> = {
-  pending: 'À traiter',
-  confirmed: 'Confirmée',
-  delivered: 'Remise',
-  cancelled: 'Annulée',
-};
-
-const STATUS_STYLES: Record<EquipmentOrderStatus, string> = {
-  pending: 'bg-ambre/15 text-ink dark:text-snow border-ambre',
-  confirmed: 'bg-brand-tint text-brand-strong dark:text-brand-soft border-brand',
-  delivered: 'bg-paper-2 text-ink dark:bg-night-2 dark:text-snow border-line dark:border-night-line',
-  cancelled:
-    'bg-paper-2 text-ink-3 dark:bg-night-2 dark:text-snow-3 border-line dark:border-night-line',
+const STATUS_VARIANTS: Record<EquipmentOrderStatus, BadgeVariant> = {
+  pending: 'warning',
+  paid: 'success',
+  confirmed: 'brand',
+  delivered: 'paper',
+  cancelled: 'outline',
 };
 
 type Filter = EquipmentOrderStatus | 'all';
 
-function formatEuro(value: number): string {
-  return `${value.toFixed(2).replace('.', ',')} €`;
-}
+/** Allowed next statuses per status, computed on the server from canTransitionOrder. */
+export type OrderTransitions = Record<EquipmentOrderStatus, EquipmentOrderStatus[]>;
+
+const todayInBrussels = (): string =>
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Brussels' }).format(new Date());
 
 export default function OrdersTable({
   initialOrders,
+  transitions,
 }: {
   initialOrders: EquipmentOrder[];
+  transitions: OrderTransitions;
 }): React.ReactElement {
   const [orders, setOrders] = useState<EquipmentOrder[]>(initialOrders);
   const [filter, setFilter] = useState<Filter>('all');
@@ -41,21 +53,41 @@ export default function OrdersTable({
     () => (filter === 'all' ? orders : orders.filter((o) => o.status === filter)),
     [orders, filter]
   );
-  const pendingCount = orders.filter((o) => o.status === 'pending').length;
-  const openTotal = orders
-    .filter((o) => o.status === 'pending' || o.status === 'confirmed')
-    .reduce((sum, o) => sum + o.totalPrice, 0);
+  const pending = orders.filter((o) => o.status === 'pending');
+  const pendingTotal = pending.reduce((sum, o) => sum + o.totalPrice, 0);
+  const filters: Filter[] = ['all', 'pending', 'paid', 'delivered', 'cancelled'];
+  if (orders.some((o) => o.status === 'confirmed')) filters.splice(3, 0, 'confirmed');
 
-  const handleStatus = async (id: string, status: EquipmentOrderStatus): Promise<void> => {
-    setBusyId(id);
-    const res = await updateOrderStatusAction(id, status);
+  const run = async (
+    order: EquipmentOrder,
+    action: (id: string) => Promise<{ success: boolean; error?: string }>,
+    patch: Partial<EquipmentOrder>,
+    done: string
+  ): Promise<void> => {
+    setBusyId(order.id);
+    const res = await action(order.id);
     setBusyId(null);
     if (!res.success) {
       toast.error(res.error || 'Mise à jour impossible');
       return;
     }
-    setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
-    toast.success('Statut mis à jour');
+    setOrders((prev) => prev.map((o) => (o.id === order.id ? { ...o, ...patch } : o)));
+    toast.success(done);
+  };
+
+  const handlePaid = (o: EquipmentOrder): Promise<void> =>
+    run(o, markOrderPaidAction, { status: 'paid', paidAt: todayInBrussels() }, 'Commande marquée payée');
+
+  const handleDelivered = (o: EquipmentOrder): Promise<void> =>
+    run(o, markOrderDeliveredAction, { status: 'delivered', deliveredAt: new Date().toISOString() }, 'Commande remise');
+
+  const handleCancel = async (o: EquipmentOrder): Promise<void> => {
+    const refund =
+      o.status === 'paid' || o.status === 'confirmed'
+        ? ' Cette commande est déjà payée : remboursement à faire hors application.'
+        : '';
+    if (!window.confirm(`Annuler la commande de ${o.memberName} ?${refund}`)) return;
+    await run(o, cancelOrderAction, { status: 'cancelled', cancelledAt: new Date().toISOString() }, 'Commande annulée');
   };
 
   const handleDelete = async (order: EquipmentOrder): Promise<void> => {
@@ -71,21 +103,11 @@ export default function OrdersTable({
     toast.success('Commande supprimée');
   };
 
-  const handleExport = (): void => {
-    const esc = (v: string | number | undefined): string =>
-      `"${String(v ?? '').replace(/"/g, '""')}"`;
-    const rows: (string | number | undefined)[][] = [
+  const handleExport = (): void =>
+    downloadCsv('commandes-equipement.csv', [
       [
-        'Date',
-        'Nom',
-        'Email',
-        'Téléphone',
-        'Article',
-        'Taille',
-        'Quantité',
-        'Total',
-        'Statut',
-        'Remarques',
+        'Date', 'Nom', 'Email', 'Téléphone', 'Article', 'Taille', 'Quantité', 'Total',
+        'Statut', 'Référence', 'Payé le', 'Remis le', 'Remarques',
       ],
       ...orders.flatMap((o) =>
         o.items.map((it) => [
@@ -98,40 +120,31 @@ export default function OrdersTable({
           it.quantity,
           o.totalPrice,
           STATUS_LABELS[o.status],
+          o.paymentReference ? formatPaymentReference(o.paymentReference) : '',
+          o.paidAt,
+          o.deliveredAt?.slice(0, 10),
           o.notes,
         ])
       ),
-    ];
-    const csv = rows.map((r) => r.map(esc).join(',')).join('\n');
-    const url = URL.createObjectURL(
-      new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' })
-    );
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'commandes-equipement.csv';
-    link.click();
-    URL.revokeObjectURL(url);
-  };
+    ]);
 
   return (
     <div className="space-y-6">
-      <AdminPageHeader
+      <MaillotsPageHeader
+        initialTab="payments"
         sheet="Feuille · Commandes"
         title="Commandes équipement"
-        badge={{ icon: ShoppingBagIcon, label: `${pendingCount} à traiter` }}
-        description={`${orders.length} commande${orders.length > 1 ? 's' : ''} · ${formatEuro(openTotal)} en attente de remise`}
+        badge={{ icon: ShoppingBagIcon, label: `${pending.length} à payer` }}
+        description={`${orders.length} commande${orders.length > 1 ? 's' : ''} · ${formatEuro(pendingTotal)} en attente de paiement`}
         actions={[
-          {
-            label: 'Exporter CSV',
-            onClick: handleExport,
-            icon: ArrowDownTrayIcon,
-            variant: 'secondary',
-          },
+          { label: 'Commandes groupées', href: '/admin/commandes/campagnes', icon: UserGroupIcon, variant: 'secondary' },
+          { label: 'Banque', href: '/admin/commandes/banque', icon: BuildingLibraryIcon, variant: 'secondary' },
+          { label: 'Exporter CSV', onClick: handleExport, icon: ArrowDownTrayIcon, variant: 'secondary' },
         ]}
       />
 
       <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrer par statut">
-        {(['all', 'pending', 'confirmed', 'delivered', 'cancelled'] as Filter[]).map((f) => (
+        {filters.map((f) => (
           <button
             key={f}
             type="button"
@@ -154,63 +167,81 @@ export default function OrdersTable({
         </p>
       ) : (
         <ul className="divide-y divide-line rounded-md border border-line bg-white dark:divide-night-line dark:border-night-line dark:bg-night-2">
-          {visible.map((order) => (
-            <li key={order.id} className="grid gap-4 p-4 sm:grid-cols-[1fr_auto] sm:items-start">
-              <div className="min-w-0 space-y-1">
-                <p className="font-bold text-ink dark:text-snow">
-                  {order.memberName}{' '}
-                  <span className="font-narrow text-xs font-semibold tabular-nums text-ink-3 dark:text-snow-3">
-                    {new Date(order.createdAt).toLocaleDateString('fr-BE')}
-                  </span>
-                </p>
-                <p className="text-sm text-ink-2 dark:text-snow-2">
-                  <a className="underline underline-offset-2" href={`mailto:${order.memberEmail}`}>
-                    {order.memberEmail}
-                  </a>
-                  {order.memberPhone ? ` · ${order.memberPhone}` : ''}
-                </p>
-                {order.items.map((it, i) => (
-                  <p key={i} className="text-sm text-ink dark:text-snow">
-                    {it.quantity} × {it.equipmentName} · taille {it.size} ·{' '}
-                    <span className="tabular-nums">{formatEuro(it.unitPrice * it.quantity)}</span>
+          {visible.map((order) => {
+            const next = transitions[order.status] ?? [];
+            const busy = busyId === order.id;
+            return (
+              <li key={order.id} className="grid gap-4 p-4 lg:grid-cols-[1fr_auto] lg:items-start">
+                <div className="min-w-0 space-y-1">
+                  <p className="flex flex-wrap items-center gap-2 font-bold text-ink dark:text-snow">
+                    {order.memberName}
+                    <Badge variant={STATUS_VARIANTS[order.status]} size="sm">
+                      {STATUS_LABELS[order.status]}
+                    </Badge>
+                    {order.source && (
+                      <Badge variant="paper" size="sm">
+                        {order.source === 'campaign' ? 'Commande groupée' : 'Stock'}
+                      </Badge>
+                    )}
                   </p>
-                ))}
-                {order.notes && (
-                  <p className="text-xs text-ink-3 dark:text-snow-3">Remarque : {order.notes}</p>
-                )}
-                <p className="text-sm font-bold tabular-nums text-ink dark:text-snow">
-                  Total {formatEuro(order.totalPrice)}
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <label className="sr-only" htmlFor={`status-${order.id}`}>
-                  Statut de la commande de {order.memberName}
-                </label>
-                <select
-                  id={`status-${order.id}`}
-                  value={order.status}
-                  disabled={busyId === order.id}
-                  onChange={(e) => handleStatus(order.id, e.target.value as EquipmentOrderStatus)}
-                  className={`min-h-[44px] rounded-md border px-3 text-sm font-semibold ${STATUS_STYLES[order.status]}`}
-                >
-                  {(Object.keys(STATUS_LABELS) as EquipmentOrderStatus[]).map((s) => (
-                    <option key={s} value={s}>
-                      {STATUS_LABELS[s]}
-                    </option>
+                  <p className="text-sm text-ink-2 dark:text-snow-2">
+                    <a className="underline underline-offset-2" href={`mailto:${order.memberEmail}`}>
+                      {order.memberEmail}
+                    </a>
+                    {order.memberPhone ? ` · ${order.memberPhone}` : ''}
+                  </p>
+                  {order.items.map((it, i) => (
+                    <p key={i} className="text-sm text-ink dark:text-snow">
+                      {it.quantity} × {it.equipmentName} · taille {it.size} ·{' '}
+                      <span className="tabular-nums">{formatEuro(it.unitPrice * it.quantity)}</span>
+                    </p>
                   ))}
-                </select>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(order)}
-                  disabled={busyId === order.id}
-                  aria-label={`Supprimer la commande de ${order.memberName}`}
-                  className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md border border-line text-ink-3 hover:border-brand hover:text-brand dark:border-night-line"
-                >
-                  <TrashIcon className="size-5" aria-hidden="true" />
-                </button>
-              </div>
-            </li>
-          ))}
+                  {order.notes && (
+                    <p className="text-xs text-ink-3 dark:text-snow-3">Remarque : {order.notes}</p>
+                  )}
+                  <p className="text-sm font-bold tabular-nums text-ink dark:text-snow">
+                    Total {formatEuro(order.totalPrice)}
+                    {order.paymentReference && (
+                      <span className="ml-2 font-narrow text-xs font-semibold text-ink-3 dark:text-snow-3">
+                        {formatPaymentReference(order.paymentReference)}
+                      </span>
+                    )}
+                  </p>
+                  <p className="text-xs tabular-nums text-ink-3 dark:text-snow-3">
+                    Commandé {formatDate(order.createdAt)}
+                    {order.paidAt && ` · Payé ${formatDate(order.paidAt)}`}
+                    {order.deliveredAt && ` · Remis ${formatDate(order.deliveredAt)}`}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {next.includes('paid') && (
+                    <Button size="sm" variant="admin-primary" disabled={busy} onClick={() => handlePaid(order)}>
+                      Marquer payé
+                    </Button>
+                  )}
+                  {next.includes('delivered') && (
+                    <Button size="sm" variant="admin-secondary" disabled={busy} onClick={() => handleDelivered(order)}>
+                      Remis
+                    </Button>
+                  )}
+                  {next.includes('cancelled') && (
+                    <Button size="sm" variant="admin-danger" disabled={busy} onClick={() => handleCancel(order)}>
+                      Annuler
+                    </Button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(order)}
+                    disabled={busy}
+                    aria-label={`Supprimer la commande de ${order.memberName}`}
+                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md border border-line text-ink-3 hover:border-brand hover:text-brand dark:border-night-line"
+                  >
+                    <TrashIcon className="size-5" aria-hidden="true" />
+                  </button>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

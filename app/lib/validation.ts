@@ -19,6 +19,9 @@ const dateSchema = z.string().regex(
 
 const emailSchema = z.string().email('Must be a valid email address');
 
+/** An RTDB record id coming from the client (no '/', '.', '#', '$', '[' or ']'). */
+export const RecordIdSchema = z.string().regex(/^[\w-]{1,128}$/, 'Identifiant invalide');
+
 // === Trace validation ===
 
 export const CreateTraceSchema = z.object({

@@ -24,6 +24,16 @@ import GobikSizeGuide from '@/app/components/equipment/GobikSizeGuide';
 import { useAuth } from '@/app/context/AuthContext';
 import { toast } from 'sonner';
 import { SheetHeader } from '@/app/components/carte/SheetHeader';
+import Badge from '@/app/components/ui/Badge';
+import { formatCampaignDeadline } from '@/app/components/payments/format';
+import OrderHowTo from '@/app/components/payments/OrderHowTo';
+
+interface OpenCampaign {
+  id: string;
+  title: string;
+  closesAt: string;
+  equipmentIds: string[];
+}
 
 export default function EquipementPage() {
   const { user } = useAuth();
@@ -38,6 +48,7 @@ export default function EquipementPage() {
   const [orderNotes, setOrderNotes] = useState<string>('');
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+  const [campaign, setCampaign] = useState<OpenCampaign | null>(null);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -55,6 +66,11 @@ export default function EquipementPage() {
       }
     };
     fetchEquipment();
+
+    fetch('/api/equipements/campagne-ouverte')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setCampaign(data && data.id ? data : null))
+      .catch(() => setCampaign(null));
   }, []);
 
   const filteredEquipment = equipment.filter((item) => {
@@ -133,6 +149,28 @@ MODALITÉS CLUB :
 
       {/* ──── Main Content Spread (Adaptive Surface) ──── */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 space-y-10">
+        {campaign && (
+          <aside
+            aria-label="Commande groupée ouverte"
+            className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-brand bg-brand-tint dark:bg-brand/10"
+          >
+            <div className="space-y-1">
+              <Badge variant="brand">Commande groupée ouverte</Badge>
+              <div className="text-sm font-bold text-ink dark:text-white">{campaign.title}</div>
+              <div className="text-xs text-ink-2 dark:text-snow-2">
+                Clôture le <span className="tabular-nums">{formatCampaignDeadline(campaign.closesAt)}</span>
+              </div>
+            </div>
+            <Link
+              href={`/checkout?product=${encodeURIComponent(campaign.equipmentIds[0] ?? '')}`}
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap min-h-[44px]"
+            >
+              <span>Commander</span>
+              <ArrowRightIcon className="h-3.5 w-3.5" />
+            </Link>
+          </aside>
+        )}
+
         {/* Direct Checkout Hub Banner */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink shadow-xs">
           <div className="flex items-center gap-3">
@@ -156,6 +194,8 @@ MODALITÉS CLUB :
             <ArrowRightIcon className="h-3.5 w-3.5" />
           </Link>
         </div>
+
+        <OrderHowTo />
 
         {/* Category Filter Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-lg border border-line dark:border-night-line bg-white dark:bg-ink shadow-xs transition-colors">
@@ -253,6 +293,20 @@ MODALITÉS CLUB :
                       <div className="text-xs font-medium text-ink-3 dark:text-snow-3 mt-0.5">
                         Tailles : {item.sizes.join(' · ')}
                       </div>
+                      {item.sizes.some((size) => (item.stock?.[size] ?? 0) > 0) && (
+                        <ul aria-label="En stock" className="mt-2 flex flex-wrap items-center gap-1.5">
+                          <li className="text-xs font-semibold text-ink-3 dark:text-snow-3">En stock</li>
+                          {item.sizes
+                            .filter((size) => (item.stock?.[size] ?? 0) > 0)
+                            .map((size) => (
+                              <li key={size}>
+                                <Badge variant="success" size="sm" className="tabular-nums">
+                                  {size} · {item.stock[size]}
+                                </Badge>
+                              </li>
+                            ))}
+                        </ul>
+                      )}
                     </div>
 
                     <span className="inline-flex items-center gap-1 text-xs font-bold text-brand group-hover:underline">
