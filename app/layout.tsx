@@ -13,6 +13,7 @@ import ConditionalFooter from './components/layout/ConditionalFooter';
 import ActivityTracker from './components/analytics/ActivityTracker';
 import CookieConsentCartouche from './components/consent/CookieConsentCartouche';
 import { Toaster } from 'sonner';
+import FeedbackGate from './components/feedback/FeedbackGate';
 
 import LocalClubJsonLd from './components/seo/LocalClubJsonLd';
 
@@ -146,6 +147,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 closeButton
                 toastOptions={{ className: 'font-sans' }}
               />
+              <FeedbackGate />
             </GroupLabelsProvider>
           </AuthProvider>
         </ThemeProvider>
