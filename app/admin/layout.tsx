@@ -22,6 +22,7 @@ import {
   Cog6ToothIcon,
   ShoppingBagIcon,
   TagIcon,
+  ChatBubbleBottomCenterTextIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
@@ -49,6 +50,7 @@ const navigationGroups: NavigationGroup[] = [
     items: [
       { name: 'Tableau de bord', href: '/admin', icon: HomeIcon },
       { name: 'Statistiques', href: '/admin/statistics', icon: ChartBarIcon },
+      { name: 'Retours visuels', href: '/admin/retours', icon: ChatBubbleBottomCenterTextIcon },
     ],
   },
   {

@@ -27,6 +27,7 @@ import {
   UserPlusIcon,
   PhotoIcon,
   QrCodeIcon,
+  ChatBubbleBottomCenterTextIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon, ClubCrestIcon } from '../ui/CyclingIcons';
 import Link from 'next/link';
@@ -35,6 +36,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useGroupLabels } from '../../context/GroupLabelsContext';
 import { groupSummaryText } from '../../lib/groupSummary';
 import { cn } from '../../utils/cn';
+import { isFeedbackReviewer } from '../../lib/feedback/access';
 import ThemeToggle from './ThemeToggle';
 import { Wordmark } from '../brand/Wordmark';
 
@@ -216,6 +218,18 @@ export default function Navbar(): React.ReactElement {
           description: 'Administration du site',
           href: '/admin',
           icon: PlusCircleIcon,
+        },
+      ]
+    : [];
+
+  // Club officers (not only admins) triage user feedback.
+  const feedbackNavigation: NavItem[] = isFeedbackReviewer(user)
+    ? [
+        {
+          name: 'Retours',
+          description: 'Retours des utilisateurs',
+          href: '/retours',
+          icon: ChatBubbleBottomCenterTextIcon,
         },
       ]
     : [];
@@ -421,7 +435,7 @@ export default function Navbar(): React.ReactElement {
                                       {user?.name}
                                     </p>
                                   </div>
-                                  {[...userNavigation, ...adminNavigation].map((item) => (
+                                  {[...userNavigation, ...feedbackNavigation, ...adminNavigation].map((item) => (
                                     <MenuItem
                                       key={item.name}
                                       item={item}
@@ -722,7 +736,7 @@ export default function Navbar(): React.ReactElement {
                           </div>
                         </div>
                         <div className="divide-y divide-line dark:divide-night-line">
-                          {[...userNavigation, ...adminNavigation].map((item) => (
+                          {[...userNavigation, ...feedbackNavigation, ...adminNavigation].map((item) => (
                             <PopoverButton
                               key={item.name}
                               as={Link}
