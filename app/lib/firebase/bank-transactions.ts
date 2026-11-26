@@ -68,7 +68,8 @@ export async function importCodaFile(text: string): Promise<CodaImportSummary> {
   }
 
   const importedAt = new Date().toISOString();
-  const transactions: BankTransaction[] = [];
+  let matched = 0;
+  let unmatched = 0;
   for (const { credit, ...outcome } of reconcile(fresh, await readEquipmentOrders())) {
     const base = {
       id: credit.id,
@@ -84,60 +85,68 @@ export async function importCodaFile(text: string): Promise<CodaImportSummary> {
     if (outcome.status === 'unmatched') {
       transaction = { ...base, status: 'unmatched', reason: outcome.reason };
     } else {
-      try {
-        await markOrderPaid(outcome.orderId, credit.valueDate, credit.id);
-        transaction = { ...base, status: 'matched', orderId: outcome.orderId };
-      } catch (error) {
-        // The order changed since it was read: leave the credit for manual review.
-        console.error(`CODA import: order ${outcome.orderId} not marked paid:`, error);
-        transaction = { ...base, status: 'unmatched', reason: 'not-pending' };
+      transaction = { ...base, status: 'matched', orderId: outcome.orderId };
+      if (!outcome.alreadyPaid) {
+        try {
+          await markOrderPaid(outcome.orderId, credit.valueDate, credit.id);
+        } catch (error) {
+          // The order changed since it was read: paid by this very credit (concurrent
+          // import), or else left for manual review.
+          const order = (await readEquipmentOrders()).find((o) => o.id === outcome.orderId);
+          if (order?.bankTransactionId !== credit.id) {
+            console.error(`CODA import: order ${outcome.orderId} not marked paid:`, error);
+            transaction = { ...base, status: 'unmatched', reason: 'not-pending' };
+          }
+        }
       }
     }
-    transactions.push(transaction);
+    // Stored right after its order, so a crash midway leaves consistent records and a
+    // re-import completes the rest. Already stored by a concurrent import: a duplicate.
+    if (!(await createBankTransaction(transaction))) continue;
+    if (transaction.status === 'matched') matched++;
+    else unmatched++;
   }
 
-  if (isMockMode) {
-    MOCK_BANK_TRANSACTIONS.push(...transactions);
-  } else if (transactions.length) {
-    await getAdminDatabase()
-      .ref(TRANSACTIONS_PATH)
-      .update(Object.fromEntries(transactions.map((t) => [t.id, t])));
-  }
-
-  const matched = transactions.filter((t) => t.status === 'matched').length;
-  return {
-    total: credits.length,
-    duplicates: credits.length - fresh.length,
-    matched,
-    unmatched: transactions.length - matched,
-  };
+  return { total: credits.length, duplicates: credits.length - matched - unmatched, matched, unmatched };
 }
 
-async function getBankTransaction(id: string): Promise<BankTransaction | null> {
-  if (isMockMode) return MOCK_BANK_TRANSACTIONS.find((t) => t.id === id) ?? null;
-  const snapshot = await getAdminDatabase().ref(`${TRANSACTIONS_PATH}/${id}`).once('value');
-  return snapshot.exists() ? { ...(snapshot.val() as BankTransaction), id } : null;
+/** Create-only write. False when the record already exists (nothing written). */
+async function createBankTransaction(transaction: BankTransaction): Promise<boolean> {
+  if (isMockMode) {
+    if (MOCK_BANK_TRANSACTIONS.some((t) => t.id === transaction.id)) return false;
+    MOCK_BANK_TRANSACTIONS.push(transaction);
+    return true;
+  }
+  // The first call may see null before the server value is known; the server then
+  // retries with the stored record and the abort (undefined) leaves it untouched.
+  const { committed } = await getAdminDatabase()
+    .ref(`${TRANSACTIONS_PATH}/${transaction.id}`)
+    .transaction((current: BankTransaction | null) => (current === null ? transaction : undefined));
+  return committed;
 }
 
 /**
  * Manual match by an admin, whatever the amount: the order (which must be pending)
- * becomes paid on the transaction's value date.
+ * becomes paid on the transaction's value date. The credit is claimed first, so one
+ * credit never pays two orders; it is released again when the order cannot be paid.
  */
 export async function assignTransaction(txId: string, orderId: string): Promise<BankTransaction> {
-  const transaction = await getBankTransaction(txId);
-  if (!transaction) throw new NotFoundError('Transaction introuvable');
-  if (transaction.status === 'matched') throw new ValidationError('Transaction déjà rapprochée');
+  let previous: BankTransaction | undefined;
+  const claimed = await updateRecord(MOCK_BANK_TRANSACTIONS, TRANSACTIONS_PATH, txId, (t) => {
+    if (t.status === 'matched') throw new ValidationError('Transaction déjà rapprochée');
+    previous = t;
+    return { ...t, status: 'matched' as const, orderId, manual: true, reason: undefined };
+  });
+  if (!claimed || !previous) throw new NotFoundError('Transaction introuvable');
+  const restore = previous;
 
-  await markOrderPaid(orderId, transaction.valueDate, txId);
-  const updated = await updateRecord(MOCK_BANK_TRANSACTIONS, TRANSACTIONS_PATH, txId, (t) => ({
-    ...t,
-    status: 'matched' as const,
-    orderId,
-    manual: true,
-    reason: undefined,
-  }));
-  if (!updated) throw new NotFoundError('Transaction introuvable');
-  return updated;
+  try {
+    await markOrderPaid(orderId, claimed.valueDate, txId);
+  } catch (error) {
+    await updateRecord(MOCK_BANK_TRANSACTIONS, TRANSACTIONS_PATH, txId, () => restore);
+    throw error;
+  }
+  return claimed;
 }
 
 /** Unmatched → ignored (e.g. a membership fee or a refund handled elsewhere). */

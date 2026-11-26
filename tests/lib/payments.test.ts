@@ -153,6 +153,24 @@ describe('parseCoda', () => {
     expect(credit.counterpartyAccount).toBe('');
   });
 
+  it('drops a globalised total and keeps its detail credits', () => {
+    const credits = parseCoda(
+      codaFile([
+        { seq: '0001', bankRef: 'G1', amount: '000000000125000', glob: '1', text: ['Globalisation'] },
+        { seq: '0001', detail: '0001', bankRef: 'G1', amount: '000000000079500', ogm: REF_12, account: 'BE68539007547034', name: 'DUPONT' },
+        { seq: '0001', detail: '0002', bankRef: 'G1', amount: '000000000045500', text: ['Maillot'], account: 'BE71096123456769', name: 'MARTIN' },
+        // a globalisation code without details stays a credit
+        { seq: '0002', bankRef: 'R2', amount: '000000000010000', glob: '1', text: ['Total'] },
+      ])
+    );
+    expect(credits.map((c) => [c.amountCents, c.counterpartyName])).toEqual([
+      [7950, 'DUPONT'],
+      [4550, 'MARTIN'],
+      [1000, ''],
+    ]);
+    expect(credits[0].reference).toBe(REF_12);
+  });
+
   it('ignores 22/23 records of another sequence number', () => {
     const lines = [
       CODA_HEADER,
@@ -200,6 +218,14 @@ describe('reconcile', () => {
       // second payment of the same order in one file
       { status: 'unmatched', reason: 'not-pending' },
     ]);
+  });
+
+  it('matches again, without paying twice, a credit that already paid its order', () => {
+    const [result] = reconcile(
+      [{ id: 'tx1', amountCents: 5000, reference: REF_13 }],
+      [{ ...orders[1], bankTransactionId: 'tx1' }]
+    );
+    expect(result).toMatchObject({ status: 'matched', orderId: 'b', alreadyPaid: true });
   });
 
   it('compares in cents, not floats', () => {

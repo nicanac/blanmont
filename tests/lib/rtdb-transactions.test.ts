@@ -27,15 +27,20 @@ import { updateRecord } from '@/app/lib/firebase/update-record';
 
 describe('RTDB transactions (Admin SDK path)', () => {
   it('reserves stock only when enough is left', async () => {
-    store['equipment/j/stock/M'] = 2;
+    store['equipment/j'] = { name: 'Jersey', stock: { M: 2 } };
     expect(await adjustEquipmentStock('j', 'M', -2)).toBe(true);
-    expect(store['equipment/j/stock/M']).toBe(0);
+    expect(store['equipment/j']).toEqual({ name: 'Jersey', stock: { M: 0 } });
     expect(await adjustEquipmentStock('j', 'M', -1)).toBe(false);
-    expect(store['equipment/j/stock/M']).toBe(0);
+    expect(store['equipment/j']).toEqual({ name: 'Jersey', stock: { M: 0 } });
 
     expect(await adjustEquipmentStock('j', 'XL', -1)).toBe(false);
     expect(await adjustEquipmentStock('j', 'XL', 3)).toBe(true);
-    expect(store['equipment/j/stock/XL']).toBe(3);
+    expect(store['equipment/j']).toEqual({ name: 'Jersey', stock: { M: 0, XL: 3 } });
+  });
+
+  it('never creates a missing product when giving stock back', async () => {
+    expect(await adjustEquipmentStock('gone', 'M', 2)).toBe(false);
+    expect(Object.keys(store).filter((k) => k.startsWith('equipment/gone') && store[k] !== null)).toEqual([]);
   });
 
   it('updates an existing record, refuses through apply and reports a missing one', async () => {

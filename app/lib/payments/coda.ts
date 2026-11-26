@@ -27,6 +27,10 @@ export class CodaError extends Error {
 
 interface Movement {
   seq: string;
+  /** Detail number (21, pos. 7-10): 0000 for a movement, > 0000 for a detail of a globalisation. */
+  detail: string;
+  /** Globalisation code (21, pos. 125) other than 0. */
+  globalised: boolean;
   line: number;
   bankRef: string;
   credit: boolean;
@@ -66,6 +70,8 @@ export function parseCoda(text: string): CodaCredit[] {
       const structured = l[61] === '1' && ['101', '102'].includes(l.slice(62, 65));
       current = {
         seq,
+        detail: l.slice(6, 10),
+        globalised: !['0', ' '].includes(l[124]),
         line: index + 1,
         bankRef: l.slice(10, 31).trim(),
         credit: l[31] === '0',
@@ -87,8 +93,15 @@ export function parseCoda(text: string): CodaCredit[] {
     }
   });
 
+  // A globalised total followed by its details is dropped: the details are the real credits.
+  const isGlobalTotal = (m: Movement, i: number): boolean =>
+    m.globalised &&
+    m.detail === '0000' &&
+    movements[i + 1]?.seq === m.seq &&
+    movements[i + 1].detail !== '0000';
+
   return movements
-    .filter((m) => m.credit)
+    .filter((m, i) => m.credit && !isGlobalTotal(m, i))
     .map((m) => {
       const freeText = m.communication.join('').replace(/\s+/g, ' ').trim();
       const structured =

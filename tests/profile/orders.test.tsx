@@ -7,9 +7,17 @@ import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 vi.mock('@/app/lib/qrcode', () => ({ generateQrCodeSvg: vi.fn().mockResolvedValue('<svg></svg>') }));
+vi.mock('next/navigation', () => ({ redirect: vi.fn() }));
+vi.mock('@/app/lib/auth/session', () => ({ getSessionUser: async () => ({ id: 'm1', name: 'Jean' }) }));
+vi.mock('@/app/lib/firebase/equipment-orders', () => ({
+  getOrdersByMember: () => Promise.reject(new Error('RTDB down')),
+}));
+vi.mock('@/app/lib/firebase/equipment-campaigns', () => ({ getEquipmentCampaigns: async () => [] }));
+vi.mock('@/app/lib/firebase/payment-settings', () => ({ getPaymentSettings: async () => null }));
 
 import { buildTimeline } from '@/app/profile/commandes/timeline';
 import OrderCard from '@/app/profile/commandes/OrderCard';
+import MemberOrdersPage from '@/app/profile/commandes/page';
 import { formatDate } from '@/app/components/payments/format';
 import type { EquipmentCampaign, EquipmentOrder } from '@/app/types/equipment';
 
@@ -74,5 +82,16 @@ describe('OrderCard', () => {
     const { container } = render(<ul><OrderCard order={{ ...order, status: 'paid', paidAt: '2026-11-22' }} campaign={campaign} epcPayload={null} /></ul>);
     expect(container.querySelector('details')).toBeNull();
     expect(screen.getByText('Payée')).toBeInTheDocument();
+  });
+});
+
+describe('MemberOrdersPage', () => {
+  it('says the orders could not be loaded instead of showing none', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    render(await MemberOrdersPage());
+    expect(screen.getByRole('alert').textContent).toBe(
+      'Impossible de charger les commandes pour le moment. Réessayez plus tard.'
+    );
+    expect(screen.queryByText(/Aucune commande/)).toBeNull();
   });
 });

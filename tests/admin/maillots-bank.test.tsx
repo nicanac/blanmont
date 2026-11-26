@@ -68,6 +68,11 @@ describe('BankClient', () => {
     await userEvent.selectOptions(screen.getByLabelText(/Commande à associer/), 'o1');
     await userEvent.click(assign);
     await waitFor(() => expect(mocks.assignTransactionAction).toHaveBeenCalledWith('t1', 'o1'));
+
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValueOnce(false).mockReturnValueOnce(true);
+    await userEvent.click(screen.getByRole('button', { name: 'Ignorer' }));
+    expect(confirm).toHaveBeenCalledWith('Ignorer ce virement ? Il ne sera plus proposé au rapprochement.');
+    expect(mocks.ignoreTransactionAction).not.toHaveBeenCalled();
     await userEvent.click(screen.getByRole('button', { name: 'Ignorer' }));
     await waitFor(() => expect(mocks.ignoreTransactionAction).toHaveBeenCalledWith('t1'));
   });

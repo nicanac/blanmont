@@ -46,7 +46,7 @@ All money stays in euros on orders (existing `totalPrice`), **compare in cents**
 
 Mock mode (`isMockMode`) keeps in-memory stores like `MOCK_EQUIPMENT_ORDERS`, so tests run without Firebase.
 
-RTDB security rules live in the Firebase console (not in the repo): the five new paths must be `.read: false, .write: false` for clients.
+RTDB security rules: `database.rules.json` (in the repo since v0.35.0) denies every client read and write at the root, so the new paths are server-only; check it is deployed (`firebase deploy --only database`).
 
 ## Status transitions
 
@@ -68,16 +68,17 @@ Risk: Belgian apps differ on OGM in the structured field. The field choice is on
 
 ## CODA parsing (v2, 128-char records, read as latin1)
 
-Positions are 1-based, inclusive. Lines may end with `\r`. Reject a file that has no record `0` or has records of the wrong length ("Fichier CODA invalide"). Max upload 2 MB.
+Positions are 1-based, inclusive. Lines may end with `\r`. Reject a file that has no record `0` or has records of the wrong length ("Fichier CODA invalide"). Max upload 1 MB (Next's server-action body limit).
 
 - `21` movement part 1: 3-6 sequence, 11-31 bank reference, 32 sign (`0` credit, `1` debit), 33-47 amount (15 digits, **3 implied decimals**), 48-53 value date DDMMYY, 62 communication type (`1` = structured), 63-115 communication. If structured and 63-65 is `101` or `102`, the OGM is 66-77.
 - `22` part 2: 11-63 communication (continued).
 - `23` part 3: 11-47 counterparty account, 48-82 counterparty name, 83-125 communication (continued).
+- `21` pos. 7-10 detail number, pos. 125 globalisation code: a `0000` record with a code other than `0` followed by details (same sequence, detail > `0000`) is the bank's total and is dropped; the details are the credits.
 - Join 21/22/23 by sequence number. Free communication = 21[63-115] + 22[11-63] + 23[83-125], trimmed; scan it for an OGM when the structured field is absent. Skip debits and every other record type.
 
 ## Reconciliation (pure function, exact amount)
 
-For each new credit, in file order: no reference → `no-reference`; no order with that `paymentReference` → `unknown-reference`; order not `pending` → `not-pending`; amount ≠ order total in cents → `amount-mismatch`; else **matched** (order → `paid`, `paidAt = valueDate`, `bankTransactionId`). Two credits for one order in one file: the first matches, the second is `not-pending`. Manual assign (admin) accepts any amount, sets `manual: true`.
+For each new credit, in file order: no reference → `no-reference`; no order with that `paymentReference` → `unknown-reference`; order not `pending` → `not-pending`; amount ≠ order total in cents → `amount-mismatch`; else **matched** (order → `paid`, `paidAt = valueDate`, `bankTransactionId`). Two credits for one order in one file: the first matches, the second is `not-pending`. Manual assign (admin) accepts any amount, sets `manual: true`; it claims the credit before paying the order and releases it if the order cannot be paid. A credit whose id is already an order's `bankTransactionId` (import stopped midway, or run twice at once) is matched without paying again; each transaction record is written create-only right after its order.
 
 ## Routes
 
@@ -93,7 +94,7 @@ For each new credit, in file order: no reference → `no-reference`; no order wi
 
 ## Security
 
-Member actions use `getSessionUser()` and take `memberId` from the session; admin actions call `requireAdminSession()`. Prices and stock are read server-side. Every input goes through Zod. The CODA upload is admin-only, ≤ 2 MB, parsed in memory, never stored as a file.
+Member actions use `getSessionUser()` and take `memberId` from the session; admin actions call `requireAdminSession()`. Prices and stock are read server-side. Every input goes through Zod. The CODA upload is admin-only, ≤ 1 MB, parsed in memory, never stored as a file.
 
 ## Out of scope (v1)
 

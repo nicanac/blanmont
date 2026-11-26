@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import CampaignDetail from '@/app/admin/commandes/campagnes/components/CampaignDetail';
 import CampaignForm from '@/app/admin/commandes/campagnes/components/CampaignForm';
+import AdminCampaignPage from '@/app/admin/commandes/campagnes/[id]/page';
 import type { EquipmentCampaign, EquipmentOrder } from '@/app/types/equipment';
 
 const mocks = vi.hoisted(() => ({
@@ -17,7 +18,15 @@ const mocks = vi.hoisted(() => ({
   refresh: vi.fn(),
 }));
 vi.mock('@/app/admin/commandes/campagnes/actions', () => mocks);
-vi.mock('next/navigation', () => ({ useRouter: () => ({ push: mocks.push, refresh: mocks.refresh }) }));
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push: mocks.push, refresh: mocks.refresh }), notFound: vi.fn() }));
+vi.mock('@/app/lib/firebase/equipment-campaigns', () => ({
+  getEquipmentCampaign: async () => campaign,
+  buildSizeMatrix: vi.fn(),
+}));
+vi.mock('@/app/lib/firebase/equipment-orders', () => ({
+  readEquipmentOrders: () => Promise.reject(new Error('RTDB down')),
+}));
+vi.mock('@/app/lib/firebase/equipment', () => ({ getEquipment: async () => [] }));
 vi.mock('next/link', () => ({ default: ({ children, href }: any) => <a href={href}>{children}</a> }));
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 vi.mock('@/app/context/ThemeContext', () => ({ useTheme: () => ({ resolvedTheme: 'light' }) }));
@@ -109,5 +118,15 @@ describe('CampaignForm', () => {
     await userEvent.type(screen.getByLabelText('Date de clôture'), '2030-01-15T18:00');
     await userEvent.click(screen.getByRole('button', { name: 'Créer la commande groupée' }));
     expect((await screen.findByRole('alert')).textContent).toBe('Choisissez au moins un article');
+  });
+});
+
+describe('AdminCampaignPage', () => {
+  it('says the orders could not be loaded instead of an empty size matrix', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    render(await AdminCampaignPage({ params: Promise.resolve({ id: 'c1' }) }));
+    expect(screen.getByRole('alert').textContent).toBe(
+      'Impossible de charger les commandes pour le moment. Réessayez plus tard.'
+    );
   });
 });

@@ -13,12 +13,13 @@ import { RecordIdSchema } from '@/app/lib/validation';
 
 type ActionResult = { success: boolean; error?: string };
 
-const MAX_CODA_BYTES = 2 * 1024 * 1024;
+// Next's server-action body limit is 1 MB for the whole multipart request: keep room for its overhead.
+const MAX_CODA_BYTES = 1_000_000 - 20_000;
 
 const CodaFileSchema = z
   .instanceof(File, { error: 'Choisissez un fichier CODA' })
   .refine((file) => file.size > 0, 'Le fichier est vide')
-  .refine((file) => file.size <= MAX_CODA_BYTES, 'Fichier trop volumineux (2 Mo maximum)');
+  .refine((file) => file.size <= MAX_CODA_BYTES, 'Fichier trop volumineux (1 Mo maximum)');
 
 function revalidateBank(): void {
   revalidatePath('/admin/commandes/banque');
