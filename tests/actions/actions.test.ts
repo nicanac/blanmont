@@ -132,13 +132,25 @@ describe('Server Actions (app/actions.ts)', () => {
         pollId: 'poll-1',
         memberId: 'member-10',
         memberName: 'Laurent',
-        dayChoice: 'Samedi',
+        slots: ['samedi-matin', 'dimanche-matin'],
         groupChoice: 'Groupe B',
+        groupVariant: 'plus',
       });
 
       expect(result.success).toBe(true);
       expect(pollsModule.submitPollResponse).toHaveBeenCalledWith(
-        expect.objectContaining({ memberId: 'member-10', dayChoice: 'Samedi' })
+        expect.objectContaining({ memberId: 'member-10', slots: ['samedi-matin', 'dimanche-matin'], groupVariant: 'plus' })
+      );
+    });
+
+    it('rejects unknown slots and a ride without a group', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({ id: 'member-10', isAdmin: false } as any);
+      const base = { pollId: 'poll-1', memberId: 'member-10', memberName: 'Laurent' };
+      await expect(
+        submitWeekendPollResponseAction({ ...base, slots: ['lundi'] as any, groupChoice: 'Groupe B' })
+      ).rejects.toThrow('Créneau inconnu.');
+      await expect(submitWeekendPollResponseAction({ ...base, slots: ['samedi-matin'] })).rejects.toThrow(
+        'Choisissez votre groupe.'
       );
     });
 

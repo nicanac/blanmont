@@ -1,35 +1,25 @@
 'use client';
 
-import { useGroupLabels } from '@/app/context/GroupLabelsContext';
-
 import React, { useState, useTransition } from 'react';
-import { RoadSwatch } from '@/app/components/carte/RoadSwatch';
-import type { CyclingGroup } from '@/app/constants/cycling';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '@/app/context/AuthContext';
-import {
-  WeekendPoll,
-  PollResponse,
-  Member,
-  PollDayChoice,
-  CyclingGroupChoice,
-} from '@/app/types';
-import {
-  submitWeekendPollResponseAction,
-  deleteWeekendPollResponseAction,
-} from '@/app/actions';
-import {
-  CheckIcon,
-  PencilSquareIcon,
-  LockClosedIcon,
-  ArrowRightIcon,
-  InformationCircleIcon,
-  CalendarDaysIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
-import { BicycleIcon, RouteCalendarIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { toast } from 'sonner';
+import { ArrowRightIcon, CalendarDaysIcon, CheckCircleIcon, ChevronDownIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { useAuth } from '@/app/context/AuthContext';
+import { RoadSwatch } from '@/app/components/carte/RoadSwatch';
+import type { CyclingGroup } from '@/app/constants/cycling';
+import type { WeekendPoll, PollResponse, Member, PollSlot } from '@/app/types';
+import { submitWeekendPollResponseAction, deleteWeekendPollResponseAction } from '@/app/actions';
+import {
+  POLL_SLOTS,
+  POLL_GROUP_OPTIONS,
+  responseSlots,
+  responseGroupKey,
+  pollGroupName,
+  slotsLabel,
+  tallySlots,
+} from '@/app/lib/poll-slots';
 
 interface WeekendPollViewProps {
   poll: WeekendPoll | null;
@@ -37,28 +27,11 @@ interface WeekendPollViewProps {
   members: Member[];
 }
 
-interface DayOption {
-  id: PollDayChoice;
-  label: string;
-  subtitle: string;
-  Icon: React.ComponentType<{ className?: string }>;
-}
+/** Last group picked on this device, preselected on the next poll ("choix conservé"). */
+const REMEMBERED_GROUP_KEY = 'blanmont:sondage-group';
 
-const DAY_OPTIONS: DayOption[] = [
-  { id: 'samedi', label: 'Samedi matin', subtitle: 'Sortie officielle du club', Icon: BicycleIcon },
-  { id: 'dimanche', label: 'Dimanche matin', subtitle: 'Sortie dominicale', Icon: RouteCalendarIcon },
-  { id: 'les-deux', label: 'Les 2 jours', subtitle: 'Samedi & Dimanche', Icon: TrophySquareIcon },
-  { id: 'absent', label: 'Absent ce week-end', subtitle: 'Ne roule pas ce week-end', Icon: XMarkIcon },
-];
-
-const GROUP_OPTIONS: { id: CyclingGroupChoice; label: string; speed: string }[] = [
-  { id: 'Groupe A', label: 'Groupe A', speed: '> 30 km/h' },
-  { id: 'Groupe B', label: 'Groupe B', speed: '25 - 28 km/h' },
-  { id: 'Groupe BC', label: 'Groupe BC', speed: '24 - 27 km/h' },
-  { id: 'Groupe C', label: 'Groupe C', speed: '< 25 km/h' },
-  { id: 'Groupe VTT', label: 'Groupe VTT', speed: 'Sentiers & Bois' },
-  { id: 'Autre', label: 'Autre / Libre', speed: 'Horaires décalés' },
-];
+/** Questions auto-added before 2026-11 to pick a Saturday distance: the group now decides it. */
+const isDistanceQuestion = (id: string): boolean => id.startsWith('q-distance-');
 
 function getInitials(name: string): string {
   if (!name) return 'CC';
@@ -67,28 +40,323 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
+const plural = (n: number): string => (n > 1 ? 's' : '');
+
+type SaveStatus = 'idle' | 'saving' | 'saved' | 'need-group' | 'error';
+
+/** Selectable card shared by the slot checkboxes and the group radios. */
+function ChoiceCard({
+  type,
+  name,
+  checked,
+  onChange,
+  title,
+  detail,
+}: {
+  type: 'checkbox' | 'radio';
+  name: string;
+  checked: boolean;
+  onChange: () => void;
+  title: string;
+  detail: string;
+}): React.ReactElement {
+  return (
+    <label
+      className={`flex min-h-[44px] cursor-pointer flex-col gap-1 rounded-md border p-2.5 transition-colors has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brand has-disabled:cursor-not-allowed has-disabled:opacity-60 sm:p-3 ${
+        checked
+          ? 'border-brand bg-brand-tint dark:border-brand-soft dark:bg-brand/15'
+          : 'border-line bg-white hover:border-line-strong dark:border-night-line dark:bg-night-2 dark:hover:border-snow-3'
+      }`}
+    >
+      <span className="flex items-center gap-2.5">
+        <input
+          type={type}
+          name={name}
+          checked={checked}
+          onChange={onChange}
+          className="size-[18px] shrink-0 cursor-pointer accent-brand focus-visible:outline-none"
+        />
+        <span className="text-sm leading-snug text-ink dark:text-snow">{title}</span>
+      </span>
+      <span className="text-xs leading-snug text-ink-3 sm:text-sm dark:text-snow-3">{detail}</span>
+    </label>
+  );
+}
+
+/**
+ * Quick vote: every tick saves at once (no submit button); unticking every slot withdraws the answer.
+ */
+function QuickVoteCard({
+  poll,
+  user,
+  myResponse,
+  responses,
+}: {
+  poll: WeekendPoll;
+  user: { id: string; name: string; avatarUrl?: string };
+  myResponse: PollResponse | null;
+  responses: PollResponse[];
+}): React.ReactElement {
+  const { label } = useGroupLabels();
+  const [, startTransition] = useTransition();
+  const initialSlots = myResponse ? responseSlots(myResponse) : [];
+  const [slots, setSlots] = useState<PollSlot[]>(initialSlots);
+  const [absent, setAbsent] = useState(Boolean(myResponse) && initialSlots.length === 0);
+  const [groupKey, setGroupKey] = useState<string | null>(() => {
+    if (myResponse) return responseGroupKey(myResponse);
+    // Only rendered client-side (auth resolves in the browser), so localStorage is safe here.
+    return typeof window === 'undefined' ? null : window.localStorage.getItem(REMEMBERED_GROUP_KEY);
+  });
+  const [comment, setComment] = useState(myResponse?.comment ?? '');
+  const [customAnswers, setCustomAnswers] = useState<Record<string, string | string[]>>(
+    myResponse?.customAnswers ?? {}
+  );
+  const [hasAnswer, setHasAnswer] = useState(Boolean(myResponse));
+  const [status, setStatus] = useState<SaveStatus>(myResponse ? 'saved' : 'idle');
+  const isClosed = poll.status === 'closed';
+  const questions = (poll.customQuestions ?? []).filter((q) => !isDistanceQuestion(q.id));
+
+  // Live count per option among riders (absents excluded).
+  const optionCount = (key: string): number =>
+    responses.filter((r) => responseSlots(r).length > 0 && responseGroupKey(r) === key).length;
+
+  const save = (next: {
+    slots: PollSlot[];
+    absent: boolean;
+    groupKey: string | null;
+    comment: string;
+    customAnswers: Record<string, string | string[]>;
+  }): void => {
+    const option = POLL_GROUP_OPTIONS.find((o) => o.key === next.groupKey);
+    if (!next.absent && next.slots.length === 0) {
+      if (!hasAnswer) return setStatus('idle');
+      setStatus('saving');
+      startTransition(async () => {
+        try {
+          await deleteWeekendPollResponseAction(poll.id, user.id);
+          setHasAnswer(false);
+          setStatus('idle');
+        } catch {
+          setStatus('error');
+          toast.error('Erreur lors du retrait de la réponse.');
+        }
+      });
+      return;
+    }
+    if (!next.absent && !option) return setStatus('need-group');
+
+    setStatus('saving');
+    startTransition(async () => {
+      try {
+        await submitWeekendPollResponseAction({
+          pollId: poll.id,
+          memberId: user.id,
+          memberName: user.name,
+          memberPhotoUrl: user.avatarUrl,
+          slots: next.absent ? [] : next.slots,
+          groupChoice: option?.group,
+          groupVariant: option?.variant,
+          customAnswers: next.customAnswers,
+          comment: next.comment,
+        });
+        setHasAnswer(true);
+        setStatus('saved');
+      } catch (err: unknown) {
+        setStatus('error');
+        toast.error(`Erreur : ${err instanceof Error ? err.message : String(err)}`);
+      }
+    });
+  };
+
+  const current = { slots, absent, groupKey, comment, customAnswers };
+
+  const toggleSlot = (id: PollSlot): void => {
+    const nextSlots = slots.includes(id) ? slots.filter((s) => s !== id) : [...slots, id];
+    setSlots(nextSlots);
+    setAbsent(false);
+    save({ ...current, slots: nextSlots, absent: false });
+  };
+
+  const toggleAbsent = (): void => {
+    const nextAbsent = !absent;
+    setAbsent(nextAbsent);
+    setSlots([]);
+    save({ ...current, slots: [], absent: nextAbsent });
+  };
+
+  const pickGroup = (key: string): void => {
+    setGroupKey(key);
+    window.localStorage.setItem(REMEMBERED_GROUP_KEY, key);
+    save({ ...current, groupKey: key });
+  };
+
+  const answerQuestion = (id: string, option: string, multiple?: boolean): void => {
+    const prev = customAnswers[id];
+    const value = multiple
+      ? Array.isArray(prev) && prev.includes(option)
+        ? prev.filter((o) => o !== option)
+        : [...(Array.isArray(prev) ? prev : []), option]
+      : option;
+    const next = { ...customAnswers, [id]: value };
+    setCustomAnswers(next);
+    save({ ...current, customAnswers: next });
+  };
+
+  const statusLine: Record<SaveStatus, { text: string; tone: string }> = {
+    idle: { text: 'Cochez vos créneaux : votre réponse s’enregistre toute seule.', tone: 'text-ink-3 dark:text-snow-3' },
+    saving: { text: 'Enregistrement…', tone: 'text-ink-3 dark:text-snow-3' },
+    saved: {
+      text: absent
+        ? 'Absence enregistrée · modifiable à tout moment'
+        : `${slotsLabel(slots)} enregistré · modifiable à tout moment`,
+      tone: 'text-vert-strong dark:text-vert-vif',
+    },
+    'need-group': { text: 'Choisissez votre groupe pour enregistrer.', tone: 'text-brand dark:text-brand-soft' },
+    error: { text: 'Échec de l’enregistrement, réessayez.', tone: 'text-brand dark:text-brand-soft' },
+  };
+
+  return (
+    <section
+      aria-labelledby="sondage-title"
+      className="flex flex-col gap-3 rounded-md border border-line bg-white p-3 sm:gap-4 sm:p-6 dark:border-night-line dark:bg-night-2"
+    >
+      <header className="flex items-center justify-between gap-4">
+        <h1 id="sondage-title" className="text-lg font-bold leading-tight text-ink dark:text-snow">
+          Votre week-end à vélo
+        </h1>
+        <span className="truncate text-xs text-ink-3 dark:text-snow-3">{user.name}</span>
+      </header>
+
+      {isClosed && (
+        <p className="rounded-sm border border-line bg-paper-2 px-3 py-2 text-sm text-ink-2 dark:border-night-line dark:bg-night-3 dark:text-snow-2">
+          Les votes sont clôturés. Rendez-vous au départ selon les groupes ci-dessous !
+        </p>
+      )}
+
+      <fieldset disabled={isClosed} className="flex flex-col gap-2 sm:gap-3">
+        <legend className="contents">
+          <span className="block font-semiwide text-lg font-extrabold uppercase leading-tight text-ink sm:text-xl dark:text-snow">
+            Quand roulez-vous ?
+          </span>
+        </legend>
+        <p className="text-sm text-ink-3 dark:text-snow-3">Plusieurs créneaux possibles, ou « Absent » uniquement.</p>
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          {POLL_SLOTS.map((slot) => (
+            <ChoiceCard
+              key={slot.id}
+              type="checkbox"
+              name="slots"
+              checked={slots.includes(slot.id)}
+              onChange={() => toggleSlot(slot.id)}
+              title={slot.label}
+              detail={slot.departure}
+            />
+          ))}
+          <ChoiceCard
+            type="checkbox"
+            name="absent"
+            checked={absent}
+            onChange={toggleAbsent}
+            title="Absent ce week-end"
+            detail="Aucun créneau sélectionné"
+          />
+        </div>
+      </fieldset>
+
+      <p role="status" aria-live="polite" className={`flex items-center gap-2 text-sm ${statusLine[status].tone}`}>
+        {status === 'saved' && <CheckCircleIcon className="size-6 shrink-0" aria-hidden="true" />}
+        <span>{statusLine[status].text}</span>
+      </p>
+
+      <fieldset disabled={isClosed} className="flex flex-col gap-2 sm:gap-3">
+        <legend className="contents">
+          <span className="flex items-center justify-between gap-4">
+            <span className="shrink-0 text-lg font-bold leading-tight text-ink dark:text-snow">Avec quel groupe ?</span>
+            <span className="text-right text-xs text-ink-3 dark:text-snow-3">Choix conservé pour la prochaine fois</span>
+          </span>
+        </legend>
+        <p className="text-sm text-ink-3 dark:text-snow-3">Pas de distance à choisir : elle dépend de votre groupe.</p>
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          {POLL_GROUP_OPTIONS.map((opt) => {
+            const count = optionCount(opt.key);
+            const name = pollGroupName({ groupChoice: opt.group, groupVariant: opt.variant }, label);
+            return (
+              <ChoiceCard
+                key={opt.key}
+                type="radio"
+                name="group"
+                checked={groupKey === opt.key}
+                onChange={() => pickGroup(opt.key)}
+                title={count > 0 ? `${name} · ${count} coureur${plural(count)}` : name}
+                detail={opt.detail.replace('{GR1}', label('A'))}
+              />
+            );
+          })}
+        </div>
+      </fieldset>
+
+      {questions.map((q) => (
+        <fieldset key={q.id} disabled={isClosed} className="flex flex-col gap-2">
+          <legend className="mb-2 text-sm font-semibold text-ink dark:text-snow">{q.title}</legend>
+          <div className="flex flex-wrap gap-2">
+            {q.options.map((opt) => {
+              const ans = customAnswers[q.id];
+              const checked = Array.isArray(ans) ? ans.includes(opt) : ans === opt;
+              return (
+                <label
+                  key={opt}
+                  className={`inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-md border px-3 text-sm ${
+                    checked
+                      ? 'border-brand bg-brand-tint text-ink dark:bg-brand/15 dark:text-snow'
+                      : 'border-line bg-white text-ink dark:border-night-line dark:bg-night-2 dark:text-snow'
+                  }`}
+                >
+                  <input
+                    type={q.allowMultiple ? 'checkbox' : 'radio'}
+                    name={q.id}
+                    checked={checked}
+                    onChange={() => answerQuestion(q.id, opt, q.allowMultiple)}
+                    className="size-4 accent-brand"
+                  />
+                  {opt}
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
+      ))}
+
+      <details className="group">
+        <summary className="-my-2 flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+          <span className="text-sm font-semibold text-ink dark:text-snow">Ajouter une remarque</span>
+          <span className="flex items-center gap-2 text-xs text-ink-3 dark:text-snow-3">
+            {comment.trim() ? 'Remarque ajoutée' : 'Facultatif'}
+            <ChevronDownIcon className="size-6 transition-transform group-open:rotate-180" aria-hidden="true" />
+          </span>
+        </summary>
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          onBlur={() => {
+            if (comment.trim() !== (myResponse?.comment ?? '').trim()) save(current);
+          }}
+          disabled={isClosed}
+          maxLength={500}
+          rows={2}
+          aria-label="Remarque"
+          placeholder="Ex. : je pars plus tôt, je cherche un covoiturage…"
+          className="mt-2 w-full rounded-md border border-line bg-white p-3 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none dark:border-night-line dark:bg-night-3 dark:text-snow"
+        />
+      </details>
+    </section>
+  );
+}
+
 export default function WeekendPollView({ poll, responses, members: _members }: WeekendPollViewProps): React.ReactElement {
-  const { fullName: groupFullName } = useGroupLabels();
-  // 'Groupe A' → the admin-configured name (GR1); 'Autre' keeps its own label.
-  const optionLabel = (grp: { id: string; label: string }): string =>
-    grp.id === 'Autre' ? grp.label : groupFullName(grp.id);
-  const choiceName = (choice: string): string => (choice === 'Autre' ? choice : groupFullName(choice));
+  const { fullName: groupFullName, label } = useGroupLabels();
   const { user, isAuthenticated } = useAuth();
-  const [isPending, startTransition] = useTransition();
-
-  // Find logged-in user's existing response
-  const myResponse = user ? responses.find((r) => r.memberId === user.id) : null;
-  const [isEditing, setIsEditing] = useState(!myResponse);
-
-  // Form State
-  const [selectedDay, setSelectedDay] = useState<PollDayChoice>(myResponse?.dayChoice || 'samedi');
-  const [selectedGroup, setSelectedGroup] = useState<CyclingGroupChoice>(myResponse?.groupChoice || 'Groupe B');
-  const [customAnswers, setCustomAnswers] = useState<Record<string, string | string[]>>(myResponse?.customAnswers || {});
-  const [comment, setComment] = useState(myResponse?.comment || '');
-
-  // Filter state for results list
   const [filterGroup, setFilterGroup] = useState<string>('all');
-  const [filterDay, setFilterDay] = useState<string>('all');
+  const [filterSlot, setFilterSlot] = useState<string>('all');
 
   if (!poll) {
     return (
@@ -117,75 +385,9 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
     );
   }
 
-  const isClosed = poll.status === 'closed';
-
-  const handleCustomRadioChange = (questionId: string, option: string): void => {
-    setCustomAnswers((prev) => ({ ...prev, [questionId]: option }));
-  };
-
-  const handleCustomCheckboxChange = (questionId: string, option: string): void => {
-    setCustomAnswers((prev) => {
-      const current = Array.isArray(prev[questionId]) ? (prev[questionId] as string[]) : [];
-      const updated = current.includes(option)
-        ? current.filter((o) => o !== option)
-        : [...current, option];
-      return { ...prev, [questionId]: updated };
-    });
-  };
-
-  const handleSubmitResponse = (e: React.FormEvent): void => {
-    e.preventDefault();
-    if (!user) {
-      toast.error('Veuillez vous connecter pour répondre au sondage.');
-      return;
-    }
-
-    startTransition(async () => {
-      try {
-        await submitWeekendPollResponseAction({
-          pollId: poll.id,
-          memberId: user.id,
-          memberName: user.name,
-          memberPhotoUrl: user.avatarUrl,
-          dayChoice: selectedDay,
-          groupChoice: selectedGroup,
-          customAnswers,
-          comment: comment.trim() || undefined,
-        });
-
-        toast.success(
-          myResponse
-            ? 'Votre réponse a été mise à jour !'
-            : 'Votre présence a été enregistrée avec succès !'
-        );
-        setIsEditing(false);
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : String(err);
-        toast.error(`Erreur : ${msg}`);
-      }
-    });
-  };
-
-  const handleDeleteResponse = (): void => {
-    if (!user || !myResponse) return;
-    if (!confirm('Voulez-vous retirer votre réponse à ce sondage ?')) return;
-
-    startTransition(async () => {
-      try {
-        await deleteWeekendPollResponseAction(poll.id, user.id);
-        toast.success('Votre réponse a été retirée.');
-        setIsEditing(true);
-      } catch (_err: unknown) {
-        toast.error('Erreur lors du retrait de la réponse.');
-      }
-    });
-  };
-
-  // Calculations for Tally Dashboard
-  const activeAttendees = responses.filter((r) => r.dayChoice !== 'absent');
-  const saturdayCount = responses.filter((r) => r.dayChoice === 'samedi' || r.dayChoice === 'les-deux').length;
-  const sundayCount = responses.filter((r) => r.dayChoice === 'dimanche' || r.dayChoice === 'les-deux').length;
-  const absentCount = responses.filter((r) => r.dayChoice === 'absent').length;
+  const myResponse = user ? (responses.find((r) => r.memberId === user.id) ?? null) : null;
+  const tally = tallySlots(responses);
+  const riders = responses.filter((r) => responseSlots(r).length > 0);
 
   const groupCounts: Record<string, number> = {
     'Groupe A': 0,
@@ -193,383 +395,98 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
     'Groupe BC': 0,
     'Groupe C': 0,
     'Groupe VTT': 0,
-    'Autre': 0,
   };
-
-  activeAttendees.forEach((r) => {
-    if (groupCounts[r.groupChoice] !== undefined) {
-      groupCounts[r.groupChoice]++;
-    } else {
-      groupCounts['Autre']++;
-    }
+  riders.forEach((r) => {
+    if (r.groupChoice && groupCounts[r.groupChoice] !== undefined) groupCounts[r.groupChoice]++;
   });
 
-  // Filtered responses list
   const filteredResponses = responses.filter((r) => {
     if (filterGroup !== 'all' && r.groupChoice !== filterGroup) return false;
-    if (filterDay === 'samedi' && r.dayChoice !== 'samedi' && r.dayChoice !== 'les-deux') return false;
-    if (filterDay === 'dimanche' && r.dayChoice !== 'dimanche' && r.dayChoice !== 'les-deux') return false;
-    if (filterDay === 'absent' && r.dayChoice !== 'absent') return false;
+    const slots = responseSlots(r);
+    if (filterSlot === 'absent') return slots.length === 0;
+    if (filterSlot !== 'all') return slots.includes(filterSlot as PollSlot);
     return true;
   });
 
+  const tallyCells: { value: number; label: string; muted?: boolean }[] = [
+    ...POLL_SLOTS.map((s) => ({ value: tally.bySlot[s.id], label: s.label })),
+    { value: tally.absent, label: 'Absents', muted: true },
+  ];
+
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Main Grid: Left = Form / My Vote, Right = Live Tally & List */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Member QCM Form */}
-        <div className="lg:col-span-5 space-y-6">
-          {!isAuthenticated ? (
-            <div className="relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-8 text-center space-y-4 shadow-2xs dark:[--tick:var(--color-snow-3)]">
-              <div className="mx-auto flex size-12 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow">
-                <LockClosedIcon className="size-6 text-brand-vif" aria-hidden="true" />
-              </div>
-              <div className="space-y-1.5">
-                <h3 className="font-semiwide text-base sm:text-lg font-extrabold uppercase text-ink dark:text-snow tracking-tight">
-                  Connexion requise
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2 leading-relaxed">
-                  Connectez-vous avec votre compte membre pour voter et indiquer vos préférences de sortie.
-                </p>
-              </div>
-              <div className="pt-2">
-                <Link
-                  href="/login?redirect=/sondage"
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong px-6 py-2.5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors"
-                >
-                  Se connecter pour répondre
-                </Link>
-              </div>
+    <div className="space-y-8">
+      <div className="mx-auto max-w-3xl">
+        {!isAuthenticated || !user ? (
+          <div className="relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-8 text-center space-y-4 shadow-2xs dark:[--tick:var(--color-snow-3)]">
+            <div className="mx-auto flex size-12 items-center justify-center rounded-sm border border-ink text-ink dark:border-snow-3 dark:text-snow">
+              <LockClosedIcon className="size-6 text-brand-vif" aria-hidden="true" />
             </div>
-          ) : isClosed ? (
-            <div className="relative corner-ticks rounded-sm border border-line bg-paper-2/60 dark:border-night-line dark:bg-night-2 p-6 sm:p-8 text-center space-y-3 dark:[--tick:var(--color-snow-3)]">
-              <InformationCircleIcon className="mx-auto size-8 text-ink-3 dark:text-snow-3" aria-hidden="true" />
-              <h3 className="font-semiwide text-base font-extrabold uppercase text-ink dark:text-snow tracking-tight">
-                Les votes sont clôturés
+            <div className="space-y-1.5">
+              <h3 className="font-semiwide text-base sm:text-lg font-extrabold uppercase text-ink dark:text-snow tracking-tight">
+                Connexion requise
               </h3>
-              <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2">
-                Ce sondage est désormais fermé. Rendez-vous au départ selon les groupes ci-contre !
+              <p className="text-xs sm:text-sm text-ink-2 dark:text-snow-2 leading-relaxed">
+                Connectez-vous avec votre compte membre pour voter et indiquer vos préférences de sortie.
               </p>
             </div>
-          ) : myResponse && !isEditing ? (
-            /* Already voted summary card */
-            <div className="relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-7 space-y-5 shadow-2xs dark:[--tick:var(--color-snow-3)]">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5">
-                  <span className="relative flex size-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vert opacity-75" />
-                    <span className="relative inline-flex rounded-full size-2.5 bg-vert" />
-                  </span>
-                  <h3 className="font-semiwide text-base font-extrabold uppercase text-ink dark:text-snow tracking-tight">
-                    Votre participation est confirmée
-                  </h3>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-1.5 rounded-sm border border-line dark:border-night-line bg-paper-2 hover:bg-line dark:bg-night-3 dark:hover:bg-night-line-strong px-3.5 py-2 font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink dark:text-snow transition-colors min-h-[44px] cursor-pointer shrink-0"
-                >
-                  <PencilSquareIcon className="size-3.5" aria-hidden="true" />
-                  <span>Modifier</span>
-                </button>
-              </div>
-
-              <div className="space-y-3 text-xs">
-                <div className="flex justify-between py-2 border-b border-line dark:border-night-line">
-                  <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">Membre :</span>
-                  <strong className="font-semiwide text-ink dark:text-snow truncate max-w-[200px]">{user?.name}</strong>
-                </div>
-                <div className="flex justify-between py-2 border-b border-line dark:border-night-line">
-                  <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">Jour(s) :</span>
-                  <span className="font-semiwide text-ink dark:text-snow">
-                    {DAY_OPTIONS.find((d) => d.id === myResponse.dayChoice)?.label}
-                  </span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-line dark:border-night-line">
-                  <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3">Groupe :</span>
-                  <span className="font-semiwide text-ink dark:text-snow">{choiceName(myResponse.groupChoice)}</span>
-                </div>
-                {myResponse.comment && (
-                  <div className="py-2 border-b border-line dark:border-night-line">
-                    <span className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 dark:text-snow-3 block mb-1">Remarque :</span>
-                    <p className="italic text-xs text-ink-2 dark:text-snow-2 bg-paper-2 dark:bg-night-3 p-3 rounded-sm border border-line dark:border-night-line break-words">
-                      &laquo; {myResponse.comment} &raquo;
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between pt-2">
-                <button
-                  type="button"
-                  onClick={handleDeleteResponse}
-                  disabled={isPending}
-                  className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-brand hover:text-brand-strong dark:text-brand-soft hover:underline transition-colors py-2.5 px-3 min-h-[44px] inline-flex items-center cursor-pointer"
-                >
-                  Annuler ma participation
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(true)}
-                  className="rounded-sm bg-ink hover:bg-night-3 dark:bg-white dark:hover:bg-snow dark:text-ink text-white px-5 py-2.5 font-narrow text-xs font-bold uppercase tracking-[0.07em] transition-colors min-h-[44px] inline-flex items-center justify-center cursor-pointer shadow-2xs"
-                >
-                  Modifier mon choix
-                </button>
-              </div>
-            </div>
-          ) : (
-            /* Interactive QCM Voting Form */
-            <form
-              onSubmit={handleSubmitResponse}
-              className="rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-6 sm:p-7 space-y-6 shadow-2xs"
-            >
-              <div className="flex items-center justify-between border-b border-line dark:border-night-line pb-4">
-                <div>
-                  <h3 className="font-semiwide text-base sm:text-lg font-extrabold uppercase text-ink dark:text-snow tracking-tight">
-                    {myResponse ? 'Modifier votre réponse' : 'Votre réponse au sondage'}
-                  </h3>
-                  <p className="text-xs text-ink-3 dark:text-snow-3 mt-0.5">
-                    Connecté en tant que <strong className="text-ink dark:text-snow">{user?.name}</strong>
-                  </p>
-                </div>
-                {myResponse && (
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    className="font-narrow text-xs font-bold uppercase tracking-[0.06em] text-ink-3 hover:text-ink dark:text-snow-3 dark:hover:text-snow transition-colors px-3 py-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center cursor-pointer"
-                  >
-                    Fermer
-                  </button>
-                )}
-              </div>
-
-              {/* Question 1: Jours */}
-              <div className="space-y-3">
-                <label className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
-                  1. Quel(s) jour(s) roulez-vous ce week-end ? *
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {DAY_OPTIONS.map((opt) => {
-                    const DayIcon = opt.Icon;
-                    const isSelected = selectedDay === opt.id;
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => setSelectedDay(opt.id)}
-                        className={`group flex items-start gap-3 p-3.5 rounded-sm border text-left transition-colors min-h-[56px] cursor-pointer ${
-                          isSelected
-                            ? 'border-brand bg-brand-tint/60 dark:bg-brand/15 dark:border-brand-soft ring-1 ring-brand'
-                            : 'border-line dark:border-night-line bg-paper-2/40 hover:bg-paper-2 dark:bg-night-3/60 dark:hover:bg-night-3 hover:border-ink-3 dark:hover:border-snow-3'
-                        }`}
-                      >
-                        <div
-                          className={`flex size-9 shrink-0 items-center justify-center rounded-sm border transition-colors ${
-                            isSelected
-                              ? 'border-brand bg-brand text-white'
-                              : 'border-line dark:border-night-line bg-white dark:bg-night-2 text-ink dark:text-snow group-hover:border-brand/40'
-                          }`}
-                        >
-                          <DayIcon className="size-4" aria-hidden="true" />
-                        </div>
-                        <div>
-                          <div className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{opt.label}</div>
-                          <div className="text-[11px] text-ink-3 dark:text-snow-3 mt-0.5">{opt.subtitle}</div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Question 2: Groupe (if attending) */}
-              {selectedDay !== 'absent' && (
-                <div className="space-y-3 pt-2 border-t border-line dark:border-night-line">
-                  <label className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
-                    2. Dans quel groupe souhaitez-vous rouler ? *
-                  </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {GROUP_OPTIONS.map((grp) => (
-                      <button
-                        key={grp.id}
-                        type="button"
-                        onClick={() => setSelectedGroup(grp.id)}
-                        className={`flex items-center justify-between p-3 rounded-sm border text-left transition-colors min-h-[46px] cursor-pointer ${
-                          selectedGroup === grp.id
-                            ? 'border-brand bg-brand-tint/60 dark:bg-brand/15 dark:border-brand-soft ring-1 ring-brand font-bold'
-                            : 'border-line dark:border-night-line bg-paper-2/40 hover:bg-paper-2 dark:bg-night-3/60 dark:hover:bg-night-3 hover:border-ink-3 dark:hover:border-snow-3'
-                        }`}
-                      >
-                        <span className="flex items-center gap-2.5">
-                          {grp.id !== 'Autre' && <RoadSwatch group={grp.id.replace('Groupe ', '') as CyclingGroup} className="w-9" />}
-                          <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{optionLabel(grp)}</span>
-                        </span>
-                        <span className="font-narrow text-xs font-bold text-ink-3 dark:text-snow-3 tabular-nums">{grp.speed}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Custom Admin Questions (if any) */}
-              {poll.customQuestions && poll.customQuestions.length > 0 && selectedDay !== 'absent' && (
-                <div className="space-y-4 pt-2 border-t border-line dark:border-night-line">
-                  {poll.customQuestions.map((q, idx) => (
-                    <div key={q.id} className="space-y-2">
-                      <label className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
-                        {idx + 3}. {q.title}
-                      </label>
-                      <div className="space-y-1.5">
-                        {q.options.map((opt) => {
-                          const isSelected = q.allowMultiple
-                            ? Array.isArray(customAnswers[q.id]) &&
-                              (customAnswers[q.id] as string[]).includes(opt)
-                            : customAnswers[q.id] === opt;
-
-                          return (
-                            <button
-                              key={opt}
-                              type="button"
-                              onClick={() =>
-                                q.allowMultiple
-                                  ? handleCustomCheckboxChange(q.id, opt)
-                                  : handleCustomRadioChange(q.id, opt)
-                              }
-                              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-sm border text-xs text-left transition-colors min-h-[44px] cursor-pointer ${
-                                isSelected
-                                  ? 'border-brand bg-brand-tint/60 dark:bg-brand/15 text-ink dark:text-snow font-bold ring-1 ring-brand'
-                                  : 'border-line dark:border-night-line text-ink-2 dark:text-snow-2 bg-paper-2/40 hover:bg-paper-2 dark:bg-night-3/60 dark:hover:bg-night-3'
-                              }`}
-                            >
-                              <span className="font-semiwide text-xs font-extrabold">{opt}</span>
-                              <span
-                                className={`size-4 rounded-xs border flex items-center justify-center text-xs shrink-0 ml-2 ${
-                                  isSelected
-                                    ? 'bg-brand border-brand text-white'
-                                    : 'border-line dark:border-night-line'
-                                }`}
-                              >
-                                {isSelected ? <CheckIcon className="size-3 stroke-[2.5]" aria-hidden="true" /> : null}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Question 4: Commentaire */}
-              <div className="space-y-1.5 pt-2 border-t border-line dark:border-night-line">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="poll-comment"
-                    className="block font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3"
-                  >
-                    Commentaire / Remarque (facultatif)
-                  </label>
-                  <span className="font-narrow text-xs font-bold text-ink-3 dark:text-snow-3 tabular-nums">
-                    {comment.length}/500
-                  </span>
-                </div>
-                <textarea
-                  id="poll-comment"
-                  rows={2}
-                  maxLength={500}
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Ex: Je rejoins le groupe au carrefour de Corroy..."
-                  className="w-full rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 p-3 font-sans text-xs text-ink dark:text-snow placeholder:text-ink-3 dark:placeholder:text-snow-3 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-hidden"
-                />
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isPending}
-                className="w-full inline-flex items-center justify-center rounded-sm bg-brand hover:bg-brand-strong py-3 px-5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors disabled:opacity-50 min-h-[44px] cursor-pointer"
+            <div className="pt-2">
+              <Link
+                href="/login?redirect=/sondage"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-brand hover:bg-brand-strong px-6 py-2.5 font-narrow text-xs font-bold uppercase tracking-[0.08em] text-white shadow-2xs transition-colors"
               >
-                {isPending
-                  ? 'Enregistrement en cours...'
-                  : myResponse
-                    ? 'Mettre à jour ma réponse'
-                    : 'Confirmer ma participation'}
-              </button>
-            </form>
-          )}
-        </div>
+                Se connecter pour répondre
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <QuickVoteCard key={user.id} poll={poll} user={user} myResponse={myResponse} responses={responses} />
+        )}
+      </div>
 
-        {/* Right Column: Live Tally & List of Participants */}
-        <div className="lg:col-span-7 space-y-6">
-          {/* Summary Stats Grid */}
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
+        <div className="space-y-6 lg:col-span-5">
           <section
             aria-label="Télémétrie des pelotons"
-            className="relative corner-ticks rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-4 sm:p-5 dark:[--tick:var(--color-snow-3)]"
+            className="relative corner-ticks rounded-sm border border-line bg-white p-4 sm:p-5 dark:border-night-line dark:bg-night-2 dark:[--tick:var(--color-snow-3)]"
           >
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-line dark:divide-night-line">
-              <div className="space-y-0.5 text-center">
-                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-ink dark:text-snow tabular-nums">
-                  {saturdayCount}
+            <div className="grid grid-cols-2 gap-4">
+              {tallyCells.map((cell) => (
+                <div key={cell.label} className="space-y-0.5 text-center">
+                  <div
+                    className={`font-narrow text-2xl font-extrabold tabular-nums sm:text-3xl ${
+                      cell.muted ? 'text-ink-3 dark:text-snow-3' : 'text-ink dark:text-snow'
+                    }`}
+                  >
+                    {cell.value}
+                  </div>
+                  <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
+                    {cell.label}
+                  </div>
                 </div>
-                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
-                  Samedi matin
-                </div>
-              </div>
-
-              <div className="space-y-0.5 text-center sm:pl-4 pt-3 sm:pt-0">
-                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-ink dark:text-snow tabular-nums">
-                  {sundayCount}
-                </div>
-                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
-                  Dimanche matin
-                </div>
-              </div>
-
-              <div className="space-y-0.5 text-center sm:pl-4 pt-3 sm:pt-0">
-                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-vert dark:text-vert-vif tabular-nums">
-                  {responses.filter((r) => r.dayChoice === 'les-deux').length}
-                </div>
-                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-vert dark:text-vert-vif">
-                  Les 2 jours
-                </div>
-              </div>
-
-              <div className="space-y-0.5 text-center sm:pl-4 pt-3 sm:pt-0">
-                <div className="font-narrow text-2xl sm:text-3xl font-extrabold text-ink-3 dark:text-snow-3 tabular-nums">
-                  {absentCount}
-                </div>
-                <div className="font-narrow text-xs font-bold uppercase tracking-[0.08em] text-ink-3 dark:text-snow-3">
-                  Absents
-                </div>
-              </div>
+              ))}
             </div>
           </section>
 
-          {/* Group Breakdown Cards */}
-          <div className="rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-5 sm:p-6 shadow-2xs space-y-4">
-            <h3 className="font-semiwide text-sm font-extrabold uppercase tracking-tight text-ink dark:text-snow">
+          <div className="space-y-4 rounded-sm border border-line bg-white p-5 shadow-2xs sm:p-6 dark:border-night-line dark:bg-night-2">
+            <h2 className="font-semiwide text-sm font-extrabold uppercase tracking-tight text-ink dark:text-snow">
               Répartition par Groupe de niveau
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {GROUP_OPTIONS.filter((g) => g.id !== 'Autre').map((grp) => {
-                const count = groupCounts[grp.id] || 0;
-                const percentage = activeAttendees.length > 0 ? (count / activeAttendees.length) * 100 : 0;
-
+            </h2>
+            <div className="grid grid-cols-1 gap-3">
+              {Object.keys(groupCounts).map((grp) => {
+                const count = groupCounts[grp];
+                const percentage = riders.length > 0 ? (count / riders.length) * 100 : 0;
                 return (
-                  <div key={grp.id} className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 p-3.5 space-y-2">
+                  <div key={grp} className="space-y-2 rounded-sm border border-line bg-paper p-3.5 dark:border-night-line dark:bg-night-3">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2.5">
-                        <RoadSwatch group={grp.id.replace('Groupe ', '') as CyclingGroup} className="w-9" />
-                        <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{optionLabel(grp)}</span>
+                        <RoadSwatch group={grp.replace('Groupe ', '') as CyclingGroup} className="w-9" />
+                        <span className="font-semiwide text-xs font-extrabold text-ink dark:text-snow">{groupFullName(grp)}</span>
                       </span>
                       <span className="font-narrow text-xs font-extrabold tabular-nums text-ink dark:text-snow">
-                        {count} coureur{count > 1 ? 's' : ''}
+                        {count} coureur{plural(count)}
                       </span>
                     </div>
-
-                    <div className="relative h-2 w-full border border-ink/40 dark:border-snow-3/40 bg-paper-2 dark:bg-night overflow-hidden rounded-xs">
+                    <div className="relative h-2 w-full overflow-hidden rounded-xs border border-ink/40 bg-paper-2 dark:border-snow-3/40 dark:bg-night">
                       <div
                         className="absolute inset-y-0 left-0 w-(--w) bg-ink transition-[width] duration-500 ease-(--ease-plot) dark:bg-snow-2"
                         style={{ '--w': `${percentage}%` } as React.CSSProperties}
@@ -580,118 +497,99 @@ export default function WeekendPollView({ poll, responses, members: _members }: 
               })}
             </div>
           </div>
+        </div>
 
-          {/* Participants Directory */}
-          <div className="rounded-sm border border-line bg-white dark:border-night-line dark:bg-night-2 p-5 sm:p-6 shadow-2xs space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-line dark:border-night-line pb-4">
-              <div>
-                <h3 className="font-semiwide text-sm font-extrabold uppercase tracking-tight text-ink dark:text-snow tabular-nums">
-                  Liste des participants ({filteredResponses.length})
-                </h3>
-              </div>
-
-              {/* Filters */}
-              <div className="flex flex-wrap items-center gap-2 text-xs">
-                <select
-                  value={filterDay}
-                  onChange={(e) => setFilterDay(e.target.value)}
-                  className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 px-3 py-1.5 font-narrow text-xs font-bold uppercase tracking-[0.04em] text-ink dark:text-snow focus:outline-hidden min-h-[44px] cursor-pointer"
-                  aria-label="Filtrer par jour"
-                >
-                  <option value="all">Tous les jours</option>
-                  <option value="samedi">Samedi</option>
-                  <option value="dimanche">Dimanche</option>
-                  <option value="absent">Absents</option>
-                </select>
-
-                <select
-                  value={filterGroup}
-                  onChange={(e) => setFilterGroup(e.target.value)}
-                  className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-3 px-3 py-1.5 font-narrow text-xs font-bold uppercase tracking-[0.04em] text-ink dark:text-snow focus:outline-hidden min-h-[44px] cursor-pointer"
-                  aria-label="Filtrer par groupe"
-                >
-                  <option value="all">Tous les groupes</option>
-                  {['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].map((grp) => (
-                    <option key={grp} value={grp}>
-                      {groupFullName(grp)}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        <div className="space-y-4 rounded-sm border border-line bg-white p-5 shadow-2xs sm:p-6 lg:col-span-7 dark:border-night-line dark:bg-night-2">
+          <div className="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-center sm:justify-between dark:border-night-line">
+            <h2 className="font-semiwide text-sm font-extrabold uppercase tracking-tight tabular-nums text-ink dark:text-snow">
+              Liste des participants ({filteredResponses.length})
+            </h2>
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <select
+                value={filterSlot}
+                onChange={(e) => setFilterSlot(e.target.value)}
+                className="min-h-[44px] cursor-pointer rounded-sm border border-line bg-paper px-3 py-1.5 font-narrow text-xs font-bold uppercase tracking-[0.04em] text-ink focus:outline-hidden dark:border-night-line dark:bg-night-3 dark:text-snow"
+                aria-label="Filtrer par créneau"
+              >
+                <option value="all">Tous les créneaux</option>
+                {POLL_SLOTS.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.label}
+                  </option>
+                ))}
+                <option value="absent">Absents</option>
+              </select>
+              <select
+                value={filterGroup}
+                onChange={(e) => setFilterGroup(e.target.value)}
+                className="min-h-[44px] cursor-pointer rounded-sm border border-line bg-paper px-3 py-1.5 font-narrow text-xs font-bold uppercase tracking-[0.04em] text-ink focus:outline-hidden dark:border-night-line dark:bg-night-3 dark:text-snow"
+                aria-label="Filtrer par groupe"
+              >
+                <option value="all">Tous les groupes</option>
+                {Object.keys(groupCounts).map((grp) => (
+                  <option key={grp} value={grp}>
+                    {groupFullName(grp)}
+                  </option>
+                ))}
+              </select>
             </div>
-
-            {filteredResponses.length === 0 ? (
-              <p className="text-xs text-center py-8 text-ink-3 dark:text-snow-3 italic">
-                Aucune réponse correspondant aux filtres sélectionnés.
-              </p>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[500px] overflow-y-auto pr-1">
-                {filteredResponses.map((res) => {
-                  const dayBadge = DAY_OPTIONS.find((d) => d.id === res.dayChoice);
-                  const isAbsent = res.dayChoice === 'absent';
-                  const initials = getInitials(res.memberName);
-
-                  return (
-                    <div
-                      key={res.id}
-                      className={`flex items-start justify-between p-3 rounded-sm border border-line dark:border-night-line transition-colors ${
-                        isAbsent
-                          ? 'bg-paper-2/40 dark:bg-night-3/40 opacity-60'
-                          : 'bg-paper dark:bg-night-3 hover:border-ink dark:hover:border-snow-3'
-                      }`}
-                    >
-                      <div className="flex items-start gap-3 min-w-0">
-                        {/* Stamp avatar */}
-                        <div className="relative size-9 shrink-0 overflow-hidden rounded-sm bg-night-2 dark:bg-night-line border border-line dark:border-night-line flex items-center justify-center font-narrow font-bold text-xs text-white select-none">
-                          <span>{initials}</span>
-                          {res.memberPhotoUrl &&
-                            !res.memberPhotoUrl.includes('placehold') &&
-                            !res.memberPhotoUrl.includes('default-avatar') && (
-                              <Image
-                                src={res.memberPhotoUrl}
-                                alt={res.memberName}
-                                fill
-                                unoptimized
-                                sizes="36px"
-                                className="object-cover"
-                                onError={(e) => {
-                                  (e.target as HTMLElement).style.display = 'none';
-                                }}
-                              />
-                            )}
-                        </div>
-
-                        <div className="space-y-0.5 min-w-0 flex-1">
-                          <div className="font-semiwide text-xs font-extrabold text-ink dark:text-snow truncate">
-                            {res.memberName}
-                          </div>
-                          <div className="flex items-center gap-1.5 font-narrow text-xs text-ink-3 dark:text-snow-3">
-                            {dayBadge && (
-                              <span className="inline-flex items-center gap-1 font-bold text-ink dark:text-snow truncate">
-                                <dayBadge.Icon className="size-3.5 text-brand-vif shrink-0" aria-hidden="true" />
-                                <span className="truncate">{dayBadge.label}</span>
-                              </span>
-                            )}
-                            {!isAbsent && (
-                              <>
-                                <span>•</span>
-                                <span className="font-bold text-ink-2 dark:text-snow-2 shrink-0">{choiceName(res.groupChoice)}</span>
-                              </>
-                            )}
-                          </div>
-                          {res.comment && (
-                            <p className="text-xs italic text-ink-2 dark:text-snow-2 bg-paper-2 dark:bg-night-2 p-2 rounded-sm border border-line dark:border-night-line mt-1 line-clamp-2 break-words">
-                              &laquo; {res.comment} &raquo;
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
           </div>
+
+          {filteredResponses.length === 0 ? (
+            <p className="py-8 text-center text-xs italic text-ink-3 dark:text-snow-3">
+              Aucune réponse correspondant aux filtres sélectionnés.
+            </p>
+          ) : (
+            <ul className="grid max-h-[500px] grid-cols-1 gap-2.5 overflow-y-auto pr-1 sm:grid-cols-2">
+              {filteredResponses.map((res) => {
+                const slots = responseSlots(res);
+                const isAbsentRow = slots.length === 0;
+                return (
+                  <li
+                    key={res.id}
+                    className={`flex items-start gap-3 rounded-sm border border-line p-3 transition-colors dark:border-night-line ${
+                      isAbsentRow
+                        ? 'bg-paper-2/40 opacity-60 dark:bg-night-3/40'
+                        : 'bg-paper hover:border-ink dark:bg-night-3 dark:hover:border-snow-3'
+                    }`}
+                  >
+                    <div className="relative flex size-9 shrink-0 select-none items-center justify-center overflow-hidden rounded-sm border border-line bg-night-2 font-narrow text-xs font-bold text-white dark:border-night-line dark:bg-night-line">
+                      <span>{getInitials(res.memberName)}</span>
+                      {res.memberPhotoUrl &&
+                        !res.memberPhotoUrl.includes('placehold') &&
+                        !res.memberPhotoUrl.includes('default-avatar') && (
+                          <Image
+                            src={res.memberPhotoUrl}
+                            alt={res.memberName}
+                            fill
+                            unoptimized
+                            sizes="36px"
+                            className="object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLElement).style.display = 'none';
+                            }}
+                          />
+                        )}
+                    </div>
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <div className="truncate font-semiwide text-xs font-extrabold text-ink dark:text-snow">{res.memberName}</div>
+                      <div className="font-narrow text-xs text-ink-3 dark:text-snow-3">
+                        <span className="font-bold text-ink dark:text-snow">{slotsLabel(slots)}</span>
+                        {!isAbsentRow && res.groupChoice && (
+                          <span className="font-bold text-ink-2 dark:text-snow-2"> • {pollGroupName(res, label)}</span>
+                        )}
+                      </div>
+                      {res.comment && (
+                        <p className="mt-1 line-clamp-2 break-words rounded-sm border border-line bg-paper-2 p-2 text-xs italic text-ink-2 dark:border-night-line dark:bg-night-2 dark:text-snow-2">
+                          &laquo; {res.comment} &raquo;
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
     </div>

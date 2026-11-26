@@ -14,14 +14,6 @@ export async function getActiveWeekendPoll(): Promise<WeekendPoll | null> {
       description: 'Indiquez vos disponibilités et votre groupe pour le peloton de ce weekend !',
       status: 'active',
       createdAt: new Date().toISOString(),
-      customQuestions: [
-        {
-          id: 'q1',
-          title: 'Option de distance souhaitée',
-          options: ['Circuit court (~70 km)', 'Circuit moyen (~90 km)', 'Grand tour (~120 km)'],
-          allowMultiple: false,
-        },
-      ],
     };
   }
 
@@ -211,7 +203,7 @@ export async function getPollResponses(pollId: string): Promise<PollResponse[]> 
         pollId,
         memberId: '1',
         memberName: 'Alice Velo',
-        dayChoice: 'samedi',
+        slots: ['samedi-matin', 'samedi-apres-midi'],
         groupChoice: 'Groupe A',
         comment: 'Départ 8h30 à l\'heure !',
         updatedAt: new Date().toISOString(),
@@ -221,8 +213,9 @@ export async function getPollResponses(pollId: string): Promise<PollResponse[]> 
         pollId,
         memberId: '2',
         memberName: 'Bob Sprinter',
-        dayChoice: 'dimanche',
+        slots: ['dimanche-matin'],
         groupChoice: 'Groupe B',
+        groupVariant: 'moins',
         updatedAt: new Date().toISOString(),
       },
     ];

@@ -57,15 +57,10 @@ describe('autoCreateUpcomingWeekendPoll', () => {
         title: 'Sortie du Weekend - 2026-09-19 (Blanmont)',
         weekendIsoDate: targetDate,
         status: 'active',
-        customQuestions: [
-          expect.objectContaining({
-            title: 'Option de distance / parcours (Samedi)',
-            options: ['Parcours court (~70 km)', 'Parcours long (~95 km)'],
-            allowMultiple: false,
-          }),
-        ],
       })
     );
+    // The group decides the route: no distance question any more.
+    expect(createSpy.mock.calls[0][0]).not.toHaveProperty('customQuestions');
   });
 
   it('is idempotent: skips creation if a poll already exists for that weekend', async () => {
