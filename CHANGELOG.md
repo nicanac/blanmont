@@ -14,6 +14,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.35.0] - 2026-11-26
+
+### Added
+- ✨ [feat] security: require cron and session secrets, daily RTDB backup (#188) (`5c7e292`)
 ## [0.34.1] - 2026-11-26
 
 ### Chores
