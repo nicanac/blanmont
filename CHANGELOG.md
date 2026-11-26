@@ -22,6 +22,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.41.0] - 2026-11-26
+
+### Added
+- feat(admin): role-based access to back-office sections, owner-only settings (#206) (`0bb3f31`)
 ## [0.40.1] - 2026-11-26
 
 ### Fixed
