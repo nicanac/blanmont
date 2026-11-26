@@ -123,7 +123,7 @@ Réglage : **Admin → Paramètres → Retours & captures d'écran**.
 - Le dépôt cible est **public** par défaut : l'utilisateur doit cocher qu'aucune donnée personnelle n'apparaît. Pour un dépôt privé, définir `GITHUB_FEEDBACK_REPO`.
 - Prérequis serveur : `GITHUB_FEEDBACK_TOKEN` (Vercel). Sans lui, la carte l'indique et les envois échouent.
 - Coupure d'urgence sans code : `NEXT_PUBLIC_FEEDBACK_ENABLED=false` puis redéploiement.
-- Traitement : `gh issue list --label visual-feedback --state open`, corriger, puis fermer l'issue avec le commit.
+- **Lire et traiter les retours** : page **Retours visuels** (`/admin/retours` pour les admins, `/retours` pour les responsables du club : Président, Trésorier, Secrétaire, Capitaine de Route, Admin ; jamais les simples membres). Onglets À traiter / Résolu / Écarté avec compteurs, recherche, filtres type et priorité, fiche détaillée (capture, contexte, échanges) et flèches ← → pour enchaîner. « Marquer résolu » / « Écarter » / « Rouvrir » ferment ou rouvrent l'issue GitHub et y signent l'action (prénom + rôle). Les issues restent aussi accessibles via `gh issue list --label visual-feedback`.
 
 ## 6. Dépannage & Bonnes Pratiques
 

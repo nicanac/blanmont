@@ -124,6 +124,14 @@ export default function VisualFeedbackCard(): React.ReactElement {
           ))}
         </fieldset>
 
+        <p className="text-xs text-ink-3 dark:text-snow-3">
+          Les retours reçus sont lisibles par les administrateurs et les responsables du club (pas par les simples membres) :{' '}
+          <a href="/admin/retours" className="font-semibold text-brand underline-offset-4 hover:underline">
+            ouvrir les retours
+          </a>
+          .
+        </p>
+
         {data && (
           <div className="space-y-1 border-t border-line dark:border-night-line pt-4 text-xs text-ink-3 dark:text-snow-3">
             <p>

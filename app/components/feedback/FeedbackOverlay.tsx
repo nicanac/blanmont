@@ -6,22 +6,9 @@ import { ChatBubbleBottomCenterTextIcon, XMarkIcon } from '@heroicons/react/24/o
 import AnnotationStudio from './AnnotationStudio';
 import { captureViewport, nextFrame, type Capture } from './capture';
 import { exportAnnotatedJpeg, type Layer } from './annotations';
-import {
-  FEEDBACK_CATEGORIES,
-  FEEDBACK_PRIORITIES,
-} from '@/app/lib/feedback/schema';
+import { FEEDBACK_CATEGORIES, FEEDBACK_PRIORITIES } from '@/app/lib/feedback/schema';
+import { CATEGORY_LABELS, PRIORITY_LABELS } from '@/app/lib/feedback/labels';
 
-const CATEGORY_LABELS: Record<(typeof FEEDBACK_CATEGORIES)[number], string> = {
-  ui: 'Affichage / design',
-  bug: 'Bug',
-  feature: 'Idée / fonctionnalité',
-  copy: 'Texte / orthographe',
-};
-const PRIORITY_LABELS: Record<(typeof FEEDBACK_PRIORITIES)[number], string> = {
-  critical: 'Bloquant',
-  important: 'Important',
-  suggestion: 'Suggestion',
-};
 
 const fieldClass =
   'w-full rounded-sm border border-line dark:border-night-line bg-white dark:bg-night px-3 py-2 text-sm text-ink dark:text-snow focus-visible:outline-2 focus-visible:outline-brand';
