@@ -178,9 +178,8 @@ export const updateMemberPhoto = async (memberId: string, photoUrl: string): Pro
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const memberRef = ref(db, `members/${memberId}`);
-    await update(memberRef, { photoUrl });
+    // Server-only (profile Server Action): the live RTDB rules are deny-all, so only the Admin SDK can write.
+    await getAdminDatabase().ref(`members/${memberId}`).update({ photoUrl });
   } catch (error) {
     console.error('Failed to update member photo:', error);
     throw error;
