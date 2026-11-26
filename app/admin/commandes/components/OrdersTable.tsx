@@ -9,6 +9,7 @@ import { deleteOrderAction, updateOrderStatusAction } from '../actions';
 
 const STATUS_LABELS: Record<EquipmentOrderStatus, string> = {
   pending: 'À traiter',
+  paid: 'Payée',
   confirmed: 'Confirmée',
   delivered: 'Remise',
   cancelled: 'Annulée',
@@ -16,6 +17,7 @@ const STATUS_LABELS: Record<EquipmentOrderStatus, string> = {
 
 const STATUS_STYLES: Record<EquipmentOrderStatus, string> = {
   pending: 'bg-ambre/15 text-ink dark:text-snow border-ambre',
+  paid: 'bg-bois text-ink dark:bg-night-2 dark:text-snow border-vert',
   confirmed: 'bg-brand-tint text-brand-strong dark:text-brand-soft border-brand',
   delivered: 'bg-paper-2 text-ink dark:bg-night-2 dark:text-snow border-line dark:border-night-line',
   cancelled:
