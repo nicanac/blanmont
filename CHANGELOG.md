@@ -32,6 +32,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.46.0] - 2026-11-26
+
+### Added
+- feat(members): CSV export and import of members (#218) (#223) (`814276d`)
 ## [0.45.0] - 2026-11-26
 
 ### Added
