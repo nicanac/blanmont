@@ -35,6 +35,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.47.2] - 2026-11-26
+
+### Fixed
+- fix(ui): footer alignment, members search width, Parcours GPS in Le Club menu (#235) (`6af7bf8`)
 ## [0.47.1] - 2026-11-26
 
 ### Fixed
