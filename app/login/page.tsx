@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import TerritoryMap from '../components/carte/TerritoryMap';
 import { requestAccountActivationAction } from '../actions';
+import { getFirebaseAuth, isMockMode, sendPasswordResetEmail } from '../lib/firebase/client';
 import Link from 'next/link';
 import {
   LockClosedIcon,
@@ -15,7 +16,6 @@ import {
   ArrowPathIcon,
   SparklesIcon,
   ArrowLeftIcon,
-  ArrowRightIcon,
 } from '@heroicons/react/24/outline';
 
 type AuthMode = 'login' | 'activate';
@@ -30,7 +30,6 @@ function LoginForm(): React.ReactElement {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [directActivationLink, setDirectActivationLink] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Sync mode with URL query if present (e.g. /login?mode=activate)
@@ -47,7 +46,6 @@ function LoginForm(): React.ReactElement {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
-    setDirectActivationLink(null);
     setIsLoading(true);
 
     try {
@@ -76,7 +74,6 @@ function LoginForm(): React.ReactElement {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
-    setDirectActivationLink(null);
     setIsLoading(true);
 
     try {
@@ -88,16 +85,20 @@ function LoginForm(): React.ReactElement {
 
       const result = await requestAccountActivationAction(email.trim());
       if (result.success) {
-        setSuccessMessage(result.message);
-        if (result.directLink) {
-          setDirectActivationLink(result.directLink);
+        // Firebase emails the link to the owner of the address. Errors (unknown user, rate limit...)
+        // are ignored so the answer never reveals whether the address is a member.
+        if (!isMockMode) {
+          await sendPasswordResetEmail(getFirebaseAuth(), email.trim(), {
+            url: `${window.location.origin}/login`,
+          }).catch(() => undefined);
         }
+        setSuccessMessage(result.message);
       } else {
         setError(result.message || 'Impossible d\'envoyer le lien d\'activation.');
       }
     } catch (err: unknown) {
       console.error(err);
-      setError('Une erreur inattendue est survenue lors de la création du lien.');
+      setError('Une erreur inattendue est survenue lors de l\'envoi du lien.');
     } finally {
       setIsLoading(false);
     }
@@ -173,16 +174,6 @@ function LoginForm(): React.ReactElement {
               <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
               <span className="leading-relaxed">{successMessage}</span>
             </div>
-
-            {directActivationLink && (
-              <a
-                href={directActivationLink}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
-              >
-                <span>Définir mon mot de passe maintenant</span>
-                <ArrowRightIcon className="h-4 w-4" />
-              </a>
-            )}
           </div>
         )}
 
@@ -320,7 +311,7 @@ function LoginForm(): React.ReactElement {
                 ) : (
                   <>
                     <SparklesIcon className="h-4 w-4" />
-                    <span>Activer mon compte membre</span>
+                    <span>Recevoir le lien par email</span>
                   </>
                 )}
               </button>
