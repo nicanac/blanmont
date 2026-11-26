@@ -7,6 +7,7 @@ import { CalendarEvent, EventReview } from '../types';
 import CalendarDrawer, { isEventDone } from './CalendarDrawer';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 import { parseDateInfo } from '../lib/carreVert';
+import { sortAgendaEvents } from '../lib/calendar-order';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -1103,7 +1104,7 @@ export default function CalendarView({
             <div>
               {monthEvents.length > 0 ? (
                 <ul className="space-y-4" role="list">
-                  {monthEvents.map((event) => (
+                  {sortAgendaEvents(monthEvents, todayStr).map((event) => (
                     <AgendaItem
                       key={event.id}
                       event={event}
