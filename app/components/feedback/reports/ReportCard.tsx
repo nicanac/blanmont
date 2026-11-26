@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChatBubbleLeftIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleLeftIcon, HandThumbUpIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/app/utils/cn';
 import type { FeedbackReport } from '@/app/lib/feedback/reports';
 import { CategoryChip, PriorityChip, StatusChip } from './chips';
@@ -58,6 +58,13 @@ export default function ReportCard({ report, onOpen }: ReportCardProps): React.R
                 <ChatBubbleLeftIcon className="h-3.5 w-3.5" aria-hidden="true" />
                 {report.commentsCount}
                 <span className="sr-only"> réponses</span>
+              </span>
+            )}
+            {(report.votes ?? 0) > 0 && (
+              <span className={cn('inline-flex items-center gap-1 tabular-nums', report.voted && 'font-bold text-brand')}>
+                <HandThumbUpIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                {report.votes}
+                <span className="sr-only">{report.votes === 1 ? ' vote' : ' votes'}</span>
               </span>
             )}
           </div>

@@ -8,7 +8,7 @@ export interface Filters {
   query: string;
   category: 'all' | FeedbackCategory;
   priority: 'all' | FeedbackPriority;
-  sort: 'recent' | 'priority';
+  sort: 'recent' | 'priority' | 'votes';
 }
 
 export const DEFAULT_FILTERS: Filters = { tab: 'open', query: '', category: 'all', priority: 'all', sort: 'recent' };
@@ -29,11 +29,13 @@ export function filterReports(reports: FeedbackReport[], f: Filters): FeedbackRe
     if (!q) return true;
     return fold([r.title, r.comment, r.expected ?? '', r.routePath, r.author, r.id, String(r.number)].join(' ')).includes(q);
   });
-  return out.sort((a, b) =>
-    f.sort === 'priority' && PRIORITY_RANK[a.priority] !== PRIORITY_RANK[b.priority]
-      ? PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority]
-      : b.createdAt.localeCompare(a.createdAt)
-  );
+  return out.sort((a, b) => {
+    if (f.sort === 'priority' && PRIORITY_RANK[a.priority] !== PRIORITY_RANK[b.priority]) {
+      return PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority];
+    }
+    if (f.sort === 'votes' && (a.votes ?? 0) !== (b.votes ?? 0)) return (b.votes ?? 0) - (a.votes ?? 0);
+    return b.createdAt.localeCompare(a.createdAt);
+  });
 }
 
 export function countByStatus(reports: FeedbackReport[]): Record<Tab, number> {

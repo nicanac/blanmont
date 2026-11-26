@@ -85,7 +85,8 @@ export default function ReportsBoard(): React.ReactElement {
 
   const onUpdated = (updated: FeedbackReport): void => {
     const previous = reports?.find((r) => r.number === updated.number);
-    setReports((list) => list?.map((r) => (r.number === updated.number ? updated : r)) ?? list);
+    // Merge: a report returned by a GitHub action carries no votes, so keep the ones already loaded.
+    setReports((list) => list?.map((r) => (r.number === updated.number ? { ...r, ...updated } : r)) ?? list);
     // Triage flow: once a report leaves the current tab, jump to the next one instead of closing the dialog.
     if (previous && previous.status !== updated.status && filters.tab !== 'all' && filters.tab !== updated.status) {
       const next = visible[selectedIndex + 1] ?? visible[selectedIndex - 1];
@@ -177,6 +178,7 @@ export default function ReportsBoard(): React.ReactElement {
           <select value={filters.sort} onChange={(e) => patch({ sort: e.target.value as Filters['sort'] })} className={selectClass}>
             <option value="recent">Plus récents</option>
             <option value="priority">Plus urgents d’abord</option>
+            <option value="votes">Plus votés</option>
           </select>
         </label>
       </div>

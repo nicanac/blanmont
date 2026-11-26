@@ -24,6 +24,11 @@ describe('report filters', () => {
     expect(filterReports(list, { ...DEFAULT_FILTERS, tab: 'all', sort: 'priority' })[0].number).toBe(2);
   });
 
+  it('sorts by votes on demand, newest first on a tie', () => {
+    const voted = list.map((r) => ({ ...r, votes: r.number === 1 ? 3 : r.number === 3 ? 1 : undefined }));
+    expect(filterReports(voted, { ...DEFAULT_FILTERS, tab: 'all', sort: 'votes' }).map((r) => r.number)).toEqual([1, 3, 4, 2]);
+  });
+
   it('filters by type and priority', () => {
     expect(filterReports(list, { ...DEFAULT_FILTERS, tab: 'all', category: 'copy' }).map((r) => r.number)).toEqual([3]);
     expect(filterReports(list, { ...DEFAULT_FILTERS, tab: 'all', priority: 'critical' }).map((r) => r.number)).toEqual([2]);

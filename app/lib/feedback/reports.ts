@@ -24,6 +24,9 @@ export interface FeedbackReport {
   commentsCount: number;
   createdAt: string;
   updatedAt: string;
+  /** "+1" count and the viewer's own vote, added by the list route from RTDB (not GitHub). */
+  votes?: number;
+  voted?: boolean;
 }
 
 export interface ReportComment {
@@ -39,6 +42,12 @@ export type ReportAction = 'comment' | 'resolve' | 'dismiss' | 'reopen';
 export class ReportNotFoundError extends Error {}
 
 export const REPORT_LABEL = 'visual-feedback';
+
+/** Issue number from a route segment: a positive integer, else null. */
+export const parseReportNumber = (raw: string): number | null => {
+  const n = Number(raw);
+  return Number.isInteger(n) && n > 0 ? n : null;
+};
 
 export interface GhIssue {
   number: number;
@@ -166,6 +175,12 @@ async function loadReport(token: string, repo: string, number: number): Promise<
   const labels = res.data.labels.map((l) => (typeof l === 'string' ? l : l.name));
   if (res.data.pull_request || !labels.includes(REPORT_LABEL)) throw new ReportNotFoundError();
   return res.data;
+}
+
+/** Throws ReportNotFoundError unless the number is a feedback report (votes must not land on other issues). */
+export async function assertReport(number: number): Promise<void> {
+  const { token, repo } = await ctx();
+  await loadReport(token, repo, number);
 }
 
 export async function getReportDetail(number: number): Promise<{ report: FeedbackReport; comments: ReportComment[] }> {

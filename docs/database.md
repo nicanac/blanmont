@@ -276,6 +276,9 @@ Single object toggled from `/admin/settings` (site owner only, `OWNER_EMAILS`). 
 ### 3.8c. `/visual-feedback-secret` — Feedback GitHub Token (encrypted)
 Server-only (Admin SDK; rules deny all client access). AES-256-GCM `{iv, tag, data}` with a key derived from `SESSION_SECRET`, plus `last4`, `updatedAt`, `updatedBy`. Used only when `GITHUB_FEEDBACK_TOKEN` is not set.
 
+### 3.8d. `/visual-feedback-votes` — "+1" on Feedback Reports
+`/visual-feedback-votes/<issueNumber>/<memberId>: "<ISO time>"`, one key per voter. Written only server-side (Admin SDK) by `POST /api/feedback/reports/<n>/vote`, which toggles the session member's vote after checking the board access rule and that the issue is a `visual-feedback` report; rules deny all client access. The list route returns only the count and the viewer's own vote.
+
 ### 3.9. `/leaderboard` — Participation Ranking
 Aggregated attendance count and historical participation dates per member.
 ```json

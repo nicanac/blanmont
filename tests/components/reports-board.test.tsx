@@ -27,6 +27,7 @@ function stubFetch(listStatus = 200) {
       if (url === '/api/feedback/reports') {
         return listStatus === 200 ? ok({ reports }) : ok({ error: 'GITHUB_FEEDBACK_TOKEN manquant côté serveur.' }, listStatus);
       }
+      if (url.endsWith('/vote')) return ok({ votes: 3, voted: true });
       const n = Number(url.split('/').pop());
       if (init?.method === 'POST') {
         const action = JSON.parse(init.body as string).action;
@@ -80,6 +81,18 @@ describe('ReportsBoard', () => {
     await userEvent.click(within(dialog).getByRole('button', { name: /marquer résolu/i }));
     // the resolved report leaves the open tab and the dialog jumps to the remaining one
     expect(await screen.findByRole('dialog', { name: 'Faute de frappe' })).toBeInTheDocument();
+  });
+
+  it('shows the vote count on cards and toggles a +1 from the dialog', async () => {
+    reports[0] = { ...reports[0], votes: 2, voted: false };
+    render(<ReportsBoard />);
+    await userEvent.click(await screen.findByText('Calendrier cassé'));
+    const dialog = await screen.findByRole('dialog', { name: 'Calendrier cassé' });
+    const plusOne = within(dialog).getByRole('button', { name: /ajouter un \+1 \(2\)/i });
+    expect(plusOne).toHaveAttribute('aria-pressed', 'false');
+    await userEvent.click(plusOne);
+    expect(await within(dialog).findByRole('button', { name: /retirer mon \+1 \(3\)/i })).toHaveAttribute('aria-pressed', 'true');
+    expect(fetch).toHaveBeenCalledWith('/api/feedback/reports/1/vote', expect.objectContaining({ method: 'POST' }));
   });
 
   it('explains a missing server token', async () => {
