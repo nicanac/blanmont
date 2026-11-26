@@ -62,10 +62,14 @@ describe('GroupRoads Component (app/components/home/GroupRoads.tsx)', () => {
 
   it('allocates sufficient column width for pace groups on mobile to prevent overflow', () => {
     const { container } = render(<GroupRoads />);
+    // Label column grows to the widest group name (no overlap with the road), min 6rem on mobile.
+    expect(container.querySelector('ol')?.className).toContain(
+      'grid-cols-[minmax(6rem,max-content)_minmax(0,1fr)]'
+    );
     const listItems = container.querySelectorAll('ol > li');
     expect(listItems.length).toBe(5);
     listItems.forEach((li) => {
-      expect(li.className).toContain('grid-cols-[6rem_minmax(0,1fr)]');
+      expect(li.className).toContain('grid-cols-subgrid');
     });
   });
 });
