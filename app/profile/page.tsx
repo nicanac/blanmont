@@ -24,6 +24,9 @@ import { Spinner } from '../components/ui/Spinner';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
 
+/** Longest side, in px, of the cropped profile photo sent to the server. */
+const PROFILE_PHOTO_MAX_PX = 512;
+
 // Helper function to read file as Data URL
 const readFile = (file: File): Promise<string> => {
   return new Promise((resolve) => {
@@ -83,28 +86,35 @@ export default function ProfilePage(): React.ReactElement | null {
     const toastId = toast.loading('Recadrage et téléversement de votre photo...');
 
     try {
-      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
-      if (croppedBlob) {
-        const formData = new FormData();
-        formData.append('file', croppedBlob, 'profile.jpg');
-        formData.append('memberId', user.id);
-
-        const newUrl = await updateProfilePhotoAction(formData);
-
-        if (newUrl) {
-          updateUser({ avatarUrl: newUrl });
-          setImgError(false);
-          toast.success('Photo de profil mise à jour avec succès !', { id: toastId });
-        } else {
-          toast.error('Erreur lors de la mise à jour de la photo.', { id: toastId });
-        }
-
-        setIsEditingPhoto(false);
-        setImageSrc(null);
+      // Cloudinary stores the avatar at 256 px: 512 px keeps a sharp source while the JPEG
+      // stays far below the 1 MB Server Action body limit (a full-size phone crop is 2–4 MB).
+      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels, 0, undefined, {
+        maxSize: PROFILE_PHOTO_MAX_PX,
+        quality: 0.88,
+      });
+      if (!croppedBlob) {
+        throw new Error('Impossible de préparer la photo recadrée.');
       }
+      const formData = new FormData();
+      formData.append('file', croppedBlob, 'profile.jpg');
+      formData.append('memberId', user.id);
+
+      const newUrl = await updateProfilePhotoAction(formData);
+
+      if (newUrl) {
+        updateUser({ avatarUrl: newUrl });
+        setImgError(false);
+        toast.success('Photo de profil mise à jour avec succès !', { id: toastId });
+      } else {
+        toast.error('Erreur lors de la mise à jour de la photo.', { id: toastId });
+      }
+
+      setIsEditingPhoto(false);
+      setImageSrc(null);
     } catch (e) {
       console.error(e);
-      toast.error('Une erreur est survenue lors de l’enregistrement.', { id: toastId });
+      const detail = e instanceof Error && e.message ? ` (${e.message})` : '';
+      toast.error(`Une erreur est survenue lors de l’enregistrement.${detail}`, { id: toastId });
     } finally {
       setIsSavingPhoto(false);
     }

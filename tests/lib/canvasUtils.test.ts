@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import getCroppedImg, { getRadianAngle, rotateSize, createImage } from '@/app/lib/canvasUtils';
+import getCroppedImg, { getRadianAngle, rotateSize, createImage, getOutputSize } from '@/app/lib/canvasUtils';
 
 describe('canvasUtils', () => {
   describe('getRadianAngle', () => {
@@ -66,10 +66,37 @@ describe('canvasUtils', () => {
     });
   });
 
+  describe('getOutputSize', () => {
+    it('keeps the crop size without maxSize', () => {
+      expect(getOutputSize(3024, 3024)).toEqual({ width: 3024, height: 3024 });
+    });
+
+    it('scales a phone-sized crop down to maxSize on its longest side', () => {
+      expect(getOutputSize(3024, 3024, 512)).toEqual({ width: 512, height: 512 });
+      expect(getOutputSize(2400, 3000, 1600)).toEqual({ width: 1280, height: 1600 });
+    });
+
+    it('never upscales a crop smaller than maxSize', () => {
+      expect(getOutputSize(300, 200, 512)).toEqual({ width: 300, height: 200 });
+    });
+  });
+
   describe('getCroppedImg', () => {
+    let mockContext: Record<string, ReturnType<typeof vi.fn>>;
+    let canvases: HTMLCanvasElement[];
+
     beforeEach(() => {
+      canvases = [];
+      // Always the unpatched DOM method, so spies from earlier tests never stack.
+      const realCreate = Document.prototype.createElement;
+      vi.spyOn(document, 'createElement').mockImplementation(((tag: string) => {
+        const el = realCreate.call(document, tag);
+        if (tag === 'canvas') canvases.push(el as HTMLCanvasElement);
+        return el;
+      }) as typeof document.createElement);
+
       // Mock Canvas 2D context
-      const mockContext = {
+      mockContext = {
         translate: vi.fn(),
         rotate: vi.fn(),
         scale: vi.fn(),
@@ -106,6 +133,55 @@ describe('canvasUtils', () => {
 
       const blob = await cropPromise;
       expect(blob).toBeInstanceOf(Blob);
+    });
+
+    it('downscales an unrotated crop in one draw, without a full-size canvas', async () => {
+      const cropPromise = getCroppedImg(
+        'data:image/jpeg;base64,xx',
+        { x: 500, y: 800, width: 3024, height: 3024 },
+        0,
+        undefined,
+        { maxSize: 512, quality: 0.88 }
+      );
+
+      const imgInstance = (global as any).__lastCreatedImage;
+      imgInstance.width = 3024;
+      imgInstance.height = 4032;
+      imgInstance.dispatchEvent(new Event('load'));
+
+      const blob = await cropPromise;
+      expect(blob).toBeInstanceOf(Blob);
+      expect(canvases).toHaveLength(1);
+      expect(canvases[0].width).toBe(512);
+      expect(canvases[0].height).toBe(512);
+      expect(mockContext.drawImage).toHaveBeenCalledWith(
+        imgInstance, 500, 800, 3024, 3024, 0, 0, 512, 512
+      );
+      expect(mockContext.getImageData).not.toHaveBeenCalled();
+      expect(HTMLCanvasElement.prototype.toBlob).toHaveBeenCalledWith(
+        expect.any(Function), 'image/jpeg', 0.88
+      );
+    });
+
+    it('downscales a rotated crop through an output-sized canvas', async () => {
+      const cropPromise = getCroppedImg(
+        'https://example.com/photo.jpg',
+        { x: 0, y: 0, width: 2000, height: 2000 },
+        90,
+        { horizontal: false, vertical: false },
+        { maxSize: 500 }
+      );
+
+      const imgInstance = (global as any).__lastCreatedImage;
+      imgInstance.width = 2000;
+      imgInstance.height = 3000;
+      imgInstance.dispatchEvent(new Event('load'));
+
+      await cropPromise;
+      expect(canvases).toHaveLength(2);
+      expect(canvases[1].width).toBe(500);
+      expect(canvases[1].height).toBe(500);
+      expect(mockContext.getImageData).not.toHaveBeenCalled();
     });
 
     it('returns null if 2d context is unavailable', async () => {
