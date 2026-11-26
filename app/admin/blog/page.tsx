@@ -53,7 +53,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
         />
       ) : (
         <div id="blog-table-section" className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto table-stack">
             <table className="min-w-full divide-y divide-line dark:divide-night-line">
               <thead className="bg-paper-2 dark:bg-night-3">
                 <tr>
@@ -88,18 +88,18 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                         <p className="text-xs text-ink-3 dark:text-snow-3 truncate max-w-xs">{post.excerpt}</p>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-ink-2 dark:text-snow-2 font-medium">
+                    <td data-label="Auteur" className="whitespace-nowrap px-6 py-4 text-ink-2 dark:text-snow-2 font-medium">
                       {post.author}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td data-label="Catégorie" className="whitespace-nowrap px-6 py-4">
                       <span className="inline-flex rounded-full bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line px-2.5 py-0.5 text-xs font-semibold text-ink-3 dark:text-snow-3">
                         {post.category || 'Actualité'}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-ink-3 dark:text-snow-3 tabular-nums">
+                    <td data-label="Date" className="whitespace-nowrap px-6 py-4 text-ink-3 dark:text-snow-3 tabular-nums">
                       {formatDate(post.publishedAt)}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td data-label="Statut" className="whitespace-nowrap px-6 py-4">
                       <span
                         className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider border ${
                           post.isPublished
@@ -110,7 +110,7 @@ export default async function BlogAdminPage(): Promise<React.ReactElement> {
                         {post.isPublished ? 'Publié' : 'Brouillon'}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-right">
+                    <td data-label="Actions" className="whitespace-nowrap px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <Link
                           href={`/blog/${post.slug}`}

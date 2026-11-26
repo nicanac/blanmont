@@ -695,7 +695,7 @@ export default function LeaderboardView({
                                     {/* Hall of Fame Table (from #4 onwards) */}
                                     {hofOthers.length > 0 && (
                                         <div className="mt-16 overflow-hidden border-t-2 border-ink bg-white transition-colors sm:mt-20 dark:border-snow-2 dark:bg-night-2">
-                                            <div className="overflow-x-auto">
+                                            <div className="overflow-x-auto table-stack">
                                                 <table className="min-w-full divide-y divide-line dark:divide-night-line">
                                                     <thead className="bg-paper-2 dark:bg-night-2">
                                                         <tr>
@@ -737,10 +737,10 @@ export default function LeaderboardView({
                                                                     }}
                                                                     className="hover:bg-paper-2 dark:hover:bg-night-2 focus:outline-hidden focus-visible:bg-paper-2 dark:focus-visible:bg-night-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand transition-colors cursor-pointer"
                                                                 >
-                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-ink dark:text-white tabular-nums sm:pl-6">
+                                                                    <td data-label="Rang" className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-ink dark:text-white tabular-nums sm:pl-6">
                                                                         #{rank}
                                                                     </td>
-                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
+                                                                    <td data-label="Cycliste & Titre" className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
                                                                         <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
                                                                             <span className="font-bold text-ink dark:text-white">
                                                                                 {member.name}
@@ -753,10 +753,10 @@ export default function LeaderboardView({
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                                    <td data-label="Groupe" className="whitespace-nowrap px-3 py-4 text-sm">
                                                                         <GroupBadge group={member.group} />
                                                                     </td>
-                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                                    <td data-label="Saisons" className="whitespace-nowrap px-3 py-4 text-sm">
                                                                         <div className="flex items-center gap-1 flex-wrap">
                                                                             {member.activeSeasons.map((y) => (
                                                                                 <span
@@ -768,10 +768,10 @@ export default function LeaderboardView({
                                                                             ))}
                                                                         </div>
                                                                     </td>
-                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm font-extrabold text-emerald-700 dark:text-emerald-400 tabular-nums">
+                                                                    <td data-label="Carrés Verts" className="whitespace-nowrap px-3 py-4 text-sm font-extrabold text-emerald-700 dark:text-emerald-400 tabular-nums">
                                                                         {member.totalCarres}
                                                                     </td>
-                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-ink-3 dark:text-snow-3 tabular-nums">
+                                                                    <td data-label="Sorties" className="whitespace-nowrap px-3 py-4 text-sm font-medium text-ink-3 dark:text-snow-3 tabular-nums">
                                                                         {member.totalPhysicalRides}
                                                                     </td>
                                                                 </tr>
@@ -873,7 +873,7 @@ export default function LeaderboardView({
                             {/* Seasonal Table (from #4 onwards) */}
                             {seasonalOthers.length > 0 && (
                                 <div className="mt-16 sm:mt-20 overflow-hidden shadow-2xs ring-1 ring-line dark:ring-night-line sm:rounded-lg bg-white dark:bg-ink transition-colors">
-                                    <div className="overflow-x-auto">
+                                    <div className="overflow-x-auto table-stack">
                                         <table className="min-w-full divide-y divide-line dark:divide-night-line">
                                             <thead className="bg-paper-2 dark:bg-night-2">
                                                 <tr>
@@ -915,21 +915,21 @@ export default function LeaderboardView({
                                                             }}
                                                             className="hover:bg-paper-2 dark:hover:bg-night-2 focus:outline-hidden focus-visible:bg-paper-2 dark:focus-visible:bg-night-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand transition-colors cursor-pointer"
                                                         >
-                                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-ink dark:text-white tabular-nums sm:pl-6">
+                                                            <td data-label="Rang" className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-ink dark:text-white tabular-nums sm:pl-6">
                                                                 #{globalRank}
                                                             </td>
-                                                            <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-ink dark:text-white' : 'font-medium text-ink-2 dark:text-snow-2'}`}>
+                                                            <td data-label="Nom" className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${isGroupTop3 ? 'font-bold text-ink dark:text-white' : 'font-medium text-ink-2 dark:text-snow-2'}`}>
                                                                 {person.name}
                                                             </td>
-                                                            <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                            <td data-label="Groupe" className="whitespace-nowrap px-3 py-4 text-sm">
                                                                 <GroupBadge group={person.group} />
                                                             </td>
-                                                            <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                            <td data-label="Sorties" className="whitespace-nowrap px-3 py-4 text-sm">
                                                                 <div className={`font-bold tabular-nums ${isGroupTop3 ? 'text-ink dark:text-white' : 'text-ink-2 dark:text-snow-2'}`}>
                                                                     {person.rides}
                                                                 </div>
                                                             </td>
-                                                            <td className="hidden px-3 py-4 md:table-cell">
+                                                            <td data-label="Carrés verts" className="hidden px-3 py-4 md:table-cell">
                                                                 <CarreStrip rides={person.rides} possible={totalPossibleRides} />
                                                             </td>
                                                         </tr>

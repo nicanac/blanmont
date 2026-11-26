@@ -743,7 +743,7 @@ export default function MemberPhotosManager({
       ) : (
         /* ── Compact Table View ── */
         <div className="overflow-hidden rounded-lg border border-line bg-white shadow-xs">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto table-stack">
             <table className="min-w-full divide-y divide-line">
               <thead className="bg-paper-2">
                 <tr>
@@ -799,7 +799,7 @@ export default function MemberPhotosManager({
                         </div>
                       </td>
 
-                    <td className="px-6 py-3.5 max-w-xs">
+                    <td data-label="Positionnement Vertical" className="px-6 py-3.5 max-w-xs">
                       {hasPhoto ? (
                         <div className="space-y-1">
                           <div className="flex items-center gap-1.5">
@@ -837,11 +837,11 @@ export default function MemberPhotosManager({
                       )}
                     </td>
 
-                    <td className="whitespace-nowrap px-6 py-3.5 text-center font-mono font-bold text-xs text-ink">
+                    <td data-label="Valeur" className="whitespace-nowrap px-6 py-3.5 text-center font-mono font-bold text-xs text-ink">
                       {hasPhoto ? `${currentY}%` : '-'}
                     </td>
 
-                    <td className="whitespace-nowrap px-6 py-3.5 text-right">
+                    <td data-label="Actions" className="whitespace-nowrap px-6 py-3.5 text-right">
                       <div className="flex items-center justify-end gap-2">
                         {hasPhoto && (
                           <button

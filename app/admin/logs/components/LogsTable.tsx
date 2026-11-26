@@ -340,7 +340,7 @@ export default function LogsTable({
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto table-stack">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-line dark:border-night-line bg-paper-2 dark:bg-night-2 text-ink-3 dark:text-snow-3 font-narrow font-bold uppercase tracking-wider">
@@ -372,13 +372,13 @@ export default function LogsTable({
                       className="hover:bg-paper-2/70 dark:hover:bg-night-2/70 transition-colors cursor-pointer group"
                     >
                       {/* Timestamp */}
-                      <td className="py-2.5 px-3 whitespace-nowrap text-ink-3 dark:text-snow-3 font-mono text-[11px] tabular-nums">
+                      <td data-label="Horodatage" className="py-2.5 px-3 whitespace-nowrap text-ink-3 dark:text-snow-3 font-mono text-[11px] tabular-nums">
                         <span className="font-semibold text-ink dark:text-snow mr-1">{dateFormatted}</span>
                         <span>{timeFormatted}</span>
                       </td>
 
                       {/* Category */}
-                      <td className="py-2.5 px-3 whitespace-nowrap">
+                      <td data-label="Catégorie" className="py-2.5 px-3 whitespace-nowrap">
                         <span
                           className={`inline-flex items-center px-2 py-0.5 rounded-xs text-[10px] font-narrow font-bold uppercase tracking-wider border ${getCategoryInkClass(
                             log.category
@@ -389,7 +389,7 @@ export default function LogsTable({
                       </td>
 
                       {/* User */}
-                      <td className="py-2.5 px-3">
+                      <td data-label="Utilisateur" className="py-2.5 px-3">
                         <div className="flex items-center gap-2 min-w-0">
                           {log.user.isAuthenticated ? (
                             <UserCircleIcon className="h-4 w-4 text-vert shrink-0" />
@@ -414,7 +414,7 @@ export default function LogsTable({
                       </td>
 
                       {/* Action & Title */}
-                      <td className="py-2.5 px-3 min-w-0">
+                      <td data-label="Action &amp; Détails" className="py-2.5 px-3 min-w-0">
                         <p className="font-semibold text-ink dark:text-snow truncate">{log.title}</p>
                         <div className="flex items-center gap-2 text-[11px] text-ink-3 dark:text-snow-3 font-mono truncate mt-0.5">
                           <span className="text-brand dark:text-brand-vif">{log.action}</span>
@@ -428,12 +428,12 @@ export default function LogsTable({
                       </td>
 
                       {/* Severity */}
-                      <td className="py-2.5 px-3 whitespace-nowrap">
+                      <td data-label="Gravité" className="py-2.5 px-3 whitespace-nowrap">
                         {getSeverityBadge(log.severity)}
                       </td>
 
                       {/* Inspect Action */}
-                      <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                      <td data-label="Détails" className="py-2.5 px-3 text-right whitespace-nowrap">
                         <button
                           type="button"
                           onClick={(e) => {
