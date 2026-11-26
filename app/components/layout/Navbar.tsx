@@ -28,6 +28,7 @@ import {
   PhotoIcon,
   QrCodeIcon,
   ChatBubbleBottomCenterTextIcon,
+  MapIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon, ClubCrestIcon } from '../ui/CyclingIcons';
 import Link from 'next/link';
@@ -55,6 +56,12 @@ const buildOutingsNavigation = (groups: string): NavItem[] => [
     description: 'Agenda des sorties & saison',
     href: '/calendrier',
     icon: CalendarIcon,
+  },
+  {
+    name: 'Parcours GPS',
+    description: 'Catalogue des traces GPX du club',
+    href: '/traces',
+    icon: MapIcon,
   },
   {
     name: 'Sondage Weekend',
