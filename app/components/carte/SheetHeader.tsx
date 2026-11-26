@@ -26,6 +26,8 @@ export interface SheetHeaderProps {
   size?: 'md' | 'lg';
   /** Extra content under the description (chips, selectors). */
   children?: React.ReactNode;
+  /** Extra block printed in the legend column, under the legend rows. */
+  legendFooter?: React.ReactNode;
   className?: string;
 }
 
@@ -89,6 +91,7 @@ export function SheetHeader({
   tone = 'paper',
   size = 'md',
   children,
+  legendFooter,
   className,
 }: SheetHeaderProps): React.ReactElement {
   const t = toneStyles[tone];
@@ -123,7 +126,9 @@ export function SheetHeader({
             t.panel
           )}
         >
-          <div className={cn('min-w-0 p-6 sm:p-10', hasLegend ? 'lg:col-span-8' : 'lg:col-span-12')}>
+          <div
+            className={cn('min-w-0 p-6 sm:p-10', hasLegend ? 'lg:col-span-8' : 'lg:col-span-12')}
+          >
             <h1
               className={cn(
                 'max-w-[20ch] text-balance font-wide font-extrabold uppercase tracking-[-0.01em]',
@@ -150,40 +155,45 @@ export function SheetHeader({
           </div>
 
           {hasLegend && (
-            <dl
+            <div
               className={cn(
                 'border-t px-6 py-5 sm:px-10 lg:col-span-4 lg:border-l lg:border-t-0 lg:px-8 lg:py-9',
                 t.legendBorder
               )}
             >
-              {legend!.map((row) => (
-                <div
-                  key={row.term}
-                  className={cn(
-                    'border-b py-3 last:border-b-0 first:pt-0 last:pb-0',
-                    t.legendBorder
-                  )}
-                >
-                  <dt
+              <dl>
+                {legend!.map((row) => (
+                  <div
+                    key={row.term}
                     className={cn(
-                      'font-narrow text-[11px] font-bold uppercase tracking-[0.12em]',
-                      t.term
+                      'border-b py-3 last:border-b-0 first:pt-0 last:pb-0',
+                      t.legendBorder
                     )}
                   >
-                    {row.term}
-                  </dt>
-                  <dd
-                    className={cn(
-                      'mt-1 font-semiwide text-base font-bold leading-snug tabular-nums',
-                      t.value
-                    )}
-                  >
-                    {row.value}
-                  </dd>
-                  {row.hint && <dd className={cn('mt-0.5 text-xs', t.hint)}>{row.hint}</dd>}
-                </div>
-              ))}
-            </dl>
+                    <dt
+                      className={cn(
+                        'font-narrow text-[11px] font-bold uppercase tracking-[0.12em]',
+                        t.term
+                      )}
+                    >
+                      {row.term}
+                    </dt>
+                    <dd
+                      className={cn(
+                        'mt-1 font-semiwide text-base font-bold leading-snug tabular-nums',
+                        t.value
+                      )}
+                    >
+                      {row.value}
+                    </dd>
+                    {row.hint && <dd className={cn('mt-0.5 text-xs', t.hint)}>{row.hint}</dd>}
+                  </div>
+                ))}
+              </dl>
+              {legendFooter && (
+                <div className={cn('mt-5 border-t pt-5', t.legendBorder)}>{legendFooter}</div>
+              )}
+            </div>
           )}
         </div>
 
