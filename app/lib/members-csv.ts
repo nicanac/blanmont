@@ -30,7 +30,9 @@ export type MemberCsvValues = Partial<Record<MemberCsvField, string>>;
 /** Belgian (fr-BE) Excel splits ';' files into columns on open; ',' files are read too. */
 export const MEMBER_CSV_SEPARATOR = ';';
 export const MAX_MEMBER_IMPORT_ROWS = 1000;
-export const MAX_MEMBER_IMPORT_CHARS = 1_000_000;
+/** Bytes, kept under Next's 1 MB Server Action body limit (JSON escaping of quotes and newlines adds overhead). */
+export const MAX_MEMBER_IMPORT_BYTES = 500_000;
+export const MEMBER_IMPORT_TOO_LARGE = 'Fichier trop volumineux (500 Ko maximum).';
 
 export const memberCsvHeader = (key: string): string => MEMBER_CSV_COLUMNS.find((c) => c.key === key)?.header ?? key;
 
@@ -79,7 +81,7 @@ const storedText = (m: Record<string, unknown> | undefined, key: string): string
  * left unchanged. Throws a French message when the whole file is unusable.
  */
 export function planMembersImport(csv: string, existing: Map<string, Record<string, unknown>>): MemberImportPlan {
-  if (csv.length > MAX_MEMBER_IMPORT_CHARS) throw new Error('Fichier trop volumineux (1 Mo maximum).');
+  if (new TextEncoder().encode(csv).length > MAX_MEMBER_IMPORT_BYTES) throw new Error(MEMBER_IMPORT_TOO_LARGE);
   const [header = [], ...records] = parseCsv(csv);
   const columns = header.map(
     (h) => MEMBER_CSV_COLUMNS.find((c) => c.header.toLowerCase() === h.trim().toLowerCase())?.key
@@ -101,6 +103,7 @@ export function planMembersImport(csv: string, existing: Map<string, Record<stri
   }
   const plan: MemberImportPlan = { creates: [], updates: [], unchanged: 0, rejected: [] };
   const seen = new Map<string, number>();
+  const fileEmails = new Map<string, number>(); // email (lower-case) → line that claims it
 
   for (const { cells, line } of rows) {
     const raw: Record<string, string> = {};
@@ -128,16 +131,22 @@ export function planMembersImport(csv: string, existing: Map<string, Record<stri
     }
     if (key) seen.set(key, line);
 
-    if (!targetId) {
-      if (!values.name) {
-        plan.rejected.push({ line, reason: 'Nom : obligatoire pour un nouveau membre' });
-        continue;
-      }
-      plan.creates.push({ line, values: Object.fromEntries(Object.entries(values).filter(([, v]) => v !== '')) });
+    if (!targetId && !values.name) {
+      plan.rejected.push({ line, reason: 'Nom : obligatoire pour un nouveau membre' });
       continue;
     }
-    if (email && byEmail.has(email) && byEmail.get(email) !== targetId) {
+    if (targetId && email && byEmail.has(email) && byEmail.get(email) !== targetId) {
       plan.rejected.push({ line, reason: 'Email déjà utilisé par un autre membre.' });
+      continue;
+    }
+    const emailLine = email ? fileEmails.get(email) : undefined;
+    if (emailLine) {
+      plan.rejected.push({ line, reason: `Email déjà attribué à la ligne ${emailLine} de ce fichier.` });
+      continue;
+    }
+    if (email) fileEmails.set(email, line);
+    if (!targetId) {
+      plan.creates.push({ line, values: Object.fromEntries(Object.entries(values).filter(([, v]) => v !== '')) });
       continue;
     }
     const current = existing.get(targetId);
