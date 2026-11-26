@@ -20,6 +20,7 @@ import { BicycleIcon } from '@/app/components/ui/CyclingIcons';
 import DeleteMemberButton from './DeleteMemberButton';
 import { Member } from '@/app/types';
 import GroupName from '@/app/components/shared/GroupName';
+import MembersCsvActions from './MembersCsvActions';
 
 interface MembersTableProps {
   initialMembers: Member[];
@@ -281,6 +282,8 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
             </span>
           </button>
         </div>
+
+        <MembersCsvActions members={filteredMembers} />
       </div>
 
       {/* Table Container */}

@@ -115,6 +115,12 @@ Une fois connecté, le nouvel administrateur a accès à tous les modules de ges
 
 Les autres rôles du club (Capitaine de Route, Trésorier, Secrétaire, Membre) n'ouvrent que les sections cochées pour leur rôle sur **`/admin/acces`** (page réservée aux administrateurs ; spécification : [admin-rbac.md](admin-rbac.md)). Seul un administrateur peut attribuer des rôles. Les **Paramètres** (`/admin/settings`) sont réservés au propriétaire du site (variable serveur `OWNER_EMAILS`, comparée à l'e-mail de connexion vérifié par Firebase).
 
+### Export et import CSV des membres
+
+Sur `/admin/members` (section `members`) : **Exporter CSV** télécharge les membres affichés (recherche et filtre appliqués) en CSV UTF-8 avec BOM, séparateur **« ; »** (celui d'Excel en français/belge), colonnes fixes `ID ; Nom ; Email ; Téléphone ; Groupe ; Cotisation 2026 ; Cotisation payée le ; Licence FFBC ; Strava ID ; Contact ICE ; Téléphone ICE ; Lien ICE ; Bio`. Ni rôles, ni compte de connexion, ni mots de passe, jetons ou photos. Une cellule qui commence par `= + - @`, tabulation ou retour chariot reçoit une apostrophe (anti-injection de formule), retirée à l'import.
+
+**Importer CSV** (« ; » ou « , », max. 1 000 lignes / 1 Mo) : aperçu puis confirmation ; le serveur refait tout le contrôle à la confirmation (`app/admin/members/actions.ts`, `app/lib/members-csv.ts`). Une ligne met à jour le membre de même ID, sinon de même email (sans tenir compte de la casse), sinon crée un membre simple (`Member`). Colonne absente = champ inchangé ; cellule vide = champ effacé. Les colonnes de rôles ou d'accès sont ignorées ; un rôle délégué subit les mêmes refus qu'à l'édition (compte admin, email d'un responsable). Un export réimporté tel quel ne change rien.
+
 ---
 
 ## 5b. Retours visuels (capture d'écran + annotation)
