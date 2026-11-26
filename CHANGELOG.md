@@ -31,6 +31,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.45.0] - 2026-11-26
+
+### Added
+- feat(feedback): +1 votes on visual-feedback reports (#216) (#224) (`eb3e7e4`)
 ## [0.44.2] - 2026-11-26
 
 ### Chores
