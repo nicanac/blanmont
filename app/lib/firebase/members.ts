@@ -12,7 +12,7 @@ import {
   signInWithEmailAndPassword,
 } from './client';
 // Admin SDK import
-import { getAdminDatabase } from './admin';
+import { getAdminAuth, getAdminDatabase } from './admin';
 
 /**
  * Fetches the list of all active members from Firebase.
@@ -92,7 +92,11 @@ export const getMember = async (id: string): Promise<Member | null> => {
 /**
  * Validates user credentials using Firebase Auth.
  */
-export const validateUser = async (email: string, password: string): Promise<Member | null> => {
+/** `verifiedEmail`: the login email as verified by Firebase Auth (ID token checked with the Admin SDK); server only. */
+export const validateUser = async (
+  email: string,
+  password: string
+): Promise<(Member & { verifiedEmail?: string }) | null> => {
   if (isMockMode) {
     if (email === 'mock@test.com' && password === 'password') {
       return {
@@ -113,6 +117,17 @@ export const validateUser = async (email: string, password: string): Promise<Mem
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     console.log(`[validateUser] Auth successful. UID: ${user.uid}`);
+
+    // Owner checks (OWNER_EMAILS) use this, never the member-record email that admins can edit.
+    let verifiedEmail: string | undefined;
+    if (typeof window === 'undefined') {
+      try {
+        const token = await getAdminAuth().verifyIdToken(await user.getIdToken());
+        if (token.email && token.email_verified === true) verifiedEmail = token.email;
+      } catch (tokenErr) {
+        console.warn('[validateUser] Could not verify the ID token; session gets no verified email:', tokenErr);
+      }
+    }
 
     // Fetch member data from database
     let snapshot;
@@ -156,7 +171,7 @@ export const validateUser = async (email: string, password: string): Promise<Mem
             console.warn('[validateUser] Failed to sync authUid:', syncErr);
           }
         }
-        return foundMember;
+        return verifiedEmail ? { ...foundMember, verifiedEmail } : foundMember;
       }
     }
 

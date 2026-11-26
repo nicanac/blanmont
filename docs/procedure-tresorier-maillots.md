@@ -15,7 +15,7 @@ Le membre suit tout dans **Mon profil → Mes commandes** : commandé le, payé 
 
 ## 0. Une seule fois : le compte du club
 
-1. Ouvrez **Administration → Paramètres → Paiements — compte du club**.
+1. Ouvrez **Administration → Commandes Équipement → Banque du club**, carte **Paiements — compte du club** (en bas de la page).
 2. Saisissez le **bénéficiaire** (nom exact du compte), l'**IBAN** et, si vous l'avez, le **BIC**. L'IBAN est vérifié avant l'enregistrement.
 3. Scannez le **QR de test (1,00 €)** avec l'application bancaire d'un téléphone : vérifiez que le bénéficiaire, l'IBAN, le montant et la communication structurée sont bien préremplis, puis **annulez** le virement.
 4. Dans la banque en ligne du club, vérifiez que vous pouvez **exporter les extraits au format CODA** (fichier `.cod`). Si l'option n'apparaît pas, demandez son activation à l'agence.

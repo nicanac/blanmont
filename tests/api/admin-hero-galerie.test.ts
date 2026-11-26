@@ -13,7 +13,7 @@ import {
 } from '@/app/api/admin/galerie/route';
 import * as heroModule from '@/app/lib/firebase/hero';
 import * as galleriesModule from '@/app/lib/firebase/galleries';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
 // Mock next/cache
 vi.mock('next/cache', () => ({
@@ -29,15 +29,21 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     it('GET returns hero settings', async () => {
       const mockSettings = { badge: 'Peloton Blanmont' };
       vi.spyOn(heroModule, 'getHeroSettings').mockResolvedValue(mockSettings as any);
+      const guard = vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
 
-      const res = await getHeroRoute();
+      const req = new NextRequest('http://localhost:3000/api/admin/hero');
+      const res = await getHeroRoute(req);
+      expect(guard).toHaveBeenCalledWith(req, 'hero');
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(data.badge).toBe('Peloton Blanmont');
     });
 
     it('POST & PUT update hero settings when admin authorized', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -70,8 +76,14 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     it('GET returns list of photo albums', async () => {
       const mockAlbums = [{ id: 'alb-1', title: 'Sortie Ardennes' }];
       vi.spyOn(galleriesModule, 'getPhotoAlbums').mockResolvedValue(mockAlbums as any);
+      const guard = vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
 
-      const res = await getGalerieRoute();
+      const req = new NextRequest('http://localhost:3000/api/admin/galerie');
+      const res = await getGalerieRoute(req);
+      expect(guard).toHaveBeenCalledWith(req, 'galerie');
       expect(res.status).toBe(200);
       const data = await res.json();
       expect(data.albums).toHaveLength(1);
@@ -79,7 +91,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('POST rejects with 400 when required fields are missing', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -96,7 +108,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('POST creates album when valid', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -123,7 +135,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('PUT rejects with 401 when unauthorized', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 }) as any,
       } as any);
@@ -138,7 +150,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('PUT rejects with 400 when id is missing', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -155,7 +167,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('PUT rejects with 400 when required fields are missing', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -172,7 +184,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('PUT returns 404 when album is not found', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -196,7 +208,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('PUT updates album when valid', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -234,7 +246,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('DELETE returns 400 if album id is missing in searchParams', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -245,7 +257,7 @@ describe('Admin Hero & Galerie API Endpoints', () => {
     });
 
     it('DELETE deletes album when id is present', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);

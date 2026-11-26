@@ -2,7 +2,7 @@
 
 import { CalendarEvent } from '@/app/types';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
-import { requireAdminSession } from '@/app/lib/auth/session';
+import { requireSectionAccess } from '@/app/lib/auth/admin-access';
 import { revalidatePath } from 'next/cache';
 
 const MONTHS: { [key: string]: string } = {
@@ -30,7 +30,7 @@ export interface ParsePdfPreviewResult {
  * Step 1: Extracts calendar events from PDF and returns them for admin preview/editing.
  */
 export async function parsePdfForPreviewAction(formData: FormData): Promise<ParsePdfPreviewResult> {
-  await requireAdminSession();
+  await requireSectionAccess('events');
 
   const file = formData.get('file') as File;
   if (!file) {
@@ -80,7 +80,7 @@ export async function parsePdfForPreviewAction(formData: FormData): Promise<Pars
 export async function saveImportedEventsAction(
   events: CalendarEvent[]
 ): Promise<{ success: boolean; message: string; count?: number }> {
-  await requireAdminSession();
+  await requireSectionAccess('events');
 
   if (!events || events.length === 0) {
     return { success: false, message: 'Aucun événement à enregistrer.' };

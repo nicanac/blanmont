@@ -89,12 +89,12 @@ describe('feedback API', () => {
     expect((await feedbackRoute(post(valid))).status).toBe(429);
   });
 
-  it('admin settings: requires admin, validates, persists', async () => {
+  it('admin settings: requires the owner, validates, persists', async () => {
     const denied = new Response(null, { status: 403 });
-    vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValueOnce({ authorized: false, response: denied } as never);
+    vi.spyOn(sessionModule, 'verifyOwnerRequest').mockResolvedValueOnce({ authorized: false, response: denied } as never);
     expect((await adminGet(req())).status).toBe(403);
 
-    vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({ authorized: true, user: { id: 'admin-1' } } as never);
+    vi.spyOn(sessionModule, 'verifyOwnerRequest').mockResolvedValue({ authorized: true, user: { id: 'admin-1' } } as never);
     const update = vi
       .spyOn(settingsModule, 'updateVisualFeedbackSettings')
       .mockResolvedValue({ enabled: true, audience: 'everyone', updatedAt: 'now' });

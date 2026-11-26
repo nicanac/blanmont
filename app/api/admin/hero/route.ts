@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { getHeroSettings, updateHeroSettings } from '@/app/lib/firebase/hero';
 
-export async function GET(): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const authCheck = await verifySectionRequest(request, 'hero');
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const settings = await getHeroSettings();
     return NextResponse.json(settings);
@@ -14,7 +19,7 @@ export async function GET(): Promise<NextResponse> {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'hero');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

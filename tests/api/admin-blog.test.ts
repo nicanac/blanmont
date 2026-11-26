@@ -7,7 +7,7 @@ import {
   DELETE as deleteBlogByIdRoute,
 } from '@/app/api/admin/blog/[id]/route';
 import * as blogModule from '@/app/lib/firebase/blog';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
 describe('Admin Blog API Endpoints', () => {
   const mockContext = {
@@ -20,7 +20,7 @@ describe('Admin Blog API Endpoints', () => {
 
   describe('POST /api/admin/blog', () => {
     it('requires admin authorization', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -35,7 +35,7 @@ describe('Admin Blog API Endpoints', () => {
     });
 
     it('generates slug from title and creates post in database', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -70,7 +70,7 @@ describe('Admin Blog API Endpoints', () => {
 
   describe('GET /api/admin/blog/[id]', () => {
     it('returns 404 when post is not found', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -86,7 +86,7 @@ describe('Admin Blog API Endpoints', () => {
     });
 
     it('returns post data when found', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -108,7 +108,7 @@ describe('Admin Blog API Endpoints', () => {
 
   describe('PUT /api/admin/blog/[id]', () => {
     it('updates post in database', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -130,7 +130,7 @@ describe('Admin Blog API Endpoints', () => {
 
   describe('DELETE /api/admin/blog/[id]', () => {
     it('deletes post from database', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);

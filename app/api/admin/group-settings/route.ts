@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { GROUP_SETTINGS_CACHE_TAG } from '@/app/constants/groups';
 import {
   getGroupSettings,
@@ -13,7 +13,7 @@ import { GroupSettingsSchema, safeValidate } from '@/app/lib/validation';
  * GET: current group naming settings plus how often each stored code is used.
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'groupes');
   if (!authCheck.authorized) return authCheck.response;
 
   try {
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  * PUT: replaces the group naming settings. Stored codes on members/attendance are untouched.
  */
 export async function PUT(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'groupes');
   if (!authCheck.authorized) return authCheck.response;
 
   let body: unknown;

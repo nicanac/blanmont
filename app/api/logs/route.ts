@@ -17,7 +17,8 @@ import {
 } from '@/app/lib/logging/activityLogger';
 import { extractClientIp } from '@/app/lib/logging/ipAnonymizer';
 import { parseDeviceType } from '@/app/lib/logging/visitorSession';
-import { getSessionUserFromRequest, verifyAdminRequest } from '@/app/lib/auth/session';
+import { getSessionUserFromRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 /**
  * POST /api/logs
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
  * Protected endpoint for admins to query activity logs and statistics.
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  const adminCheck = await verifyAdminRequest(request);
+  const adminCheck = await verifySectionRequest(request, 'logs');
   if (!adminCheck.authorized) {
     return adminCheck.response;
   }
@@ -127,7 +128,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  * Protected endpoint for admins to triage and moderate logs (single or batch).
  */
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
-  const adminCheck = await verifyAdminRequest(request);
+  const adminCheck = await verifySectionRequest(request, 'logs');
   if (!adminCheck.authorized) {
     return adminCheck.response;
   }
@@ -216,7 +217,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
  * Protected endpoint to prune logs older than specified days (default 90 days).
  */
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
-  const adminCheck = await verifyAdminRequest(request);
+  const adminCheck = await verifySectionRequest(request, 'logs');
   if (!adminCheck.authorized) {
     return adminCheck.response;
   }

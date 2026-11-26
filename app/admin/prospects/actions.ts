@@ -8,12 +8,15 @@ import {
   convertTrialRequestToMember,
 } from '@/app/lib/firebase/trial-requests';
 import { TrialRideStatus, Member } from '@/app/types';
+import { requireSectionAccess } from '@/app/lib/auth/admin-access';
+import { isSessionAdmin } from '@/app/lib/auth/session';
 
 export async function updateProspectStatusAction(
   id: string,
   status: TrialRideStatus
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    await requireSectionAccess('prospects');
     if (!id) return { success: false, error: 'Identifiant manquant' };
     const success = await updateTrialRequestStatus(id, status);
     if (!success) {
@@ -38,6 +41,7 @@ export async function updateProspectDetailsAction(
   }
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    await requireSectionAccess('prospects');
     if (!id) return { success: false, error: 'Identifiant manquant' };
     const success = await updateTrialRequest(id, data);
     if (!success) {
@@ -56,7 +60,12 @@ export async function convertProspectToMemberAction(
   overrides?: Partial<Member>
 ): Promise<{ success: boolean; memberId?: string; error?: string }> {
   try {
+    const session = await requireSectionAccess('prospects');
     if (!id) return { success: false, error: 'Identifiant manquant' };
+    // Overrides can carry roles or identity fields: admin-only, like role assignment.
+    if (overrides && !isSessionAdmin(session)) {
+      return { success: false, error: 'Seul un administrateur peut personnaliser la fiche du nouveau membre (rôles, e-mail).' };
+    }
     const res = await convertTrialRequestToMember(id, overrides);
     if (!res.success) {
       return { success: false, error: res.error || 'Échec de la conversion en membre' };
@@ -75,6 +84,7 @@ export async function deleteProspectAction(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    await requireSectionAccess('prospects');
     if (!id) return { success: false, error: 'Identifiant manquant' };
     const success = await deleteTrialRequest(id);
     if (!success) {

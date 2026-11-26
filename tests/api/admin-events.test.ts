@@ -7,7 +7,7 @@ import {
   DELETE as deleteEventByIdRoute,
 } from '@/app/api/admin/events/[id]/route';
 import * as adminModule from '@/app/lib/firebase/admin';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
 describe('Admin Calendar Events API Endpoints', () => {
   const mockContext = {
@@ -20,7 +20,7 @@ describe('Admin Calendar Events API Endpoints', () => {
 
   describe('POST /api/admin/events', () => {
     it('requires admin authorization', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -35,7 +35,7 @@ describe('Admin Calendar Events API Endpoints', () => {
     });
 
     it('creates calendar event in Realtime Database', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -74,7 +74,7 @@ describe('Admin Calendar Events API Endpoints', () => {
 
   describe('GET /api/admin/events/[id]', () => {
     it('returns 404 when event does not exist', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -92,7 +92,7 @@ describe('Admin Calendar Events API Endpoints', () => {
     });
 
     it('returns event details when found', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -119,7 +119,7 @@ describe('Admin Calendar Events API Endpoints', () => {
 
   describe('PUT /api/admin/events/[id]', () => {
     it('updates event fields in database', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -146,7 +146,7 @@ describe('Admin Calendar Events API Endpoints', () => {
 
   describe('DELETE /api/admin/events/[id]', () => {
     it('removes event from database', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);

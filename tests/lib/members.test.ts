@@ -139,6 +139,32 @@ describe('Firebase Members Service (app/lib/firebase/members.ts)', () => {
       expect(updateMock).toHaveBeenCalledWith({ authUid: 'firebase-uid-777' });
     });
 
+    it('takes the verified email from the Firebase ID token, never from the member record', async () => {
+      const verifyIdToken = vi
+        .fn()
+        .mockResolvedValueOnce({ email: 'login@example.test', email_verified: true })
+        .mockResolvedValueOnce({ email: 'login@example.test', email_verified: false })
+        .mockRejectedValueOnce(new Error('bad token'));
+      vi.spyOn(adminModule, 'getAdminAuth').mockReturnValue({ verifyIdToken } as any);
+      vi.spyOn(clientModule, 'signInWithEmailAndPassword').mockResolvedValue({
+        user: { uid: 'uid-1', email: 'login@example.test', getIdToken: async () => 'id-token' },
+      } as any);
+      const snapshot = {
+        exists: () => true,
+        forEach: (cb: (item: any) => void) =>
+          cb({ key: 'm1', val: () => ({ name: 'M', email: 'record@example.test', authUid: 'uid-1' }) }),
+      };
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({
+        ref: () => ({ once: vi.fn().mockResolvedValue(snapshot), update: vi.fn() }),
+      } as any);
+      vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      expect((await validateUser('login@example.test', 'pw'))?.verifiedEmail).toBe('login@example.test');
+      expect(verifyIdToken).toHaveBeenCalledWith('id-token');
+      expect((await validateUser('login@example.test', 'pw'))?.verifiedEmail).toBeUndefined();
+      expect((await validateUser('login@example.test', 'pw'))?.verifiedEmail).toBeUndefined();
+    });
+
     it('returns null when member is not found in database', async () => {
       vi.spyOn(clientModule, 'signInWithEmailAndPassword').mockResolvedValue({
         user: { uid: 'unregistered-uid', email: 'intruder@test.com' },

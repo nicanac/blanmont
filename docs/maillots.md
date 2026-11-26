@@ -41,7 +41,7 @@ All money stays in euros on orders (existing `totalPrice`), **compare in cents**
   - `paidAt?`, `bankTransactionId?`, `deliveredAt?`, `cancelledAt?`
 - `/equipment-campaigns/{id}`: `{ id, title, equipmentIds: string[], closesAt, status: 'open' | 'closed' | 'ordered' | 'received', supplierOrderedAt?, receivedAt?, extraStock?: Record<equipmentId, Record<size, number>>, createdAt, updatedAt? }`
 - `/bank-transactions/{id}`: `{ id, importedAt, valueDate (YYYY-MM-DD), amountCents, counterpartyName, counterpartyIbanLast4, communication (≤ 140 chars), reference?, status: 'matched' | 'unmatched' | 'ignored', reason?: 'no-reference' | 'unknown-reference' | 'not-pending' | 'amount-mismatch', orderId?, manual?: boolean }`. `id` = first 20 hex of sha256(`bankRef|valueDate|amountCents|counterpartyAccount`) so a re-imported file adds nothing. Only credits are stored. Full counterparty IBAN is **not** stored (privacy).
-- `/settings/payment`: `{ beneficiary, iban, bic? }`, edited in `/admin/settings`; IBAN validated with ISO 13616 mod-97 before saving.
+- `/settings/payment`: `{ beneficiary, iban, bic? }`, edited on `/admin/commandes/banque`; IBAN validated with ISO 13616 mod-97 before saving.
 - `/counters/payment-reference`: integer, incremented by RTDB transaction.
 
 Mock mode (`isMockMode`) keeps in-memory stores like `MOCK_EQUIPMENT_ORDERS`, so tests run without Firebase.
@@ -89,8 +89,7 @@ For each new credit, in file order: no reference → `no-reference`; no order wi
 | `/profile/commandes` | member | own orders, the date timeline, payment card while pending |
 | `/admin/commandes` | admin | existing list + payment status, OGM, dates, "Marquer payé", "Remis", "Annuler" |
 | `/admin/commandes/campagnes` + `/[id]` | admin | campaigns list/create; detail: status stepper, size matrix + CSV, unpaid warning, distribution checklist |
-| `/admin/commandes/banque` | admin | CODA upload, import summary, unmatched credits with assign/ignore |
-| `/admin/settings` | admin | "Paiements — compte du club" card: beneficiary, IBAN, BIC, QR preview |
+| `/admin/commandes/banque` | section `commandes` | CODA upload, import summary, unmatched credits with assign/ignore; "Paiements — compte du club" card: beneficiary, IBAN, BIC, QR preview |
 
 ## Security
 

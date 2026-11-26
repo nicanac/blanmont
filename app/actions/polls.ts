@@ -10,7 +10,8 @@ import {
 } from '../lib/firebase/polls';
 import { getSaturdaySortieDetails, type SaturdaySortieInfo } from '../lib/sondage-helpers';
 import { autoCreateUpcomingWeekendPoll, type AutoCreatePollResult } from '../lib/sondage-automation';
-import { requireAdminSession, getSessionUser } from '../lib/auth/session';
+import { getSessionUser } from '../lib/auth/session';
+import { canAccessSection, requireSectionAccess } from '../lib/auth/admin-access';
 import type { WeekendPoll, PollSlot, CyclingGroupChoice, PollGroupVariant, PollResponse } from '../types';
 import { POLL_SLOT_IDS } from '../lib/poll-slots';
 import { CYCLING_GROUP_CHOICES } from '../constants/cycling';
@@ -32,7 +33,8 @@ export async function submitWeekendPollResponseAction(payload: {
   comment?: string;
 }) {
   const session = await getSessionUser();
-  if (session && session.id !== payload.memberId && !session.isAdmin) {
+  if (!session) throw new Error('Connectez-vous pour répondre au sondage.');
+  if (session.id !== payload.memberId && !(await canAccessSection(session, 'sondages'))) {
     throw new Error('Action non autorisée pour ce membre.');
   }
 
@@ -75,11 +77,11 @@ export async function submitWeekendPollResponseAction(payload: {
     title: `Réponse au sondage week-end : ${payload.memberName}`,
     severity: 'info',
     user: {
-      isAuthenticated: Boolean(session),
-      userId: session?.id || payload.memberId,
+      isAuthenticated: true,
+      userId: session.id,
       userName: payload.memberName,
-      userEmail: session?.email || null,
-      role: session?.role || ['Member'],
+      userEmail: session.email || null,
+      role: session.role || ['Member'],
     },
     metadata: {
       pollId: payload.pollId,
@@ -99,7 +101,9 @@ export async function submitWeekendPollResponseAction(payload: {
  */
 export async function deleteWeekendPollResponseAction(pollId: string, memberId: string) {
   const session = await getSessionUser();
-  if (session && session.id !== memberId && !session.isAdmin) {
+  if (!session) throw new Error('Connectez-vous pour modifier votre réponse.');
+  // A member deletes only their own answer; the sondages section (admin page) may delete any.
+  if (session.id !== memberId && !(await canAccessSection(session, 'sondages'))) {
     throw new Error('Action non autorisée.');
   }
 
@@ -117,7 +121,7 @@ export async function deleteWeekendPollResponseAction(pollId: string, memberId: 
  * Admin Server Action to create a new weekend poll.
  */
 export async function createWeekendPollAction(data: Omit<WeekendPoll, 'id' | 'createdAt'>) {
-  await requireAdminSession();
+  await requireSectionAccess('sondages');
   const result = await createWeekendPoll(data);
   if (!result.success) {
     throw new Error(result.error || 'Échec de la création du sondage.');
@@ -131,7 +135,7 @@ export async function createWeekendPollAction(data: Omit<WeekendPoll, 'id' | 'cr
  * Admin Server Action to update a weekend poll.
  */
 export async function updateWeekendPollAction(id: string, updates: Partial<WeekendPoll>) {
-  await requireAdminSession();
+  await requireSectionAccess('sondages');
   const result = await updateWeekendPoll(id, updates);
   if (!result.success) {
     throw new Error(result.error || 'Échec de la mise à jour du sondage.');
@@ -146,7 +150,7 @@ export async function updateWeekendPollAction(id: string, updates: Partial<Weeke
  * Admin Server Action to delete a weekend poll.
  */
 export async function deleteWeekendPollAction(id: string) {
-  await requireAdminSession();
+  await requireSectionAccess('sondages');
   const result = await deleteWeekendPoll(id);
   if (!result.success) {
     throw new Error(result.error || 'Échec de la suppression du sondage.');
@@ -160,7 +164,7 @@ export async function deleteWeekendPollAction(id: string) {
  * Server Action to fetch Saturday ride details and precalculated poll suggestions.
  */
 export async function getSaturdaySortieInfoAction(isoDate?: string): Promise<SaturdaySortieInfo> {
-  await requireAdminSession();
+  await requireSectionAccess('sondages');
   return getSaturdaySortieDetails(isoDate);
 }
 
@@ -170,7 +174,7 @@ export async function getSaturdaySortieInfoAction(isoDate?: string): Promise<Sat
 export async function triggerAutoCreateWeekendPollAction(
   options?: { force?: boolean }
 ): Promise<AutoCreatePollResult> {
-  await requireAdminSession();
+  await requireSectionAccess('sondages');
   const result = await autoCreateUpcomingWeekendPoll(options);
   if (!result.success) {
     throw new Error(result.error || result.message || 'Échec de la génération automatique.');

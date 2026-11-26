@@ -21,6 +21,7 @@ import {
   getMemberProfileAction,
 } from '@/app/actions';
 import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 import * as firebaseRoot from '@/app/lib/firebase';
 import * as pollsModule from '@/app/lib/firebase/polls';
 import * as reviewsModule from '@/app/lib/firebase/event-reviews';
@@ -154,6 +155,18 @@ describe('Server Actions (app/actions.ts)', () => {
       );
     });
 
+    it('rejects submit and delete without a session', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue(null);
+      const submitSpy = vi.spyOn(pollsModule, 'submitPollResponse');
+      const deleteSpy = vi.spyOn(pollsModule, 'deletePollResponse');
+      await expect(
+        submitWeekendPollResponseAction({ pollId: 'poll-1', memberId: 'member-10', memberName: 'X', slots: [] })
+      ).rejects.toThrow(/Connectez-vous/);
+      await expect(deleteWeekendPollResponseAction('poll-1', 'member-10')).rejects.toThrow(/Connectez-vous/);
+      expect(submitSpy).not.toHaveBeenCalled();
+      expect(deleteSpy).not.toHaveBeenCalled();
+    });
+
     it('rejects deletion when user does not own response and is not admin', async () => {
       vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
         id: 'member-10',
@@ -179,7 +192,7 @@ describe('Server Actions (app/actions.ts)', () => {
 
   describe('Weekend Poll Admin Actions', () => {
     it('createWeekendPollAction requires admin and calls createWeekendPoll', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
       vi.spyOn(pollsModule, 'createWeekendPoll').mockResolvedValue({ success: true, pollId: 'p-1' } as any);
 
       const result = await createWeekendPollAction({
@@ -193,7 +206,7 @@ describe('Server Actions (app/actions.ts)', () => {
     });
 
     it('updateWeekendPollAction requires admin and calls updateWeekendPoll', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
       vi.spyOn(pollsModule, 'updateWeekendPoll').mockResolvedValue({ success: true } as any);
 
       const result = await updateWeekendPollAction('p-1', { status: 'closed' });
@@ -201,7 +214,7 @@ describe('Server Actions (app/actions.ts)', () => {
     });
 
     it('deleteWeekendPollAction requires admin and calls deleteWeekendPoll', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
       vi.spyOn(pollsModule, 'deleteWeekendPoll').mockResolvedValue({ success: true } as any);
 
       const result = await deleteWeekendPollAction('p-1');
@@ -223,7 +236,23 @@ describe('Server Actions (app/actions.ts)', () => {
 
       expect(member).not.toBeNull();
       expect(member?.name).toBe('User One');
-      expect(setCookieSpy).toHaveBeenCalledWith(expect.objectContaining({ id: 'mem-1' }));
+      expect(setCookieSpy).toHaveBeenCalledWith(expect.objectContaining({ id: 'mem-1' }), null);
+    });
+
+    it('loginAction puts the verified login email in the cookie, not in the returned member', async () => {
+      vi.spyOn(firebaseRoot, 'validateUser').mockResolvedValue({
+        id: 'mem-1',
+        email: 'record@example.test',
+        name: 'User One',
+        role: ['Member'],
+        verifiedEmail: 'login@example.test',
+      } as any);
+      const setCookieSpy = vi.spyOn(sessionModule, 'setSessionCookie').mockResolvedValue({} as any);
+
+      const member = await loginAction('login@example.test', 'validpass');
+
+      expect(setCookieSpy).toHaveBeenCalledWith(expect.objectContaining({ id: 'mem-1' }), 'login@example.test');
+      expect(member).not.toHaveProperty('verifiedEmail');
     });
 
     it('loginAction returns null for invalid email format', async () => {
@@ -300,6 +329,17 @@ describe('Server Actions (app/actions.ts)', () => {
   });
 
   describe('updateMemberEmergencyAction & getMemberProfileAction', () => {
+    it('writes only the editable profile fields (no role, email or authUid)', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({ id: 'mem-1', name: 'Julien' } as any);
+      const updateMock = vi.fn().mockResolvedValue(undefined);
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: vi.fn().mockReturnValue({ update: updateMock }) } as any);
+
+      await updateMemberEmergencyAction({ phone: '+32470000000', role: ['Admin'], 'role/1': 'Admin', email: 'x@example.test', authUid: 'u' } as any);
+
+      const written = updateMock.mock.calls[0][0];
+      expect(Object.keys(written).sort()).toEqual(['phone', 'updatedAt']);
+    });
+
     it('updates member ICE emergency contact and preferred group in database', async () => {
       vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
         id: 'mem-1',
@@ -411,7 +451,7 @@ describe('Server Actions (app/actions.ts)', () => {
 
   describe('getSaturdaySortieInfoAction & triggerAutoCreateWeekendPollAction', () => {
     it('getSaturdaySortieInfoAction delegates to getSaturdaySortieDetails', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
       vi.spyOn(sondageHelpers, 'getSaturdaySortieDetails').mockResolvedValue({
         hasSaturdaySortie: true,
         isoDate: '2026-05-16',
@@ -423,7 +463,7 @@ describe('Server Actions (app/actions.ts)', () => {
     });
 
     it('triggerAutoCreateWeekendPollAction executes automation and revalidates paths', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
       vi.spyOn(sondageAuto, 'autoCreateUpcomingWeekendPoll').mockResolvedValue({
         success: true,
         action: 'created',

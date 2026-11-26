@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { requireAdminSession } from '@/app/lib/auth/session';
+import { requireSectionAccess } from '@/app/lib/auth/admin-access';
 import {
   cancelEquipmentOrder,
   clubToday,
@@ -29,7 +29,7 @@ async function runOrderAction(
   mutate: (id: string) => Promise<unknown>
 ): Promise<ActionResult> {
   try {
-    await requireAdminSession();
+    await requireSectionAccess('commandes');
     const parsed = RecordIdSchema.safeParse(id);
     if (!parsed.success) return { success: false, error: 'Paramètres invalides' };
     await mutate(parsed.data);

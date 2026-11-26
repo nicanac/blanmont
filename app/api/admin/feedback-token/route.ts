@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifyOwnerRequest } from '@/app/lib/auth/session';
 import { verifyGithubToken } from '@/app/lib/feedback/github';
 import {
   deleteFeedbackToken,
@@ -12,9 +12,9 @@ import {
 // ghp_..., github_pat_..., gho_...: letters, digits, underscore only.
 const bodySchema = z.object({ token: z.string().trim().min(20).max(255).regex(/^[A-Za-z0-9_]+$/) });
 
-/** Admin pastes a GitHub token: it is tested against the repo, then stored encrypted. It is never sent back. */
+/** The owner pastes a GitHub token: it is tested against the repo, then stored encrypted. It is never sent back. */
 export async function PUT(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifyOwnerRequest(request);
   if (!authCheck.authorized) return authCheck.response;
 
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));
@@ -41,7 +41,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
 }
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifyOwnerRequest(request);
   if (!authCheck.authorized) return authCheck.response;
 
   try {
