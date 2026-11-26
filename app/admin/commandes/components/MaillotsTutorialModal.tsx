@@ -61,7 +61,7 @@ export default function MaillotsTutorialModal({
             <strong>QR code</strong> de paiement. Vous importez ensuite le fichier <strong>CODA</strong> de la banque : les paiements corrects sont reconnus automatiquement.
           </div>
           <Step title="Une seule fois : le compte du club">
-            Ouvrez <strong>Administration → Paramètres → Paiements — compte du club</strong> : bénéficiaire, IBAN (vérifié) et BIC. Scannez le{' '}
+            Ouvrez <strong>Banque du club → Paiements — compte du club</strong> (en bas de la page Banque) : bénéficiaire, IBAN (vérifié) et BIC. Scannez le{' '}
             <strong>QR de test (1,00 €)</strong> avec une application bancaire, vérifiez les champs préremplis puis <strong>annulez</strong> le virement. Vérifiez aussi que la banque en ligne exporte les extraits au{' '}
             <strong>format CODA</strong> (sinon, demandez l’activation à l’agence). Sans compte configuré, les membres n’ont pas de QR code.
           </Step>
@@ -160,7 +160,7 @@ export default function MaillotsTutorialModal({
             <strong>Annuler</strong> une commande non payée : rien d’autre à faire. Annuler une commande <strong>payée</strong> : l’application le signale, mais le <strong>remboursement se fait hors application</strong>, par virement depuis la banque du club.
           </Step>
           <Step title="Confidentialité">
-            Seuls le nom du donneur d’ordre, les 4 derniers chiffres de son IBAN, la date, le montant et la communication sont conservés. Le fichier CODA n’est <strong>pas stocké</strong>. Seuls les administrateurs voient la page Banque.
+            Seuls le nom du donneur d’ordre, les 4 derniers chiffres de son IBAN, la date, le montant et la communication sont conservés. Le fichier CODA n’est <strong>pas stocké</strong>. Seuls les administrateurs et les rôles autorisés à la section Commandes (le Trésorier par défaut) voient la page Banque.
           </Step>
         </div>
       ),

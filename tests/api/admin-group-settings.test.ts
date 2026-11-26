@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { GET, PUT } from '@/app/api/admin/group-settings/route';
 import * as groupSettingsModule from '@/app/lib/firebase/group-settings';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
@@ -12,7 +12,7 @@ vi.mock('next/cache', () => ({
 }));
 
 const asAdmin = (): void => {
-  vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+  vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
     authorized: true,
     user: { id: 'admin-1', isAdmin: true },
   } as never);
@@ -32,7 +32,7 @@ describe('Admin group settings API (/api/admin/group-settings)', () => {
   });
 
   it('GET refuses non-admins', async () => {
-    vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+    vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
       authorized: false,
       response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
     });
@@ -57,7 +57,7 @@ describe('Admin group settings API (/api/admin/group-settings)', () => {
   });
 
   it('PUT refuses non-admins without writing', async () => {
-    vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+    vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
       authorized: false,
       response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
     });

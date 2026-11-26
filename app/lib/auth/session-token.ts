@@ -1,7 +1,6 @@
 /**
- * Edge-safe session token helpers (Web Crypto only).
- * Imported by middleware.ts: keep this file free of Node-only or Firebase imports,
- * otherwise the edge bundle pulls in firebase-admin and Vercel rejects the deployment.
+ * Session token helpers (Web Crypto only). Keep this file free of Node-only or Firebase imports:
+ * it must stay usable from any runtime (proxy.ts, route handlers, server actions).
  */
 import { checkIsAdmin } from '@/app/utils/auth';
 
@@ -15,6 +14,8 @@ export interface SessionUser {
   role: string[];
   photoUrl?: string;
   isAdmin: boolean;
+  /** Login email as verified by Firebase Auth (ID token) at sign-in; never the editable member-record email. */
+  verifiedEmail?: string | null;
   iat: number;
   exp: number;
 }
@@ -156,6 +157,18 @@ export async function verifySessionToken(token: string | undefined | null): Prom
   } catch {
     return null;
   }
+}
+
+/** True when the email is in the server-only OWNER_EMAILS list (comma-separated). Unset → nobody (fail closed). */
+export function isOwnerEmail(email: string | null | undefined): boolean {
+  const target = email?.trim().toLowerCase();
+  if (!target) return false;
+  return (process.env.OWNER_EMAILS ?? '').split(',').some((e) => e.trim().toLowerCase() === target);
+}
+
+/** Site owner (Paramètres): an admin session whose Firebase-verified login email is in OWNER_EMAILS. */
+export function isSessionOwner(session: SessionUser | null): boolean {
+  return isSessionAdmin(session) && isOwnerEmail(session?.verifiedEmail);
 }
 
 /**

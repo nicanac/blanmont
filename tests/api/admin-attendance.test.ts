@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
 import { GET, POST } from '@/app/api/admin/attendance/route';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 import * as adminModule from '@/app/lib/firebase/admin';
 
 describe('Admin Attendance API (/api/admin/attendance)', () => {
@@ -11,7 +11,7 @@ describe('Admin Attendance API (/api/admin/attendance)', () => {
 
   describe('Authorization checks', () => {
     it('returns 401/403 when verifyAdminRequest rejects the request', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -25,7 +25,7 @@ describe('Admin Attendance API (/api/admin/attendance)', () => {
 
   describe('GET /api/admin/attendance', () => {
     it('fetches attendance for a specific event', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -57,7 +57,7 @@ describe('Admin Attendance API (/api/admin/attendance)', () => {
 
   describe('POST /api/admin/attendance', () => {
     it('adds member attendance and keeps record in sync', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -99,7 +99,7 @@ describe('Admin Attendance API (/api/admin/attendance)', () => {
     });
 
     it('removes member attendance when action is remove', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);

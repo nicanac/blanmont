@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { requireAdminSession } from '@/app/lib/auth/session';
+import { requireSectionAccess } from '@/app/lib/auth/admin-access';
 import {
   assignTransaction,
   ignoreTransaction,
@@ -38,7 +38,7 @@ export async function importCodaAction(
   formData: FormData
 ): Promise<{ success: true; summary: CodaImportSummary } | { success: false; error: string }> {
   try {
-    await requireAdminSession();
+    await requireSectionAccess('commandes');
     const parsed = CodaFileSchema.safeParse(formData.get('file'));
     if (!parsed.success) return { success: false, error: parsed.error.issues[0].message };
     const text = new TextDecoder('latin1').decode(await parsed.data.arrayBuffer());
@@ -56,7 +56,7 @@ export async function assignTransactionAction(
   orderId: string
 ): Promise<ActionResult> {
   try {
-    await requireAdminSession();
+    await requireSectionAccess('commandes');
     const tx = RecordIdSchema.safeParse(txId);
     const order = RecordIdSchema.safeParse(orderId);
     if (!tx.success || !order.success) return { success: false, error: 'Paramètres invalides' };
@@ -70,7 +70,7 @@ export async function assignTransactionAction(
 
 export async function ignoreTransactionAction(txId: string): Promise<ActionResult> {
   try {
-    await requireAdminSession();
+    await requireSectionAccess('commandes');
     const tx = RecordIdSchema.safeParse(txId);
     if (!tx.success) return { success: false, error: 'Paramètres invalides' };
     await ignoreTransaction(tx.data);

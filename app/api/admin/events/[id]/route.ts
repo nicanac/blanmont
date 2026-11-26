@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
 export async function GET(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'events');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
 }
 
 export async function PUT(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'events');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -52,7 +52,7 @@ export async function PUT(request: NextRequest, context: RouteContext): Promise<
 }
 
 export async function DELETE(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'events');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

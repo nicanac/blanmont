@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { requireAdminSession } from '@/app/lib/auth/session';
+import { requireSectionAccess } from '@/app/lib/auth/admin-access';
 import { PaymentSettingsSchema, savePaymentSettings } from '@/app/lib/firebase/payment-settings';
 
 /** Club bank account for the payment card and EPC QR: { beneficiary, iban, bic? }. */
@@ -9,13 +9,14 @@ export async function savePaymentSettingsAction(
   input: unknown
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    await requireAdminSession();
+    // The card lives on /admin/commandes/banque: the Trésorier does not need Paramètres.
+    await requireSectionAccess('commandes');
     const parsed = PaymentSettingsSchema.safeParse(input);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0]?.message || 'Données invalides' };
     }
     await savePaymentSettings(parsed.data);
-    revalidatePath('/admin/settings');
+    revalidatePath('/admin/commandes/banque');
     revalidatePath('/checkout');
     revalidatePath('/profile/commandes');
     return { success: true };

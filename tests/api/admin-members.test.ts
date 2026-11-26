@@ -8,7 +8,7 @@ import {
 } from '@/app/api/admin/members/[id]/route';
 import { POST as resetPasswordRoute } from '@/app/api/admin/members/[id]/reset-password/route';
 import * as adminModule from '@/app/lib/firebase/admin';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
 describe('Admin Members API Endpoints', () => {
   const mockContext = {
@@ -21,7 +21,7 @@ describe('Admin Members API Endpoints', () => {
 
   describe('POST /api/admin/members', () => {
     it('creates member with default roles and fields in database', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -61,7 +61,7 @@ describe('Admin Members API Endpoints', () => {
 
   describe('GET, PUT, DELETE /api/admin/members/[id]', () => {
     it('GET returns 404 if member does not exist', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -77,7 +77,7 @@ describe('Admin Members API Endpoints', () => {
     });
 
     it('GET returns member details when found', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -98,7 +98,7 @@ describe('Admin Members API Endpoints', () => {
     });
 
     it('PUT updates member record', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -120,7 +120,7 @@ describe('Admin Members API Endpoints', () => {
     });
 
     it('DELETE removes member record', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -141,7 +141,7 @@ describe('Admin Members API Endpoints', () => {
 
   describe('POST /api/admin/members/[id]/reset-password', () => {
     it('returns 400 when password is too short', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -158,7 +158,7 @@ describe('Admin Members API Endpoints', () => {
     });
 
     it('returns 400 when member has no Firebase Auth authUid linked', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -182,7 +182,7 @@ describe('Admin Members API Endpoints', () => {
     });
 
     it('updates password via Firebase Admin Auth when authUid exists', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);

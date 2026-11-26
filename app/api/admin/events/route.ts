@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { CalendarEvent } from '@/app/types';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'events');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

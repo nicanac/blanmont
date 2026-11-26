@@ -8,6 +8,8 @@ import {
   signSessionToken,
   verifySessionToken,
   isSessionAdmin,
+  isSessionOwner,
+  isOwnerEmail,
   type SessionUser,
 } from './session-token';
 
@@ -17,13 +19,18 @@ export {
   signSessionToken,
   verifySessionToken,
   isSessionAdmin,
+  isSessionOwner,
   type SessionUser,
 };
 
 /**
  * Creates and sets the HttpOnly session cookie on the server.
+ * `verifiedEmail` comes from the verified Firebase ID token of this login (see validateUser), never from the member record.
  */
-export async function setSessionCookie(member: Member | User): Promise<SessionUser> {
+export async function setSessionCookie(
+  member: Member | User,
+  verifiedEmail: string | null = null
+): Promise<SessionUser> {
   const roles = Array.isArray(member.role)
     ? member.role
     : member.role
@@ -41,7 +48,8 @@ export async function setSessionCookie(member: Member | User): Promise<SessionUs
     avatarUrl: memberAvatars.photoUrl || memberAvatars.avatarUrl || '/images/default-avatar.png',
   };
 
-  const isAdmin = checkIsAdmin(normalizedUser);
+  // The site owner is also an admin.
+  const isAdmin = checkIsAdmin(normalizedUser) || isOwnerEmail(verifiedEmail);
 
   const sessionData: Omit<SessionUser, 'iat' | 'exp'> = {
     id: normalizedUser.id,
@@ -50,6 +58,7 @@ export async function setSessionCookie(member: Member | User): Promise<SessionUs
     role: roles,
     photoUrl: normalizedUser.avatarUrl,
     isAdmin,
+    verifiedEmail,
   };
 
   const token = await signSessionToken(sessionData);
@@ -190,4 +199,28 @@ export async function requireAdminSession(): Promise<SessionUser> {
     throw new Error('Accès refusé. Droits administrateur requis.');
   }
   return session;
+}
+
+/** Owner-only (Paramètres) guard for Server Actions. Throws like requireAdminSession. */
+export async function requireOwnerSession(): Promise<SessionUser> {
+  const session = await requireAdminSession();
+  if (!isSessionOwner(session)) {
+    throw new Error('Accès refusé. Réservé au propriétaire du site.');
+  }
+  return session;
+}
+
+/** Owner-only (Paramètres) guard for API route handlers: 401/403 like verifyAdminRequest. */
+export async function verifyOwnerRequest(
+  request: NextRequest
+): Promise<{ authorized: true; user: SessionUser } | { authorized: false; response: NextResponse }> {
+  const check = await verifyAdminRequest(request);
+  if (!check.authorized || isSessionOwner(check.user)) return check;
+  return {
+    authorized: false,
+    response: NextResponse.json(
+      { error: 'Accès refusé. Réservé au propriétaire du site.' },
+      { status: 403 }
+    ),
+  };
 }

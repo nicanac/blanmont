@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createTraceWithGPX } from '@/app/lib/firebase/traces';
 import { AddTraceApiSchema, safeValidate } from '@/app/lib/validation';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 export async function POST(req: NextRequest) {
-  const authCheck = await verifyAdminRequest(req);
+  const authCheck = await verifySectionRequest(req, 'traces');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

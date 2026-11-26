@@ -1,13 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { delegatedMemberChangeError, verifySectionRequest } from '@/app/lib/auth/admin-access';
+import { isSessionAdmin } from '@/app/lib/auth/session';
+
+/** Non-admins (members section): refusal for this change, read against the stored record. */
+async function delegatedDenial(
+  user: Parameters<typeof delegatedMemberChangeError>[0],
+  id: string,
+  changes: Record<string, unknown>
+): Promise<NextResponse | null> {
+  if (isSessionAdmin(user)) return null;
+  const stored = (await getAdminDatabase().ref(`members/${id}`).once('value')).val();
+  const denial = delegatedMemberChangeError(user, stored, changes);
+  return denial ? NextResponse.json({ error: denial }, { status: 403 }) : null;
+}
 
 interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
 export async function GET(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'members');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -29,7 +42,7 @@ export async function GET(request: NextRequest, context: RouteContext): Promise<
 }
 
 export async function PUT(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'members');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -37,6 +50,8 @@ export async function PUT(request: NextRequest, context: RouteContext): Promise<
   try {
     const { id } = await context.params;
     const data = await request.json();
+    const denied = await delegatedDenial(authCheck.user, id, data);
+    if (denied) return denied;
     const db = getAdminDatabase();
 
     await db.ref(`members/${id}`).update({
@@ -52,13 +67,15 @@ export async function PUT(request: NextRequest, context: RouteContext): Promise<
 }
 
 export async function DELETE(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'members');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
 
   try {
     const { id } = await context.params;
+    const denied = await delegatedDenial(authCheck.user, id, {});
+    if (denied) return denied;
     const db = getAdminDatabase();
 
     await db.ref(`members/${id}`).remove();
