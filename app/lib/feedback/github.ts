@@ -1,4 +1,5 @@
 import type { FeedbackInput } from './schema';
+import { getFeedbackToken } from './token-store';
 
 const API = 'https://api.github.com';
 const ASSET_DIR = 'docs/reviews/assets';
@@ -11,8 +12,24 @@ export function getFeedbackRepo(): string {
   return process.env.GITHUB_FEEDBACK_REPO || 'nicanac/blanmont';
 }
 
-export function isGithubConfigured(): boolean {
-  return Boolean(process.env.GITHUB_FEEDBACK_TOKEN);
+export async function isGithubConfigured(): Promise<boolean> {
+  return Boolean(await getFeedbackToken());
+}
+
+/** Checks a candidate token against the target repo before it is stored. */
+export async function verifyGithubToken(token: string): Promise<{ ok: true } | { ok: false; reason: string }> {
+  const repo = getFeedbackRepo();
+  try {
+    const res = await gh<{ message?: string }>(token, '/repos/' + repo);
+    if (res.status === 200) return { ok: true };
+    if (res.status === 401) return { ok: false, reason: 'GitHub refuse ce jeton (invalide ou expiré).' };
+    if (res.status === 404 || res.status === 403) {
+      return { ok: false, reason: "Ce jeton n'a pas accès au dépôt " + repo + '.' };
+    }
+    return { ok: false, reason: 'GitHub a répondu ' + res.status + '.' };
+  } catch {
+    return { ok: false, reason: 'GitHub est injoignable depuis le serveur.' };
+  }
 }
 
 export interface ParsedImage {
@@ -158,8 +175,8 @@ export interface SubmittedIssue {
 
 /** Uploads the (optional) screenshot, then opens a GitHub issue. Throws on any GitHub failure. */
 export async function submitFeedbackToGitHub(report: FeedbackInput, author: string): Promise<SubmittedIssue> {
-  const token = process.env.GITHUB_FEEDBACK_TOKEN;
-  if (!token) throw new Error('GITHUB_FEEDBACK_TOKEN is not set');
+  const token = await getFeedbackToken();
+  if (!token) throw new Error('GitHub feedback token is not configured');
   const repo = getFeedbackRepo();
   const id = newReviewId();
 
