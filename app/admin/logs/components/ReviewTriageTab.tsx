@@ -465,7 +465,7 @@ export default function ReviewTriageTab({
       </div>
 
       {/* Main Triage Table */}
-      <div className="overflow-x-auto rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night">
+      <div className="overflow-x-auto table-stack rounded-lg border border-line dark:border-night-line bg-paper dark:bg-night">
         <table className="w-full text-left border-collapse text-xs">
           <thead>
             <tr className="border-b border-line dark:border-night-line bg-paper-2/60 dark:bg-night-2/60 font-narrow font-bold uppercase tracking-wider text-[11px] text-ink-3 dark:text-snow-3">
@@ -520,7 +520,7 @@ export default function ReviewTriageTab({
                     }`}
                   >
                     {/* Checkbox */}
-                    <td className="py-2 px-3 text-center" onClick={(e) => e.stopPropagation()}>
+                    <td data-label="Sélection" className="py-2 px-3 text-center" onClick={(e) => e.stopPropagation()}>
                       <input
                         type="checkbox"
                         checked={isSelected}
@@ -530,7 +530,7 @@ export default function ReviewTriageTab({
                     </td>
 
                     {/* Timestamp */}
-                    <td className="py-2 px-3 font-mono text-[11px] text-ink-3 dark:text-snow-3 tabular-nums whitespace-nowrap">
+                    <td data-label="Horodatage" className="py-2 px-3 font-mono text-[11px] text-ink-3 dark:text-snow-3 tabular-nums whitespace-nowrap">
                       {new Date(log.timestamp).toLocaleDateString('fr-BE', {
                         day: '2-digit',
                         month: '2-digit',
@@ -545,12 +545,12 @@ export default function ReviewTriageTab({
                     </td>
 
                     {/* Review Status Badge */}
-                    <td className="py-2 px-3 whitespace-nowrap">
+                    <td data-label="Statut Modération" className="py-2 px-3 whitespace-nowrap">
                       {getReviewStatusBadge(log.review?.status)}
                     </td>
 
                     {/* Category */}
-                    <td className="py-2 px-3 whitespace-nowrap">
+                    <td data-label="Catégorie" className="py-2 px-3 whitespace-nowrap">
                       <span
                         className={`inline-block px-1.5 py-0.5 rounded-xs text-[10px] font-narrow font-bold uppercase tracking-wider border ${getCategoryInkClass(
                           log.category
@@ -561,7 +561,7 @@ export default function ReviewTriageTab({
                     </td>
 
                     {/* Event Details */}
-                    <td className="py-2 px-3">
+                    <td data-label="Événement &amp; Contexte" className="py-2 px-3">
                       <div className="flex items-center gap-2">
                         <span
                           className={`inline-block px-1 py-0.2 rounded-xs text-[9px] font-narrow font-bold uppercase border ${getSeverityBadgeClass(
@@ -590,7 +590,7 @@ export default function ReviewTriageTab({
                     </td>
 
                     {/* User */}
-                    <td className="py-2 px-3 whitespace-nowrap">
+                    <td data-label="Utilisateur" className="py-2 px-3 whitespace-nowrap">
                       <div className="flex items-center gap-1.5">
                         {log.user.isAuthenticated ? (
                           <UserCircleIcon className="h-4 w-4 text-vert shrink-0" />
@@ -607,7 +607,7 @@ export default function ReviewTriageTab({
                     </td>
 
                     {/* Quick Row Actions */}
-                    <td
+                    <td data-label="Actions"
                       className="py-2 px-3 text-right whitespace-nowrap"
                       onClick={(e) => e.stopPropagation()}
                     >

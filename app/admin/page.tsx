@@ -452,7 +452,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
               </Link>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto table-stack">
               <table className="min-w-full divide-y divide-line dark:divide-night-line">
                 <thead className="bg-paper-2 dark:bg-night">
                   <tr>
@@ -496,13 +496,13 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                             </p>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-5 py-3.5 text-ink-2 dark:text-snow-2 font-medium">
+                        <td data-label="Auteur" className="whitespace-nowrap px-5 py-3.5 text-ink-2 dark:text-snow-2 font-medium">
                           {post.author}
                         </td>
-                        <td className="whitespace-nowrap px-5 py-3.5 text-ink-3 dark:text-snow-3 tabular-nums">
+                        <td data-label="Date" className="whitespace-nowrap px-5 py-3.5 text-ink-3 dark:text-snow-3 tabular-nums">
                           {formatDate(post.publishedAt)}
                         </td>
-                        <td className="whitespace-nowrap px-5 py-3.5">
+                        <td data-label="Statut" className="whitespace-nowrap px-5 py-3.5">
                           <span
                             className={`inline-flex rounded-full px-2 py-0.5 text-xs font-narrow font-bold uppercase tracking-wider ${
                               post.isPublished
@@ -513,7 +513,7 @@ export default async function AdminDashboardPage(): Promise<React.ReactElement> 
                             {post.isPublished ? 'En ligne' : 'Brouillon'}
                           </span>
                         </td>
-                        <td className="whitespace-nowrap px-5 py-3.5 text-right font-narrow">
+                        <td data-label="Action" className="whitespace-nowrap px-5 py-3.5 text-right font-narrow">
                           <Link
                             href={`/admin/blog/${post.id}/edit`}
                             className="text-brand hover:text-brand-strong font-bold uppercase tracking-wider hover:underline"

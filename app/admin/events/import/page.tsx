@@ -308,7 +308,7 @@ export default function ImportEventsPage() {
 
           {/* Table Container */}
           <div className="rounded-md border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
-            <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
+            <div className="overflow-x-auto table-stack max-h-[600px] overflow-y-auto">
               <table className="min-w-full divide-y divide-line dark:divide-night-line text-left text-xs">
                 <thead className="bg-paper-2 dark:bg-night sticky top-0 z-10 font-mono text-ink-3 dark:text-snow-3">
                   <tr>
@@ -350,7 +350,7 @@ export default function ImportEventsPage() {
                       }`}
                     >
                       {/* Checkbox */}
-                      <td className="px-3 py-2.5 text-center">
+                      <td data-label="Sélectionner" className="px-3 py-2.5 text-center">
                         <input
                           id={`event-select-${event.id}`}
                           type="checkbox"
@@ -362,7 +362,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* Date */}
-                      <td className="px-3 py-2.5">
+                      <td data-label="Date (YYYY-MM-DD)" className="px-3 py-2.5">
                         <input
                           id={`event-date-${event.id}`}
                           type="date"
@@ -376,7 +376,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* Location */}
-                      <td className="px-3 py-2.5">
+                      <td data-label="Destination / Lieu" className="px-3 py-2.5">
                         <input
                           id={`event-location-${event.id}`}
                           type="text"
@@ -390,7 +390,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* Distances */}
-                      <td className="px-3 py-2.5">
+                      <td data-label="Distances" className="px-3 py-2.5">
                         <input
                           id={`event-distances-${event.id}`}
                           type="text"
@@ -405,7 +405,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* Departure */}
-                      <td className="px-3 py-2.5">
+                      <td data-label="Départ" className="px-3 py-2.5">
                         <input
                           id={`event-departure-${event.id}`}
                           type="text"
@@ -420,7 +420,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* Address / RDV */}
-                      <td className="px-3 py-2.5">
+                      <td data-label="Lieu RDV / Adresse" className="px-3 py-2.5">
                         <input
                           id={`event-address-${event.id}`}
                           type="text"
@@ -435,7 +435,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* Remarks */}
-                      <td className="px-3 py-2.5">
+                      <td data-label="Remarques" className="px-3 py-2.5">
                         <input
                           id={`event-remarks-${event.id}`}
                           type="text"
@@ -450,7 +450,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* GPX Url */}
-                      <td className="px-3 py-2.5">
+                      <td data-label="Trace GPX (Lien)" className="px-3 py-2.5">
                         <input
                           id={`event-gpx-${event.id}`}
                           type="text"
@@ -465,7 +465,7 @@ export default function ImportEventsPage() {
                       </td>
 
                       {/* Delete */}
-                      <td className="px-3 py-2.5 text-center">
+                      <td data-label="Actions" className="px-3 py-2.5 text-center">
                         <button
                           type="button"
                           onClick={() => handleDeleteRow(event.id)}

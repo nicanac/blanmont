@@ -285,7 +285,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
 
       {/* Table Container */}
       <div id="members-table-section" className="overflow-hidden rounded-lg border border-line bg-white shadow-xs">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto table-stack">
           <table className="min-w-full divide-y divide-line">
             <thead className="bg-paper-2">
               <tr>
@@ -349,7 +349,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         </div>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-ink-3">
+                    <td data-label="Email &amp; Tél" className="whitespace-nowrap px-6 py-4 text-ink-3">
                       <div className="space-y-0.5">
                         <p>{member.email || '-'}</p>
                         {member.phone && (
@@ -357,7 +357,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         )}
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td data-label="Rôle(s)" className="whitespace-nowrap px-6 py-4">
                       <div className="flex flex-wrap gap-1">
                         {(Array.isArray(member.role) ? member.role : [member.role].filter(Boolean)).map((r) => {
                           const roleStr = String(r);
@@ -376,7 +376,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         })}
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td data-label="Cotisation 2026" className="whitespace-nowrap px-6 py-4">
                       {isCotisationPaid ? (
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-0.5 text-xs font-bold">
                           <CheckCircleIcon className="h-3.5 w-3.5 text-emerald-600" />
@@ -393,7 +393,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         </span>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td data-label="Sécurité ICE" className="whitespace-nowrap px-6 py-4">
                       {hasIce ? (
                         <button
                           type="button"
@@ -411,7 +411,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         </span>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-right">
+                    <td data-label="Actions" className="whitespace-nowrap px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <Link
                           href="/admin/members/photos"

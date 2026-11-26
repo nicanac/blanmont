@@ -216,7 +216,7 @@ export default function AdminGalerieClient({
 
       {/* Albums Table */}
       <div id="galerie-table-section" className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto table-stack">
           <table className="w-full text-left text-xs">
             <thead className="bg-paper-2 dark:bg-night-3 text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3 border-b border-line dark:border-night-line">
               <tr>
@@ -246,7 +246,7 @@ export default function AdminGalerieClient({
                 })
                 .map((album) => (
                 <tr key={album.id} className="hover:bg-paper-2/60 dark:hover:bg-night-3/60 transition-colors">
-                  <td className="py-3 px-4">
+                  <td data-label="Couverture" className="py-3 px-4">
                     <div className="h-12 w-20 rounded-md overflow-hidden bg-night-2 border border-line dark:border-night-line relative shrink-0">
                       <Image
                         src={album.coverUrl}
@@ -263,21 +263,21 @@ export default function AdminGalerieClient({
                       )}
                     </div>
                   </td>
-                  <td className="py-3 px-4 max-w-xs">
+                  <td data-label="Titre &amp; Description" className="py-3 px-4 max-w-xs">
                     <p className="font-bold text-ink dark:text-white">{album.title}</p>
                     <p className="text-xs text-ink-3 dark:text-snow-3 line-clamp-1 mt-0.5">
                       {album.description}
                     </p>
                   </td>
-                  <td className="py-3 px-4 font-bold text-ink dark:text-white tabular-nums">
+                  <td data-label="Saison" className="py-3 px-4 font-bold text-ink dark:text-white tabular-nums">
                     {album.year}
                   </td>
-                  <td className="py-3 px-4">
+                  <td data-label="Catégorie" className="py-3 px-4">
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line text-ink-2 dark:text-snow-2">
                       {album.category}
                     </span>
                   </td>
-                  <td className="py-3 px-4">
+                  <td data-label="Visibilité" className="py-3 px-4">
                     {album.isPublic ? (
                       <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
                         Public
@@ -289,10 +289,10 @@ export default function AdminGalerieClient({
                       </span>
                     )}
                   </td>
-                  <td className="py-3 px-4 tabular-nums font-semibold text-ink dark:text-white">
+                  <td data-label="Photos" className="py-3 px-4 tabular-nums font-semibold text-ink dark:text-white">
                     {album.photoCount}
                   </td>
-                  <td className="py-3 px-4">
+                  <td data-label="Lien Externe" className="py-3 px-4">
                     {album.externalAlbumUrl ? (
                       <a
                         href={album.externalAlbumUrl}
@@ -307,7 +307,7 @@ export default function AdminGalerieClient({
                       <span className="text-snow-3">—</span>
                     )}
                   </td>
-                  <td className="py-3 px-4 text-right">
+                  <td data-label="Actions" className="py-3 px-4 text-right">
                     <div className="flex items-center justify-end gap-1">
                       <button
                         type="button"

@@ -818,7 +818,7 @@ export default function StatsCharts({
             </div>
 
             {/* Table Body */}
-            <div className="max-h-[500px] overflow-x-auto overflow-y-auto">
+            <div className="max-h-[500px] overflow-x-auto table-stack overflow-y-auto">
               <table className="min-w-full divide-y divide-line dark:divide-night-line">
                 <thead className="bg-paper-2 dark:bg-night-3 sticky top-0 z-10">
                   <tr>
@@ -850,7 +850,7 @@ export default function StatsCharts({
                         className="hover:bg-paper-2/50 dark:hover:bg-night-3/50 transition-colors duration-150"
                       >
                         {/* Rank / Podium Badge */}
-                        <td className="whitespace-nowrap px-5 py-3 font-extrabold text-ink dark:text-snow-1">
+                        <td data-label="Rang" className="whitespace-nowrap px-5 py-3 font-extrabold text-ink dark:text-snow-1">
                           {index === 0 ? (
                             <span className="inline-flex items-center gap-1 rounded-sm bg-ambre/20 px-2 py-0.5 text-xs font-bold text-amber-900 dark:text-amber-200 border border-ambre/40 font-mono">
                               1er
@@ -871,7 +871,7 @@ export default function StatsCharts({
                         </td>
 
                         {/* Member Name */}
-                        <td className="whitespace-nowrap px-5 py-3 font-bold text-ink dark:text-snow-1">
+                        <td data-label="Membre" className="whitespace-nowrap px-5 py-3 font-bold text-ink dark:text-snow-1">
                           {entry.name}
                           {index === 0 && entry.rides > 0 && (
                             <span className="ml-2 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-ambre font-narrow">
@@ -882,14 +882,14 @@ export default function StatsCharts({
                         </td>
 
                         {/* Group */}
-                        <td className="whitespace-nowrap px-5 py-3">
+                        <td data-label="Groupe" className="whitespace-nowrap px-5 py-3">
                           <span className="inline-flex rounded-xs px-2 py-0.5 text-xs font-bold uppercase tracking-wider bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-2 border border-line dark:border-night-line font-narrow">
                             {entry.group ? groupLabel(entry.group) : 'Sans groupe'}
                           </span>
                         </td>
 
                         {/* Merit Tier */}
-                        <td className="whitespace-nowrap px-5 py-3">
+                        <td data-label="Palier de Mérite" className="whitespace-nowrap px-5 py-3">
                           <span
                             className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold border font-narrow ${getTierBadgeStyle(
                               entry.tier
@@ -900,12 +900,12 @@ export default function StatsCharts({
                         </td>
 
                         {/* Rides Count */}
-                        <td className="whitespace-nowrap px-5 py-3 text-right font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
+                        <td data-label="Carrés Validés" className="whitespace-nowrap px-5 py-3 text-right font-extrabold text-ink dark:text-snow-1 tabular-nums font-mono">
                           {entry.rides}
                         </td>
 
                         {/* Attendance Percentage & Progress Bar */}
-                        <td className="whitespace-nowrap px-5 py-3 text-right">
+                        <td data-label="Taux d&apos;Assiduité" className="whitespace-nowrap px-5 py-3 text-right">
                           <div
                             className="flex items-center justify-end gap-2.5"
                             title={`${entry.rides} sur ${stats.carreVert.totalPossibleCarres} carrés possibles`}
