@@ -24,6 +24,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.43.0] - 2026-11-26
+
+### Added
+- feat(checkout): order several articles in one order and one payment (#208) (`b823eca`)
+
+### Fixed
+- fix(ui): stack data tables into labelled cards on mobile (#209) (#210) (`8ffd723`)
 ## [0.42.0] - 2026-11-26
 
 ### Added
