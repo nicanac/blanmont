@@ -7,6 +7,7 @@ import { CalendarEvent, EventReview } from '../types';
 import CalendarDrawer, { isEventDone } from './CalendarDrawer';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 import { parseDateInfo } from '../lib/carreVert';
+import { orderAgendaEvents } from '../lib/agendaOrder';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -455,7 +456,7 @@ export default function CalendarView({
     if (!isSearching) return [];
     const query = normalizeText(searchQuery);
 
-    return events
+    const matches = events
       .filter((e) => {
         if (!e.isoDate) return false;
         const dateInfo = parseDateInfo(e.isoDate);
@@ -489,8 +490,8 @@ export default function CalendarView({
           matchesDate ||
           matchesMonthName
         );
-      })
-      .sort((a, b) => a.isoDate.localeCompare(b.isoDate));
+      });
+    return orderAgendaEvents(matches, (e) => isEventDone(e.isoDate, e.departure));
   }, [events, searchQuery, filterType, isSearching]);
 
   // Current Month Days
@@ -529,7 +530,7 @@ export default function CalendarView({
 
   // Month Events (for standard month-by-month navigation)
   const monthEvents = useMemo(() => {
-    return events.filter((e) => {
+    const inMonth = events.filter((e) => {
       if (!e.isoDate) return false;
       const dateInfo = parseDateInfo(e.isoDate);
       if (!dateInfo || dateInfo.year !== year || dateInfo.month - 1 !== month) return false;
@@ -545,6 +546,8 @@ export default function CalendarView({
 
       return true;
     });
+    // Agenda order (next ride on top); the grid places events by date so it is unaffected
+    return orderAgendaEvents(inMonth, (e) => isEventDone(e.isoDate, e.departure));
   }, [events, year, month, filterType]);
 
   // Next immediate scheduled event for highlighting
@@ -561,11 +564,11 @@ export default function CalendarView({
     const groups: { monthKey: string; monthLabel: string; events: CalendarEvent[] }[] = [];
     searchedEvents.forEach((ev) => {
       const [y, m] = ev.isoDate.split('-').map(Number);
-      const monthKey = `${y}-${m}`;
       const monthLabel = `${MONTH_NAMES[m - 1]} ${y}`;
-      let grp = groups.find((g) => g.monthKey === monthKey);
-      if (!grp) {
-        grp = { monthKey, monthLabel, events: [] };
+      // Only merge with the previous group: a month can appear twice (upcoming, then past)
+      let grp = groups[groups.length - 1];
+      if (!grp || grp.monthLabel !== monthLabel) {
+        grp = { monthKey: `${y}-${m}-${groups.length}`, monthLabel, events: [] };
         groups.push(grp);
       }
       grp.events.push(ev);
