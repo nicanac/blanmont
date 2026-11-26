@@ -164,7 +164,13 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
       {/* Controls Bar: Search & Quick Role Filters */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-3.5 sm:p-4 rounded-lg border border-line bg-white shadow-xs">
         {/* Search Input Bar */}
-        <div id="members-search-bar" className="relative flex-1 max-w-md">
+        {/* Fixed width on desktop (the filter pills used to squeeze it to an icon), widened
+            while the field has focus or a query so the whole term stays readable (#233). */}
+        <div
+          id="members-search-bar"
+          data-expanded={searchTerm ? 'true' : undefined}
+          className="relative w-full lg:w-64 lg:shrink-0 lg:transition-[width] lg:duration-200 lg:ease-out lg:focus-within:w-96 lg:data-expanded:w-96 motion-reduce:transition-none"
+        >
           <MagnifyingGlassIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3" />
           <input
             id="admin-members-search-input"

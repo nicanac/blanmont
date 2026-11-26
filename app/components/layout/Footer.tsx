@@ -35,7 +35,12 @@ const navigation = {
   ],
 };
 
-function FooterColumn({
+/**
+ * One footer link column. Every heading takes the height of two lines and sits on its rule
+ * from the bottom, so the rules and the first links of the columns line up even when a
+ * title ("Parcours & Sorties") wraps in a narrow column (#230).
+ */
+export function FooterColumn({
   title,
   items,
 }: {
@@ -44,7 +49,7 @@ function FooterColumn({
 }): React.JSX.Element {
   return (
     <div>
-      <h3 className="border-b border-ink pb-2 font-narrow text-xs font-bold uppercase tracking-[0.1em] text-ink dark:border-snow-3 dark:text-snow">
+      <h3 className="flex min-h-11 items-end border-b border-ink pb-2 font-narrow text-xs font-bold uppercase leading-4 tracking-[0.1em] text-ink dark:border-snow-3 dark:text-snow">
         {title}
       </h3>
       <ul role="list" className="mt-3 space-y-2.5">
