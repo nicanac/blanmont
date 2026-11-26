@@ -77,6 +77,25 @@ export function sectionForPath(pathname: string): PathAccess | null {
   return match ? match[1] : null;
 }
 
+/** What the current user may open, as returned by getMyAdminAccessAction (app/admin/acces/actions.ts). */
+export interface MyAdminAccess {
+  isAdmin: boolean;
+  isOwner: boolean;
+  sections: readonly string[];
+}
+
+/**
+ * Whether the back-office UI (sidebar, palette, dashboard) should offer a link. Cosmetic only:
+ * proxy.ts and the action/API guards decide. Same rules as the proxy, owner-only pages included.
+ */
+export function canOpenAdminPath(access: MyAdminAccess, href: string): boolean {
+  const target = sectionForPath(href);
+  if (target === OWNER_ONLY) return access.isOwner;
+  if (access.isAdmin) return true;
+  if (target === DASHBOARD) return access.sections.length > 0;
+  return target !== null && target !== ADMIN_ONLY && access.sections.includes(target);
+}
+
 /** Roles that appear in the matrix: every club role without built-in admin rights (Admin, Président). */
 export const MATRIX_ROLES = CLUB_ROLES.filter((r) => !r.isAdmin).map(({ key, label }) => ({ key, label }));
 

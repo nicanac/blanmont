@@ -23,6 +23,7 @@ import {
   ShoppingBagIcon,
   TagIcon,
   ChatBubbleBottomCenterTextIcon,
+  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
 import { cn } from '../utils/cn';
@@ -30,6 +31,9 @@ import AdminGuard from './components/AdminGuard';
 import AdminHelpModal from './components/AdminHelpModal';
 import AdminTopbar from './components/AdminTopbar';
 import AdminCommandPalette from './components/AdminCommandPalette';
+import { useMyAdminAccess } from './components/useMyAdminAccess';
+import { useAuth } from '../context/AuthContext';
+import { canOpenAdminPath } from '@/app/constants/admin-sections';
 
 interface NavigationItem {
   name: string;
@@ -115,6 +119,10 @@ const navigationGroups: NavigationGroup[] = [
       { name: 'Paramètres', href: '/admin/settings', icon: Cog6ToothIcon, matchExtra: ['/admin/parametres'] },
     ],
   },
+  {
+    title: 'Configuration',
+    items: [{ name: 'Accès & Rôles', href: '/admin/acces', icon: ShieldCheckIcon }],
+  },
 ];
 
 interface AdminLayoutProps {
@@ -123,6 +131,8 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps): React.ReactElement {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const access = useMyAdminAccess(user?.id);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
@@ -210,10 +220,15 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
     [pathname]
   );
 
+  // Only what the user may open (cosmetic: proxy.ts guards every path).
+  const visibleGroups = navigationGroups
+    .map((group) => ({ ...group, items: group.items.filter((item) => access && canOpenAdminPath(access, item.href)) }))
+    .filter((group) => group.items.length > 0);
+
   // Render navigation links list
   const renderNavItems = (isDrawer = false): React.ReactElement => (
     <div className="space-y-6 px-3 py-4">
-      {navigationGroups.map((group) => (
+      {visibleGroups.map((group) => (
         <div key={group.title}>
           {(!isCollapsed || isDrawer) && (
             <h3 className="px-3 text-xs font-bold uppercase tracking-[0.08em] text-ink-3 mb-1.5">
@@ -292,7 +307,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
   );
 
   return (
-    <AdminGuard>
+    <AdminGuard access={access}>
       <div className="min-h-screen bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200">
         {/* Mobile slide-over drawer */}
         {mobileSidebarOpen && (
@@ -479,6 +494,7 @@ export default function AdminLayout({ children }: AdminLayoutProps): React.React
         <AdminCommandPalette
           isOpen={commandPaletteOpen}
           onClose={() => setCommandPaletteOpen(false)}
+          access={access}
         />
 
         {/* Global Admin Help & Shortcuts Modal */}

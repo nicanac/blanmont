@@ -30,6 +30,9 @@ import { PACE_GROUPS } from '@/app/constants/cycling';
 import { getCachedGroupSettings } from '../lib/firebase/group-settings';
 import { groupFullName } from '../lib/groupLabels';
 import { isAbsent, ridesSaturday, ridesSunday } from '../lib/poll-slots';
+import { getSessionUser, isSessionAdmin } from '../lib/auth/session';
+import { allowedAdminSections } from '../lib/auth/admin-access';
+import DelegatedDashboard from './components/DelegatedDashboard';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,7 +52,18 @@ function formatDate(dateString: string): string {
   }
 }
 
-export default async function AdminDashboardPage(): Promise<React.ReactElement> {
+export default async function AdminDashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ acces?: string }>;
+}): Promise<React.ReactElement> {
+  // Delegated roles (proxy.ts let them in with ≥ 1 section) never load the club-wide widgets below.
+  const session = await getSessionUser();
+  if (!isSessionAdmin(session)) {
+    const { acces } = await searchParams;
+    return <DelegatedDashboard sections={await allowedAdminSections(session)} denied={acces === 'refuse'} />;
+  }
+
   const [blogPosts, members, events, activePoll, trialRequests] = await Promise.all([
     getBlogPosts(),
     getMembers(),

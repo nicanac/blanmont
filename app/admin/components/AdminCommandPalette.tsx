@@ -21,8 +21,10 @@ import {
   UserPlusIcon,
   ClipboardDocumentCheckIcon,
   TagIcon,
+  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon } from '@/app/components/ui/CyclingIcons';
+import { canOpenAdminPath, type MyAdminAccess } from '@/app/constants/admin-sections';
 
 export interface CommandItem {
   id: string;
@@ -199,6 +201,15 @@ const COMMAND_ITEMS: CommandItem[] = [
     icon: Cog6ToothIcon,
     keywords: ['parametres', 'configuration', 'settings', 'options', 'systeme'],
   },
+  {
+    id: 'page-acces',
+    name: 'Accès & Rôles',
+    category: 'Pages',
+    description: 'Quelles sections de l’administration chaque rôle peut ouvrir',
+    href: '/admin/acces',
+    icon: ShieldCheckIcon,
+    keywords: ['acces', 'roles', 'droits', 'permissions', 'rbac', 'tresorier', 'secretaire', 'capitaine'],
+  },
   // Actions Rapides
   {
     id: 'action-new-poll',
@@ -260,9 +271,11 @@ const COMMAND_ITEMS: CommandItem[] = [
 interface AdminCommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
+  /** Items the user may not open are hidden (null while loading: none). */
+  access: MyAdminAccess | null;
 }
 
-function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactElement {
+function CommandPaletteModal({ onClose, access }: Omit<AdminCommandPaletteProps, 'isOpen'>): React.ReactElement {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -273,16 +286,18 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
     inputRef.current?.focus();
   }, []);
 
+  const items = useMemo(() => COMMAND_ITEMS.filter((item) => access && canOpenAdminPath(access, item.href)), [access]);
+
   const filteredItems = useMemo(() => {
-    if (!query.trim()) return COMMAND_ITEMS;
+    if (!query.trim()) return items;
     const q = query.toLowerCase().trim();
-    return COMMAND_ITEMS.filter((item) => {
+    return items.filter((item) => {
       const matchName = item.name.toLowerCase().includes(q);
       const matchDesc = item.description.toLowerCase().includes(q);
       const matchKeywords = item.keywords.some((kw) => kw.toLowerCase().includes(q));
       return matchName || matchDesc || matchKeywords;
     });
-  }, [query]);
+  }, [query, items]);
 
   const handleSelect = useCallback(
     (item: CommandItem) => {
@@ -447,7 +462,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }): React.ReactE
   );
 }
 
-export default function AdminCommandPalette({ isOpen, onClose }: AdminCommandPaletteProps): React.ReactElement | null {
+export default function AdminCommandPalette({ isOpen, onClose, access }: AdminCommandPaletteProps): React.ReactElement | null {
   if (!isOpen) return null;
-  return <CommandPaletteModal onClose={onClose} />;
+  return <CommandPaletteModal onClose={onClose} access={access} />;
 }
