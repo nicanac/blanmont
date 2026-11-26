@@ -81,6 +81,27 @@ describe('members API: role assignment stays admin-only (Secrétaire has the mem
     expect(ok.status).toBe(200);
   });
 
+  it('refuses RTDB path keys ("role/1") to everyone, so nested writes cannot bypass the role check', async () => {
+    const db = fakeDb({ ...members, 'members/sec-1': { name: 'Sec', role: ['Secrétaire'] } });
+    for (const user of [USERS.secretaire, USERS.admin]) {
+      for (const body of [{ 'role/1': 'Admin' }, { 'authUid/x': 'u' }, { 'a.b': 1 }]) {
+        const res = await updateMember(await requestAs('/api/admin/members/sec-1', user, { method: 'PUT', body }), ctx('sec-1'));
+        expect(res.status).toBe(400);
+      }
+    }
+    expect(db.update).not.toHaveBeenCalled();
+  });
+
+  it("refuses to the Secrétaire a change of an officer's login email", async () => {
+    const db = fakeDb(members);
+    const res = await updateMember(
+      await requestAs('/api/admin/members/tres', USERS.secretaire, { method: 'PUT', body: { email: 'attacker@example.test' } }),
+      ctx('tres')
+    );
+    expect(res.status).toBe(403);
+    expect(db.update).not.toHaveBeenCalled();
+  });
+
   it('lets an admin assign roles', async () => {
     const db = fakeDb(members);
     const res = await updateMember(
