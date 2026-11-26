@@ -158,11 +158,11 @@ export default function GroupRoads(): React.ReactElement {
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
           <h2
             id="groupes-title"
-            className="text-balance font-wide text-[clamp(2rem,4.4vw,3.75rem)] font-extrabold uppercase leading-[0.94] text-ink lg:col-span-7 dark:text-snow"
+            className="text-balance font-wide text-[clamp(2rem,4.4vw,3.75rem)] font-extrabold uppercase leading-[0.94] text-ink lg:col-span-12 dark:text-snow"
           >
             Quatre groupes route, un VTT, une seule place de départ
           </h2>
-          <p className="max-w-[46ch] text-base leading-relaxed text-ink-2 lg:col-span-5 dark:text-snow-2">
+          <p className="max-w-[46ch] text-base leading-relaxed text-ink-2 lg:col-span-12 dark:text-snow-2">
             « On part ensemble, on rentre ensemble. » Chaque groupe roule à son allure, encadré par
             des capitaines de route qui veillent à la sécurité et à la cohésion du peloton.
           </p>
