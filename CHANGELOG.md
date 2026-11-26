@@ -15,6 +15,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.36.0] - 2026-11-26
+
+### Added
+- feat(feedback): reports board for admins and club officers (#196) (`4711b3b`)
 ## [0.35.0] - 2026-11-26
 
 ### Added
