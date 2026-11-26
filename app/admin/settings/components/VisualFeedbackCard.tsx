@@ -5,9 +5,15 @@ import { toast } from 'sonner';
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
 import type { FeedbackAudience, VisualFeedbackSettings } from '@/app/lib/feedback/settings';
 
+interface TokenStatus {
+  source: 'env' | 'admin' | 'none';
+  last4?: string;
+  updatedAt?: string;
+}
+
 interface AdminFeedbackResponse {
   settings: VisualFeedbackSettings;
-  githubConfigured: boolean;
+  token: TokenStatus;
   repo: string;
   killed: boolean;
 }
@@ -23,6 +29,9 @@ export default function VisualFeedbackCard(): React.ReactElement {
   const [data, setData] = useState<AdminFeedbackResponse | null>(null);
   const [saving, setSaving] = useState(false);
   const [loadError, setLoadError] = useState(false);
+  const [tokenInput, setTokenInput] = useState('');
+  const [tokenBusy, setTokenBusy] = useState(false);
+  const [tokenError, setTokenError] = useState('');
 
   useEffect(() => {
     let cancelled = false;
@@ -58,6 +67,33 @@ export default function VisualFeedbackCard(): React.ReactElement {
       toast.error("Impossible d'enregistrer le réglage.");
     } finally {
       setSaving(false);
+    }
+  };
+
+  // Test + store the pasted token, or remove the stored one. The token itself is never returned by the server.
+  const saveToken = async (method: 'PUT' | 'DELETE'): Promise<void> => {
+    if (!data) return;
+    setTokenBusy(true);
+    setTokenError('');
+    try {
+      const res = await fetch('/api/admin/feedback-token', {
+        method,
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: method === 'PUT' ? JSON.stringify({ token: tokenInput }) : undefined,
+      });
+      const json = (await res.json().catch(() => ({}))) as { token?: TokenStatus; error?: string };
+      if (!res.ok || !json.token) {
+        setTokenError(json.error ?? 'Enregistrement impossible.');
+        return;
+      }
+      setData({ ...data, token: json.token });
+      setTokenInput('');
+      toast.success(method === 'PUT' ? 'Jeton GitHub enregistré et testé.' : 'Jeton GitHub supprimé.');
+    } catch {
+      setTokenError('Enregistrement impossible.');
+    } finally {
+      setTokenBusy(false);
     }
   };
 
@@ -133,17 +169,95 @@ export default function VisualFeedbackCard(): React.ReactElement {
         </p>
 
         {data && (
-          <div className="space-y-1 border-t border-line dark:border-night-line pt-4 text-xs text-ink-3 dark:text-snow-3">
-            <p>
-              Dépôt cible : <span className="font-mono font-bold text-ink dark:text-white">{data.repo}</span>
-            </p>
-            {!data.githubConfigured && (
-              <p role="alert" className="font-semibold text-brand">
-                GITHUB_FEEDBACK_TOKEN est absent côté serveur : les envois échoueront tant qu’il n’est pas défini.
+          <div className="space-y-4 border-t border-line pt-4 dark:border-night-line">
+            <div className="space-y-1">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-ink dark:text-white">Connexion GitHub</h3>
+              <p className="text-xs text-ink-3 dark:text-snow-3">
+                Dépôt cible : <span className="font-mono font-bold text-ink dark:text-white">{data.repo}</span>
               </p>
-            )}
+              {data.token.source === 'none' && (
+                <p role="alert" className="text-xs font-semibold text-brand">
+                  Aucun jeton GitHub : les retours ne peuvent pas être envoyés. Collez-en un ci-dessous.
+                </p>
+              )}
+              {data.token.source === 'env' && (
+                <p className="text-xs text-ink-2 dark:text-snow-2">
+                  Jeton fourni par le serveur (…{data.token.last4}). Un jeton collé ici ne sert que si cette variable
+                  disparaît.
+                </p>
+              )}
+              {data.token.source === 'admin' && (
+                <p className="text-xs text-ink-2 dark:text-snow-2">
+                  Jeton enregistré (…{data.token.last4})
+                  {data.token.updatedAt ? ' le ' + new Date(data.token.updatedAt).toLocaleDateString('fr-BE') : ''}.
+                </p>
+              )}
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                saveToken('PUT');
+              }}
+              className="space-y-2"
+            >
+              <label className="block space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-ink-3">
+                  {data.token.source === 'admin' ? 'Remplacer le jeton' : 'Jeton GitHub'}
+                </span>
+                <input
+                  type="password"
+                  name="github-token"
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={tokenInput}
+                  onChange={(e) => setTokenInput(e.target.value)}
+                  placeholder="github_pat_…"
+                  className="w-full rounded-sm border border-line bg-white px-3 py-2 font-mono text-sm focus-visible:outline-2 focus-visible:outline-brand dark:border-night-line dark:bg-night"
+                />
+              </label>
+              {tokenError && (
+                <p role="alert" className="text-xs font-semibold text-brand">
+                  {tokenError}
+                </p>
+              )}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="submit"
+                  disabled={tokenBusy || tokenInput.trim().length < 20}
+                  className="rounded-sm bg-brand px-4 py-2 text-xs font-bold uppercase tracking-wider text-white disabled:opacity-50"
+                >
+                  {tokenBusy ? 'Test en cours…' : 'Tester et enregistrer'}
+                </button>
+                {data.token.source === 'admin' && (
+                  <button
+                    type="button"
+                    disabled={tokenBusy}
+                    onClick={() => saveToken('DELETE')}
+                    className="rounded-sm border border-line px-4 py-2 text-xs font-bold uppercase tracking-wider disabled:opacity-50 dark:border-night-line"
+                  >
+                    Supprimer le jeton
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-ink-3 dark:text-snow-3">
+                Créez un jeton à granularité fine sur{' '}
+                <a
+                  href="https://github.com/settings/personal-access-tokens/new"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-brand underline-offset-4 hover:underline"
+                >
+                  github.com/settings/personal-access-tokens
+                </a>
+                , limité au dépôt ci-dessus, avec les droits <strong>Issues</strong> et <strong>Contents</strong> en
+                lecture et écriture. Il est testé auprès de GitHub, chiffré avant d’être stocké et jamais renvoyé au
+                navigateur.
+              </p>
+            </form>
+
             {data.killed && (
-              <p role="alert" className="font-semibold text-brand">
+              <p role="alert" className="text-xs font-semibold text-brand">
                 NEXT_PUBLIC_FEEDBACK_ENABLED=false : l’outil est coupé globalement.
               </p>
             )}

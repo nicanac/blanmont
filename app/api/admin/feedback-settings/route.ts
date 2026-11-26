@@ -6,7 +6,8 @@ import {
   updateVisualFeedbackSettings,
 } from '@/app/lib/firebase/visual-feedback';
 import { isFeedbackKilled } from '@/app/lib/feedback/settings';
-import { getFeedbackRepo, isGithubConfigured } from '@/app/lib/feedback/github';
+import { getFeedbackRepo } from '@/app/lib/feedback/github';
+import { getTokenStatus } from '@/app/lib/feedback/token-store';
 
 const bodySchema = z.object({
   enabled: z.boolean(),
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   return NextResponse.json({
     settings: await getVisualFeedbackSettings(),
-    githubConfigured: isGithubConfigured(),
+    token: await getTokenStatus(),
     repo: getFeedbackRepo(),
     killed: isFeedbackKilled(),
   });

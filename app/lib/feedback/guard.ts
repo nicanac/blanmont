@@ -17,10 +17,10 @@ export async function requireReviewer(request: NextRequest): Promise<Guard> {
       response: NextResponse.json({ error: 'Réservé aux responsables et administrateurs.' }, { status: 403 }),
     };
   }
-  if (!isGithubConfigured()) {
+  if (!(await isGithubConfigured())) {
     return {
       ok: false,
-      response: NextResponse.json({ error: 'GITHUB_FEEDBACK_TOKEN manquant côté serveur.' }, { status: 503 }),
+      response: NextResponse.json({ error: 'Jeton GitHub manquant : un administrateur doit l’ajouter dans Paramètres.' }, { status: 503 }),
     };
   }
   return { ok: true, user };

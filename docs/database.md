@@ -267,6 +267,9 @@ Single object toggled from `/admin/settings` (admins only). Read server-side thr
 ```
 `audience` is `admins` (default), `members` (any logged-in member) or `everyone`. Missing or invalid data means disabled.
 
+### 3.8c. `/visual-feedback-secret` — Feedback GitHub Token (encrypted)
+Server-only (Admin SDK; rules deny all client access). AES-256-GCM `{iv, tag, data}` with a key derived from `SESSION_SECRET`, plus `last4`, `updatedAt`, `updatedBy`. Used only when `GITHUB_FEEDBACK_TOKEN` is not set.
+
 ### 3.9. `/leaderboard` — Participation Ranking
 Aggregated attendance count and historical participation dates per member.
 ```json

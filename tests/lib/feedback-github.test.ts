@@ -60,7 +60,7 @@ describe('feedback GitHub bridge', () => {
 
   it('refuses to run without a token', async () => {
     vi.stubEnv('GITHUB_FEEDBACK_TOKEN', '');
-    await expect(submitFeedbackToGitHub(report, 'Nico')).rejects.toThrow(/TOKEN/);
+    await expect(submitFeedbackToGitHub(report, 'Nico')).rejects.toThrow(/token/i);
   });
 
   it('creates the assets branch when missing, uploads the screenshot, then opens the issue', async () => {
