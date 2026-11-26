@@ -11,6 +11,7 @@ import { CodaError } from '@/app/lib/payments/coda';
 import {
   MOCK_EQUIPMENT_ORDERS,
   createEquipmentOrder,
+  markOrderPaid,
 } from '@/app/lib/firebase/equipment-orders';
 import {
   MOCK_BANK_TRANSACTIONS,
@@ -96,6 +97,47 @@ describe('bank transactions (mock mode)', () => {
 
   it('rejects an invalid file', async () => {
     await expect(importCodaFile('not a coda file')).rejects.toBeInstanceOf(CodaError);
+  });
+
+  it('never lets one credit pay two orders, even on concurrent assigns', async () => {
+    const [a, b] = [await newOrder(45), await newOrder(45)];
+    await importCodaFile(codaFile([{ seq: '0001', bankRef: 'R1', amount: '000000000045000', text: ['Maillot'] }]));
+    const [tx] = MOCK_BANK_TRANSACTIONS;
+
+    const results = await Promise.allSettled([assignTransaction(tx.id, a.id), assignTransaction(tx.id, b.id)]);
+    expect(results.map((r) => r.status).sort()).toEqual(['fulfilled', 'rejected']);
+    expect(MOCK_EQUIPMENT_ORDERS.filter((o) => o.status === 'paid')).toHaveLength(1);
+  });
+
+  it('releases the credit when the order cannot be paid', async () => {
+    const order = await newOrder(45);
+    await markOrderPaid(order.id);
+    await importCodaFile(codaFile([{ seq: '0001', bankRef: 'R1', amount: '000000000045000', text: ['Maillot'] }]));
+    const [tx] = MOCK_BANK_TRANSACTIONS;
+
+    await expect(assignTransaction(tx.id, order.id)).rejects.toThrow('non autorisé');
+    expect(MOCK_BANK_TRANSACTIONS[0]).toEqual(tx);
+  });
+
+  it('completes an import stopped after paying an order, without paying twice', async () => {
+    const order = await newOrder(45);
+    const file = codaFile([{ seq: '0001', bankRef: 'R1', amount: '000000000045000', ogm: order.paymentReference }]);
+    await importCodaFile(file);
+    const paid = MOCK_EQUIPMENT_ORDERS.find((o) => o.id === order.id);
+    MOCK_BANK_TRANSACTIONS.length = 0; // the record was never written
+
+    expect(await importCodaFile(file)).toEqual({ total: 1, duplicates: 0, matched: 1, unmatched: 0 });
+    expect(MOCK_BANK_TRANSACTIONS).toMatchObject([{ status: 'matched', orderId: order.id }]);
+    expect(MOCK_EQUIPMENT_ORDERS.find((o) => o.id === order.id)).toEqual(paid);
+  });
+
+  it('stores one record when the same file is imported twice at once', async () => {
+    const order = await newOrder(45);
+    const file = codaFile([{ seq: '0001', bankRef: 'R1', amount: '000000000045000', ogm: order.paymentReference }]);
+
+    const summaries = await Promise.all([importCodaFile(file), importCodaFile(file)]);
+    expect(MOCK_BANK_TRANSACTIONS).toMatchObject([{ status: 'matched', orderId: order.id }]);
+    expect(summaries.map((s) => [s.matched, s.duplicates]).sort()).toEqual([[0, 1], [1, 0]]);
   });
 });
 

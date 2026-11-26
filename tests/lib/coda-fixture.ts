@@ -14,6 +14,10 @@ export const CODA_TRAILER = codaRecord({ 1: '9' });
 
 export interface FixtureMovement {
   seq: string;
+  /** Detail number (pos. 7-10), 0000 by default; > 0000 for a detail of a globalisation. */
+  detail?: string;
+  /** Globalisation code (pos. 125), blank by default. */
+  glob?: string;
   bankRef: string;
   debit?: boolean;
   /** 15 digits, 3 implied decimals. */
@@ -34,13 +38,14 @@ export function codaMovement(m: FixtureMovement): string[] {
     codaRecord({
       1: '21',
       3: m.seq,
-      7: '0000',
+      7: m.detail ?? '0000',
       11: m.bankRef,
       32: m.debit ? '1' : '0',
       33: m.amount,
       48: m.date ?? '261126',
       62: m.ogm ? '1' : '0',
       63: m.ogm ? `101${m.ogm}` : (m.text?.[0] ?? ''),
+      ...(m.glob ? { 125: m.glob } : {}),
     }),
   ];
   if (m.text?.[1] !== undefined) lines.push(codaRecord({ 1: '22', 3: m.seq, 11: m.text[1] }));

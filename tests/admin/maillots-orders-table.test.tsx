@@ -6,6 +6,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import OrdersTable, { type OrderTransitions } from '@/app/admin/commandes/components/OrdersTable';
+import { toCsv } from '@/app/admin/commandes/components/format';
 import type { EquipmentOrder } from '@/app/types/equipment';
 
 const actions = vi.hoisted(() => ({
@@ -83,5 +84,13 @@ describe('OrdersTable (maillots)', () => {
     render(<OrdersTable initialOrders={[orders[0]]} transitions={transitions} />);
     await userEvent.click(screen.getByRole('button', { name: 'Annuler' }));
     expect(confirm.mock.calls[0][0]).not.toContain('remboursement');
+  });
+});
+
+describe('toCsv', () => {
+  it('quotes cells and defuses spreadsheet formulas in text cells', () => {
+    expect(toCsv([['=HYPERLINK("x")', '+32 470', '-1', '@SUM', '\tA', 'Léa "L"', -2, undefined]])).toBe(
+      '"\'=HYPERLINK(""x"")","\'+32 470","\'-1","\'@SUM","\'\tA","Léa ""L""","-2",""'
+    );
   });
 });

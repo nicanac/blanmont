@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { getEquipment } from '@/app/lib/firebase/equipment';
 import { buildSizeMatrix, getEquipmentCampaign } from '@/app/lib/firebase/equipment-campaigns';
-import { getEquipmentOrders } from '@/app/lib/firebase/equipment-orders';
+import { readEquipmentOrders } from '@/app/lib/firebase/equipment-orders';
 import CampaignDetail from '../components/CampaignDetail';
 
 export const dynamic = 'force-dynamic';
@@ -20,7 +20,20 @@ export default async function AdminCampaignPage({
   const campaign = await getEquipmentCampaign(id);
   if (!campaign) notFound();
 
-  const [orders, equipment] = await Promise.all([getEquipmentOrders(), getEquipment()]);
+  const [orders, equipment] = await Promise.all([
+    readEquipmentOrders().catch((error: unknown) => {
+      console.error('Failed to fetch equipment orders:', error);
+      return null; // an empty list would show a wrong size matrix
+    }),
+    getEquipment(),
+  ]);
+  if (!orders) {
+    return (
+      <p role="alert" className="rounded-md border border-line bg-white p-6 text-sm font-semibold text-brand-strong dark:border-night-line dark:bg-night-2">
+        Impossible de charger les commandes pour le moment. Réessayez plus tard.
+      </p>
+    );
+  }
   const matrix = buildSizeMatrix(campaign, orders);
   const toHandOver = orders.filter(
     (o) => o.campaignId === campaign.id && (o.status === 'paid' || o.status === 'delivered')

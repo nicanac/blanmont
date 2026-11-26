@@ -23,7 +23,10 @@ export default async function MemberOrdersPage() {
   if (!session) redirect('/login?redirect=%2Fprofile%2Fcommandes');
 
   const [orders, campaigns, settings] = await Promise.all([
-    getOrdersByMember(session.id),
+    getOrdersByMember(session.id).catch((error: unknown) => {
+      console.error('Failed to fetch member orders:', error);
+      return null; // shown as an error, not as "no order"
+    }),
     getEquipmentCampaigns(),
     getPaymentSettings(),
   ]);
@@ -53,12 +56,16 @@ export default async function MemberOrdersPage() {
         description="Suivez le paiement, la commande chez Gobik et la remise de votre équipement."
         legend={[
           { term: 'Membre', value: session.name },
-          { term: 'Commandes', value: String(orders.length) },
+          { term: 'Commandes', value: orders ? String(orders.length) : '—' },
           { term: 'Club', value: 'CC Saint-Martin Blanmont' },
         ]}
       />
       <div className="mx-auto max-w-3xl space-y-6 px-4 py-12 sm:px-6">
-        {orders.length === 0 ? (
+        {!orders ? (
+          <p role="alert" className="rounded-lg border border-line bg-white p-6 text-sm font-semibold text-brand-strong dark:border-night-line dark:bg-ink">
+            Impossible de charger les commandes pour le moment. Réessayez plus tard.
+          </p>
+        ) : orders.length === 0 ? (
           <p className="rounded-lg border border-line bg-white p-6 text-sm text-ink dark:border-night-line dark:bg-ink dark:text-snow">
             Aucune commande pour l&apos;instant.{' '}
             <Link href="/le-club/equipement" className="font-bold text-brand underline underline-offset-2">

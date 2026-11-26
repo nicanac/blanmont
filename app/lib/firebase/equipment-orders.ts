@@ -127,10 +127,10 @@ export async function getEquipmentOrders(): Promise<EquipmentOrder[]> {
   }
 }
 
-/** A member's orders, newest first. */
+/** A member's orders, newest first. Throws when the database read fails. */
 export async function getOrdersByMember(memberId: string): Promise<EquipmentOrder[]> {
   // shortcut: reads every order and filters; switch to orderByChild('memberId') + .indexOn when orders reach the thousands.
-  return (await getEquipmentOrders()).filter((o) => o.memberId === memberId);
+  return (await readEquipmentOrders()).filter((o) => o.memberId === memberId);
 }
 
 async function transitionOrder(

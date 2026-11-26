@@ -35,7 +35,7 @@ Après la date de clôture, les membres ne peuvent plus commander dans cette cam
 À faire **chaque semaine**, et toujours **juste avant la clôture**.
 
 1. Dans la banque en ligne du club, exportez les **extraits CODA** de la période (un fichier par mois ou par trimestre convient).
-2. **Administration → Commandes Équipement → Banque** (bouton en haut de page), choisissez le fichier (`.cod`, `.coda` ou `.txt`, 2 Mo maximum) et cliquez **Importer**.
+2. **Administration → Commandes Équipement → Banque** (bouton en haut de page), choisissez le fichier (`.cod`, `.coda` ou `.txt`, 1 Mo maximum) et cliquez **Importer**.
 3. Lisez le résumé :
    - **rapprochées** : commandes passées automatiquement à « Payée », avec la date de valeur du virement comme date de paiement.
    - **doublons ignorés** : opérations déjà importées. Réimporter un fichier est sans risque.

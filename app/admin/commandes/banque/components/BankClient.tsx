@@ -88,7 +88,7 @@ export default function BankClient({
       >
         <h2 className="font-semiwide text-lg font-bold uppercase text-ink dark:text-snow">Importer un extrait CODA</h2>
         <div>
-          <label htmlFor="coda-file" className={LABEL_CLASS}>Fichier CODA (.cod, .coda, .txt, 2 Mo maximum)</label>
+          <label htmlFor="coda-file" className={LABEL_CLASS}>Fichier CODA (.cod, .coda, .txt, 1 Mo maximum)</label>
           <input id="coda-file" name="file" type="file" accept=".cod,.coda,.txt" required className={INPUT_CLASS} />
         </div>
         <Button type="submit" variant="admin-primary" isLoading={importing}>
@@ -166,7 +166,10 @@ export default function BankClient({
                       size="sm"
                       variant="admin-secondary"
                       disabled={busy}
-                      onClick={() => resolve(tx, () => ignoreTransactionAction(tx.id), 'Paiement ignoré')}
+                      onClick={() => {
+                        if (!window.confirm('Ignorer ce virement ? Il ne sera plus proposé au rapprochement.')) return;
+                        void resolve(tx, () => ignoreTransactionAction(tx.id), 'Paiement ignoré');
+                      }}
                     >
                       Ignorer
                     </Button>

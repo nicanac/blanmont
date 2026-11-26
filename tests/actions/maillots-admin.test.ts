@@ -141,8 +141,8 @@ describe('jersey admin actions', () => {
     expect(result).toEqual({ success: true, summary: { total: 1, duplicates: 0, matched: 1, unmatched: 0 } });
     expect(bank.importCodaFile).toHaveBeenCalledWith('0é');
 
-    const tooBig = await importCodaAction(codaForm(new Uint8Array(2 * 1024 * 1024 + 1)));
-    expect(tooBig).toEqual({ success: false, error: 'Fichier trop volumineux (2 Mo maximum)' });
+    const tooBig = await importCodaAction(codaForm(new Uint8Array(1_000_000 - 20_000 + 1)));
+    expect(tooBig).toEqual({ success: false, error: 'Fichier trop volumineux (1 Mo maximum)' });
     expect((await importCodaAction(new FormData())).success).toBe(false);
     expect(bank.importCodaFile).toHaveBeenCalledTimes(1);
   });
