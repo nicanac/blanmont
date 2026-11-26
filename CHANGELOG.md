@@ -28,6 +28,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.44.0] - 2026-11-26
+
+### Added
+- feat(admin): access matrix page and role-filtered back-office UI (#222) (`1be0fe7`)
+
+### Fixed
+- fix(statistics): remove 3D trophy showcase from stats page (#217) (#220) (`f2a81e0`)
 ## [0.43.3] - 2026-11-26
 
 ### Fixed
