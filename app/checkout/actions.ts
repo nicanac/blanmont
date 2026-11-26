@@ -13,10 +13,17 @@ import { ValidationError } from '@/app/lib/errors';
 import { EQUIPMENT_DATA } from '@/app/data/equipment';
 import type { EquipmentOrder } from '@/app/types/equipment';
 
-const OrderInputSchema = z.object({
+const OrderLineSchema = z.object({
   productId: z.string().min(1).max(100),
   size: z.string().min(1).max(20),
   quantity: z.number().int().min(1).max(20),
+});
+
+const OrderInputSchema = z.object({
+  items: z
+    .array(OrderLineSchema)
+    .min(1, 'Ajoutez au moins un article')
+    .max(20, 'Vingt lignes maximum par commande'),
   memberPhone: z.string().trim().max(30).optional(),
   notes: z.string().trim().max(1000).optional(),
   source: z.enum(['stock', 'campaign'], { error: 'Choisissez le stock ou la commande groupée' }),
@@ -38,7 +45,7 @@ export type SubmitOrderResult =
   | { success: false; error: string };
 
 /**
- * Saves a club equipment order for the logged-in member. Identity comes from the session;
+ * Saves a club equipment order (one or more lines, one payment) for the logged-in member. Identity comes from the session;
  * price, stock and campaign state are read server-side, never trusted from the client.
  */
 export async function submitEquipmentOrderAction(input: unknown): Promise<SubmitOrderResult> {
@@ -51,43 +58,50 @@ export async function submitEquipmentOrderAction(input: unknown): Promise<Submit
   }
   const data = parsed.data;
 
-  const product =
-    (await getEquipmentById(data.productId)) ||
-    EQUIPMENT_DATA.find((item) => item.id === data.productId) ||
-    null;
-
-  if (!product) return { success: false, error: 'Article introuvable' };
-  if (!product.isAvailable) return { success: false, error: 'Cet article n’est plus disponible' };
-  if (!product.sizes.includes(data.size)) return { success: false, error: 'Taille invalide' };
-
+  const campaign =
+    data.source === 'campaign' && data.campaignId ? await getEquipmentCampaign(data.campaignId) : null;
   if (data.source === 'campaign') {
-    const campaign = data.campaignId ? await getEquipmentCampaign(data.campaignId) : null;
     if (!campaign) return { success: false, error: 'Commande groupée introuvable' };
     if (!isCampaignOpen(campaign)) {
       return { success: false, error: 'Cette commande groupée est clôturée' };
     }
-    if (!campaign.equipmentIds.includes(product.id)) {
-      return { success: false, error: 'Cet article ne fait pas partie de la commande groupée' };
+  }
+
+  const items: EquipmentOrder['items'] = [];
+  for (const line of data.items) {
+    const product =
+      (await getEquipmentById(line.productId)) ||
+      EQUIPMENT_DATA.find((item) => item.id === line.productId) ||
+      null;
+    if (!product) return { success: false, error: 'Article introuvable' };
+    if (!product.isAvailable) {
+      return { success: false, error: `${product.name} n’est plus disponible` };
     }
+    if (!product.sizes.includes(line.size)) {
+      return { success: false, error: `Taille invalide pour ${product.name}` };
+    }
+    if (campaign && !campaign.equipmentIds.includes(product.id)) {
+      return { success: false, error: `${product.name} ne fait pas partie de la commande groupée` };
+    }
+    items.push({
+      equipmentId: product.id,
+      equipmentName: product.name,
+      size: line.size,
+      quantity: line.quantity,
+      unitPrice: product.price,
+    });
   }
 
   let order: EquipmentOrder;
-  const total = Math.round(product.price * data.quantity * 100) / 100;
+  // Cents first so 3 × 79.5 + 1 × 24.9 does not drift.
+  const total = items.reduce((sum, it) => sum + Math.round(it.unitPrice * 100) * it.quantity, 0) / 100;
   try {
     order = await createEquipmentOrder({
       memberId: session.id,
       memberName: session.name,
       memberEmail: session.email ?? '',
       memberPhone: data.memberPhone || undefined,
-      items: [
-        {
-          equipmentId: product.id,
-          equipmentName: product.name,
-          size: data.size,
-          quantity: data.quantity,
-          unitPrice: product.price,
-        },
-      ],
+      items,
       totalPrice: total,
       notes: data.notes || undefined,
       source: data.source,
