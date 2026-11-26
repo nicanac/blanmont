@@ -11,7 +11,7 @@ import {
   DELETE as deleteAdminEquipmentById,
 } from '@/app/api/admin/equipements/[id]/route';
 import * as equipmentModule from '@/app/lib/firebase/equipment';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
 describe('Equipments API Endpoints (Public & Admin)', () => {
   const mockContext = {
@@ -46,7 +46,7 @@ describe('Equipments API Endpoints (Public & Admin)', () => {
 
   describe('Admin Equipments Routes (/api/admin/equipements)', () => {
     it('GET requires admin authorization', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -57,7 +57,7 @@ describe('Equipments API Endpoints (Public & Admin)', () => {
     });
 
     it('POST creates equipment when admin is authorized', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -79,7 +79,7 @@ describe('Equipments API Endpoints (Public & Admin)', () => {
 
   describe('Admin Equipment Detail Routes (/api/admin/equipements/[id])', () => {
     it('GET returns 404 if item does not exist', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -92,7 +92,7 @@ describe('Equipments API Endpoints (Public & Admin)', () => {
     });
 
     it('PUT updates equipment item', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -112,7 +112,7 @@ describe('Equipments API Endpoints (Public & Admin)', () => {
     });
 
     it('DELETE removes equipment item', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);

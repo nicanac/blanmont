@@ -81,7 +81,7 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
 
 - **System**: Secure session-based authentication backed by Firebase Auth & Realtime Database with `HttpOnly`, `Secure`, `SameSite=Lax` cookies (`ccb_session`).
 - **Session Layer**: Centralized in `app/lib/auth/session.ts` using tamper-proof Web Crypto HMAC-SHA256 tokens.
-- **Middleware & Route Protection**: `middleware.ts` intercepts `/admin/*` and `/api/admin/*`, coupled with defense-in-depth verification (`verifyAdminRequest`) on all administrative API endpoints.
+- **Proxy & Route Protection**: `proxy.ts` (Node runtime) intercepts `/admin/*` and `/api/admin/*` and applies the back-office RBAC matrix ([admin-rbac.md](admin-rbac.md)), coupled with defense-in-depth guards (`requireSectionAccess` / `verifySectionRequest`, admin-only and owner-only guards) in every admin action and API endpoint.
 - **Context**: `AuthContext` provides client-side reactivity (`user`, `isAuthenticated`, `isAdmin`) synchronized with the server session cookie via Server Actions (`loginAction`, `logoutAction`, `getCurrentSessionUserAction`).
 
 ### 5. Localization

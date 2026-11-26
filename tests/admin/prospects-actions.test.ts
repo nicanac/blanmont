@@ -6,6 +6,10 @@ import {
   deleteProspectAction,
 } from '@/app/admin/prospects/actions';
 import * as trialDb from '@/app/lib/firebase/trial-requests';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
+import type { SessionUser } from '@/app/lib/auth/session';
+
+const secretary = { id: 'sec-1', name: 'Sec', email: null, role: ['Secrétaire'], isAdmin: false, iat: 0, exp: 0 } as SessionUser;
 
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
@@ -14,6 +18,29 @@ vi.mock('next/cache', () => ({
 describe('Admin Prospects Server Actions (app/admin/prospects/actions.ts)', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
+    vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue(secretary);
+  });
+
+  it('guards every action with the prospects section', async () => {
+    vi.spyOn(adminAccessModule, 'requireSectionAccess').mockRejectedValue(new Error('Accès refusé. Droits administrateur requis.'));
+    const update = vi.spyOn(trialDb, 'updateTrialRequestStatus').mockResolvedValue(true);
+    const results = await Promise.all([
+      updateProspectStatusAction('tr-123', 'contacted'),
+      updateProspectDetailsAction('tr-123', { adminNotes: 'x' }),
+      convertProspectToMemberAction('tr-123'),
+      deleteProspectAction('tr-123'),
+    ]);
+    expect(results.every((r) => r.success === false)).toBe(true);
+    expect(adminAccessModule.requireSectionAccess).toHaveBeenCalledWith('prospects');
+    expect(update).not.toHaveBeenCalled();
+  });
+
+  it('refuses member overrides (roles, e-mail) to a non-admin', async () => {
+    const convert = vi.spyOn(trialDb, 'convertTrialRequestToMember');
+    const res = await convertProspectToMemberAction('tr-123', { role: ['Admin'] });
+    expect(res.success).toBe(false);
+    expect(res.error).toMatch(/administrateur/i);
+    expect(convert).not.toHaveBeenCalled();
   });
 
   describe('updateProspectStatusAction', () => {

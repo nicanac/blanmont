@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { delegatedMemberChangeError, verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'members');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
 
   try {
     const data = await request.json();
+    const denial = delegatedMemberChangeError(authCheck.user, { role: ['Member'] }, data);
+    if (denial) {
+      return NextResponse.json({ error: denial }, { status: 403 });
+    }
     const db = getAdminDatabase();
 
     // Generate new member ID

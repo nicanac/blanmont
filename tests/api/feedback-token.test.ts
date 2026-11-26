@@ -12,12 +12,12 @@ const del = () => new NextRequest('http://localhost:3000/api/admin/feedback-toke
 describe('admin feedback token API', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-    vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({ authorized: true, user: { id: 'admin-1' } } as never);
+    vi.spyOn(sessionModule, 'verifyOwnerRequest').mockResolvedValue({ authorized: true, user: { id: 'admin-1' } } as never);
     vi.spyOn(storeModule, 'getTokenStatus').mockResolvedValue({ source: 'admin', last4: 'wxyz' });
   });
 
   it('requires an admin', async () => {
-    vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({ authorized: false, response: new Response(null, { status: 403 }) } as never);
+    vi.spyOn(sessionModule, 'verifyOwnerRequest').mockResolvedValue({ authorized: false, response: new Response(null, { status: 403 }) } as never);
     expect((await PUT(put({ token: TOKEN }))).status).toBe(403);
     expect((await DELETE(del())).status).toBe(403);
   });

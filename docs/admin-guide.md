@@ -111,11 +111,15 @@ Une fois connecté, le nouvel administrateur a accès à tous les modules de ges
 | **Challenge Carré Vert** | `/admin/carre-vert` | Pointage des présences et synchronisation du classement annuel. |
 | **Traces GPS** *(interne)* | `/admin/traces` | Gestion de la bibliothèque GPX, profils altimétriques et liens Komoot. |
 
+### Accès délégués par rôle
+
+Les autres rôles du club (Capitaine de Route, Trésorier, Secrétaire, Membre) n'ouvrent que les sections cochées pour leur rôle sur **`/admin/acces`** (page réservée aux administrateurs ; spécification : [admin-rbac.md](admin-rbac.md)). Seul un administrateur peut attribuer des rôles. Les **Paramètres** (`/admin/settings`) sont réservés au propriétaire du site (variable serveur `OWNER_EMAILS`, comparée à l'e-mail de connexion vérifié par Firebase).
+
 ---
 
 ## 5b. Retours visuels (capture d'écran + annotation)
 
-Réglage : **Admin → Paramètres → Retours & captures d'écran**.
+Réglage : **Admin → Paramètres → Retours & captures d'écran** (propriétaire du site uniquement).
 
 - **Interrupteur** : active ou coupe l'outil. Coupé, aucun code de retour n'est chargé chez les utilisateurs.
 - **Qui voit le bouton** : administrateurs (test), membres connectés, ou tout le monde.

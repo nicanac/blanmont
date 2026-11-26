@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { requireAdminSession } from '@/app/lib/auth/session';
+import { requireSectionAccess } from '@/app/lib/auth/admin-access';
 import {
   createEquipmentCampaign,
   transitionEquipmentCampaign,
@@ -52,7 +52,7 @@ export async function createCampaignAction(
   input: unknown
 ): Promise<{ success: true; campaignId: string } | { success: false; error: string }> {
   try {
-    await requireAdminSession();
+    await requireSectionAccess('commandes');
     const parsed = CampaignInputSchema.safeParse(input);
     if (!parsed.success) {
       return { success: false, error: parsed.error.issues[0]?.message || 'Données invalides' };
@@ -71,7 +71,7 @@ export async function transitionCampaignAction(
   next: 'closed' | 'ordered' | 'received'
 ): Promise<ActionResult> {
   try {
-    await requireAdminSession();
+    await requireSectionAccess('commandes');
     const parsedId = RecordIdSchema.safeParse(id);
     const parsedNext = NextStatusSchema.safeParse(next);
     if (!parsedId.success || !parsedNext.success) {
@@ -88,7 +88,7 @@ export async function transitionCampaignAction(
 /** Distribution checklist: one member's order handed over. */
 export async function markCampaignOrderDeliveredAction(orderId: string): Promise<ActionResult> {
   try {
-    await requireAdminSession();
+    await requireSectionAccess('commandes');
     const parsed = RecordIdSchema.safeParse(orderId);
     if (!parsed.success) return { success: false, error: 'Paramètres invalides' };
     await markOrderDelivered(parsed.data);

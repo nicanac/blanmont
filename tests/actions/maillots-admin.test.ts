@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ValidationError } from '@/app/lib/errors';
 
-const { requireAdminSession, orders, campaigns, bank, savePaymentSettings } = vi.hoisted(() => ({
-  requireAdminSession: vi.fn(),
+const { requireSectionAccess, orders, campaigns, bank, savePaymentSettings } = vi.hoisted(() => ({
+  requireSectionAccess: vi.fn(),
   orders: {
     markOrderPaid: vi.fn(),
     markOrderDelivered: vi.fn(),
@@ -16,8 +16,8 @@ const { requireAdminSession, orders, campaigns, bank, savePaymentSettings } = vi
 }));
 
 vi.mock('next/cache', () => ({ unstable_cache: (fn: unknown) => fn, revalidatePath: vi.fn() }));
-vi.mock('@/app/lib/auth/session', () => ({
-  requireAdminSession: (...args: unknown[]) => requireAdminSession(...args),
+vi.mock('@/app/lib/auth/admin-access', () => ({
+  requireSectionAccess: (...args: unknown[]) => requireSectionAccess(...args),
 }));
 vi.mock('@/app/lib/firebase/equipment-orders', () => ({ ...orders, clubToday: () => '2026-11-26' }));
 vi.mock('@/app/lib/firebase/equipment-campaigns', () => campaigns);
@@ -68,15 +68,15 @@ const validCampaign = {
 
 describe('jersey admin actions', () => {
   beforeEach(() => {
-    [requireAdminSession, ...allMocks].forEach((m) => m.mockReset());
-    requireAdminSession.mockResolvedValue({ id: 'admin', isAdmin: true });
+    [requireSectionAccess, ...allMocks].forEach((m) => m.mockReset());
+    requireSectionAccess.mockResolvedValue({ id: 'admin', isAdmin: true });
     allMocks.forEach((m) => m.mockResolvedValue({}));
     orders.deleteEquipmentOrder.mockResolvedValue(true);
     bank.importCodaFile.mockResolvedValue({ total: 1, duplicates: 0, matched: 1, unmatched: 0 });
   });
 
   it('refuses every action to a non-admin', async () => {
-    requireAdminSession.mockRejectedValue(new Error('Accès refusé. Droits administrateur requis.'));
+    requireSectionAccess.mockRejectedValue(new Error('Accès refusé. Droits administrateur requis.'));
     const results = await Promise.all([
       markOrderPaidAction('order_1'),
       markOrderDeliveredAction('order_1'),

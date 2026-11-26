@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { calculateMemberCarres, parseDateInfo } from '@/app/lib/carreVert';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { recordActivity } from '@/app/lib/logging/activityLogger';
 
 /**
@@ -9,7 +9,7 @@ import { recordActivity } from '@/app/lib/logging/activityLogger';
  * Fetch attendance for a specific event, or all attendance if no eventId.
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'pointage-express');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  * Body: { eventId, isoDate, memberId, name, group, action: 'add' | 'remove' }
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'pointage-express');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

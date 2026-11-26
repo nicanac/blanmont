@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
 import { POST, GET, PATCH, DELETE } from '@/app/api/logs/route';
 import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 import * as activityLoggerModule from '@/app/lib/logging/activityLogger';
 
 describe('Logs API Route (/api/logs)', () => {
@@ -59,7 +60,7 @@ describe('Logs API Route (/api/logs)', () => {
 
   describe('GET /api/logs (Admin Query)', () => {
     it('returns 401/403 if user is not admin', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -70,7 +71,7 @@ describe('Logs API Route (/api/logs)', () => {
     });
 
     it('returns logs list for admin request', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -96,7 +97,7 @@ describe('Logs API Route (/api/logs)', () => {
     });
 
     it('returns aggregated stats when stats=true is requested', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -123,7 +124,7 @@ describe('Logs API Route (/api/logs)', () => {
 
   describe('PATCH /api/logs (Review Moderation)', () => {
     it('returns 401 if user is not admin', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -137,7 +138,7 @@ describe('Logs API Route (/api/logs)', () => {
     });
 
     it('updates a single log review status and note', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', name: 'Admin Nicolas', isAdmin: true },
       } as any);
@@ -164,7 +165,7 @@ describe('Logs API Route (/api/logs)', () => {
     });
 
     it('updates batch reviews when logIds array is provided', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', name: 'Admin Nicolas', isAdmin: true },
       } as any);
@@ -188,7 +189,7 @@ describe('Logs API Route (/api/logs)', () => {
     });
 
     it('returns 400 on invalid payload', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -209,7 +210,7 @@ describe('Logs API Route (/api/logs)', () => {
 
   describe('DELETE /api/logs (Prune)', () => {
     it('prunes logs older than days parameter', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);

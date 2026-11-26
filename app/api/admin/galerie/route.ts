@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { createPhotoAlbum, deletePhotoAlbum, getPhotoAlbums, updatePhotoAlbum } from '@/app/lib/firebase/galleries';
 
-export async function GET(): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const authCheck = await verifySectionRequest(request, 'galerie');
+  if (!authCheck.authorized) {
+    return authCheck.response;
+  }
+
   try {
     const albums = await getPhotoAlbums();
     return NextResponse.json({ albums });
@@ -13,7 +18,7 @@ export async function GET(): Promise<NextResponse> {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'galerie');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -49,7 +54,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 export async function PUT(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'galerie');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -96,7 +101,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
 }
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'galerie');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

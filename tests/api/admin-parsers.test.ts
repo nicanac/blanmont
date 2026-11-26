@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
 import { POST as fetchMetadataRoute } from '@/app/api/admin/fetch-metadata/route';
 import { POST as parseGpxRoute } from '@/app/api/admin/parse-gpx/route';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
 describe('Admin Metadata & GPX Parsers API', () => {
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('Admin Metadata & GPX Parsers API', () => {
 
   describe('POST /api/admin/fetch-metadata', () => {
     it('requires admin authorization', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -26,7 +26,7 @@ describe('Admin Metadata & GPX Parsers API', () => {
     });
 
     it('returns 400 when url is invalid', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -41,7 +41,7 @@ describe('Admin Metadata & GPX Parsers API', () => {
     });
 
     it('fetches page HTML and extracts OpenGraph metadata and distance/elevation', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
@@ -79,7 +79,7 @@ describe('Admin Metadata & GPX Parsers API', () => {
 
   describe('POST /api/admin/parse-gpx', () => {
     it('requires admin authorization', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: false,
         response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
       } as any);
@@ -94,7 +94,7 @@ describe('Admin Metadata & GPX Parsers API', () => {
     });
 
     it('parses GPX content and computes distance and elevation gain accurately', async () => {
-      vi.spyOn(sessionModule, 'verifyAdminRequest').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
         authorized: true,
         user: { id: 'admin-1', isAdmin: true },
       } as any);
