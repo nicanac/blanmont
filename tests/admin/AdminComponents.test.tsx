@@ -41,7 +41,7 @@ describe('AdminGuard component', () => {
     });
 
     render(
-      <AdminGuard>
+      <AdminGuard access={null}>
         <div>Admin Content</div>
       </AdminGuard>
     );
@@ -61,7 +61,7 @@ describe('AdminGuard component', () => {
     });
 
     render(
-      <AdminGuard>
+      <AdminGuard access={null}>
         <div>Admin Content</div>
       </AdminGuard>
     );
@@ -81,7 +81,7 @@ describe('AdminGuard component', () => {
     });
 
     render(
-      <AdminGuard>
+      <AdminGuard access={{ isAdmin: false, isOwner: false, sections: [] }}>
         <div>Admin Content</div>
       </AdminGuard>
     );
@@ -101,12 +101,41 @@ describe('AdminGuard component', () => {
     });
 
     render(
-      <AdminGuard>
+      <AdminGuard access={null}>
         <div>Admin Protected Content</div>
       </AdminGuard>
     );
 
     expect(screen.getByText('Admin Protected Content')).toBeInTheDocument();
+  });
+});
+
+describe('AdminGuard delegated roles', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    vi.mocked(useRouter).mockReturnValue({ push: vi.fn() } as any);
+    vi.spyOn(AuthContextModule, 'useAuth').mockReturnValue({
+      user: { id: 'tres-1', name: 'Trésorier', role: ['Trésorier'] } as any,
+      isAuthenticated: true,
+      isAdmin: false,
+      isLoading: false,
+      login: vi.fn(),
+      logout: vi.fn(),
+    });
+  });
+
+  it('waits for the access check before deciding', () => {
+    render(<AdminGuard access={null}><div>Back-office</div></AdminGuard>);
+    expect(screen.getByText(/Vérification des accès/i)).toBeInTheDocument();
+  });
+
+  it('lets in a role with at least one section', () => {
+    render(
+      <AdminGuard access={{ isAdmin: false, isOwner: false, sections: ['commandes'] }}>
+        <div>Back-office</div>
+      </AdminGuard>
+    );
+    expect(screen.getByText('Back-office')).toBeInTheDocument();
   });
 });
 
