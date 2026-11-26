@@ -85,7 +85,7 @@ For each new credit, in file order: no reference → `no-reference`; no order wi
 | Route | Who | What |
 | --- | --- | --- |
 | `/le-club/equipement` | public | open-campaign banner (title, deadline), "En stock" per size |
-| `/checkout` | member (redirect to `/login?next=…` otherwise) | choose "Retrait du stock" or the open campaign; name/email from the session; after submit: payment card |
+| `/checkout` | member (redirect to `/login?next=…` otherwise) | add one or more lines (product × size × quantity) to the order form, then choose "Retrait du stock" or the open campaign (offered only when it covers every line), one order and one payment for the whole form; name/email from the session; after submit: payment card |
 | `/profile/commandes` | member | own orders, the date timeline, payment card while pending |
 | `/admin/commandes` | admin | existing list + payment status, OGM, dates, "Marquer payé", "Remis", "Annuler" |
 | `/admin/commandes/campagnes` + `/[id]` | admin | campaigns list/create; detail: status stepper, size matrix + CSV, unpaid warning, distribution checklist |

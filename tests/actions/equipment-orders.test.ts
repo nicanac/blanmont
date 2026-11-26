@@ -40,7 +40,8 @@ const product = {
 };
 
 const session = { id: 'member-7', name: 'Jean Dupont', email: 'jean@example.com', role: ['Member'], isAdmin: false, iat: 0, exp: 0 };
-const validInput = { productId: 'maillot-1', size: 'M', quantity: 2, source: 'stock' };
+const line = { productId: 'maillot-1', size: 'M', quantity: 2 };
+const validInput = { items: [line], source: 'stock' };
 const campaign = {
   id: 'campaign_1',
   title: 'Hiver',
@@ -101,6 +102,41 @@ describe('submitEquipmentOrderAction', () => {
     expect(saved.items[0]).toMatchObject({ equipmentId: 'maillot-1', size: 'M', unitPrice: 79.5 });
   });
 
+  it('saves several lines as one order with one total', async () => {
+    const bib = { ...product, id: 'cuissard-1', name: 'Cuissard', price: 24.9, sizes: ['M', 'L'] };
+    getEquipmentById.mockImplementation(async (id: string) => (id === bib.id ? bib : product));
+    const result = await submitEquipmentOrderAction({
+      ...validInput,
+      items: [{ ...line, quantity: 3 }, { productId: 'cuissard-1', size: 'L', quantity: 1 }],
+    });
+    expect(result).toMatchObject({ success: true, total: 263.4 });
+    const saved = createEquipmentOrder.mock.calls[0][0];
+    expect(saved.totalPrice).toBe(263.4);
+    expect(saved.items).toHaveLength(2);
+    expect(saved.items[1]).toMatchObject({ equipmentId: 'cuissard-1', size: 'L', quantity: 1, unitPrice: 24.9 });
+  });
+
+  it('rejects an empty cart and refuses the whole order when one line is invalid', async () => {
+    expect(await submitEquipmentOrderAction({ ...validInput, items: [] })).toMatchObject({ success: false });
+    expect(
+      (await submitEquipmentOrderAction({ ...validInput, items: [line, { ...line, size: 'XXXL' }] })).success
+    ).toBe(false);
+    expect(createEquipmentOrder).not.toHaveBeenCalled();
+  });
+
+  it('refuses a group order when one line is outside the campaign', async () => {
+    const other = { ...product, id: 'veste-1', name: 'Veste' };
+    getEquipmentById.mockImplementation(async (id: string) => (id === other.id ? other : product));
+    const result = await submitEquipmentOrderAction({
+      ...validInput,
+      source: 'campaign',
+      campaignId: 'campaign_1',
+      items: [line, { productId: 'veste-1', size: 'M', quantity: 1 }],
+    });
+    expect(result).toEqual({ success: false, error: 'Veste ne fait pas partie de la commande groupée' });
+    expect(createEquipmentOrder).not.toHaveBeenCalled();
+  });
+
   it('returns a null QR payload while the club account is not configured', async () => {
     getPaymentSettings.mockResolvedValue(null);
     const result = await submitEquipmentOrderAction(validInput);
@@ -134,15 +170,15 @@ describe('submitEquipmentOrderAction', () => {
   });
 
   it('rejects an unknown size and unavailable items', async () => {
-    expect((await submitEquipmentOrderAction({ ...validInput, size: 'XXXL' })).success).toBe(false);
+    expect((await submitEquipmentOrderAction({ ...validInput, items: [{ ...line, size: 'XXXL' }] })).success).toBe(false);
     getEquipmentById.mockResolvedValue({ ...product, isAvailable: false });
     expect((await submitEquipmentOrderAction(validInput)).success).toBe(false);
     expect(createEquipmentOrder).not.toHaveBeenCalled();
   });
 
   it('rejects out-of-range quantities', async () => {
-    expect((await submitEquipmentOrderAction({ ...validInput, quantity: 0 })).success).toBe(false);
-    expect((await submitEquipmentOrderAction({ ...validInput, quantity: 99 })).success).toBe(false);
+    expect((await submitEquipmentOrderAction({ ...validInput, items: [{ ...line, quantity: 0 }] })).success).toBe(false);
+    expect((await submitEquipmentOrderAction({ ...validInput, items: [{ ...line, quantity: 99 }] })).success).toBe(false);
   });
 
   it('shows the stock message and hides other persistence errors', async () => {

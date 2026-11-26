@@ -17,6 +17,7 @@ import {
   ClipboardDocumentCheckIcon,
   ShareIcon,
   ShoppingBagIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
 import { Equipment } from '@/app/types/equipment';
@@ -48,6 +49,16 @@ interface PlacedOrder {
   epcPayload: string | null;
 }
 
+/** One line of the order form: a product in one size. */
+interface CartLine {
+  productId: string;
+  size: string;
+  quantity: number;
+}
+
+/** Server limit per line (actions.ts). */
+const MAX_LINE_QUANTITY = 20;
+
 interface CheckoutProps {
   memberName: string;
   campaign: CheckoutCampaign | null;
@@ -77,6 +88,7 @@ function CheckoutContent({ memberName, campaign, payment }: CheckoutProps) {
   const [website, setWebsite] = useState<string>(''); // honeypot, must stay empty
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [placed, setPlaced] = useState<PlacedOrder | null>(null);
+  const [cart, setCart] = useState<CartLine[]>([]);
 
   // Fetch updated equipment if API is available
   useEffect(() => {
@@ -101,35 +113,78 @@ function CheckoutContent({ memberName, campaign, payment }: CheckoutProps) {
     equipmentList[0] ||
     EQUIPMENT_DATA[0];
 
-  // Group order wins by default when the open campaign includes this product.
-  const campaignApplies = Boolean(campaign?.equipmentIds.includes(selectedProduct.id));
+  // Lines whose product is still in the catalogue (the list reloads from the API).
+  const lines = cart.flatMap((line) => {
+    const product = equipmentList.find((item) => item.id === line.productId);
+    return product ? [{ ...line, product }] : [];
+  });
+
+  // One order has one source: the group order applies only when it covers every line
+  // and the article being picked. It wins by default.
+  const campaignApplies = Boolean(
+    campaign &&
+      [selectedProduct.id, ...lines.map((line) => line.productId)].every((id) =>
+        campaign.equipmentIds.includes(id)
+      )
+  );
   const mode: 'stock' | 'campaign' = campaignApplies && modeChoice !== 'stock' ? 'campaign' : 'stock';
 
-  // Stock mode: a size is selectable only when the club holds at least `quantity` units.
+  const inCart = (productId: string, size: string): number =>
+    lines.find((line) => line.productId === productId && line.size === size)?.quantity ?? 0;
+
+  // Stock mode: a size is selectable only when the club holds `quantity` more units than the cart already takes.
   const stockOf = (size: string): number => selectedProduct.stock?.[size] ?? 0;
-  const isSizeSelectable = (size: string): boolean => mode === 'campaign' || stockOf(size) >= quantity;
+  const isSizeSelectable = (size: string): boolean =>
+    mode === 'campaign' || stockOf(size) >= quantity + inCart(selectedProduct.id, size);
   const preferredSize = selectedProduct.sizes.includes(selectedSize)
     ? selectedSize
     : (selectedProduct.sizes[2] || selectedProduct.sizes[0] || 'M');
   const effectiveSize = isSizeSelectable(preferredSize)
     ? preferredSize
     : (selectedProduct.sizes.find(isSizeSelectable) ?? preferredSize);
-  const canOrder = isSizeSelectable(effectiveSize);
+  const canAdd = isSizeSelectable(effectiveSize);
+  const cartFits =
+    mode === 'campaign' || lines.every((line) => (line.product.stock?.[line.size] ?? 0) >= line.quantity);
+  const canOrder = lines.length > 0 && cartFits;
+  const cartTotal = (
+    lines.reduce((sum, line) => sum + Math.round(line.product.price * 100) * line.quantity, 0) / 100
+  ).toFixed(2);
   const stockTotal = selectedProduct.sizes.reduce((sum, size) => sum + stockOf(size), 0);
 
   const unitPrice = selectedProduct?.price || 0;
   const totalPrice = (unitPrice * quantity).toFixed(2);
 
+  const addToCart = () => {
+    if (!canAdd) return;
+    setCart((current) => {
+      const same = current.find(
+        (line) => line.productId === selectedProduct.id && line.size === effectiveSize
+      );
+      if (!same) return [...current, { productId: selectedProduct.id, size: effectiveSize, quantity }];
+      return current.map((line) =>
+        line === same ? { ...line, quantity: Math.min(MAX_LINE_QUANTITY, line.quantity + quantity) } : line
+      );
+    });
+    setQuantity(1);
+    toast.success(`${selectedProduct.name} (${effectiveSize}) ajouté au bon de commande`);
+  };
+
+  const removeFromCart = (productId: string, size: string) =>
+    setCart((current) => current.filter((line) => !(line.productId === productId && line.size === size)));
+
   const getOrderSummaryText = () => {
     return `COMMANDE ÉQUIPEMENT · CC SAINT-MARTIN BLANMONT
 ==================================================
 Date : ${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-Article : ${selectedProduct.name}
-Référence Gobik : ${selectedProduct.gobikReference || selectedProduct.productCode || selectedProduct.id}
-Taille : ${effectiveSize}
-Quantité : ${quantity}
-Prix unitaire : ${unitPrice.toFixed(2)} €
-Total à régler : ${totalPrice} €
+
+ARTICLES :
+${lines
+  .map(
+    (line) =>
+      `- ${line.quantity} × ${line.product.name} · taille ${line.size} · ${line.product.price.toFixed(2)} € (réf. ${line.product.gobikReference || line.product.productCode || line.product.id})`
+  )
+  .join('\n') || '- Aucun article'}
+Total à régler : ${cartTotal} €
 
 COORDONNÉES DU MEMBRE :
 Nom : ${memberName}
@@ -164,9 +219,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
     setIsSubmitting(true);
     try {
       const result = await submitEquipmentOrderAction({
-        productId: selectedProduct.id,
-        size: effectiveSize,
-        quantity,
+        items: lines.map(({ productId, size, quantity: qty }) => ({ productId, size, quantity: qty })),
         source: mode,
         campaignId: mode === 'campaign' ? campaign?.id : undefined,
         memberPhone: memberPhone || undefined,
@@ -186,7 +239,8 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
     }
   };
 
-  const mailtoSubject =`[Commande Équipement] ${selectedProduct.name} (${effectiveSize}) - ${memberName}`;
+  const pieces = lines.reduce((sum, line) => sum + line.quantity, 0);
+  const mailtoSubject = `[Commande Équipement] ${pieces} article${pieces > 1 ? 's' : ''} - ${memberName}`;
   const mailtoUrl = `mailto:info@blanmont.be?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(getOrderSummaryText())}`;
 
   return (
@@ -413,6 +467,25 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   </div>
                 </div>
               </div>
+
+              {!placed && (
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={addToCart}
+                    disabled={!canAdd}
+                    className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-md bg-ink dark:bg-white text-white dark:text-ink px-4 py-3 text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    <PlusIcon className="h-4 w-4" aria-hidden="true" />
+                    <span>Ajouter au bon de commande</span>
+                  </button>
+                  <p className="text-xs text-ink-3 dark:text-snow-3">
+                    {canAdd
+                      ? 'Ajoutez autant d’articles que vous voulez (cuissard, maillot, veste…) : un seul paiement pour tout.'
+                      : 'Stock insuffisant pour cette taille. Réduisez la quantité ou choisissez la commande groupée.'}
+                  </p>
+                </div>
+              )}
             </section>
 
             {/* Step 3: Stock pickup or group order */}
@@ -467,7 +540,9 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   </label>
                 ) : (
                   <p className="text-xs text-ink-3 dark:text-snow-3">
-                    Aucune commande groupée ouverte pour cet article.
+                    {campaign
+                      ? 'La commande groupée ne couvre pas tous les articles du bon.'
+                      : 'Aucune commande groupée ouverte.'}
                   </p>
                 )}
               </fieldset>
@@ -542,19 +617,41 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
 
               {/* Line Items */}
               <div className="space-y-3 text-xs">
-                <div className="flex justify-between items-start gap-3">
-                  <div>
-                    <div className="font-bold text-ink dark:text-white">
-                      {quantity}&times; {selectedProduct.name}
-                    </div>
-                    <div className="text-xs text-ink-3 dark:text-snow-3">
-                      Taille : <span className="font-bold text-ink dark:text-white">{effectiveSize}</span> · {unitPrice.toFixed(2)}&nbsp;€ / pièce
-                    </div>
-                  </div>
-                  <div className="font-bold text-ink dark:text-white tabular-nums">
-                    {totalPrice}&nbsp;€
-                  </div>
-                </div>
+                {lines.length === 0 && (
+                  <p className="text-ink-3 dark:text-snow-3">
+                    Aucun article pour l&apos;instant. Choisissez un modèle et une taille, puis
+                    « Ajouter au bon de commande ».
+                  </p>
+                )}
+                <ul className="space-y-3">
+                  {lines.map((line) => (
+                    <li key={`${line.productId}-${line.size}`} className="flex justify-between items-start gap-3">
+                      <div>
+                        <div className="font-bold text-ink dark:text-white">
+                          {line.quantity}&times; {line.product.name}
+                        </div>
+                        <div className="text-xs text-ink-3 dark:text-snow-3">
+                          Taille : <span className="font-bold text-ink dark:text-white">{line.size}</span> · {line.product.price.toFixed(2)}&nbsp;€ / pièce
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="font-bold text-ink dark:text-white tabular-nums">
+                          {(line.product.price * line.quantity).toFixed(2)}&nbsp;€
+                        </span>
+                        {!placed && (
+                          <button
+                            type="button"
+                            onClick={() => removeFromCart(line.productId, line.size)}
+                            aria-label={`Retirer ${line.product.name} taille ${line.size}`}
+                            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-ink-3 dark:text-snow-3 hover:text-brand cursor-pointer"
+                          >
+                            <XMarkIcon className="h-4 w-4" aria-hidden="true" />
+                          </button>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
 
                 <div className="flex justify-between items-center text-ink-3 dark:text-snow-3 pt-2 border-t border-line dark:border-night-line">
                   <span>Frais de port &amp; conditionnement</span>
@@ -582,7 +679,7 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                   </div>
                 </div>
                 <div className="text-3xl font-extrabold text-brand tabular-nums tracking-tight">
-                  {totalPrice}&nbsp;€
+                  {cartTotal}&nbsp;€
                 </div>
               </div>
 
@@ -634,8 +731,9 @@ MODALITÉS DE LIVRAISON & PAIEMENT :
                     </button>
                     {!canOrder && (
                       <p className="text-xs text-ink-3 dark:text-snow-3">
-                        Stock insuffisant pour cet article. Réduisez la quantité
-                        {campaignApplies ? ' ou choisissez la commande groupée.' : '.'}
+                        {lines.length === 0
+                          ? 'Ajoutez au moins un article au bon de commande.'
+                          : `Stock insuffisant pour un article du bon. Retirez-le${campaignApplies ? ' ou choisissez la commande groupée.' : '.'}`}
                       </p>
                     )}
                   </>
