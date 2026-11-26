@@ -168,11 +168,12 @@ export default function GroupRoads(): React.ReactElement {
           </p>
         </div>
 
-        <ol className="mt-12 border-t border-ink dark:border-snow-3">
+        {/* Label column sized to the widest (admin-renamable) group name, shared by every row via subgrid. */}
+        <ol className="mt-12 grid grid-cols-[minmax(6rem,max-content)_minmax(0,1fr)] gap-x-4 border-t border-ink sm:gap-x-6 lg:grid-cols-[max-content_minmax(0,1fr)_17rem_minmax(0,22rem)] lg:gap-x-10 dark:border-snow-3">
           {PACE_GROUPS.map((g) => (
             <li
               key={g.id}
-              className="grid grid-cols-[6rem_minmax(0,1fr)] items-center gap-x-4 gap-y-3 border-b border-line py-7 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-x-5 lg:grid-cols-[7rem_minmax(0,1fr)_17rem_minmax(0,22rem)] lg:gap-x-8 dark:border-night-line"
+              className="col-span-full grid grid-cols-subgrid items-center gap-y-3 border-b border-line py-7 dark:border-night-line"
             >
               <span className="min-w-0 font-wide text-[1.875rem] font-extrabold leading-none text-ink sm:text-[3.4rem] dark:text-snow">
                 <GroupName code={g.id} />
