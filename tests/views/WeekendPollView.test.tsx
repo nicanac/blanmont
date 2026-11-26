@@ -109,19 +109,24 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
   it('renders empty state when no poll is active', () => {
     render(<WeekendPollView poll={null} responses={[]} members={[]} />);
 
-    expect(screen.getByText('Aucun sondage actif pour le moment')).toBeDefined();
+    expect(screen.getByText(/Aucun sondage actif pour le moment/)).toBeDefined();
     expect(screen.getByText('Consulter le calendrier des sorties')).toBeDefined();
   });
 
   it('renders slot tally and participants when poll is active', () => {
-    render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
+    const { container } = render(
+      <WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />
+    );
 
-    // Legacy dayChoice answers are read as slots: samedi + les-deux → 2 on Saturday morning.
-    const tallySection = screen.getByLabelText('Télémétrie des pelotons');
+    // The tally is the cartouche legend. Legacy dayChoice answers are read as slots:
+    // samedi + les-deux → 2 on Saturday morning, dimanche + les-deux → 2 on Sunday.
+    const legend = container.querySelector('header dl') as HTMLElement;
     for (const label of ['Samedi matin', 'Samedi après-midi', 'Dimanche matin', 'Absents']) {
-      expect(within(tallySection).getByText(label)).toBeDefined();
+      expect(within(legend).getByText(label)).toBeDefined();
     }
-    expect(within(tallySection).getAllByText('2').length).toBe(2);
+    expect(within(legend).getAllByText('2 coureurs').length).toBe(2);
+    expect(within(legend).getByText('0 coureur')).toBeDefined();
+    expect(within(legend).getByText('1 membre')).toBeDefined();
 
     expect(screen.getByText('Répartition par Groupe de niveau')).toBeDefined();
     expect(screen.getByText(/Liste des participants/i)).toBeDefined();
@@ -132,8 +137,13 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
   it('renders login required prompt for unauthenticated users', () => {
     render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
 
-    expect(screen.getByText('Connexion requise')).toBeDefined();
-    expect(screen.getByText('Se connecter pour répondre')).toBeDefined();
+    // The sheet header carries the poll even before login.
+    expect(screen.getByRole('heading', { level: 1, name: 'Votre week-end à vélo' })).toBeDefined();
+    expect(screen.getByText(mockPoll.title)).toBeDefined();
+    expect(
+      screen.getByRole('link', { name: 'Se connecter pour répondre' }).getAttribute('href')
+    ).toBe('/login?redirect=/sondage');
+    expect(screen.queryAllByRole('checkbox').length).toBe(0);
   });
 
   it('shows the quick vote card with slots, groups and no submit button', () => {
@@ -145,7 +155,12 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'Votre week-end à vélo' })).toBeDefined();
-    for (const name of ['Samedi matin', 'Samedi après-midi', 'Dimanche matin', 'Absent ce week-end']) {
+    for (const name of [
+      'Samedi matin',
+      'Samedi après-midi',
+      'Dimanche matin',
+      'Absent ce week-end',
+    ]) {
       expect(screen.getByRole('checkbox', { name: new RegExp(name) })).toBeDefined();
     }
     expect(screen.getAllByRole('radio').length).toBe(6);
@@ -197,7 +212,11 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     fireEvent.click(screen.getByRole('radio', { name: /parcours plus court/ }));
     await waitFor(() =>
       expect(submitWeekendPollResponseAction).toHaveBeenCalledWith(
-        expect.objectContaining({ slots: ['samedi-matin'], groupChoice: 'Groupe B', groupVariant: 'moins' })
+        expect.objectContaining({
+          slots: ['samedi-matin'],
+          groupChoice: 'Groupe B',
+          groupVariant: 'moins',
+        })
       )
     );
     expect(window.localStorage.getItem('blanmont:sondage-group')).toBe('B-');
@@ -216,13 +235,17 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     expect(screen.getByText('Samedi matin enregistré · modifiable à tout moment')).toBeDefined();
 
     fireEvent.click(saturday);
-    await waitFor(() => expect(deleteWeekendPollResponseAction).toHaveBeenCalledWith('poll-123', 'm1'));
+    await waitFor(() =>
+      expect(deleteWeekendPollResponseAction).toHaveBeenCalledWith('poll-123', 'm1')
+    );
   });
 
   it('filters participants by slot', () => {
     render(<WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />);
 
-    fireEvent.change(screen.getByLabelText(/Filtrer par créneau/i), { target: { value: 'dimanche-matin' } });
+    fireEvent.change(screen.getByLabelText(/Filtrer par créneau/i), {
+      target: { value: 'dimanche-matin' },
+    });
 
     // Laurent voted dimanche, Alain les-deux (includes Sunday morning)
     expect(screen.getByText('Laurent Cycliste')).toBeDefined();

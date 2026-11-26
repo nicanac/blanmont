@@ -15,12 +15,10 @@ export default async function SondagePage(): Promise<React.ReactElement> {
   const [activePoll, members] = await Promise.all([getActiveWeekendPoll(), getMembers()]);
   const responses = activePoll ? await getPollResponses(activePoll.id) : [];
 
-  // The poll card comes first, with no map header: the vote fits on one screen.
+  // The view prints the vote inside the page cartouche (SheetHeader), then the stats below.
   return (
     <main className="min-h-screen bg-paper dark:bg-night transition-colors duration-200">
-      <section className="mx-auto max-w-7xl px-3 py-3 sm:px-6 sm:py-5 lg:px-8">
-        <WeekendPollView poll={activePoll} responses={responses} members={members} />
-      </section>
+      <WeekendPollView poll={activePoll} responses={responses} members={members} />
     </main>
   );
 }
