@@ -18,6 +18,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.38.0] - 2026-11-26
+
+### Added
+- feat(sondage): one-screen quick vote with weekend slots and GR2 objectives (#198) (`451b03f`)
 ## [0.37.1] - 2026-11-26
 
 ### Fixed
