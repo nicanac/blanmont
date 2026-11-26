@@ -25,6 +25,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.43.1] - 2026-11-26
+
+### Fixed
+- fix(home): give group names room before their road line (#211) (`e1e26d9`)
 ## [0.43.0] - 2026-11-26
 
 ### Added
