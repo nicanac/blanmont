@@ -41,6 +41,11 @@ const sampleSettings: HeroSettings = {
   ],
 };
 
+const sampleSchedule = {
+  saturday: { value: '13h00', detail: '· Route' },
+  sunday: { value: '9h00', detail: '· Route & VTT' },
+};
+
 const samplePoll: WeekendPoll = {
   id: 'poll-1',
   title: 'Sortie du 27 Septembre',
@@ -73,6 +78,8 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
         nextRide={sampleRide}
         weather={sampleWeather}
         heroSettings={sampleSettings}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
         activePoll={samplePoll}
         ridersAnnounced={12}
       />
@@ -86,12 +93,37 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
     expect(screen.getByText(/Place de Blanmont/i)).toBeInTheDocument();
   });
 
+  it('replaces the stored Samedi/Dimanche/Allures cards with the seasonal schedule and configured groups', () => {
+    const cards = [
+      { id: 'card-2', icon: 'calendar', label: 'Samedi', value: '8h30', detail: '' },
+      { id: 'card-3', icon: 'calendar', label: 'Dimanche', value: '10h', detail: '' },
+      { id: 'card-4', icon: 'group', label: 'Allures', value: 'Groupes A, B, C & VTT', detail: '' },
+    ] as HeroSettings['cards'];
+    render(
+      <HomeCover
+        nextRide={sampleRide}
+        weather={null}
+        heroSettings={{ ...sampleSettings, cards }}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
+        activePoll={null}
+        ridersAnnounced={0}
+      />
+    );
+    expect(screen.getByText('13h00')).toBeInTheDocument();
+    expect(screen.getByText('9h00')).toBeInTheDocument();
+    expect(screen.getByText('GR1, GR2 & VTT')).toBeInTheDocument();
+    expect(screen.queryByText(/Groupes A, B, C/)).not.toBeInTheDocument();
+  });
+
   it('renders weather and wind telemetry in the cartouche', () => {
     render(
       <HomeCover
         nextRide={sampleRide}
         weather={sampleWeather}
         heroSettings={sampleSettings}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
         activePoll={samplePoll}
         ridersAnnounced={12}
       />
@@ -109,6 +141,8 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
         nextRide={sampleRide}
         weather={sampleWeather}
         heroSettings={sampleSettings}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
         activePoll={samplePoll}
         ridersAnnounced={12}
       />
@@ -126,6 +160,8 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
         nextRide={sampleRide}
         weather={null}
         heroSettings={sampleSettings}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
         activePoll={null}
         ridersAnnounced={0}
       />
@@ -140,6 +176,8 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
         nextRide={sampleRide}
         weather={sampleWeather}
         heroSettings={sampleSettings}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
         activePoll={samplePoll}
         ridersAnnounced={12}
       />

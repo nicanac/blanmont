@@ -23,6 +23,9 @@ import JoinRoute from './components/home/JoinRoute';
 import HomeBlogSection from './components/shared/HomeBlogSection';
 import { tallyPoll, upcomingEvents, localTodayIso } from './components/home/homeData';
 import { getSessionUser } from './lib/auth/session';
+import { getCachedGroupSettings } from './lib/firebase/group-settings';
+import { groupSummaryText } from './lib/groupSummary';
+import { weekendSchedule } from './lib/weekendSchedule';
 
 /**
  * Home — La Feuille de Blanmont: the next departure printed as the title of the
@@ -50,6 +53,13 @@ export default async function Home(): Promise<React.ReactElement> {
     activePoll ? getPollResponses(activePoll.id) : Promise.resolve([]),
   ]);
 
+  // Saturday calendar time only when the next ride is a Saturday event (summer 8h00 / 8h30).
+  const nextIsSaturday = new Date(`${nextRide.isoDate}T12:00:00`).getDay() === 6;
+  const schedule = weekendSchedule(
+    new Date(),
+    nextRide.isCustomEvent && nextIsSaturday ? nextRide.departure : undefined
+  );
+  const groupNames = groupSummaryText(await getCachedGroupSettings());
   const tally = tallyPoll(responses);
   const today = localTodayIso();
   const year = Number(today.slice(0, 4));
@@ -73,6 +83,8 @@ export default async function Home(): Promise<React.ReactElement> {
         nextRide={nextRide}
         weather={weather}
         heroSettings={heroSettings}
+        schedule={schedule}
+        groupNames={groupNames}
         activePoll={activePoll}
         ridersAnnounced={tally.riders}
       />
