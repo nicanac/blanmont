@@ -77,18 +77,21 @@ describe('requestAccountActivationAction', () => {
     expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 
-  it('rejects activation when email is NOT registered in club database', async () => {
-    const unknownEmail = 'stranger@external.com';
-    const res = await requestAccountActivationAction(unknownEmail);
+  it('answers an unknown email exactly like a member, without provisioning (no enumeration)', async () => {
+    mockGetUserByEmail.mockResolvedValue({ uid: 'uid-admin-1' });
+    const unknown = await requestAccountActivationAction('stranger@external.com');
+    const member = await requestAccountActivationAction('bruyere.nicolas@gmail.com');
 
-    expect(res.success).toBe(false);
-    expect(res.message).toContain("Cette adresse email n'est pas enregistrée dans l'annuaire du club");
-    // Crucial: do NOT provision user in Firebase Auth and do NOT create reset link
+    expect(unknown).toEqual(member);
+    expect(unknown.success).toBe(true);
+    expect(unknown.message).toContain("Si cette adresse est enregistrée dans l'annuaire du club");
+    // Only the member lookup reached Firebase Auth; the stranger was never provisioned
+    expect(mockGetUserByEmail).toHaveBeenCalledTimes(1);
     expect(mockCreateUser).not.toHaveBeenCalled();
     expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 
-  it('provisions user in Firebase Auth and generates link for registered member without auth account', async () => {
+  it('provisions user in Firebase Auth for registered member without auth account, never returning a link', async () => {
     // User does not exist in Firebase Auth yet
     mockGetUserByEmail.mockRejectedValue({ code: 'auth/user-not-found' });
 
@@ -96,8 +99,9 @@ describe('requestAccountActivationAction', () => {
     const res = await requestAccountActivationAction(memberEmail);
 
     expect(res.success).toBe(true);
-    expect(res.message).toContain('Compte membre vérifié');
-    expect(res.directLink).toBe('/auth/action?mode=resetPassword&oobCode=code_12345');
+    // The reset link must never reach the caller: Firebase emails it to the address owner
+    expect(Object.keys(res).sort()).toEqual(['message', 'success']);
+    expect(JSON.stringify(res)).not.toMatch(/oobCode|https?:|\/auth\/action/);
 
     // Verified: creates Firebase Auth account with member name
     expect(mockCreateUser).toHaveBeenCalledWith({
@@ -111,7 +115,7 @@ describe('requestAccountActivationAction', () => {
       authUid: 'uid-laurent-2',
     });
 
-    expect(mockGeneratePasswordResetLink).toHaveBeenCalledWith('laurent@blanmont.be');
+    expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 
   it('handles registered member who already exists in Firebase Auth', async () => {
@@ -125,9 +129,9 @@ describe('requestAccountActivationAction', () => {
     const res = await requestAccountActivationAction(adminEmail);
 
     expect(res.success).toBe(true);
-    expect(res.directLink).toBe('/auth/action?mode=resetPassword&oobCode=code_12345');
+    expect(res).not.toHaveProperty('directLink');
     // Does not create a duplicate user
     expect(mockCreateUser).not.toHaveBeenCalled();
-    expect(mockGeneratePasswordResetLink).toHaveBeenCalledWith('bruyere.nicolas@gmail.com');
+    expect(mockGeneratePasswordResetLink).not.toHaveBeenCalled();
   });
 });
