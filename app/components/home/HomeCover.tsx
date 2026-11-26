@@ -14,12 +14,17 @@ import type { HeroSettings, WeekendPoll } from '@/app/types';
 import type { ScheduledRideInfo } from '@/app/lib/firebase/calendar';
 import { departureDateParts, windAdvice, cardinalName, formatDistance } from './homeData';
 import { cn } from '@/app/utils/cn';
+import type { WeekendSchedule } from '@/app/lib/weekendSchedule';
 import GroupName from '@/app/components/shared/GroupName';
 
 interface HomeCoverProps {
   nextRide: ScheduledRideInfo;
   weather: RideWeather | null;
   heroSettings: HeroSettings;
+  /** Seasonal Saturday/Sunday departures; replaces the stored Samedi/Dimanche cards. */
+  schedule: WeekendSchedule;
+  /** Configured group names ("GR1, GR2, GR3, GR4 & VTT"); replaces the stored Allures card. */
+  groupNames: string;
   activePoll: WeekendPoll | null;
   ridersAnnounced: number;
 }
@@ -40,6 +45,8 @@ export default function HomeCover({
   nextRide,
   weather,
   heroSettings,
+  schedule,
+  groupNames,
   activePoll,
   ridersAnnounced,
 }: HomeCoverProps): React.ReactElement {
@@ -47,6 +54,13 @@ export default function HomeCover({
   const forecast = weather?.isAvailable ? weather : null;
   const advice = windAdvice(forecast);
   const distance = formatDistance(nextRide.distances);
+  // The default cards (ids card-2..4) are computed, not stored text.
+  const dynamicCards: Record<string, Partial<HeroSettings['cards'][number]>> = {
+    'card-2': schedule.saturday,
+    'card-3': schedule.sunday,
+    'card-4': { value: groupNames },
+  };
+  const cards = heroSettings.cards.map((card) => ({ ...card, ...dynamicCards[card.id] }));
   const pollOpen = activePoll?.status === 'active';
   const atClubSquare = !nextRide.address || /f[ée]ch[èe]re/i.test(nextRide.address);
 
@@ -244,7 +258,7 @@ export default function HomeCover({
       <div className="relative border-t border-ink bg-paper/[0.96] dark:border-night-line-strong dark:bg-night/[0.96]">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <dl className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4 lg:flex-1 lg:gap-x-0">
-            {heroSettings.cards.map((card, idx) => (
+            {cards.map((card, idx) => (
               <div
                 key={card.id || idx}
                 className={cn(
