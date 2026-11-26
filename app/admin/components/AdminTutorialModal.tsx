@@ -24,6 +24,8 @@ export interface AdminTutorialModalProps {
   iconColorClass?: string;
   tabs: TutorialTabConfig[];
   tourButtonLabel?: string;
+  /** Tab opened first (defaults to the first one). */
+  initialTab?: string;
 }
 
 export default function AdminTutorialModal({
@@ -37,8 +39,9 @@ export default function AdminTutorialModal({
   iconColorClass = 'bg-brand/20 text-brand border-brand/40',
   tabs,
   tourButtonLabel = 'Lancer la visite guidée',
+  initialTab,
 }: AdminTutorialModalProps): React.ReactElement | null {
-  const [activeTab, setActiveTab] = useState<string>(tabs[0]?.id || '');
+  const [activeTab, setActiveTab] = useState<string>(initialTab ?? tabs[0]?.id ?? '');
   const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   if (!isOpen) return null;

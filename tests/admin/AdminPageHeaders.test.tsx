@@ -20,6 +20,11 @@ vi.mock('next/link', () => ({
   ),
 }));
 
+vi.mock('@/app/admin/settings/payment-read-action', () => ({
+  getPaymentSettingsAction: vi.fn().mockResolvedValue(null),
+}));
+vi.mock('@/app/admin/settings/payment-actions', () => ({ savePaymentSettingsAction: vi.fn() }));
+
 vi.mock('@/app/context/ThemeContext', () => ({
   useTheme: () => ({
     theme: 'light',

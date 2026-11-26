@@ -157,6 +157,36 @@ export const updateEquipment = async (
 };
 
 /**
+ * Adds `delta` (negative to reserve) to /equipment/{id}/stock/{size} in an RTDB transaction.
+ * Returns false, writing nothing, when the stock would go below 0 or the product does not exist.
+ */
+export const adjustEquipmentStock = async (
+  equipmentId: string,
+  size: string,
+  delta: number
+): Promise<boolean> => {
+  if (isMockMode) {
+    const item = getMockEquipment().find((i) => i.id === equipmentId);
+    const next = (item?.stock[size] ?? 0) + delta;
+    if (!item || next < 0) return false;
+    item.stock[size] = next;
+    return true;
+  }
+
+  // Whole product node, so a missing product is never created (same as mock mode).
+  const { committed, snapshot } = await getAdminDatabase()
+    .ref(`equipment/${equipmentId}`)
+    .transaction((current: { stock?: Record<string, number> } | null) => {
+      // The first call may see null before the server value is known: writing null is a
+      // no-op when the product is really missing, otherwise the server retries with it.
+      if (current === null) return null;
+      const next = Number(current.stock?.[size] ?? 0) + delta;
+      return next < 0 ? undefined : { ...current, stock: { ...current.stock, [size]: next } };
+    });
+  return committed && snapshot.exists();
+};
+
+/**
  * Deletes an equipment item
  */
 export const deleteEquipment = async (id: string): Promise<void> => {
