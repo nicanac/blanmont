@@ -30,6 +30,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.44.2] - 2026-11-26
+
+### Chores
+- chore(test): cap vitest workers at 2 (#225) (`754a185`)
 ## [0.44.1] - 2026-11-26
 
 ### Fixed
