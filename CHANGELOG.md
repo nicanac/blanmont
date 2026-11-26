@@ -19,6 +19,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.39.0] - 2026-11-26
+
+### Added
+- feat(sondage): print the quick vote inside the map cartouche (#204) (`9c8206a`)
 ## [0.38.0] - 2026-11-26
 
 ### Added
