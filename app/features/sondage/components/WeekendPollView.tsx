@@ -308,7 +308,7 @@ function QuickVoteCard({
                 name="group"
                 checked={groupKey === opt.key}
                 onChange={() => pickGroup(opt.key)}
-                title={count > 0 ? `${name} · ${count} coureur${plural(count)}` : name}
+                title={count > 0 ? `${name} · ${count} membre${plural(count)}` : name}
                 detail={opt.detail.replace('{GR1}', label('A'))}
               />
             );
@@ -431,7 +431,7 @@ export default function WeekendPollView({
   const legend = [
     ...POLL_SLOTS.map((s) => ({
       term: s.label,
-      value: `${tally.bySlot[s.id]} coureur${plural(tally.bySlot[s.id])}`,
+      value: `${tally.bySlot[s.id]} membre${plural(tally.bySlot[s.id])}`,
       hint: s.departure,
     })),
     { term: 'Absents', value: `${tally.absent} membre${plural(tally.absent)}` },
@@ -461,7 +461,7 @@ export default function WeekendPollView({
                   </span>
                 </span>
                 <span className="font-narrow text-xs font-extrabold tabular-nums text-ink dark:text-snow">
-                  {count} coureur{plural(count)}
+                  {count} membre{plural(count)}
                 </span>
               </div>
               <div className="relative h-1.5 w-full overflow-hidden rounded-xs border border-ink/40 bg-paper-2 dark:border-snow-3/40 dark:bg-night">
