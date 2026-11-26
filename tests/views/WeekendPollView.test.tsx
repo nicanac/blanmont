@@ -124,8 +124,8 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     for (const label of ['Samedi matin', 'Samedi après-midi', 'Dimanche matin', 'Absents']) {
       expect(within(legend).getByText(label)).toBeDefined();
     }
-    expect(within(legend).getAllByText('2 coureurs').length).toBe(2);
-    expect(within(legend).getByText('0 coureur')).toBeDefined();
+    expect(within(legend).getAllByText('2 membres').length).toBe(2);
+    expect(within(legend).getByText('0 membre')).toBeDefined();
     expect(within(legend).getByText('1 membre')).toBeDefined();
 
     // Group breakdown sits in the cartouche legend column, under the slot tally.
@@ -194,7 +194,7 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     const titles = screen
       .getAllByRole('radio')
       .map((radio) => radio.closest('label')?.querySelector('span span')?.textContent);
-    expect(titles).toEqual(['GR1 · 1 coureur', 'GR2+', 'GR2−', 'GR3', 'GR4', 'VTT']);
+    expect(titles).toEqual(['GR1 · 1 membre', 'GR2+', 'GR2−', 'GR3', 'GR4', 'VTT']);
     expect(screen.getByText('25–28 km/h · même parcours que GR1')).toBeDefined();
   });
 
