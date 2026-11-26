@@ -181,13 +181,13 @@ function AuthActionHandler(): React.ReactElement {
     <div className="w-full max-w-md relative z-10 space-y-6">
       {/* ──── Verification Loader ──── */}
       {status === 'verifying' && (
-        <div className="neatline bg-night-2/95 p-10 shadow-2xl text-center space-y-4">
+        <div className="neatline bg-paper/95 dark:bg-night-2/95 p-10 shadow-2xl text-center space-y-4">
           <ArrowPathIcon className="h-8 w-8 md:h-8 md:w-8 animate-spin mx-auto text-brand" />
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-white uppercase tracking-tight">
+            <h2 className="text-lg font-bold text-ink dark:text-white uppercase tracking-tight">
               Vérification de la clé de sécurité
             </h2>
-            <p className="text-xs text-snow-3">
+            <p className="text-xs text-ink-3 dark:text-snow-3">
               Validation du jeton d&apos;authentification auprès de Blanmont...
             </p>
           </div>
@@ -196,18 +196,18 @@ function AuthActionHandler(): React.ReactElement {
 
       {/* ──── Ready Form : Define Password ──── */}
       {status === 'ready' && (
-        <div className="neatline bg-night-2/95 p-7 sm:p-9 shadow-2xl space-y-6">
+        <div className="neatline bg-paper/95 dark:bg-night-2/95 p-7 sm:p-9 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-brand/15 border border-brand/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-red-400">
               <ShieldCheckIcon className="h-3.5 w-3.5" />
               <span>Activation Sécurisée</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-ink dark:text-white">
               Définir votre mot de passe
             </h1>
             {email && (
-              <p className="text-xs text-snow-3">
-                Compte membre : <strong className="text-white font-semibold">{email}</strong>
+              <p className="text-xs text-ink-3 dark:text-snow-3">
+                Compte membre : <strong className="text-ink dark:text-white font-semibold">{email}</strong>
               </p>
             )}
           </div>
@@ -215,7 +215,7 @@ function AuthActionHandler(): React.ReactElement {
           {errorMessage && (
             <div
               role="alert"
-              className="rounded-md border border-brand/40 bg-brand/10 p-3.5 flex items-start gap-2.5 text-xs text-red-200"
+              className="rounded-md border border-brand/40 bg-brand/10 p-3.5 flex items-start gap-2.5 text-xs text-red-700 dark:text-red-200"
             >
               <ExclamationTriangleIcon className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
@@ -227,12 +227,12 @@ function AuthActionHandler(): React.ReactElement {
             <div className="space-y-1.5">
               <label
                 htmlFor="new-password"
-                className="block text-xs font-bold uppercase tracking-wider text-snow-3"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3"
               >
                 Nouveau mot de passe
               </label>
               <div className="relative">
-                <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-snow-3" />
+                <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3" />
                 <input
                   id="new-password"
                   name="password"
@@ -244,13 +244,13 @@ function AuthActionHandler(): React.ReactElement {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Minimum 6 caractères"
-                  className="w-full rounded-md border border-white/10 bg-night pl-10 pr-10 py-3 text-xs sm:text-sm text-white placeholder:text-ink-3 focus:border-brand focus:outline-none transition-colors"
+                  className="w-full rounded-md border border-line dark:border-white/10 bg-paper-2 dark:bg-night pl-10 pr-10 py-3 text-xs sm:text-sm text-ink dark:text-white placeholder:text-ink-3 focus:border-brand focus:outline-none transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center p-2 text-snow-3 hover:text-white transition-colors cursor-pointer"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center p-2 text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
                 >
                   {showPassword ? (
                     <EyeSlashIcon className="h-4 w-4" />
@@ -265,12 +265,12 @@ function AuthActionHandler(): React.ReactElement {
             <div className="space-y-1.5">
               <label
                 htmlFor="confirm-password"
-                className="block text-xs font-bold uppercase tracking-wider text-snow-3"
+                className="block text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3"
               >
                 Confirmer le mot de passe
               </label>
               <div className="relative">
-                <LockClosedIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-snow-3" />
+                <LockClosedIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3" />
                 <input
                   id="confirm-password"
                   name="confirmPassword"
@@ -281,7 +281,7 @@ function AuthActionHandler(): React.ReactElement {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Répétez votre mot de passe"
-                  className="w-full rounded-md border border-white/10 bg-night pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder:text-ink-3 focus:border-brand focus:outline-none transition-colors"
+                  className="w-full rounded-md border border-line dark:border-white/10 bg-paper-2 dark:bg-night pl-10 pr-4 py-3 text-xs sm:text-sm text-ink dark:text-white placeholder:text-ink-3 focus:border-brand focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -307,10 +307,10 @@ function AuthActionHandler(): React.ReactElement {
             </div>
           </form>
 
-          <div className="pt-4 border-t border-white/10 text-center">
+          <div className="pt-4 border-t border-line dark:border-white/10 text-center">
             <Link
               href="/login"
-              className="text-xs text-snow-3 hover:text-white transition-colors inline-flex items-center gap-1.5"
+              className="text-xs text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors inline-flex items-center gap-1.5"
             >
               <span>← Retour à la connexion</span>
             </Link>
@@ -320,16 +320,16 @@ function AuthActionHandler(): React.ReactElement {
 
       {/* ──── Expired / Invalid Code State (Replacing the broken Firebase screen) ──── */}
       {status === 'expired' && (
-        <div className="neatline bg-night-2/95 p-7 sm:p-9 shadow-2xl space-y-6">
+        <div className="neatline bg-paper/95 dark:bg-night-2/95 p-7 sm:p-9 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-300">
-              <ExclamationTriangleIcon className="h-3.5 w-3.5 text-amber-400" />
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
+              <ExclamationTriangleIcon className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
               <span>Lien Expiré</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-ink dark:text-white">
               Lien expiré ou déjà utilisé
             </h1>
-            <p className="text-xs text-snow-2 leading-relaxed max-w-sm mx-auto">
+            <p className="text-xs text-ink-2 dark:text-snow-2 leading-relaxed max-w-sm mx-auto">
               Pour des raisons de sécurité, les liens d&apos;activation sont à usage unique et expirent rapidement.
             </p>
           </div>
@@ -337,7 +337,7 @@ function AuthActionHandler(): React.ReactElement {
           {errorMessage && (
             <div
               role="alert"
-              className="rounded-md border border-brand/40 bg-brand/10 p-3.5 flex items-start gap-2.5 text-xs text-red-200"
+              className="rounded-md border border-brand/40 bg-brand/10 p-3.5 flex items-start gap-2.5 text-xs text-red-700 dark:text-red-200"
             >
               <ExclamationTriangleIcon className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
@@ -348,9 +348,9 @@ function AuthActionHandler(): React.ReactElement {
             <div className="space-y-3">
               <div
                 role="status"
-                className="rounded-md border border-emerald-500/30 bg-emerald-500/10 p-3.5 flex items-start gap-2.5 text-xs text-emerald-200"
+                className="rounded-md border border-emerald-500/30 bg-emerald-500/10 p-3.5 flex items-start gap-2.5 text-xs text-emerald-800 dark:text-emerald-200"
               >
-                <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                <CheckCircleIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 <span>{recoverySuccess}</span>
               </div>
             </div>
@@ -361,12 +361,12 @@ function AuthActionHandler(): React.ReactElement {
               <div className="space-y-1.5">
                 <label
                   htmlFor="recovery-email"
-                  className="block text-xs font-bold uppercase tracking-wider text-snow-3"
+                  className="block text-xs font-bold uppercase tracking-wider text-ink-3 dark:text-snow-3"
                 >
                   Votre adresse email
                 </label>
                 <div className="relative">
-                  <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-snow-3" />
+                  <EnvelopeIcon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-3 dark:text-snow-3" />
                   <input
                     id="recovery-email"
                     name="email"
@@ -376,7 +376,7 @@ function AuthActionHandler(): React.ReactElement {
                     value={recoveryEmail}
                     onChange={(e) => setRecoveryEmail(e.target.value)}
                     placeholder="nom@exemple.be"
-                    className="w-full rounded-md border border-white/10 bg-night pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder:text-ink-3 focus:border-amber-400 focus:outline-none transition-colors"
+                    className="w-full rounded-md border border-line dark:border-white/10 bg-paper-2 dark:bg-night pl-10 pr-4 py-3 text-xs sm:text-sm text-ink dark:text-white placeholder:text-ink-3 focus:border-amber-400 focus:outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -401,10 +401,10 @@ function AuthActionHandler(): React.ReactElement {
             </form>
           )}
 
-          <div className="pt-4 border-t border-white/10 text-center">
+          <div className="pt-4 border-t border-line dark:border-white/10 text-center">
             <Link
               href="/login"
-              className="text-xs text-snow-3 hover:text-white transition-colors"
+              className="text-xs text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors"
             >
               ← Retour à la page de connexion
             </Link>
@@ -414,12 +414,12 @@ function AuthActionHandler(): React.ReactElement {
 
       {/* ──── Success State ──── */}
       {status === 'success' && (
-        <div className="rounded-xl border border-emerald-500/30 bg-night p-8 sm:p-10 shadow-2xl text-center space-y-4">
-          <div className="h-12 w-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
+        <div className="rounded-xl border border-emerald-500/30 bg-paper-2 dark:bg-night p-8 sm:p-10 shadow-2xl text-center space-y-4">
+          <div className="h-12 w-12 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
             <CheckCircleIcon className="h-7 w-7 md:h-7 md:w-7" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-xl font-extrabold uppercase tracking-tight text-white">
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink dark:text-white">
               Mot de passe enregistré !
             </h2>
             <p className="text-xs text-emerald-300">
@@ -440,12 +440,12 @@ function AuthActionHandler(): React.ReactElement {
 
       {/* ──── Email Verified State ──── */}
       {status === 'email_verified' && (
-        <div className="rounded-xl border border-emerald-500/30 bg-night p-8 sm:p-10 shadow-2xl text-center space-y-4">
-          <div className="h-12 w-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
+        <div className="rounded-xl border border-emerald-500/30 bg-paper-2 dark:bg-night p-8 sm:p-10 shadow-2xl text-center space-y-4">
+          <div className="h-12 w-12 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
             <CheckCircleIcon className="h-7 w-7 md:h-7 md:w-7" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-xl font-extrabold uppercase tracking-tight text-white">
+            <h2 className="text-xl font-extrabold uppercase tracking-tight text-ink dark:text-white">
               Email vérifié avec succès !
             </h2>
             <p className="text-xs text-emerald-300">
@@ -468,7 +468,7 @@ function AuthActionHandler(): React.ReactElement {
       <div className="text-center">
         <Link
           href="/"
-          className="min-h-[44px] inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-snow-3 hover:text-white transition-colors"
+          className="min-h-[44px] inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-ink-3 dark:text-snow-3 hover:text-ink dark:hover:text-white transition-colors"
         >
           <span>← Retour à l&apos;accueil du club</span>
         </Link>
@@ -479,7 +479,7 @@ function AuthActionHandler(): React.ReactElement {
 
 export default function AuthActionPage(): React.ReactElement {
   return (
-    <main className="dark relative flex min-h-[85vh] items-center justify-center overflow-hidden bg-night px-4 py-12 text-white [--sheet:1700px] sm:px-6 sm:[--sheet:2400px] lg:px-8">
+    <main className="relative flex min-h-[85vh] items-center justify-center overflow-hidden bg-paper px-4 py-12 text-ink dark:bg-night dark:text-white [--sheet:1700px] sm:px-6 sm:[--sheet:2400px] lg:px-8">
       <TerritoryMap
         labels={2}
         marker="hero"
@@ -489,7 +489,7 @@ export default function AuthActionPage(): React.ReactElement {
 
       <Suspense
         fallback={
-          <div className="neatline relative w-full max-w-md bg-night-2 p-8 text-center text-xs text-snow-3">
+          <div className="neatline relative w-full max-w-md bg-paper dark:bg-night-2 p-8 text-center text-xs text-ink-3 dark:text-snow-3">
             <ArrowPathIcon className="h-5 w-5 animate-spin mx-auto mb-2 text-brand" />
             <span>Vérification de la clé de sécurité...</span>
           </div>
