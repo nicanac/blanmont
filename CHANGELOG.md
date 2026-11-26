@@ -20,6 +20,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.40.0] - 2026-11-26
+
+### Added
+- ✨ [feat] maillots: group orders, club stock and CODA bank reconciliation (#200) (`0cb5fe7`)
 ## [0.39.0] - 2026-11-26
 
 ### Added
