@@ -1,14 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import AddTraceForm from '../../features/admin/components/AddTraceForm';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AddTracePage() {
-    // Masqué temporairement / Hidden for now
-    redirect('/admin');
-
     const { user, isAuthenticated } = useAuth();
     const router = useRouter();
 
