@@ -26,6 +26,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.43.2] - 2026-11-26
+
+### Chores
+- docs(agents): fixing an issue ships it to production and closes it (#212) (`2908b73`)
 ## [0.43.1] - 2026-11-26
 
 ### Fixed
