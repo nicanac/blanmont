@@ -11,6 +11,8 @@ import {
   verifyPasswordResetCode,
   confirmPasswordReset,
   applyActionCode,
+  isMockMode,
+  sendPasswordResetEmail,
 } from '../../lib/firebase/client';
 import {
   LockClosedIcon,
@@ -48,7 +50,6 @@ function AuthActionHandler(): React.ReactElement {
   const [recoveryEmail, setRecoveryEmail] = useState('');
   const [recoveryLoading, setRecoveryLoading] = useState(false);
   const [recoverySuccess, setRecoverySuccess] = useState('');
-  const [newDirectLink, setNewDirectLink] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -147,7 +148,6 @@ function AuthActionHandler(): React.ReactElement {
     e.preventDefault();
     setErrorMessage('');
     setRecoverySuccess('');
-    setNewDirectLink(null);
     setRecoveryLoading(true);
 
     try {
@@ -159,12 +159,16 @@ function AuthActionHandler(): React.ReactElement {
 
       const result = await requestAccountActivationAction(recoveryEmail.trim());
       if (result.success) {
-        setRecoverySuccess('Un nouveau lien sécurisé a été généré avec succès !');
-        if (result.directLink) {
-          setNewDirectLink(result.directLink);
+        // Firebase emails the link to the owner of the address. Errors (unknown user, rate limit...)
+        // are ignored so the answer never reveals whether the address is a member.
+        if (!isMockMode) {
+          await sendPasswordResetEmail(getFirebaseAuth(), recoveryEmail.trim(), {
+            url: `${window.location.origin}/login`,
+          }).catch(() => undefined);
         }
+        setRecoverySuccess(result.message);
       } else {
-        setErrorMessage(result.message || 'Impossible de générer le nouveau lien.');
+        setErrorMessage(result.message || 'Impossible d\'envoyer le nouveau lien.');
       }
     } catch {
       setErrorMessage('Une erreur est survenue. Veuillez réessayer.');
@@ -349,20 +353,10 @@ function AuthActionHandler(): React.ReactElement {
                 <CheckCircleIcon className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{recoverySuccess}</span>
               </div>
-
-              {newDirectLink && (
-                <Link
-                  href={newDirectLink}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg active:scale-[0.98] min-h-[44px]"
-                >
-                  <span>Définir mon mot de passe maintenant</span>
-                  <ArrowRightIcon className="h-4 w-4" />
-                </Link>
-              )}
             </div>
           )}
 
-          {!newDirectLink && (
+          {!recoverySuccess && (
             <form className="space-y-4" onSubmit={handleRecoverySubmit}>
               <div className="space-y-1.5">
                 <label
@@ -395,12 +389,12 @@ function AuthActionHandler(): React.ReactElement {
                 {recoveryLoading ? (
                   <>
                     <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                    <span>Création du lien en cours...</span>
+                    <span>Envoi en cours...</span>
                   </>
                 ) : (
                   <>
                     <SparklesIcon className="h-4 w-4" />
-                    <span>Générer un nouveau lien d&apos;accès</span>
+                    <span>Recevoir un nouveau lien par email</span>
                   </>
                 )}
               </button>

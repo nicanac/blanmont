@@ -12,6 +12,9 @@ import { getAdminAuth, getAdminDatabase } from '../lib/firebase/admin';
 import { LoginSchema, AccountActivationSchema, safeValidate } from '../lib/validation';
 import { recordActivity } from '../lib/logging/activityLogger';
 
+const ACTIVATION_NEUTRAL_MESSAGE =
+  "Si cette adresse est enregistrée dans l'annuaire du club, vous allez recevoir un email avec un lien pour choisir votre mot de passe. Rien après quelques minutes ? Vérifiez vos spams ou contactez un responsable du club.";
+
 /**
  * Server Action to validate user credentials and establish an HttpOnly session cookie.
  *
@@ -114,14 +117,16 @@ export async function getCurrentSessionUserAction(): Promise<SessionUser | null>
 }
 
 /**
- * Server Action to generate or send an account activation / password reset link.
- * Automatically provisions the user in Firebase Auth if they don't exist yet,
- * and links authUid with the Realtime Database member record.
+ * Server Action that prepares account activation / password reset for a club member.
+ * Provisions the user in Firebase Auth if needed and links authUid with the Realtime
+ * Database member record. It never creates or returns a reset link: the client then calls
+ * Firebase sendPasswordResetEmail, so only the owner of the address receives the link.
+ * A valid email always gets the same answer, whether or not it is in the directory,
+ * so the action cannot be used to list members.
  */
 export async function requestAccountActivationAction(email: string): Promise<{
   success: boolean;
   message: string;
-  directLink?: string;
 }> {
   const validation = safeValidate(AccountActivationSchema, { email });
 
@@ -130,6 +135,10 @@ export async function requestAccountActivationAction(email: string): Promise<{
   }
 
   const normalizedEmail = validation.data.email.trim().toLowerCase();
+  const neutralSuccess = {
+    success: true,
+    message: ACTIVATION_NEUTRAL_MESSAGE,
+  };
 
   try {
     const adminAuth = getAdminAuth();
@@ -150,7 +159,7 @@ export async function requestAccountActivationAction(email: string): Promise<{
       });
     }
 
-    // If the email is not registered in the club database, reject activation immediately
+    // Not in the club directory: no provisioning, but the same answer as for a member (no enumeration)
     if (!memberKey || !memberData) {
       await recordActivity({
         category: 'auth',
@@ -160,11 +169,7 @@ export async function requestAccountActivationAction(email: string): Promise<{
         user: { isAuthenticated: false, userEmail: normalizedEmail },
         metadata: { reason: 'not_in_directory' },
       });
-      return {
-        success: false,
-        message:
-          "Cette adresse email n'est pas enregistrée dans l'annuaire du club. Seuls les membres préalablement ajoutés par un administrateur peuvent activer leur compte. Veuillez contacter un responsable du club si vous êtes membre.",
-      };
+      return neutralSuccess;
     }
 
     // 2. Member exists in club database. Check if user already exists in Firebase Auth, if not create them
@@ -192,27 +197,10 @@ export async function requestAccountActivationAction(email: string): Promise<{
       });
     }
 
-    // 4. Generate the password reset / activation link via Firebase Admin SDK
-    const rawFirebaseLink = await adminAuth.generatePasswordResetLink(normalizedEmail);
-    let inAppLink = rawFirebaseLink;
-
-    try {
-      const parsedUrl = new URL(rawFirebaseLink);
-      const oobCode = parsedUrl.searchParams.get('oobCode');
-      const mode = parsedUrl.searchParams.get('mode') || 'resetPassword';
-      if (oobCode) {
-        inAppLink = `/auth/action?mode=${mode}&oobCode=${encodeURIComponent(oobCode)}`;
-      }
-    } catch {
-      // fallback to rawFirebaseLink if URL parse fails
-    }
-
-    console.log(`[Account Activation] Generated link for member ${memberData.name} (${normalizedEmail}): ${inAppLink}`);
-
     await recordActivity({
       category: 'auth',
       action: 'auth:activation_requested',
-      title: `Lien d'activation généré : ${memberData.name}`,
+      title: `Activation demandée : ${memberData.name}`,
       severity: 'info',
       user: {
         isAuthenticated: false,
@@ -224,16 +212,12 @@ export async function requestAccountActivationAction(email: string): Promise<{
       metadata: { memberKey },
     });
 
-    return {
-      success: true,
-      message: 'Compte membre vérifié ! Un lien d\'activation a été généré avec succès.',
-      directLink: inAppLink,
-    };
+    return neutralSuccess;
   } catch (error: unknown) {
     console.error('Failed to process account activation:', error);
     return {
       success: false,
-      message: (error instanceof Error && error.message) || 'Erreur lors de la génération du lien d\'activation.',
+      message: (error instanceof Error && error.message) || 'Erreur lors de la préparation de l\'activation du compte.',
     };
   }
 }
