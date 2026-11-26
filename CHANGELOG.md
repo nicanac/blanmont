@@ -23,6 +23,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.42.0] - 2026-11-26
+
+### Added
+- feat(sondage): group breakdown in header legend, full-width participant list (#207) (`ccae274`)
 ## [0.41.0] - 2026-11-26
 
 ### Added
