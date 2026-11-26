@@ -33,6 +33,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.47.0] - 2026-11-26
+
+### Added
+- feat(traces): reactivate the traces feature (#229) (`0e8f297`)
 ## [0.46.0] - 2026-11-26
 
 ### Added
