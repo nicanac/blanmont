@@ -128,7 +128,9 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     expect(within(legend).getByText('0 coureur')).toBeDefined();
     expect(within(legend).getByText('1 membre')).toBeDefined();
 
-    expect(screen.getByText('Répartition par Groupe de niveau')).toBeDefined();
+    // Group breakdown sits in the cartouche legend column, under the slot tally.
+    const breakdown = container.querySelector('header section[aria-labelledby="sondage-groupes"]');
+    expect(breakdown?.textContent).toContain('Répartition par Groupe de niveau');
     expect(screen.getByText(/Liste des participants/i)).toBeDefined();
     expect(screen.getByText('Nicolas Bruyère')).toBeDefined();
     expect(screen.getByText('Samedi matin + Dimanche matin')).toBeDefined();
