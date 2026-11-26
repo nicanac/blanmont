@@ -526,7 +526,7 @@ describe('StatisticsTutorialModal', () => {
 
     // Switch to Charts tab
     fireEvent.click(screen.getByRole('button', { name: /Graphiques & Groupes/i }));
-    expect(screen.getByText(/Répartition par Groupe \(A, B, C, VTT\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Répartition par Groupe \(A, B, BC, C & VTT\)/i)).toBeInTheDocument();
   });
 });
 

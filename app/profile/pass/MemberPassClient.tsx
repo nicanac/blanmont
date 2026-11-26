@@ -8,6 +8,8 @@ import { useAuth } from '@/app/context/AuthContext';
 import { getMemberProfileAction, updateMemberEmergencyAction } from '@/app/actions';
 import { generateQrCodeSvg, generateQrCodeDataUrl } from '@/app/lib/qrcode';
 import { Spinner } from '@/app/components/ui/Spinner';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
 import {
   ShieldCheckIcon,
   PhoneIcon,
@@ -34,7 +36,7 @@ interface MemberPassData {
   email?: string;
   phone?: string;
   photoUrl?: string;
-  preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
+  preferredGroup?: CyclingGroup;
   cotisation2026Status?: 'paid' | 'pending' | 'exempt';
   cotisation2026PaidAt?: string;
   ffbcLicenseNumber?: string;
@@ -57,6 +59,7 @@ export default function MemberPassClient(): React.ReactElement {
   const { user, isAuthenticated, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
 
+  const { fullName: groupFullName } = useGroupLabels();
   const [memberData, setMemberData] = useState<MemberPassData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isOfflineCache, setIsOfflineCache] = useState(false);
@@ -74,7 +77,7 @@ export default function MemberPassClient(): React.ReactElement {
     iceContactName: '',
     iceContactPhone: '',
     iceRelationship: '',
-    preferredGroup: 'B' as 'A' | 'B' | 'C' | 'VTT',
+    preferredGroup: 'B' as CyclingGroup,
   });
 
   // Load member data with offline cache fallback
@@ -175,7 +178,7 @@ FN:ICE - ${memberData.iceContactName || 'Contact Urgence'} (${memberData.name})
 TEL;TYPE=CELL:${memberData.iceContactPhone || ''}
 NOTE:Contact urgence cycliste CC Saint-Martin Blanmont. Licence FFBC: ${
         memberData.ffbcLicenseNumber || 'Non renseignee'
-      }. Groupe: ${memberData.preferredGroup || 'B'}.
+      }. Groupe: ${groupFullName(memberData.preferredGroup || 'B')}.
 END:VCARD`;
     }
   }, [memberData, qrMode]);
@@ -429,7 +432,7 @@ END:VCARD`;
                   {/* Group badge overlay */}
                   <div className="absolute bottom-1.5 left-1.5 right-1.5">
                     <span className="block w-full py-0.5 text-center text-xs font-bold uppercase tracking-wider rounded bg-black/80 text-white backdrop-blur-xs">
-                      Groupe {memberData.preferredGroup || 'B'}
+                      {groupFullName(memberData.preferredGroup || 'B')}
                     </span>
                   </div>
                 </div>
@@ -858,15 +861,16 @@ END:VCARD`;
                   onChange={(e) =>
                     setEditForm({
                       ...editForm,
-                      preferredGroup: e.target.value as 'A' | 'B' | 'C' | 'VTT',
+                      preferredGroup: e.target.value as CyclingGroup,
                     })
                   }
                   className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-3 py-2 text-ink dark:text-snow focus:border-brand focus:outline-hidden min-h-[44px]"
                 >
-                  <option value="A">Groupe A (30-32 km/h)</option>
-                  <option value="B">Groupe B (27-29 km/h)</option>
-                  <option value="C">Groupe C (24-26 km/h)</option>
-                  <option value="VTT">Groupe VTT / Gravel</option>
+                  {PACE_GROUPS.map((g) => (
+                    <option key={g.id} value={g.id}>
+                      {groupFullName(g.id)} ({g.speed})
+                    </option>
+                  ))}
                 </select>
               </div>
 

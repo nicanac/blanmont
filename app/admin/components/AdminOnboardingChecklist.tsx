@@ -15,6 +15,8 @@ import {
   AcademicCapIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon } from '@/app/components/ui/CyclingIcons';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { groupSummaryText } from '@/app/lib/groupSummary';
 import { CheckCircleIcon as CheckCircleSolidIcon } from '@heroicons/react/24/solid';
 
 export interface AdminOnboardingChecklistProps {
@@ -57,6 +59,8 @@ export default function AdminOnboardingChecklist({
   totalBlogPosts,
   onOpenHelp,
 }: AdminOnboardingChecklistProps): React.ReactElement | null {
+  const { settings: groupSettings } = useGroupLabels();
+  const groupNames = groupSummaryText(groupSettings);
   const [isDismissed, setIsDismissed] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [checkedTasks, setCheckedTasks] = useState<Record<string, boolean>>({});
@@ -68,7 +72,7 @@ export default function AdminOnboardingChecklist({
       title: 'Lancer le Sondage Weekend',
       category: 'Rituel Hebdomadaire',
       description:
-        'Créez le sondage pour sonder les présences (Samedi / Dimanche) et former les groupes (A, B, C, VTT).',
+        `Créez le sondage pour sonder les présences (Samedi / Dimanche) et former les groupes (${groupNames}).`,
       tip: 'À lancer idéalement le mardi. Les membres votent directement sur /sondage.',
       href: hasActivePoll ? '/admin/sondages' : '/admin/sondages/new',
       actionLabel: hasActivePoll ? 'Voir le sondage en cours' : 'Créer un sondage',

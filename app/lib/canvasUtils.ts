@@ -26,14 +26,45 @@ export function rotateSize(width: number, height: number, rotation: number) {
   }
 }
 
+export interface CropOutputOptions {
+  /** Longest side of the output image in px. The crop is scaled down (never up) to fit. */
+  maxSize?: number
+  /** JPEG quality, 0–1 (browser default ≈ 0.92 when omitted). */
+  quality?: number
+}
+
 /**
- * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
+ * Output size for a crop: the crop itself, scaled down so its longest side is at most `maxSize`.
+ */
+export function getOutputSize(
+  width: number,
+  height: number,
+  maxSize?: number
+): { width: number; height: number } {
+  if (!maxSize || maxSize <= 0) return { width: Math.round(width), height: Math.round(height) }
+  const scale = Math.min(1, maxSize / Math.max(width, height))
+  return {
+    width: Math.max(1, Math.round(width * scale)),
+    height: Math.max(1, Math.round(height * scale)),
+  }
+}
+
+/**
+ * Crops `imageSrc` to `pixelCrop` and returns a JPEG Blob.
+ *
+ * Without rotation or flip, the crop is drawn straight from the source rectangle into a canvas
+ * of the output size: no full-resolution intermediate canvas, which phone photos (12–48 MP)
+ * can push past mobile Safari's canvas memory limit. With `maxSize`, the result is downscaled
+ * so it stays small enough for a Server Action body (1 MB by default in Next.js).
+ *
+ * Adapted from the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
 export default async function getCroppedImg(
   imageSrc: string,
   pixelCrop: { x: number; y: number; width: number; height: number },
   rotation = 0,
-  flip = { horizontal: false, vertical: false }
+  flip = { horizontal: false, vertical: false },
+  options: CropOutputOptions = {}
 ): Promise<Blob | null> {
   const image = await createImage(imageSrc)
   const canvas = document.createElement('canvas')
@@ -41,6 +72,27 @@ export default async function getCroppedImg(
 
   if (!ctx) {
     return null
+  }
+
+  const out = getOutputSize(pixelCrop.width, pixelCrop.height, options.maxSize)
+
+  if (rotation % 360 === 0 && !flip.horizontal && !flip.vertical) {
+    // Fast path: one draw from the source rectangle to the (possibly downscaled) output.
+    canvas.width = out.width
+    canvas.height = out.height
+    ctx.imageSmoothingQuality = 'high'
+    ctx.drawImage(
+      image,
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
+      0,
+      0,
+      out.width,
+      out.height
+    )
+    return toJpegBlob(canvas, options.quality)
   }
 
   const rotRad = getRadianAngle(rotation)
@@ -65,6 +117,28 @@ export default async function getCroppedImg(
   // draw rotated image
   ctx.drawImage(image, 0, 0)
 
+  if (out.width !== Math.round(pixelCrop.width) || out.height !== Math.round(pixelCrop.height)) {
+    // Downscale: copy the crop region of the rotated canvas into an output-sized canvas.
+    const outCanvas = document.createElement('canvas')
+    const outCtx = outCanvas.getContext('2d')
+    if (!outCtx) return null
+    outCanvas.width = out.width
+    outCanvas.height = out.height
+    outCtx.imageSmoothingQuality = 'high'
+    outCtx.drawImage(
+      canvas,
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
+      0,
+      0,
+      out.width,
+      out.height
+    )
+    return toJpegBlob(outCanvas, options.quality)
+  }
+
   // croppedAreaPixels values are bounding box relative
   // extract the cropped image using these values
   const data = ctx.getImageData(
@@ -81,10 +155,11 @@ export default async function getCroppedImg(
   // paste generated rotate image at the top left corner
   ctx.putImageData(data, 0, 0)
 
-  // As a blob
+  return toJpegBlob(canvas, options.quality)
+}
+
+function toJpegBlob(canvas: HTMLCanvasElement, quality?: number): Promise<Blob | null> {
   return new Promise((resolve) => {
-    canvas.toBlob((file) => {
-      resolve(file)
-    }, 'image/jpeg')
+    canvas.toBlob((file) => resolve(file), 'image/jpeg', quality)
   })
 }

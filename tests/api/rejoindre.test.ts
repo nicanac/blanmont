@@ -58,6 +58,27 @@ describe('POST /api/rejoindre', () => {
     expect(json.request.id).toBe('trial-1');
   });
 
+  it.each([
+    ['BC', 200],
+    ['D', 400],
+  ])('accepts the GR3 code BC and rejects unknown groups (%s → %i)', async (group, status) => {
+    vi.spyOn(trialRequestsDb, 'createTrialRequest').mockResolvedValue({ id: 'trial-2' } as any);
+    const request = new Request('http://localhost:3000/api/rejoindre', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: 'Anne Martin',
+        email: 'anne.martin@example.com',
+        phone: '+32475123457',
+        preferredGroup: group,
+        bikeType: 'Route',
+        experienceLevel: 'Intermédiaire',
+        firstRideDate: '2026-05-02',
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    expect((await POST(request)).status).toBe(status);
+  });
+
   it('handles server errors gracefully with 500 response', async () => {
     const validBody = {
       name: 'Pierre Dupont',

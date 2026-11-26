@@ -61,7 +61,7 @@ export default function ProspectDetailModal({
   onConvertToMember,
   onDelete,
 }: ProspectDetailModalProps): React.ReactElement | null {
-  const { fullName: groupFullName } = useGroupLabels();
+  const { fullName: groupFullName, label: groupLabel } = useGroupLabels();
   const modalRef = useFocusTrap<HTMLDivElement>({ isOpen, onClose });
 
   const [notes, setNotes] = useState(prospect?.adminNotes || '');
@@ -385,7 +385,7 @@ export default function ProspectDetailModal({
               rows={3}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Ex: Première sortie réussie le 12/09 dans le groupe B. Bonne aisance technique, souhaite commander un maillot..."
+              placeholder={`Ex: Première sortie réussie le 12/09 dans le groupe ${groupLabel('B')}. Bonne aisance technique, souhaite commander un maillot...`}
               className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 p-3 text-xs text-ink dark:text-white placeholder-ink-3 focus:outline-hidden focus:ring-2 focus:ring-brand"
             />
           </div>

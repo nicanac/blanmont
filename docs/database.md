@@ -76,6 +76,9 @@ All database and cloud connections are configured via `.env.local`:
 | `CRON_SECRET` | Bearer token Vercel Cron sends to `/api/cron/*`, at least 16 characters. **Required in production**: crons return 503 without it. | **Server Only** |
 | `ADMIN_EMAILS` | Comma-separated e-mails granted admin regardless of their DB role (case-insensitive). Empty means roles only. | **Server Only** |
 | `LEADERBOARD_SHEET_CSV_URL` | Google Sheets CSV export of the Carré Vert attendance sheet (`https://docs.google.com/…/export?format=csv&gid=…`). Used by the leaderboard cron and `/api/admin/import-csv`. | **Server Only** |
+| `GITHUB_FEEDBACK_TOKEN` | GitHub token (fine-grained, `Issues` + `Contents` write on the target repo) used by the in-app feedback tool | **Server Only** |
+| `GITHUB_FEEDBACK_REPO` | `owner/repo` receiving feedback issues and screenshots (default `nicanac/blanmont`, **public**) | **Server Only** |
+| `NEXT_PUBLIC_FEEDBACK_ENABLED` | Set to `false` to disable the feedback tool globally, whatever the admin switch says | **Public / Client** |
 
 ---
 
@@ -256,6 +259,13 @@ Member reviews, comments, and star ratings for specific routes.
   }
 }
 ```
+
+### 3.8b. `/visual-feedback-settings` — In-app Feedback Tool Switch
+Single object toggled from `/admin/settings` (admins only). Read server-side through `/api/feedback/config`; reports themselves are GitHub issues, not RTDB records.
+```json
+{ "enabled": true, "audience": "members", "updatedAt": "2026-11-26T08:00:00.000Z", "updatedBy": "member_…" }
+```
+`audience` is `admins` (default), `members` (any logged-in member) or `everyone`. Missing or invalid data means disabled.
 
 ### 3.9. `/leaderboard` — Participation Ranking
 Aggregated attendance count and historical participation dates per member.

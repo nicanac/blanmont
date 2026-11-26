@@ -16,6 +16,7 @@ import ThemeToggle from '../../components/layout/ThemeToggle';
 import { useTheme } from '../../context/ThemeContext';
 import AdminPageHeader from '../components/AdminPageHeader';
 import SettingsTutorialModal from './components/SettingsTutorialModal';
+import VisualFeedbackCard from './components/VisualFeedbackCard';
 import { useAdminTours } from '../components/tours/adminTours';
 
 export default function AdminSettingsPage(): React.ReactElement {
@@ -176,6 +177,9 @@ export default function AdminSettingsPage(): React.ReactElement {
           </div>
         </div>
       </section>
+
+      {/* ── Retours visuels (capture + annotation -> issue GitHub) ── */}
+      <VisualFeedbackCard />
 
       {/* ── Section 2 : Paramètres & Métadonnées du Club ── */}
       <section id="settings-club-identity-section" className="space-y-6 pt-4">

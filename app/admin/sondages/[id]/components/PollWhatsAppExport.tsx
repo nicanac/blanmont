@@ -8,6 +8,7 @@ import {
   ShareIcon,
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 
 interface PollWhatsAppExportProps {
   poll: WeekendPoll;
@@ -16,6 +17,7 @@ interface PollWhatsAppExportProps {
 
 export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExportProps) {
   const [copied, setCopied] = useState(false);
+  const { fullName: groupFullName } = useGroupLabels();
 
   const active = responses.filter((r) => r.dayChoice !== 'absent');
   const saturday = responses.filter((r) => r.dayChoice === 'samedi' || r.dayChoice === 'les-deux');
@@ -24,7 +26,7 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
   const formatGroupList = (list: PollResponse[], groupName: string) => {
     const membersInGroup = list.filter((r) => r.groupChoice === groupName);
     if (membersInGroup.length === 0) return null;
-    return `• *${groupName}* (${membersInGroup.length}) : ${membersInGroup.map((m) => m.memberName).join(', ')}`;
+    return `• *${groupFullName(groupName)}* (${membersInGroup.length}) : ${membersInGroup.map((m) => m.memberName).join(', ')}`;
   };
 
   const generateWhatsAppMessage = () => {
@@ -34,7 +36,7 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
 
     if (saturday.length > 0) {
       msg += `🔵 *SAMEDI MATIN (${saturday.length})* :\n`;
-      ['Groupe A', 'Groupe B', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
+      ['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
         const line = formatGroupList(saturday, grp);
         if (line) msg += `${line}\n`;
       });
@@ -43,7 +45,7 @@ export default function PollWhatsAppExport({ poll, responses }: PollWhatsAppExpo
 
     if (sunday.length > 0) {
       msg += `🟡 *DIMANCHE MATIN (${sunday.length})* :\n`;
-      ['Groupe A', 'Groupe B', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
+      ['Groupe A', 'Groupe B', 'Groupe BC', 'Groupe C', 'Groupe VTT'].forEach((grp) => {
         const line = formatGroupList(sunday, grp);
         if (line) msg += `${line}\n`;
       });

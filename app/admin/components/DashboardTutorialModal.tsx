@@ -1,5 +1,6 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
 import React from 'react';
 import {
   AcademicCapIcon,
@@ -69,7 +70,7 @@ export default function DashboardTutorialModal({
             <div className="space-y-1">
               <span className="font-bold text-ink dark:text-white text-xs">Astuce pour démarrer :</span>
               <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed">
-                Si vous êtes nouvellement nommé capitaine ou secrétaire, commencez par consulter les <strong>Membres</strong> pour vous familiariser avec l&apos;effectif des pelotons A, B, C et VTT.
+                Si vous êtes nouvellement nommé capitaine ou secrétaire, commencez par consulter les <strong>Membres</strong> pour vous familiariser avec l&apos;effectif des pelotons <GroupList conjunction="et" />.
               </p>
             </div>
           </div>
@@ -96,7 +97,7 @@ export default function DashboardTutorialModal({
                 </h4>
               </div>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-                Cliquez sur <strong>« Briefing WhatsApp »</strong> : la plateforme compile automatiquement l&apos;effectif du weekend, la répartition des groupes (A, B, C, VTT), l&apos;heure de rendez-vous et le lien GPX officiel.
+                Cliquez sur <strong>« Briefing WhatsApp »</strong> : la plateforme compile automatiquement l&apos;effectif du weekend, la répartition des groupes (<GroupList />), l&apos;heure de rendez-vous et le lien GPX officiel.
               </p>
             </div>
 

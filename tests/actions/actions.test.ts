@@ -426,6 +426,10 @@ describe('Server Actions (app/actions.ts)', () => {
 
   describe('updateProfilePhotoAction', () => {
     it('updates photo from string URL when authorized', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
+        id: 'mem-1',
+        isAdmin: false,
+      } as any);
       vi.spyOn(firebaseRoot, 'updateMemberPhoto').mockResolvedValue(undefined as any);
 
       const photoUrl = 'https://example.com/direct-avatar.jpg';
@@ -433,6 +437,46 @@ describe('Server Actions (app/actions.ts)', () => {
 
       expect(result).toBe(photoUrl);
       expect(firebaseRoot.updateMemberPhoto).toHaveBeenCalledWith('mem-1', photoUrl);
+    });
+
+    it('refuses a photo change without a session (string URL and file)', async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue(null);
+      const spy = vi.spyOn(firebaseRoot, 'updateMemberPhoto').mockResolvedValue(undefined as any);
+
+      await expect(
+        updateProfilePhotoAction('https://example.com/x.jpg', 'mem-1')
+      ).rejects.toThrow('Vous devez être connecté.');
+
+      const formData = new FormData();
+      formData.set('file', new File(['x'], 'a.jpg', { type: 'image/jpeg' }));
+      formData.set('memberId', 'mem-1');
+      await expect(updateProfilePhotoAction(formData)).rejects.toThrow('Vous devez être connecté.');
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it("refuses a member changing another member's photo", async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
+        id: 'mem-2',
+        isAdmin: false,
+      } as any);
+      const spy = vi.spyOn(firebaseRoot, 'updateMemberPhoto').mockResolvedValue(undefined as any);
+
+      await expect(
+        updateProfilePhotoAction('https://example.com/x.jpg', 'mem-1')
+      ).rejects.toThrow('Action non autorisée pour ce profil.');
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it("lets an admin change another member's photo", async () => {
+      vi.spyOn(sessionModule, 'getSessionUser').mockResolvedValue({
+        id: 'admin-1',
+        isAdmin: true,
+      } as any);
+      vi.spyOn(firebaseRoot, 'updateMemberPhoto').mockResolvedValue(undefined as any);
+
+      const result = await updateProfilePhotoAction('https://example.com/x.jpg', 'mem-1');
+      expect(result).toBe('https://example.com/x.jpg');
+      expect(firebaseRoot.updateMemberPhoto).toHaveBeenCalledWith('mem-1', 'https://example.com/x.jpg');
     });
 
     it('updates photo from FormData file using Cloudinary upload', async () => {

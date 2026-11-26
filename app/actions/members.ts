@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import type { CyclingGroup } from '../constants/cycling';
 import { updateMemberPhoto } from '../lib/firebase';
 import { uploadImageToCloudinary } from '../lib/cloudinary';
 import { getSessionUser } from '../lib/auth/session';
@@ -17,6 +18,18 @@ import {
  * @param input - FormData or plain string URL.
  */
 export async function updateProfilePhotoAction(input: string | FormData, memberId?: string) {
+  // A Server Action is a public endpoint: both branches need a session, and only the member
+  // themself or an admin may change a profile photo.
+  const session = await getSessionUser();
+  if (!session) {
+    throw new Error('Vous devez être connecté.');
+  }
+  const assertCanEdit = (id: string): void => {
+    if (session.id !== id && !session.isAdmin) {
+      throw new Error('Action non autorisée pour ce profil.');
+    }
+  };
+
   let finalPhotoUrl = '';
   let targetMemberId = memberId;
 
@@ -26,15 +39,11 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
     targetMemberId = input.get('memberId') as string;
 
     if (!file || !targetMemberId) throw new Error('Invalid input');
+    assertCanEdit(targetMemberId);
 
     const imageValidation = validateImageFile(file);
     if (!imageValidation.success) {
       throw new Error(imageValidation.error.issues.map(e => e.message).join(', '));
-    }
-
-    const session = await getSessionUser();
-    if (session && session.id !== targetMemberId && !session.isAdmin) {
-      throw new Error('Action non autorisée pour ce profil.');
     }
 
     const result = await uploadImageToCloudinary(file, {
@@ -52,6 +61,7 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
     if (!targetMemberId) {
       throw new Error('Member ID required for URL update');
     }
+    assertCanEdit(targetMemberId);
     finalPhotoUrl = input;
   }
 
@@ -92,7 +102,7 @@ export async function updateMemberEmergencyAction(payload: {
   iceContactName?: string;
   iceContactPhone?: string;
   iceRelationship?: string;
-  preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
+  preferredGroup?: CyclingGroup;
   phone?: string;
   ffbcLicenseNumber?: string;
 }) {

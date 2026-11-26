@@ -32,6 +32,8 @@ import { JerseyIcon, TrophySquareIcon, ClubCrestIcon } from '../ui/CyclingIcons'
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
+import { useGroupLabels } from '../../context/GroupLabelsContext';
+import { groupSummaryText } from '../../lib/groupSummary';
 import { cn } from '../../utils/cn';
 import ThemeToggle from './ThemeToggle';
 import { Wordmark } from '../brand/Wordmark';
@@ -44,7 +46,8 @@ type NavItem = {
   isLive?: boolean;
 };
 
-const outingsNavigation: NavItem[] = [
+/** `groups` is the configured group list ("GR1, GR2, GR3, GR4 & VTT"). */
+const buildOutingsNavigation = (groups: string): NavItem[] => [
   {
     name: 'Calendrier',
     description: 'Agenda des sorties & saison',
@@ -53,7 +56,7 @@ const outingsNavigation: NavItem[] = [
   },
   {
     name: 'Sondage Weekend',
-    description: 'Qui roule ce weekend ? Groupes A, B, C',
+    description: `Qui roule ce weekend ? ${groups}`,
     href: '/sondage',
     icon: ChatBubbleLeftRightIcon,
     isLive: true,
@@ -75,12 +78,10 @@ const communityNavigation: NavItem[] = [
   },
 ];
 
-const primaryNavigation = [...outingsNavigation, ...communityNavigation];
-
-const clubDiscover: NavItem[] = [
+const buildClubDiscover = (groups: string): NavItem[] => [
   {
     name: 'Présentation & Esprit',
-    description: 'Histoire, valeurs & 3 groupes d’allure (A, B, C)',
+    description: `Histoire, valeurs & groupes d’allure (${groups})`,
     href: '/le-club',
     icon: ClubCrestIcon,
   },
@@ -198,6 +199,11 @@ function MenuItem({
 export default function Navbar(): React.ReactElement {
   const pathname = usePathname();
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
+  const { settings: groupSettings } = useGroupLabels();
+  const groupNames = groupSummaryText(groupSettings);
+  const outingsNavigation = buildOutingsNavigation(groupNames);
+  const clubDiscover = buildClubDiscover(groupNames);
+  const primaryNavigation = [...outingsNavigation, ...communityNavigation];
 
   const isClubActive = CLUB_PATHS.some(
     (path) => pathname === path || pathname?.startsWith(`${path}/`)

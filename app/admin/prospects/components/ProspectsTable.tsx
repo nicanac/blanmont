@@ -21,6 +21,7 @@ import {
   deleteProspectAction,
 } from '../actions';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { PACE_GROUPS } from '@/app/constants/cycling';
 
 interface ProspectsTableProps {
   initialProspects: TrialRideRequest[];
@@ -127,7 +128,7 @@ export default function ProspectsTable({
   initialProspects,
   captains,
 }: ProspectsTableProps): React.ReactElement {
-  const { label: groupLabel, fullName: groupFullName } = useGroupLabels();
+  const { label: groupLabel, fullName: groupFullName, key: groupBucket } = useGroupLabels();
   const [prospects, setProspects] = useState<TrialRideRequest[]>(initialProspects);
   const [searchTerm, setSearchTerm] = useState('');
   const [tabFilter, setTabFilter] = useState<TabFilter>('all');
@@ -178,7 +179,7 @@ export default function ProspectsTable({
       if (tabFilter === 'archived' && p.status !== 'archived') return false;
 
       // Group filter
-      if (groupFilter !== 'all' && p.preferredGroup !== groupFilter) return false;
+      if (groupFilter !== 'all' && groupBucket(p.preferredGroup) !== groupBucket(groupFilter)) return false;
 
       // Bike filter
       if (bikeFilter !== 'all' && p.bikeType !== bikeFilter) return false;
@@ -206,7 +207,7 @@ export default function ProspectsTable({
 
       return true;
     });
-  }, [prospects, tabFilter, groupFilter, bikeFilter, searchTerm]);
+  }, [prospects, tabFilter, groupFilter, bikeFilter, searchTerm, groupBucket]);
 
   // Actions
   const handleOpenDetail = (prospect: TrialRideRequest): void => {
@@ -428,10 +429,11 @@ export default function ProspectsTable({
             aria-label="Filtrer par groupe de vitesse"
           >
             <option value="all">Tous les groupes</option>
-            <option value="A">{groupFullName('A')}</option>
-            <option value="B">{groupFullName('B')}</option>
-            <option value="C">{groupFullName('C')}</option>
-            <option value="VTT">{groupFullName('VTT')}</option>
+            {PACE_GROUPS.map((g) => (
+              <option key={g.id} value={g.id}>
+                {groupFullName(g.id)}
+              </option>
+            ))}
           </select>
 
           {/* Bike Filter */}

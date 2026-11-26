@@ -7,6 +7,36 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+
+
+
+
+
+## [0.34.0] - 2026-11-26
+
+### Added
+- feat(feedback): admin-activated screenshot feedback tool that files GitHub issues (#194) (`cdaf8a6`)
+## [0.33.2] - 2026-11-26
+
+### Fixed
+- fix(profile): downscale cropped avatar so the upload fits the Server Action limit (#193) (`1f3616c`)
+## [0.33.1] - 2026-11-25
+
+### Fixed
+- fix(le-club): widen group label column so GRx no longer overlaps the title (#192) (`52514d6`)
+## [0.33.0] - 2026-11-25
+
+### Added
+- feat(groups): GR3 in every picker and configured group names across the site (#191) (`9946605`)
+## [0.32.0] - 2026-11-25
+
+### Added
+- feat(groups): propose merging legacy codes into GR1–GR4 + VTT (#190) (`0e7c7bf`)
+## [0.31.1] - 2026-11-25
+
+### Chores
+- 🔧 [chore] deps: make graft optional so CI installs survive (#189) (`ba2cc69`)
 ## [0.31.0] - 2026-11-25
 
 ### Added

@@ -148,8 +148,12 @@ export default function WeekendBoard({ poll, tally }: WeekendBoardProps): React.
               <h3 className="mt-9 font-narrow text-xs font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                 Par groupe
               </h3>
-              <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4">
-                {PACE_GROUPS.map((g) => (
+              <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3 lg:grid-cols-5">
+                {/* Only groups members can pick in the weekend poll. */}
+                {PACE_GROUPS.filter(
+                  (g): g is (typeof PACE_GROUPS)[number] & { id: keyof typeof tally.byGroup } =>
+                    g.id in tally.byGroup
+                ).map((g) => (
                   <li key={g.id} className="border-t border-ink pt-3 dark:border-snow-3">
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-wide text-xl font-extrabold text-ink dark:text-snow">

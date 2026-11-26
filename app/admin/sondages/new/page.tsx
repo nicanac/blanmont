@@ -1,5 +1,7 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
+
 import React, { useState, useEffect, useTransition, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -444,7 +446,7 @@ function NewWeekendPollForm() {
 
           {customQuestions.length === 0 ? (
             <div className="rounded-sm border border-dashed border-line dark:border-night-line p-6 text-center text-xs text-ink-3 dark:text-snow-3 font-mono">
-              Aucune question supplémentaire. Le sondage demandera uniquement le jour (Samedi/Dimanche) et le groupe (A/B/C/VTT).
+              Aucune question supplémentaire. Le sondage demandera uniquement le jour (Samedi/Dimanche) et le groupe (<GroupList />).
               {sortieInfo?.found && (
                 <div className="mt-2">
                   <button

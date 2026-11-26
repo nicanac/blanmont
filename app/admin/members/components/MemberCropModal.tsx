@@ -56,7 +56,11 @@ export default function MemberCropModal({
 
     setIsProcessing(true);
     try {
-      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
+      // Cap the output: a full-resolution phone crop is several MB and can exceed mobile canvas limits.
+      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels, 0, undefined, {
+        maxSize: 1600,
+        quality: 0.9,
+      });
       if (!croppedBlob) {
         throw new Error('Échec de la génération du recadrage');
       }

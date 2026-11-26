@@ -21,6 +21,11 @@ import {
 } from '@heroicons/react/24/outline';
 import { toast } from 'sonner';
 import { Spinner } from '../components/ui/Spinner';
+import { useGroupLabels } from '@/app/context/GroupLabelsContext';
+import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
+
+/** Longest side, in px, of the cropped profile photo sent to the server. */
+const PROFILE_PHOTO_MAX_PX = 512;
 
 // Helper function to read file as Data URL
 const readFile = (file: File): Promise<string> => {
@@ -41,6 +46,7 @@ function getInitials(name: string): string {
 export default function ProfilePage(): React.ReactElement | null {
   const { user, isAuthenticated, updateUser } = useAuth();
   const router = useRouter();
+  const { fullName: groupFullName } = useGroupLabels();
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
   const [isSavingPhoto, setIsSavingPhoto] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -80,28 +86,35 @@ export default function ProfilePage(): React.ReactElement | null {
     const toastId = toast.loading('Recadrage et téléversement de votre photo...');
 
     try {
-      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
-      if (croppedBlob) {
-        const formData = new FormData();
-        formData.append('file', croppedBlob, 'profile.jpg');
-        formData.append('memberId', user.id);
-
-        const newUrl = await updateProfilePhotoAction(formData);
-
-        if (newUrl) {
-          updateUser({ avatarUrl: newUrl });
-          setImgError(false);
-          toast.success('Photo de profil mise à jour avec succès !', { id: toastId });
-        } else {
-          toast.error('Erreur lors de la mise à jour de la photo.', { id: toastId });
-        }
-
-        setIsEditingPhoto(false);
-        setImageSrc(null);
+      // Cloudinary stores the avatar at 256 px: 512 px keeps a sharp source while the JPEG
+      // stays far below the 1 MB Server Action body limit (a full-size phone crop is 2–4 MB).
+      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels, 0, undefined, {
+        maxSize: PROFILE_PHOTO_MAX_PX,
+        quality: 0.88,
+      });
+      if (!croppedBlob) {
+        throw new Error('Impossible de préparer la photo recadrée.');
       }
+      const formData = new FormData();
+      formData.append('file', croppedBlob, 'profile.jpg');
+      formData.append('memberId', user.id);
+
+      const newUrl = await updateProfilePhotoAction(formData);
+
+      if (newUrl) {
+        updateUser({ avatarUrl: newUrl });
+        setImgError(false);
+        toast.success('Photo de profil mise à jour avec succès !', { id: toastId });
+      } else {
+        toast.error('Erreur lors de la mise à jour de la photo.', { id: toastId });
+      }
+
+      setIsEditingPhoto(false);
+      setImageSrc(null);
     } catch (e) {
       console.error(e);
-      toast.error('Une erreur est survenue lors de l’enregistrement.', { id: toastId });
+      const detail = e instanceof Error && e.message ? ` (${e.message})` : '';
+      toast.error(`Une erreur est survenue lors de l’enregistrement.${detail}`, { id: toastId });
     } finally {
       setIsSavingPhoto(false);
     }
@@ -118,7 +131,7 @@ export default function ProfilePage(): React.ReactElement | null {
     iceContactName?: string;
     iceContactPhone?: string;
     iceRelationship?: string;
-    preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
+    preferredGroup?: CyclingGroup;
     phone?: string;
   } | null>(null);
   const [isEditingEmergency, setIsEditingEmergency] = useState(false);
@@ -129,7 +142,7 @@ export default function ProfilePage(): React.ReactElement | null {
     iceContactName: '',
     iceContactPhone: '',
     iceRelationship: '',
-    preferredGroup: 'B' as 'A' | 'B' | 'C' | 'VTT',
+    preferredGroup: 'B' as CyclingGroup,
   });
 
   useEffect(() => {
@@ -150,7 +163,7 @@ export default function ProfilePage(): React.ReactElement | null {
               iceContactName: data.iceContactName || '',
               iceContactPhone: data.iceContactPhone || '',
               iceRelationship: data.iceRelationship || '',
-              preferredGroup: (data.preferredGroup as 'A' | 'B' | 'C' | 'VTT') || 'B',
+              preferredGroup: (data.preferredGroup as CyclingGroup) || 'B',
             });
           }
         })
@@ -287,7 +300,7 @@ export default function ProfilePage(): React.ReactElement | null {
               <div className="flex items-center justify-between text-xs">
                 <span className="text-ink-3 dark:text-snow-3">Allure de référence</span>
                 <span className="font-bold text-ink dark:text-snow">
-                  Groupe {profileData?.preferredGroup || 'B'}
+                  {groupFullName(profileData?.preferredGroup || 'B')}
                 </span>
               </div>
 
@@ -489,15 +502,16 @@ export default function ProfilePage(): React.ReactElement | null {
                       onChange={(e) =>
                         setEmergencyForm({
                           ...emergencyForm,
-                          preferredGroup: e.target.value as 'A' | 'B' | 'C' | 'VTT',
+                          preferredGroup: e.target.value as CyclingGroup,
                         })
                       }
                       className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night px-3 py-2 text-xs text-ink dark:text-snow focus:border-brand focus:outline-hidden"
                     >
-                      <option value="A">Groupe A (30-32 km/h)</option>
-                      <option value="B">Groupe B (27-29 km/h)</option>
-                      <option value="C">Groupe C (24-26 km/h)</option>
-                      <option value="VTT">Groupe VTT / Gravel</option>
+                      {PACE_GROUPS.map((g) => (
+                        <option key={g.id} value={g.id}>
+                          {groupFullName(g.id)} ({g.speed})
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>

@@ -1,3 +1,5 @@
+import type { CyclingGroup } from './constants/cycling';
+
 /**
  * Represents an authenticated user in the auth context.
  */
@@ -50,7 +52,7 @@ export interface Member {
   /** Relationship of emergency contact (e.g. Épouse, Parent, Enfant, Ami). */
   iceRelationship?: string;
   /** Preferred or habitual speed group. */
-  preferredGroup?: 'A' | 'B' | 'C' | 'VTT';
+  preferredGroup?: CyclingGroup;
 }
 
 /**
@@ -272,7 +274,7 @@ export interface BlogPost {
 }
 
 export type PollDayChoice = 'samedi' | 'dimanche' | 'les-deux' | 'absent';
-export type CyclingGroupChoice = 'Groupe A' | 'Groupe B' | 'Groupe C' | 'Groupe VTT' | 'Autre';
+export type CyclingGroupChoice = `Groupe ${CyclingGroup}` | 'Autre';
 
 export interface PollCustomQuestion {
   id: string;
@@ -344,7 +346,7 @@ export interface TrialRideRequest {
   name: string;
   email: string;
   phone: string;
-  preferredGroup: 'A' | 'B' | 'C' | 'VTT';
+  preferredGroup: CyclingGroup;
   bikeType: 'Route' | 'VTT' | 'Gravel' | 'VAE';
   experienceLevel: 'Débutant' | 'Intermédiaire' | 'Confirmé' | 'Compétiteur';
   firstRideDate?: string;

@@ -3,68 +3,49 @@ import Link from 'next/link';
 import { ArrowRightIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { SheetHeader } from '../components/carte/SheetHeader';
 import { RoadSwatch } from '../components/carte/RoadSwatch';
-import type { CyclingGroup } from '../constants/cycling';
+import { PACE_GROUPS, type CyclingGroup } from '../constants/cycling';
+import { getCachedGroupSettings } from '../lib/firebase/group-settings';
+import { groupLabel } from '../lib/groupLabels';
+import { groupSummaryText } from '../lib/groupSummary';
 
-const GROUPS: Array<{
-  id: CyclingGroup;
-  title: string;
-  character: string;
-  paceLabel: string;
-  pace: string;
-  roadClass: string;
-  description: string;
-  captains: string;
-  tag: string;
-}> = [
-  {
-    id: 'A',
-    title: 'Le groupe des A',
+/** Club-specific detail of each group; paces, road classes and BC copy come from PACE_GROUPS. */
+const GROUP_EXTRAS: Record<
+  CyclingGroup,
+  { character: string; description?: string; captains?: string; tag: string }
+> = {
+  A: {
     character: 'Sportif & rythmé',
-    paceLabel: 'Allure',
-    pace: '> 30 km/h',
-    roadClass: 'Route principale',
     description:
       'Groupe dynamique et sportif. Allure soutenue, sorties rythmées et participation fréquente aux randos et classiques extérieures. Traces GPS envoyées à l’avance via le groupe WhatsApp.',
     captains: 'Lucien & Laurent',
     tag: 'Traces GPS',
   },
-  {
-    id: 'B',
-    title: 'Le groupe des B',
+  B: {
     character: 'Cœur du peloton',
-    paceLabel: 'Allure',
-    pace: '25 – 28 km/h',
-    roadClass: 'Route secondaire',
     description:
       'Le cœur du peloton de Blanmont. Circuits équilibrés et variés évitant les grands axes, départs vent de face pour un retour fluide et groupé. Esprit d’équipe garanti.',
     captains: 'Dany, Philippe & René',
     tag: 'Circuits variés',
   },
-  {
-    id: 'C',
-    title: 'Le groupe des C',
+  BC: {
+    character: 'Allure intermédiaire',
+    tag: 'Progression régulière',
+  },
+  C: {
     character: 'Rando & progression',
-    paceLabel: 'Allure',
-    pace: '< 25 km/h',
-    roadClass: 'Route locale',
     description:
       'Allure modérée idéale pour progresser, reprendre le vélo ou rouler sans pression de chrono. Tout le monde s’attend, avec l’objectif de franchir le cap des 100 km en cours de saison.',
     captains: 'Les 2 Joël & Michel',
     tag: 'Accessible à tous',
   },
-  {
-    id: 'VTT',
-    title: 'Le groupe des VTT',
+  VTT: {
     character: 'Chemins & forêt',
-    paceLabel: 'Terrain',
-    pace: 'Sentiers & bois',
-    roadClass: 'Chemin & sous-bois',
     description:
       'Exploration des chemins de terre, sous-bois et bosses de la région. Regroupement systématique au sommet des côtes et entraide technique sur les passages délicats.',
     captains: 'Nicolas, Pascal & Jean',
     tag: 'Chemins & nature',
   },
-];
+};
 
 const PLATES = [
   { src: '/images/home-hero.jpg', alt: 'Peloton sur la route' },
@@ -73,7 +54,8 @@ const PLATES = [
   { src: '/images/6efc2d5e-2326-446d-98d8-47889f881454.jpg', alt: 'Ambiance club' },
 ];
 
-export default function LeClubPage(): React.ReactElement {
+export default async function LeClubPage(): Promise<React.ReactElement> {
+  const settings = await getCachedGroupSettings();
   return (
     <main className="min-h-screen bg-paper transition-colors duration-200 dark:bg-night">
       <SheetHeader
@@ -82,7 +64,7 @@ export default function LeClubPage(): React.ReactElement {
         title="L’esprit du peloton"
         description="« On part ensemble, on rentre ensemble ». Un club cyclo convivial fondé sur le plaisir de rouler en groupe, le respect des allures et l’entraide sur les routes du Brabant wallon."
         legend={[
-          { term: 'Quatre allures', value: 'Groupes A, B, C & VTT' },
+          { term: 'Allures', value: groupSummaryText(settings) },
           { term: 'Rendez-vous', value: 'Place de Blanmont', hint: 'Samedi 8h30 · Dimanche 9h00' },
           { term: 'Essai libre', value: 'Sans engagement' },
         ]}
@@ -118,49 +100,56 @@ export default function LeClubPage(): React.ReactElement {
         </div>
 
         <ol className="mt-12 border-t-2 border-ink dark:border-snow-2">
-          {GROUPS.map((g) => (
+          {PACE_GROUPS.map((g) => {
+            const extra = GROUP_EXTRAS[g.id];
+            const label = groupLabel(g.id, settings);
+            const paceLabel = g.speed.includes('km/h') ? 'Allure' : 'Terrain';
+            return (
             <li
               key={g.id}
-              className="grid gap-x-8 gap-y-4 border-b border-line py-8 md:grid-cols-[6rem_minmax(0,1fr)] lg:grid-cols-[7rem_minmax(0,1.1fr)_minmax(0,1fr)_13rem] dark:border-night-line"
+              className="grid gap-x-8 gap-y-4 border-b border-line py-8 md:grid-cols-[10rem_minmax(0,1fr)] lg:grid-cols-[10rem_minmax(0,1.1fr)_minmax(0,1fr)_13rem] dark:border-night-line"
             >
               <div className="flex items-center gap-4 md:block">
-                <span className="font-wide text-5xl font-extrabold leading-none text-ink sm:text-6xl dark:text-snow">
-                  {g.id}
+                <span className="font-wide text-5xl font-extrabold leading-none text-ink dark:text-snow">
+                  {label}
                 </span>
                 <RoadSwatch group={g.id} className="w-16 md:mt-4 md:w-20" />
               </div>
               <div>
                 <h3 className="font-semiwide text-xl font-extrabold uppercase leading-tight text-ink dark:text-snow">
-                  {g.title}
+                  Le groupe {label}
                 </h3>
                 <p className="mt-1 font-narrow text-xs font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
-                  {g.character} ·{' '}
+                  {extra.character} ·{' '}
                   <span className="italic normal-case tracking-normal">{g.roadClass}</span>
                 </p>
                 <p className="mt-4 font-narrow text-3xl font-extrabold tabular-nums leading-none text-ink dark:text-snow">
-                  <span className="sr-only">{g.paceLabel} : </span>
-                  {g.pace}
+                  <span className="sr-only">{paceLabel} : </span>
+                  {g.speed}
                 </p>
               </div>
               <p className="max-w-[52ch] text-sm leading-relaxed text-ink-2 md:col-start-2 lg:col-start-auto dark:text-snow-2">
-                {g.description}
+                {extra.description ?? g.description}
               </p>
               <dl className="grid grid-cols-2 gap-4 text-sm md:col-start-2 lg:col-start-auto lg:block lg:space-y-3">
-                <div>
-                  <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
-                    Capitaines
-                  </dt>
-                  <dd className="font-semibold text-ink dark:text-snow">{g.captains}</dd>
-                </div>
+                {extra.captains && (
+                  <div>
+                    <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
+                      Capitaines
+                    </dt>
+                    <dd className="font-semibold text-ink dark:text-snow">{extra.captains}</dd>
+                  </div>
+                )}
                 <div>
                   <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                     Profil
                   </dt>
-                  <dd className="font-semibold text-ink dark:text-snow">{g.tag}</dd>
+                  <dd className="font-semibold text-ink dark:text-snow">{extra.tag}</dd>
                 </div>
               </dl>
             </li>
-          ))}
+            );
+          })}
         </ol>
       </section>
 

@@ -6,6 +6,7 @@ import { render, screen, fireEvent, within } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import WeekendPollView from '@/app/features/sondage/components/WeekendPollView';
 import type { WeekendPoll, PollResponse, Member } from '@/app/types';
+import { GroupLabelsProvider } from '@/app/context/GroupLabelsContext';
 
 // Mock next/image
 vi.mock('next/image', () => ({
@@ -151,6 +152,34 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     expect(screen.getByText('1. Quel(s) jour(s) roulez-vous ce week-end ? *')).toBeDefined();
     expect(screen.getByText('2. Dans quel groupe souhaitez-vous rouler ? *')).toBeDefined();
     expect(screen.getByRole('button', { name: /Confirmer ma participation/i })).toBeDefined();
+  });
+
+  it('offers GR3 (code BC) and shows the admin group names in the group choice', () => {
+    mockAuthState = {
+      user: { id: 'm99', name: 'Nouveau Membre', avatarUrl: '' },
+      isAuthenticated: true,
+    };
+
+    render(
+      <GroupLabelsProvider
+        initialSettings={{
+          groups: [
+            { code: 'A', label: 'GR1', aliases: ['A-'] },
+            { code: 'B', label: 'GR2' },
+            { code: 'BC', label: 'GR3' },
+            { code: 'C', label: 'GR4' },
+            { code: 'VTT', label: 'VTT' },
+          ],
+        }}
+      >
+        <WeekendPollView poll={mockPoll} responses={mockResponses} members={mockMembers} />
+      </GroupLabelsProvider>
+    );
+
+    for (const name of ['GR1', 'GR2', 'GR3', 'GR4', 'Groupe VTT', 'Autre / Libre']) {
+      expect(screen.getAllByText(name).length).toBeGreaterThan(0);
+    }
+    expect(screen.getByText('24 - 27 km/h')).toBeDefined();
   });
 
   it('renders summary card when logged-in user has already voted, and toggles edit mode', () => {

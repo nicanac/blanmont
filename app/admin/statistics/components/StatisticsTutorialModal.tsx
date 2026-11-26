@@ -1,5 +1,6 @@
 'use client';
 
+import GroupList from '@/app/components/shared/GroupList';
 import React from 'react';
 import {
   ChartBarIcon,
@@ -68,7 +69,7 @@ export default function StatisticsTutorialModal({
           <div className="space-y-3">
             <div className="p-3.5 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night space-y-1">
               <h4 className="font-bold text-ink dark:text-white text-xs uppercase tracking-wider font-narrow">
-                Répartition par Groupe (A, B, C, VTT)
+                Répartition par Groupe (<GroupList />)
               </h4>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
                 Le diagramme de répartition indique la proportion de cyclistes roulant dans chaque peloton, utile pour anticiper le nombre de capitaines requis.

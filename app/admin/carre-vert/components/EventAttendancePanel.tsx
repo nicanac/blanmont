@@ -26,20 +26,21 @@ export default function EventAttendancePanel({
   const [loading, setLoading] = useState<Record<string, boolean>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [groupFilter, setGroupFilter] = useState<string>('all');
-  const { label: groupLabel, compare: compareGroups } = useGroupLabels();
+  const { label: groupLabel, compare: compareGroups, key: groupBucket } = useGroupLabels();
 
   // Get unique groups from members
   const groups = useMemo(() => {
-    const g = new Set(members.map((m) => m.group));
+    // Merged codes (A, A-) collapse into one filter.
+    const g = new Set(members.map((m) => groupBucket(m.group)));
     return Array.from(g).sort(compareGroups);
-  }, [members, compareGroups]);
+  }, [members, compareGroups, groupBucket]);
 
   // Filter members
   const filteredMembers = useMemo(() => {
     let filtered = members;
 
     if (groupFilter !== 'all') {
-      filtered = filtered.filter((m) => m.group === groupFilter);
+      filtered = filtered.filter((m) => groupBucket(m.group) === groupFilter);
     }
 
     if (searchQuery.trim()) {
@@ -54,7 +55,7 @@ export default function EventAttendancePanel({
       if (aPresent !== bPresent) return aPresent ? -1 : 1;
       return a.name.localeCompare(b.name);
     });
-  }, [members, groupFilter, searchQuery, attendees]);
+  }, [members, groupFilter, searchQuery, attendees, groupBucket]);
 
   const presentCount = Object.keys(attendees).length;
 
@@ -184,7 +185,7 @@ export default function EventAttendancePanel({
                   : 'bg-paper-2 dark:bg-night-3 text-ink-2 dark:text-snow-3 hover:bg-line dark:hover:bg-night-line'
               }`}
             >
-              {groupLabel(g)} ({members.filter((m) => m.group === g).length})
+              {groupLabel(g)} ({members.filter((m) => groupBucket(m.group) === g).length})
             </button>
           ))}
         </div>

@@ -6,12 +6,14 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { GroupLabelsProvider } from './context/GroupLabelsContext';
 import { getCachedGroupSettings } from './lib/firebase/group-settings';
+import { groupSummaryText } from './lib/groupSummary';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ConditionalFooter from './components/layout/ConditionalFooter';
 import ActivityTracker from './components/analytics/ActivityTracker';
 import CookieConsentCartouche from './components/consent/CookieConsentCartouche';
 import { Toaster } from 'sonner';
+import FeedbackGate from './components/feedback/FeedbackGate';
 
 import LocalClubJsonLd from './components/seo/LocalClubJsonLd';
 
@@ -32,42 +34,46 @@ FORM: Carte IGN, candidate 6 of 7; seed e34bd4a0.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->`;
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://cc-blanmont.be'),
-  title: {
-    default: 'Cyclo Club Saint-Martin Blanmont | Cyclisme sur route & VTT en Brabant Wallon',
-    template: '%s | CC Saint-Martin Blanmont',
-  },
-  description:
-    'Club cycliste cyclo sur route et VTT à Blanmont (Chastre, Brabant Wallon). Sorties encadrées le samedi et dimanche matin en 3 groupes de niveau (A, B, C). Affilié FFBC.',
-  keywords: [
-    'club cycliste brabant wallon',
-    'cyclo club blanmont',
-    'cyclisme chastre',
-    'groupe velo ottignies',
-    'sortie cyclo brabant wallon',
-    'club velo gembloux',
-    'cyclo saint-martin blanmont',
-    'ffbc velo brabant wallon',
-  ],
-  authors: [{ name: 'CC Saint-Martin Blanmont' }],
-  creator: 'CC Saint-Martin Blanmont',
-  openGraph: {
-    type: 'website',
-    locale: 'fr_BE',
-    url: 'https://cc-blanmont.be',
-    siteName: 'CC Saint-Martin Blanmont',
-    title: 'Cyclo Club Saint-Martin Blanmont | Cyclisme en Brabant Wallon',
+/** Metadata with the group names the admins configured (GR1, GR2…), cached by tag. */
+export async function generateMetadata(): Promise<Metadata> {
+  const groups = groupSummaryText(await getCachedGroupSettings());
+  return {
+    metadataBase: new URL('https://cc-blanmont.be'),
+    title: {
+      default: 'Cyclo Club Saint-Martin Blanmont | Cyclisme sur route & VTT en Brabant Wallon',
+      template: '%s | CC Saint-Martin Blanmont',
+    },
     description:
-      'Club cycliste sur route et VTT à Blanmont (Chastre). Sorties encadrées le week-end en 3 groupes de niveau. 3 sorties d’essai gratuites offertes !',
-  },
-  other: {
-    'geo.region': 'BE-WBR',
-    'geo.placename': 'Blanmont, Chastre',
-    'geo.position': '50.6087;4.6738',
-    ICBM: '50.6087, 4.6738',
-  },
-};
+      `Club cycliste cyclo sur route et VTT à Blanmont (Chastre, Brabant Wallon). Sorties encadrées le samedi et dimanche matin en groupes de niveau (${groups}). Affilié FFBC.`,
+    keywords: [
+      'club cycliste brabant wallon',
+      'cyclo club blanmont',
+      'cyclisme chastre',
+      'groupe velo ottignies',
+      'sortie cyclo brabant wallon',
+      'club velo gembloux',
+      'cyclo saint-martin blanmont',
+      'ffbc velo brabant wallon',
+    ],
+    authors: [{ name: 'CC Saint-Martin Blanmont' }],
+    creator: 'CC Saint-Martin Blanmont',
+    openGraph: {
+      type: 'website',
+      locale: 'fr_BE',
+      url: 'https://cc-blanmont.be',
+      siteName: 'CC Saint-Martin Blanmont',
+      title: 'Cyclo Club Saint-Martin Blanmont | Cyclisme en Brabant Wallon',
+      description:
+        'Club cycliste sur route et VTT à Blanmont (Chastre). Sorties encadrées le week-end en groupes de niveau. 3 sorties d’essai gratuites offertes !',
+    },
+    other: {
+      'geo.region': 'BE-WBR',
+      'geo.placename': 'Blanmont, Chastre',
+      'geo.position': '50.6087;4.6738',
+      ICBM: '50.6087, 4.6738',
+    },
+  };
+}
 
 const themeInitScript = `
   (function() {
@@ -112,7 +118,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="fr" className={archivo.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <LocalClubJsonLd />
+        <LocalClubJsonLd groups={groupSummaryText(groupSettings)} />
       </head>
       <body
         className={`h-full bg-paper dark:bg-night text-ink dark:text-snow transition-colors duration-200 ${archivo.variable} font-sans`}
@@ -141,6 +147,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 closeButton
                 toastOptions={{ className: 'font-sans' }}
               />
+              <FeedbackGate />
             </GroupLabelsProvider>
           </AuthProvider>
         </ThemeProvider>
