@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getEquipment, createEquipment } from '@/app/lib/firebase/equipment';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 export async function GET(request: NextRequest) {
-    const authCheck = await verifyAdminRequest(request);
+    const authCheck = await verifySectionRequest(request, 'equipements');
     if (!authCheck.authorized) {
         return authCheck.response;
     }
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-    const authCheck = await verifyAdminRequest(request);
+    const authCheck = await verifySectionRequest(request, 'equipements');
     if (!authCheck.authorized) {
         return authCheck.response;
     }

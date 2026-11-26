@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { DOMParser } from '@xmldom/xmldom';
 import { gpx } from '@tmcw/togeojson';
 import { ParseGpxApiSchema, safeValidate } from '@/app/lib/validation';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 export async function POST(req: NextRequest) {
-  const authCheck = await verifyAdminRequest(req);
+  const authCheck = await verifySectionRequest(req, 'traces');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

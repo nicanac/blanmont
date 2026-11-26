@@ -34,10 +34,14 @@ export async function loginAction(email: string, password: string) {
     return null;
   }
 
-  const member = await validateUser(validation.data.email, validation.data.password);
+  const validated = await validateUser(validation.data.email, validation.data.password);
+  // The verified login email goes into the signed cookie only, not back to the browser.
+  const member = validated ? { ...validated } : null;
+  const verifiedEmail = member?.verifiedEmail ?? null;
+  if (member) delete member.verifiedEmail;
   if (member) {
     try {
-      await setSessionCookie(member);
+      await setSessionCookie(member, verifiedEmail);
     } catch (error) {
       // Typically SessionSecretMissingError: the deployment has no SESSION_SECRET.
       // Refuse the login instead of issuing a token signed with a weak key.

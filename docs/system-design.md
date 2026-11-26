@@ -16,7 +16,7 @@ The platform is the digital hub of the **CC Saint-Martin Blanmont** road-cycling
 | Item | Value |
 |---|---|
 | Live URL | `https://blanmont.vercel.app` (legacy domain `cyclo-blanmont.be` — DNS cut-over pending) |
-| Hosting | Vercel (Node runtime + Edge middleware + Vercel Cron) |
+| Hosting | Vercel (Node runtime, incl. `proxy.ts` + Vercel Cron) |
 | Data | Firebase Realtime Database, `europe-west1` |
 | Team | 1 developer (+ AI agents), a handful of club admins |
 | UI language | French only; code/commits in English |
@@ -72,7 +72,7 @@ The platform is the digital hub of the **CC Saint-Martin Blanmont** road-cycling
                                         │ HTTPS, cookie ccb_session          │ webcal:// / .ics
                                         ▼                                   ▼
 ┌──────────────────────────────────────── Vercel ─────────────────────────────────────────────────────┐
-│  Edge middleware.ts  ── HMAC verify ccb_session ── guards /admin/* (redirect) and /api/admin/* (401/403)│
+│  proxy.ts (Node) ── HMAC verify ccb_session + RBAC matrix ── /admin/* (redirect), /api/admin/* (401/403)│
 │                                                                                                        │
 │  Next.js Node runtime                                                                                  │
 │  ├─ Server Components (pages)  ──► app/lib/firebase/*  (unstable_cache 60 s, tags)                     │
@@ -93,7 +93,7 @@ The platform is the digital hub of the **CC Saint-Martin Blanmont** road-cycling
 
 | Layer | Location | Responsibility |
 |---|---|---|
-| Edge guard | `middleware.ts`, `app/lib/auth/session-token.ts` | Verify signed cookie with Web Crypto; no Node/Firebase imports allowed (edge bundle) |
+| Perimeter guard | `proxy.ts`, `app/lib/auth/admin-access.ts`, `app/constants/admin-sections.ts` | Verify signed cookie (Web Crypto), then admin / owner / section access from the RBAC matrix (docs/admin-rbac.md) |
 | Pages | `app/**/page.tsx` (58 pages) | Server-render data, pass to client views |
 | Writes | `app/actions/{auth,events,members,polls,rides,traces}.ts`, `app/actions.ts` | Validate (Zod) → Admin SDK write → `revalidatePath` |
 | HTTP API | `app/api/**/route.ts` (28 handlers) | Admin CRUD, file parsing, uploads, feeds, telemetry, crons |
@@ -159,7 +159,7 @@ equipment ──n:m (items[])── equipment-orders
 
 | Path | Method | Auth | Notes |
 |---|---|---|---|
-| `/api/admin/**` (16 handlers) | CRUD | middleware **+** `verifyAdminRequest` | members, events, blog, equipment, attendance, hero, galerie, CSV import, GPX parse, metadata fetch |
+| `/api/admin/**` | CRUD | proxy **+** `verifySectionRequest` (`verifyOwnerRequest` for feedback-settings) | members, events, blog, equipment, attendance, hero, galerie, CSV import, GPX parse, metadata fetch |
 | `/api/upload` | POST | session | Cloudinary upload |
 | `/api/logs` | POST / GET / PATCH / DELETE | POST open (session optional), others admin | telemetry ingestion, review, pruning |
 | `/api/rejoindre` | POST | public | trial request (Zod-validated) |
@@ -183,7 +183,7 @@ Browser ─loginAction(email,pw)─► Server Action
    ─► find /members where email matches (sync authUid if missing) ─► reject if no member
    ─► role[] + ADMIN_EMAILS ─► isAdmin
    ─► signSessionToken (HMAC-SHA256, 14 d) ─► Set-Cookie ccb_session (HttpOnly, Secure, Lax)
-Later requests: middleware verifies HMAC at the edge; route handlers re-verify (defence in depth).
+Later requests: proxy.ts verifies the HMAC and the section access; route handlers and actions re-verify (defence in depth).
 ```
 Role changes take effect at next login (token carries `isAdmin`).
 
@@ -230,7 +230,7 @@ Reads fetch **whole nodes** (`ref('x').once('value')`) and filter in memory. Fin
 | Authentication | Firebase Auth (email/password, reset e-mails); member record required |
 | Session | Stateless HMAC-SHA256 token, 14 days, `HttpOnly; Secure; SameSite=Lax` |
 | Authorisation | `role[]` ∈ {Admin, President, WebMaster} or `ADMIN_EMAILS` → `isAdmin` |
-| Perimeter | Edge middleware on `/admin/*`, `/api/admin/*` + `verifyAdminRequest` in each admin handler |
+| Perimeter | `proxy.ts` on `/admin/*`, `/api/admin/*` + a section/admin/owner guard in each admin action and handler (docs/admin-rbac.md) |
 | DB access | Server uses Admin SDK (bypasses rules); browser Web SDK governed by RTDB rules |
 | Storage | `storage.rules`: images only, 5 MB members / 10 MB blog, owner-or-admin writes |
 | Input | Zod schemas (`app/lib/validation*`), `sanitizeHtml.ts` for rich text |

@@ -4,7 +4,7 @@ import {
   saveImportedEventsAction,
   processPdf,
 } from '@/app/admin/events/import/actions';
-import * as sessionModule from '@/app/lib/auth/session';
+import * as adminAccessModule from '@/app/lib/auth/admin-access';
 import * as adminModule from '@/app/lib/firebase/admin';
 
 // Mock next/cache
@@ -40,7 +40,7 @@ describe('PDF Calendar Ingestion Actions', () => {
 
   describe('parsePdfForPreviewAction', () => {
     it('requires admin session and returns error when file is missing', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);
@@ -48,13 +48,13 @@ describe('PDF Calendar Ingestion Actions', () => {
       const formData = new FormData();
       const result = await parsePdfForPreviewAction(formData);
 
-      expect(sessionModule.requireAdminSession).toHaveBeenCalledTimes(1);
+      expect(adminAccessModule.requireSectionAccess).toHaveBeenCalledTimes(1);
       expect(result.success).toBe(false);
       expect(result.message).toMatch(/Aucun fichier fourni/i);
     });
 
     it('parses valid calendar PDF text into structured CalendarEvent objects', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);
@@ -80,7 +80,7 @@ describe('PDF Calendar Ingestion Actions', () => {
     });
 
     it('returns error when PDF text has no recognizable events', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);
@@ -100,7 +100,7 @@ describe('PDF Calendar Ingestion Actions', () => {
     });
 
     it('catches PDF parsing exceptions gracefully', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);
@@ -120,20 +120,20 @@ describe('PDF Calendar Ingestion Actions', () => {
 
   describe('saveImportedEventsAction', () => {
     it('requires admin session and returns error when events array is empty', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);
 
       const result = await saveImportedEventsAction([]);
 
-      expect(sessionModule.requireAdminSession).toHaveBeenCalledTimes(1);
+      expect(adminAccessModule.requireSectionAccess).toHaveBeenCalledTimes(1);
       expect(result.success).toBe(false);
       expect(result.message).toMatch(/Aucun événement/i);
     });
 
     it('saves events to Firebase calendar-events with formatted IDs', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);
@@ -169,7 +169,7 @@ describe('PDF Calendar Ingestion Actions', () => {
     });
 
     it('handles database errors during save', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);
@@ -195,7 +195,7 @@ describe('PDF Calendar Ingestion Actions', () => {
 
   describe('processPdf', () => {
     it('executes end-to-end preview and save when valid', async () => {
-      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({
         id: 'admin-1',
         isAdmin: true,
       } as any);

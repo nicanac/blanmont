@@ -4,6 +4,7 @@ import MaillotsPageHeader from '../components/MaillotsPageHeader';
 import { listBankTransactions } from '@/app/lib/firebase/bank-transactions';
 import { getEquipmentOrders } from '@/app/lib/firebase/equipment-orders';
 import BankClient from './components/BankClient';
+import PaymentSettingsCard from '../../settings/components/PaymentSettingsCard';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,6 +46,8 @@ export default async function AdminBankPage(): Promise<React.ReactElement> {
             totalPrice: o.totalPrice,
           }))}
       />
+      {/* Club account (IBAN for the payment card and QR): here so the Trésorier does not need Paramètres. */}
+      <PaymentSettingsCard />
     </div>
   );
 }

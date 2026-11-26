@@ -260,8 +260,14 @@ Member reviews, comments, and star ratings for specific routes.
 }
 ```
 
+### 3.8a. `/settings/admin-access` — Back-office Access Matrix
+Which non-admin role opens which admin section ([admin-rbac.md](admin-rbac.md)); edited on `/admin/acces` (admins only). Absent node = suggested defaults. Unknown roles/sections are ignored on read and refused on save.
+```json
+{ "roles": { "Trésorier": { "commandes": true, "equipements": true } }, "updatedAt": "2026-11-26T10:00:00.000Z", "updatedBy": { "id": "member_…", "name": "…" } }
+```
+
 ### 3.8b. `/visual-feedback-settings` — In-app Feedback Tool Switch
-Single object toggled from `/admin/settings` (admins only). Read server-side through `/api/feedback/config`; reports themselves are GitHub issues, not RTDB records.
+Single object toggled from `/admin/settings` (site owner only, `OWNER_EMAILS`). Read server-side through `/api/feedback/config`; reports themselves are GitHub issues, not RTDB records.
 ```json
 { "enabled": true, "audience": "members", "updatedAt": "2026-11-26T08:00:00.000Z", "updatedBy": "member_…" }
 ```
@@ -385,7 +391,7 @@ export const revalidateTracesCache = async () => {
    - The user's Firebase Auth `UID` is stored in `/members/<id>/authUid`.
 3. **Role-Based Access Control (RBAC)**:
    - User roles (`['President']`, `['Admin']`, `['Member']`) are checked server-side and in `AuthContext.tsx`.
-   - Admin routes are protected server-side by `middleware.ts` (verifies the signed `ccb_session` cookie: `/admin/*` redirects to `/login`, `/api/admin/*` returns 401/403) and again by `verifyAdminRequest` in each admin route handler.
+   - Admin routes are protected server-side by `proxy.ts` (verifies the signed `ccb_session` cookie and the section access from `/settings/admin-access`: `/admin/*` redirects, `/api/admin/*` returns 401/403) and again by a section, admin or owner guard in each admin action and route handler ([admin-rbac.md](admin-rbac.md)).
    - [`AdminGuard.tsx`](app/admin/components/AdminGuard.tsx) only handles the client-side redirect and loading state; it is not a security boundary.
    - Custom claims (`{ admin: true }`) can be verified or granted using Admin SDK scripts.
 

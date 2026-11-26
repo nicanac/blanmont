@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { deleteBlogPost, updateBlogPost, getBlogPostById } from '@/app/lib/firebase/blog';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -10,7 +10,7 @@ export async function GET(
   request: NextRequest,
   context: RouteContext
 ): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'blog');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -37,7 +37,7 @@ export async function DELETE(
   request: NextRequest,
   context: RouteContext
 ): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'blog');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -59,7 +59,7 @@ export async function PUT(
   request: NextRequest,
   context: RouteContext
 ): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'blog');
   if (!authCheck.authorized) {
     return authCheck.response;
   }

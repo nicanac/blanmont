@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifyOwnerRequest } from '@/app/lib/auth/session';
 import {
   getVisualFeedbackSettings,
   updateVisualFeedbackSettings,
@@ -15,7 +15,7 @@ const bodySchema = z.object({
 });
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifyOwnerRequest(request);
   if (!authCheck.authorized) return authCheck.response;
 
   return NextResponse.json({
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 }
 
 export async function PUT(request: NextRequest): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifyOwnerRequest(request);
   if (!authCheck.authorized) return authCheck.response;
 
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));

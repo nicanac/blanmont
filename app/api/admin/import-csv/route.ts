@@ -12,11 +12,11 @@ import {
 } from '@/app/lib/firebase';
 import type { CalendarEvent } from '@/app/types';
 import { calculateMemberCarres } from '@/app/lib/carreVert';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { getLeaderboardSheetCsvUrl, LEADERBOARD_SHEET_MISSING_ERROR } from '@/app/lib/leaderboard-sheet';
 
 export async function GET(request: NextRequest) {
-    const authCheck = await verifyAdminRequest(request);
+    const authCheck = await verifySectionRequest(request, 'carre-vert');
     if (!authCheck.authorized) {
         return authCheck.response;
     }

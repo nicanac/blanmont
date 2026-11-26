@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminAuth, getAdminDatabase } from '@/app/lib/firebase/admin';
-import { verifyAdminRequest } from '@/app/lib/auth/session';
+import { delegatedPasswordResetError, verifySectionRequest } from '@/app/lib/auth/admin-access';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
 export async function POST(request: NextRequest, context: RouteContext): Promise<NextResponse> {
-  const authCheck = await verifyAdminRequest(request);
+  const authCheck = await verifySectionRequest(request, 'members');
   if (!authCheck.authorized) {
     return authCheck.response;
   }
@@ -32,6 +32,10 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     }
 
     const member = memberSnapshot.val();
+    const denial = delegatedPasswordResetError(authCheck.user, member);
+    if (denial) {
+      return NextResponse.json({ error: denial }, { status: 403 });
+    }
     const authUid = member.authUid;
 
     if (!authUid) {
