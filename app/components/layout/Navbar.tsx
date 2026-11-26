@@ -20,17 +20,18 @@ import {
   PlusCircleIcon,
   ChevronDownIcon,
   ArrowRightIcon,
-  CalendarIcon,
-  InformationCircleIcon,
-  ChatBubbleLeftRightIcon,
-  ShieldCheckIcon,
   UserPlusIcon,
-  PhotoIcon,
   QrCodeIcon,
   ChatBubbleBottomCenterTextIcon,
-  MapIcon,
 } from '@heroicons/react/24/outline';
-import { JerseyIcon, TrophySquareIcon, ClubCrestIcon } from '../ui/CyclingIcons';
+import {
+  type NavItem,
+  CLUB_PATHS,
+  buildOutingsNavigation,
+  buildClubDiscover,
+  clubLife,
+  communityNavigation,
+} from './navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
@@ -41,88 +42,6 @@ import { isFeedbackReviewer } from '../../lib/feedback/access';
 import ThemeToggle from './ThemeToggle';
 import { Wordmark } from '../brand/Wordmark';
 
-type NavItem = {
-  name: string;
-  description: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-  isLive?: boolean;
-};
-
-/** `groups` is the configured group list ("GR1, GR2, GR3, GR4 & VTT"). */
-const buildOutingsNavigation = (groups: string): NavItem[] => [
-  {
-    name: 'Calendrier',
-    description: 'Agenda des sorties & saison',
-    href: '/calendrier',
-    icon: CalendarIcon,
-  },
-  {
-    name: 'Parcours GPS',
-    description: 'Catalogue des traces GPX du club',
-    href: '/traces',
-    icon: MapIcon,
-  },
-  {
-    name: 'Sondage Weekend',
-    description: `Qui roule ce weekend ? ${groups}`,
-    href: '/sondage',
-    icon: ChatBubbleLeftRightIcon,
-    isLive: true,
-  },
-];
-
-const communityNavigation: NavItem[] = [
-  {
-    name: 'Membres',
-    description: 'Trombinoscope & capitaines de route',
-    href: '/members',
-    icon: UserIcon,
-  },
-  {
-    name: 'Les News',
-    description: 'Actualités & chroniques du peloton',
-    href: '/blog',
-    icon: InformationCircleIcon,
-  },
-];
-
-const buildClubDiscover = (groups: string): NavItem[] => [
-  {
-    name: 'Présentation & Esprit',
-    description: `Histoire, valeurs & groupes d’allure (${groups})`,
-    href: '/le-club',
-    icon: ClubCrestIcon,
-  },
-  {
-    name: 'Charte & Sécurité',
-    description: 'Code de la route (Art. 43bis) & signaux en peloton',
-    href: '/securite',
-    icon: ShieldCheckIcon,
-  },
-];
-
-const clubLife: NavItem[] = [
-  {
-    name: 'Équipement Officiel',
-    description: 'Collection 2026, maillots & boutique club',
-    href: '/le-club/equipement',
-    icon: JerseyIcon,
-  },
-  {
-    name: 'Challenge Carré Vert',
-    description: 'Classement d’assiduité & présence annuelle',
-    href: '/leaderboard',
-    icon: TrophySquareIcon,
-  },
-  {
-    name: 'Galerie & Souvenirs',
-    description: 'Photos & récits des sorties au fil des saisons',
-    href: '/galerie',
-    icon: PhotoIcon,
-  },
-];
-
 const userNavigation: NavItem[] = [
   { name: 'Mon Compte', description: 'Gérer mon profil', href: '/profile', icon: UserIcon },
   {
@@ -132,8 +51,6 @@ const userNavigation: NavItem[] = [
     icon: QrCodeIcon,
   },
 ];
-
-const CLUB_PATHS = ['/le-club', '/securite', '/rejoindre', '/leaderboard', '/galerie'];
 
 function isCurrentPath(pathname: string | null, href: string): boolean {
   return pathname === href || (href !== '/' && Boolean(pathname?.startsWith(`${href}/`)));
