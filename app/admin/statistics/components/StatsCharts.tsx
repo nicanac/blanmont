@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
-import dynamic from 'next/dynamic';
 import {
   UserGroupIcon,
   CalendarDaysIcon,
@@ -37,18 +36,6 @@ import {
   TracesDirectionChart,
   DemocracyPopularChart,
 } from './StatsChartsVisualizations';
-
-const Peloton3DShowcase = dynamic(() => import('./Peloton3DShowcase'), {
-  ssr: false,
-  loading: () => (
-    <div className="rounded-lg border border-line bg-white p-8 flex items-center justify-center min-h-[320px] text-xs text-ink-3 animate-pulse">
-      <div className="flex flex-col items-center gap-2">
-        <div className="h-8 w-8 rounded-full border-2 border-brand border-t-transparent animate-spin" />
-        <span>Chargement du module 3D...</span>
-      </div>
-    </div>
-  ),
-});
 
 interface StatsChartsProps {
   entries: LeaderboardEntry[];
@@ -524,15 +511,6 @@ export default function StatsCharts({
               </p>
             </div>
           </div>
-
-          {/* Three.js 3D Showcase Hero */}
-          <Peloton3DShowcase
-            championName={stats.carreVert.topPerformer}
-            maxRides={stats.carreVert.maxRides}
-            totalPossibleCarres={stats.carreVert.totalPossibleCarres}
-            selectedYear={selectedYear}
-            weeklyDistribution={stats.weeklyDistribution}
-          />
 
           {/* Visualizations Grid Section */}
           <div id="stats-charts-section" className="grid gap-6 lg:grid-cols-2">

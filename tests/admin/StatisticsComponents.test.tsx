@@ -23,10 +23,6 @@ vi.mock('react-chartjs-2', () => ({
   Doughnut: () => <div data-testid="doughnut-chart">Doughnut Chart</div>,
 }));
 
-vi.mock('@/app/admin/statistics/components/Peloton3DShowcase', () => ({
-  default: () => <div data-testid="peloton-3d">Peloton 3D</div>,
-}));
-
 const mockEntries: LeaderboardEntry[] = [
   { id: 'm1', name: 'Laurent Cyclo', totalRides: 10, dates: ['04/04/2026'], group: 'A' },
   { id: 'm2', name: 'Alice Grimpeur', totalRides: 8, dates: ['04/04/2026'], group: 'B' },
