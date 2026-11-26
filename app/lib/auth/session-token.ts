@@ -19,13 +19,40 @@ export interface SessionUser {
   exp: number;
 }
 
-function getSessionSecret(): string {
-  return (
-    process.env.SESSION_SECRET ||
-    process.env.NEXTAUTH_SECRET ||
-    process.env.FIREBASE_SERVICE_ACCOUNT_KEY ||
-    'cc-saint-martin-blanmont-secure-secret-2026'
-  );
+/** Minimum length for SESSION_SECRET (32 chars ≈ 192 bits of base64 entropy). */
+export const SESSION_SECRET_MIN_LENGTH = 32;
+
+/** Dev/test-only placeholder key. Never accepted in production (see getSessionSecret). */
+const NON_PRODUCTION_PLACEHOLDER = 'example_dev_only_session_key_not_for_production';
+
+/**
+ * Returns the HMAC key for session tokens, or null when none is safely configured.
+ *
+ * Production (NODE_ENV=production, which includes Vercel previews) fails closed:
+ * SESSION_SECRET must be set and at least SESSION_SECRET_MIN_LENGTH characters.
+ * It never falls back to another credential (e.g. the Firebase service-account key)
+ * or to a constant committed in the repository.
+ */
+export function getSessionSecret(): string | null {
+  const secret = process.env.SESSION_SECRET?.trim();
+  if (secret && secret.length >= SESSION_SECRET_MIN_LENGTH) {
+    return secret;
+  }
+  if (process.env.NODE_ENV === 'production') {
+    return null;
+  }
+  return NON_PRODUCTION_PLACEHOLDER;
+}
+
+/** Thrown when a session must be signed but no SESSION_SECRET is configured. */
+export class SessionSecretMissingError extends Error {
+  constructor() {
+    super(
+      `SESSION_SECRET is not configured (min ${SESSION_SECRET_MIN_LENGTH} characters). ` +
+        'Set it in the hosting environment; sessions are disabled until then.'
+    );
+    this.name = 'SessionSecretMissingError';
+  }
 }
 
 function base64UrlEncode(bytes: Uint8Array): string {
@@ -65,6 +92,9 @@ async function getHmacKey(secret: string): Promise<CryptoKey> {
  */
 export async function signSessionToken(payload: Omit<SessionUser, 'iat' | 'exp'>): Promise<string> {
   const secret = getSessionSecret();
+  if (!secret) {
+    throw new SessionSecretMissingError();
+  }
   const now = Math.floor(Date.now() / 1000);
   const fullPayload: SessionUser = {
     ...payload,
@@ -97,6 +127,8 @@ export async function verifySessionToken(token: string | undefined | null): Prom
 
   const [payloadBase64, signatureBase64] = parts;
   const secret = getSessionSecret();
+  // Fail closed: without a configured secret no token is ever valid.
+  if (!secret) return null;
 
   try {
     const key = await getHmacKey(secret);

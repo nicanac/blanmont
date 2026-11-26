@@ -72,6 +72,10 @@ All database and cloud connections are configured via `.env.local`:
 | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Cloudinary cloud identifier | **Public / Client** |
 | `NOTION_TOKEN` / `NOTION_*_DB_ID` | Notion API access token and database UUIDs (used for migration & legacy fallback) | **Server Only** |
 | `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` | Strava OAuth credentials for syncing club rides | **Server Only** |
+| `SESSION_SECRET` | HMAC key for the `ccb_session` cookie, at least 32 random characters. **Required in production**: without it logins are refused and no session verifies. Rotating it logs everyone out. | **Server Only** |
+| `CRON_SECRET` | Bearer token Vercel Cron sends to `/api/cron/*`, at least 16 characters. **Required in production**: crons return 503 without it. | **Server Only** |
+| `ADMIN_EMAILS` | Comma-separated e-mails granted admin regardless of their DB role (case-insensitive). Empty means roles only. | **Server Only** |
+| `LEADERBOARD_SHEET_CSV_URL` | Google Sheets CSV export of the Carré Vert attendance sheet (`https://docs.google.com/…/export?format=csv&gid=…`). Used by the leaderboard cron and `/api/admin/import-csv`. | **Server Only** |
 | `GITHUB_FEEDBACK_TOKEN` | GitHub token (fine-grained, `Issues` + `Contents` write on the target repo) used by the in-app feedback tool | **Server Only** |
 | `GITHUB_FEEDBACK_REPO` | `owner/repo` receiving feedback issues and screenshots (default `nicanac/blanmont`, **public**) | **Server Only** |
 | `NEXT_PUBLIC_FEEDBACK_ENABLED` | Set to `false` to disable the feedback tool globally, whatever the admin switch says | **Public / Client** |
@@ -391,7 +395,7 @@ The repository includes administrative and maintenance scripts located in `scrip
 | Command | Purpose |
 |---|---|
 | `npx tsx scripts/seed-blog.ts` | Populates / resets the 7 blog articles in French with proper image metadata and author attribution. |
-| `npx tsx scripts/backup-db.ts` | Creates a full JSON backup of the RTDB tree to disk. |
+| `npx tsx scripts/backup-db.ts` | Creates a full JSON backup of the RTDB tree to disk. Automatic daily copies are made by the `/api/cron/backup-db` cron (03:00 UTC) to Firebase Storage `backups/rtdb-YYYY-MM-DD.json.gz`, kept 30 days; restore with `gunzip` then `firebase database:set / <file>.json`. |
 | `npx tsx scripts/set-admin-claim.ts <email>` | Grants Firebase Auth `{ admin: true }` custom claim to a member. |
 | `npx tsx scripts/verify-admin.ts <email>` | Inspects token claims for an authenticated user. |
 | `npx tsx scripts/migrate-notion-to-firebase.ts` | Historical migration utility to transfer pages from Notion databases into Firebase RTDB. |

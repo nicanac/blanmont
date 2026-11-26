@@ -58,12 +58,18 @@ export const CLUB_ROLES: RoleDefinition[] = [
 
 /**
  * Privileged email addresses granted admin access regardless of assigned roles.
+ * Read from the server-only ADMIN_EMAILS environment variable (comma-separated) on each call,
+ * so no personal address is committed to the repository.
+ * In the browser this is always empty: client code relies on the server-issued `isAdmin` flag.
  */
-export const ADMIN_EMAILS: string[] = [
-  'admin@blanmont.be',
-  'president@blanmont.be',
-  'bruyere.nicolas@gmail.com',
-];
+export function getAdminEmails(): string[] {
+  const raw = typeof process !== 'undefined' ? process.env.ADMIN_EMAILS : undefined;
+  if (!raw) return [];
+  return raw
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter((email) => email.length > 0);
+}
 
 /**
  * Role names, keys, labels and synonyms that grant admin privileges.
@@ -129,10 +135,19 @@ export function isAdminRole(role: string): boolean {
  * Checks if a user has admin privileges based on roles, email, or stored member session data.
  */
 export function checkIsAdmin(
-  user: User | { role?: string[] | string | null; email?: string | null } | null | undefined
+  user:
+    | User
+    | { role?: string[] | string | null; email?: string | null; isAdmin?: boolean }
+    | null
+    | undefined
 ): boolean {
   if (!user) {
     return false;
+  }
+
+  // Flag computed server-side at login and carried by the signed session.
+  if ('isAdmin' in user && user.isAdmin === true) {
+    return true;
   }
 
   const userRoles = normalizeRoles(user.role);
@@ -142,7 +157,7 @@ export function checkIsAdmin(
 
   if (
     user.email &&
-    ADMIN_EMAILS.some((ae) => ae.toLowerCase() === user.email!.trim().toLowerCase())
+    getAdminEmails().includes(user.email.trim().toLowerCase())
   ) {
     return true;
   }

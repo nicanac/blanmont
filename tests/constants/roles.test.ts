@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import {
   hasClubRole,
   toggleClubRole,
@@ -9,10 +9,14 @@ import {
   isAdminRole,
   checkIsAdmin,
   ADMIN_ROLES,
-  ADMIN_EMAILS,
+  getAdminEmails,
 } from '@/app/constants/roles';
 
 describe('roles constants & utils', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it('identifies Capitaine de Route correctly with synonyms and variations', () => {
     expect(hasClubRole(['Capitaine de Route'], 'Capitaine de Route')).toBe(true);
     expect(hasClubRole(['capitaine'], 'Capitaine de Route')).toBe(true);
@@ -105,9 +109,11 @@ describe('roles constants & utils', () => {
     expect(checkIsAdmin({ role: ['Président'] })).toBe(true);
     expect(checkIsAdmin({ role: ['president'] })).toBe(true);
     expect(checkIsAdmin({ role: ['webmaster'] })).toBe(true);
+    vi.stubEnv('ADMIN_EMAILS', 'admin@blanmont.be, President@Blanmont.be');
     expect(checkIsAdmin({ email: 'admin@blanmont.be' })).toBe(true);
-    expect(checkIsAdmin({ email: 'president@blanmont.be' })).toBe(true);
-    expect(checkIsAdmin({ email: 'bruyere.nicolas@gmail.com' })).toBe(true);
+    expect(checkIsAdmin({ email: ' president@blanmont.be ' })).toBe(true);
+    expect(checkIsAdmin({ email: 'someone@example.com' })).toBe(false);
+    expect(checkIsAdmin({ role: ['Member'], isAdmin: true })).toBe(true);
 
     expect(checkIsAdmin({ role: ['Member'], email: 'member@blanmont.be' })).toBe(false);
     expect(checkIsAdmin(null)).toBe(false);
@@ -118,6 +124,14 @@ describe('roles constants & utils', () => {
     expect(ADMIN_ROLES.length).toBeGreaterThan(0);
     expect(ADMIN_ROLES).toContain('Admin');
     expect(ADMIN_ROLES).toContain('Président');
-    expect(ADMIN_EMAILS).toContain('admin@blanmont.be');
+  });
+
+  it('reads admin e-mails from the ADMIN_EMAILS env var only', () => {
+    vi.stubEnv('ADMIN_EMAILS', '');
+    expect(getAdminEmails()).toEqual([]);
+    expect(checkIsAdmin({ email: 'admin@blanmont.be' })).toBe(false);
+
+    vi.stubEnv('ADMIN_EMAILS', ' A@x.be ,, b@y.be ');
+    expect(getAdminEmails()).toEqual(['a@x.be', 'b@y.be']);
   });
 });

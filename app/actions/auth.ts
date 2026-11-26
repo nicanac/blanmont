@@ -36,7 +36,22 @@ export async function loginAction(email: string, password: string) {
 
   const member = await validateUser(validation.data.email, validation.data.password);
   if (member) {
-    await setSessionCookie(member);
+    try {
+      await setSessionCookie(member);
+    } catch (error) {
+      // Typically SessionSecretMissingError: the deployment has no SESSION_SECRET.
+      // Refuse the login instead of issuing a token signed with a weak key.
+      console.error('[loginAction] Could not create session:', error);
+      await recordActivity({
+        category: 'auth',
+        action: 'auth:login_failure',
+        title: `Session impossible pour ${validation.data.email}`,
+        severity: 'error',
+        user: { isAuthenticated: false, userEmail: validation.data.email },
+        metadata: { reason: error instanceof Error ? error.name : 'session_error' },
+      });
+      return null;
+    }
     await recordActivity({
       category: 'auth',
       action: 'auth:login_success',
