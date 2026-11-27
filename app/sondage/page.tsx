@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { getActiveWeekendPoll, getPollResponses, getMembers } from '../lib/firebase';
 import { getCalendarEvents } from '../lib/firebase/calendar';
 import { weekendTraces } from '../lib/poll-share';
+import { withTraceRoutes } from '../lib/trace-route';
 import WeekendPollView from '../features/sondage/components/WeekendPollView';
 
 export const revalidate = 30; // Revalidate every 30 seconds for live poll counts
@@ -19,8 +20,13 @@ export default async function SondagePage(): Promise<React.ReactElement> {
     getMembers(),
     getCalendarEvents(),
   ]);
-  const responses = activePoll ? await getPollResponses(activePoll.id) : [];
-  const traces = activePoll ? weekendTraces(events, activePoll.weekendIsoDate) : [];
+  // Responses and the trace previews (Garmin course / GPX, cached 1 h) load in parallel.
+  const [responses, traces] = activePoll
+    ? await Promise.all([
+        getPollResponses(activePoll.id),
+        withTraceRoutes(weekendTraces(events, activePoll.weekendIsoDate)),
+      ])
+    : [[], []];
 
   // The view prints the vote inside the page cartouche (SheetHeader), then the stats below.
   return (

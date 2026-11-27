@@ -16,6 +16,7 @@ import { RoadSwatch } from '@/app/components/carte/RoadSwatch';
 import { SheetHeader } from '@/app/components/carte/SheetHeader';
 import { buttonVariants } from '@/app/components/ui/Button';
 import { buildPollShareMessage, type WeekendTrace } from '@/app/lib/poll-share';
+import WeekendTraces from './WeekendTraces';
 import type { CyclingGroup } from '@/app/constants/cycling';
 import type { WeekendPoll, PollResponse, Member, PollSlot } from '@/app/types';
 import { submitWeekendPollResponseAction, deleteWeekendPollResponseAction } from '@/app/actions';
@@ -33,7 +34,7 @@ interface WeekendPollViewProps {
   poll: WeekendPoll | null;
   responses: PollResponse[];
   members: Member[];
-  /** GPS traces the calendar lists for the poll's weekend. */
+  /** GPS traces the calendar lists for the poll's weekend (with their resolved map, if any). */
   traces?: WeekendTrace[];
 }
 
@@ -528,7 +529,16 @@ export default function WeekendPollView({
         title={SHEET_TITLE}
         description={poll.title}
         legend={legend}
-        legendFooter={groupBreakdown}
+        legendFooter={
+          <>
+            {groupBreakdown}
+            {traces.length > 0 && (
+              <div className="mt-5 border-t border-line pt-5 dark:border-night-line">
+                <WeekendTraces traces={traces} />
+              </div>
+            )}
+          </>
+        }
         actions={
           signedIn ? undefined : (
             <Link href="/login?redirect=/sondage" className={ctaClass}>
