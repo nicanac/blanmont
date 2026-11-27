@@ -21,7 +21,7 @@ export default function SeasonTimetable({
   return (
     <section
       aria-labelledby="saison-title"
-      className="border-b border-line bg-paper py-20 sm:py-24 dark:border-night-line dark:bg-night"
+      className="border-b border-line bg-paper py-20 sm:pt-16 sm:pb-24 dark:border-night-line dark:bg-night"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">

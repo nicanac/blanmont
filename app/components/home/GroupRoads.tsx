@@ -152,7 +152,7 @@ export default function GroupRoads(): React.ReactElement {
     <section
       ref={root}
       aria-labelledby="groupes-title"
-      className="border-b border-line bg-paper py-20 sm:py-28 dark:border-night-line dark:bg-night"
+      className="border-b border-line bg-paper py-20 sm:pt-28 sm:pb-16 dark:border-night-line dark:bg-night"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
