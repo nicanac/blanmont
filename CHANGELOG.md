@@ -39,6 +39,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.48.2] - 2026-11-27
+
+### Fixed
+- fix(commandes): banque and campagnes pages no longer crash on load (`6cb4081`)
+
+### Chores
+- docs(manuel): back-office user manual (PDF, 291 pages) and its sources (`be470c5`)
+- chore(agents): keep the Next.js agent rules block that next dev writes (`fbd44f7`)
 ## [0.48.1] - 2026-11-27
 
 ### Fixed
