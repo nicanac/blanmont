@@ -90,7 +90,7 @@ describe('ProspectsHeader', () => {
 
     // Check count values
     expect(screen.getByText('À contacter')).toBeInTheDocument();
-    expect(screen.getByText('En cours d\'essai')).toBeInTheDocument();
+    expect(screen.getByText("En cours d'essai")).toBeInTheDocument();
     expect(screen.getByText('Convertis Membres')).toBeInTheDocument();
     expect(screen.getByText('Total Candidats')).toBeInTheDocument();
   });
@@ -146,7 +146,9 @@ describe('ProspectsTable', () => {
     fireEvent.click(gauthierRow);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2, name: 'Gauthier Deflandre' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Gauthier Deflandre' })
+    ).toBeInTheDocument();
   });
 });
 
@@ -181,7 +183,10 @@ describe('ProspectDetailModal', () => {
 
     // Check WhatsApp link
     const waLink = screen.getByRole('link', { name: /Message WhatsApp Pré-rempli/i });
-    expect(waLink).toHaveAttribute('href', expect.stringContaining('https://wa.me/32471234567'));
+    expect(waLink).toHaveAttribute(
+      'href',
+      expect.stringContaining('https://api.whatsapp.com/send?phone=32471234567&text=')
+    );
     expect(waLink).toHaveAttribute('href', expect.stringContaining('CC%20Saint-Martin%20Blanmont'));
   });
 
