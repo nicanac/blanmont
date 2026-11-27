@@ -110,7 +110,7 @@ Single JSON tree; every collection is a top-level node keyed by a string id (`tr
 |---|---|---|---|
 | `traces` | `trace_<id>` | Routes: distance, elevation, surface, direction, Komoot/GPX URLs | admin |
 | `members` | `member_<id>` | Profile, `role[]`, `authUid`, Strava id | admin, member (own profile) |
-| `calendar-events` | `event_<id>` | Season calendar (`isoDate`, departure, distances, group) | admin, PDF import, leaderboard sync |
+| `calendar-events` | `event_<id>` | Season calendar (`isoDate`, departure, distances, group, `gpxUrl`, `traceId` = catalog trace the ride follows, #255) | admin, PDF import, leaderboard sync |
 | `attendance` | `<eventId>/members/<memberId>` | Carré Vert presence + group (V/J/B/R) | admin, pointage-express, sync |
 | `leaderboard` | `entry_<id>` | Aggregated `totalRides`, `dates[]` | cron sync-leaderboard, CSV import |
 | `saturday-rides` | `ride_<id>` | Candidate traces, status, selected trace | admin |
@@ -159,6 +159,7 @@ equipment ──n:m (items[])── equipment-orders
 | Path | Method | Auth | Notes |
 |---|---|---|---|
 | `/api/admin/**` | CRUD | proxy **+** `verifySectionRequest` (`verifyOwnerRequest` for feedback-settings) | members, events, blog, equipment, attendance, hero, galerie, CSV import, GPX parse, metadata fetch |
+| `/api/admin/events/trace-links` | GET | section `events` | Catalog traces with a link + upcoming rides, for the trace pickers (#255). A ride is linked with `PUT /api/admin/events/[id]` `{ traceId }`: the server copies the trace's link (GPX file, else map) into `gpxUrl`; `''` unlinks; a `gpxUrl` typed by hand clears `traceId` |
 | `/api/upload` | POST | session | Cloudinary upload |
 | `/api/logs` | POST / GET / PATCH / DELETE | POST open (session optional), others admin | telemetry ingestion, review, pruning |
 | `/api/rejoindre` | POST | public | trial request (Zod-validated) |

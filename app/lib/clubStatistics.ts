@@ -239,6 +239,12 @@ export function parseEventDistance(distStr?: string): number {
 export function matchEventWithTrace(event: CalendarEvent, traces: Trace[]): Trace | undefined {
   if (!traces || traces.length === 0) return undefined;
 
+  // The catalog trace an admin linked to the ride (#255)
+  if (event.traceId) {
+    const linked = traces.find((t) => t.id === event.traceId);
+    if (linked) return linked;
+  }
+
   // Match by GPX url
   if (event.gpxUrl) {
     const match = traces.find((t) => t.gpxUrl && t.gpxUrl === event.gpxUrl);

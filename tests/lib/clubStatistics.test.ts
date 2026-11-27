@@ -5,6 +5,7 @@ import {
   computeClubStatistics,
   generateCarreVertCsv,
   generateClubAgSummaryCsv,
+  matchEventWithTrace,
 } from '@/app/lib/clubStatistics';
 import type { CalendarEvent, Member, Trace, Feedback, SaturdayRide, Vote } from '@/app/types';
 import type { LeaderboardEntry } from '@/app/lib/firebase/leaderboard';
@@ -191,6 +192,26 @@ describe('clubStatistics library', () => {
       const agSummaryCsv = generateClubAgSummaryCsv(stats);
       expect(agSummaryCsv).toContain('BILAN OFFICIEL DE LA SAISON CYCLISTE 2026');
       expect(agSummaryCsv).toContain('Kilometres-peloton cumules;450 km');
+    });
+  });
+
+  describe('matchEventWithTrace', () => {
+    const traces = [
+      { id: 'dyle', name: 'Dyle', gpxUrl: 'https://f.io/dyle.gpx' },
+      { id: 'villers', name: 'Villers', gpxUrl: 'https://f.io/villers.gpx' },
+    ] as Trace[];
+    const ride = (e: Partial<CalendarEvent>): CalendarEvent =>
+      ({ id: 'e', isoDate: '2026-11-28', location: '', remarks: '', ...e }) as CalendarEvent;
+
+    it('takes the catalog trace linked to the ride first (#255)', () => {
+      expect(
+        matchEventWithTrace(ride({ traceId: 'villers', gpxUrl: 'https://f.io/dyle.gpx' }), traces)?.id
+      ).toBe('villers');
+    });
+
+    it('falls back to the GPX link, then the name, when the linked trace is gone', () => {
+      expect(matchEventWithTrace(ride({ traceId: 'gone', gpxUrl: 'https://f.io/dyle.gpx' }), traces)?.id).toBe('dyle');
+      expect(matchEventWithTrace(ride({ location: 'Boucle de Villers' }), traces)?.id).toBe('villers');
     });
   });
 });

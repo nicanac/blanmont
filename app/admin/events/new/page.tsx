@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import EventTraceFields from '../components/EventTraceFields';
 
 export default function NewEventPage(): React.ReactElement {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function NewEventPage(): React.ReactElement {
     alternative: '',
     group: 'Blanmont',
     gpxUrl: '',
+    traceId: '',
   });
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -37,7 +39,11 @@ export default function NewEventPage(): React.ReactElement {
         router.push('/admin/events');
         router.refresh();
       } else {
-        toast.error("Erreur lors de la création de l'événement");
+        // 400/404/422 carry a French reason, e.g. a catalog trace deleted meanwhile (#255).
+        const body = [400, 404, 422].includes(response.status)
+          ? await response.json().catch(() => null)
+          : null;
+        toast.error(body?.error || "Erreur lors de la création de l'événement");
       }
     } catch (error) {
       console.error('Error creating event:', error);
@@ -173,24 +179,11 @@ export default function NewEventPage(): React.ReactElement {
               />
             </div>
 
-            {/* GPX / Garmin / Strava Trace Link */}
-            <div className="md:col-span-2">
-              <label htmlFor="gpxUrl" className="mb-2 block text-sm font-medium text-ink dark:text-snow-1">
-                Lien de la trace / GPX (Garmin, Strava, Komoot ou URL de fichier .gpx)
-              </label>
-              <input
-                type="url"
-                id="gpxUrl"
-                value={formData.gpxUrl}
-                onChange={(e) => setFormData({ ...formData, gpxUrl: e.target.value })}
-                className="w-full rounded-sm border border-line dark:border-night-line bg-paper-2 dark:bg-night px-4 py-2 text-sm text-ink dark:text-snow-1 font-mono focus:border-brand focus:outline-hidden transition-colors duration-150"
-                placeholder="https://connect.garmin.com/modern/course/... ou https://www.strava.com/routes/..."
-              />
-              <p className="mt-1 text-xs text-ink-3 dark:text-snow-3">
-                Ce lien sera directement accessible sur le calendrier et dans le bloc « Prochain
-                Rendez-vous » pour télécharger ou visualiser la trace.
-              </p>
-            </div>
+            {/* Trace: catalog trace (#255) or link typed by hand */}
+            <EventTraceFields
+              value={{ traceId: formData.traceId, gpxUrl: formData.gpxUrl }}
+              onChange={(trace) => setFormData({ ...formData, ...trace })}
+            />
 
             {/* Group */}
             <div>

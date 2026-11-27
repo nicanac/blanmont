@@ -13,6 +13,7 @@ import {
   AcademicCapIcon,
 } from '@heroicons/react/24/outline';
 import TracesTutorialModal from './components/TracesTutorialModal';
+import EventTraceLinker from './components/EventTraceLinker';
 import { useAdminTours } from '../components/tours/adminTours';
 
 export default function AdminTracesPage(): React.ReactElement {
@@ -141,6 +142,9 @@ export default function AdminTracesPage(): React.ReactElement {
         ))}
       </div>
 
+      {/* Link a catalog trace to an upcoming ride (#255) */}
+      <EventTraceLinker />
+
       {/* Contextual Information Band */}
       <div id="traces-info-section" className="rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 p-6 space-y-4">
         <div className="flex items-start gap-3.5">
@@ -164,7 +168,7 @@ export default function AdminTracesPage(): React.ReactElement {
           </div>
           <div className="p-3 rounded-md bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line">
             <div className="font-bold text-ink dark:text-white uppercase tracking-wider mb-0.5">Sondage &amp; Sortie</div>
-            <div className="text-ink-3 dark:text-snow-3">Les traces peuvent être associées aux choix de vote lors du sondage de la semaine.</div>
+            <div className="text-ink-3 dark:text-snow-3">Les traces peuvent être liées à une sortie du calendrier (ci-dessus) et associées aux choix de vote du sondage de la semaine.</div>
           </div>
           <div className="p-3 rounded-md bg-paper-2 dark:bg-night-3 border border-line dark:border-night-line">
             <div className="font-bold text-ink dark:text-white uppercase tracking-wider mb-0.5">Carré Vert</div>
