@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import polylineCodec from '@mapbox/polyline';
 import {
   decimate,
+  garminCourseGpx,
   garminCourseId,
   gpxRoute,
   MAX_PREVIEW_POINTS,
@@ -203,5 +204,24 @@ describe('withTraceRoutes', () => {
     expect(traces[0].isoDate).toBe('2026-11-28');
     expect(traces[0].route?.name).toBe('NordEst Tirlemont 105km');
     expect(traces[1].route).toBeNull();
+  });
+});
+
+describe('garminCourseGpx (#246)', () => {
+  it('writes every course point with its elevation, named after the course', () => {
+    const course = garminCourseGpx(garminEmbed(COURSE));
+    expect(course!.name).toBe('NordEst Tirlemont 105km');
+    expect(course!.gpx).toContain('<name>NordEst Tirlemont 105km</name>');
+    expect(course!.gpx.match(/<trkpt /g)).toHaveLength(3);
+    expect(course!.gpx).toContain('<trkpt lat="50.7" lon="4.8"><ele>110</ele></trkpt>');
+  });
+
+  it('never writes the owner', () => {
+    expect(garminCourseGpx(garminEmbed(COURSE))!.gpx).not.toContain('owner');
+  });
+
+  it('is null when the page has no course or too few points', () => {
+    expect(garminCourseGpx(garminEmbed(null))).toBeNull();
+    expect(garminCourseGpx(garminEmbed({ ...COURSE, geoPoints: [COURSE.geoPoints[0]] }))).toBeNull();
   });
 });
