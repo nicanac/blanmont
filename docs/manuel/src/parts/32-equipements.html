@@ -1,0 +1,164 @@
+<article class="chapter" data-chapter="16 · Le catalogue d'équipements">
+<section class="opener" id="ch-equipements">
+  <div class="opener-band"><div class="carte-frame" data-carte="480" data-fx="36" data-fy="34" data-labels="1"></div></div>
+  <div class="opener-cartouche neatline">
+    <div class="main">
+      <div class="opener-kicker"><span class="label">Chapitre 16 · Gestion du Club</span><span class="chip red">Boutique du club</span></div>
+      <h1 class="opener-title" data-chapter="16 · Le catalogue d'équipements">Le catalogue d'équipements</h1>
+      <p class="opener-desc">Les maillots, vestes et accessoires du club&nbsp;: prix, tailles, stock et disponibilité, tels que les voient les membres dans la boutique.</p>
+    </div>
+    <div class="legend"><dl class="legend-rows">
+      <div><dt>Où</dt><dd>Équipements Club<small>menu de gauche · Gestion du Club</small></dd></div>
+      <div><dt>Qui</dt><dd>Administrateurs<small>et trésorier</small></dd></div>
+      <div><dt>Résultat visible</dt><dd>Page Équipement<small>menu Le club, et paiement</small></dd></div>
+    </dl></div>
+  </div>
+  <div class="opener-meta"><span>Feuille · Équipements</span><span>50°37′23″ N · 4°38′32″ E</span></div>
+  <div class="opener-body">
+    <p class="lead">Le catalogue est la liste des articles que le club propose (équipements Gobik). Chaque article a un prix, des tailles avec un stock par taille, une photo et un interrupteur «&nbsp;disponible à la commande&nbsp;». Le trésorier s'en sert pour tenir le stock à jour&nbsp;; les membres commandent dans la boutique.</p>
+    <p>Trois choses à retenir avant de commencer&nbsp;:</p>
+    <ul>
+      <li>Le bouton <span class="ui">Ajouter un équipement</span> mène à une page qui n'existe pas&nbsp;: on ne peut pas créer un nouvel article depuis l'écran (section 16.1). On corrige les articles existants.</li>
+      <li>La pastille «&nbsp;Épuisé&nbsp;» dépend de l'interrupteur <span class="ui">Disponibilité</span>, pas du nombre de pièces.</li>
+      <li>Après un enregistrement, la liste et la boutique peuvent garder l'ancienne valeur jusqu'à une minute.</li>
+    </ul>
+    <h3>Dans ce chapitre</h3>
+    <ul>
+      <li>16.1 La liste des équipements</li>
+      <li>16.2 La fiche détail d'un article</li>
+      <li>16.3 Modifier un article</li>
+      <li>16.4 La boutique côté membre&nbsp;: catalogue et bon de commande</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="t-equip-liste"><span class="num">16.1</span>La liste des équipements</h2>
+<p>Cliquez sur <span class="ui">Équipements Club</span> dans le menu de gauche, rubrique <span class="ui">Gestion du Club</span>. La page s'intitule «&nbsp;Équipements Gobik&nbsp;» (badge «&nbsp;Catalogue Officiel&nbsp;»). Elle commence par une recherche, des pastilles de catégorie et quatre compteurs.</p>
+<figure>
+  <div class="frame"><img src="../screens/32-liste-haut.jpg" alt="Recherche, catégories et compteurs du catalogue"></div>
+  <figcaption><span class="fig">Fig. 16.1</span><span>1 Recherche. 2 Catégories. 3 Les quatre compteurs.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Élément</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="field">Rechercher un équipement…</span></td><td>Réduit la liste au fur et à mesure de la frappe.</td></tr>
+    <tr><td class="c">2</td><td>Pastilles de catégorie</td><td><span class="ui">Maillot</span>, <span class="ui">Short</span>, <span class="ui">Collant</span>, <span class="ui">Veste</span>, <span class="ui">Accessoire</span>. Le bouton <span class="ui">Tous</span> apparaît deux fois à gauche&nbsp;: les deux font la même chose.</td></tr>
+    <tr><td class="c">3</td><td>Quatre compteurs</td><td><span class="ui">Total Articles</span>, <span class="ui">Disponibles</span> (articles dont l'interrupteur est activé), <span class="ui">Stock Total</span> (pièces en rayon) et <span class="ui">Valeur Stock</span> (prix multiplié par les pièces, en euros).</td></tr>
+  </tbody>
+</table>
+<figure>
+  <div class="frame"><img src="../screens/32-liste-tableau.jpg" alt="Tableau des équipements"></div>
+  <figcaption><span class="fig">Fig. 16.2</span><span>Le tableau. 4 Équipement. 5 Stock. 6 Statut. 7 Actions.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Colonne</th><th>Ce que vous y lisez</th></tr></thead>
+  <tbody>
+    <tr><td class="c">4</td><td><span class="ui">Équipement</span>, <span class="ui">Catégorie</span>, <span class="ui">Prix</span></td><td>La vignette, le nom, la description, la catégorie et le prix en euros (par exemple «&nbsp;83.00&nbsp;€&nbsp;»).</td></tr>
+    <tr><td class="c">5</td><td><span class="ui">Stock</span></td><td>Le total de pièces, puis une pastille par taille (verte s'il en reste, rouge à zéro). Les premières tailles seulement sont listées ici&nbsp;; la fiche détail les montre toutes.</td></tr>
+    <tr><td class="c">6</td><td><span class="ui">Statut</span></td><td><span class="ui">En stock</span> (disponible) ou <span class="ui">Épuisé</span>. C'est le reflet de l'interrupteur <span class="ui">Disponibilité</span>.</td></tr>
+    <tr><td class="c">7</td><td><span class="ui">Actions</span></td><td>Trois icônes&nbsp;: l'œil <span class="ui">Voir</span> (fiche détail), le crayon <span class="ui">Modifier</span>, la corbeille <span class="ui">Supprimer</span>.</td></tr>
+  </tbody>
+</table>
+<figure>
+  <div class="frame"><img src="../screens/32-liste-epuise.jpg" alt="Article marqué épuisé alors qu'il reste des pièces"></div>
+  <figcaption><span class="fig">Fig. 16.3</span><span>Les chaussettes sont marquées <span class="ui">Épuisé</span> alors qu'il reste 13 pièces&nbsp;: leur interrupteur de disponibilité est coupé.</span></figcaption>
+</figure>
+<h3>Supprimer un article</h3>
+<ol class="steps">
+  <li>Cliquez sur la corbeille de la ligne de l'article.</li>
+  <li>Une fenêtre demande «&nbsp;Êtes-vous sûr de vouloir supprimer cet équipement&nbsp;?&nbsp;». Cliquez sur <span class="ui">OK</span>.<span class="sub">Le message «&nbsp;Équipement supprimé avec succès&nbsp;» s'affiche.</span></li>
+</ol>
+<div class="box danger"><div class="box-title">Action définitive</div><p>Un article supprimé disparaît du catalogue et de la boutique, avec son stock&nbsp;; il ne se récupère pas, et on ne peut pas le recréer depuis l'écran. Pour retirer un article de la vente sans le perdre, coupez plutôt son interrupteur <span class="ui">Disponibilité</span> (section 16.3).</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Le bouton rouge <span class="ui">Ajouter un équipement</span>, en haut de la page, ouvre une page «&nbsp;Équipement introuvable&nbsp;»&nbsp;: il ne fonctionne pas. Pour ajouter un nouvel article au catalogue, demandez au webmaster du site.</p></div>
+
+<h2 id="t-equip-detail"><span class="num">16.2</span>La fiche détail d'un article</h2>
+<p>Cliquez sur l'œil (<span class="ui">Voir</span>) de la ligne. La fiche montre l'article en lecture seule&nbsp;: l'image, <span class="ui">Informations générales</span> (catégorie, prix, statut <span class="ui">Disponible</span> ou <span class="ui">Indisponible</span>, stock total, code produit, référence Gobik), la description et <span class="ui">Stock par taille</span> (cases vertes ou rouges). Le bouton <span class="ui red">Modifier</span> en haut à droite ouvre le formulaire&nbsp;; la flèche en haut à gauche revient à la liste.</p>
+<figure>
+  <div class="frame"><img src="../screens/32-detail.jpg" alt="Fiche détail d'un équipement"></div>
+  <figcaption><span class="fig">Fig. 16.4</span><span>La fiche détail. C'est ici que l'on relit les quantités exactes par taille.</span></figcaption>
+</figure>
+
+<h2 id="t-equip-modifier"><span class="num">16.3</span>Modifier un article</h2>
+<ol class="steps">
+  <li>Dans la liste, cliquez sur le crayon (<span class="ui">Modifier</span>) de la ligne, ou sur <span class="ui red">Modifier</span> dans la fiche détail.<span class="sub">La page «&nbsp;Modifier l'équipement&nbsp;» s'ouvre, avec le nom de l'article en dessous du titre.</span></li>
+  <li>Corrigez les rubriques voulues (tableaux ci-dessous).</li>
+  <li>Cliquez sur <span class="ui red">Enregistrer</span>, en bas à droite. <span class="ui">Annuler</span> abandonne tout.<span class="sub">Le bandeau «&nbsp;Équipement modifié avec succès&nbsp;! Redirection…&nbsp;» s'affiche, puis la liste se rouvre au bout d'une seconde et demie.</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/32-edit-infos.jpg" alt="Formulaire de modification, informations générales"></div>
+  <figcaption><span class="fig">Fig. 16.5</span><span>L'image et les informations générales.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Champ</th><th>À quoi ça sert</th><th>Exemple ou format</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="ui">Image du produit</span></td><td>La photo montrée dans la boutique. <span class="ui">Changer l'image</span> en choisit une autre. La croix rouge la retire. Sans image, une zone «&nbsp;Glissez une image ici&nbsp;» permet de la déposer ou de la choisir. «&nbsp;Upload en cours…&nbsp;» s'affiche pendant l'envoi.</td><td>Image de 5 Mo au maximum.</td></tr>
+    <tr><td class="c">2</td><td><span class="field">Nom du produit</span> *</td><td>Le nom affiché partout.</td><td>Maillot Manche courte CX PRO Homme</td></tr>
+    <tr><td class="c">3</td><td><span class="field">Catégorie</span> *</td><td>Classe l'article dans les filtres de la boutique. La liste propose aussi «&nbsp;Tous&nbsp;»&nbsp;: ne le choisissez pas, ce n'est pas une vraie catégorie.</td><td>Maillot, Short, Collant, Veste ou Accessoire</td></tr>
+    <tr><td class="c">4</td><td><span class="field">Prix (€)</span> *</td><td>Le prix d'une pièce. Il est repris tel quel dans les commandes.</td><td>83 (en euros)</td></tr>
+    <tr><td class="c">5</td><td><span class="field">Code produit</span></td><td>Code interne de l'article, utile pour s'y retrouver.</td><td>MaiCXPRO</td></tr>
+    <tr><td class="c">6</td><td><span class="field">Référence GOBIK</span></td><td>Le nom exact du produit chez Gobik. Il figure dans le fichier envoyé à Gobik lors d'une commande groupée (chapitre 17, page <span data-page-of="ch-commandes"></span>).</td><td>SHORT SLEEVE JERSEY CX PRO MEN CUSTOM</td></tr>
+    <tr><td class="c">7</td><td><span class="field">Description</span></td><td>Texte court affiché sous le nom.</td><td>Maillot manches courtes, coupe ajustée.</td></tr>
+    <tr><td class="c">8</td><td><span class="ui">Disponibilité</span></td><td>Interrupteur «&nbsp;Produit disponible à la commande&nbsp;». Coupé, l'article est marqué <span class="ui">Épuisé</span> et plus personne ne peut le commander. Il ne peut plus entrer dans une nouvelle commande groupée.</td><td>Activé (rouge) ou coupé (gris).</td></tr>
+  </tbody>
+</table>
+<figure>
+  <div class="frame"><img src="../screens/32-edit-stock.jpg" alt="Tailles et stock d'un article"></div>
+  <figcaption><span class="fig">Fig. 16.6</span><span>Les tailles et le stock. 9 Tailles disponibles. 10 Stock par taille. 11 Enregistrer. 12 Annuler.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Champ</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td class="c">9</td><td><span class="ui">Tailles disponibles</span></td><td>Neuf boutons&nbsp;: XS, S, M, L, XL, XXL, S/M, L/XL, Unique. Un bouton rouge est une taille proposée&nbsp;; cliquez pour l'ajouter ou la retirer. Retirer une taille efface son stock.</td></tr>
+    <tr><td class="c">10</td><td><span class="ui">Stock par taille</span></td><td>Une case par taille choisie, pour le nombre de pièces en rayon (0 ou plus). Les chiffres ne sont pas toujours lisibles dans ces cases étroites&nbsp;: relisez-les dans la fiche détail (section 16.2).</td></tr>
+  </tbody>
+</table>
+<p>Ne sont pas modifiables ici&nbsp;: la galerie de photos, l'ordre d'affichage et la coupe.</p>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Dans la boutique (<span class="ui">Le club</span>, puis <span class="ui">Équipement</span>), le prix, la description, la photo, les tailles et le stock changent jusqu'à une minute après l'enregistrement. Une carte montre «&nbsp;En stock&nbsp;» avec une pastille par taille qui a au moins une pièce (par exemple «&nbsp;M · 5&nbsp;»). Un article dont l'interrupteur est coupé affiche le badge «&nbsp;Épuisé&nbsp;».</p></div>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Le stock bouge aussi tout seul. Il baisse dès qu'un membre commande «&nbsp;Retrait du stock&nbsp;», remonte si cette commande est annulée ou supprimée avant la remise, et augmente des unités supplémentaires quand une commande groupée est marquée «&nbsp;Reçue&nbsp;» (chapitre 17). Une commande groupée, elle, ne touche pas au stock avant la réception.</p></div>
+
+<h2 id="t-equip-boutique"><span class="num">16.4</span>La boutique côté membre&nbsp;: catalogue et bon de commande</h2>
+<h3>La page publique « Tenues &amp; équipements »</h3>
+<p>Le menu <span class="ui">Le club</span> du site ouvre <span class="ui">Équipement</span> (adresse <span class="url">/le-club/equipement</span>). La page est visible sans connexion.</p>
+<figure>
+  <div class="frame"><img src="../screens/32-boutique-haut.jpg" alt="Bannière de commande groupée et explications de la boutique"></div>
+  <figcaption><span class="fig">Fig. 16.7</span><span>1 La bannière de la commande groupée ouverte. 2 Le mode d'emploi en quatre étapes.</span></figcaption>
+</figure>
+<ul>
+  <li>La bannière rose «&nbsp;Commande groupée ouverte&nbsp;» (titre, «&nbsp;Clôture le … à …&nbsp;», bouton <span class="ui">Commander</span>) n'apparaît que si une commande groupée est ouverte. Si plusieurs le sont, la page montre celle qui se termine le plus tôt.</li>
+  <li>Le bandeau «&nbsp;Bon de commande direct &amp; Checkout Club&nbsp;» mène à la page de commande (<span class="ui">Accéder au checkout</span>).</li>
+  <li>Le bloc «&nbsp;Comment commander et payer&nbsp;» explique les quatre étapes&nbsp;: <span class="ui">Connectez-vous</span>, <span class="ui">Choisissez votre mode</span>, <span class="ui">Payez</span>, <span class="ui">Suivez vos dates</span>.</li>
+</ul>
+<figure>
+  <div class="frame"><img src="../screens/32-boutique-produits.jpg" alt="Catalogue de la boutique avec filtres de catégorie"></div>
+  <figcaption><span class="fig">Fig. 16.8</span><span>Les articles, avec leurs filtres de catégorie. Sans photo dans le catalogue, le site affiche un dessin du vêtement.</span></figcaption>
+</figure>
+<p>Chaque carte donne le nom, la référence, le prix, la liste des tailles et le stock de chaque taille. Le badge <span class="ui">Épuisé</span> signale un article indisponible. Le lien <span class="ui">Commander</span> d'une carte ouvre la fenêtre «&nbsp;Bon de Commande &amp; Réservation Équipement&nbsp;» (boutons <span class="ui">Copier le bon</span> et <span class="ui">Page checkout</span>).</p>
+<h3>Passer commande (page « Bon de commande club »)</h3>
+<p>Cette page est réservée aux membres connectés&nbsp;; un visiteur est renvoyé vers la page de connexion. Voici ce que fait le membre, étape par étape.</p>
+<ol class="steps">
+  <li><strong>Sélection de l'article.</strong> Il choisit un modèle dans la liste «&nbsp;Choisir un modèle dans le catalogue&nbsp;».</li>
+  <li><strong>Taille &amp; Quantité.</strong> Il touche une taille (une taille sans assez de stock ne se choisit pas en mode stock), règle la quantité, puis touche <span class="ui">Ajouter au bon de commande</span>. Il peut ajouter plusieurs articles (20 lignes au plus) pour un seul paiement.</li>
+  <li><strong>Retrait ou commande groupée.</strong> Il choisit <span class="ui">Retrait du stock</span> (l'article est pris en rayon, la page indique le nombre de pièces) ou <span class="ui">Commande groupée «&nbsp;…&nbsp;»</span>. La commande groupée est préselectionnée quand elle existe et couvre tous les articles du bon.</li>
+  <li><strong>Votre commande.</strong> Le nom est celui du compte. Le membre peut ajouter un téléphone et une remarque (essayage préalable, par exemple).</li>
+  <li>Il lit le <span class="ui">Bon de Commande</span> (frais de port gratuits, lieu de distribution place de Blanmont, total) puis touche <span class="ui red">Commander et payer</span>.</li>
+</ol>
+<div class="cols-2">
+  <figure class="phone">
+    <div class="frame"><img src="../screens/32-checkout-tel-1.jpg" alt="Page de commande sur téléphone, choix de l'article et de la taille"></div>
+    <figcaption><span class="fig">Fig. 16.9</span><span>Étapes 1 et 2&nbsp;: article, taille, quantité.</span></figcaption>
+  </figure>
+  <figure class="phone">
+    <div class="frame"><img src="../screens/32-checkout-tel-2.jpg" alt="Page de commande sur téléphone, mode de retrait et bon de commande"></div>
+    <figcaption><span class="fig">Fig. 16.10</span><span>Étapes 3 à 5&nbsp;: mode, coordonnées, bon de commande.</span></figcaption>
+  </figure>
+</div>
+<table>
+  <thead><tr><th>Mode</th><th>Ce qui se passe</th><th>Condition</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Retrait du stock</span></td><td>Les pièces sont réservées <strong>tout de suite</strong> dans le stock du club. Le membre paie et vient chercher son article.</td><td>Chaque taille doit avoir assez de stock.</td></tr>
+    <tr><td><span class="ui">Commande groupée</span></td><td>La commande est notée pour la campagne. Elle ne touche pas au stock. L'article est commandé chez Gobik après la clôture.</td><td>La campagne doit être ouverte et couvrir <strong>tous</strong> les articles du bon («&nbsp;La commande groupée ne couvre pas tous les articles du bon&nbsp;» sinon).</td></tr>
+  </tbody>
+</table>
+<div class="box result"><div class="box-title">Résultat dans le back-office</div><p>La commande apparaît dans <span class="ui">Commandes Équipement</span> avec le statut «&nbsp;En attente de paiement&nbsp;» et le badge «&nbsp;Stock&nbsp;» ou «&nbsp;Commande groupée&nbsp;» (chapitre 17). Le membre voit aussitôt la carte de paiement avec son code QR (chapitre 17, section 17.6). Aucun courriel n'est envoyé.</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Le prix et le stock sont relus au moment de l'envoi. Un membre peut donc voir «&nbsp;Stock insuffisant&nbsp;», «&nbsp;… n'est plus disponible&nbsp;» ou «&nbsp;Cette commande groupée est clôturée&nbsp;» même si la page était ouverte avant. Une commande en stock réserve ses pièces dès l'envoi&nbsp;: si le membre ne paie jamais, annulez la commande (chapitre 17) pour les remettre en rayon.</p></div>
+</article>

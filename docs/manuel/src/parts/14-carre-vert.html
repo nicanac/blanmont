@@ -1,0 +1,161 @@
+<article class="chapter" data-chapter="8 · Le Carré Vert">
+<section class="opener" id="ch-carre-vert">
+  <div class="opener-band"><div class="carte-frame" data-carte="480" data-fx="52" data-fy="48" data-labels="1"></div></div>
+  <div class="opener-cartouche neatline">
+    <div class="main">
+      <div class="opener-kicker"><span class="label">Chapitre 8 · Rituels &amp; Sorties</span><span class="chip red">Assiduité</span></div>
+      <h1 class="opener-title" data-chapter="8 · Le Carré Vert">Le Carré Vert</h1>
+      <p class="opener-desc">Le challenge d'assiduité du club&nbsp;: un carré vert par week-end roulé. Vous corrigez les présences et vous suivez le classement.</p>
+    </div>
+    <div class="legend"><dl class="legend-rows">
+      <div><dt>Où</dt><dd>Pointage Carré Vert<small>menu de gauche · Rituels &amp; Sorties</small></dd></div>
+      <div><dt>Qui</dt><dd>Capitaines de route<small>et administrateurs</small></dd></div>
+      <div><dt>Résultat visible</dt><dd>Page Classement<small>réservée aux membres connectés</small></dd></div>
+    </dl></div>
+  </div>
+  <div class="opener-meta"><span>Feuille · Carré Vert</span><span>50°37′23″ N · 4°38′32″ E</span></div>
+  <div class="opener-body">
+    <p class="lead">Chaque sortie roulée rapporte un carré vert. Le total de chaque membre donne un classement par saison et un palmarès («&nbsp;Hall of Fame&nbsp;»). Les présences viennent du pointage au départ, ou d'un fichier Google Sheet tenu par le club.</p>
+    <div class="box warn"><div class="box-title">À savoir avant de commencer</div><p>Le bouton <span class="ui">Synchroniser Google Sheet</span> et une synchronisation automatique chaque matin <strong>effacent toutes les présences de l'année</strong> puis les reconstruisent à partir du fichier Google Sheet. Tout pointage qui ne figure pas dans ce fichier disparaît (section 8.4).</p></div>
+    <h4>Dans ce chapitre</h4>
+    <ul>
+      <li>8.1 Les règles du Carré Vert (page <span data-page-of="t-regles-carre-vert"></span>)</li>
+      <li>8.2 Le panneau de gestion (page <span data-page-of="t-panneau-carre-vert"></span>)</li>
+      <li>8.3 Corriger les présences d'une sortie (page <span data-page-of="t-corriger-presences"></span>)</li>
+      <li>8.4 La synchronisation avec le Google Sheet (page <span data-page-of="t-synchro-sheet"></span>)</li>
+      <li>8.5 Le classement public et les saisons (page <span data-page-of="t-classement-public"></span>)</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="t-regles-carre-vert"><span class="num">8.1</span>Les règles du Carré Vert</h2>
+<table>
+  <thead><tr><th>Règle</th><th>Ce que ça veut dire</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Un carré par week-end</strong></td><td>Rouler le samedi, le dimanche ou les deux rapporte <strong>un seul</strong> carré pour ce week-end.</td></tr>
+    <tr><td><strong>Un carré par sortie en semaine</strong></td><td>Une sortie un autre jour que le week-end rapporte un carré de plus.</td></tr>
+    <tr><td><strong>Sorties éligibles</strong></td><td>Les week-ends et les jours de semaine qui portent au moins une sortie au calendrier cette année. Pour l'année en cours, on ne compte que les dates passées ou celles où des présences existent déjà.</td></tr>
+    <tr><td><strong>Une saison = une année</strong></td><td>Le classement est refait chaque année civile. L'année précédente reste consultable.</td></tr>
+    <tr><td><strong>Le calcul est automatique</strong></td><td>Le total d'un membre est recalculé à partir des présences. Un total écrit à la main ne change rien.</td></tr>
+  </tbody>
+</table>
+<h3>Le palmarès («&nbsp;Hall of Fame&nbsp;»)</h3>
+<p>Les grades sont donnés selon le total de carrés depuis l'origine.</p>
+<table>
+  <thead><tr><th>Grade</th><th>Condition</th></tr></thead>
+  <tbody>
+    <tr><td>Légende du Club</td><td>70 carrés ou plus, ou champion et au moins 35 carrés</td></tr>
+    <tr><td>Pilier du Peloton</td><td>40 carrés ou plus, ou 3 saisons actives et au moins 25 carrés</td></tr>
+    <tr><td>Sociétaire Émérite</td><td>20 carrés ou plus, ou 2 saisons et au moins 12 carrés</td></tr>
+    <tr><td>Fidèle du Peloton</td><td>5 carrés ou plus</td></tr>
+    <tr><td>Nouveau Venu</td><td>moins de 5 carrés</td></tr>
+  </tbody>
+</table>
+<p>Les titres «&nbsp;Champion&nbsp;» et «&nbsp;Podium&nbsp;» d'une année s'ajoutent aux honneurs du membre.</p>
+
+<h2 id="t-panneau-carre-vert"><span class="num">8.2</span>Le panneau de gestion</h2>
+<p>Cliquez sur <span class="ui">Pointage Carré Vert</span> dans le menu de gauche. La page se compose d'un bandeau de boutons, d'une liste de sorties à gauche et d'un panneau à droite.</p>
+<figure>
+  <div class="frame"><img src="../screens/14-panneau.jpg" alt="Page Carré Vert : bandeau, liste des sorties et panneau vide"></div>
+  <figcaption><span class="fig">Fig. 8.1</span><span>La page Carré Vert avant le choix d'une sortie.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th></th><th>Élément</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><span class="ui">Synchroniser Google Sheet</span></td><td>Reconstruit les présences de l'année à partir du fichier Google Sheet (section 8.4).</td></tr>
+    <tr><td>2</td><td><span class="ui">Guide &amp; Règles</span></td><td>Ouvre une aide en fenêtre, avec les règles et une visite guidée.</td></tr>
+    <tr><td>3</td><td><span class="ui">Pointage Express Mobile</span></td><td>Ouvre le pointage au départ (chapitre 7, page <span data-page-of="ch-pointage"></span>).</td></tr>
+    <tr><td>4</td><td>Boutons <span class="ui">Passés</span> (par défaut), <span class="ui">À venir</span>, <span class="ui">Tous</span></td><td>Choisissent les sorties à afficher dans la liste. Les plus récentes sont en haut.</td></tr>
+    <tr><td>5</td><td><span class="field">Rechercher un lieu ou une date...</span></td><td>Trouve une sortie par son lieu ou par sa date.</td></tr>
+  </tbody>
+</table>
+<p>Chaque sortie de la liste montre une étiquette <strong>WE</strong> (week-end) ou <strong>Sem</strong> (semaine), la date courte, l'étiquette «&nbsp;À venir&nbsp;» le cas échéant, le lieu et, dans une pastille verte, le nombre de présents. Si rien ne correspond, la liste dit «&nbsp;Aucun événement trouvé.&nbsp;».</p>
+<p>La légende du bandeau résume le dispositif&nbsp;: «&nbsp;Challenge Club 2026 · 1 pt / sortie (max 1 / WE)&nbsp;», la synchronisation «&nbsp;Google Sheets &amp; Cron&nbsp;» et l'effectif (le nombre de membres de la liste du Carré Vert).</p>
+
+<h2 id="t-corriger-presences"><span class="num">8.3</span>Corriger les présences d'une sortie</h2>
+<p>Servez-vous de ce panneau pour ajouter un oubli ou retirer une erreur, après la sortie.</p>
+<ol class="steps">
+  <li>Dans la liste de gauche, cliquez sur la sortie voulue.<span class="sub">Si elle n'y figure pas, changez de bouton (<span class="ui">À venir</span> ou <span class="ui">Tous</span>) ou cherchez-la par son lieu.</span></li>
+  <li>Le panneau de droite s'ouvre. Un bandeau vert (sortie passée) ou sombre (sortie à venir) rappelle le lieu, la date, les distances, l'heure de départ et le nombre de présents.</li>
+  <li>Cherchez le membre avec le champ <span class="field">Rechercher un membre...</span>, ou utilisez les boutons de filtre (<span class="ui">Tous</span> puis un bouton par groupe).</li>
+  <li>Cochez la case à gauche du nom pour ajouter une présence. Décochez-la pour la retirer.<span class="sub">Un message confirme&nbsp;: «&nbsp;Nom marqué présent&nbsp;!&nbsp;» ou «&nbsp;Nom retiré des présences.&nbsp;». Les présents remontent en haut de la liste, les autres suivent par ordre alphabétique.</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/14-evenement.jpg" alt="Panneau d'une sortie avec la liste des membres"></div>
+  <figcaption><span class="fig">Fig. 8.2</span><span>Le panneau d'une sortie passée. 1 la recherche d'un membre, 2 les filtres.</span></figcaption>
+</figure>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le classement des membres connectés est recalculé à chaque case cochée ou décochée. La page Classement du site montre le nouveau total à la visite suivante. Un message rouge «&nbsp;Erreur lors de la mise à jour de la présence&nbsp;» signale que la présence n'a pas été enregistrée&nbsp;: recommencez.</p></div>
+<div class="pair">
+  <div><div class="pair-head bo"><span class="dot"></span>Dans le back-office</div><figure><div class="frame"><img src="../screens/14-pair-bo.jpg" alt="Panneau des présences d'une sortie"></div><figcaption><span class="fig">Fig. 8.3</span><span>Les présences cochées d'une sortie.</span></figcaption></figure></div>
+  <div><div class="pair-head site"><span class="dot"></span>Sur le site</div><figure class="phone"><div class="frame"><img src="../screens/14-pair-site.jpg" alt="Classement Carré Vert sur téléphone"></div><figcaption><span class="fig">Fig. 8.4</span><span>Le classement de la saison, vu par un membre connecté.</span></figcaption></figure></div>
+</div>
+<div class="box warn"><div class="box-title">Attention</div><p>Une correction faite ici est effacée par la synchronisation du Google Sheet si elle ne figure pas aussi dans le fichier (section 8.4). Si le club utilise un fichier, corrigez-le <strong>aussi</strong> dans le fichier.</p></div>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Ce panneau et le Pointage Express utilisent le même enregistrement. Un membre pointé au départ apparaît tout de suite coché ici.</p></div>
+
+<h2 id="t-synchro-sheet"><span class="num">8.4</span>La synchronisation avec le Google Sheet</h2>
+<p>Le club peut tenir ses présences dans un tableau Google Sheet. Le site sait relire ce tableau et en refaire le classement. Cette synchronisation a lieu <strong>de deux façons</strong>.</p>
+<ul>
+  <li><strong>Tous les jours, tout seul</strong>, au petit matin&nbsp;: vers 6&nbsp;h en hiver et 7&nbsp;h en été (heure belge).</li>
+  <li><strong>Quand vous cliquez</strong> sur <span class="ui">Synchroniser Google Sheet</span>, en haut de la page.</li>
+</ul>
+<div class="box danger"><div class="box-title">Le tableau gagne toujours</div>
+<p>À chaque synchronisation, le site <strong>efface toutes les présences de l'année</strong>, sur toutes les sorties, puis les remplace par celles du tableau. Il retire aussi du classement toutes les dates de l'année avant de les reconstruire.</p>
+<p><strong>Tout pointage fait à la main (Pointage Express ou panneau) qui ne figure pas dans le tableau est perdu</strong> à la prochaine synchronisation, c'est-à-dire au plus tard le lendemain matin. Il n'y a pas de retour en arrière.</p></div>
+<h3>Lancer la synchronisation à la main</h3>
+<ol class="steps">
+  <li>Assurez-vous que le tableau Google Sheet est à jour, avec les présences à compter.</li>
+  <li>Sur la page du Carré Vert, cliquez sur <span class="ui">Synchroniser Google Sheet</span>.<span class="sub">Le bouton affiche «&nbsp;Synchronisation...&nbsp;» pendant quelques secondes.</span></li>
+  <li>Lisez le message qui apparaît en bas de l'écran.</li>
+</ol>
+<table>
+  <thead><tr><th>Message</th><th>Sens</th></tr></thead>
+  <tbody>
+    <tr><td>«&nbsp;Synchronisation réussie (N sorties traitées, N membres mis à jour)&nbsp;»</td><td>Tout s'est bien passé.</td></tr>
+    <tr><td>«&nbsp;LEADERBOARD_SHEET_CSV_URL is not configured&nbsp;»</td><td>Aucun tableau n'est branché sur le site. Rien n'est modifié. Demandez au propriétaire du site de brancher le tableau.</td></tr>
+    <tr><td>«&nbsp;Failed to fetch CSV from Google Sheets&nbsp;»</td><td>Le tableau est injoignable ou n'est pas partagé. Rien n'est modifié.</td></tr>
+    <tr><td>«&nbsp;CSV file is empty or invalid&nbsp;»</td><td>Le tableau est vide ou mal formé.</td></tr>
+    <tr><td>«&nbsp;Erreur lors de la synchronisation avec le Google Sheet.&nbsp;» ou «&nbsp;Erreur de connexion lors de la synchronisation.&nbsp;»</td><td>Problème technique ou de connexion. Réessayez un peu plus tard.</td></tr>
+  </tbody>
+</table>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/14-synchro.jpg" alt="Message affiché après un clic sur Synchroniser Google Sheet"></div>
+  <figcaption><span class="fig">Fig. 8.5</span><span>Le message affiché après un clic. Ici, aucun tableau n'est branché.</span></figcaption>
+</figure>
+<h3>Comment le tableau doit être fait</h3>
+<ul>
+  <li>La première ligne est l'en-tête&nbsp;: <em>groupe, prénom, nom, total</em>, puis une colonne par date au format <strong>jj/mm</strong> (01/01, 03/01&hellip;). Les dates commencent à la cinquième colonne.</li>
+  <li>Une ligne par membre. Une cellule <strong>remplie</strong> (sauf «&nbsp;0&nbsp;» et «&nbsp;-&nbsp;») veut dire présent.</li>
+  <li>Le site retrouve le membre par son nom <strong>écrit exactement</strong> «&nbsp;Prénom Nom&nbsp;» (majuscules sans importance). Si un nom n'est pas reconnu, le site crée un nouveau membre dans le classement.</li>
+  <li>Les cellules ne doivent pas contenir de virgule.</li>
+  <li>Le tableau doit être publié depuis Google Sheets au format CSV.</li>
+</ul>
+<div class="box warn"><div class="box-title">Attention</div><p>Si une date du tableau ne correspond à aucune sortie du calendrier, <strong>le site crée une sortie</strong> à cette date (lieu «&nbsp;Sortie Club&nbsp;», départ 09:00, remarque «&nbsp;Imported from CSV&nbsp;»). Elle devient visible sur la page Calendrier. Vérifiez la liste des sorties (chapitre 5) après une synchronisation.</p></div>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le classement de la page Classement est reconstruit sur la base du tableau. Les sorties créées par la synchronisation apparaissent au calendrier.</p></div>
+
+<h2 id="t-classement-public"><span class="num">8.5</span>Le classement public et les saisons</h2>
+<p>La page <span class="url">Classement Carré Vert</span> du site se trouve dans le menu «&nbsp;Le club&nbsp;». Elle montre ce qu'il y a dans le panneau, mais le détail est <strong>réservé aux membres connectés</strong>.</p>
+<h3>Ce que voit un membre connecté</h3>
+<figure>
+  <div class="frame"><img src="../screens/14-classement-membre.jpg" alt="Classement Carré Vert vu par un membre connecté"></div>
+  <figcaption><span class="fig">Fig. 8.6</span><span>Le tableau du classement de la saison, vu par un membre connecté (le podium des trois premiers se trouve au-dessus).</span></figcaption>
+</figure>
+<ul>
+  <li>Le titre «&nbsp;Le Carré Vert 2026&nbsp;» et une légende&nbsp;: le leader de la saison, le nombre de membres classés, le nombre de sorties éligibles.</li>
+  <li>Les années <strong>2024 à 2027</strong>, avec les années où des présences existent, plus le bouton <span class="ui">Hall of Fame</span>. Cliquer sur une année change de saison. Il n'y a pas de sélecteur de saison dans le back-office.</li>
+  <li>Le podium (trois cartes), puis un tableau «&nbsp;Rang&nbsp;», «&nbsp;Nom&nbsp;», «&nbsp;Groupe&nbsp;», «&nbsp;Sorties&nbsp;», «&nbsp;Carrés verts&nbsp;».</li>
+  <li>Un clic sur un nom ouvre la fiche du membre&nbsp;: taux de fidélité (carrés sur sorties éligibles), titres et palmarès, détail par saison et liste des sorties.</li>
+</ul>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/14-hall.jpg" alt="Hall of Fame vu par un membre connecté"></div>
+  <figcaption><span class="fig">Fig. 8.7</span><span>Le «&nbsp;Hall of Fame&nbsp;»&nbsp;: le palmarès de toutes les saisons.</span></figcaption>
+</figure>
+<h3>Ce que voit un visiteur non connecté</h3>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/14-classement-visiteur.jpg" alt="Classement Carré Vert vu par un visiteur"></div>
+  <figcaption><span class="fig">Fig. 8.8</span><span>Le visiteur ne voit aucun nom&nbsp;: un cadenas et un bouton de connexion.</span></figcaption>
+</figure>
+<p>Le visiteur lit «&nbsp;Espace Membres — Données d'Assiduité Réservées&nbsp;», le nombre de sorties éligibles et le nombre de membres inscrits au challenge. Aucun nom ni aucun total n'est affiché. Un bouton «&nbsp;Se connecter avec mon compte membre&nbsp;» mène à la connexion.</p>
+<h3>La page d'accueil</h3>
+<p>Sur la page d'accueil, la bande «&nbsp;Le Carré Vert 2026&nbsp;» montre les 8 premiers du classement aux membres connectés. Aux visiteurs, elle dit «&nbsp;Classement nominatif réservé aux adhérents connectés&nbsp;». Elle est cachée s'il n'y a encore aucune sortie éligible.</p>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Tout ce que vous faites dans ce chapitre se voit sur la page Classement dès la visite suivante d'un membre connecté. Les visiteurs ne voient jamais les noms.</p></div>
+</article>
