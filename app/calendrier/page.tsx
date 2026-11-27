@@ -7,7 +7,9 @@ import CalendarSubscribeButton from './CalendarSubscribeButton';
 import { Spinner } from '../components/ui/Spinner';
 import { SheetHeader } from '../components/carte/SheetHeader';
 
-export const revalidate = 3600; // Revalidate every hour
+// Admin edits refresh the page at once (revalidateCalendarPages); this only bounds edits made
+// outside the app (Firebase console).
+export const revalidate = 300;
 
 export default async function CalendarPage() {
   const [events, allAttendance, allReviews] = await Promise.all([

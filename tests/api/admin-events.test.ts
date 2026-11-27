@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { POST as createEventRoute } from '@/app/api/admin/events/route';
 import {
   GET as getEventByIdRoute,
@@ -9,6 +10,14 @@ import {
 import * as adminModule from '@/app/lib/firebase/admin';
 import * as adminAccessModule from '@/app/lib/auth/admin-access';
 
+vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));
+
+/** #245: every successful write refreshes the pages that print events (root layout). */
+const expectCalendarPagesRefreshed = (): void => {
+  expect(revalidatePath).toHaveBeenCalledTimes(1);
+  expect(revalidatePath).toHaveBeenCalledWith('/', 'layout');
+};
+
 describe('Admin Calendar Events API Endpoints', () => {
   const mockContext = {
     params: Promise.resolve({ id: 'event-123' }),
@@ -16,6 +25,7 @@ describe('Admin Calendar Events API Endpoints', () => {
 
   beforeEach(() => {
     vi.restoreAllMocks();
+    vi.mocked(revalidatePath).mockClear();
   });
 
   describe('POST /api/admin/events', () => {
@@ -32,6 +42,7 @@ describe('Admin Calendar Events API Endpoints', () => {
 
       const res = await createEventRoute(req);
       expect(res.status).toBe(401);
+      expect(revalidatePath).not.toHaveBeenCalled();
     });
 
     it('creates calendar event in Realtime Database', async () => {
@@ -69,6 +80,7 @@ describe('Admin Calendar Events API Endpoints', () => {
           location: 'Mont-Saint-Guibert',
         })
       );
+      expectCalendarPagesRefreshed();
     });
   });
 
@@ -141,6 +153,55 @@ describe('Admin Calendar Events API Endpoints', () => {
       expect(updateMock).toHaveBeenCalledWith(
         expect.objectContaining({ departure: '9h00' })
       );
+      expectCalendarPagesRefreshed();
+    });
+
+    it('shows a trace added to an event without waiting for the cache (#245)', async () => {
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
+      const updateMock = vi.fn().mockResolvedValue(undefined);
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({
+        ref: vi.fn().mockReturnValue({ update: updateMock }),
+      } as any);
+
+      const res = await updateEventByIdRoute(
+        new NextRequest('http://localhost:3000/api/admin/events/event-123', {
+          method: 'PUT',
+          body: JSON.stringify({ gpxUrl: 'https://connect.garmin.com/app/course/532374522' }),
+        }),
+        mockContext
+      );
+
+      expect(res.status).toBe(200);
+      // The write lands before the refresh, so the regenerated pages read the new trace.
+      expect(updateMock.mock.invocationCallOrder[0]).toBeLessThan(
+        vi.mocked(revalidatePath).mock.invocationCallOrder[0]
+      );
+      expectCalendarPagesRefreshed();
+    });
+
+    it('refreshes nothing when the write fails', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', isAdmin: true },
+      } as any);
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({
+        ref: vi.fn().mockReturnValue({ update: vi.fn().mockRejectedValue(new Error('down')) }),
+      } as any);
+
+      const res = await updateEventByIdRoute(
+        new NextRequest('http://localhost:3000/api/admin/events/event-123', {
+          method: 'PUT',
+          body: JSON.stringify({ departure: '9h00' }),
+        }),
+        mockContext
+      );
+
+      expect(res.status).toBe(500);
+      expect(revalidatePath).not.toHaveBeenCalled();
     });
   });
 
@@ -165,6 +226,7 @@ describe('Admin Calendar Events API Endpoints', () => {
       expect(data.success).toBe(true);
       expect(refMock).toHaveBeenCalledWith('calendar-events/event-123');
       expect(removeMock).toHaveBeenCalledTimes(1);
+      expectCalendarPagesRefreshed();
     });
   });
 });
