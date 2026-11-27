@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { CalendarEvent } from '@/app/types';
 import { verifySectionRequest } from '@/app/lib/auth/admin-access';
+import { revalidateCalendarPages } from '@/app/lib/revalidate-calendar';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const authCheck = await verifySectionRequest(request, 'events');
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ...eventData,
       createdAt: new Date().toISOString(),
     });
+    revalidateCalendarPages();
 
     return NextResponse.json({ success: true, id: newEventRef.key });
   } catch (error) {

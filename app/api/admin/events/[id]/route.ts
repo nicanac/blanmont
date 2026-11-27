@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { verifySectionRequest } from '@/app/lib/auth/admin-access';
+import { revalidateCalendarPages } from '@/app/lib/revalidate-calendar';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -43,6 +44,7 @@ export async function PUT(request: NextRequest, context: RouteContext): Promise<
       ...data,
       updatedAt: new Date().toISOString(),
     });
+    revalidateCalendarPages();
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -62,6 +64,7 @@ export async function DELETE(request: NextRequest, context: RouteContext): Promi
     const db = getAdminDatabase();
 
     await db.ref(`calendar-events/${id}`).remove();
+    revalidateCalendarPages();
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -3,7 +3,7 @@
 import { CalendarEvent } from '@/app/types';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { requireSectionAccess } from '@/app/lib/auth/admin-access';
-import { revalidatePath } from 'next/cache';
+import { revalidateCalendarPages } from '@/app/lib/revalidate-calendar';
 
 const MONTHS: { [key: string]: string } = {
   janvier: '01',
@@ -105,8 +105,7 @@ export async function saveImportedEventsAction(
       count++;
     }
 
-    revalidatePath('/calendrier');
-    revalidatePath('/admin/events');
+    revalidateCalendarPages();
 
     return {
       success: true,
