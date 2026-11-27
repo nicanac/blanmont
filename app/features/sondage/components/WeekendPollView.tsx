@@ -98,7 +98,7 @@ function ChoiceCard({
   );
 }
 
-/** Figma 23:2597: previews the live poll summary and opens WhatsApp with it (wa.me lets the user pick the group). */
+/** Figma 23:2597: previews the live poll summary and opens WhatsApp with it (the user picks the group). */
 function ShareGroupCard({ message }: { message: string }): React.ReactElement {
   return (
     <section
@@ -116,7 +116,8 @@ function ShareGroupCard({ message }: { message: string }): React.ReactElement {
         {message.replaceAll('*', '')}
       </p>
       <a
-        href={`https://wa.me/?text=${encodeURIComponent(message)}`}
+        // Not wa.me: its redirect turns 4-byte emoji (🚴, 📅…) into �.
+        href={`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`}
         target="_blank"
         rel="noopener noreferrer"
         className={buttonVariants({ variant: 'outline' })}

@@ -551,7 +551,8 @@ export default function ProspectsTable({
                   const waMsg = encodeURIComponent(
                     `Bonjour ${firstName} ! 👋\n${mentorGreeting}.\nNous avons bien reçu ta demande de sortie d'essai dans le ${groupFullName(p.preferredGroup)} (${p.bikeType}). Serais-tu disponible pour rouler ce weekend ? 🚴‍♂️`
                   );
-                  const waUrl = `https://wa.me/${cleanPhone}?text=${waMsg}`;
+                  // Not wa.me: its redirect turns 4-byte emoji (👋, 🚴) into �.
+                  const waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${waMsg}`;
 
                   return (
                     <tr

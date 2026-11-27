@@ -145,7 +145,8 @@ export default function ProspectDetailModal({
   const waMessage = encodeURIComponent(
     `Bonjour ${firstName} ! 👋\n${mentorGreeting}.\n\nNous avons bien reçu ta demande pour une sortie d'essai dans le ${groupFullName(prospect.preferredGroup)} (${prospect.bikeType}).\n\nNos sorties partent le samedi à 9h00 (ou dimanche selon météo) depuis la place de Blanmont. Serais-tu disponible pour rouler avec nous prochainement ?\n\nAu plaisir d'échanger et de rouler ensemble ! 🚴‍♂️`
   );
-  const waUrl = `https://wa.me/${cleanPhone}?text=${waMessage}`;
+  // Not wa.me: its redirect turns 4-byte emoji (👋, 🚴) into �.
+  const waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${waMessage}`;
 
   const pipelineSteps: { status: TrialRideStatus; label: string; desc: string }[] = [
     { status: 'pending', label: 'Nouveau', desc: 'À contacter' },
