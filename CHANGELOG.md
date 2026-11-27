@@ -36,6 +36,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.47.3] - 2026-11-27
+
+### Fixed
+- fix(feedback): snapshot the scrolled viewport, not the top of the page (#236) (#237) (`f77a66d`)
 ## [0.47.2] - 2026-11-26
 
 ### Fixed
