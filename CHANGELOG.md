@@ -38,6 +38,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.48.1] - 2026-11-27
+
+### Fixed
+- fix(whatsapp): keep emoji in prefilled WhatsApp messages (#240) (`3258334`)
 ## [0.48.0] - 2026-11-27
 
 ### Added
