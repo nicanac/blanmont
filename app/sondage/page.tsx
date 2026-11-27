@@ -4,9 +4,10 @@ import { getActiveWeekendPoll, getPollResponses, getMembers } from '../lib/fireb
 import { getCalendarEvents } from '../lib/firebase/calendar';
 import { weekendTraces } from '../lib/poll-share';
 import { withTraceRoutes } from '../lib/trace-route';
+import { getSessionUser } from '../lib/auth/session';
 import WeekendPollView from '../features/sondage/components/WeekendPollView';
 
-export const revalidate = 30; // Revalidate every 30 seconds for live poll counts
+// Reading the session cookie makes this page dynamic: the weekend trace is for members only (#252).
 
 export const metadata: Metadata = {
   title: 'Sondage du Weekend | CC Saint-Martin Blanmont',
@@ -15,16 +16,18 @@ export const metadata: Metadata = {
 };
 
 export default async function SondagePage(): Promise<React.ReactElement> {
-  const [activePoll, members, events] = await Promise.all([
+  const [activePoll, members, events, sessionUser] = await Promise.all([
     getActiveWeekendPoll(),
     getMembers(),
     getCalendarEvents(),
+    getSessionUser(),
   ]);
   // Responses and the trace previews (Garmin course / GPX, cached 1 h) load in parallel.
+  // Guests never receive the traces: they are left out on the server, not hidden in the view.
   const [responses, traces] = activePoll
     ? await Promise.all([
         getPollResponses(activePoll.id),
-        withTraceRoutes(weekendTraces(events, activePoll.weekendIsoDate)),
+        sessionUser ? withTraceRoutes(weekendTraces(events, activePoll.weekendIsoDate)) : [],
       ])
     : [[], []];
 
