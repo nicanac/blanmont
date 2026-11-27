@@ -44,6 +44,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.49.3] - 2026-11-27
+
+### Fixed
+- fix(import): save GPX imports to the club database, not Notion (#254) (#256) (`4c74595`)
 ## [0.49.2] - 2026-11-27
 
 ### Fixed
