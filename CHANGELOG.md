@@ -42,6 +42,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.49.1] - 2026-11-27
+
+### Fixed
+- fix(calendrier): show a trace added in the admin at once (#245) (#248) (`eb36ead`)
 ## [0.49.0] - 2026-11-27
 
 ### Added
