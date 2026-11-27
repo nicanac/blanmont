@@ -1,5 +1,6 @@
 import type { CalendarEvent, PollResponse, WeekendPoll } from '@/app/types';
 import { formatFrenchDate } from '@/app/utils/date';
+import type { TraceRoute } from './trace-route';
 import {
   POLL_GROUP_OPTIONS,
   POLL_SLOTS,
@@ -14,6 +15,8 @@ export const SONDAGE_URL = 'https://blanmont.be/sondage';
 export interface WeekendTrace {
   isoDate: string;
   url: string;
+  /** Map and figures resolved server-side (`withTraceRoutes`); null or absent = link only. */
+  route?: TraceRoute | null;
 }
 
 /** GPS traces the calendar lists for the poll's weekend: the target Saturday and the Sunday after. */

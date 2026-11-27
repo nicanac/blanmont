@@ -26,6 +26,14 @@ vi.mock('next/link', () => ({
   ),
 }));
 
+// Leaflet is client-only: the trace map is replaced by a probe.
+vi.mock('next/dynamic', () => ({
+  default: () =>
+    function MapProbe() {
+      return <div data-testid="trace-map" />;
+    },
+}));
+
 // Mock AuthContext
 let mockAuthState = {
   user: null as any,
@@ -134,6 +142,57 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     expect(screen.getByText(/Liste des participants/i)).toBeDefined();
     expect(screen.getByText('Nicolas Bruyère')).toBeDefined();
     expect(screen.getByText('Samedi matin + Dimanche matin')).toBeDefined();
+  });
+
+  it('prints the weekend trace in the legend column, under the group breakdown (#244)', () => {
+    const { container } = render(
+      <WeekendPollView
+        poll={mockPoll}
+        responses={mockResponses}
+        members={mockMembers}
+        traces={[
+          {
+            isoDate: '2026-09-26',
+            url: 'https://connect.garmin.com/app/course/532374522',
+            route: {
+              name: 'Boucle de la Thyle',
+              distanceKm: 72.4,
+              elevationM: 610,
+              polyline: 'abc',
+            },
+          },
+        ]}
+      />
+    );
+
+    const traces = container.querySelector(
+      'header section[aria-labelledby="sondage-traces"]'
+    ) as HTMLElement;
+    expect(traces).not.toBeNull();
+    // Same legend column as the group breakdown, printed after it.
+    const breakdown = container.querySelector('header section[aria-labelledby="sondage-groupes"]')!;
+    expect(
+      breakdown.compareDocumentPosition(traces) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy();
+    expect(within(traces).getByText('Boucle de la Thyle')).toBeDefined();
+    expect(within(traces).getByTestId('trace-map')).toBeDefined();
+    expect(
+      within(traces)
+        .getByRole('link', { name: /Ouvrir sur Garmin Connect/ })
+        .getAttribute('href')
+    ).toBe('https://connect.garmin.com/app/course/532374522');
+  });
+
+  it('prints no trace block when the calendar has no trace for the weekend', () => {
+    const { container } = render(
+      <WeekendPollView
+        poll={mockPoll}
+        responses={mockResponses}
+        members={mockMembers}
+        traces={[]}
+      />
+    );
+    expect(container.querySelector('section[aria-labelledby="sondage-traces"]')).toBeNull();
   });
 
   it('renders login required prompt for unauthenticated users', () => {

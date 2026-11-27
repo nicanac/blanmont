@@ -22,21 +22,23 @@ const NO_POSITIONS: [number, number][] = [];
 function FitBounds({
   positions,
   geoJson,
+  padding,
 }: {
   positions?: [number, number][];
   geoJson?: GeoJsonObject;
+  padding: number;
 }) {
   const map = useMap();
 
   useEffect(() => {
     if (geoJson) {
       const layer = L.geoJSON(geoJson);
-      map.fitBounds(layer.getBounds(), { padding: [30, 30] });
+      map.fitBounds(layer.getBounds(), { padding: [padding, padding] });
     } else if (positions && positions.length > 0) {
       const bounds = L.latLngBounds(positions);
-      map.fitBounds(bounds, { padding: [30, 30] });
+      map.fitBounds(bounds, { padding: [padding, padding] });
     }
-  }, [map, positions, geoJson]);
+  }, [map, positions, geoJson, padding]);
 
   return null;
 }
@@ -48,6 +50,11 @@ export interface MapPreviewProps {
   strokeColor?: string;
   strokeWeight?: number;
   className?: string;
+  /**
+   * false = static preview: no pan, zoom or keyboard focus (no scroll trap on touch),
+   * and a tighter fit (quarter-step zoom, 16px padding) since the reader cannot zoom in.
+   */
+  interactive?: boolean;
 }
 
 export default function MapPreview({
@@ -57,6 +64,7 @@ export default function MapPreview({
   strokeColor = '#e03e3e',
   strokeWeight = 4,
   className = '',
+  interactive = true,
 }: MapPreviewProps) {
   const decodedPositions = useMemo(() => {
     if (!summaryPolyline) return null;
@@ -92,6 +100,13 @@ export default function MapPreview({
         center={center}
         zoom={12}
         scrollWheelZoom={false}
+        dragging={interactive}
+        touchZoom={interactive}
+        doubleClickZoom={interactive}
+        boxZoom={interactive}
+        keyboard={interactive}
+        zoomControl={interactive}
+        zoomSnap={interactive ? 1 : 0.25}
         className="h-full w-full rounded-lg z-0"
         style={{ height: '100%', width: '100%' }}
       >
@@ -105,7 +120,7 @@ export default function MapPreview({
         {positions.length > 0 && !geoJson && (
           <Polyline positions={positions} color={strokeColor} weight={strokeWeight} />
         )}
-        <FitBounds positions={positions} geoJson={geoJson} />
+        <FitBounds positions={positions} geoJson={geoJson} padding={interactive ? 30 : 16} />
       </MapContainer>
     </div>
   );
