@@ -37,6 +37,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.48.0] - 2026-11-27
+
+### Added
+- feat(sondage): share the live poll on WhatsApp (#239) (`b652242`)
 ## [0.47.3] - 2026-11-27
 
 ### Fixed
