@@ -183,9 +183,10 @@ export default function HomeCover({
               <dt className="font-narrow text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 dark:text-snow-3">
                 Groupes{distance ? ` · ${distance}` : ''}
               </dt>
-              <dd className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 lg:grid-cols-5">
+              {/* Each group keeps swatch, name and speed on one line; whole groups wrap (#249). */}
+              <dd className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
                 {PACE_GROUPS.map((g) => (
-                  <span key={g.id} className="flex items-center gap-2">
+                  <span key={g.id} className="flex items-center gap-2 whitespace-nowrap">
                     <RoadSwatch group={g.id} className="w-8" />
                     <span className="font-narrow text-sm font-bold text-ink dark:text-snow">
                       <GroupName code={g.id} />
