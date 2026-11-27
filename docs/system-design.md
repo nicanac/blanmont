@@ -302,7 +302,7 @@ Ranked by risk. Status is tracked here; update the line when the fix lands.
 | 6 | Google Sheet URL hard-coded | Fix in #188: `LEADERBOARD_SHEET_CSV_URL` env |
 | 7 | No scheduled RTDB backup | Fix in #188: daily `/api/cron/backup-db` → Storage `backups/`, 30 days |
 | 8 | Doc drift in `architecture.md` (Notion data layer, old branch convention) and `database.md` (`AdminGuard` as perimeter) | Fixed in this PR |
-| 9 | Some server-side helpers (e.g. `updateTrace`, used by `PATCH /api/traces/[id]`) go through the Web SDK (`getFirebaseDatabase`); under the live deny-all rules those calls should be rejected (inferred from code + rules, not reproduced) | Open: verify, then switch them to the Admin SDK |
+| 9 | Some server-side helpers went through the Web SDK (`getFirebaseDatabase`); under the live deny-all rules those writes are rejected | Traces fixed in #254: every write in `app/lib/firebase/traces.ts` (create, update, delete, map preview; used by the GPX / Strava import, `/api/admin/add-trace` and `PATCH /api/traces/[id]`) goes through `rtdbService` (Admin SDK on the server). Open: check the remaining modules |
 
 Until #188 is merged and its four env vars are set on Vercel, rows 1–7 describe production as it runs today.
 

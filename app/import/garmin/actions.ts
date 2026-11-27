@@ -1,6 +1,45 @@
 'use server';
 
-import { FetchGarminActivitySchema, safeValidate } from '../../lib/validation';
+import { createTrace } from '../../lib/firebase';
+import { requireAdminSession } from '../../lib/auth/session';
+import { FetchGarminActivitySchema, ImportGpxTraceSchema, safeValidate } from '../../lib/validation';
+
+export type ImportGpxTraceResult =
+    | { success: true; traceId: string }
+    | { success: false; error: string };
+
+/**
+ * Saves a trace imported from a GPX file or a Garmin/Komoot link into Firebase `/traces` (#254).
+ * Admin only. Needs no Strava connection: the page parsed the file and the admin reviewed it.
+ */
+export async function importGpxTraceAction(input: unknown): Promise<ImportGpxTraceResult> {
+    await requireAdminSession();
+
+    const validation = safeValidate(ImportGpxTraceSchema, input);
+    if (!validation.success) {
+        return { success: false, error: validation.errors.map((e) => e.message).join(' ') };
+    }
+
+    const trace = validation.data;
+    const result = await createTrace({
+        name: trace.name,
+        distance: trace.distance,
+        elevation: trace.elevation,
+        direction: trace.direction,
+        surface: trace.surface,
+        rating: trace.rating,
+        description: trace.description || '',
+        polyline: trace.polyline || undefined,
+        mapUrl: trace.mapUrl || undefined,
+    });
+
+    if (!result.success || !result.id) {
+        // createTrace logs the cause; the UI gets a fixed French message.
+        return { success: false, error: 'Le parcours n’a pas pu être enregistré. Réessayez.' };
+    }
+
+    return { success: true, traceId: result.id };
+}
 
 export async function fetchGarminActivityAction(urlInput: string) {
     const validation = safeValidate(FetchGarminActivitySchema, { url: urlInput });

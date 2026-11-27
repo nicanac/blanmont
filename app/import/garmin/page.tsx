@@ -4,8 +4,9 @@ import { useState } from 'react';
 import TracePreviewForm, { TraceImportData } from '../../features/import/components/TracePreviewForm';
 import { CloudArrowUpIcon, CheckCircleIcon, XMarkIcon, TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
 import * as toGeoJSON from '@tmcw/togeojson';
-import * as mapboxPolyline from '@mapbox/polyline';
-import { importStravaTraceAction, deleteTraceAction } from '../strava/actions';
+import { encodeTrackPolyline } from '../../lib/polyline';
+import { importGpxTraceAction } from './actions';
+import { deleteTraceAction } from '../strava/actions';
 import Link from 'next/link';
 import { toast } from 'sonner';
 
@@ -42,23 +43,23 @@ export default function GarminImportPage() {
             if (result.activity) {
                 // We got some data!
                 setPreview({
-                    name: result.activity.name || 'Imported Garmin Activity',
+                    name: result.activity.name || 'Activité Garmin importée',
                     distance: result.activity.distance || 0,
                     total_elevation_gain: result.activity.elevation || 0,
                     map: {
                         summary_polyline: '' // Likely empty if we just scraped HTML
                     },
                     total_photo_count: 0,
-                    // Pass the URL so it can be saved as the 'Komoot'/'Map' link in Notion
+                    // Saved as the trace's map link (mapUrl)
                     mapUrl: url
                 });
 
                 if (!result.activity.hasGpx) {
-                    setSuccessMessage('URL loaded! Note: Retrieveing exact map data from Garmin URLs is restricted. Please verify stats below. The link will be saved.');
+                    setSuccessMessage('Lien chargé. Garmin ne fournit pas le tracé depuis un lien : vérifiez la distance et le dénivelé ci-dessous. Le lien sera enregistré avec le parcours.');
                 }
             }
         } catch {
-            setError('Failed to load URL.');
+            setError('Impossible de charger ce lien.');
         } finally {
             setLoading(false);
         }
@@ -80,7 +81,7 @@ export default function GarminImportPage() {
             if (!track || !track.geometry || track.geometry.type !== 'LineString') {
                 // Fallback: Check for MultiLineString
                 const multiTrack = geojson.features.find((f) => f.geometry.type === 'MultiLineString');
-                if (multiTrack) throw new Error('MultiLineString not yet supported, please simplify GPX.');
+                if (multiTrack) throw new Error('MultiLineString not yet supported.');
 
                 throw new Error('No track found in GPX file.');
             }
@@ -106,10 +107,9 @@ export default function GarminImportPage() {
                 }
             }
 
-            // Encode Polyline
-            // mapboxPolyline expects [lat, lng]
+            // Encode the polyline ([lat, lng]); a dense recording is thinned to fit what a trace stores
             const pathForPolyline = coordinates.map(c => [c[1], c[0]] as [number, number]);
-            const encodedPolyline = mapboxPolyline.encode(pathForPolyline);
+            const encodedPolyline = encodeTrackPolyline(pathForPolyline);
 
             setPreview({
                 name: file.name.replace('.gpx', ''),
@@ -123,7 +123,7 @@ export default function GarminImportPage() {
 
         } catch (e) {
             console.error('GPX Parse Error:', e);
-            setError('Failed to parse GPX file. Please make sure it is a valid GPX.');
+            setError('Impossible de lire ce fichier. Vérifiez qu’il s’agit d’un fichier GPX valide.');
         } finally {
             setLoading(false);
         }
@@ -156,48 +156,36 @@ export default function GarminImportPage() {
     }) => {
         if (!preview) return;
         setLoading(true);
+        setError(null);
 
         try {
-            // The existing importStravaTraceAction expects StravaActivity but takes 'any' in implementation.
-
-            const mockActivity: Record<string, unknown> = {
-                id: Date.now(), // Fake ID
+            // Saved straight to the club's database (Firebase /traces); no Strava connection needed.
+            const result = await importGpxTraceAction({
                 name: details.name,
-                // Use edited values from form instead of preview
-                distance: details.distance * 1000, // Convert km back to meters
-                total_elevation_gain: details.elevation,
-                start_latlng: [0, 0], // Not used for Notion creation really (except maybe map center?)
-                map: {
-                    id: `gpx-${Date.now()}`,
-                    summary_polyline: preview.map.summary_polyline
-                },
-                description: details.description || 'Imported from Garmin/GPX',
-                start_date: new Date().toISOString(),
-                photos: { count: 0, primary: null },
-                total_photo_count: 0,
-                // Pass the URL for Notion 'Komoot' field
-                mapUrl: preview.mapUrl
-            };
-
-            // If we have an external URL, let's append it to description or pass it specially if 'actions' supports it.
-            // Looking at importStravaTraceAction... it maps StravaActivity to TraceData.
-            // Currently it puts `komoot` as mapUrl. We can hijack that?
-            // Or better, let's rely on standard logic.
-
-            const result = await importStravaTraceAction(mockActivity, details);
+                distance: details.distance,
+                elevation: details.elevation,
+                direction: details.direction,
+                surface: details.surface,
+                rating: details.rating,
+                description: details.description,
+                polyline: preview.map.summary_polyline || undefined,
+                mapUrl: preview.mapUrl || undefined,
+            });
 
             if (result.success) {
-                setSuccessMessage('Trace imported successfully!');
-                setCreatedTraceId(result.traceId || null);
+                setSuccessMessage('Parcours importé avec succès !');
+                setCreatedTraceId(result.traceId);
                 setPreview(null);
                 setFile(null);
                 setUrl('');
+                toast.success('Parcours ajouté au catalogue.');
             } else {
-                setError(result.error || 'Failed to create trace in Notion.');
+                setError(result.error);
+                toast.error(result.error);
             }
         } catch (e) {
             console.error(e);
-            setError('System error during import.');
+            setError('Erreur lors de l’importation du parcours.');
         } finally {
             setLoading(false);
         }
