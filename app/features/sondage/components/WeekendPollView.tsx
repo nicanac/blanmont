@@ -4,11 +4,18 @@ import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import { ArrowRightIcon, CheckCircleIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowRightIcon,
+  CheckCircleIcon,
+  ChevronDownIcon,
+  ShareIcon,
+} from '@heroicons/react/24/outline';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 import { useAuth } from '@/app/context/AuthContext';
 import { RoadSwatch } from '@/app/components/carte/RoadSwatch';
 import { SheetHeader } from '@/app/components/carte/SheetHeader';
+import { buttonVariants } from '@/app/components/ui/Button';
+import { buildPollShareMessage, type WeekendTrace } from '@/app/lib/poll-share';
 import type { CyclingGroup } from '@/app/constants/cycling';
 import type { WeekendPoll, PollResponse, Member, PollSlot } from '@/app/types';
 import { submitWeekendPollResponseAction, deleteWeekendPollResponseAction } from '@/app/actions';
@@ -26,6 +33,8 @@ interface WeekendPollViewProps {
   poll: WeekendPoll | null;
   responses: PollResponse[];
   members: Member[];
+  /** GPS traces the calendar lists for the poll's weekend. */
+  traces?: WeekendTrace[];
 }
 
 /** Last group picked on this device, preselected on the next poll ("choix conservé"). */
@@ -86,6 +95,39 @@ function ChoiceCard({
       </span>
       <span className="text-xs leading-snug text-ink-3 sm:text-sm dark:text-snow-3">{detail}</span>
     </label>
+  );
+}
+
+/** Figma 23:2597: previews the live poll summary and opens WhatsApp with it (wa.me lets the user pick the group). */
+function ShareGroupCard({ message }: { message: string }): React.ReactElement {
+  return (
+    <section
+      aria-labelledby="sondage-partage"
+      className="mt-6 flex flex-col items-start gap-4 rounded-md border border-line bg-white p-5 sm:p-8 dark:border-night-line dark:bg-night-2"
+    >
+      <h2 id="sondage-partage" className="text-lg font-bold leading-[1.3] text-ink dark:text-snow">
+        Prévenir le groupe
+      </h2>
+      <p className="text-sm text-ink-3 dark:text-snow-3">
+        Un message, un lien : chacun vote directement dans le sondage.
+      </p>
+      <p className="w-full whitespace-pre-line break-words rounded-md border border-line bg-paper p-4 text-base leading-[1.6] text-ink-2 dark:border-night-line dark:bg-night-3 dark:text-snow-2">
+        {/* WhatsApp renders *bold*; the preview shows the plain text. */}
+        {message.replaceAll('*', '')}
+      </p>
+      <a
+        href={`https://wa.me/?text=${encodeURIComponent(message)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={buttonVariants({ variant: 'outline' })}
+      >
+        <ShareIcon className="size-4 shrink-0" aria-hidden="true" />
+        Partager sur WhatsApp
+      </a>
+      <p className="text-xs leading-[1.4] text-ink-3 dark:text-snow-3">
+        Ouvre WhatsApp avec le message et le lien du sondage.
+      </p>
+    </section>
   );
 }
 
@@ -382,6 +424,7 @@ export default function WeekendPollView({
   poll,
   responses,
   members: _members,
+  traces = [],
 }: WeekendPollViewProps): React.ReactElement {
   const { fullName: groupFullName, label } = useGroupLabels();
   const { user, isAuthenticated } = useAuth();
@@ -608,6 +651,10 @@ export default function WeekendPollView({
             </ul>
           )}
         </div>
+
+        <ShareGroupCard
+          message={buildPollShareMessage({ poll, responses, traces, groupName: label })}
+        />
       </section>
     </>
   );
