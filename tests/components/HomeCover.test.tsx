@@ -187,4 +187,40 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
     expect(screen.getByText('Samedi & Dimanche')).toBeInTheDocument();
     expect(screen.getByText('Rassemblement')).toBeInTheDocument();
   });
+
+  it('downloads a Garmin course as a GPX file instead of opening Garmin (#246)', () => {
+    render(
+      <HomeCover
+        nextRide={{ ...sampleRide, gpxUrl: 'https://connect.garmin.com/modern/course/439393393' }}
+        weather={null}
+        heroSettings={sampleSettings}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
+        activePoll={null}
+        ridersAnnounced={0}
+      />
+    );
+
+    const link = screen.getByRole('link', { name: /Télécharger la trace GPX/i });
+    expect(link.getAttribute('href')).toBe('/api/gpx/garmin/439393393');
+    expect(link.hasAttribute('download')).toBe(true);
+    expect(link.getAttribute('target')).toBeNull();
+  });
+
+  it('keeps a Strava route as a link to Strava', () => {
+    render(
+      <HomeCover
+        nextRide={sampleRide}
+        weather={null}
+        heroSettings={sampleSettings}
+        schedule={sampleSchedule}
+        groupNames="GR1, GR2 & VTT"
+        activePoll={null}
+        ridersAnnounced={0}
+      />
+    );
+
+    const link = screen.getByRole('link', { name: /Trace sur Strava/i });
+    expect(link.getAttribute('href')).toBe(sampleRide.gpxUrl);
+  });
 });

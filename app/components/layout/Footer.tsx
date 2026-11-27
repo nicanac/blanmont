@@ -8,32 +8,7 @@ import TerritoryMap from '../carte/TerritoryMap';
 import { ScaleBar, NorthArrow } from '../carte/ScaleBar';
 import { DEPARTURE_POINT, MAP_CREDITS } from '../carte/territory';
 import OpenCookiePreferencesButton from '../consent/OpenCookiePreferencesButton';
-
-const navigation = {
-  club: [
-    { name: 'Rejoindre le Club (3 essais gratuits)', href: '/rejoindre' },
-    { name: 'Présentation & Groupes', href: '/le-club' },
-    { name: 'Charte de Sécurité Peloton', href: '/securite' },
-    { name: 'Galerie Photos & Chroniques', href: '/galerie' },
-    { name: 'Les Membres', href: '/members' },
-    { name: 'Équipements & Tenues', href: '/le-club/equipement' },
-    { name: 'Classement Carré Vert', href: '/leaderboard' },
-  ],
-  routes: [
-    { name: 'Sondage du Weekend', href: '/sondage' },
-    { name: 'Sortie du Samedi (Vote)', href: '/saturday-ride' },
-    { name: 'Tous les Parcours GPS', href: '/traces' },
-    { name: 'Calendrier des Sorties', href: '/calendrier' },
-    { name: 'Importer un parcours', href: '/import/strava' },
-  ],
-  newsAndAccount: [
-    { name: 'Les News du Club', href: '/blog' },
-    { name: 'Mon Espace Membre', href: '/profile' },
-    { name: 'Connexion Membre', href: '/login' },
-    { name: 'Politique de Confidentialité', href: '/confidentialite' },
-    { name: 'Administration', href: '/admin' },
-  ],
-};
+import { footerNavigation } from './navigation';
 
 /**
  * One footer link column. Every heading takes the height of two lines and sits on its rule
@@ -122,8 +97,9 @@ export default async function Footer(): Promise<React.JSX.Element> {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-          <div className="space-y-5 lg:col-span-4">
+        {/* Brand and card keep a fixed width; the link columns take the rest (#251). */}
+        <div className="flex flex-col gap-12 lg:flex-row">
+          <div className="space-y-5 lg:w-80 lg:shrink-0">
             <Wordmark size="lg" withSubline={false} />
             <p className="max-w-sm text-sm leading-relaxed text-ink-2 dark:text-snow-2">
               Cyclo Club Saint-Martin Blanmont. Convivialité, passion du cyclisme sur route et
@@ -134,15 +110,16 @@ export default async function Footer(): Promise<React.JSX.Element> {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-5">
-            <FooterColumn title="Le Club" items={navigation.club} />
-            <FooterColumn title="Parcours & Sorties" items={navigation.routes} />
-            <div className="col-span-2 sm:col-span-1">
-              <FooterColumn title="Vie du Club" items={navigation.newsAndAccount} />
-            </div>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:flex-1">
+            {footerNavigation.map((column, i) => (
+              <div key={column.title} className={i === 2 ? 'col-span-2 sm:col-span-1' : undefined}>
+                <FooterColumn title={column.title} items={column.items} />
+              </div>
+            ))}
           </div>
 
-          <div className="lg:col-span-3">
+          {/* NextRideCard renders nothing on the homepage: the empty slot goes and the links widen. */}
+          <div className="empty:hidden lg:w-72 lg:shrink-0">
             <NextRideCard nextRide={nextRide} />
           </div>
         </div>

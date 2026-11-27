@@ -1,6 +1,7 @@
 /**
- * Public navigation menus of the Navbar (desktop bar, "Le Club" mega-menu, mobile drawer).
- * Kept apart from the component so the menu structure can be unit-tested.
+ * Public navigation menus of the Navbar (desktop bar, "Le Club" mega-menu, mobile drawer)
+ * and of the Footer, which repeats them. Kept apart from the components so the menu
+ * structure can be unit-tested.
  */
 import {
   CalendarIcon,
@@ -10,6 +11,7 @@ import {
   UserIcon,
   PhotoIcon,
   MapIcon,
+  QrCodeIcon,
 } from '@heroicons/react/24/outline';
 import { JerseyIcon, TrophySquareIcon, ClubCrestIcon } from '../ui/CyclingIcons';
 
@@ -92,6 +94,46 @@ export const clubLife: NavItem[] = [
     description: 'Photos & récits des sorties au fil des saisons',
     href: '/galerie',
     icon: PhotoIcon,
+  },
+];
+
+/** Signed-in member menu (account dropdown and mobile drawer). */
+export const userNavigation: NavItem[] = [
+  { name: 'Mon Compte', description: 'Gérer mon profil', href: '/profile', icon: UserIcon },
+  {
+    name: 'Pass Sécurité & Carte',
+    description: 'Licence FFBC, ICE & QR départ',
+    href: '/profile/pass',
+    icon: QrCodeIcon,
+  },
+];
+
+export interface FooterLinkColumn {
+  title: string;
+  items: { name: string; href: string }[];
+}
+
+/**
+ * Footer link columns, built from the Navbar menus so both list the same pages (#243).
+ * The footer is the same for every visitor: role-gated entries (Admin, Retours) stay in the
+ * Navbar only. The footer shows no descriptions, so the group list is not needed ('').
+ */
+export const footerNavigation: FooterLinkColumn[] = [
+  {
+    title: 'Le Club',
+    items: [
+      { name: 'Rejoindre le club', href: '/rejoindre' },
+      ...buildClubDiscover(''),
+      ...clubLife,
+    ],
+  },
+  {
+    title: 'Sorties & Communauté',
+    items: [...buildOutingsNavigation(''), ...communityNavigation],
+  },
+  {
+    title: 'Espace Membre',
+    items: [...userNavigation, { name: 'Se connecter', href: '/login' }],
   },
 ];
 

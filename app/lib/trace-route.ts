@@ -13,6 +13,7 @@
 import polylineCodec from '@mapbox/polyline';
 import { isAllowedGpxUrl, parseGpx, readTextCapped, trackStats, type TrackLine } from './gpx-track';
 import { isWebUiLink } from './urlUtils';
+import { buildGpx } from './gpx-build';
 
 export interface TraceRoute {
   /** Course or track name, when the source has one. */
@@ -100,24 +101,31 @@ interface GarminCourse {
 
 const isFiniteNumber = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
 
-/**
- * Extracts the course from a Garmin Connect course embed page.
- * Only the name, distance, elevation gain and points are read (never the owner).
- */
-export function parseGarminCourse(html: string): TraceRoute | null {
+/** The course object of a Garmin Connect course embed page, or null. */
+function readGarminCourse(html: string): GarminCourse | null {
   const flight = nextFlightPayload(html);
   const key = '"course":{';
   const at = flight.indexOf(key);
   if (at < 0) return null;
   const json = sliceObject(flight, at + key.length - 1);
   if (!json) return null;
-
-  let course: GarminCourse;
   try {
-    course = JSON.parse(json) as GarminCourse;
+    return JSON.parse(json) as GarminCourse;
   } catch {
     return null;
   }
+}
+
+const courseName = (course: GarminCourse): string =>
+  typeof course.courseName === 'string' ? course.courseName.replace(/_/g, ' ').trim() : '';
+
+/**
+ * Extracts the course from a Garmin Connect course embed page.
+ * Only the name, distance, elevation gain and points are read (never the owner).
+ */
+export function parseGarminCourse(html: string): TraceRoute | null {
+  const course = readGarminCourse(html);
+  if (!course) return null;
 
   const points: [number, number][] = Array.isArray(course.geoPoints)
     ? course.geoPoints
@@ -126,10 +134,8 @@ export function parseGarminCourse(html: string): TraceRoute | null {
     : [];
   if (points.length < 2 || !isFiniteNumber(course.distanceMeter)) return null;
 
-  const name =
-    typeof course.courseName === 'string' ? course.courseName.replace(/_/g, ' ').trim() : '';
   return {
-    name: name || undefined,
+    name: courseName(course) || undefined,
     distanceKm: course.distanceMeter / 1000,
     elevationM: isFiniteNumber(course.elevationGainMeter)
       ? Math.round(course.elevationGainMeter)
@@ -156,6 +162,26 @@ export function gpxRoute(gpxText: string): TraceRoute | null {
   };
 }
 
+/**
+ * The whole Garmin course as a GPX file (every point, with elevation when Garmin has it),
+ * or null: what Garmin Connect's own "Export GPX" gives, without a Garmin account (#246).
+ */
+export function garminCourseGpx(html: string): { name: string; gpx: string } | null {
+  const course = readGarminCourse(html);
+  if (!course || !Array.isArray(course.geoPoints)) return null;
+  const points = course.geoPoints
+    .filter(
+      (p: { latitude?: unknown; longitude?: unknown }) =>
+        isFiniteNumber(p?.latitude) && isFiniteNumber(p?.longitude)
+    )
+    .map((p: { latitude: number; longitude: number; elevation?: unknown }) =>
+      isFiniteNumber(p.elevation) ? [p.longitude, p.latitude, p.elevation] : [p.longitude, p.latitude]
+    );
+  if (points.length < 2) return null;
+  const name = courseName(course) || 'Parcours Blanmont';
+  return { name, gpx: buildGpx(name, points) };
+}
+
 async function fetchText(url: string): Promise<string | null> {
   const res = await fetch(url, {
     headers: FETCH_HEADERS,
@@ -179,6 +205,19 @@ export async function resolveTraceRoute(url: string): Promise<TraceRoute | null>
     return gpxText ? gpxRoute(gpxText) : null;
   } catch (err) {
     console.warn('Trace preview unavailable:', err instanceof Error ? err.message : err);
+    return null;
+  }
+}
+
+/** GPX of a Garmin course, or null when Garmin's page cannot be read. Never throws. */
+export async function fetchGarminCourseGpx(
+  courseId: string
+): Promise<{ name: string; gpx: string } | null> {
+  try {
+    const html = await fetchText(`https://connect.garmin.com/embed/course/${courseId}`);
+    return html ? garminCourseGpx(html) : null;
+  } catch (err) {
+    console.warn('Garmin GPX unavailable:', err instanceof Error ? err.message : err);
     return null;
   }
 }
