@@ -161,6 +161,8 @@ export interface CalendarEvent {
   alternative: string;
   group: string;
   gpxUrl?: string; // Link to Garmin, Strava, Komoot or direct GPX file
+  /** Catalog trace the ride follows (#255); its link is copied into `gpxUrl` when it is set. */
+  traceId?: string;
 }
 
 /**

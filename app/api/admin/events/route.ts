@@ -3,6 +3,7 @@ import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { CalendarEvent } from '@/app/types';
 import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { revalidateCalendarPages } from '@/app/lib/revalidate-calendar';
+import { resolveEventTraceId } from '@/app/lib/event-trace';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const authCheck = await verifySectionRequest(request, 'events');
@@ -28,6 +29,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       group: data.group || 'Blanmont',
       gpxUrl: data.gpxUrl || '',
     };
+
+    // A ride created on a catalog trace takes the trace's link (#255).
+    if (data.traceId) {
+      const resolved = await resolveEventTraceId(data.traceId);
+      if (!resolved.ok) {
+        return NextResponse.json({ error: resolved.error }, { status: resolved.status });
+      }
+      Object.assign(eventData, resolved.fields);
+    }
 
     await newEventRef.set({
       ...eventData,

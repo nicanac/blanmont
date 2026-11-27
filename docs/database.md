@@ -145,11 +145,14 @@ Stores weekly scheduled rides and special events throughout the year.
     "group": "",
     "remarks": "Ravitaillement prévu à mi-parcours",
     "alternative": "",
+    "gpxUrl": "https://connect.garmin.com/modern/course/532374522",
+    "traceId": "trace_dyle",
     "notionId": "2d29555c-6779-8106-8b31-fca30da6374b",
     "createdAt": "2025-12-23T15:52:00.000Z"
   }
 }
 ```
+`gpxUrl` is the ride's trace link (members only on public pages, #252). `traceId` (optional, #255) is the `/traces` record the ride follows; when an admin sets it, the server copies that trace's link into `gpxUrl` (GPX file, else map page). A `gpxUrl` typed by hand removes `traceId`.
 
 ### 3.4. `/attendance` — Carré Vert Attendance & Groups
 Tracks ride attendance per event and group allocation (V = Vert, J = Jaune, B = Bleu, R = Rouge).
