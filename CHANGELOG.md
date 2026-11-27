@@ -43,6 +43,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.49.2] - 2026-11-27
+
+### Fixed
+- fix: visual review batch (#243, #246, #249, #250, #251, #252) (#253) (`006bab4`)
 ## [0.49.1] - 2026-11-27
 
 ### Fixed
