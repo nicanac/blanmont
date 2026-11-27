@@ -46,6 +46,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.50.0] - 2026-11-27
+
+### Added
+- feat(traces): link a catalog trace to a calendar ride (#255) (#258) (`85656ef`)
 ## [0.49.4] - 2026-11-27
 
 ### Fixed

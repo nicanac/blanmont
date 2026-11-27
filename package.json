@@ -1,6 +1,6 @@
 {
   "name": "sidereal-satellite",
-  "version": "0.49.4",
+  "version": "0.50.0",
   "private": true,
   "packageManager": "npm@11.8.0",
   "scripts": {
