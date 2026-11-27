@@ -2,7 +2,7 @@
 
 /* Blanmont Carte IGN: static renditions of the app's components.
    Each block translates the Tailwind classes of the named source file into plain CSS
-   over tokens.css custom properties, so any stack (or any AI agent) can reproduce them.
+   over tokens.css custom properties, so any stack can reproduce them.
    The app itself uses Tailwind v4 utilities from app/globals.css, not this file. */
 
 /* ── Base ─────────────────────────────────────────────────────────────── */

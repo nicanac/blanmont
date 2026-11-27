@@ -478,7 +478,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 ### Added
 - feat(footer): update footer with live club navigation and details (`d882727`)
-- feat(ai): integrate graft context graph and impeccable design context (`5f411ef`)
+- feat(tooling): integrate graft context graph and impeccable design context (`5f411ef`)
 - feat(footer): make next rendez-vous dynamic from calendar with redirect link (`7ce3f18`)
 - feat(calendar): allow admin click on event to redirect to edit page (`cdc93ad`)
 
@@ -616,7 +616,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 ### Chores
 - docs: add rule for committing changes after task completion (`ce0e8a9`)
-- docs: update AI context and README for full project scope (`056056f`)
+- docs: update project context and README for full project scope (`056056f`)
 
 ## [0.3.0] - 2025-12-19
 
@@ -634,7 +634,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 - Initial commit (`d0d8b50`)
 - feat(trace-detail): implement trace detail feature (`07d4b7a`)
 - feat(poll): implement poll for selecting trace (`d501def`)
-- feat(trace): refactor doc and add set of instruction for ai (`8772502`)
+- feat(trace): refactor doc and add contributor instructions (`8772502`)
 - feat(filter): add filter feature to the trace page (`d23bb52`)
 
 ### Chores

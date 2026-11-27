@@ -63,7 +63,7 @@ Unlike generic cycling apps (Strava/Garmin Connect) or static club websites, Sid
 1. **Rider-First Simplicity**: Essential pre-ride actions (finding a GPX, voting for Saturday's ride, checking departure times) must take fewer than 3 taps on mobile.
 2. **Visual Route Clarity**: Every route displays key physical metrics upfront: distance, elevation gain, surface, and start/finish direction.
 3. **Deterministic & Fast**: Instant optimistic UI updates for member actions without layout shift or lag.
-4. **Token-Efficient & Maintainable**: Standardized architecture documented for zero-overhead AI assistance via Graft and Impeccable design systems.
+4. **Token-Efficient & Maintainable**: Standardized architecture documented through the Graft index and the Impeccable design system.
 
 ## Accessibility & Inclusion
 
