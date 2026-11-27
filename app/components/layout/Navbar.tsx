@@ -21,7 +21,6 @@ import {
   ChevronDownIcon,
   ArrowRightIcon,
   UserPlusIcon,
-  QrCodeIcon,
   ChatBubbleBottomCenterTextIcon,
 } from '@heroicons/react/24/outline';
 import {
@@ -31,6 +30,7 @@ import {
   buildClubDiscover,
   clubLife,
   communityNavigation,
+  userNavigation,
 } from './navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -42,16 +42,6 @@ import { cn } from '../../utils/cn';
 import { isFeedbackReviewer } from '../../lib/feedback/access';
 import ThemeToggle from './ThemeToggle';
 import { Wordmark } from '../brand/Wordmark';
-
-const userNavigation: NavItem[] = [
-  { name: 'Mon Compte', description: 'Gérer mon profil', href: '/profile', icon: UserIcon },
-  {
-    name: 'Pass Sécurité & Carte',
-    description: 'Licence FFBC, ICE & QR départ',
-    href: '/profile/pass',
-    icon: QrCodeIcon,
-  },
-];
 
 function isCurrentPath(pathname: string | null, href: string): boolean {
   return pathname === href || (href !== '/' && Boolean(pathname?.startsWith(`${href}/`)));

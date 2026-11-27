@@ -5,6 +5,8 @@ import {
   buildClubDiscover,
   clubLife,
   communityNavigation,
+  footerNavigation,
+  userNavigation,
 } from '@/app/components/layout/navigation';
 
 const GROUPS = 'GR1, GR2, GR3, GR4 & VTT';
@@ -43,5 +45,25 @@ describe('navbar menus (app/components/layout/navigation.ts)', () => {
     expect(sondage?.description).toContain(GROUPS);
     const presentation = buildClubDiscover(GROUPS).find((item) => item.href === '/le-club');
     expect(presentation?.description).toContain(GROUPS);
+  });
+});
+
+describe('footer columns (#243)', () => {
+  const footerHrefs = footerNavigation.flatMap((column) => column.items.map((item) => item.href));
+
+  it('links every page of the navbar menus', () => {
+    const navbar = [
+      ...buildOutingsNavigation(GROUPS),
+      ...communityNavigation,
+      ...buildClubDiscover(GROUPS),
+      ...clubLife,
+      ...userNavigation,
+    ];
+    for (const item of navbar) expect(footerHrefs).toContain(item.href);
+  });
+
+  it('lists no role-gated page, since every visitor sees the same footer', () => {
+    expect(footerHrefs).not.toContain('/admin');
+    expect(footerHrefs).not.toContain('/retours');
   });
 });
