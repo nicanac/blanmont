@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Manuel du back-office — CC Saint-Martin Blanmont</title>
+<meta name="author" content="Cyclo Club Saint-Martin Blanmont">
+<meta name="description" content="Guide complet du back-office de l'application du club : chaque réglage et son résultat sur le site.">
+<link rel="stylesheet" href="manuel.css">
+</head>
+<body>
+<!-- @parts -->
+<script>
+/*
+ * Prints the club's territory (the same SVG layers as app/components/carte/TerritoryMap.tsx)
+ * into every element with data-carte. Options:
+ *   data-carte="<sheet size in mm>"  data-fx / data-fy = point of the sheet (%) centred in the frame
+ *   data-labels="1|2"  how many place names to letter
+ */
+(function () {
+  const LAYERS = ['woods', 'lakes', 'relief', 'relief-index', 'water', 'road-tertiary', 'road-secondary', 'road-primary', 'road-major', 'rail'];
+  const TOWNS = [
+    ['Gembloux', 61.5, 71.9, 1, 1], ['Wavre', 43.0, 17.5, 1, 1], ['Louvain-la-Neuve', 43.5, 34.4, 1, 1],
+    ['Villers-la-Ville', 26.2, 67.4, 1, 2], ['Court-Saint-Étienne', 33.7, 42.6, 1, 2], ['Chaumont-Gistoux', 62.2, 28.9, 1, 2],
+    ['Perwez', 87.8, 49.9, 1, 2], ['Chastre', 49.2, 55.1, 0, 1], ['Walhain', 61.7, 51.7, 0, 1],
+    ['Mont-Saint-Guibert', 43.5, 45.3, 0, 1], ['Perbais', 53.0, 54.7, 0, 2], ['Cortil-Noirmont', 49.7, 61.1, 0, 2],
+    ['Corbais', 52.9, 42.2, 0, 2], ['Gentinnes', 41.3, 64.4, 0, 2], ['Ernage', 57.0, 60.0, 0, 2], ['Ottignies', 33.9, 35.0, 0, 2],
+  ];
+  const HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="#e03e3e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/><path d="M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>';
+  document.querySelectorAll('[data-carte]').forEach((frame) => {
+    const size = Number(frame.dataset.carte);
+    const fx = Number(frame.dataset.fx ?? 50) / 100;
+    const fy = Number(frame.dataset.fy ?? 50) / 100;
+    const maxLabel = Number(frame.dataset.labels ?? 2);
+    const sheet = document.createElement('div');
+    sheet.className = 'sheet';
+    sheet.style.width = size + 'mm';
+    sheet.style.left = `calc(50% - ${size * fx}mm)`;
+    sheet.style.top = `calc(50% - ${size * fy}mm)`;
+    sheet.innerHTML =
+      LAYERS.map((k) => `<div class="carte-layer carte-${k}"></div>`).join('') +
+      `<div class="map-grid" style="background-size:${size / 16}mm ${size / 16}mm"></div>` +
+      TOWNS.filter((t) => t[4] <= maxLabel)
+        .map(([n, x, y, town]) =>
+          town
+            ? `<span class="map-town" style="left:${x}%;top:${y}%">${n}</span>`
+            : `<span class="map-town" style="left:${x}%;top:${y}%;font-stretch:100%;font-weight:500;text-transform:none;letter-spacing:0.02em;font-size:7.5pt">${n}</span>`
+        )
+        .join('') +
+      `<span class="map-pin" style="left:50%;top:50%">${HEART}</span>`;
+    frame.prepend(sheet);
+  });
+})();
+</script>
+</body>
+</html>

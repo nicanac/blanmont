@@ -1,0 +1,170 @@
+<article class="chapter" data-chapter="6 · Les parcours GPS">
+<section class="opener" id="ch-traces">
+  <div class="opener-band"><div class="carte-frame" data-carte="480" data-fx="52" data-fy="48" data-labels="1"></div></div>
+  <div class="opener-cartouche neatline">
+    <div class="main">
+      <div class="opener-kicker"><span class="label">Chapitre 6 · Rituels &amp; Sorties</span><span class="chip red">Bibliothèque</span></div>
+      <h1 class="opener-title" data-chapter="6 · Les parcours GPS">Les parcours GPS</h1>
+      <p class="opener-desc">La bibliothèque des itinéraires du club&nbsp;: distance, dénivelé, direction, photo, et le fichier GPX que les membres chargent sur leur compteur.</p>
+    </div>
+    <div class="legend"><dl class="legend-rows">
+      <div><dt>Où</dt><dd>Traces &amp; Parcours GPS<small>menu de gauche · Rituels &amp; Sorties</small></dd></div>
+      <div><dt>Qui</dt><dd>Administrateurs<small>seuls, sauf réglage contraire</small></dd></div>
+      <div><dt>Résultat visible</dt><dd>Page Parcours<small>et fiche de chaque parcours</small></dd></div>
+    </dl></div>
+  </div>
+  <div class="opener-meta"><span>Feuille · Parcours</span><span>50°37′23″ N · 4°38′32″ E</span></div>
+  <div class="opener-body">
+    <p class="lead">Les parcours sont montrés sur la page Parcours du site, avec leurs filtres, et téléchargeables au format GPX. Le back-office sert à les ajouter, à les corriger et à les supprimer.</p>
+    <div class="box warn"><div class="box-title">À savoir avant de commencer</div><p>Le formulaire «&nbsp;Ajouter une Trace Manuellement&nbsp;» ne fonctionne pas actuellement&nbsp;: il répond «&nbsp;Validation failed&nbsp;» et n'enregistre rien. Pour ajouter un parcours, utilisez l'<strong>importation d'un fichier GPX</strong> (section 6.2). La modification et la suppression se font depuis la page du parcours, pas depuis le back-office.</p></div>
+    <h4>Dans ce chapitre</h4>
+    <ul>
+      <li>6.1 La page Traces &amp; Parcours GPS (page <span data-page-of="t-hub-traces"></span>)</li>
+      <li>6.2 Ajouter un parcours (page <span data-page-of="t-ajouter-trace"></span>)</li>
+      <li>6.3 Corriger un parcours (page <span data-page-of="t-modifier-trace"></span>)</li>
+      <li>6.4 Supprimer un parcours (page <span data-page-of="t-supprimer-trace"></span>)</li>
+      <li>6.5 Ce que voient les membres (page <span data-page-of="t-traces-public"></span>)</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="t-hub-traces"><span class="num">6.1</span>La page Traces &amp; Parcours GPS</h2>
+<p>Cliquez sur <span class="ui">Traces &amp; Parcours GPS</span> dans le menu de gauche. Cette page est un <strong>menu</strong>&nbsp;: elle ne liste pas les parcours et ne permet pas de les supprimer. Elle propose quatre cartes.</p>
+<figure>
+  <div class="frame"><img src="../screens/12-hub.jpg" alt="Page Traces et parcours GPS avec ses quatre cartes"></div>
+  <figcaption><span class="fig">Fig. 6.1</span><span>La page Traces &amp; Parcours GPS.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th></th><th>Carte ou bouton</th><th>Où elle mène</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><span class="ui">Catalogue public</span> (en haut à droite)</td><td>La page Parcours que voient les membres.</td></tr>
+    <tr><td>2</td><td><span class="field">Ajouter une Trace Manuellement</span></td><td>Le formulaire manuel (qui ne fonctionne pas actuellement, voir section 6.2).</td></tr>
+    <tr><td>3</td><td><span class="field">Importer un fichier GPX</span></td><td>L'importation d'un fichier GPX (section 6.2).</td></tr>
+    <tr><td>4</td><td><span class="field">Importer depuis Strava</span></td><td>L'importation d'une activité Strava (demande une connexion Strava).</td></tr>
+    <tr><td></td><td><span class="field">Catalogue Public des Traces</span></td><td>La même page Parcours que le numéro 1.</td></tr>
+  </tbody>
+</table>
+<p>Le bouton <span class="ui red">Ajouter une Trace</span>, en haut, ouvre le même formulaire manuel que la carte 2. Le bouton <span class="ui">Tutoriel &amp; Guide</span> ouvre une aide en fenêtre.</p>
+<div class="box warn"><div class="box-title">Attention</div><p>Par défaut, seuls les <strong>administrateurs</strong> voient ce menu. Les pages d'importation, de modification et de suppression d'un parcours sont réservées aux administrateurs, quel que soit le réglage des droits (chapitre 3, page <span data-page-of="ch-roles"></span>).</p></div>
+
+<h2 id="t-ajouter-trace"><span class="num">6.2</span>Ajouter un parcours</h2>
+<h3>Ce qui ne marche pas&nbsp;: le formulaire manuel</h3>
+<p>Le formulaire «&nbsp;Ajouter un Parcours&nbsp;» (nom, date, statut, fichier GPX, direction, départ, arrivée, distance, dénivelé, qualité de la route, note, notes, liens Komoot, GPX et photo) a été essayé avec des valeurs correctes. Quand on clique sur <span class="ui red">Ajouter le Parcours</span>, le message rouge <strong>«&nbsp;Validation failed&nbsp;»</strong> apparaît sous le bouton et <strong>rien n'est enregistré</strong>. Le problème vient du site, pas de votre saisie. Ne perdez pas de temps à le remplir.</p>
+<figure>
+  <div class="frame"><img src="../screens/12-ajout-haut.jpg" alt="Début du formulaire Ajouter un parcours, rempli"></div>
+  <figcaption><span class="fig">Fig. 6.2</span><span>Le formulaire manuel (haut), rempli avec des valeurs correctes.</span></figcaption>
+</figure>
+<figure>
+  <div class="frame"><img src="../screens/12-ajout-erreur.jpg" alt="Message Validation failed sous le bouton Ajouter le Parcours"></div>
+  <figcaption><span class="fig">Fig. 6.3</span><span>Le résultat&nbsp;: «&nbsp;Validation failed&nbsp;» et aucun parcours créé.</span></figcaption>
+</figure>
+<p>Dans ce formulaire, on peut malgré tout charger un fichier GPX&nbsp;: la distance, le dénivelé et la carte se calculent à l'écran. Un lien Komoot de la forme <span class="url">komoot.com/tour/&hellip;</span> remplit tout seul le champ «&nbsp;Fichier GPX (URL de référence)&nbsp;». Mais l'enregistrement final échoue.</p>
+<h3>Ce qui marche&nbsp;: importer un fichier GPX</h3>
+<p>Il vous faut un fichier GPX du parcours (exporté depuis Komoot, Garmin, Strava ou Wahoo, avec l'extension <em>.gpx</em>, 10&nbsp;Mo au maximum).</p>
+<ol class="steps">
+  <li>Cliquez sur <span class="ui">Traces &amp; Parcours GPS</span> dans le menu de gauche, puis sur la carte <span class="field">Importer un fichier GPX</span>.<span class="sub">La page «&nbsp;Importer un Parcours&nbsp;» s'ouvre. Vous pouvez aussi la trouver dans le pied de page du site, sous «&nbsp;Importer un parcours&nbsp;».</span></li>
+  <li>Dans «&nbsp;Méthode d'import&nbsp;», laissez <span class="ui red">Fichier GPX</span> sélectionné. Cliquez sur <span class="ui">Téléverser un fichier GPX</span> (ou glissez le fichier dans le cadre) et choisissez le fichier.<span class="sub">Le site lit le fichier&nbsp;: une carte, la distance et le dénivelé apparaissent.</span></li>
+  <li>Complétez le formulaire (tableau ci-dessous).</li>
+  <li>Cliquez sur <span class="ui red">Créer le parcours Notion</span>, en bas à droite. Ignorez le mot «&nbsp;Notion&nbsp;»&nbsp;: c'est un ancien nom, le parcours est bien enregistré dans la base du club.<span class="sub">Un cadre vert «&nbsp;Trace imported successfully!&nbsp;» apparaît, avec les boutons <span class="ui">Voir le parcours</span>, <span class="ui">Modifier</span> et <span class="ui">Supprimer</span>.</span></li>
+</ol>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/12-import-1.jpg" alt="Page Importer un parcours, choix du fichier GPX"></div>
+  <figcaption><span class="fig">Fig. 6.4</span><span>L'importation&nbsp;: choix de la méthode et du fichier.</span></figcaption>
+</figure>
+<figure>
+  <div class="frame"><img src="../screens/12-import-2.jpg" alt="Formulaire d'importation après lecture d'un fichier GPX"></div>
+  <figcaption><span class="fig">Fig. 6.5</span><span>Après la lecture du fichier&nbsp;: la carte, la distance et le dénivelé, puis le formulaire.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th></th><th>Champ</th><th>À quoi ça sert</th><th>Exemple ou format</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><em>Distance</em> et <em>Dénivelé</em> (bandeau sous la carte)</td><td>Calculés par le site à partir du fichier. Vous pouvez les corriger plus bas.</td><td>21,2 km · 123 m</td></tr>
+    <tr><td>2</td><td><span class="field">Nom du Parcours</span></td><td>Le titre du parcours. Le site met le nom du fichier&nbsp;: remplacez-le.</td><td>Boucle de l'Orne et de la Thyle</td></tr>
+    <tr><td>3</td><td><span class="field">Difficulté (Rating)</span></td><td>De une étoile (Facile) à cinq étoiles (Expert).</td><td>3 étoiles (Moyen)</td></tr>
+    <tr><td>4</td><td><span class="field">Direction</span></td><td>Le sens général du parcours depuis le départ (Nord, Nord-Est&hellip;).</td><td>Sud-Ouest</td></tr>
+    <tr><td>5</td><td><span class="field">Type de vélo</span></td><td>Route, Gravel, Mixte, VTT ou Chemin. C'est ce qui sert au filtre «&nbsp;Surface&nbsp;» du site.</td><td>Route</td></tr>
+    <tr><td></td><td><span class="field">Distance (km)</span> et <span class="field">Dénivelé (m)</span></td><td>Les chiffres affichés aux membres. Corrigez-les si le calcul est faux.</td><td>72,4 et 610</td></tr>
+    <tr><td></td><td><span class="field">Description / Note</span></td><td>Une phrase de présentation, affichée sur la carte du parcours.</td><td>Classique du club par Villers-la-Ville.</td></tr>
+  </tbody>
+</table>
+<div class="box warn"><div class="box-title">Attention</div>
+<ul>
+  <li><strong>Connexion Strava.</strong> Cette importation exige que le compte soit connecté à Strava. Si le message rouge «&nbsp;No authentication token&nbsp;» apparaît, cliquez sur la carte <span class="field">Importer depuis Strava</span>, puis sur <span class="ui">Se connecter avec Strava</span>, autorisez l'accès, et recommencez l'importation du fichier.</li>
+  <li><strong>Un lien erroné est ajouté.</strong> Après une importation de fichier, le champ «&nbsp;Lien Komoot / Carte&nbsp;» contient une adresse Strava inventée. Corrigez-la tout de suite (section 6.3), sinon le bouton <span class="ui">Carte interactive</span> du parcours mène à une page qui n'existe pas.</li>
+  <li><strong>Description automatique.</strong> Sans description, le site écrit «&nbsp;Imported from Garmin/GPX&nbsp;». Remplacez-la.</li>
+  <li>Plusieurs messages de cette page restent en anglais (par exemple «&nbsp;Trace imported successfully!&nbsp;»). C'est normal.</li>
+  <li>Il n'y a pas de champ pour la photo, le revêtement exact ni le point de départ&nbsp;: ils restent vides, et la carte du parcours affiche une image de remplacement.</li>
+</ul></div>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/12-import-ok.jpg" alt="Cadre vert indiquant que la trace a été importée"></div>
+  <figcaption><span class="fig">Fig. 6.6</span><span>Le parcours est créé. Les trois boutons permettent de le voir, de le corriger ou de le supprimer.</span></figcaption>
+</figure>
+<h3>Les deux autres méthodes</h3>
+<ul>
+  <li><strong>Importation par adresse (bouton «&nbsp;URL&nbsp;»).</strong> Collez l'adresse d'une activité Garmin ou Komoot et cliquez sur <span class="ui">Charger</span>. Le site ne retrouve que le nom&nbsp;: la distance reste à 0 et il n'y a pas de carte. Préférez le fichier GPX.</li>
+  <li><strong>Importer depuis Strava.</strong> Après la connexion Strava, collez l'adresse d'une activité (de la forme <span class="url">strava.com/activities/123456789</span>) pour en faire un parcours.</li>
+</ul>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le parcours apparaît sur la page Parcours <strong>dans les cinq minutes</strong> au plus, avec sa distance, son dénivelé, sa direction et son type. La carte du parcours ne propose pas de lien «&nbsp;Télécharger GPX&nbsp;»&nbsp;: le fichier est téléchargeable depuis la fiche du parcours (bouton <span class="ui">Télécharger GPX</span>).</p></div>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Pour donner un parcours à télécharger sans passer par cette bibliothèque, collez son lien dans le champ <span class="field">Lien de la trace / GPX</span> d'une sortie du calendrier (chapitre 5, page <span data-page-of="ch-calendrier"></span>).</p></div>
+
+<h2 id="t-modifier-trace"><span class="num">6.3</span>Corriger un parcours</h2>
+<p>Il n'y a pas de liste de parcours dans le back-office. On corrige un parcours depuis sa page, sur le site.</p>
+<ol class="steps">
+  <li>Ouvrez la page Parcours du site (bouton <span class="ui">Catalogue public</span> de la section 6.1), puis cliquez sur la carte du parcours.<span class="sub">Vous pouvez aussi cliquer sur <span class="ui">Modifier</span> dans le cadre vert qui suit l'importation.</span></li>
+  <li>En bas de la page, dans le cadre gris <span class="field">Outils Administrateur</span>, cliquez sur le bouton noir <span class="ui">Modifier le parcours</span>.</li>
+  <li>Corrigez les champs (tableau ci-dessous), puis cliquez sur <span class="ui red">Enregistrer</span>.</li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/12-edit.jpg" alt="Page Modifier le parcours"></div>
+  <figcaption><span class="fig">Fig. 6.7</span><span>La modification d'un parcours.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th></th><th>Champ</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><span class="field">Nom du parcours</span></td><td>Le titre.</td></tr>
+    <tr><td>2</td><td><span class="field">Distance (km)</span> et <span class="field">Dénivelé (m)</span></td><td>Les chiffres affichés aux membres.</td></tr>
+    <tr><td>3</td><td><span class="field">Direction</span></td><td>La flèche de boussole sur la carte du parcours.</td></tr>
+    <tr><td>4</td><td><span class="field">Type de vélo</span></td><td>Route, Gravel, Mixte, VTT ou Chemin.</td></tr>
+    <tr><td>5</td><td><span class="field">Note</span></td><td>Les étoiles de la carte, de une à cinq.</td></tr>
+    <tr><td>6</td><td><span class="field">Lien Komoot / Carte</span></td><td>L'adresse du bouton «&nbsp;Carte interactive&nbsp;». Mettez le vrai lien Komoot, ou videz le champ.</td></tr>
+    <tr><td></td><td><span class="field">Description / Note</span></td><td>La phrase de présentation.</td></tr>
+  </tbody>
+</table>
+<p>Le bouton <span class="ui">Annuler</span> abandonne les changements. Le message «&nbsp;Enregistrement...&nbsp;» s'affiche pendant la sauvegarde.</p>
+<div class="box warn"><div class="box-title">Attention</div><p>Seul un <strong>administrateur</strong> connecté peut enregistrer. Le cadre «&nbsp;Outils Administrateur&nbsp;» est visible de tous les visiteurs de la page, mais les boutons ne fonctionnent que pour les administrateurs. Le fichier GPX enregistré ne peut pas être remplacé ici&nbsp;: pour changer le tracé, supprimez le parcours et importez-le de nouveau.</p></div>
+<h3>Les deux autres outils</h3>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/12-outils-admin.jpg" alt="Cadre Outils Administrateur"></div>
+  <figcaption><span class="fig">Fig. 6.8</span><span>Le cadre «&nbsp;Outils Administrateur&nbsp;», en bas de la page d'un parcours.</span></figcaption>
+</figure>
+<ul>
+  <li><span class="ui">Mettre à jour l'image</span>&nbsp;: collez l'adresse d'une image dans le champ au-dessus, puis cliquez. Cette image devient la photo de la carte du parcours.</li>
+  <li><span class="ui">Générer depuis Komoot</span>&nbsp;: récupère l'image de la carte à partir du lien Komoot du parcours.</li>
+</ul>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>La carte du parcours et sa page montrent les corrections <strong>dans la minute</strong>, ou au plus tard dans les cinq minutes.</p></div>
+
+<h2 id="t-supprimer-trace"><span class="num">6.4</span>Supprimer un parcours</h2>
+<ol class="steps">
+  <li>Ouvrez la page de modification du parcours (section 6.3).</li>
+  <li>Cliquez sur <span class="ui">Supprimer</span>, en bas à gauche.<span class="sub">Une fenêtre «&nbsp;Supprimer le parcours&nbsp;» s'ouvre.</span></li>
+  <li>Lisez la question «&nbsp;Êtes-vous sûr de vouloir supprimer&hellip;&nbsp;?&nbsp;» puis cliquez sur le bouton rouge <span class="ui red">Supprimer</span>. Pour renoncer, cliquez sur <span class="ui">Annuler</span>.<span class="sub">Vous revenez à la page Parcours, où le parcours a disparu.</span></li>
+</ol>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/12-suppression.jpg" alt="Fenêtre de confirmation Supprimer le parcours"></div>
+  <figcaption><span class="fig">Fig. 6.9</span><span>La confirmation avant la suppression.</span></figcaption>
+</figure>
+<div class="box danger"><div class="box-title">Action définitive</div><p>La fenêtre l'annonce&nbsp;: «&nbsp;Cette action est irréversible. Toutes les données associées seront perdues.&nbsp;» Le parcours et les données qui lui sont associées disparaissent.</p></div>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le parcours quitte la page Parcours en quelques minutes (au plus cinq). Les sorties du calendrier qui contiennent seulement un lien vers ce parcours gardent leur propre lien.</p></div>
+
+<h2 id="t-traces-public"><span class="num">6.5</span>Ce que voient les membres</h2>
+<h3>La page Parcours</h3>
+<p>Elle est ouverte à tous. Une légende donne le nombre de parcours du catalogue et le nombre affiché. À gauche, des filtres&nbsp;: distance, dénivelé maximum, surface, départ, direction, qualité. En haut à droite, le menu <span class="ui">Trier</span> (plus récents, distance ou dénivelé croissants ou décroissants).</p>
+<figure>
+  <div class="frame"><img src="../screens/12-public.jpg" alt="Page Parcours du peloton, vue par un visiteur"></div>
+  <figcaption><span class="fig">Fig. 6.10</span><span>La page Parcours&nbsp;: 1 nombre de parcours, 2 tri, 3 filtres, 4 téléchargement du GPX.</span></figcaption>
+</figure>
+<p>Chaque carte montre la photo, la note en étoiles, la direction, le nom, la description, la distance, le dénivelé (D+), la surface et le départ. Le lien <span class="ui">Télécharger GPX</span> n'apparaît que si le parcours a un lien GPX.</p>
+<h3>La fiche d'un parcours</h3>
+<p>Un clic sur une carte ouvre la fiche. Elle donne la distance, le dénivelé, le revêtement, la direction et le départ, avec les boutons <span class="ui">Télécharger GPX</span> (si un fichier GPX est enregistré), <span class="ui">Carte interactive</span> et <span class="ui">Voir l'album photo</span>. Plus bas, les membres connectés laissent une note et un commentaire.</p>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Sur la fiche, la direction et le revêtement s'affichent encore en anglais (par exemple «&nbsp;South-West&nbsp;» ou «&nbsp;Road&nbsp;»), alors que la carte du parcours les montre en français. C'est une particularité du site, sans conséquence.</p></div>
+</article>
