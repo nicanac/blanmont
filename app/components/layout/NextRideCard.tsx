@@ -1,6 +1,4 @@
 'use client';
-import GpxStatsDisplay from '../ui/GpxStatsDisplay';
-import { isWebUiLink } from '@/app/lib/urlUtils';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -27,13 +25,6 @@ export interface ScheduledRideInfo {
 interface NextRideCardProps {
   nextRide: ScheduledRideInfo;
   defaultExpanded?: boolean;
-}
-
-function gpxLabel(url: string): string {
-  if (url.includes('strava.com')) return 'Trace GPS (Strava)';
-  if (url.includes('garmin.com')) return 'Trace GPS (Garmin Connect)';
-  if (url.includes('komoot')) return 'Trace GPS (Komoot)';
-  return 'Télécharger la trace GPX';
 }
 
 export default function NextRideCard({ nextRide, defaultExpanded = false }: NextRideCardProps) {
@@ -114,16 +105,14 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
             />
 
             {nextRide.gpxUrl && (
-              <div className={cn('pt-1', !isWebUiLink(nextRide.gpxUrl) && 'space-y-3')}>
-                <GpxStatsDisplay url={nextRide.gpxUrl} />
+              // Member link (/api/trace/<id>, #252): the source URL never reaches the page.
+              <div className="pt-1">
                 <a
                   href={nextRide.gpxUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-md border border-ink px-3 font-narrow text-xs font-bold uppercase tracking-[0.07em] text-ink transition-colors hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night"
                 >
                   <ArrowDownTrayIcon className="size-3.5" aria-hidden="true" />
-                  <span>{gpxLabel(nextRide.gpxUrl)}</span>
+                  <span>Télécharger la trace GPX</span>
                 </a>
               </div>
             )}

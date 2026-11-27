@@ -27,9 +27,6 @@ vi.mock('@/app/components/ui/RideWeatherBadge', () => ({
   default: () => <div data-testid="weather-badge">Weather Mock</div>,
 }));
 
-vi.mock('@/app/components/ui/GpxStatsDisplay', () => ({
-  default: () => <div data-testid="gpx-stats">GPX Stats Mock</div>,
-}));
 
 describe('NextRideCard component', () => {
   const sampleRide: ScheduledRideInfo = {
@@ -40,7 +37,7 @@ describe('NextRideCard component', () => {
     distances: '75-95 km',
     address: 'Place de Blanmont',
     remarks: 'Port du casque obligatoire',
-    gpxUrl: 'https://www.komoot.com/tour/12345',
+    gpxUrl: '/api/trace/evt-1',
     isCustomEvent: false,
   };
 
@@ -83,7 +80,7 @@ describe('NextRideCard component', () => {
     expect(screen.getByText('Place de Blanmont')).toBeInTheDocument();
     expect(screen.getByText(/Port du casque obligatoire/)).toBeInTheDocument();
     expect(screen.getByTestId('weather-badge')).toBeInTheDocument();
-    expect(screen.getByText(/Trace GPS \(Komoot\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Télécharger la trace GPX/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /voir le calendrier complet/i })).toBeInTheDocument();
 
     // Click to collapse
@@ -92,17 +89,12 @@ describe('NextRideCard component', () => {
     expect(screen.queryByText(/Lieu de RDV/i)).not.toBeInTheDocument();
   });
 
-  it('formats GPX button labels according to provider URL', () => {
-    const stravaRide = { ...sampleRide, gpxUrl: 'https://www.strava.com/routes/999' };
-    const { rerender } = render(<NextRideCard nextRide={stravaRide} defaultExpanded={true} />);
-    expect(screen.getByText(/Trace GPS \(Strava\)/i)).toBeInTheDocument();
-
-    const garminRide = { ...sampleRide, gpxUrl: 'https://connect.garmin.com/modern/course/888' };
-    rerender(<NextRideCard nextRide={garminRide} defaultExpanded={true} />);
-    expect(screen.getByText(/Trace GPS \(Garmin Connect\)/i)).toBeInTheDocument();
-
-    const genericRide = { ...sampleRide, gpxUrl: 'https://example.com/ride.gpx' };
-    rerender(<NextRideCard nextRide={genericRide} defaultExpanded={true} />);
-    expect(screen.getByText(/Télécharger la trace GPX/i)).toBeInTheDocument();
+  it('links the trace through its member link, in the same tab (#252)', () => {
+    render(
+      <NextRideCard nextRide={{ ...sampleRide, gpxUrl: '/api/trace/evt-1' }} defaultExpanded={true} />
+    );
+    const link = screen.getByRole('link', { name: /Télécharger la trace GPX/i });
+    expect(link.getAttribute('href')).toBe('/api/trace/evt-1');
+    expect(link.getAttribute('target')).toBeNull();
   });
 });

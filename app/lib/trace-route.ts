@@ -7,7 +7,7 @@
  *   (`connect.garmin.com/embed/course/<id>`) carries the course in its Next.js
  *   flight payload. Undocumented, so any change on Garmin's side only drops the
  *   preview: callers fall back to the plain link.
- * - Direct `.gpx` files: downloaded and parsed like `/api/gpx/stats`.
+ * - Direct `.gpx` files: downloaded and parsed.
  * - Strava / Komoot pages: no public geometry, link only (null).
  */
 import polylineCodec from '@mapbox/polyline';

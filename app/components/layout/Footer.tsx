@@ -9,6 +9,7 @@ import { ScaleBar, NorthArrow } from '../carte/ScaleBar';
 import { DEPARTURE_POINT, MAP_CREDITS } from '../carte/territory';
 import OpenCookiePreferencesButton from '../consent/OpenCookiePreferencesButton';
 import { footerNavigation } from './navigation';
+import { withMemberTraceLinks } from '../../lib/member-trace';
 
 /**
  * One footer link column. Every heading takes the height of two lines and sits on its rule
@@ -44,7 +45,7 @@ export function FooterColumn({
 }
 
 export default async function Footer(): Promise<React.JSX.Element> {
-  const events = await getCalendarEvents();
+  const events = withMemberTraceLinks(await getCalendarEvents());
   const nextRide = getNextScheduledRide(events);
 
   return (

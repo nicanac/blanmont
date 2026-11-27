@@ -5,6 +5,7 @@ import { getAllEventReviews } from '../lib/firebase/event-reviews';
 import CalendarView from './CalendarView';
 import CalendarSubscribeButton from './CalendarSubscribeButton';
 import { Spinner } from '../components/ui/Spinner';
+import { withMemberTraceLinks } from '../lib/member-trace';
 import { SheetHeader } from '../components/carte/SheetHeader';
 
 // Admin edits refresh the page at once (revalidateCalendarPages); this only bounds edits made
@@ -12,11 +13,14 @@ import { SheetHeader } from '../components/carte/SheetHeader';
 export const revalidate = 300;
 
 export default async function CalendarPage() {
-  const [events, allAttendance, allReviews] = await Promise.all([
+  const [rawEvents, allAttendance, allReviews] = await Promise.all([
     getCalendarEvents(),
     getAllAttendance(),
     getAllEventReviews(),
   ]);
+
+  // Traces are for members: the page only carries their member links (#252).
+  const events = withMemberTraceLinks(rawEvents);
 
   // Build attendance map: eventId -> { name, group }[]
   const attendanceMap: Record<string, { name: string; group: string }[]> = {};
