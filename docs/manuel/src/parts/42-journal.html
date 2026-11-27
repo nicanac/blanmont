@@ -1,0 +1,224 @@
+<article class="chapter" data-chapter="20 · Le journal d'activité">
+<section class="opener" id="ch-journal">
+  <div class="opener-band"><div class="carte-frame" data-carte="480" data-fx="40" data-fy="40" data-labels="1"></div></div>
+  <div class="opener-cartouche neatline">
+    <div class="main">
+      <div class="opener-kicker"><span class="label">Chapitre 20 · Gestion du club</span><span class="chip red">Audit</span></div>
+      <h1 class="opener-title" data-chapter="20 · Le journal d'activité">Le journal d'activité</h1>
+      <p class="opener-desc">Le carnet de bord du site : connexions, présences pointées, votes, téléchargements de traces et tentatives d'accès refusées. Il sert à vérifier que tout est normal et à rendre des comptes au comité.</p>
+    </div>
+    <div class="legend"><dl class="legend-rows">
+      <div><dt>Où</dt><dd>Journal d'Activité<small>menu de gauche · Gestion du club</small></dd></div>
+      <div><dt>Qui</dt><dd>Administrateurs<small>et les rôles à qui l'accès a été donné</small></dd></div>
+      <div><dt>Résultat visible</dt><dd>Aucun sur le site<small>sauf la purge, qui efface des lignes</small></dd></div>
+    </dl></div>
+  </div>
+  <div class="opener-meta"><span>Feuille · Observabilité</span><span>50°37′23″ N · 4°38′32″ E</span></div>
+  <div class="opener-body">
+    <p class="lead">Chaque action notable est inscrite dans le journal par le site lui-même. Votre travail : <b>examiner</b> les lignes, <b>signaler</b> ce qui paraît anormal, noter une conclusion et, de temps en temps, produire un compte rendu. Le journal garde les connexions, les présences pointées, les votes, les téléchargements de traces et les accès refusés. Aucune adresse Internet n'y est conservée en entier (voir 20.9).</p>
+    <h3>Dans ce chapitre</h3>
+    <ul>
+      <li>20.1 · Les chiffres du haut et les trois boutons, page <span data-page-of="t-journal-entete"></span></li>
+      <li>20.2 · Lire la file de tri et la filtrer, page <span data-page-of="t-journal-tri"></span></li>
+      <li>20.3 · Examiner ou signaler un événement, page <span data-page-of="t-journal-examiner"></span></li>
+      <li>20.4 · Traiter plusieurs événements d'un coup, page <span data-page-of="t-journal-lot"></span></li>
+      <li>20.5 à 20.7 · Les onglets Analyse, Parcours de session et Rapports Comité, page <span data-page-of="t-journal-analyse"></span></li>
+      <li>20.8 · Exporter le journal en CSV, page <span data-page-of="t-journal-csv"></span></li>
+      <li>20.10 · Purger les événements de plus de 90 jours, page <span data-page-of="t-journal-purger"></span></li>
+    </ul>
+  </div>
+</section>
+
+<div class="box who"><div class="box-title">Ce que le journal contient, et ce qu'il ne contient pas</div><p><b>Oui</b> : connexions réussies ou ratées, déconnexions, demandes d'activation de compte, présences pointées ou retirées, votes du samedi, réponses au sondage, avis sur les sorties, téléchargements de traces, clics sur la carte, abonnements au calendrier, accès refusés à l'administration. <b>Non</b> : les pages de l'administration ne sont pas enregistrées, et les consultations de pages ne sont comptées que pour les visiteurs qui ont accepté les cookies de mesure d'audience.</p></div>
+<h2 id="t-journal-entete"><span class="num">20.1</span>Les chiffres du haut et les trois boutons</h2>
+<p>Cliquez sur <span class="ui">Journal d'Activité</span> dans le menu de gauche, groupe <span class="ui">Gestion du club</span>. L'en-tête de la page résume le mois en cours.</p>
+<figure>
+  <div class="frame"><img src="../screens/42-entete.jpg" alt="En-tête du journal avec les quatre chiffres et les trois boutons"></div>
+  <figcaption><span class="fig">Fig. 20.1</span><span>L'en-tête. 1 · <span class="ui">Guide du Journal</span>. 2 · <span class="ui">Exporter CSV</span>. 3 · <span class="ui">Purger (&gt;90j)</span>.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Chiffre</th><th>Ce qu'il compte</th></tr></thead>
+  <tbody>
+    <tr><td><b>Journal</b></td><td>Le nombre d'événements du mois en cours.</td></tr>
+    <tr><td><b>Visiteurs</b></td><td>Le nombre de visiteurs différents qui ne sont pas connectés (chacun reçoit un numéro anonyme, sans nom).</td></tr>
+    <tr><td><b>Membres actifs</b></td><td>Le nombre de membres connectés qui ont laissé au moins une trace.</td></tr>
+    <tr><td><b>Sécurité</b></td><td>Le nombre d'alertes de sécurité. Il est suivi de « À surveiller » s'il y en a, ou de « Système nominal » s'il n'y en a pas.</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>Bouton</th><th>Ce qu'il fait</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Guide du Journal</span></td><td>Ouvre une fenêtre d'explications : visiteurs anonymes contre membres connectés, code des couleurs, protection des données, export et conservation. Fermez-la avec <span class="ui">Compris</span>.</td></tr>
+    <tr><td><span class="ui">Exporter CSV</span></td><td>Télécharge le journal dans un fichier pour tableur (voir 20.8).</td></tr>
+    <tr><td><span class="ui">Purger (&gt;90j)</span></td><td>Efface définitivement les événements de plus de 90 jours (voir 20.10).</td></tr>
+  </tbody>
+</table>
+<div class="box tip"><div class="box-title">Bon à savoir · ce que la page montre</div><p>La page ne charge que <b>le mois en cours</b> et au plus 400 événements. Les mois précédents ne sont plus consultables à l'écran. Elle se met à jour toute seule toutes les 8 secondes tant que le bouton <span class="ui">Flux direct (8s)</span> est vert.</p></div>
+<p>Les quatre onglets sont sous l'en-tête : <span class="ui">Tri &amp; Modération</span> (le travail courant), <span class="ui">Analyse &amp; Chronologie</span>, <span class="ui">Parcours de Session</span> et <span class="ui">Rapports Comité</span>.</p>
+
+<h2 id="t-journal-tri"><span class="num">20.2</span>Lire la file de tri et la filtrer</h2>
+<p>L'onglet <span class="ui">Tri &amp; Modération</span> est une liste de contrôle. Une pastille orange sur l'onglet indique combien d'événements restent <span class="ui">À examiner</span>.</p>
+<figure>
+  <div class="frame"><img src="../screens/42-tri.jpg" alt="Onglets, file de tri, recherche et filtres du journal"></div>
+  <figcaption><span class="fig">Fig. 20.2</span><span>1 · onglet de travail. 2 · file de tri. 3 · flux direct. 4 · recherche. 5 · période. 6 · catégorie. 7 · gravité. 8 · profil.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Élément</th><th>À quoi il sert</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">File de tri</span> : <span class="ui">Tous</span>, <span class="ui">À examiner</span>, <span class="ui">Examinés</span>, <span class="ui">Signalés</span></td><td>Ne montre que les événements dans cet état. Le petit nombre à côté est leur total.</td></tr>
+    <tr><td><span class="ui">Flux direct (8s)</span> / <span class="ui">Direct désactivé</span></td><td>Un clic active ou coupe l'actualisation automatique. Le bouton rond à côté actualise à la demande.</td></tr>
+    <tr><td><span class="field">Rechercher par titre, action, utilisateur, IP ou note…</span></td><td>Cherche dans le titre, le nom de l'action, la personne, l'adresse masquée et vos notes.</td></tr>
+    <tr><td><span class="ui">Tout</span>, <span class="ui">24h</span>, <span class="ui">7j</span>, <span class="ui">30j</span></td><td>Limite la liste à la dernière journée, semaine ou à tout le mois.</td></tr>
+    <tr><td><span class="ui">Toutes catégories</span></td><td>Choix : <span class="ui">Authentification</span>, <span class="ui">Navigation &amp; GPX</span>, <span class="ui">Sorties &amp; Votes</span>, <span class="ui">Administration</span>, <span class="ui">Sécurité</span>.</td></tr>
+    <tr><td><span class="ui">Toutes gravités</span></td><td>Choix : <span class="ui">Info</span>, <span class="ui">Avertissement</span>, <span class="ui">Erreur</span>, <span class="ui">Alerte Sécurité</span>.</td></tr>
+    <tr><td><span class="ui">Tous profils</span></td><td>Choix : <span class="ui">Visiteurs anonymes</span>, <span class="ui">Membres du club</span>, <span class="ui">Administrateurs</span>.</td></tr>
+  </tbody>
+</table>
+<p>À droite de la ligne des filtres, « 15 sur 15 affichés » dit combien d'événements correspondent à vos choix. Si rien ne correspond, la liste affiche « Aucun événement correspondant aux critères de tri » : modifiez les filtres ou la recherche.</p>
+<h3>Lire une ligne du tableau</h3>
+<figure>
+  <div class="frame"><img src="../screens/42-tableau.jpg" alt="Tableau des événements du journal"></div>
+  <figcaption><span class="fig">Fig. 20.3</span><span>Le tableau. 1 · case « Sélectionner tout ». 2 · statut de modération. 3 · <span class="ui">Marquer comme examiné</span>. 4 · <span class="ui">Signaler pour enquête</span>.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Colonne</th><th>Contenu</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Horodatage</span></td><td>Le jour, le mois et l'heure de l'événement.</td></tr>
+    <tr><td><span class="ui">Statut Modération</span></td><td><span class="ui">À examiner</span> (gris) : personne ne l'a regardé. <span class="ui">Examiné</span> (vert) : vérifié, rien d'anormal. <span class="ui">Signalé</span> (rouge, ligne rosée) : à enquêter.</td></tr>
+    <tr><td><span class="ui">Catégorie</span></td><td>Une étiquette colorée : vert pour <span class="ui">Auth</span> et <span class="ui">Participation</span> (membres), bleu pour <span class="ui">Navigation</span>, ambre pour <span class="ui">Admin</span>, rouge pour <span class="ui">Security</span>.</td></tr>
+    <tr><td><span class="ui">Événement &amp; Contexte</span></td><td>La gravité (<span class="ui">INFO</span>, <span class="ui">WARN</span>, <span class="ui">ERROR</span> ou <span class="ui">SECURITY</span>), la phrase qui décrit l'événement, le nom technique de l'action et la page concernée.</td></tr>
+    <tr><td><span class="ui">Utilisateur</span></td><td>Le nom d'un membre connecté, ou « Anonyme » pour un visiteur, avec son adresse Internet masquée.</td></tr>
+    <tr><td><span class="ui">Actions</span></td><td>Deux petites icônes : la coche pour <span class="ui">Marquer comme examiné</span> et le drapeau pour <span class="ui">Signaler pour enquête</span>.</td></tr>
+  </tbody>
+</table>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Filtrer et chercher ne modifie rien. Le journal est un outil interne : aucun visiteur ni membre ne le voit.</p></div>
+
+<h2 id="t-journal-examiner"><span class="num">20.3</span>Examiner ou signaler un événement</h2>
+<ol class="steps">
+  <li>Dans la file de tri, cliquez sur <span class="ui">À examiner</span>.</li>
+  <li>Cliquez sur une ligne pour ouvrir son détail.</li>
+  <li>Lisez la fenêtre : la date complète, l'<span class="ui">Identité utilisateur</span>, le <span class="ui">Contexte réseau &amp; appareil</span>, et, s'il y en a, les <span class="ui">Métadonnées spécifiques</span>.</li>
+  <li>Dans la zone <span class="ui">Tri &amp; Modération d'audit</span>, cliquez sur <span class="ui">Examiné</span> si tout est normal, ou sur <span class="ui">Signalé pour enquête</span> si quelque chose vous inquiète.<span class="sub"><span class="ui">À examiner</span> remet l'événement en attente.</span></li>
+  <li>Si vous le souhaitez, écrivez votre conclusion dans <span class="field">Notes Internes de Contrôle</span>.</li>
+  <li>Cliquez sur <span class="ui">Enregistrer la modération</span>.<span class="sub">Un message confirme : « Événement marqué comme examiné. », « Événement signalé pour enquête. » ou « Événement remis en attente. ».</span></li>
+  <li>Cliquez sur <span class="ui">Fermer</span>.</li>
+</ol>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/42-detail.jpg" alt="Fenêtre de détail d'un événement du journal"></div>
+  <figcaption><span class="fig">Fig. 20.4</span><span>Le détail d'un accès refusé. 1 · remettre en attente. 2 · examiné. 3 · signalé. 4 · notes. 5 · enregistrer.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Zone de la fenêtre</th><th>Contenu</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Identité utilisateur</span></td><td>« Connecté (Membre) » avec son identifiant et ses rôles, ou « Visiteur Anonyme » avec son numéro de session anonyme.</td></tr>
+    <tr><td><span class="ui">Contexte réseau &amp; appareil</span></td><td>L'adresse Internet masquée (<span class="ui">IP (Masquée RGPD)</span>), l'appareil (ordinateur, mobile, tablette ou robot), le chemin de la page, la page d'origine et le navigateur.</td></tr>
+    <tr><td><span class="ui">Tri &amp; Modération d'audit</span></td><td>Les trois boutons de statut, vos notes, et, une fois enregistré, « Examiné par … le … ».</td></tr>
+    <tr><td><span class="ui">Métadonnées spécifiques</span></td><td>Détails techniques propres à l'événement. Le bouton <span class="ui">Copier JSON</span> les copie pour les transmettre à un technicien.</td></tr>
+  </tbody>
+</table>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Aucun. Seule la ligne du journal change : son statut, votre nom, la date et votre note. Les autres responsables voient aussitôt ce travail à la prochaine actualisation.</p></div>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Pour traiter une ligne sans la lire en détail, utilisez les deux icônes de la colonne <span class="ui">Actions</span> : la coche la marque examinée, le drapeau la signale.</p></div>
+
+<h2 id="t-journal-lot"><span class="num">20.4</span>Traiter plusieurs événements d'un coup</h2>
+<ol class="steps">
+  <li>Dans le tableau, cochez la case de chaque ligne voulue. Pour tout cocher, cochez la case de l'en-tête (<span class="ui">Sélectionner tout</span>).</li>
+  <li>Une barre rose apparaît en haut du tableau : « 3 événement(s) sélectionné(s) ».</li>
+  <li>Cliquez sur <span class="ui">Marquer examinés</span>, <span class="ui">Signaler</span> ou <span class="ui">Remettre en attente</span>. Pour tout décocher sans rien changer, cliquez sur <span class="ui">Annuler</span>.<span class="sub">Un message confirme : « 3 entrée(s) mise(s) à jour avec succès. ».</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/42-selection.jpg" alt="Barre d'actions pour plusieurs événements sélectionnés"></div>
+  <figcaption><span class="fig">Fig. 20.5</span><span>1 · marquer examinés. 2 · signaler. 3 · remettre en attente. 4 · annuler la sélection.</span></figcaption>
+</figure>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Aucun. Le statut des lignes choisies change dans le journal, avec votre nom.</p></div>
+
+<h2 id="t-journal-analyse"><span class="num">20.5</span>L'onglet « Analyse &amp; Chronologie »</h2>
+<p>Des graphiques sur le mois chargé, utiles pour repérer un pic inhabituel.</p>
+<figure>
+  <div class="frame"><img src="../screens/42-analyse.jpg" alt="Graphiques d'analyse du journal"></div>
+  <figcaption><span class="fig">Fig. 20.6</span><span>L'onglet d'analyse. Les graphiques suivent le mois en cours.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Bloc</th><th>Ce qu'il montre</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Fréquentation quotidienne (14 derniers jours)</span></td><td>Le nombre d'événements de chacun des quatorze derniers jours.</td></tr>
+    <tr><td><span class="ui">Créneaux horaires de consultation</span></td><td>Matin (6 h à 12 h), après-midi (12 h à 18 h), soirée (18 h à 24 h) et nuit (0 h à 6 h), en nombre et en pourcentage.</td></tr>
+    <tr><td><span class="ui">Répartition week-end vs semaine</span></td><td>La part de l'activité du samedi et du dimanche, face à celle de la semaine.</td></tr>
+    <tr><td><span class="ui">Palmarès traces &amp; téléchargements GPX</span></td><td>Les traces les plus téléchargées. Sans téléchargement : « Aucun téléchargement GPX enregistré dans la période sélectionnée. ».</td></tr>
+    <tr><td><span class="ui">Ventilation par typologie d'activité</span></td><td>La répartition par catégorie : navigation, sorties et votes, authentification, administration, sécurité.</td></tr>
+  </tbody>
+</table>
+
+<h2><span class="num">20.6</span>L'onglet « Parcours de Session »</h2>
+<p>Cet onglet regroupe les événements par personne pour raconter ce qu'elle a fait, dans l'ordre : par exemple « s'est connecté, a ouvert le calendrier, a téléchargé une trace ». À gauche, la liste des sessions ; à droite, le parcours de la session choisie.</p>
+<figure>
+  <div class="frame"><img src="../screens/42-sessions.jpg" alt="Liste des sessions et parcours détaillé d'une session"></div>
+  <figcaption><span class="fig">Fig. 20.7</span><span>La liste des sessions et le parcours de la première.</span></figcaption>
+</figure>
+<ul>
+  <li><span class="field">Rechercher par internaute, IP masquée, ou contenu…</span> filtre la liste.</li>
+  <li>Les boutons d'<span class="field">Intention</span> (<span class="ui">Toutes</span>, <span class="ui">GPX</span>, <span class="ui">Membres</span>, <span class="ui">Essais</span>, <span class="ui">Sécurité</span>) gardent un type de session.</li>
+  <li>Chaque session porte une étiquette : <span class="ui">Cyclo membre</span>, <span class="ui">Téléchargeur GPX</span>, <span class="ui">Alerte sécurité</span>, <span class="ui">Exploration traces</span> ou <span class="ui">Visite publique</span>.</li>
+  <li>Cliquez sur une session pour voir <span class="ui">Parcours de</span> la personne : durée, nombre d'actions et chronologie.</li>
+</ul>
+<p>Cet onglet est en lecture seule : il n'y a rien à enregistrer.</p>
+
+<h2 id="t-journal-comite"><span class="num">20.7</span>L'onglet « Rapports Comité »</h2>
+<p>Il prépare un compte rendu à joindre au procès-verbal d'une réunion.</p>
+<ol class="steps">
+  <li>Cliquez sur l'onglet <span class="ui">Rapports Comité</span>.</li>
+  <li>Dans <span class="ui">Fenêtre d'audit</span>, choisissez la période : <span class="ui">7 jours</span>, <span class="ui">30 jours</span> (par défaut), <span class="ui">Mois en cours</span> ou <span class="ui">Trimestre (90j)</span>.</li>
+  <li>Lisez les six chiffres et la barre <span class="ui">Couverture de modération du journal</span> (« 4 événements examinés sur 15 (27 %). 1 événement(s) signalé(s). »).</li>
+  <li>Cliquez sur <span class="ui">Copier Markdown</span>, ouvrez votre document ou courriel, et collez (<span class="key">Ctrl</span> + <span class="key">V</span>). Sinon, cliquez sur <span class="ui">Imprimer</span> pour l'imprimer, ou sur <span class="ui">Bilan CSV</span> pour recevoir les chiffres dans un fichier de tableur.</li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/42-comite.jpg" alt="Rapport pour le comité avec chiffres et compte rendu"></div>
+  <figcaption><span class="fig">Fig. 20.8</span><span>1 · période. 2 · copier le texte. 3 · fichier CSV. 4 · imprimer.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Chiffre</th><th>Ce qu'il compte sur la période</th></tr></thead>
+  <tbody>
+    <tr><td><b>Événements</b></td><td>Tous les événements.</td></tr>
+    <tr><td><b>Visiteurs</b></td><td>Les visiteurs différents non connectés.</td></tr>
+    <tr><td><b>Membres actifs</b></td><td>Les membres connectés qui ont laissé une trace.</td></tr>
+    <tr><td><b>Téléchargements GPX</b></td><td>Les traces téléchargées.</td></tr>
+    <tr><td><b>Mutations admin</b></td><td>Les modifications faites dans l'administration (par exemple un pointage ajouté ou retiré).</td></tr>
+    <tr><td><b>Alertes sécurité</b></td><td>Les alertes de la période.</td></tr>
+  </tbody>
+</table>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Le texte du <span class="ui">Compte-rendu d'audit officiel</span> contient des signes comme <span class="key">###</span> et <span class="key">**</span> : c'est une mise en forme qui se lit bien dans un courriel et se transforme en titres et en gras dans la plupart des outils de rédaction. Collez-le tel quel.</p></div>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Aucun. Le texte est copié sur votre ordinateur, ou le fichier est téléchargé.</p></div>
+
+<h2 id="t-journal-csv"><span class="num">20.8</span>Exporter le journal en CSV</h2>
+<ol class="steps">
+  <li>Dans l'en-tête, cliquez sur <span class="ui">Exporter CSV</span>.</li>
+  <li>Une notification confirme : « Journal exporté au format CSV avec succès ! ». Si le journal est vide : « Aucun événement à exporter. ».</li>
+  <li>Ouvrez le fichier <span class="url">cc_blanmont_journal_activite_2026-11-27.csv</span> (la date du jour est dans le nom) depuis votre dossier de téléchargements.</li>
+</ol>
+<p>Le fichier contient une ligne par événement et ces colonnes : identifiant, date, catégorie, action, titre, gravité, statut de modération, note d'audit, examiné par, connecté ou non, identifiant, nom, <b>courriel</b> et rôles de la personne, adresse masquée, page et appareil.</p>
+<div class="box warn"><div class="box-title">Attention · deux surprises de l'export</div><p><b>1.</b> L'info-bulle du bouton parle des « logs filtrés », mais le fichier contient <b>tous les événements chargés</b> (le mois en cours, 400 au maximum), pas seulement ceux que vos filtres affichent. <b>2.</b> Le fichier contient les <b>noms et courriels</b> des membres connectés : ce sont des données personnelles. Ne l'envoyez pas à n'importe qui, et supprimez-le quand vous n'en avez plus besoin.</p></div>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Aucun : le fichier est enregistré sur votre ordinateur.</p></div>
+
+<h2><span class="num">20.9</span>Vie privée : ce que le journal conserve</h2>
+<ul>
+  <li><b>Adresses Internet masquées.</b> Le dernier groupe de chiffres est remplacé par « xxx » (par exemple 81.244.14.xxx) et la fin des adresses plus longues est coupée. L'adresse complète n'est jamais enregistrée.</li>
+  <li><b>Visiteurs non connectés anonymes.</b> Ils reçoivent un identifiant au hasard. Dès qu'un membre se connecte, ses actions sont rattachées à son nom.</li>
+  <li><b>Cookies de mesure d'audience.</b> Les pages vues d'un visiteur ne sont enregistrées que s'il a accepté les cookies de mesure d'audience dans le bandeau du site.</li>
+  <li><b>Pas de pages d'administration.</b> Ce que font les responsables dans l'administration n'est pas suivi page par page.</li>
+</ul>
+
+<h2 id="t-journal-purger"><span class="num">20.10</span>Purger les événements de plus de 90 jours</h2>
+<p>La purge efface les anciennes lignes du journal pour ne pas garder des données trop longtemps. La durée de conservation recommandée est de 90 jours.</p>
+<ol class="steps">
+  <li>Si vous avez besoin de ces anciennes lignes, <b>exportez d'abord</b> le journal (20.8) et gardez le fichier.</li>
+  <li>Cliquez sur <span class="ui">Purger (&gt;90j)</span> dans l'en-tête.</li>
+  <li>Une fenêtre s'ouvre : « Confirmer la purge des logs ». Relisez le texte.</li>
+  <li>Cliquez sur <span class="ui">Confirmer la purge</span> pour effacer, ou sur <span class="ui">Annuler</span> pour renoncer.</li>
+  <li>Une notification annonce : « Nettoyage terminé : N logs purgés (&gt; 90 jours). ».</li>
+</ol>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/42-purge.jpg" alt="Fenêtre de confirmation de la purge"></div>
+  <figcaption><span class="fig">Fig. 20.9</span><span>La fenêtre de confirmation. 1 · effacer définitivement. 2 · renoncer.</span></figcaption>
+</figure>
+<div class="box danger"><div class="box-title">Action définitive</div><p>La purge supprime <b>pour toujours</b> tous les événements de plus de 90 jours : on ne peut pas les récupérer. De plus, l'écran ne montre que le mois en cours : vous ne pouvez pas voir à l'avance ce qui sera effacé. Faites un export avant de purger.</p></div>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Rien ne change pour les visiteurs. Les lignes de plus de 90 jours disparaissent du journal, des exports et des rapports du comité.</p></div>
+</article>

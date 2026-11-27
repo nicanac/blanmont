@@ -1,0 +1,355 @@
+<article class="chapter" data-chapter="14 · Les membres">
+<section class="opener" id="ch-membres">
+  <div class="opener-band"><div class="carte-frame" data-carte="480" data-fx="60" data-fy="46" data-labels="1"></div></div>
+  <div class="opener-cartouche neatline">
+    <div class="main">
+      <div class="opener-kicker"><span class="label">Chapitre 14 · Gestion du Club</span><span class="chip red">Secrétariat</span></div>
+      <h1 class="opener-title" data-chapter="14 · Les membres">Les membres</h1>
+      <p class="opener-desc">L'annuaire du club&nbsp;: ajouter un membre, corriger sa fiche, gérer ses rôles, ses photos, sa cotisation et son contact d'urgence.</p>
+    </div>
+    <div class="legend"><dl class="legend-rows">
+      <div><dt>Où</dt><dd>Membres du Club<small>menu de gauche · Gestion du Club</small></dd></div>
+      <div><dt>Qui</dt><dd>Administrateurs<small>et secrétaire (avec des limites)</small></dd></div>
+      <div><dt>Résultat visible</dt><dd>Page Les membres<small>et profil de chaque membre</small></dd></div>
+    </dl></div>
+  </div>
+  <div class="opener-meta"><span>Feuille · Membres</span><span>50°37′23″ N · 4°38′32″ E</span></div>
+  <div class="opener-body">
+    <p class="lead">Chaque cycliste du club a une fiche&nbsp;: nom, courriel, groupe, cotisation, licence, contact d'urgence (ICE) et rôles. Cette fiche permet à la personne d'activer son compte et de se connecter au site.</p>
+    <p>À retenir avant de commencer&nbsp;:</p>
+    <ul>
+      <li>Créer une fiche n'envoie aucun courriel et ne crée pas de compte (section 14.9).</li>
+      <li>Le champ <span class="field">Téléphone / GSM</span> de <span class="ui">Nouveau Membre</span> n'est pas enregistré (section 14.2).</li>
+      <li>Seul un administrateur donne ou retire des rôles. Supprimer une fiche est définitif.</li>
+    </ul>
+    <h3>Dans ce chapitre</h3>
+    <ul>
+      <li>14.1 La liste des membres</li>
+      <li>14.2 Ajouter un membre</li>
+      <li>14.3 Modifier un membre, et ce que le secrétaire ne peut pas faire</li>
+      <li>14.4 Réinitialiser un mot de passe</li>
+      <li>14.5 Portraits &amp; Cadrage&nbsp;: les photos de tous les membres</li>
+      <li>14.6 Exporter la liste en fichier CSV</li>
+      <li>14.7 Importer des membres depuis un fichier CSV</li>
+      <li>14.8 Supprimer un membre</li>
+      <li>14.9 Côté membre&nbsp;: annuaire, profil, pass ICE et activation du compte</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="t-membres-liste"><span class="num">14.1</span>La liste des membres</h2>
+<p>Cliquez sur <span class="ui">Membres du Club</span> dans le menu de gauche, rubrique <span class="ui">Gestion du Club</span>. La page s'intitule « Membres du Club » et indique le nombre de membres (par exemple «&nbsp;24 cyclistes actifs enregistrés dans le système&nbsp;»). Sous le titre, deux boutons&nbsp;: <span class="ui">Portraits &amp; Cadrage</span> (section 14.5) et <span class="ui red">Nouveau Membre</span> (section 14.2).</p>
+<p>Dessous se trouve la barre d'outils, puis le tableau.</p>
+<figure>
+  <div class="frame"><img src="../screens/30-liste-barre.jpg" alt="Barre d'outils de la liste des membres"></div>
+  <figcaption><span class="fig">Fig. 14.1</span><span>La barre d'outils. 1 Recherche. 2 Filtres. 3 Export. 4 Import.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Élément</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="field">Rechercher par nom, rôle ou email</span></td><td>Tapez quelques lettres&nbsp;: la liste se réduit tout de suite. La recherche porte sur le nom, le courriel, le téléphone, le nom du contact d'urgence et les rôles. Le lien <span class="ui">Effacer</span> remet la liste complète.</td></tr>
+    <tr><td class="c">2</td><td>Pastilles de filtre</td><td>Chaque pastille indique entre parenthèses combien de membres elle contient. <span class="ui">Tous</span>, <span class="ui">Capitaines</span>, <span class="ui">Cotisation Payée</span>, <span class="ui">En attente</span> (cotisation non payée ou non renseignée), <span class="ui">Sans ICE</span> (aucun téléphone de contact d'urgence) et <span class="ui">Admins</span> (rôle contenant « admin » ou « webmaster »).</td></tr>
+    <tr><td class="c">3</td><td><span class="ui">Exporter CSV</span></td><td>Enregistre la liste dans un fichier (section 14.6).</td></tr>
+    <tr><td class="c">4</td><td><span class="ui">Importer CSV</span></td><td>Ajoute ou met à jour des membres depuis un fichier (section 14.7).</td></tr>
+  </tbody>
+</table>
+<figure>
+  <div class="frame"><img src="../screens/30-filtre.jpg" alt="Liste filtrée sur les capitaines"></div>
+  <figcaption><span class="fig">Fig. 14.2</span><span>Exemple&nbsp;: la pastille <span class="ui">Capitaines</span> est active, seuls les capitaines restent affichés.</span></figcaption>
+</figure>
+<p>Le tableau compte six colonnes. Sur un écran de 1280 points de large, les deux dernières sont à droite&nbsp;: faites défiler le tableau vers la droite avec la barre de défilement sous le tableau (ou deux doigts sur le pavé tactile).</p>
+<figure>
+  <div class="frame"><img src="../screens/30-liste-gauche.jpg" alt="Tableau des membres, colonnes de gauche"></div>
+  <figcaption><span class="fig">Fig. 14.3</span><span>Le tableau, colonnes de gauche. 5 Membre. 6 Email &amp; Tél. 7 Rôle(s). 8 Cotisation 2026.</span></figcaption>
+</figure>
+<figure>
+  <div class="frame"><img src="../screens/30-liste-droite.jpg" alt="Tableau des membres, colonnes de droite"></div>
+  <figcaption><span class="fig">Fig. 14.4</span><span>Le même tableau, une fois défilé vers la droite. 9 Sécurité ICE. 10 Actions.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Colonne</th><th>Ce que vous y lisez</th></tr></thead>
+  <tbody>
+    <tr><td class="c">5</td><td><span class="ui">Membre</span></td><td>La photo (ou les initiales si le membre n'a pas de photo), le nom et le début de la présentation (bio).</td></tr>
+    <tr><td class="c">6</td><td><span class="ui">Email &amp; Tél</span></td><td>Le courriel et le téléphone de la fiche.</td></tr>
+    <tr><td class="c">7</td><td><span class="ui">Rôle(s)</span></td><td>Une pastille par rôle&nbsp;: <span class="ui">Admin</span>, <span class="ui">Président</span>, <span class="ui">Trésorier</span>, <span class="ui">Secrétaire</span>, <span class="ui">Capitaine de Route</span>, <span class="ui">Member</span> pour un simple membre, et les rôles sur mesure (par exemple <span class="ui">Traceur</span>).</td></tr>
+    <tr><td class="c">8</td><td><span class="ui">Cotisation 2026</span></td><td>Trois états&nbsp;: <span class="ui">À jour</span> (pastille verte), <span class="ui">Exempté</span> (membre du comité ou d'honneur), <span class="ui">En attente</span> (pastille orange, valeur par défaut).</td></tr>
+    <tr><td class="c">9</td><td><span class="ui">Sécurité ICE</span></td><td>Un bouton ambre avec le nom du contact d'urgence, ou <span class="ui">Non renseigné</span>. Un clic ouvre la fiche d'urgence (figure 14.5).</td></tr>
+    <tr><td class="c">10</td><td><span class="ui">Actions</span></td><td>Quatre icônes, de gauche à droite&nbsp;: <span class="ui">Cadrage et positionnement photo</span> (ouvre Portraits &amp; Cadrage), <span class="ui">Modifier</span> (crayon), <span class="ui">Réinitialiser mot de passe</span> (clé), <span class="ui">Supprimer le membre</span> (corbeille).</td></tr>
+  </tbody>
+</table>
+<p>Quand la recherche ne trouve personne, la page affiche «&nbsp;Aucun membre trouvé&nbsp;» et un bouton <span class="ui">Réinitialiser les filtres</span>.</p>
+<h3>La fiche d'urgence (ICE)</h3>
+<p>Cliquez sur le nom du contact d'urgence dans la colonne <span class="ui">Sécurité ICE</span>. La fenêtre «&nbsp;Fiche d'Urgence Peloton (ICE)&nbsp;» donne le nom du contact, son lien de parenté (« Proche » si rien n'est indiqué) et son téléphone, sur lequel on peut cliquer pour appeler depuis un téléphone. En dessous&nbsp;: le téléphone du membre, son numéro de licence FFBC et son groupe habituel. Fermez avec <span class="ui">Fermer</span>.</p>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/30-ice.jpg" alt="Fiche d'urgence d'un membre"></div>
+  <figcaption><span class="fig">Fig. 14.5</span><span>La fiche d'urgence d'un membre.</span></figcaption>
+</figure>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Cette liste n'est pas visible des visiteurs. Qui peut l'ouvrir dépend du rôle (chapitre 3, page <span data-page-of="ch-roles"></span>).</p></div>
+
+<h2 id="t-membres-ajouter"><span class="num">14.2</span>Ajouter un membre</h2>
+<ol class="steps">
+  <li>Cliquez sur <span class="ui">Membres du Club</span> dans le menu de gauche.</li>
+  <li>Cliquez sur le bouton rouge <span class="ui red">Nouveau Membre</span>, sous le titre de la page.<span class="sub">La page «&nbsp;Nouveau Membre&nbsp;» s'ouvre. Une flèche en haut à gauche permet de revenir à l'annuaire.</span></li>
+  <li>Remplissez au moins <span class="field">Nom complet</span>, la seule case obligatoire (marquée d'une étoile). Ajoutez le courriel&nbsp;: sans lui, le membre ne pourra pas activer son compte.</li>
+  <li>Descendez dans la page et remplissez les autres rubriques (tableaux ci-dessous).</li>
+  <li>Cliquez sur <span class="ui red">Créer le membre</span>, en bas à droite.<span class="sub">Le message «&nbsp;Membre créé avec succès&nbsp;» s'affiche, puis vous revenez à la liste.</span></li>
+</ol>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le membre apparaît tout de suite dans la liste, par ordre alphabétique. Il n'apparaît sur la page publique <span class="url">Les membres</span> que s'il a un rôle autre que simple membre (section 14.9). Aucun courriel n'est envoyé et aucun compte n'est créé&nbsp;: dites au membre d'utiliser <span class="ui">1ère Connexion</span> (chapitre 1, page <span data-page-of="ch-connexion"></span>).</p></div>
+<h3>Identité</h3>
+<figure>
+  <div class="frame"><img src="../screens/30-nouveau-identite.jpg" alt="Formulaire Nouveau Membre, identité"></div>
+  <figcaption><span class="fig">Fig. 14.6</span><span>Le haut du formulaire, rempli avec un exemple.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Champ</th><th>À quoi ça sert</th><th>Exemple ou format</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="field">Nom complet</span> *</td><td>Le nom affiché partout (liste, page publique, pointage). Obligatoire.</td><td>Lucien Szustak</td></tr>
+    <tr><td class="c">2</td><td><span class="field">Email</span></td><td>Sert à retrouver le membre quand il active son compte et à se connecter.</td><td>membre@exemple.be</td></tr>
+    <tr><td class="c">3</td><td><span class="field">Téléphone / GSM</span></td><td><strong>Attention&nbsp;: cette case n'est pas enregistrée.</strong> Le numéro saisi disparaît. Le téléphone arrive par un import CSV (section 14.7), par le membre lui-même dans son profil, ou depuis une candidature convertie (chapitre 15).</td><td>+32 470 12 34 56</td></tr>
+    <tr><td class="c">4</td><td><span class="field">Photo URL</span></td><td>Adresse internet d'une photo déjà en ligne. Laissez vide&nbsp;: le membre s'affiche avec ses initiales. Pour téléverser une vraie photo, utilisez la section 14.3 ou 14.5.</td><td>https://…</td></tr>
+    <tr><td class="c">5</td><td><span class="field">Strava Athlete ID</span></td><td>Le numéro de l'athlète sur Strava (les chiffres à la fin de l'adresse de son profil). S'il est rempli, la carte du membre sur la page publique affiche un lien Strava.</td><td>12345678</td></tr>
+    <tr><td class="c">6</td><td><span class="field">Bio &amp; Présentation</span></td><td>Quelques mots sur le cycliste. Affichés sur sa carte de la page publique. Si la case est vide, le site écrit «&nbsp;Membre actif du peloton de Blanmont&nbsp;».</td><td>Aime les cols et les sorties du dimanche.</td></tr>
+  </tbody>
+</table>
+<h3>Cotisation, licence et contact d'urgence</h3>
+<figure>
+  <div class="frame"><img src="../screens/30-nouveau-cotisation.jpg" alt="Formulaire Nouveau Membre, cotisation et ICE"></div>
+  <figcaption><span class="fig">Fig. 14.7</span><span>Cotisation, licence, contact d'urgence et groupe.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Champ</th><th>À quoi ça sert</th><th>Exemple ou format</th></tr></thead>
+  <tbody>
+    <tr><td class="c">7</td><td><span class="field">Statut Cotisation 2026</span></td><td>Trois choix&nbsp;: <span class="ui">En attente de paiement</span> (par défaut), <span class="ui">À jour (Payée)</span>, <span class="ui">Exempté (Comité / Honneur)</span>. Le choix se reflète dans la liste et dans le profil du membre.</td><td>À jour (Payée)</td></tr>
+    <tr><td class="c">8</td><td><span class="field">Date de règlement</span></td><td>Le jour où la cotisation a été reçue. Utile pour vous&nbsp;: le membre ne la voit pas dans son profil.</td><td>15/01/2026</td></tr>
+    <tr><td class="c">9</td><td><span class="field">N° Licence FFBC</span></td><td>Numéro de licence de la fédération. Il apparaît sur le pass du membre et dans la fiche d'urgence.</td><td>FFBC-2026-8491</td></tr>
+    <tr><td class="c">10</td><td>Cadre orange <span class="ui">Contact d'urgence en peloton (ICE)</span></td><td>Trois cases&nbsp;: <span class="field">Nom du proche</span>, <span class="field">Téléphone d'urgence</span> et <span class="field">Lien de parenté</span>. À remplir pour chaque membre&nbsp;: les capitaines s'en servent en cas d'accident («&nbsp;Accessible aux capitaines&nbsp;»). Le membre peut aussi les modifier lui-même (section 14.9).</td><td>Marie Dupont · +32 479 98 76 54 · Épouse</td></tr>
+    <tr><td class="c">11</td><td><span class="field">Groupe habituel d'allure</span></td><td>La liste propose les groupes du club avec leur vitesse, sous les noms que vous leur avez donnés (chapitre 12, page <span data-page-of="ch-groupes"></span>). Valeur par défaut&nbsp;: le groupe B.</td><td>GR2 (25 – 28 km/h)</td></tr>
+  </tbody>
+</table>
+<h3>Rôles et spécialités (administrateurs seulement)</h3>
+<figure>
+  <div class="frame"><img src="../screens/30-nouveau-roles.jpg" alt="Choix des rôles du membre"></div>
+  <figcaption><span class="fig">Fig. 14.8</span><span>Le choix des rôles. 12 Les six rôles de base. 13 Les spécialités sur mesure (ici «&nbsp;Traceur&nbsp;» vient d'être ajouté).</span></figcaption>
+</figure>
+<p>Cochez une ou plusieurs cartes (sélection multiple autorisée). Chaque carte indique <span class="ui">Actif</span> ou <span class="ui">Inactif</span>.</p>
+<table>
+  <thead><tr><th>Carte</th><th>Pour qui</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Capitaine de Route</span></td><td>Encadrement des pelotons, pointage Carré Vert, sécurité des sorties.</td></tr>
+    <tr><td><span class="ui">Président</span></td><td>Direction générale du club.</td></tr>
+    <tr><td><span class="ui">Trésorier</span></td><td>Finances, cotisations et commandes d'équipements.</td></tr>
+    <tr><td><span class="ui">Secrétaire</span></td><td>Adhésions, convocations, procès-verbaux et correspondance.</td></tr>
+    <tr><td><span class="ui">Administrateur</span></td><td>Accès complet au back-office.</td></tr>
+    <tr><td><span class="ui">Membre</span></td><td>Cycliste adhérent. Coché par défaut.</td></tr>
+  </tbody>
+</table>
+<p>Le cadre <span class="ui">Spécialités &amp; Rôles Personnalisés</span> permet d'ajouter une fonction précise. Tapez-la dans <span class="field">Ajouter un rôle sur mesure</span> puis appuyez sur <span class="key">Entrée</span> ou cliquez sur <span class="ui">Ajouter</span>, ou cliquez sur une suggestion&nbsp;: <span class="ui">Traceur</span>, <span class="ui">Resp. Calendrier</span>, <span class="ui">Resp. maillots</span>, <span class="ui">Vice-Président</span>, <span class="ui">Resp. section VTT</span>, <span class="ui">Sécurité</span>. La croix sur une pastille la retire.</p>
+<div class="box danger"><div class="box-title">Action définitive</div><p>N'utilisez pas la suggestion <span class="ui">Vice-Président</span>. Tout rôle sur mesure qui contient les mots «&nbsp;président&nbsp;», «&nbsp;admin&nbsp;» ou «&nbsp;webmaster&nbsp;» donne au membre les droits d'un administrateur, c'est-à-dire l'accès à tout le back-office. Pour un vice-président, choisissez plutôt la carte <span class="ui">Secrétaire</span> ou un nom neutre comme «&nbsp;Resp. comité&nbsp;».</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Les cartes de rôles ne sont pas grisées pour un secrétaire&nbsp;: elles se cochent, mais l'enregistrement échoue avec le message «&nbsp;Erreur lors de la création du membre&nbsp;». Décochez-les, ou demandez à un administrateur.</p></div>
+
+<h2 id="t-membres-modifier"><span class="num">14.3</span>Modifier un membre, et ce que le secrétaire ne peut pas faire</h2>
+<ol class="steps">
+  <li>Dans la liste, repérez le membre (utilisez la recherche si besoin).</li>
+  <li>Cliquez sur l'icône <span class="ui">Modifier</span> (le crayon) dans la colonne <span class="ui">Actions</span>, à droite de la ligne.<span class="sub">La page «&nbsp;Modifier le Membre&nbsp;» s'ouvre après un court chargement.</span></li>
+  <li>Corrigez les rubriques voulues.</li>
+  <li>Cliquez sur <span class="ui red">Enregistrer les modifications</span>, en bas à droite. <span class="ui">Annuler</span> abandonne tout.<span class="sub">Le message «&nbsp;Membre mis à jour avec succès&nbsp;» s'affiche, puis vous revenez à la liste.</span></li>
+</ol>
+<p>La page reprend les rubriques de la section 14.2, avec une différence&nbsp;: <span class="field">Téléphone / GSM</span> et <span class="field">Photo URL</span> sont remplacés par le bloc <span class="ui">Photo de profil &amp; Cadrage</span>.</p>
+<figure>
+  <div class="frame"><img src="../screens/30-edit-photo.jpg" alt="Bloc photo de la page Modifier le Membre"></div>
+  <figcaption><span class="fig">Fig. 14.9</span><span>Le bloc photo. 1 Lien vers l'atelier de cadrage. 2 Aperçu. 3 Téléverser une photo. 4 Adresse d'une photo en ligne.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Élément</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="ui">Ouvrir l'atelier de cadrage global →</span></td><td>Ouvre Portraits &amp; Cadrage (section 14.5).</td></tr>
+    <tr><td class="c">2</td><td><span class="ui">Aperçu rendu /members (4:5)</span></td><td>Montre la photo telle qu'elle sera découpée sur la page publique (format portrait). Le pourcentage en bas (« 50% Y ») est la position verticale. «&nbsp;Aucune photo&nbsp;» si le membre n'en a pas.</td></tr>
+    <tr><td class="c">3</td><td><span class="ui">Choisir un fichier</span></td><td>Téléverse une photo depuis votre ordinateur. Message «&nbsp;Photo mise à jour avec succès&nbsp;» ou «&nbsp;Erreur lors du téléchargement de l'image&nbsp;».</td></tr>
+    <tr><td class="c">4</td><td><span class="field">Ou entrer une URL manuelle (https://...)</span></td><td>Alternative&nbsp;: collez l'adresse d'une photo déjà en ligne.</td></tr>
+  </tbody>
+</table>
+<p>Dès que le membre a une photo, le bloc ajoute un réglage <span class="field">Alignement vertical</span>&nbsp;: trois boutons (<span class="ui">Haut (Visages / Têtes)</span>, <span class="ui">Centre (Standard)</span>, <span class="ui">Bas (Buste / Vélos)</span>) et un curseur de 0 à 100&nbsp;%. Il décide quelle partie de la photo reste visible quand elle est découpée en portrait.</p>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>La liste est à jour tout de suite. Sur la page publique <span class="url">Les membres</span>, la carte du membre change jusqu'à une minute plus tard (photo, bio, rôles, lien Strava). La page ne montre que les membres qui ont un rôle autre que simple membre.</p></div>
+<h3>Ce qu'un secrétaire ne peut pas faire</h3>
+<p>Le rôle <span class="ui">Secrétaire</span> donne accès à la section Membres, mais pas à tout. Le tableau montre ce qui reste réservé aux administrateurs.</p>
+<table>
+  <thead><tr><th>Action</th><th class="c">Administrateur</th><th class="c">Secrétaire</th></tr></thead>
+  <tbody>
+    <tr><td>Ajouter ou corriger un membre ordinaire (nom, courriel, cotisation, licence, ICE, bio, photo)</td><td class="c"><span class="yes">Oui</span></td><td class="c"><span class="yes">Oui</span></td></tr>
+    <tr><td>Donner ou retirer un rôle, y compris un rôle sur mesure</td><td class="c"><span class="yes">Oui</span></td><td class="c"><span class="no">Non</span></td></tr>
+    <tr><td>Modifier la fiche d'un administrateur</td><td class="c"><span class="yes">Oui</span></td><td class="c"><span class="no">Non</span></td></tr>
+    <tr><td>Changer le courriel d'un responsable (président, trésorier…)</td><td class="c"><span class="yes">Oui</span></td><td class="c"><span class="no">Non</span></td></tr>
+    <tr><td>Réinitialiser le mot de passe d'un responsable ou d'un administrateur</td><td class="c"><span class="yes">Oui</span></td><td class="c"><span class="no">Non</span></td></tr>
+    <tr><td>Supprimer un administrateur</td><td class="c"><span class="yes">Oui</span></td><td class="c"><span class="no">Non</span></td></tr>
+    <tr><td>Importer un fichier CSV pour des membres ordinaires</td><td class="c"><span class="yes">Oui</span></td><td class="c"><span class="yes">Oui</span></td></tr>
+  </tbody>
+</table>
+<div class="box warn"><div class="box-title">Attention</div><p>L'écran ne grise pas les rubriques interdites&nbsp;: le refus n'apparaît qu'au moment d'enregistrer, avec un message général («&nbsp;Erreur lors de la mise à jour du membre&nbsp;») qui n'en donne pas la raison. Si ce message apparaît chez un secrétaire, c'est presque toujours parce qu'un rôle ou un courriel de responsable a été touché. Demandez à un administrateur.</p></div>
+
+<h2 id="t-membres-mdp"><span class="num">14.4</span>Réinitialiser un mot de passe</h2>
+<p>À utiliser quand un membre a oublié son mot de passe et ne parvient pas à le récupérer lui-même (chapitre 1, page <span data-page-of="ch-connexion"></span>).</p>
+<ol class="steps">
+  <li>Dans la liste des membres, cliquez sur l'icône <span class="ui">Réinitialiser mot de passe</span> (la clé) de la ligne du membre.<span class="sub">La page «&nbsp;Réinitialiser le mot de passe&nbsp;» s'ouvre, avec «&nbsp;Pour&nbsp;» suivi du nom.</span></li>
+  <li>Tapez un nouveau mot de passe dans <span class="field">Nouveau mot de passe</span> (6 caractères au minimum).</li>
+  <li>Cliquez sur <span class="ui red">Réinitialiser</span>. <span class="ui">Annuler</span> revient à la liste.<span class="sub">La page «&nbsp;Mot de passe réinitialisé&nbsp;» confirme. Le bouton <span class="ui">Retour aux membres</span> ramène à la liste.</span></li>
+  <li>Communiquez le mot de passe au membre vous-même, de préférence par téléphone.</li>
+</ol>
+<figure class="narrow-fig">
+  <div class="frame"><img src="../screens/30-reset.jpg" alt="Page de réinitialisation du mot de passe"></div>
+  <figcaption><span class="fig">Fig. 14.10</span><span>Le formulaire. 1 Le nouveau mot de passe. 2 Le bouton de validation.</span></figcaption>
+</figure>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le membre peut se connecter tout de suite avec ce mot de passe, sur la page <span class="ui">Connexion</span>.</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Aucun courriel n'est envoyé&nbsp;: c'est à vous de transmettre le mot de passe. Évitez de l'écrire dans un message ouvert à plusieurs personnes.</p></div>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Si le message «&nbsp;Ce membre n'a pas de compte authentifié&nbsp;» apparaît, le membre n'a encore jamais activé son compte. Il n'y a rien à réinitialiser&nbsp;: demandez-lui d'utiliser l'onglet <span class="ui">1ère Connexion</span> (section 14.9). Un secrétaire ne peut pas réinitialiser le mot de passe d'un responsable&nbsp;: message «&nbsp;Seul un administrateur peut réinitialiser le mot de passe d'un responsable&nbsp;».</p></div>
+
+<h2 id="t-membres-photos"><span class="num">14.5</span>Portraits &amp; Cadrage&nbsp;: les photos de tous les membres</h2>
+<p>Cette page sert à mettre une photo à chaque membre et à régler son cadrage, sans ouvrir les fiches une par une. Cliquez sur <span class="ui">Portraits &amp; Cadrage</span> dans le menu de gauche (ou sur le bouton du même nom en haut de la liste des membres).</p>
+<figure>
+  <div class="frame"><img src="../screens/30-portraits.jpg" alt="Page Portraits et Cadrage"></div>
+  <figcaption><span class="fig">Fig. 14.11</span><span>Portraits &amp; Cadrage, en vue liste. 1 Recherche. 2 Filtre <span class="ui">Avec photo</span>. 3 Filtre <span class="ui">Tous</span>. 4 Choix de la vue. 5 Téléverser une photo. 6 Sauver.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Élément</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="field">Rechercher un membre par nom ou rôle</span></td><td>Réduit la liste.</td></tr>
+    <tr><td class="c">2</td><td><span class="ui">Avec photo</span></td><td>Filtre actif à l'ouverture&nbsp;: il masque les membres sans photo. Si personne n'a encore de photo, la page affiche «&nbsp;Aucun membre trouvé&nbsp;»&nbsp;: cliquez sur <span class="ui">Tous</span>.</td></tr>
+    <tr><td class="c">3</td><td><span class="ui">Bureau</span>, <span class="ui">Capitaines</span>, <span class="ui">Tous</span>, <span class="ui">Sans photo</span></td><td>Autres filtres, avec le nombre de membres entre parenthèses.</td></tr>
+    <tr><td class="c">4</td><td>Deux icônes de vue</td><td><span class="ui">Vue Cartes Réelles (Ratio 4:5)</span> montre chaque portrait comme sur le site. <span class="ui">Vue Liste Compacte</span> donne une ligne par membre.</td></tr>
+    <tr><td class="c">5</td><td><span class="ui">Téléverser</span> (ou <span class="ui">Téléverser &amp; Cadrer</span>, <span class="ui">Changer</span>)</td><td>Choisit l'image du membre.</td></tr>
+    <tr><td class="c">6</td><td><span class="ui">Sauver</span></td><td>Enregistre le cadrage de ce membre. Une pastille <span class="ui">Modifié</span> signale un changement non enregistré.</td></tr>
+  </tbody>
+</table>
+<p>En haut de la page, le bouton <span class="ui">Enregistrer (N)</span> enregistre d'un coup les N membres modifiés&nbsp;; il devient <span class="ui">Tout est enregistré</span> quand il n'y a plus rien à sauver. Les boutons <span class="ui">Voir /members</span> et <span class="ui">Annuaire Membres</span> ouvrent la page publique et la liste.</p>
+<h3>Mettre une photo et la cadrer</h3>
+<ol class="steps">
+  <li>Trouvez le membre, puis cliquez sur <span class="ui">Téléverser &amp; Cadrer</span> (ou sur <span class="ui">Changer</span> s'il a déjà une photo).</li>
+  <li>Choisissez l'image sur votre ordinateur.<span class="sub">La fenêtre «&nbsp;Recadrage Photo&nbsp;» s'ouvre, suivie du nom. Elle montre la zone exactement comme sur la page publique (portrait 4:5).</span></li>
+  <li>Glissez l'image avec la souris (ou le doigt) pour centrer le visage. Le curseur <span class="field">Niveau de zoom du recadrage photo</span> agrandit ou réduit.</li>
+  <li>Cliquez sur <span class="ui red">Valider ce cadrage</span> (ou sur <span class="ui">Annuler</span>).<span class="sub">Le message «&nbsp;Photo mise à jour avec succès&nbsp;! Pensez à enregistrer&nbsp;» s'affiche. La photo n'est pas encore publiée.</span></li>
+  <li>Réglez si besoin l'<span class="field">Alignement vertical</span> avec le curseur.</li>
+  <li>Cliquez sur <span class="ui">Sauver</span> à côté du membre, ou sur <span class="ui">Enregistrer (N)</span> en haut pour tout enregistrer.<span class="sub">Message «&nbsp;Cadrage de … enregistré&nbsp;» ou «&nbsp;Tous les cadrages ont été enregistrés et publiés&nbsp;».</span></li>
+</ol>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>La photo et son cadrage apparaissent sur la carte du membre dans la page publique <span class="url">Les membres</span>, jusqu'à une minute après l'enregistrement. Rappel&nbsp;: seuls les membres qui ont un rôle autre que simple membre figurent sur cette page.</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Si vous quittez la page sans enregistrer, les photos et cadrages modifiés sont perdus. Le téléversement dépend d'un service d'images externe&nbsp;: s'il n'est pas configuré, le message «&nbsp;Cloudinary not configured&nbsp;» apparaît. Prévenez alors le webmaster.</p></div>
+
+<h2 id="t-membres-export"><span class="num">14.6</span>Exporter la liste en fichier CSV</h2>
+<p>Un fichier CSV s'ouvre dans Excel ou LibreOffice Calc. Il sert à garder une copie de la liste, à préparer des étiquettes ou à corriger beaucoup de fiches d'un coup.</p>
+<ol class="steps">
+  <li>Si vous ne voulez qu'une partie des membres, utilisez d'abord la recherche ou une pastille de filtre&nbsp;: l'export contient seulement les membres affichés.</li>
+  <li>Cliquez sur <span class="ui">Exporter CSV</span>, à droite de la barre d'outils.</li>
+  <li>Le fichier <span class="url">membres-blanmont-AAAA-MM-JJ.csv</span> (avec la date du jour) se télécharge. Ouvrez-le depuis le dossier Téléchargements.</li>
+</ol>
+<table>
+  <thead><tr><th>Colonne</th><th>Contenu</th></tr></thead>
+  <tbody>
+    <tr><td><span class="field">ID</span></td><td>Identifiant interne du membre. Ne le modifiez pas&nbsp;: il sert à retrouver la fiche à l'import.</td></tr>
+    <tr><td><span class="field">Nom</span>, <span class="field">Email</span>, <span class="field">Téléphone</span></td><td>Coordonnées de la fiche.</td></tr>
+    <tr><td><span class="field">Groupe</span></td><td>Le code du groupe habituel&nbsp;: A, B, BC, C ou VTT.</td></tr>
+    <tr><td><span class="field">Cotisation 2026</span>, <span class="field">Cotisation payée le</span></td><td>Le statut sous forme de code (<span class="url">paid</span>, <span class="url">pending</span> ou <span class="url">exempt</span>) et la date de règlement.</td></tr>
+    <tr><td><span class="field">Licence FFBC</span>, <span class="field">Strava ID</span></td><td>Numéro de licence et numéro Strava.</td></tr>
+    <tr><td><span class="field">Contact ICE</span>, <span class="field">Téléphone ICE</span>, <span class="field">Lien ICE</span></td><td>Le contact d'urgence.</td></tr>
+    <tr><td><span class="field">Bio</span></td><td>La présentation du membre.</td></tr>
+  </tbody>
+</table>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Rien ne change sur le site&nbsp;: l'export ne fait que lire.</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Le fichier contient des données personnelles (courriels, téléphones, contacts d'urgence). Ne l'envoyez pas par courriel ordinaire à n'importe qui et supprimez-le quand vous n'en avez plus besoin. Les rôles, les accès, les photos et les dates de création ne sont jamais exportés.</p></div>
+
+<h2 id="t-membres-import"><span class="num">14.7</span>Importer des membres depuis un fichier CSV</h2>
+<p>L'import ajoute de nouveaux membres et met à jour les fiches existantes en une seule opération. Le plus simple est d'exporter d'abord la liste (section 14.6), de la corriger ou de la compléter dans Excel, puis de la réimporter.</p>
+<ol class="steps">
+  <li>Cliquez sur <span class="ui">Importer CSV</span>, à droite de la barre d'outils.<span class="sub">La fenêtre «&nbsp;Importer des membres (CSV)&nbsp;» s'ouvre.</span></li>
+  <li>Cliquez sur <span class="ui">Choisir un fichier</span> sous <span class="field">Fichier CSV</span> et sélectionnez votre fichier (extension <span class="url">.csv</span>).</li>
+  <li>Lisez l'aperçu&nbsp;: rien n'est encore enregistré. Quatre compteurs&nbsp;: <span class="ui">À créer</span>, <span class="ui">À mettre à jour</span>, <span class="ui">Inchangés</span>, <span class="ui">Rejetés</span>. Dessous, une ligne par cas&nbsp;: «&nbsp;Ligne 3 · Création&nbsp;», «&nbsp;Ligne 6 · Mise à jour&nbsp;», «&nbsp;Ligne 4 · Rejetée&nbsp;» suivie du motif.</li>
+  <li>Si l'aperçu vous convient, cliquez sur <span class="ui red">Confirmer l'import</span>. Sinon cliquez sur <span class="ui">Annuler</span>&nbsp;: rien n'est modifié.<span class="sub">Le bouton est grisé s'il n'y a rien à créer ni à modifier.</span></li>
+  <li>Le message «&nbsp;Import terminé&nbsp;: X créé(s), Y mis à jour, Z rejeté(s)&nbsp;» s'affiche et la liste se rafraîchit.</li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/30-import.jpg" alt="Fenêtre d'import CSV avec aperçu"></div>
+  <figcaption><span class="fig">Fig. 14.12</span><span>L'aperçu d'un import de quatre lignes&nbsp;: une création, une mise à jour, une ligne inchangée et deux lignes rejetées. Rien n'est enregistré avant <span class="ui">Confirmer l'import</span>.</span></figcaption>
+</figure>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Les membres créés ou modifiés apparaissent dans la liste tout de suite. Un membre créé par import est un simple membre&nbsp;: sans photo, cotisation «&nbsp;En attente&nbsp;», groupe B, rôle <span class="ui">Member</span>. Aucun compte de connexion n'est créé et aucun courriel n'est envoyé.</p></div>
+<h3>Règles du fichier</h3>
+<table>
+  <thead><tr><th>Règle</th><th>Détail</th></tr></thead>
+  <tbody>
+    <tr><td>Colonnes</td><td>Reprenez celles d'un export (section 14.6). La première ligne contient les titres, sans tenir compte des majuscules. Une colonne absente laisse le champ inchangé&nbsp;; une cellule vide l'efface.</td></tr>
+    <tr><td>Séparateur</td><td>Point-virgule ou virgule, reconnu automatiquement. Encodage UTF-8 (celui d'un export).</td></tr>
+    <tr><td>Retrouver le membre</td><td>Par la colonne <span class="field">ID</span> d'abord, sinon par le courriel. Une ligne sans ID ni courriel crée toujours un nouveau membre.</td></tr>
+    <tr><td>Nouveau membre</td><td>Le <span class="field">Nom</span> est obligatoire.</td></tr>
+    <tr><td><span class="field">Groupe</span></td><td>Seulement l'un des codes <span class="url">A</span>, <span class="url">B</span>, <span class="url">BC</span>, <span class="url">C</span>, <span class="url">VTT</span> (le code, pas le nom donné au groupe).</td></tr>
+    <tr><td><span class="field">Cotisation 2026</span></td><td>Seulement <span class="url">paid</span> (à jour), <span class="url">pending</span> (en attente) ou <span class="url">exempt</span> (exempté).</td></tr>
+    <tr><td>Longueurs maximales</td><td>Nom 120 caractères, courriel 200, téléphone 40, bio 2000.</td></tr>
+    <tr><td>Taille</td><td>1000 lignes et 500 Ko au maximum («&nbsp;Fichier trop volumineux (500 Ko maximum).&nbsp;»).</td></tr>
+  </tbody>
+</table>
+<h3>Les lignes rejetées</h3>
+<table>
+  <thead><tr><th>Message dans l'aperçu</th><th>Cause et remède</th></tr></thead>
+  <tbody>
+    <tr><td>ID inconnu&nbsp;: aucun membre avec cet identifiant.</td><td>L'ID ne correspond à personne. Videz la cellule pour créer un nouveau membre, ou corrigez l'ID.</td></tr>
+    <tr><td>Même membre que la ligne N.</td><td>Deux lignes désignent la même personne. Gardez-en une.</td></tr>
+    <tr><td>Nom&nbsp;: obligatoire pour un nouveau membre.</td><td>Complétez la colonne <span class="field">Nom</span>.</td></tr>
+    <tr><td>Email déjà utilisé par un autre membre.</td><td>Ce courriel appartient à une autre fiche. Corrigez le courriel ou l'ID.</td></tr>
+    <tr><td>Email déjà attribué à la ligne N de ce fichier.</td><td>Deux lignes du fichier ont le même courriel.</td></tr>
+    <tr><td>Seul un administrateur peut modifier l'email d'un responsable.</td><td>Une secrétaire ne peut pas changer le courriel d'un membre du comité. Retirez la ligne ou demandez à un administrateur.</td></tr>
+    <tr><td>En-tête non reconnu&nbsp;; Colonne «&nbsp;X&nbsp;» en double.</td><td>Le fichier ne ressemble pas à un export. Repartez d'un export.</td></tr>
+  </tbody>
+</table>
+<div class="box warn"><div class="box-title">Attention</div><p>Deux pièges. Une cellule laissée vide efface la valeur de la fiche&nbsp;: ne supprimez pas le contenu d'une cellule sans le vouloir. Et les rôles, les accès, les photos et les dates ne sont jamais modifiés par un import&nbsp;: pour cela, utilisez la section 14.3.</p></div>
+
+<h2 id="t-membres-supprimer"><span class="num">14.8</span>Supprimer un membre</h2>
+<ol class="steps">
+  <li>Dans la colonne <span class="ui">Actions</span> de la ligne du membre, cliquez sur la corbeille (<span class="ui">Supprimer le membre</span>).</li>
+  <li>Deux petits boutons apparaissent sur la ligne&nbsp;: <span class="ui">Oui</span> et <span class="ui">Non</span>. Il n'y a pas de fenêtre de confirmation.</li>
+  <li>Cliquez sur <span class="ui red">Oui</span> pour supprimer, ou sur <span class="ui">Non</span> pour renoncer.<span class="sub">Le message «&nbsp;… supprimé avec succès&nbsp;» s'affiche.</span></li>
+</ol>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>La fiche disparaît de la liste et de la page publique <span class="url">Les membres</span> (jusqu'à une minute plus tard). La personne ne peut plus se connecter.</p></div>
+<div class="box danger"><div class="box-title">Action définitive</div><p>La suppression ne se défait pas. La fiche, la cotisation, le contact d'urgence et les rôles sont perdus. Un secrétaire ne peut pas supprimer un administrateur (le message d'échec est «&nbsp;Échec de la suppression du membre&nbsp;»).</p></div>
+
+<h2 id="t-membres-cote-membre"><span class="num">14.9</span>Côté membre&nbsp;: annuaire, profil, pass ICE et activation du compte</h2>
+<h3>La page publique « Le peloton &amp; le comité »</h3>
+<p>Dans le menu du site, <span class="ui">Membres</span> ouvre la page «&nbsp;Le peloton &amp; le comité&nbsp;». Elle est visible sans connexion. Elle ne présente que les membres encadrants&nbsp;: tous ceux dont le rôle n'est pas simplement <span class="ui">Member</span>. Un membre ordinaire n'y figure jamais, même avec une photo.</p>
+<figure>
+  <div class="frame"><img src="../screens/30-site-membres.jpg" alt="Page publique Le peloton et le comité"></div>
+  <figcaption><span class="fig">Fig. 14.13</span><span>La page publique. Trois compteurs en haut (membres encadrants, bureau &amp; comité, capitaines), une recherche, trois filtres, puis une carte par membre.</span></figcaption>
+</figure>
+<p>Les filtres sont <span class="ui">Tous</span>, <span class="ui">Bureau &amp; Comité</span> et <span class="ui">Capitaines de Route</span>. Une carte montre le portrait (ou le monogramme sur fond de carte), les pastilles de rôle, le nom, la bio (ou «&nbsp;Membre actif du peloton de Blanmont&nbsp;») et un lien Strava si le numéro est renseigné. Ni courriel ni téléphone n'y sont affichés.</p>
+<h3>Le profil du membre</h3>
+<p>Une fois connecté, le membre ouvre <span class="url">Mon profil</span>. Il y voit sa photo (avec un bouton pour la changer), sa cotisation, sa licence, son groupe et ses rôles. Il y modifie lui-même son GSM, sa licence et son contact d'urgence (<span class="field">Nom du contact ICE</span>, <span class="field">Téléphone ICE</span>, <span class="field">Lien de parenté</span>), puis enregistre («&nbsp;Coordonnées d'urgence mises à jour avec succès&nbsp;»).</p>
+<div class="cols-2">
+  <figure class="phone">
+    <div class="frame"><img src="../screens/30-profil-tel.jpg" alt="Profil d'un membre sur téléphone, haut"></div>
+    <figcaption><span class="fig">Fig. 14.14</span><span>Le haut du profil.</span></figcaption>
+  </figure>
+  <figure class="phone">
+    <div class="frame"><img src="../screens/30-profil-tel-2.jpg" alt="Profil d'un membre sur téléphone, bas"></div>
+    <figcaption><span class="fig">Fig. 14.15</span><span>Le bas&nbsp;: commandes, pass et contact d'urgence.</span></figcaption>
+  </figure>
+</div>
+<div class="box warn"><div class="box-title">Attention</div><p>Le statut «&nbsp;Exempté&nbsp;» saisi par l'administration apparaît chez le membre comme «&nbsp;En attente&nbsp;», et il ne voit pas la date de règlement. Prévenez un membre exempté qui s'en étonne.</p></div>
+<h3>Le pass sécurité et carte de membre</h3>
+<p>Le bouton <span class="ui">Pass Sécurité &amp; Carte Digitale</span> du profil ouvre la carte de la saison. Elle indique le statut de cotisation («&nbsp;En règle pour la saison&nbsp;», «&nbsp;Statut&nbsp;: Exempté&nbsp;» ou «&nbsp;Cotisation en attente&nbsp;»), la licence, le groupe et le contact d'urgence. Plus bas, un code QR de pointage que le capitaine scanne au départ (chapitre 7, page <span data-page-of="ch-pointage"></span>), un second code «&nbsp;Fiche secours ICE&nbsp;», et les boutons <span class="ui">Plein Écran</span>, <span class="ui">Télécharger</span> et <span class="ui">Appeler le 112 (Secours Européens)</span>.</p>
+<div class="cols-2">
+  <figure class="phone">
+    <div class="frame"><img src="../screens/30-pass-tel.jpg" alt="Pass sécurité sur téléphone"></div>
+    <figcaption><span class="fig">Fig. 14.16</span><span>La carte de membre et l'appel au contact d'urgence.</span></figcaption>
+  </figure>
+  <figure class="phone">
+    <div class="frame"><img src="../screens/30-pass-tel-2.jpg" alt="Code QR de pointage sur téléphone"></div>
+    <figcaption><span class="fig">Fig. 14.17</span><span>Le code QR de pointage départ.</span></figcaption>
+  </figure>
+</div>
+<h3>Comment un nouveau membre active son compte</h3>
+<p>La fiche existe, mais le membre n'a pas encore de mot de passe. Transmettez-lui ces étapes (le chapitre 1, page <span data-page-of="ch-connexion"></span>, les détaille).</p>
+<ol class="steps">
+  <li>Ouvrir la page <span class="ui">Connexion</span> du site et toucher l'onglet <span class="ui">1ère Connexion</span> («&nbsp;Réservé aux membres inscrits au club&nbsp;»).</li>
+  <li>Écrire l'adresse courriel que vous avez saisie dans sa fiche, dans <span class="field">Adresse Email du Membre</span>.</li>
+  <li>Toucher <span class="ui red">Recevoir le lien par email</span>.<span class="sub">Un message s'affiche&nbsp;: «&nbsp;Si cette adresse est enregistrée dans l'annuaire du club, vous allez recevoir un email…&nbsp;». Il est identique que l'adresse soit connue ou non.</span></li>
+  <li>Ouvrir le courriel reçu (regarder dans les courriers indésirables si rien n'arrive en quelques minutes), cliquer sur le lien et choisir un mot de passe.</li>
+</ol>
+<figure class="phone">
+  <div class="frame"><img src="../screens/30-activation-tel.jpg" alt="Onglet 1ère Connexion sur téléphone"></div>
+  <figcaption><span class="fig">Fig. 14.18</span><span>La page de connexion sur téléphone, avec l'onglet <span class="ui">1ère Connexion</span>.</span></figcaption>
+</figure>
+<div class="box warn"><div class="box-title">Attention</div><p>Si l'adresse saisie par le membre diffère de celle de sa fiche, il ne reçoit rien et le site ne le lui dit pas. En cas de doute, vérifiez le courriel dans <span class="ui">Modifier le Membre</span>. Quand le membre a demandé le lien, son compte est créé même si le courriel n'arrive jamais&nbsp;: vous pouvez alors lui fixer un mot de passe provisoire (section 14.4).</p></div>
+</article>
