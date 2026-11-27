@@ -4,7 +4,7 @@ import {
   importStravaTraceAction,
   deleteTraceAction,
 } from '@/app/import/strava/actions';
-import { fetchGarminActivityAction } from '@/app/import/garmin/actions';
+import { fetchGarminActivityAction, importGpxTraceAction } from '@/app/import/garmin/actions';
 import * as sessionModule from '@/app/lib/auth/session';
 import * as stravaLib from '@/app/lib/strava';
 import * as firebaseRoot from '@/app/lib/firebase';
@@ -96,6 +96,98 @@ describe('Activity Import Server Actions (Strava & Garmin)', () => {
       const result = await deleteTraceAction('trace-to-del');
       expect(result.success).toBe(true);
       expect(firebaseRoot.deleteTrace).toHaveBeenCalledWith('trace-to-del');
+    });
+  });
+
+  describe('importGpxTraceAction (#254: GPX import writes to Firebase, not Notion)', () => {
+    const gpxTrace = {
+      name: 'NordEst_Tirlemont_105km',
+      distance: 104.5,
+      elevation: 796,
+      direction: 'North',
+      surface: 'Road',
+      rating: '⭐⭐⭐',
+      description: '',
+      polyline: '_p~iF~ps|U_ulLnnqC_mqNvxq`@',
+    };
+
+    it('requires admin session', async () => {
+      vi.spyOn(sessionModule, 'requireAdminSession').mockRejectedValue(new Error('Unauthorized'));
+      const create = vi.spyOn(firebaseRoot, 'createTrace');
+
+      await expect(importGpxTraceAction(gpxTrace)).rejects.toThrow('Unauthorized');
+      expect(create).not.toHaveBeenCalled();
+    });
+
+    it('creates the trace in Firebase without a Strava connection', async () => {
+      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      // No strava_access_token cookie: the GPX import must not depend on it.
+      vi.mocked(cookies).mockResolvedValue({ get: vi.fn().mockReturnValue(undefined) } as any);
+      const create = vi
+        .spyOn(firebaseRoot, 'createTrace')
+        .mockResolvedValue({ success: true, id: 'trace_1764260000000' } as any);
+
+      const result = await importGpxTraceAction(gpxTrace);
+
+      expect(result).toEqual({ success: true, traceId: 'trace_1764260000000' });
+      expect(create).toHaveBeenCalledWith({
+        name: 'NordEst_Tirlemont_105km',
+        distance: 104.5,
+        elevation: 796,
+        direction: 'North',
+        surface: 'Road',
+        rating: '⭐⭐⭐',
+        description: '',
+        polyline: '_p~iF~ps|U_ulLnnqC_mqNvxq`@',
+        mapUrl: undefined,
+      });
+    });
+
+    it('keeps the link of a URL import as the map link', async () => {
+      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      const create = vi
+        .spyOn(firebaseRoot, 'createTrace')
+        .mockResolvedValue({ success: true, id: 'trace_2' } as any);
+
+      await importGpxTraceAction({
+        ...gpxTrace,
+        polyline: undefined,
+        mapUrl: 'https://connect.garmin.com/modern/activity/123456789',
+      });
+
+      expect(create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          polyline: undefined,
+          mapUrl: 'https://connect.garmin.com/modern/activity/123456789',
+        })
+      );
+    });
+
+    it('refuses an invalid trace with a French message and writes nothing', async () => {
+      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      const create = vi.spyOn(firebaseRoot, 'createTrace');
+
+      const result = await importGpxTraceAction({ ...gpxTrace, name: '  ', distance: 0 });
+
+      expect(result.success).toBe(false);
+      expect(!result.success && result.error).toContain('Le nom du parcours est requis.');
+      expect(!result.success && result.error).toContain('La distance doit être supérieure à 0 km.');
+      expect(create).not.toHaveBeenCalled();
+    });
+
+    it('returns a fixed message when the database write fails', async () => {
+      vi.spyOn(sessionModule, 'requireAdminSession').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      vi.spyOn(firebaseRoot, 'createTrace').mockResolvedValue({
+        success: false,
+        error: 'Error: PERMISSION_DENIED',
+      } as any);
+
+      const result = await importGpxTraceAction(gpxTrace);
+
+      expect(result).toEqual({
+        success: false,
+        error: 'Le parcours n’a pas pu être enregistré. Réessayez.',
+      });
     });
   });
 

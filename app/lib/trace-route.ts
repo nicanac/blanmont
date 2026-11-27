@@ -14,6 +14,10 @@ import polylineCodec from '@mapbox/polyline';
 import { isAllowedGpxUrl, parseGpx, readTextCapped, trackStats, type TrackLine } from './gpx-track';
 import { isWebUiLink } from './urlUtils';
 import { buildGpx } from './gpx-build';
+import { decimate, MAX_PREVIEW_POINTS } from './polyline';
+
+// Re-exported: callers and tests read them from here.
+export { decimate, MAX_PREVIEW_POINTS };
 
 export interface TraceRoute {
   /** Course or track name, when the source has one. */
@@ -26,8 +30,6 @@ export interface TraceRoute {
   polyline: string;
 }
 
-/** Points kept for the preview: plenty for a 300px map of a 150 km loop. */
-export const MAX_PREVIEW_POINTS = 300;
 const FETCH_TIMEOUT_MS = 6000;
 /** The course may be edited until the ride: refresh at most hourly. */
 const REVALIDATE_SECONDS = 3600;
@@ -43,13 +45,6 @@ export function garminCourseId(url: string): string | null {
   } catch {
     return null;
   }
-}
-
-/** Keeps at most `max` points, evenly spaced, always with the first and last one. */
-export function decimate<T>(points: readonly T[], max = MAX_PREVIEW_POINTS): T[] {
-  if (points.length <= max) return [...points];
-  const step = (points.length - 1) / (max - 1);
-  return Array.from({ length: max }, (_, i) => points[Math.round(i * step)]);
 }
 
 /** Encodes [lat, lon] points for `MapPreview` (`summaryPolyline`). */

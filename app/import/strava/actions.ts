@@ -69,11 +69,7 @@ export async function fetchStravaActivityAction(url: string) {
   }
 }
 
-// Complex part: Converting Strava Activity to Notion Trace
-// We need to:
-// 1. Generate GPX/GeoJSON from streams.
-// 2. Upload/Store it? Or save raw text in Notion?
-// 3. Create Notion Page.
+// Converts a Strava activity into a trace in Firebase `/traces` (summary polyline + photos).
 
 export async function importStravaTraceAction(
   activity: unknown,

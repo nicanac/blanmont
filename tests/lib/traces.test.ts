@@ -190,9 +190,27 @@ describe('Firebase Traces Service (app/lib/firebase/traces.ts)', () => {
     });
   });
 
+  /**
+   * Writes go through the Admin SDK (the RTDB rules deny every Web SDK write, #254):
+   * `db.ref(path).set/update/remove`, never the Web SDK helpers.
+   */
+  function mockAdminWrites() {
+    const set = vi.fn().mockResolvedValue(undefined);
+    const update = vi.fn().mockResolvedValue(undefined);
+    const remove = vi.fn().mockResolvedValue(undefined);
+    const ref = vi.fn().mockReturnValue({ set, update, remove });
+    vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref } as any);
+    const web = {
+      set: vi.spyOn(clientModule, 'set'),
+      update: vi.spyOn(clientModule, 'update'),
+      remove: vi.spyOn(clientModule, 'remove'),
+    };
+    return { ref, set, update, remove, web };
+  }
+
   describe('createTrace', () => {
-    it('validates and creates a new trace successfully', async () => {
-      const setMock = vi.spyOn(clientModule, 'set').mockResolvedValue(undefined as any);
+    it('validates and creates a new trace through the Admin SDK', async () => {
+      const db = mockAdminWrites();
 
       const result = await createTrace({
         name: 'Sortie des Abbayes',
@@ -200,28 +218,44 @@ describe('Firebase Traces Service (app/lib/firebase/traces.ts)', () => {
         elevation: 810,
         surface: 'Road',
         rating: '⭐⭐⭐⭐',
+        polyline: '_p~iF~ps|U_ulLnnqC',
       });
 
       expect(result.success).toBe(true);
       expect(result.id).toMatch(/^trace_/);
-      expect(setMock).toHaveBeenCalled();
-      const saved = setMock.mock.calls[0][1];
+      expect(db.ref).toHaveBeenCalledWith(`traces/${result.id}`);
+      expect(db.set).toHaveBeenCalledTimes(1);
+      const saved = db.set.mock.calls[0][0];
       expect(saved.name).toBe('Sortie des Abbayes');
       expect(saved.quality).toBe(4);
+      expect(saved.polyline).toBe('_p~iF~ps|U_ulLnnqC');
+      expect(db.web.set).not.toHaveBeenCalled();
     });
 
     it('fails validation when required fields are missing or invalid', async () => {
+      const db = mockAdminWrites();
       const result = await createTrace({
         name: '', // Empty name
       });
       expect(result.success).toBe(false);
       expect(result.error).toContain('Validation failed');
+      expect(db.set).not.toHaveBeenCalled();
+    });
+
+    it('reports a failed write instead of claiming success', async () => {
+      const db = mockAdminWrites();
+      db.set.mockRejectedValue(new Error('PERMISSION_DENIED'));
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      const result = await createTrace({ name: 'Boucle', distance: 50 });
+      expect(result.success).toBe(false);
+      expect(result.error).toContain('PERMISSION_DENIED');
     });
   });
 
   describe('updateTrace & deleteTrace', () => {
     it('updates trace attributes and recalculates quality from rating', async () => {
-      const updateMock = vi.spyOn(clientModule, 'update').mockResolvedValue(undefined as any);
+      const db = mockAdminWrites();
 
       const result = await updateTrace('trace-10', {
         name: 'Updated Name',
@@ -229,44 +263,48 @@ describe('Firebase Traces Service (app/lib/firebase/traces.ts)', () => {
       });
 
       expect(result.success).toBe(true);
-      expect(updateMock).toHaveBeenCalled();
-      const payload = updateMock.mock.calls[0][1];
+      expect(db.ref).toHaveBeenCalledWith('traces/trace-10');
+      const payload = db.update.mock.calls[0][0];
       expect(payload.quality).toBe(5);
       expect(payload.name).toBe('Updated Name');
+      expect(db.web.update).not.toHaveBeenCalled();
     });
 
     it('removes trace and revalidates cache', async () => {
-      const removeMock = vi.spyOn(clientModule, 'remove').mockResolvedValue(undefined as any);
+      const db = mockAdminWrites();
 
       const result = await deleteTrace('trace-delete-me');
       expect(result.success).toBe(true);
-      expect(removeMock).toHaveBeenCalled();
+      expect(db.ref).toHaveBeenCalledWith('traces/trace-delete-me');
+      expect(db.remove).toHaveBeenCalledTimes(1);
+      expect(db.web.remove).not.toHaveBeenCalled();
       expect(cacheModule.revalidatePath).toHaveBeenCalledWith('/traces/trace-delete-me');
     });
   });
 
   describe('updateTraceMapPreview & submitMapPreview', () => {
     it('updates photoUrl for a trace', async () => {
-      const updateMock = vi.spyOn(clientModule, 'update').mockResolvedValue(undefined as any);
+      const db = mockAdminWrites();
 
       const result = await updateTraceMapPreview('t-preview', 'https://res.cloudinary.com/preview.png');
       expect(result.success).toBe(true);
-      expect(updateMock).toHaveBeenCalled();
-      expect(updateMock.mock.calls[0][1].photoUrl).toBe('https://res.cloudinary.com/preview.png');
+      expect(db.ref).toHaveBeenCalledWith('traces/t-preview');
+      expect(db.update.mock.calls[0][0].photoUrl).toBe('https://res.cloudinary.com/preview.png');
     });
 
     it('submitMapPreview succeeds or throws on error', async () => {
-      vi.spyOn(clientModule, 'update').mockResolvedValue(undefined as any);
+      const db = mockAdminWrites();
       await expect(submitMapPreview('t-1', 'https://pic.png')).resolves.not.toThrow();
 
-      vi.spyOn(clientModule, 'update').mockRejectedValue(new Error('Update error'));
+      db.update.mockRejectedValue(new Error('Update error'));
+      vi.spyOn(console, 'error').mockImplementation(() => {});
       await expect(submitMapPreview('t-1', 'https://pic.png')).rejects.toThrow();
     });
   });
 
   describe('createTraceFromAdmin & createTraceWithGPX', () => {
     it('creates trace with admin fields', async () => {
-      const setMock = vi.spyOn(clientModule, 'set').mockResolvedValue(undefined as any);
+      const db = mockAdminWrites();
 
       const result = await createTraceFromAdmin({
         name: 'Admin Trace',
@@ -277,12 +315,12 @@ describe('Firebase Traces Service (app/lib/firebase/traces.ts)', () => {
       });
 
       expect(result.success).toBe(true);
-      expect(setMock).toHaveBeenCalled();
-      expect(setMock.mock.calls[0][1].quality).toBe(3);
+      expect(db.ref).toHaveBeenCalledWith(`traces/${result.id}`);
+      expect(db.set.mock.calls[0][0].quality).toBe(3);
     });
 
     it('creates trace with complete GPX content and metadata', async () => {
-      const setMock = vi.spyOn(clientModule, 'set').mockResolvedValue(undefined as any);
+      const db = mockAdminWrites();
 
       const result = await createTraceWithGPX(
         {
@@ -295,10 +333,10 @@ describe('Firebase Traces Service (app/lib/firebase/traces.ts)', () => {
       );
 
       expect(result.success).toBe(true);
-      expect(setMock).toHaveBeenCalled();
-      const saved = setMock.mock.calls[0][1];
+      const saved = db.set.mock.calls[0][0];
       expect(saved.gpxContent).toBe('<gpx>sample</gpx>');
       expect(saved.distance).toBe(68);
+      expect(db.web.set).not.toHaveBeenCalled();
     });
   });
 

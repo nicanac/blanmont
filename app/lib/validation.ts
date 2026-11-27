@@ -158,6 +158,37 @@ export const FetchGarminActivitySchema = z.object({
 
 export type FetchGarminActivityInput = z.infer<typeof FetchGarminActivitySchema>;
 
+/**
+ * GPX file / Garmin import (`/import/garmin`): the trace the admin reviewed in the
+ * preview form, written to Firebase `/traces` (#254). Messages are shown in the UI.
+ */
+export const ImportGpxTraceSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Le nom du parcours est requis.')
+    .max(100, 'Le nom du parcours doit faire moins de 100 caractères.'),
+  /** km */
+  distance: z
+    .number()
+    .positive('La distance doit être supérieure à 0 km.')
+    .max(1000, 'La distance doit être inférieure à 1000 km.'),
+  /** m */
+  elevation: z
+    .number()
+    .nonnegative('Le dénivelé ne peut pas être négatif.')
+    .max(10000, 'Le dénivelé doit être inférieur à 10 000 m.')
+    .optional(),
+  direction: CreateTraceSchema.shape.direction,
+  surface: CreateTraceSchema.shape.surface,
+  rating: CreateTraceSchema.shape.rating,
+  description: z.string().max(2000, 'La description doit faire moins de 2000 caractères.').optional(),
+  polyline: z.string().max(100000, 'Le tracé est trop long.').optional(),
+  mapUrl: z.string().url('Le lien du parcours est invalide.').optional().or(z.literal('')),
+});
+
+export type ImportGpxTraceInput = z.infer<typeof ImportGpxTraceSchema>;
+
 // === Admin API validation ===
 
 export const AddTraceApiSchema = z.object({

@@ -39,7 +39,8 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
     const [rating, setRating] = useState('⭐⭐⭐');
 
     // New editable fields
-    const [editedDistance, setEditedDistance] = useState(data.distance / 1000); // Convert to km
+    // metres → km, rounded to 0.1 km (a GPX sum has 13 decimals: 104.5015948720771)
+    const [editedDistance, setEditedDistance] = useState(Math.round(data.distance / 100) / 10);
     const [editedElevation, setEditedElevation] = useState(data.total_elevation_gain);
     const [description, setDescription] = useState('');
 
@@ -211,7 +212,7 @@ export default function TracePreviewForm({ data, onImport, isLoading }: TracePre
                             disabled={isLoading}
                             className="ml-3 inline-flex items-center justify-center rounded-md border border-transparent bg-brand min-h-[44px] py-2 px-5 text-sm font-semibold text-white shadow-xs hover:bg-brand-strong focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer"
                         >
-                            {isLoading ? 'Création en cours...' : 'Créer le parcours Notion'}
+                            {isLoading ? 'Création en cours...' : 'Créer le parcours'}
                         </button>
                     </div>
                 </div>

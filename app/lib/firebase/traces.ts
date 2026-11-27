@@ -5,12 +5,11 @@ import {
   getFirebaseDatabase,
   ref,
   get,
-  set,
-  update,
-  remove,
   snapshotToArray,
   snapshotToObject,
 } from './client';
+// Writes go through the Admin SDK on the server: the RTDB rules deny every Web SDK write (#254).
+import { saveRecord, updateRecord, deleteRecord } from './rtdbService';
 import { CreateTraceSchema, safeValidate } from '../validation';
 
 // === Cache Revalidation Utilities ===
@@ -196,9 +195,7 @@ export const createTrace = async (traceData: Partial<Trace> & {
   }
 
   try {
-    const db = getFirebaseDatabase();
     const newId = `trace_${Date.now()}`;
-    const traceRef = ref(db, `traces/${newId}`);
 
     // Calculate quality from rating stars
     const ratingStr = validData.rating || '';
@@ -228,7 +225,7 @@ export const createTrace = async (traceData: Partial<Trace> & {
       traceRecord.photoPreviews = traceData.photos;
     }
 
-    await set(traceRef, traceRecord);
+    await saveRecord('traces', newId, traceRecord);
     await revalidateTracesCache();
 
     return { success: true, id: newId };
@@ -260,9 +257,6 @@ export const updateTrace = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const traceRef = ref(db, `traces/${traceId}`);
-
     const updates: Record<string, unknown> = {
       ...traceData,
       updatedAt: new Date().toISOString(),
@@ -273,7 +267,7 @@ export const updateTrace = async (
       updates.quality = traceData.rating.replace(/[^⭐]/g, '').length || 3;
     }
 
-    await update(traceRef, updates);
+    await updateRecord('traces', traceId, updates);
     await revalidateTraceCache(traceId);
 
     return { success: true };
@@ -293,9 +287,7 @@ export const deleteTrace = async (traceId: string) => {
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const traceRef = ref(db, `traces/${traceId}`);
-    await remove(traceRef);
+    await deleteRecord('traces', traceId);
     await revalidateTraceCache(traceId);
 
     return { success: true };
@@ -315,9 +307,7 @@ export const updateTraceMapPreview = async (traceId: string, imageUrl: string) =
   }
 
   try {
-    const db = getFirebaseDatabase();
-    const traceRef = ref(db, `traces/${traceId}`);
-    await update(traceRef, {
+    await updateRecord('traces', traceId, {
       photoUrl: imageUrl,
       updatedAt: new Date().toISOString(),
     });
@@ -352,9 +342,7 @@ export const createTraceFromAdmin = async (traceData: {
   }
 
   try {
-    const db = getFirebaseDatabase();
     const newId = `trace_${Date.now()}`;
-    const traceRef = ref(db, `traces/${newId}`);
 
     const traceRecord = {
       name: traceData.name,
@@ -376,7 +364,7 @@ export const createTraceFromAdmin = async (traceData: {
       createdAt: new Date().toISOString(),
     };
 
-    await set(traceRef, traceRecord);
+    await saveRecord('traces', newId, traceRecord);
     await revalidateTracesCache();
 
     return { success: true, id: newId };
@@ -425,9 +413,7 @@ export const createTraceWithGPX = async (
   }
 
   try {
-    const db = getFirebaseDatabase();
     const newId = `trace_${Date.now()}`;
-    const traceRef = ref(db, `traces/${newId}`);
 
     const traceRecord: Record<string, unknown> = {
       name: traceData.name,
@@ -453,7 +439,7 @@ export const createTraceWithGPX = async (
       traceRecord.gpxContent = gpxContent;
     }
 
-    await set(traceRef, traceRecord);
+    await saveRecord('traces', newId, traceRecord);
     await revalidateTracesCache();
 
     return { success: true, id: newId };

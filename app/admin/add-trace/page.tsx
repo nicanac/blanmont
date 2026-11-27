@@ -28,7 +28,7 @@ export default function AddTracePage() {
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-bold text-gray-900">Ajouter un Parcours</h1>
                     <p className="mt-2 text-gray-600">
-                        Ajoutez manuellement un parcours à la base de données Notion.
+                        Ajoutez manuellement un parcours au catalogue du club.
                         Connecté en tant que <span className="font-semibold">{user?.name}</span>.
                     </p>
                 </div>
