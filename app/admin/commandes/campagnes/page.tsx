@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { UserGroupIcon, ShoppingBagIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline';
 import MaillotsPageHeader from '../components/MaillotsPageHeader';
 import Badge from '@/app/components/ui/Badge';
 import { getEquipment } from '@/app/lib/firebase/equipment';
@@ -30,11 +29,11 @@ export default async function AdminCampaignsPage(): Promise<React.ReactElement> 
         initialTab="setup"
         sheet="Feuille · Commandes groupées"
         title="Commandes groupées"
-        badge={{ icon: UserGroupIcon, label: `${campaigns.length} campagne${campaigns.length > 1 ? 's' : ''}` }}
+        badge={{ icon: 'campaigns', label: `${campaigns.length} campagne${campaigns.length > 1 ? 's' : ''}` }}
         description="Ouvrez une commande groupée, suivez les paiements, puis commandez chez Gobik."
         actions={[
-          { label: 'Commandes', href: '/admin/commandes', icon: ShoppingBagIcon, variant: 'secondary' },
-          { label: 'Banque', href: '/admin/commandes/banque', icon: BuildingLibraryIcon, variant: 'secondary' },
+          { label: 'Commandes', href: '/admin/commandes', icon: 'orders', variant: 'secondary' },
+          { label: 'Banque', href: '/admin/commandes/banque', icon: 'bank', variant: 'secondary' },
         ]}
       />
 
