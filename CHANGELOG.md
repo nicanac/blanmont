@@ -40,6 +40,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.48.3] - 2026-11-27
+
+### Fixed
+- fix(navbar): show Admin to officers whose role opens a back-office section (#242) (`ae9cea4`)
+
+### Chores
+- chore(repo): remove unused tool configs and clean project docs (`3fe8c74`)
 ## [0.48.2] - 2026-11-27
 
 ### Fixed
