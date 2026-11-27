@@ -35,6 +35,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../../context/AuthContext';
+import { useMyAdminAccess } from '../../admin/components/useMyAdminAccess';
 import { useGroupLabels } from '../../context/GroupLabelsContext';
 import { groupSummaryText } from '../../lib/groupSummary';
 import { cn } from '../../utils/cn';
@@ -125,6 +126,8 @@ function MenuItem({
 export default function Navbar(): React.ReactElement {
   const pathname = usePathname();
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
+  // Officers get the Admin entry once their role opens a back-office section (same rule as proxy.ts).
+  const access = useMyAdminAccess(isAdmin ? null : user?.id);
   const { settings: groupSettings } = useGroupLabels();
   const groupNames = groupSummaryText(groupSettings);
   const outingsNavigation = buildOutingsNavigation(groupNames);
@@ -135,7 +138,8 @@ export default function Navbar(): React.ReactElement {
     (path) => pathname === path || pathname?.startsWith(`${path}/`)
   );
 
-  const adminNavigation: NavItem[] = isAdmin
+  const adminNavigation: NavItem[] =
+    isAdmin || (access?.sections.length ?? 0) > 0
     ? [
         {
           name: 'Admin',
