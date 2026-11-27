@@ -1,0 +1,367 @@
+<article class="chapter" data-chapter="17 · Commandes, commandes groupées et banque">
+<section class="opener" id="ch-commandes">
+  <div class="opener-band"><div class="carte-frame" data-carte="480" data-fx="52" data-fy="62" data-labels="1"></div></div>
+  <div class="opener-cartouche neatline">
+    <div class="main">
+      <div class="opener-kicker"><span class="label">Chapitre 17 · Gestion du Club</span><span class="chip red">Chapitre du trésorier</span></div>
+      <h1 class="opener-title" data-chapter="17 · Commandes, commandes groupées et banque">Commandes, commandes groupées et banque</h1>
+      <p class="opener-desc">Suivre les commandes d'équipement, organiser une commande groupée chez Gobik et faire reconnaître les virements par le site grâce au fichier de la banque.</p>
+    </div>
+    <div class="legend"><dl class="legend-rows">
+      <div><dt>Où</dt><dd>Commandes Équipement<small>menu de gauche · Gestion du Club</small></dd></div>
+      <div><dt>Qui</dt><dd>Administrateurs<small>et trésorier</small></dd></div>
+      <div><dt>Résultat visible</dt><dd>Mes commandes<small>profil de chaque membre</small></dd></div>
+    </dl></div>
+  </div>
+  <div class="opener-meta"><span>Feuille · Commandes</span><span>50°37′23″ N · 4°38′32″ E</span></div>
+  <div class="opener-body">
+    <p class="lead">Chaque commande d'un membre reçoit un numéro de paiement unique, la communication structurée (par exemple <span class="url">+++100/0000/13269+++</span>), et un code QR de paiement. Le trésorier envoie le fichier de la banque au site&nbsp;: les virements au bon montant et à la bonne communication marquent tout seuls les commandes comme payées.</p>
+    <p>Trois choses à retenir avant de commencer&nbsp;:</p>
+    <ul>
+      <li>Aucun courriel n'est envoyé, à aucune étape. Prévenez les membres vous-même.</li>
+      <li>Le site ne se connecte pas à la banque&nbsp;: c'est vous qui téléchargez le fichier CODA et qui l'importez.</li>
+      <li>Rembourser un membre se fait toujours depuis la banque, jamais depuis le site.</li>
+    </ul>
+    <h3>Dans ce chapitre</h3>
+    <ul>
+      <li>17.1 Le circuit d'une commande</li>
+      <li>17.2 La liste des commandes</li>
+      <li>17.3 Créer une commande groupée</li>
+      <li>17.4 Suivre une commande groupée, de la clôture à la remise</li>
+      <li>17.5 La banque du club&nbsp;: compte, fichier CODA et paiements à traiter</li>
+      <li>17.6 Côté membre&nbsp;: commander, payer, suivre les dates</li>
+      <li>17.7 Procédure du trésorier, pas à pas</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="t-cmd-circuit"><span class="num">17.1</span>Le circuit d'une commande</h2>
+<p>Il existe deux façons de commander (chapitre 16, section 16.4)&nbsp;: <span class="ui">Retrait du stock</span> (l'article est déjà au club) ou <span class="ui">Commande groupée</span> (le club commande chez Gobik pour tous ceux qui ont payé). Dans les deux cas, la commande suit ces étapes.</p>
+<table>
+  <thead><tr><th>Étape</th><th>Qui agit</th><th>Statut dans le back-office</th><th>Ce que le membre voit dans « Mes commandes »</th></tr></thead>
+  <tbody>
+    <tr><td>1. Le membre commande</td><td>Le membre</td><td><span class="ui">En attente de paiement</span></td><td><span class="ui">À payer</span>, la date <span class="ui">Commandé le</span> et une carte de paiement.</td></tr>
+    <tr><td>2. Le paiement est reçu</td><td>Le trésorier (fichier CODA, ou <span class="ui">Marquer payé</span> pour des espèces)</td><td><span class="ui">Payée</span></td><td><span class="ui">Payée</span> et la date <span class="ui">Payé le</span>.</td></tr>
+    <tr><td>3. Commande groupée seulement&nbsp;: clôture, commande chez Gobik, réception</td><td>Le trésorier</td><td>Étapes de la commande groupée (section 17.4)</td><td>Les dates <span class="ui">Commandé chez Gobik le</span> puis <span class="ui">Arrivé au club le</span>.</td></tr>
+    <tr><td>4. L'article est remis</td><td>Le trésorier</td><td><span class="ui">Remise</span></td><td><span class="ui">Remise</span> et la date <span class="ui">Remis le</span>.</td></tr>
+    <tr><td>Annulation</td><td>Le trésorier</td><td><span class="ui">Annulée</span></td><td><span class="ui">Annulée</span> et la date d'annulation.</td></tr>
+  </tbody>
+</table>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Une commande plus ancienne peut porter le statut «&nbsp;Confirmée (ancienne)&nbsp;». Elle se traite comme une commande payée&nbsp;: <span class="ui">Remis</span> ou <span class="ui">Annuler</span>. Ce statut n'existe plus pour les nouvelles commandes.</p></div>
+
+<h2 id="t-cmd-liste"><span class="num">17.2</span>La liste des commandes</h2>
+<p>Cliquez sur <span class="ui">Commandes Équipement</span> dans le menu de gauche. La page s'intitule «&nbsp;Commandes équipement&nbsp;». Le badge «&nbsp;3 à payer&nbsp;» et la phrase sous le titre indiquent le nombre de commandes et le montant en attente de paiement (par exemple «&nbsp;8 commandes · 249,00&nbsp;€ en attente de paiement&nbsp;»).</p>
+<figure>
+  <div class="frame"><img src="../screens/33-liste-entete.jpg" alt="En-tête de la page Commandes équipement"></div>
+  <figcaption><span class="fig">Fig. 17.1</span><span>1 Commandes groupées. 2 Banque. 3 Exporter CSV. 4 Filtres par statut.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Élément</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="ui">Commandes groupées</span></td><td>Ouvre la liste des commandes groupées (sections 17.3 et 17.4).</td></tr>
+    <tr><td class="c">2</td><td><span class="ui">Banque</span></td><td>Ouvre la page d'import du fichier de la banque (section 17.5).</td></tr>
+    <tr><td class="c">3</td><td><span class="ui">Exporter CSV</span></td><td>Télécharge <span class="url">commandes-equipement.csv</span>, une ligne par article commandé. Colonnes&nbsp;: <span class="field">Date</span>, <span class="field">Nom</span>, <span class="field">Email</span>, <span class="field">Téléphone</span>, <span class="field">Article</span>, <span class="field">Taille</span>, <span class="field">Quantité</span>, <span class="field">Total</span>, <span class="field">Statut</span>, <span class="field">Référence</span>, <span class="field">Payé le</span>, <span class="field">Remis le</span>, <span class="field">Remarques</span>.</td></tr>
+    <tr><td class="c">4</td><td>Filtres</td><td><span class="ui">Toutes</span>, <span class="ui">En attente de paiement</span>, <span class="ui">Payée</span>, <span class="ui">Remise</span>, <span class="ui">Annulée</span> (plus <span class="ui">Confirmée (ancienne)</span> s'il en existe une). Un clic filtre la liste.</td></tr>
+  </tbody>
+</table>
+<p>Chaque commande occupe un encadré.</p>
+<figure>
+  <div class="frame"><img src="../screens/33-commande-attente.jpg" alt="Une commande en attente de paiement"></div>
+  <figcaption><span class="fig">Fig. 17.2</span><span>Une commande en attente. 5 Statut. 6 Origine. 7 Communication structurée. 8 Marquer payé. 9 Annuler. 10 Supprimer.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Élément</th><th>Ce que vous y lisez</th></tr></thead>
+  <tbody>
+    <tr><td class="c">5</td><td>Pastille de statut</td><td><span class="ui">En attente de paiement</span> (orange), <span class="ui">Payée</span> (verte), <span class="ui">Remise</span>, <span class="ui">Annulée</span>.</td></tr>
+    <tr><td class="c">6</td><td>Pastille d'origine</td><td><span class="ui">Commande groupée</span> ou <span class="ui">Stock</span>.</td></tr>
+    <tr><td class="c">7</td><td>Total et communication</td><td>Le total en euros et la communication structurée que le membre doit utiliser (<span class="url">+++100/0000/13269+++</span>). Dessous, les dates&nbsp;: «&nbsp;Commandé le&nbsp;», «&nbsp;Payé le&nbsp;», «&nbsp;Remis le&nbsp;».</td></tr>
+    <tr><td class="c">—</td><td>En haut de l'encadré</td><td>Le nom, le courriel, le téléphone, les articles («&nbsp;1 × Maillot… · taille M · 83,00&nbsp;€&nbsp;») et la remarque du membre s'il en a laissé une.</td></tr>
+    <tr><td class="c">8, 9, 10</td><td>Boutons à droite</td><td>Voir les procédures ci-dessous. Chaque bouton n'apparaît que quand il est utile.</td></tr>
+  </tbody>
+</table>
+<h3>Quel bouton, quand</h3>
+<table>
+  <thead><tr><th>Statut</th><th>Boutons proposés</th><th>Nouveau statut</th></tr></thead>
+  <tbody>
+    <tr><td>En attente de paiement</td><td><span class="ui">Marquer payé</span>, <span class="ui">Annuler</span>, corbeille</td><td>Payée, ou Annulée</td></tr>
+    <tr><td>Payée</td><td><span class="ui">Remis</span>, <span class="ui">Annuler</span>, corbeille</td><td>Remise, ou Annulée</td></tr>
+    <tr><td>Remise</td><td>Corbeille</td><td>Définitif</td></tr>
+    <tr><td>Annulée</td><td>Corbeille</td><td>Définitif</td></tr>
+  </tbody>
+</table>
+<figure>
+  <div class="frame"><img src="../screens/33-commande-payee.jpg" alt="Une commande payée"></div>
+  <figcaption><span class="fig">Fig. 17.2b</span><span>Une commande payée. 11 Remis. 12 Annuler.</span></figcaption>
+</figure>
+<p>Une opération non permise donne le message «&nbsp;Changement de statut non autorisé pour cette commande&nbsp;».</p>
+<h3>Enregistrer un paiement en espèces</h3>
+<ol class="steps">
+  <li>Dans <span class="ui">Commandes Équipement</span>, trouvez la commande (statut <span class="ui">En attente de paiement</span>). Vérifiez le nom, le montant et les articles.</li>
+  <li>Encaissez l'argent, puis cliquez sur le bouton rouge <span class="ui red">Marquer payé</span>.<span class="sub">Le message «&nbsp;Commande marquée payée&nbsp;» s'affiche. La commande passe à <span class="ui">Payée</span>.</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/33-commande-payee-main.jpg" alt="Commande marquée payée à la main"></div>
+  <figcaption><span class="fig">Fig. 17.3</span><span>La commande de Vincent Lambotte après <span class="ui">Marquer payé</span>&nbsp;: statut <span class="ui">Payée</span>, date du jour dans «&nbsp;Payé le&nbsp;», et le bouton <span class="ui">Remis</span> apparaît.</span></figcaption>
+</figure>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Dans <span class="ui">Mes commandes</span>, la commande du membre passe de <span class="ui">À payer</span> à <span class="ui">Payée</span>, la carte de paiement disparaît et la date <span class="ui">Payé le</span> est celle du jour où vous avez cliqué.</p></div>
+<div class="pair">
+  <div><div class="pair-head bo"><span class="dot"></span>Avant&nbsp;: à payer</div>
+    <figure class="phone">
+      <div class="frame"><img src="../screens/33-membre-paiement-tel.jpg" alt="Commande à payer dans le profil du membre"></div>
+      <figcaption><span class="fig">Fig. 17.4</span><span>Le membre voit <span class="ui">À payer</span> et la carte de paiement.</span></figcaption>
+    </figure></div>
+  <div><div class="pair-head site"><span class="dot"></span>Après&nbsp;: payée</div>
+    <figure class="phone">
+      <div class="frame"><img src="../screens/33-membre-dates-tel.jpg" alt="Commande payée dans le profil du membre"></div>
+      <figcaption><span class="fig">Fig. 17.5</span><span>Une commande payée, avec ses dates (ici une commande groupée déjà reçue).</span></figcaption>
+    </figure></div>
+</div>
+<h3>Remettre une commande</h3>
+<ol class="steps">
+  <li>Remettez l'article au membre (place de Blanmont, au départ d'une sortie par exemple).</li>
+  <li>Dans la commande (statut <span class="ui">Payée</span>), cliquez sur <span class="ui">Remis</span>.<span class="sub">Le message «&nbsp;Commande remise&nbsp;» s'affiche, la pastille devient <span class="ui">Remise</span> et la date du jour apparaît dans «&nbsp;Remis le&nbsp;».</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/33-commande-remise.jpg" alt="Commande remise"></div>
+  <figcaption><span class="fig">Fig. 17.6</span><span>Une commande remise&nbsp;: seule la corbeille reste.</span></figcaption>
+</figure>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le membre voit <span class="ui">Remise</span> et la date <span class="ui">Remis le</span> dans <span class="ui">Mes commandes</span>.</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p><span class="ui">Remis</span> n'existe qu'après <span class="ui">Marquer payé</span> (ou un rapprochement bancaire). On ne peut pas remettre une commande non payée.</p></div>
+<h3>Annuler une commande</h3>
+<ol class="steps">
+  <li>Cliquez sur <span class="ui">Annuler</span> dans la commande.</li>
+  <li>Une fenêtre demande «&nbsp;Annuler la commande de … ?&nbsp;». Si la commande est déjà payée, elle ajoute «&nbsp;Cette commande est déjà payée&nbsp;: remboursement à faire hors application.&nbsp;». Cliquez sur <span class="ui">OK</span>.<span class="sub">Le message «&nbsp;Commande annulée&nbsp;» s'affiche.</span></li>
+</ol>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le membre voit <span class="ui">Annulée</span> dans <span class="ui">Mes commandes</span>. Pour une commande «&nbsp;Stock&nbsp;», les pièces réservées retournent tout de suite dans le stock du club.</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Annuler une commande déjà payée ne rembourse rien. Faites le virement de remboursement depuis la banque du club.</p></div>
+<h3>Supprimer une commande</h3>
+<p>La corbeille efface la commande, quel que soit son statut. Une fenêtre demande «&nbsp;Supprimer définitivement la commande de … ?&nbsp;». Après <span class="ui">OK</span>, le message «&nbsp;Commande supprimée&nbsp;» s'affiche.</p>
+<div class="box danger"><div class="box-title">Action définitive</div><p>Une commande supprimée disparaît aussi du profil du membre et ne se récupère pas. Si elle était «&nbsp;Stock&nbsp;» et en attente ou payée, ses pièces retournent au stock. Préférez <span class="ui">Annuler</span>, qui garde une trace.</p></div>
+
+<h2 id="t-cmd-campagnes"><span class="num">17.3</span>Créer une commande groupée</h2>
+<p>Une commande groupée regroupe pendant quelques semaines les demandes des membres pour un ou plusieurs articles, puis le club passe une seule commande chez Gobik. Cliquez sur <span class="ui">Commandes groupées</span> en haut de la page des commandes. La page «&nbsp;Commandes groupées&nbsp;» liste les campagnes existantes (titre, «&nbsp;Clôture JJ/MM/AAAA&nbsp;», «&nbsp;N / M payées&nbsp;» et étape en cours), puis le formulaire <span class="ui">Nouvelle commande groupée</span>.</p>
+<figure>
+  <div class="frame"><img src="../screens/33-campagnes-liste.jpg" alt="Liste des commandes groupées"></div>
+  <figcaption><span class="fig">Fig. 17.7</span><span>Les deux commandes groupées du club. Un clic sur une ligne ouvre sa fiche.</span></figcaption>
+</figure>
+<ol class="steps">
+  <li>Sur la page <span class="ui">Commandes groupées</span>, descendez jusqu'au cadre <span class="ui">Nouvelle commande groupée</span>.</li>
+  <li>Écrivez le <span class="field">Titre</span> et choisissez la <span class="field">Date de clôture</span> (jour et heure).</li>
+  <li>Cochez les articles concernés dans <span class="field">Articles de la commande</span>.</li>
+  <li>Si le club veut garder du stock, ouvrez <span class="ui">Unités supplémentaires pour le stock du club (optionnel)</span> et notez le nombre de pièces par taille.</li>
+  <li>Cliquez sur <span class="ui red">Créer la commande groupée</span>.<span class="sub">Le message «&nbsp;Commande groupée créée&nbsp;» s'affiche et la fiche de la commande s'ouvre.</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/33-campagne-formulaire.jpg" alt="Formulaire Nouvelle commande groupée"></div>
+  <figcaption><span class="fig">Fig. 17.8</span><span>Le formulaire, rempli avec un exemple (non enregistré). 1 Titre. 2 Date de clôture. 3 Articles. 4 Unités supplémentaires. 5 Créer.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Champ</th><th>À quoi ça sert</th><th>Exemple ou format</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="field">Titre</span></td><td>Le nom de la campagne, affiché aux membres.</td><td>Commande groupée printemps 2027</td></tr>
+    <tr><td class="c">2</td><td><span class="field">Date de clôture</span></td><td>Après ce moment, plus personne ne peut commander dans cette campagne. Doit être dans le futur.</td><td>20/03/2027, 19:00</td></tr>
+    <tr><td class="c">3</td><td><span class="field">Articles de la commande</span></td><td>Seuls les articles dont la disponibilité est activée sont proposés (chapitre 16). Il en faut au moins un.</td><td>Maillot Manche courte CX PRO Homme</td></tr>
+    <tr><td class="c">4</td><td><span class="field">Unités supplémentaires</span></td><td>Pièces commandées en plus pour le stock du club, par article et par taille. Elles s'ajoutent au stock quand la commande est reçue.</td><td>M&nbsp;: 2, L&nbsp;: 2</td></tr>
+  </tbody>
+</table>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Dès que la commande est créée, la bannière rose «&nbsp;Commande groupée ouverte&nbsp;» apparaît en haut de la page <span class="url">Le club</span> → <span class="url">Équipement</span>, avec le titre, la date de clôture et un bouton <span class="ui">Commander</span> (chapitre 16, figure 16.7). Sur la page de commande, le mode «&nbsp;Commande groupée&nbsp;» est proposé aux membres.</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Annoncez la campagne vous-même (courriel, WhatsApp) avec le lien vers la page <span class="ui">Équipement</span>&nbsp;: aucune annonce automatique n'est envoyée. Si plusieurs campagnes sont ouvertes en même temps, la boutique n'affiche que la bannière de celle qui se termine le plus tôt. Les messages d'erreur du formulaire sont explicites («&nbsp;Indiquez la date de clôture&nbsp;», «&nbsp;La clôture doit être dans le futur&nbsp;», «&nbsp;Choisissez au moins un article&nbsp;», «&nbsp;Titre requis&nbsp;»).</p></div>
+
+<h2 id="t-cmd-suivi"><span class="num">17.4</span>Suivre une commande groupée, de la clôture à la remise</h2>
+<p>Cliquez sur la ligne de la campagne dans <span class="ui">Commandes groupées</span>. Sa fiche montre en haut la progression en quatre étapes&nbsp;: <span class="ui">Ouverte</span>, <span class="ui">Clôturée</span>, <span class="ui">Commandée chez Gobik</span>, <span class="ui">Reçue</span>, chacune avec sa date. Un seul bouton à la fois propose l'étape suivante.</p>
+<figure>
+  <div class="frame"><img src="../screens/33-campagne-etapes.jpg" alt="Fiche d'une commande groupée ouverte"></div>
+  <figcaption><span class="fig">Fig. 17.9</span><span>La fiche d'une campagne ouverte. 1 La progression. 2 Le bouton de l'étape suivante.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Étape en cours</th><th>Bouton proposé</th><th>Ce que ça fait</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Ouverte</span></td><td><span class="ui red">Clôturer la commande</span></td><td>Les membres ne peuvent plus commander dans cette campagne.</td></tr>
+    <tr><td><span class="ui">Clôturée</span></td><td><span class="ui red">Marquer commandée chez Gobik</span></td><td>Note que la commande est partie chez Gobik. La date devient visible chez les membres.</td></tr>
+    <tr><td><span class="ui">Commandée chez Gobik</span></td><td><span class="ui red">Marquer reçue</span></td><td>Une fenêtre demande «&nbsp;Marquer la commande comme reçue&nbsp;? Les unités supplémentaires seront ajoutées au stock du club.&nbsp;». Après <span class="ui">OK</span>, les unités supplémentaires entrent dans le stock une seule fois, et la section <span class="ui">Remise aux membres</span> apparaît.</td></tr>
+    <tr><td><span class="ui">Reçue</span></td><td>Aucun</td><td>Il reste à remettre les articles (section <span class="ui">Remise aux membres</span>).</td></tr>
+  </tbody>
+</table>
+<p>Chaque clic affiche le message «&nbsp;Statut&nbsp;: …&nbsp;». On ne revient jamais en arrière («&nbsp;Étape non autorisée pour cette commande groupée&nbsp;»).</p>
+<h3>La matrice des tailles à envoyer à Gobik</h3>
+<figure>
+  <div class="frame"><img src="../screens/33-campagne-matrice.jpg" alt="Commandes non payées et tableau À commander chez Gobik"></div>
+  <figcaption><span class="fig">Fig. 17.10</span><span>3 L'encadré des commandes non payées. 4 Exporter CSV. 5 Le tableau À commander chez Gobik.</span></figcaption>
+</figure>
+<p>La section <span class="ui">À commander chez Gobik</span> additionne, article par article et taille par taille, les commandes <strong>payées ou remises</strong> (colonne <span class="ui">Membres</span>) et les unités supplémentaires (colonne <span class="ui">Stock club</span>). La ligne <span class="ui">Total</span> en bas donne le total de pièces. Le bouton <span class="ui">Exporter CSV</span> télécharge ce tableau (<span class="url">commande-gobik-….csv</span>) avec les colonnes <span class="field">Article</span>, <span class="field">Référence Gobik</span>, <span class="field">Taille</span> et <span class="field">Quantité</span>.</p>
+<p>L'encadré orange «&nbsp;N commandes non payées (non incluses ci-dessous)&nbsp;» liste les commandes de la campagne encore en attente&nbsp;: nom, montant et communication. Elles ne figurent pas dans la matrice.</p>
+<div class="box warn"><div class="box-title">Attention</div><p>L'étape <span class="ui">Clôturée</span> affiche la date de clôture <em>prévue</em>, pas le jour où vous avez cliqué. Un article qui n'a que des unités supplémentaires, sans commande de membre, peut s'afficher avec son code produit (par exemple <span class="url">MaiCXPRO</span>) au lieu de son nom. Les membres peuvent encore commander jusqu'à la clôture manuelle ou jusqu'à la date de clôture, selon ce qui arrive en premier.</p></div>
+<h3>La remise aux membres</h3>
+<p>Quand la campagne est <span class="ui">Reçue</span>, une section <span class="ui">Remise aux membres</span> liste les commandes payées. Au moment de remettre un article, cliquez sur <span class="ui">Remis</span> en face du membre&nbsp;: le message «&nbsp;Commande remise&nbsp;» s'affiche et la ligne indique «&nbsp;Remis le JJ/MM/AAAA&nbsp;». Le téléphone convient très bien pour ce pointage au départ d'une sortie.</p>
+<figure>
+  <div class="frame"><img src="../screens/33-campagne-distribution.jpg" alt="Section Remise aux membres d'une commande reçue"></div>
+  <figcaption><span class="fig">Fig. 17.11</span><span>Une commande groupée reçue. 1 La section <span class="ui">Remise aux membres</span>. 2 Le bouton <span class="ui">Remis</span> de chaque membre.</span></figcaption>
+</figure>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Chaque étape date automatiquement la commande de chaque membre concerné&nbsp;: <span class="ui">Commandé chez Gobik le</span> (quand vous cliquez sur <span class="ui">Marquer commandée chez Gobik</span>), <span class="ui">Arrivé au club le</span> (<span class="ui">Marquer reçue</span>) et <span class="ui">Remis le</span> (<span class="ui">Remis</span>). Elles apparaissent dans <span class="ui">Mes commandes</span> (figure 17.5).</p></div>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Pour une commande groupée, relancez ou annulez avant la commande chez Gobik les membres qui n'ont pas payé&nbsp;: leur commande n'est pas dans la matrice et ils ne recevraient rien. Le détail de la marche à suivre est en section 17.7.</p></div>
+
+<h2 id="t-cmd-banque"><span class="num">17.5</span>La banque du club&nbsp;: compte, fichier CODA et paiements à traiter</h2>
+<p>Cliquez sur <span class="ui">Banque</span> en haut de la page des commandes (ou sur <span class="ui">Commandes Équipement</span> puis <span class="ui">Banque</span>). La page «&nbsp;Banque du club&nbsp;» se compose de quatre blocs, de haut en bas&nbsp;: l'import du fichier CODA, les paiements à traiter, les derniers paiements rapprochés, et le compte du club.</p>
+<h3 id="t-cmd-compte">Le compte du club (à régler une seule fois)</h3>
+<p>Le dernier bloc, <span class="ui">Paiements — compte du club</span>, contient le compte bancaire qui s'affiche chez les membres et qui est inscrit dans le code QR de paiement.</p>
+<figure>
+  <div class="frame"><img src="../screens/33-banque-compte.jpg" alt="Carte Paiements, compte du club"></div>
+  <figcaption><span class="fig">Fig. 17.12</span><span>Le compte du club. 1 Bénéficiaire. 2 IBAN. 3 BIC. 4 Enregistrer. 5 QR de test à 1,00&nbsp;€.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th class="c">N°</th><th>Champ</th><th>À quoi ça sert</th><th>Exemple ou format</th></tr></thead>
+  <tbody>
+    <tr><td class="c">1</td><td><span class="field">Bénéficiaire</span></td><td>Le nom exact du titulaire du compte. 70 caractères au maximum, sur une ligne.</td><td>CC Saint-Martin Blanmont</td></tr>
+    <tr><td class="c">2</td><td><span class="field">IBAN</span></td><td>Le numéro de compte. Il est vérifié&nbsp;: «&nbsp;IBAN invalide&nbsp;: vérifiez les chiffres.&nbsp;» s'il y a une faute.</td><td>BE68 5390 0754 7034</td></tr>
+    <tr><td class="c">3</td><td><span class="field">BIC (optionnel)</span></td><td>Le code de la banque, facultatif.</td><td>GKCCBEBB</td></tr>
+    <tr><td class="c">4</td><td><span class="ui">Enregistrer</span></td><td>Enregistre le compte. Message «&nbsp;Compte du club enregistré&nbsp;».</td><td></td></tr>
+    <tr><td class="c">5</td><td>QR de test</td><td>Apparaît dès que le compte est valide. Voir la procédure ci-dessous.</td><td></td></tr>
+  </tbody>
+</table>
+<ol class="steps">
+  <li>Remplissez <span class="field">Bénéficiaire</span>, <span class="field">IBAN</span> et, si vous l'avez, <span class="field">BIC</span>, puis cliquez sur <span class="ui red">Enregistrer</span>.</li>
+  <li>Prenez un téléphone, ouvrez l'application de votre banque et scannez le <strong>QR de test</strong> à droite («&nbsp;Test de 1,00&nbsp;€&nbsp;»).</li>
+  <li>Vérifiez que le bénéficiaire, l'IBAN, le montant de 1,00&nbsp;€ et la communication sont bien préremplis.</li>
+  <li><strong>Ne validez pas le virement</strong>&nbsp;: annulez-le dans l'application de la banque.</li>
+</ol>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Les membres voient ce compte et ce code QR sur leur carte de paiement (section 17.6). Tant qu'aucun compte n'est enregistré, ils ne voient que leur communication structurée, avec le message «&nbsp;Coordonnées bancaires du club bientôt disponibles — gardez cette référence&nbsp;».</p></div>
+<div class="box warn"><div class="box-title">Attention</div><p>Un changement de compte s'applique à toutes les cartes de paiement à partir de ce moment. Une erreur d'IBAN envoie l'argent des membres au mauvais endroit&nbsp;: scannez toujours le QR de test après toute modification.</p></div>
+<h3 id="t-cmd-coda-fichier">Télécharger le fichier CODA à la banque</h3>
+<p>CODA est le format d'extrait de compte que toutes les banques belges peuvent fournir. C'est un petit fichier (extension <span class="url">.cod</span>, parfois <span class="url">.coda</span> ou <span class="url">.txt</span>) qui liste les virements reçus.</p>
+<ol class="steps">
+  <li>Connectez-vous à la banque en ligne du club, sur l'ordinateur.</li>
+  <li>Cherchez la rubrique des extraits de compte (selon la banque&nbsp;: «&nbsp;Extraits&nbsp;», «&nbsp;Historique&nbsp;», «&nbsp;Télécharger&nbsp;» ou «&nbsp;Exporter&nbsp;»).</li>
+  <li>Choisissez la période (depuis votre dernier import) et le format <strong>CODA</strong>.</li>
+  <li>Enregistrez le fichier&nbsp;: il se retrouve en général dans le dossier Téléchargements.</li>
+</ol>
+<div class="box warn"><div class="box-title">Attention</div><p>L'emplacement exact de ces menus change d'une banque à l'autre (KBC, BNP Paribas Fortis, Belfius, ING…) et ce manuel ne peut pas le décrire pour chacune. Si l'option CODA n'apparaît pas, demandez son activation à l'agence de la banque. Le fichier doit rester sous 1 Mo.</p></div>
+<h3 id="t-cmd-coda-import">Importer le fichier</h3>
+<ol class="steps">
+  <li>Sur la page <span class="ui">Banque du club</span>, dans le bloc <span class="ui">Importer un extrait CODA</span>, cliquez sur <span class="ui">Choisir un fichier</span> (champ <span class="field">Fichier CODA (.cod, .coda, .txt, 1 Mo maximum)</span>) et sélectionnez le fichier de la banque.</li>
+  <li>Cliquez sur <span class="ui red">Importer</span>.<span class="sub">Un court résumé s'affiche sous le bouton.</span></li>
+  <li>Lisez le résumé, par exemple «&nbsp;5 mouvements lus · 0 doublon ignoré · 1 rapprochée · 4 à traiter&nbsp;».</li>
+  <li>Occupez-vous des <span class="ui">Paiements à traiter</span> (voir plus bas).</li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/33-banque-import.jpg" alt="Bloc d'import CODA et paiements à traiter"></div>
+  <figcaption><span class="fig">Fig. 17.13</span><span>1 Le fichier. 2 Importer. 3 Choisir une commande. 4 Associer à une commande. 5 Ignorer.</span></figcaption>
+</figure>
+<figure>
+  <div class="frame"><img src="../screens/33-banque-resume.jpg" alt="Résumé après un import CODA"></div>
+  <figcaption><span class="fig">Fig. 17.14</span><span>Après un import de démonstration&nbsp;: cinq virements lus, un reconnu, quatre à traiter.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Dans le résumé</th><th>Signification</th></tr></thead>
+  <tbody>
+    <tr><td>mouvements lus</td><td>Nombre de virements reçus dans le fichier. Seuls les virements <em>reçus</em> sont lus&nbsp;; les paiements faits par le club sont ignorés.</td></tr>
+    <tr><td>doublons ignorés</td><td>Virements déjà importés avant. Réimporter un fichier est sans danger&nbsp;: rien n'est compté deux fois.</td></tr>
+    <tr><td>rapprochées</td><td>Virements reconnus automatiquement&nbsp;: la commande correspondante est passée à <span class="ui">Payée</span>.</td></tr>
+    <tr><td>à traiter</td><td>Virements que le site n'a pas su associer. Ils apparaissent dans <span class="ui">Paiements à traiter</span>.</td></tr>
+  </tbody>
+</table>
+<p>Erreurs possibles à l'import&nbsp;: «&nbsp;Choisissez un fichier CODA&nbsp;», «&nbsp;Le fichier est vide&nbsp;», «&nbsp;Fichier trop volumineux (1 Mo maximum)&nbsp;», «&nbsp;Fichier CODA invalide&nbsp;» suivi du numéro de ligne. Dans ce dernier cas, le fichier n'est pas un extrait CODA ou a été abîmé&nbsp;: retéléchargez-le sans l'ouvrir ni l'enregistrer dans Excel.</p>
+<h3 id="t-cmd-regle">Comment le site reconnaît un paiement</h3>
+<p>Un virement est rapproché automatiquement, et la commande passe à <span class="ui">Payée</span>, quand <strong>les deux conditions</strong> sont réunies&nbsp;:</p>
+<ol class="steps">
+  <li>la <strong>communication structurée</strong> du virement (les 12 chiffres <span class="url">+++100/0000/13269+++</span>) correspond à une commande <span class="ui">En attente de paiement</span>&nbsp;;</li>
+  <li>le <strong>montant</strong> est exactement le total de la commande, au centime.</li>
+</ol>
+<p>Le site cherche la communication aussi dans le texte libre du virement, avec ou sans «&nbsp;+++&nbsp;», barres obliques ou espaces. La date de paiement de la commande est la <strong>date de valeur</strong> du virement (la date de la banque), pas celle de l'import.</p>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>La commande reconnue passe à <span class="ui">Payée</span> dans la liste des commandes, avec «&nbsp;Payé le&nbsp;» = la date de valeur. Le membre voit <span class="ui">Payée</span> et cette date dans <span class="ui">Mes commandes</span>. Aucun courriel ne l'avertit.</p></div>
+<figure>
+  <div class="frame"><img src="../screens/33-commande-rapprochee.jpg" alt="Commande passée à Payée après l'import"></div>
+  <figcaption><span class="fig">Fig. 17.15</span><span>La commande de Thomas Leclercq après l'import&nbsp;: <span class="ui">Payée</span>, avec la date du virement.</span></figcaption>
+</figure>
+<h3 id="t-cmd-traiter">Traiter les paiements à traiter</h3>
+<p>Chaque virement non reconnu affiche son montant, sa date, le nom du donneur d'ordre, les quatre derniers chiffres de son compte («&nbsp;****7061&nbsp;»), sa communication et une pastille qui donne la raison.</p>
+<figure>
+  <div class="frame"><img src="../screens/33-banque-raisons.jpg" alt="Liste des paiements à traiter avec les quatre raisons possibles"></div>
+  <figcaption><span class="fig">Fig. 17.16</span><span>Les paiements à traiter, avec chacune des raisons possibles.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>Pastille</th><th>En clair</th><th>Que faire</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Sans référence</span></td><td>Le virement n'a pas de communication structurée valable. Le membre l'a oubliée ou l'a mal recopiée, ou ce n'est pas un paiement d'équipement (cotisation, sponsor…).</td><td>Retrouvez la commande avec le nom et le montant, puis <span class="ui">Associer à une commande</span>. Sinon <span class="ui">Ignorer</span>.</td></tr>
+    <tr><td><span class="ui">Référence inconnue</span></td><td>La communication est bien formée mais ne correspond à aucune commande. Souvent une faute de frappe.</td><td>Retrouvez la commande et associez, sinon ignorez.</td></tr>
+    <tr><td><span class="ui">Montant différent</span></td><td>La communication est bonne mais le montant n'est pas celui de la commande (trop ou trop peu).</td><td>Contactez le membre. Trop peu&nbsp;: attendez le complément. Trop payé&nbsp;: associez, puis remboursez la différence depuis la banque.</td></tr>
+    <tr><td><span class="ui">Déjà payée ou annulée</span></td><td>La commande n'est plus en attente&nbsp;: elle est déjà payée, remise ou annulée (double paiement, par exemple).</td><td>Remboursez le membre depuis la banque, puis <span class="ui">Ignorer</span>.</td></tr>
+  </tbody>
+</table>
+<h4>Associer un virement à une commande</h4>
+<ol class="steps">
+  <li>Dans la ligne du virement, ouvrez la liste <span class="ui">Choisir une commande…</span>. Elle propose les commandes en attente (nom, communication, montant).</li>
+  <li>Choisissez la bonne commande.</li>
+  <li>Cliquez sur <span class="ui red">Associer à une commande</span>.<span class="sub">Le message «&nbsp;Paiement associé&nbsp;» s'affiche. La commande passe à <span class="ui">Payée</span> et la ligne quitte la liste.</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/33-banque-associer.jpg" alt="Une commande choisie dans la liste avant d'associer"></div>
+  <figcaption><span class="fig">Fig. 17.17</span><span>Une commande est choisie&nbsp;: le bouton <span class="ui">Associer à une commande</span> devient actif. Rien n'est enregistré avant le clic.</span></figcaption>
+</figure>
+<div class="box danger"><div class="box-title">Action définitive</div><p><span class="ui">Associer à une commande</span> marque la commande payée <strong>quel que soit le montant du virement</strong>. Comparez le montant avant de cliquer. L'action ne se défait pas depuis cet écran&nbsp;; en cas d'erreur, il faudrait annuler la commande.</p></div>
+<h4>Ignorer un virement</h4>
+<p>Cliquez sur <span class="ui">Ignorer</span> dans la ligne. Une fenêtre demande «&nbsp;Ignorer ce virement&nbsp;? Il ne sera plus proposé au rapprochement.&nbsp;». Après <span class="ui">OK</span>, le message «&nbsp;Paiement ignoré&nbsp;» s'affiche.</p>
+<div class="box danger"><div class="box-title">Action définitive</div><p>Un virement ignoré ne revient plus dans la liste et il n'existe aucun bouton pour le rétablir. N'ignorez que ce qui n'a vraiment aucun lien avec une commande, ou ce que vous avez déjà traité à la banque.</p></div>
+<h4>Les derniers paiements rapprochés</h4>
+<p>Le bloc <span class="ui">Derniers paiements rapprochés</span>, à déplier d'un clic, liste les dix derniers virements associés à une commande (date, donneur d'ordre, membre concerné, montant). Servez-vous-en pour vérifier un import.</p>
+<figure>
+  <div class="frame"><img src="../screens/33-banque-rapproches.jpg" alt="Liste des derniers paiements rapprochés"></div>
+  <figcaption><span class="fig">Fig. 17.18</span><span>Le bloc déplié.</span></figcaption>
+</figure>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Ce que le site garde d'un virement&nbsp;: le nom du donneur d'ordre, les quatre derniers chiffres de son compte, la date, le montant et la communication. Le fichier CODA lui-même n'est pas conservé&nbsp;: il est lu puis oublié. Les remboursements se font toujours depuis la banque.</p></div>
+
+<h2 id="t-cmd-membre"><span class="num">17.6</span>Côté membre&nbsp;: commander, payer, suivre les dates</h2>
+<p>Le membre commande dans la boutique (chapitre 16, section 16.4). Aussitôt après l'envoi, la page affiche «&nbsp;Commande enregistrée (réf. …). Payez maintenant pour la valider.&nbsp;» et la carte de paiement. Il retrouve ensuite ses commandes dans <span class="ui">Mon profil</span> → <span class="ui">Mes commandes</span>.</p>
+<div class="cols-2">
+  <figure class="phone">
+    <div class="frame"><img src="../screens/33-membre-commandes-tel.jpg" alt="Page Mes commandes sur téléphone"></div>
+    <figcaption><span class="fig">Fig. 17.19</span><span>La page <span class="ui">Mes commandes</span>&nbsp;: un encadré par commande, avec articles, montant, statut et frise des dates.</span></figcaption>
+  </figure>
+  <figure class="phone">
+    <div class="frame"><img src="../screens/33-membre-paiement-tel.jpg" alt="Carte de paiement avec code QR"></div>
+    <figcaption><span class="fig">Fig. 17.20</span><span>Le bouton <span class="ui">Payer</span> déplie la carte de paiement.</span></figcaption>
+  </figure>
+</div>
+<p>La carte <span class="ui">Payer cette commande</span> contient&nbsp;:</p>
+<ul>
+  <li>le montant à payer, en gros&nbsp;;</li>
+  <li>un code QR (norme européenne de paiement) à scanner avec l'application de sa banque&nbsp;: le montant, l'IBAN et la communication structurée sont préremplis, et «&nbsp;le paiement est reconnu automatiquement&nbsp;»&nbsp;;</li>
+  <li>le rappel «&nbsp;Montant exact et communication structurée obligatoires&nbsp;»&nbsp;;</li>
+  <li>la <span class="ui">Communication structurée</span> et l'<span class="ui">IBAN</span> en texte, chacun avec un bouton pour copier («&nbsp;… copié&nbsp;» s'affiche).</li>
+</ul>
+<div class="box warn"><div class="box-title">Attention</div><p>Certaines applications bancaires belges lisent mal la communication structurée contenue dans un code QR. Conseillez aux membres de vérifier que la communication est bien présente avant de valider, et sinon de la copier avec le bouton dédié. Un montant ou une communication erronés obligent à un traitement manuel&nbsp;: c'est le cas de la liste <span class="ui">Paiements à traiter</span>.</p></div>
+<h3>Les dates affichées dans le profil</h3>
+<p>Aucune date n'est saisie à la main&nbsp;: elles se remplissent toutes seules, au fil de vos actions. Tant qu'une étape n'est pas faite, le profil affiche «&nbsp;En attente&nbsp;».</p>
+<table>
+  <thead><tr><th>Date affichée</th><th>D'où elle vient</th></tr></thead>
+  <tbody>
+    <tr><td><span class="ui">Commandé le</span></td><td>Le jour où le membre a envoyé sa commande.</td></tr>
+    <tr><td><span class="ui">Payé le</span></td><td>La date de valeur du virement (import CODA ou association à la main), ou le jour où vous avez cliqué sur <span class="ui">Marquer payé</span>.</td></tr>
+    <tr><td><span class="ui">Commandé chez Gobik le</span></td><td>Le jour où vous avez cliqué sur <span class="ui">Marquer commandée chez Gobik</span>. Commandes groupées seulement.</td></tr>
+    <tr><td><span class="ui">Arrivé au club le</span></td><td>Le jour où vous avez cliqué sur <span class="ui">Marquer reçue</span>. Commandes groupées seulement.</td></tr>
+    <tr><td><span class="ui">Remis le</span></td><td>Le jour où vous avez cliqué sur <span class="ui">Remis</span>.</td></tr>
+  </tbody>
+</table>
+<p>Une commande «&nbsp;Stock&nbsp;» ne montre que <span class="ui">Commandé le</span>, <span class="ui">Payé le</span> et <span class="ui">Remis le</span>. Une commande annulée montre <span class="ui">Commandé le</span> puis <span class="ui">Annulée le</span>. Une commande groupée affiche aussi sous les articles «&nbsp;Commande groupée «&nbsp;… »&nbsp;».</p>
+<div class="box warn"><div class="box-title">Attention</div><p>Les anciennes commandes passées avant l'arrivée des comptes membres (sans lien avec un membre) n'apparaissent dans aucun profil. Si un membre dit ne pas voir une très ancienne commande, c'est la raison. Rappel&nbsp;: aucun courriel n'est envoyé à la commande, au paiement ni à la réception. Tenez les membres au courant par vos moyens habituels.</p></div>
+
+<h2 id="t-cmd-procedure" class="break"><span class="num">17.7</span>Procédure du trésorier, pas à pas</h2>
+<p>Imprimez cette page et cochez au fur et à mesure. Tous les chemins partent du menu <span class="ui">Commandes Équipement</span>.</p>
+<table>
+  <thead><tr><th>Quand</th><th>À faire</th><th>Où cliquer</th></tr></thead>
+  <tbody>
+    <tr><td rowspan="2"><strong>Une seule fois</strong></td><td>☐ Enregistrer le compte du club, puis scanner le QR de test à 1,00&nbsp;€ et <strong>annuler</strong> le virement.</td><td><span class="ui">Banque</span> → <span class="ui">Paiements — compte du club</span></td></tr>
+    <tr><td>☐ Vérifier que la banque en ligne sait exporter en <strong>CODA</strong> (sinon, l'agence active l'option).</td><td>Banque en ligne du club</td></tr>
+    <tr><td rowspan="3"><strong>Ouvrir la campagne</strong></td><td>☐ Vérifier prix, tailles et disponibilité des articles.</td><td><span class="ui">Équipements Club</span> → <span class="ui">Modifier</span></td></tr>
+    <tr><td>☐ Créer la commande groupée (titre, clôture, articles, unités en plus).</td><td><span class="ui">Commandes groupées</span> → <span class="ui">Créer la commande groupée</span></td></tr>
+    <tr><td>☐ Annoncer la campagne aux membres, avec le lien vers la page <span class="ui">Équipement</span>.</td><td>WhatsApp, courriel</td></tr>
+    <tr><td rowspan="2"><strong>Chaque semaine et la veille de la clôture</strong></td><td>☐ Télécharger l'extrait CODA, l'importer et lire le résumé.</td><td><span class="ui">Banque</span> → <span class="ui">Importer</span></td></tr>
+    <tr><td>☐ Traiter chaque ligne de <span class="ui">Paiements à traiter</span> (associer après avoir vérifié le montant, ou ignorer). Espèces&nbsp;: <span class="ui">Marquer payé</span>.</td><td><span class="ui">Banque</span> ; <span class="ui">Commandes Équipement</span></td></tr>
+    <tr><td rowspan="3"><strong>À la clôture</strong></td><td>☐ Dernier import CODA, puis <span class="ui">Clôturer la commande</span>.</td><td>Fiche de la commande groupée</td></tr>
+    <tr><td>☐ Relancer ou annuler les commandes de l'encadré orange «&nbsp;non payées&nbsp;».</td><td>Encadré orange ; <span class="ui">Annuler</span></td></tr>
+    <tr><td>☐ <span class="ui">Exporter CSV</span>, envoyer la matrice à Gobik, puis <span class="ui">Marquer commandée chez Gobik</span>.</td><td><span class="ui">À commander chez Gobik</span></td></tr>
+    <tr><td><strong>À l'arrivée du colis</strong></td><td>☐ Vérifier les quantités avec la matrice, puis <span class="ui">Marquer reçue</span>.</td><td>Fiche de la commande groupée</td></tr>
+    <tr><td><strong>À la distribution</strong></td><td>☐ Cliquer <span class="ui">Remis</span> pour chaque membre, au moment de la remise.</td><td><span class="ui">Remise aux membres</span></td></tr>
+    <tr><td><strong>Cas particuliers</strong></td><td>☐ Remboursement&nbsp;: virement depuis la banque. ☐ Vente du stock&nbsp;: même circuit, puis <span class="ui">Remis</span>. ☐ Annulation avant remise&nbsp;: les pièces «&nbsp;Stock&nbsp;» retournent en rayon.</td><td><span class="ui">Commandes Équipement</span></td></tr>
+  </tbody>
+</table>
+</article>

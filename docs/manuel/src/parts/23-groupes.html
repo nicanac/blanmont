@@ -1,0 +1,133 @@
+<article class="chapter" data-chapter="12 · Les groupes et pelotons">
+<section class="opener" id="ch-groupes">
+  <div class="opener-band"><div class="carte-frame" data-carte="480" data-fx="70" data-fy="45" data-labels="1"></div></div>
+  <div class="opener-cartouche neatline">
+    <div class="main">
+      <div class="opener-kicker"><span class="label">Chapitre 12 · Gestion du club</span><span class="chip red">Rarement</span></div>
+      <h1 class="opener-title" data-chapter="12 · Les groupes et pelotons">Les groupes et pelotons</h1>
+      <p class="opener-desc">Choisir le nom affiché de chaque groupe (A, B, C… ou GR1, GR2…) et rassembler d'anciens codes dans un même groupe.</p>
+    </div>
+    <div class="legend"><dl class="legend-rows">
+      <div><dt>Où</dt><dd>Groupes &amp; Pelotons<small>menu de gauche · Gestion du club</small></dd></div>
+      <div><dt>Qui</dt><dd>Administrateurs<small>accès à accorder aux autres rôles</small></dd></div>
+      <div><dt>Résultat visible</dt><dd>Partout sur le site<small>et dans tout le back-office</small></dd></div>
+    </dl></div>
+  </div>
+  <div class="opener-meta"><span>Feuille · Groupes</span><span>50°37′23″ N · 4°38′32″ E</span></div>
+  <div class="opener-body">
+    <p class="lead">Cet écran ne change que la façon dont les groupes sont <strong>nommés à l'affichage</strong>. Les codes enregistrés dans les fiches (A, B, BC, C, VTT…) ne changent jamais&nbsp;: renommer ou rassembler des groupes ne modifie aucun historique, et chaque rassemblement peut être défait.</p>
+    <p>Les vitesses, les distances et les couleurs des groupes ne se règlent pas ici&nbsp;: elles sont fixes. Si elles doivent changer, demandez au webmaster.</p>
+    <h3>Dans ce chapitre</h3>
+    <ul>
+      <li>12.1 Comprendre l'écran</li>
+      <li>12.2 Passer aux noms GR1 à GR4</li>
+      <li>12.3 Renommer, déplacer, ajouter, retirer un groupe</li>
+      <li>12.4 Rassembler des codes dans un groupe</li>
+      <li>12.5 Enregistrer ou annuler</li>
+      <li>12.6 Où les noms apparaissent</li>
+      <li>12.7 GR2+ et GR2− dans le sondage</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="t-ecran-groupes"><span class="num">12.1</span>Comprendre l'écran</h2>
+<p>Cliquez sur <span class="ui">Groupes &amp; Pelotons</span> dans le menu de gauche, rubrique <span class="ui">Gestion du club</span>. Le bloc «&nbsp;Légende des groupes&nbsp;» affiche une ligne par groupe, de haut en bas dans l'ordre où les groupes apparaissent partout sur le site (filtres, légendes, statistiques).</p>
+<figure>
+  <div class="frame"><img src="../screens/23-ecran.jpg" alt="Écran Groupes et Pelotons"></div>
+  <figcaption><span class="fig">Fig. 12.1</span><span>L'écran des groupes. Les numéros rouges correspondent au tableau. Rien n'est enregistré tant que vous ne cliquez pas sur 9.</span></figcaption>
+</figure>
+<table>
+  <thead><tr><th>N°</th><th>Élément</th><th>À quoi ça sert</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Flèches <span class="ui">Monter</span> / <span class="ui">Descendre</span></td><td>Changent la place du groupe dans la liste, donc dans tous les filtres et légendes.</td></tr>
+    <tr><td>2</td><td><span class="field">Code</span></td><td>Le code enregistré dans les fiches (A, B, BC, C, VTT…). Il est fixe pour un groupe existant. Il n'est modifiable que pour un groupe que vous venez d'ajouter (12 caractères au plus).</td></tr>
+    <tr><td>3</td><td><span class="field">Nom affiché</span></td><td>Le nom que voient les gens (24 caractères au plus, unique). Exemple&nbsp;: GR1.</td></tr>
+    <tr><td>4</td><td>Nombre de <em>fiches</em></td><td>Combien de fiches utilisent ce code&nbsp;: membres qui l'ont choisi comme groupe préféré, et lignes du classement. C'est une information, pas un réglage.</td></tr>
+    <tr><td>5</td><td>Corbeille <span class="ui">Retirer le groupe … de la liste</span></td><td>Retire le groupe de la liste (voir 12.3).</td></tr>
+    <tr><td>6</td><td><span class="field">Nouveau code</span></td><td>Pour ajouter un groupe (par exemple D).</td></tr>
+    <tr><td>7</td><td><span class="ui">Ajouter le groupe</span></td><td>Valide le nouveau code (la touche <span class="key">Entrée</span> aussi).</td></tr>
+    <tr><td>8</td><td><span class="ui">Aperçu des étiquettes</span></td><td>Rappelle le résultat sous la forme « B → GR2 » pour chaque groupe.</td></tr>
+    <tr><td>9</td><td><span class="ui">Enregistrer les groupes</span></td><td>Met les noms en ligne. À côté, <span class="ui">Annuler les modifications</span> abandonne vos changements. Le message « Modifications non enregistrées. » vous le rappelle.</td></tr>
+  </tbody>
+</table>
+<p>Un groupe peut aussi porter des pastilles <span class="ui">Codes fusionnés</span> (section 12.4). Le compteur « N / 12 groupes » rappelle que la liste est limitée à 12 groupes.</p>
+
+<h2 id="t-gr1-gr4"><span class="num">12.2</span>Passer aux noms GR1 à GR4</h2>
+<p>Le club roule désormais en quatre groupes route et un groupe VTT. Pour adopter les noms GR1, GR2, GR3, GR4 et VTT, le plus simple est d'utiliser la proposition toute faite.</p>
+<ol class="steps">
+  <li>Ouvrez <span class="ui">Groupes &amp; Pelotons</span>.<span class="sub">Tant que les noms ne correspondent pas à la proposition, un bloc «&nbsp;Proposition de regroupement&nbsp;» s'affiche en haut.</span></li>
+  <li>Lisez la proposition&nbsp;: A (avec A- et A+) devient GR1, B devient GR2, BC devient GR3, C devient GR4, VTT reste VTT. Le nombre de fiches concernées est indiqué à droite de chaque groupe.</li>
+  <li>Cliquez sur <span class="ui red">Appliquer la proposition</span>.<span class="sub">Le message «&nbsp;Proposition appliquée. Renommez les groupes si besoin, puis enregistrez pour la mettre en ligne.&nbsp;» s'affiche. Rien n'est encore en ligne.</span></li>
+  <li>Si besoin, corrigez un <span class="field">Nom affiché</span>.</li>
+  <li>Vérifiez l'<span class="ui">Aperçu des étiquettes</span>.</li>
+  <li>Cliquez sur <span class="ui red">Enregistrer les groupes</span>.<span class="sub">Le message «&nbsp;Noms des groupes enregistrés. Ils sont visibles partout sur le site.&nbsp;» s'affiche.</span></li>
+</ol>
+<figure>
+  <div class="frame"><img src="../screens/23-proposition.jpg" alt="Bloc Proposition de regroupement"></div>
+  <figcaption><span class="fig">Fig. 12.2</span><span>Le bloc «&nbsp;Proposition de regroupement&nbsp;». Il n'apparaît que si le club n'utilise pas encore ces noms. 1 Appliquer la proposition.</span></figcaption>
+</figure>
+<figure>
+  <div class="frame"><img src="../screens/23-apres-proposition.jpg" alt="Écran après application de la proposition"></div>
+  <figcaption><span class="fig">Fig. 12.3</span><span>Après avoir cliqué sur 1, le code A porte la pastille « A- · 5 » (fusionnée). 2 Aperçu des étiquettes. 3 Enregistrer.</span></figcaption>
+</figure>
+<div class="box tip"><div class="box-title">Exemple</div><p>Une fois la proposition appliquée, l'«&nbsp;Aperçu des étiquettes&nbsp;» affiche «&nbsp;A → GR1&nbsp;», «&nbsp;B → GR2&nbsp;», «&nbsp;BC → GR3&nbsp;», «&nbsp;C → GR4&nbsp;» et «&nbsp;VTT → VTT&nbsp;». Un membre qui a choisi le groupe B dans sa fiche est affiché «&nbsp;GR2&nbsp;» partout.</p></div>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Les nouveaux noms apparaissent immédiatement partout, sans attendre (section 12.6). Aucune donnée n'est perdue&nbsp;: les anciens codes restent dans les fiches.</p></div>
+
+<h2 id="t-modifier-groupes"><span class="num">12.3</span>Renommer, déplacer, ajouter, retirer un groupe</h2>
+<h3>Renommer un groupe</h3>
+<ol class="steps">
+  <li>Dans la ligne du groupe, cliquez dans <span class="field">Nom affiché</span> et tapez le nouveau nom.</li>
+  <li>Cliquez sur <span class="ui red">Enregistrer les groupes</span>.</li>
+</ol>
+<h3>Changer l'ordre</h3>
+<p>Cliquez sur la flèche <span class="ui">Monter</span> ou <span class="ui">Descendre</span> de la ligne, puis enregistrez. La flèche est grisée aux extrémités de la liste.</p>
+<h3>Ajouter un groupe</h3>
+<ol class="steps">
+  <li>Dans la zone grise en bas de la liste, tapez le code dans <span class="field">Nouveau code</span> (par exemple D).</li>
+  <li>Cliquez sur <span class="ui">Ajouter le groupe</span>.<span class="sub">Une nouvelle ligne apparaît. Donnez-lui un <span class="field">Nom affiché</span>.</span></li>
+  <li>Enregistrez.</li>
+</ol>
+<p>Sous la liste, le site peut aussi signaler des codes «&nbsp;trouvés dans les fiches mais rattachés à aucun groupe&nbsp;». Chacun apparaît sur un bouton <span class="ui">+ code · N</span>&nbsp;: cliquez dessus pour l'ajouter comme nouveau groupe.</p>
+<h3>Retirer un groupe de la liste</h3>
+<p>Cliquez sur la corbeille de la ligne, puis enregistrez. Les fiches concernées n'ont rien perdu&nbsp;: elles s'affichent de nouveau avec leur code brut (par exemple « Groupe A »).</p>
+<div class="box warn"><div class="box-title">Attention</div><p>Le site refuse d'enregistrer et vous l'indique en rouge («&nbsp;Erreur&nbsp;: …&nbsp;») si&nbsp;: un code ou un nom est vide, deux groupes ont le même code ou le même nom, il y a plus de 12 groupes, ou un code est rattaché à plusieurs groupes. Corrigez la ligne signalée, puis enregistrez de nouveau.</p></div>
+
+<h2 id="t-fusionner-codes"><span class="num">12.4</span>Rassembler des codes dans un groupe</h2>
+<p>Dans les anciennes fiches, un même groupe peut avoir plusieurs codes (A et A-, par exemple). En les rassemblant, ils sont comptés ensemble dans les statistiques et le classement.</p>
+<ol class="steps">
+  <li>Dans la ligne du groupe d'arrivée (par exemple A), repérez la zone <span class="ui">Codes fusionnés</span>.</li>
+  <li>Cliquez sur la liste <span class="ui">+ Fusionner un code…</span> et choisissez un code (le nombre de fiches est indiqué).<span class="sub">Cette liste ne propose que les codes présents dans les fiches et encore rattachés à aucun groupe.</span></li>
+  <li>Le code apparaît en pastille. Enregistrez.</li>
+</ol>
+<p>Pour <strong>défaire</strong> un rassemblement&nbsp;: cliquez sur la croix de la pastille (<span class="ui">Détacher le code …</span>), puis enregistrez. Les fiches ne sont jamais modifiées.</p>
+<div class="box result"><div class="box-title">Résultat sur le site</div><p>Le classement, les statistiques et les décomptes regroupent les lignes des codes rassemblés (A et A- ensemble sous « GR1 »).</p></div>
+
+<h2 id="t-enregistrer-groupes"><span class="num">12.5</span>Enregistrer ou annuler</h2>
+<p>Tant que vous n'avez pas cliqué sur <span class="ui red">Enregistrer les groupes</span>, rien n'est modifié sur le site. Le bouton <span class="ui">Annuler les modifications</span> remet l'écran dans son état enregistré. Si vous quittez la page avec des modifications en cours, votre navigateur vous demande de confirmer.</p>
+<div class="box warn"><div class="box-title">Attention</div><p>Un changement de nom concerne tout le monde, tout de suite&nbsp;: membres, visiteurs et autres responsables. Prévenez les capitaines avant de renommer.</p></div>
+
+<h2 id="t-noms-groupes-site"><span class="num">12.6</span>Où les noms apparaissent</h2>
+<table>
+  <thead><tr><th>Page</th><th>Où le nom de groupe apparaît</th></tr></thead>
+  <tbody>
+    <tr><td>Accueil</td><td>Cadre «&nbsp;Groupes&nbsp;» de l'écran d'ouverture, carte «&nbsp;Allures&nbsp;» de la bande d'informations, bloc «&nbsp;Quatre groupes route, un VTT…&nbsp;», «&nbsp;Par groupe&nbsp;» de «&nbsp;Qui roule ce week-end&nbsp;?&nbsp;», classement du Carré Vert, étape «&nbsp;Choisissez votre groupe&nbsp;».</td></tr>
+    <tr><td><span class="url">/le-club</span> et <span class="url">/rejoindre</span></td><td>Légende «&nbsp;Allures&nbsp;», titres des groupes, formulaire de sortie d'essai, questions fréquentes.</td></tr>
+    <tr><td><span class="url">/sondage</span></td><td>Choix du groupe et récapitulatif des réponses.</td></tr>
+    <tr><td><span class="url">/leaderboard</span></td><td>Étiquette de groupe de chaque coureur, avec regroupement des codes fusionnés.</td></tr>
+    <tr><td><span class="url">/calendrier</span></td><td>Pastille «&nbsp;Peloton&nbsp;: …&nbsp;» sur les sorties et fenêtre de détail.</td></tr>
+    <tr><td>Profil du membre</td><td>Champ «&nbsp;Groupe&nbsp;» de la fiche et du pass.</td></tr>
+    <tr><td>Menus du site</td><td>Descriptions de «&nbsp;Qui roule ce week-end&nbsp;?&nbsp;» et de «&nbsp;Présentation &amp; Esprit&nbsp;».</td></tr>
+    <tr><td>Back-office</td><td>Membres, sondages, statistiques, pointage…</td></tr>
+  </tbody>
+</table>
+<p>La liste publique des membres (<span class="url">/members</span>) n'affiche pas de nom de groupe.</p>
+
+<h2 id="t-gr2-plus-moins"><span class="num">12.7</span>GR2+ et GR2− dans le sondage</h2>
+<p>Dans le sondage du week-end, quand une personne choisit le groupe B (GR2), le site lui propose deux variantes&nbsp;:</p>
+<ul>
+  <li><strong>GR2+</strong>&nbsp;: même parcours que GR1 (le plus long).</li>
+  <li><strong>GR2−</strong>&nbsp;: parcours plus court.</li>
+</ul>
+<p>Le nom affiché est le nom court du groupe B, suivi de « + » ou de « − ». Si vous renommez le groupe B en « GR2 », les variantes s'appellent « GR2+ » et « GR2− ».</p>
+<div class="box tip"><div class="box-title">Bon à savoir</div><p>Ces variantes ne se règlent pas dans cet écran&nbsp;: elles sont fixes. On les retrouve à côté du groupe dans la page d'un sondage du back-office et dans l'export WhatsApp (chapitre 4, page <span data-page-of="ch-sondage"></span>).</p></div>
+</article>
