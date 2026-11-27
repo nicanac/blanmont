@@ -2,7 +2,7 @@
 
 The design system of the CC Saint-Martin Blanmont cycling club platform. The site is printed like a topographic sheet of the club's own territory: a 32 km square centred on the Place de la Féchère in Blanmont (50°37′23″ N · 4°38′32″ E), with its 5 m contours, the Dyle, the railway and the woods of the Bois de Buis. Map paper, black Archivo lettering, and the map's spot inks. Not a SaaS dashboard.
 
-This folder is the portable, tool-agnostic copy of the system. Any AI agent or human building UI for this repository reads this README first, then `tokens.json`, then the component card it needs.
+This folder is the portable, tool-agnostic copy of the system. Anyone building UI for this repository reads this README first, then `tokens.json`, then the component card it needs.
 
 ## Sources of truth
 
@@ -12,8 +12,6 @@ This folder is the portable, tool-agnostic copy of the system. Any AI agent or h
 | 2 | `design-system/tokens.json` | The same tokens as data, plus role tokens (`surface`, `text`, `rule`…) that encode the app's day/night pairings. A test fails if a colour here drifts from `globals.css`. |
 | 3 | `design-system/README.md` and `components/*/README.md` | This brand book and the usage rules per component. |
 | 4 | `DESIGN.md`, `.impeccable/design.json` | The narrative and the impeccable skill's sidecar. Same system, older wording. |
-
-The published copy lives at https://claude.ai/artifact/NfTiLpuWriJeAi7UuUkSB7 (Design System artifact: live previews in both themes).
 
 ## Voice and content
 
@@ -84,7 +82,7 @@ One family, Archivo (Google Fonts, variable `wdth` 62–125 and `wght` 100–900
 
 In the app, import the React components from `app/components`. Outside it (emails, static pages, prototypes, another framework), load the tokens as CSS custom properties plus `components/bundle.css` and use the `.bl-*` classes shown in each `preview.html`.
 
-## Using this system from any AI tool
+## Using this system
 
 1. Read this README, then `tokens.json` for exact values, then `components/<Name>/README.md` for the component you touch.
 2. In the app write Tailwind v4 utilities that exist in `app/globals.css` (`bg-paper`, `text-ink-3`, `font-narrow`, `neatline`…). Never hard-coded hex values, never inline styles.

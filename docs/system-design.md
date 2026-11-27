@@ -2,9 +2,8 @@
 
 > Codename **Sidereal Satellite** · repo `nicanac/blanmont` · version `0.29.1` · written 2026-11-25
 >
-> Audience: any engineer or AI agent (Claude, Gemini, Copilot, Codex…) that needs the whole picture before changing the system.
+> Audience: any engineer who needs the whole picture before changing the system.
 > This is the **as-built** design, derived from the code. Where an older doc disagrees, the code wins and the gap is listed in §12.
-> Visual version (Claude artifact, private to the owner): https://claude.ai/artifact/XB5YRDGtvjPaZrXTmRffHx — this Markdown file is the canonical copy.
 > Related: [architecture.md](architecture.md) (conventions), [database.md](database.md) (node schemas), [admin-guide.md](admin-guide.md) (roles, FR), [validation.md](validation.md) (Zod), [DESIGN.md](../DESIGN.md) (visual system).
 
 ---
@@ -18,7 +17,7 @@ The platform is the digital hub of the **CC Saint-Martin Blanmont** road-cycling
 | Live URL | `https://blanmont.vercel.app` (legacy domain `cyclo-blanmont.be` — DNS cut-over pending) |
 | Hosting | Vercel (Node runtime, incl. `proxy.ts` + Vercel Cron) |
 | Data | Firebase Realtime Database, `europe-west1` |
-| Team | 1 developer (+ AI agents), a handful of club admins |
+| Team | 1 developer, a handful of club admins |
 | UI language | French only; code/commits in English |
 
 ---
@@ -52,7 +51,7 @@ The platform is the digital hub of the **CC Saint-Martin Blanmont** road-cycling
 | Cost | Free / hobby tiers: Vercel, Firebase Spark/Blaze-low, Cloudinary free, Open-Meteo free |
 | Security | Member PII (email, phone), orders. No payments in-app. Admin perimeter must hold |
 | Privacy | GDPR: anonymised IPs in logs, consent banner (`app/lib/consent`), `/confidentialite` |
-| Maintainability | One developer + AI agents → conventions in `AGENTS.md`, Graft index, ~123 test files |
+| Maintainability | One developer → conventions in `AGENTS.md`, Graft index, ~123 test files |
 
 ### 2.3 Constraints
 

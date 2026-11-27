@@ -22,6 +22,7 @@ Tech stack: Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS
 - Admin Security & Roles: [docs/admin-guide.md](docs/admin-guide.md)
 - Product Vision & Personas: [PRODUCT.md](PRODUCT.md)
 - Git & Documentation Workflow: [docs/git-workflow.md](docs/git-workflow.md)
+- Tooling (skills, hooks, guards): `.claude/` is the only tooling setup in this repository. Any coding tool follows these rules and uses `.claude/skills/` and the hooks in `.claude/settings.json`; never add per-tool copies.
 
 ## Core Non-Negotiables
 
@@ -104,7 +105,7 @@ Board: Backlog · Ready · Building · QA · Review · Blocked · Done. Labels r
 <!-- super-board:end -->
 
 ## Git, SemVer, Changelog & Release Workflow (Variant C — Zero GitHub Actions)
-Every AI agent (Claude Code, Google Antigravity, Gemini CLI, GitHub Copilot, OpenAI Codex) MUST follow this workflow:
+Every change MUST follow this workflow:
 1. **Branch per change**: Never commit feature or fix work directly on `main`/`master`. Create a branch: `feat/<slug>`, `fix/<slug>`, `perf/<slug>`, `refactor/<slug>`, or `chore/<slug>`.
 2. **Conventional Commits**: Format every commit message as `<type>(<scope>): <summary>` (e.g., `feat(ui): add dashboard filter`, `fix(api): handle empty payload`). Breaking changes use `!` or a `BREAKING CHANGE:` footer.
 3. **Merge to default branch**: Open a PR (`nicode-ci` runs verification on the VPS) or merge into `main` once verified.

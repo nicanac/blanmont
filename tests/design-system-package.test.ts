@@ -3,8 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 /**
- * Keeps the tool-agnostic design-system/ package (mirrored on claude.ai as the
- * "Blanmont Carte IGN" Design System artifact) in lockstep with app/globals.css,
+ * Keeps the tool-agnostic design-system/ package in lockstep with app/globals.css,
  * which stays the code source of truth.
  */
 
@@ -113,8 +112,8 @@ describe('design-system/ package', () => {
     }
   });
 
-  it('is the entry point every agent instruction file points to', () => {
-    for (const file of ['AGENTS.md', 'CLAUDE.md', '.cursorrules', '.windsurfrules']) {
+  it('is the entry point the contributor instructions point to', () => {
+    for (const file of ['AGENTS.md']) {
       const content = fs.readFileSync(path.join(rootDir, file), 'utf8');
       expect(content, file).toContain('design-system/README.md');
     }
