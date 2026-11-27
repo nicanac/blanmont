@@ -1,5 +1,4 @@
 import React from 'react';
-import { BuildingLibraryIcon, ShoppingBagIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import MaillotsPageHeader from '../components/MaillotsPageHeader';
 import { listBankTransactions } from '@/app/lib/firebase/bank-transactions';
 import { getEquipmentOrders } from '@/app/lib/firebase/equipment-orders';
@@ -27,11 +26,11 @@ export default async function AdminBankPage(): Promise<React.ReactElement> {
         initialTab="payments"
         sheet="Feuille · Banque"
         title="Banque du club"
-        badge={{ icon: BuildingLibraryIcon, label: `${unmatched.length} à traiter` }}
+        badge={{ icon: 'bank', label: `${unmatched.length} à traiter` }}
         description="Importez l'extrait CODA de la banque : les paiements reconnus marquent les commandes payées."
         actions={[
-          { label: 'Commandes', href: '/admin/commandes', icon: ShoppingBagIcon, variant: 'secondary' },
-          { label: 'Commandes groupées', href: '/admin/commandes/campagnes', icon: UserGroupIcon, variant: 'secondary' },
+          { label: 'Commandes', href: '/admin/commandes', icon: 'orders', variant: 'secondary' },
+          { label: 'Commandes groupées', href: '/admin/commandes/campagnes', icon: 'campaigns', variant: 'secondary' },
         ]}
       />
       <BankClient
