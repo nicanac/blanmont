@@ -45,6 +45,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.49.4] - 2026-11-27
+
+### Fixed
+- fix(traces): serve calendar traces to signed-in members only (#252) (#257) (`02a24ad`)
 ## [0.49.3] - 2026-11-27
 
 ### Fixed
