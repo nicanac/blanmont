@@ -153,8 +153,8 @@ Sidereal Satellite is a web application for the **Club de Blanmont**. It serves 
       - Do not leave uncommitted changes at the end of a session or task block.
 
 7.  **Continuous Documentation**:
-    - **Rule**: Every time a feature is added or code is modified, the corresponding documentation (JSDoc, `AI_CONTEXT.md`, etc.) MUST be updated immediately.
-    - **Scope**: Keep the AI context and Copilot instructions in sync with the codebase state.
+    - **Rule**: Every time a feature is added or code is modified, the corresponding documentation (JSDoc, `docs/`, etc.) MUST be updated immediately.
+    - **Scope**: Keep `AGENTS.md` and `docs/` in sync with the codebase state.
 
 8.  **Date & Timezone Handling**:
     - **Issue**: `new Date('YYYY-MM-DD')` parses as UTC 00:00:00. in timezones east of UTC (like Europe), this works, but in timezones west of UTC (like US), or if any time component is added, it can shift to the _previous day_. Conversely, `new Date(year, month, day)` creates a local time date.
