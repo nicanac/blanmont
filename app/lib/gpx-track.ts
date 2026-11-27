@@ -1,5 +1,5 @@
 /**
- * GPX helpers shared by `/api/gpx/stats` and the server-side trace resolver
+ * GPX helpers of the server-side trace resolver
  * (`trace-route.ts`): URL guard, capped download, parsing and track metrics.
  */
 import * as net from 'net';

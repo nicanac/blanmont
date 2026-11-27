@@ -16,7 +16,6 @@ import { departureDateParts, windAdvice, cardinalName, formatDistance } from './
 import { cn } from '@/app/utils/cn';
 import type { WeekendSchedule } from '@/app/lib/weekendSchedule';
 import GroupName from '@/app/components/shared/GroupName';
-import { garminCourseId } from '@/app/lib/trace-route';
 
 const outlineButton =
   'inline-flex min-h-[48px] items-center gap-2 rounded-md border border-ink px-5 font-narrow text-sm font-bold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night';
@@ -33,11 +32,6 @@ interface HomeCoverProps {
   ridersAnnounced: number;
 }
 
-function gpxLabel(url: string): string {
-  if (url.includes('strava.com')) return 'Trace sur Strava';
-  if (url.includes('komoot')) return 'Trace sur Komoot';
-  return 'Télécharger la trace GPX';
-}
 
 /**
  * The cover of the sheet: the club's real territory, the forecast wind streaming
@@ -57,7 +51,6 @@ export default function HomeCover({
   const forecast = weather?.isAvailable ? weather : null;
   const advice = windAdvice(forecast);
   const distance = formatDistance(nextRide.distances);
-  const garminId = nextRide.gpxUrl ? garminCourseId(nextRide.gpxUrl) : null;
   // The default cards (ids card-2..4) are computed, not stored text.
   const dynamicCards: Record<string, Partial<HeroSettings['cards'][number]>> = {
     'card-2': schedule.saturday,
@@ -228,24 +221,12 @@ export default function HomeCover({
                 />
               </Link>
             )}
-            {garminId ? (
-              // A Garmin course downloads as a GPX file instead of opening Garmin Connect (#246).
-              <a href={`/api/gpx/garmin/${garminId}`} download className={outlineButton}>
+            {nextRide.gpxUrl && (
+              // Member link (/api/trace/<id>): a Garmin course downloads as GPX (#246), guests log in (#252).
+              <a href={nextRide.gpxUrl} className={outlineButton}>
                 <ArrowDownTrayIcon className="size-4" aria-hidden="true" />
                 Télécharger la trace GPX
               </a>
-            ) : (
-              nextRide.gpxUrl && (
-                <a
-                  href={nextRide.gpxUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={outlineButton}
-                >
-                  <ArrowDownTrayIcon className="size-4" aria-hidden="true" />
-                  {gpxLabel(nextRide.gpxUrl)}
-                </a>
-              )
             )}
             {pollOpen && ridersAnnounced > 0 && (
               <span className="font-narrow text-sm text-ink-3 dark:text-snow-3">

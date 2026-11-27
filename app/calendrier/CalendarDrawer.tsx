@@ -675,20 +675,12 @@ export default function CalendarDrawer({
                   {event.gpxUrl ? (
                     <a
                       href={event.gpxUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="min-h-[44px] flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-4 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors text-center"
                       title="Télécharger ou ouvrir l'itinéraire officiel"
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />
                       <span className="truncate">
-                        {event.gpxUrl.includes('strava.com')
-                          ? 'Itinéraire Strava'
-                          : event.gpxUrl.includes('garmin.com')
-                            ? 'Parcours Garmin Connect'
-                            : event.gpxUrl.includes('komoot')
-                              ? 'Circuit Komoot'
-                              : 'Télécharger la trace GPX'}
+                        Télécharger la trace GPX
                       </span>
                     </a>
                   ) : null}

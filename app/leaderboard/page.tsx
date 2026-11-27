@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getCalendarEvents, getLeaderboardEntries } from '../lib/firebase';
+import { withMemberTraceLinks } from '../lib/member-trace';
 import { getAllAttendance } from '../lib/firebase/attendance';
 import {
     calculateLeaderboardFromAttendance,
@@ -79,7 +80,7 @@ export default async function LeaderboardPage(
     return (
         <LeaderboardView
             entries={entries}
-            events={events}
+            events={withMemberTraceLinks(events)}
             totalPossibleRides={totalPossibleRides}
             selectedYear={selectedYear}
             availableYears={availableYears}

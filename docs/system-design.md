@@ -164,7 +164,7 @@ equipment ──n:m (items[])── equipment-orders
 | `/api/rejoindre` | POST | public | trial request (Zod-validated) |
 | `/api/equipements` | GET | public | catalogue |
 | `/api/traces/[id]` | GET / PATCH / DELETE | GET public, writes admin (`verifyAdminRequest`) | route data |
-| `/api/gpx/stats` | GET | public | GPX stats |
+| `/api/trace/[eventId]` | GET | member (guests → `/login`) | Calendar ride trace: Garmin course as a GPX file, other sources redirected |
 | `/api/calendar/ics`, `/api/calendar/subscribe.ics` | GET | public | iCalendar feed |
 | `/api/auth/strava/callback` | GET | OAuth | Strava link |
 | `/api/cron/create-weekend-poll` | GET/POST | `CRON_SECRET` if set | weekly poll |

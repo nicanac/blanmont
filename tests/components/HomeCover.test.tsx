@@ -17,7 +17,7 @@ const sampleRide: ScheduledRideInfo = {
   distances: '85 km',
   address: 'Place de la Féchère, 1450 Chastre',
   remarks: '',
-  gpxUrl: 'https://www.strava.com/routes/12345',
+  gpxUrl: '/api/trace/evt-1',
   isCustomEvent: false,
 };
 
@@ -149,7 +149,7 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
     );
 
     expect(screen.getByRole('link', { name: /Je roule ce week-end/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Trace sur Strava/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Télécharger la trace GPX/i })).toBeInTheDocument();
     expect(screen.getByText(/12/i)).toBeInTheDocument();
     expect(screen.getByText(/déjà annoncés/i)).toBeInTheDocument();
   });
@@ -188,26 +188,7 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
     expect(screen.getByText('Rassemblement')).toBeInTheDocument();
   });
 
-  it('downloads a Garmin course as a GPX file instead of opening Garmin (#246)', () => {
-    render(
-      <HomeCover
-        nextRide={{ ...sampleRide, gpxUrl: 'https://connect.garmin.com/modern/course/439393393' }}
-        weather={null}
-        heroSettings={sampleSettings}
-        schedule={sampleSchedule}
-        groupNames="GR1, GR2 & VTT"
-        activePoll={null}
-        ridersAnnounced={0}
-      />
-    );
-
-    const link = screen.getByRole('link', { name: /Télécharger la trace GPX/i });
-    expect(link.getAttribute('href')).toBe('/api/gpx/garmin/439393393');
-    expect(link.hasAttribute('download')).toBe(true);
-    expect(link.getAttribute('target')).toBeNull();
-  });
-
-  it('keeps a Strava route as a link to Strava', () => {
+  it('links the trace through its member link, in the same tab (#246, #252)', () => {
     render(
       <HomeCover
         nextRide={sampleRide}
@@ -220,7 +201,8 @@ describe('HomeCover Component (app/components/home/HomeCover.tsx)', () => {
       />
     );
 
-    const link = screen.getByRole('link', { name: /Trace sur Strava/i });
-    expect(link.getAttribute('href')).toBe(sampleRide.gpxUrl);
+    const link = screen.getByRole('link', { name: /Télécharger la trace GPX/i });
+    expect(link.getAttribute('href')).toBe('/api/trace/evt-1');
+    expect(link.getAttribute('target')).toBeNull();
   });
 });

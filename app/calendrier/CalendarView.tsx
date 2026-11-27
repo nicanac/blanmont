@@ -312,8 +312,6 @@ function AgendaItem({
           {event.gpxUrl && (
             <a
               href={event.gpxUrl}
-              target="_blank"
-              rel="noopener noreferrer"
               className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 hover:border-brand/40 hover:bg-paper dark:hover:bg-night-3 text-ink dark:text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.06em] transition-all shadow-2xs group/gpx"
               title={`Télécharger le tracé GPX pour ${event.location} (Garmin, Wahoo, Strava)`}
               aria-label={`Télécharger le tracé GPX pour ${event.location}`}

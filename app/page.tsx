@@ -23,6 +23,7 @@ import JoinRoute from './components/home/JoinRoute';
 import HomeBlogSection from './components/shared/HomeBlogSection';
 import { tallyPoll, upcomingEvents, localTodayIso } from './components/home/homeData';
 import { getSessionUser } from './lib/auth/session';
+import { withMemberTraceLinks } from './lib/member-trace';
 import { getCachedGroupSettings } from './lib/firebase/group-settings';
 import { groupSummaryText } from './lib/groupSummary';
 import { weekendSchedule } from './lib/weekendSchedule';
@@ -34,7 +35,7 @@ import { weekendSchedule } from './lib/weekendSchedule';
  * plates and the logbook.
  */
 export default async function Home(): Promise<React.ReactElement> {
-  const [posts, activePoll, events, heroSettings, albums, rawEntries, allAttendance, sessionUser] =
+  const [posts, activePoll, rawEvents, heroSettings, albums, rawEntries, allAttendance, sessionUser] =
     await Promise.all([
       getBlogPosts(),
       getActiveWeekendPoll(),
@@ -47,6 +48,8 @@ export default async function Home(): Promise<React.ReactElement> {
     ]);
 
   const isMember = Boolean(sessionUser);
+  // Traces are for members: the page only carries their member links (#252).
+  const events = withMemberTraceLinks(rawEvents);
   const nextRide = getNextScheduledRide(events);
   const [weather, responses] = await Promise.all([
     getRideWeather(nextRide.isoDate, nextRide.departure).catch(() => null),
