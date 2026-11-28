@@ -8,6 +8,7 @@ import CalendarDrawer, { isEventDone } from './CalendarDrawer';
 import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 import { parseDateInfo } from '../lib/carreVert';
 import { orderAgendaEvents } from '../lib/agendaOrder';
+import { hasRideTrace, rideTraceLinks } from '../lib/ride-traces';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -309,17 +310,19 @@ function AgendaItem({
             </button>
           )}
 
-          {event.gpxUrl && (
+          {rideTraceLinks(event).map((trace) => (
+            // One link per trace when the ride has one per group or distance.
             <a
-              href={event.gpxUrl}
+              key={trace.index}
+              href={trace.href}
               className="min-h-[44px] inline-flex items-center gap-1.5 rounded-md border border-line dark:border-night-line bg-white dark:bg-night-2 hover:border-brand/40 hover:bg-paper dark:hover:bg-night-3 text-ink dark:text-white px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.06em] transition-all shadow-2xs group/gpx"
-              title={`Télécharger le tracé GPX pour ${event.location} (Garmin, Wahoo, Strava)`}
-              aria-label={`Télécharger le tracé GPX pour ${event.location}`}
+              title={`Télécharger le tracé GPX${trace.title ? ` ${trace.title}` : ''} pour ${event.location} (Garmin, Wahoo, Strava)`}
+              aria-label={`Télécharger le tracé GPX${trace.title ? ` ${trace.title}` : ''} pour ${event.location}`}
             >
               <ArrowDownTrayIcon className="h-4 w-4 text-brand transition-transform duration-200 group-hover/gpx:translate-y-0.5" />
-              <span>Trace GPX</span>
+              <span>{trace.title ? `GPX · ${trace.title}` : 'Trace GPX'}</span>
             </a>
-          )}
+          ))}
 
           {attendees.length > 0 && (
             <button
@@ -465,7 +468,7 @@ export default function CalendarView({
         } else if (filterType === 'sunday') {
           if (!dateInfo || dateInfo.dayOfWeek !== 0) return false;
         } else if (filterType === 'gpx') {
-          if (!e.gpxUrl) return false;
+          if (!hasRideTrace(e)) return false;
         }
 
         const matchesLocation = normalizeText(e.location || '').includes(query);
@@ -539,7 +542,7 @@ export default function CalendarView({
       } else if (filterType === 'sunday') {
         if (dateInfo.dayOfWeek !== 0) return false;
       } else if (filterType === 'gpx') {
-        if (!e.gpxUrl) return false;
+        if (!hasRideTrace(e)) return false;
       }
 
       return true;
@@ -619,7 +622,7 @@ export default function CalendarView({
       const dateInfo = parseDateInfo(e.isoDate);
       if (dateInfo?.dayOfWeek === 6) saturday++;
       if (dateInfo?.dayOfWeek === 0) sunday++;
-      if (e.gpxUrl) gpx++;
+      if (hasRideTrace(e)) gpx++;
     });
 
     return {

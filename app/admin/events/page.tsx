@@ -9,6 +9,7 @@ import {
   ClockIcon,
 } from '@heroicons/react/24/outline';
 import { getCalendarEvents } from '@/app/lib/firebase/calendar';
+import { rideTraceLinks } from '@/app/lib/ride-traces';
 import DeleteEventButton from './components/DeleteEventButton';
 import { formatFrenchDate, getTodayIso } from '@/app/utils/date';
 import AdminEmptyState from '../components/AdminEmptyState';
@@ -104,19 +105,21 @@ export default async function AdminEventsPage(): Promise<React.ReactElement> {
                       </p>
                     )}
 
-                    {event.gpxUrl && (
-                      <p className="text-xs text-brand truncate max-w-md font-mono">
-                        <span className="font-semibold">Trace GPS :</span>{' '}
+                    {rideTraceLinks(event).map((trace) => (
+                      <p key={trace.index} className="text-xs text-brand truncate max-w-md font-mono">
+                        <span className="font-semibold">
+                          Trace GPS{trace.title ? ` · ${trace.title}` : ''} :
+                        </span>{' '}
                         <a
-                          href={event.gpxUrl}
+                          href={trace.href}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hover:underline"
                         >
-                          {event.gpxUrl}
+                          {trace.href}
                         </a>
                       </p>
-                    )}
+                    ))}
                   </div>
                 </div>
 

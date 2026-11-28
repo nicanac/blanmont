@@ -44,6 +44,8 @@ export const TRACE_DOWNLOAD_LABEL = 'Télécharger la trace GPX';
 function TraceFigure({ trace }: { trace: WeekendTrace }): React.ReactElement {
   const { route } = trace;
   const day = traceDayLabel(trace.isoDate);
+  // "Samedi 28 novembre · GR1" when the ride has one trace per group or distance.
+  const heading = trace.label ? `${day} · ${trace.label}` : day;
 
   return (
     <figure className="space-y-3">
@@ -61,6 +63,12 @@ function TraceFigure({ trace }: { trace: WeekendTrace }): React.ReactElement {
       <figcaption className="space-y-1">
         <span className="block font-narrow text-[11px] font-bold uppercase tracking-[0.1em] text-ink-3 dark:text-snow-3">
           {day}
+          {trace.label && (
+            <>
+              {' · '}
+              <span className="text-brand">{trace.label}</span>
+            </>
+          )}
         </span>
         {route?.name && (
           <span className="block break-words font-semiwide text-sm font-extrabold leading-tight text-ink dark:text-snow">
@@ -76,8 +84,8 @@ function TraceFigure({ trace }: { trace: WeekendTrace }): React.ReactElement {
       {/* Member link, as on the home page: a Garmin course downloads as GPX (#246),
           any other source redirects to it; a guest is sent to the login page (#252). */}
       <a
-        href={memberTraceHref(trace.eventId)}
-        aria-label={`${TRACE_DOWNLOAD_LABEL} · ${day}`}
+        href={memberTraceHref(trace.eventId, trace.index)}
+        aria-label={`${TRACE_DOWNLOAD_LABEL} · ${heading}`}
         className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'w-full')}
       >
         <ArrowDownTrayIcon className="size-4 shrink-0" aria-hidden="true" />
@@ -107,7 +115,7 @@ export default function WeekendTraces({
       </h2>
       <ul className="space-y-6">
         {traces.map((t) => (
-          <li key={`${t.isoDate}-${t.url}`}>
+          <li key={`${t.eventId}-${t.index}`}>
             <TraceFigure trace={t} />
           </li>
         ))}

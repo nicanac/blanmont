@@ -67,12 +67,21 @@ export default function PointageExpressTutorialModal({
             </div>
           </div>
 
+          <div className="p-3.5 rounded-md border border-hydro/30 bg-hydro/5 space-y-1.5">
+            <h4 className="font-bold text-ink dark:text-white text-xs uppercase tracking-wider font-narrow">
+              Répondants du sondage pré-cochés
+            </h4>
+            <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
+              Le jour de la sortie, les membres qui ont répondu au sondage du week-end pour ce jour-là sont déjà cochés (badge « Sondage »). Décochez les absents, cochez les autres coureurs présents. « Annuler » dans la notification retire ce pré-cochage ; un membre décoché n&apos;est jamais recoché par le sondage. Pour une sortie passée, le bouton « Cocher les répondants » fait la même chose.
+            </p>
+          </div>
+
           <div className="p-3.5 rounded-md border border-line dark:border-night-line bg-paper dark:bg-night space-y-1.5">
             <h4 className="font-bold text-ink dark:text-white text-xs uppercase tracking-wider font-narrow">
               Filtres Rapides &amp; Recherche
             </h4>
             <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-              Utilisez la barre de recherche par nom ou les onglets rapides <em>(Tous, Pointés, Non pointés, <GroupList conjunction="et" />)</em> pour retrouver un coureur sans faire défiler tout l&apos;annuaire.
+              Utilisez la barre de recherche par nom ou les onglets rapides <em>(Tous, Pointés, Non pointés, Sondage, <GroupList conjunction="et" />)</em> pour retrouver un coureur sans faire défiler tout l&apos;annuaire.
             </p>
           </div>
 

@@ -1,4 +1,6 @@
 import { CalendarEvent } from '../types';
+import { memberTraceHref } from './member-trace';
+import { rideTraceLinks } from './ride-traces';
 
 /**
  * Formats a date and time string into iCalendar DTSTART / DTEND format.
@@ -101,7 +103,10 @@ export function generateICalendarFeed(events: CalendarEvent[], siteUrl = 'https:
     if (event.distances) description += `Distances prévues: ${event.distances}\\n`;
     if (event.group) description += `Groupes: ${event.group}\\n`;
     if (event.remarks) description += `Remarques: ${event.remarks}\\n`;
-    if (event.gpxUrl) description += `Trace GPX: ${event.gpxUrl}\\n`;
+    // Member links (#252): the feed is public, so it never carries a trace's source URL.
+    for (const trace of rideTraceLinks(event)) {
+      description += `Trace GPX${trace.title ? ` (${trace.title})` : ''}: ${siteUrl}${memberTraceHref(event.id, trace.index)}\\n`;
+    }
     description += `Plus d'infos: ${siteUrl}/calendrier`;
 
     const locationStr = event.address

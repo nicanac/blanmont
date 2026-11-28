@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRightIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import type { CalendarEvent } from '@/app/types';
 import { departureDateParts, formatDistance, humanizeAddress } from './homeData';
+import { rideTraces } from '@/app/lib/ride-traces';
 
 interface SeasonTimetableProps {
   events: CalendarEvent[];
@@ -51,6 +52,7 @@ export default function SeasonTimetable({
               const distance = formatDistance(event.distances);
               const away = event.location && !/blanmont/i.test(event.location);
               const address = humanizeAddress(event.address);
+              const traceCount = rideTraces(event).length;
               return (
                 <li key={event.id} className="border-b border-line dark:border-night-line">
                   <Link
@@ -96,9 +98,9 @@ export default function SeasonTimetable({
                     </span>
                     <span className="col-start-2 flex items-center gap-2 text-xs text-ink-3 md:col-start-auto md:justify-end dark:text-snow-3">
                       <span className="md:hidden">{distance}</span>
-                      {event.gpxUrl && (
-                        <span className="inline-flex items-center gap-1 font-semibold text-hydro dark:text-hydro-soft">
-                          GPX
+                      {traceCount > 0 && (
+                        <span className="inline-flex items-center gap-1 font-semibold tabular-nums text-hydro dark:text-hydro-soft">
+                          {traceCount > 1 ? `${traceCount} GPX` : 'GPX'}
                           <ArrowUpRightIcon className="size-3" aria-hidden="true" />
                         </span>
                       )}

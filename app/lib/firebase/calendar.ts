@@ -1,4 +1,4 @@
-import { CalendarEvent } from '../../types';
+import { CalendarEvent, RideTrace } from '../../types';
 import {
   isMockMode,
   getFirebaseDatabase,
@@ -152,6 +152,10 @@ export interface ScheduledRideInfo {
   address?: string;
   remarks?: string;
   gpxUrl?: string;
+  /** Group or distance of `gpxUrl` when the ride has several traces. */
+  traceLabel?: string;
+  /** The ride's other traces (app/lib/ride-traces). */
+  extraTraces?: RideTrace[];
   group?: string;
   isCustomEvent: boolean;
 }
@@ -211,6 +215,8 @@ export function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo
       address: satEvent.address,
       remarks: satEvent.remarks,
       gpxUrl: satEvent.gpxUrl,
+      traceLabel: satEvent.traceLabel,
+      extraTraces: satEvent.extraTraces,
       group: satEvent.group,
       isCustomEvent: true,
     };
@@ -228,6 +234,8 @@ export function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo
       address: sunEvent.address,
       remarks: sunEvent.remarks,
       gpxUrl: sunEvent.gpxUrl,
+      traceLabel: sunEvent.traceLabel,
+      extraTraces: sunEvent.extraTraces,
       group: sunEvent.group,
       isCustomEvent: true,
     };
@@ -248,6 +256,8 @@ export function getNextScheduledRide(events: CalendarEvent[]): ScheduledRideInfo
       address: nextEvent.address,
       remarks: nextEvent.remarks,
       gpxUrl: nextEvent.gpxUrl,
+      traceLabel: nextEvent.traceLabel,
+      extraTraces: nextEvent.extraTraces,
       group: nextEvent.group,
       isCustomEvent: true,
     };

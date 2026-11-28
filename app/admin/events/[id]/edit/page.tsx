@@ -6,7 +6,8 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { use } from 'react';
 import { toast } from 'sonner';
-import EventTraceFields from '../../components/EventTraceFields';
+import EventTraceFields, { type EventTraceValue } from '../../components/EventTraceFields';
+import { emptyRideTraceRow, rideTraceRows } from '@/app/lib/ride-traces';
 import { Spinner } from '@/app/components/ui/Spinner';
 
 interface EditEventPageProps {
@@ -27,9 +28,9 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
     remarks: '',
     alternative: '',
     group: 'Blanmont',
-    gpxUrl: '',
-    traceId: '',
   });
+  // One trace per group or distance; the first is the ride's main trace.
+  const [traces, setTraces] = useState<EventTraceValue[]>(() => [emptyRideTraceRow()]);
 
   useEffect(() => {
     const fetchEvent = async (): Promise<void> => {
@@ -46,9 +47,8 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
             remarks: data.remarks || '',
             alternative: data.alternative || '',
             group: data.group || 'Blanmont',
-            gpxUrl: data.gpxUrl || '',
-            traceId: data.traceId || '',
           });
+          setTraces(rideTraceRows(data));
         }
       } catch (error) {
         console.error('Error fetching event:', error);
@@ -68,7 +68,7 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
       const response = await fetch(`/api/admin/events/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, traces }),
       });
 
       if (response.ok) {
@@ -218,11 +218,8 @@ export default function EditEventPage({ params }: EditEventPageProps): React.Rea
               />
             </div>
 
-            {/* Trace: catalog trace (#255) or link typed by hand */}
-            <EventTraceFields
-              value={{ traceId: formData.traceId, gpxUrl: formData.gpxUrl }}
-              onChange={(trace) => setFormData({ ...formData, ...trace })}
-            />
+            {/* Traces: one per group or distance, each a catalog trace (#255) or a link typed by hand */}
+            <EventTraceFields value={traces} onChange={setTraces} distances={formData.distances} />
 
             {/* Group */}
             <div>

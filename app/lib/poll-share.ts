@@ -1,6 +1,7 @@
 import type { CalendarEvent, PollResponse, WeekendPoll } from '@/app/types';
 import { formatFrenchDate } from '@/app/utils/date';
 import type { TraceRoute } from './trace-route';
+import { rideTraces, rideTraceTitle } from './ride-traces';
 import {
   POLL_GROUP_OPTIONS,
   POLL_SLOTS,
@@ -15,6 +16,10 @@ export const SONDAGE_URL = 'https://blanmont.be/sondage';
 export interface WeekendTrace {
   /** Calendar event of the ride: the page links its member download, `/api/trace/<eventId>` (#259). */
   eventId: string;
+  /** Position of the trace in its ride (0 = main): the download is `/api/trace/<eventId>?t=<index>`. */
+  index: number;
+  /** Group or distance of the trace when the ride has several ("GR1", "110 km"); '' otherwise. */
+  label: string;
   isoDate: string;
   /** Source link (Garmin, Strava, Komoot, GPX file): drawn server-side, shared on WhatsApp. */
   url: string;
@@ -22,7 +27,10 @@ export interface WeekendTrace {
   route?: TraceRoute | null;
 }
 
-/** GPS traces the calendar lists for the poll's weekend: the target Saturday and the Sunday after. */
+/**
+ * GPS traces the calendar lists for the poll's weekend: the target Saturday and the Sunday after,
+ * every trace of each ride (one per group or distance), main trace first.
+ */
 export function weekendTraces(
   events: readonly CalendarEvent[],
   saturdayIso: string
@@ -30,9 +38,18 @@ export function weekendTraces(
   const [y, m, d] = saturdayIso.split('-').map(Number);
   const sundayIso = new Date(Date.UTC(y, m - 1, d + 1)).toISOString().slice(0, 10);
   return events
-    .filter((e) => e.gpxUrl && (e.isoDate === saturdayIso || e.isoDate === sundayIso))
+    .filter((e) => e.isoDate === saturdayIso || e.isoDate === sundayIso)
     .sort((a, b) => a.isoDate.localeCompare(b.isoDate))
-    .map((e) => ({ eventId: e.id, isoDate: e.isoDate, url: e.gpxUrl as string }));
+    .flatMap((e) => {
+      const traces = rideTraces(e);
+      return traces.map((t) => ({
+        eventId: e.id,
+        index: t.index,
+        label: rideTraceTitle(t, traces.length),
+        isoDate: e.isoDate,
+        url: t.gpxUrl,
+      }));
+    });
 }
 
 const plural = (n: number, word: string): string => `${n} ${word}${n > 1 ? 's' : ''}`;
@@ -51,7 +68,7 @@ export function buildPollShareMessage({
 }: {
   poll: Pick<WeekendPoll, 'weekendIsoDate' | 'status'>;
   responses: readonly PollResponse[];
-  traces: readonly Pick<WeekendTrace, 'isoDate' | 'url'>[];
+  traces: readonly (Pick<WeekendTrace, 'isoDate' | 'url'> & Partial<Pick<WeekendTrace, 'label'>>)[];
   /** Maps a stored group code to its display name (useGroupLabels().label). */
   groupName: (code: string) => string;
 }): string {
@@ -86,7 +103,9 @@ export function buildPollShareMessage({
   }
 
   if (traces.length > 0) lines.push('');
-  traces.forEach((t) => lines.push(`🗺️ Tracé GPS · ${dayLabel(t.isoDate)} : ${t.url}`));
+  traces.forEach((t) =>
+    lines.push(`🗺️ Tracé GPS · ${dayLabel(t.isoDate)}${t.label ? ` · ${t.label}` : ''} : ${t.url}`)
+  );
 
   lines.push(
     '',

@@ -4,7 +4,8 @@ import { CalendarEvent } from '@/app/types';
 import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { revalidateCalendarPages } from '@/app/lib/revalidate-calendar';
 import { resolveEventTraceId } from '@/app/lib/event-trace';
-import { linkRideToCatalog } from '@/app/lib/event-trace-catalog';
+import { linkRideToCatalog, resolveRideTraces } from '@/app/lib/event-trace-catalog';
+import { rideTraceFields } from '@/app/lib/ride-traces';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const authCheck = await verifySectionRequest(request, 'events');
@@ -31,8 +32,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       gpxUrl: data.gpxUrl || '',
     };
 
-    // A ride created on a catalog trace takes the trace's link (#255).
-    if (data.traceId) {
+    if (data.traces !== undefined) {
+      // One trace per group or distance (FFBC rides): the first is the main one (`gpxUrl`).
+      const resolved = await resolveRideTraces(data.traces, eventData);
+      if (!resolved.ok) {
+        return NextResponse.json({ error: resolved.error }, { status: resolved.status });
+      }
+      const fields = rideTraceFields(resolved.traces);
+      // `set` stores no null: keys left empty are simply absent.
+      eventData.gpxUrl = fields.gpxUrl;
+      if (fields.traceId) eventData.traceId = fields.traceId;
+      if (fields.traceLabel) eventData.traceLabel = fields.traceLabel;
+      if (fields.extraTraces) eventData.extraTraces = fields.extraTraces;
+    } else if (data.traceId) {
+      // A ride created on a catalog trace takes the trace's link (#255).
       const resolved = await resolveEventTraceId(data.traceId);
       if (!resolved.ok) {
         return NextResponse.json({ error: resolved.error }, { status: resolved.status });

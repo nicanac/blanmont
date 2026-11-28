@@ -163,6 +163,23 @@ export interface CalendarEvent {
   gpxUrl?: string; // Link to Garmin, Strava, Komoot or direct GPX file
   /** Catalog trace the ride follows (#255); its link is copied into `gpxUrl` when it is set. */
   traceId?: string;
+  /**
+   * Who rides the main trace (`gpxUrl`) when the ride has several: a group or a distance
+   * ("GR1", "Grand parcours · 110 km"). Read the traces with `rideTraces()` (app/lib/ride-traces).
+   */
+  traceLabel?: string;
+  /** The ride's other traces, one per group or distance (FFBC rides). `gpxUrl` stays the first. */
+  extraTraces?: RideTrace[];
+}
+
+/** One trace of a calendar ride: what a group or a distance rides. */
+export interface RideTrace {
+  /** "GR1", "Petit parcours · 60 km"; empty when the ride has a single trace. */
+  label?: string;
+  /** Garmin, Strava, Komoot or GPX file link (on public pages: the member link `/api/trace/…`). */
+  gpxUrl: string;
+  /** Catalog trace this one follows (#255). */
+  traceId?: string;
 }
 
 /**

@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { toast } from 'sonner';
-import EventTraceFields from '../components/EventTraceFields';
+import EventTraceFields, { type EventTraceValue } from '../components/EventTraceFields';
+import { emptyRideTraceRow } from '@/app/lib/ride-traces';
 
 export default function NewEventPage(): React.ReactElement {
   const router = useRouter();
@@ -19,9 +20,9 @@ export default function NewEventPage(): React.ReactElement {
     remarks: '',
     alternative: '',
     group: 'Blanmont',
-    gpxUrl: '',
-    traceId: '',
   });
+  // One trace per group or distance; the first is the ride's main trace.
+  const [traces, setTraces] = useState<EventTraceValue[]>(() => [emptyRideTraceRow()]);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -31,7 +32,7 @@ export default function NewEventPage(): React.ReactElement {
       const response = await fetch('/api/admin/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, traces }),
       });
 
       if (response.ok) {
@@ -179,11 +180,8 @@ export default function NewEventPage(): React.ReactElement {
               />
             </div>
 
-            {/* Trace: catalog trace (#255) or link typed by hand */}
-            <EventTraceFields
-              value={{ traceId: formData.traceId, gpxUrl: formData.gpxUrl }}
-              onChange={(trace) => setFormData({ ...formData, ...trace })}
-            />
+            {/* Traces: one per group or distance, each a catalog trace (#255) or a link typed by hand */}
+            <EventTraceFields value={traces} onChange={setTraces} distances={formData.distances} />
 
             {/* Group */}
             <div>

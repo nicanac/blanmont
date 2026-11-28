@@ -110,8 +110,8 @@ Single JSON tree; every collection is a top-level node keyed by a string id (`tr
 |---|---|---|---|
 | `traces` | `trace_<id>` | Routes: distance, elevation, surface, direction, Komoot/GPX URLs | admin |
 | `members` | `member_<id>` | Profile, `role[]`, `authUid`, Strava id | admin, member (own profile) |
-| `calendar-events` | `event_<id>` | Season calendar (`isoDate`, departure, distances, group, `gpxUrl`, `traceId` = catalog trace the ride follows, #255) | admin, PDF import, leaderboard sync |
-| `attendance` | `<eventId>/members/<memberId>` | Carré Vert presence + group (V/J/B/R) | admin, pointage-express, sync |
+| `calendar-events` | `event_<id>` | Season calendar (`isoDate`, departure, distances, group, `gpxUrl`, `traceId` = catalog trace the ride follows, #255; `traceLabel` + `extraTraces` = one trace per group or distance, `app/lib/ride-traces.ts`) | admin, PDF import, leaderboard sync |
+| `attendance` | `<eventId>/members/<memberId>` | Carré Vert presence + group (V/J/B/R); `pollPrefill` = members the weekend poll pre-checked (`app/lib/poll-attendance.ts`) | admin, pointage-express, sync |
 | `leaderboard` | `entry_<id>` | Aggregated `totalRides`, `dates[]` | cron sync-leaderboard, CSV import |
 | `saturday-rides` | `ride_<id>` | Candidate traces, status, selected trace | admin |
 | `votes` | `vote_<id>` | (ride, member, trace) | member |
@@ -166,7 +166,8 @@ equipment ──n:m (items[])── equipment-orders
 | `/api/rejoindre` | POST | public | trial request (Zod-validated) |
 | `/api/equipements` | GET | public | catalogue |
 | `/api/traces/[id]` | GET / PATCH / DELETE | GET public, writes admin (`verifyAdminRequest`) | route data |
-| `/api/trace/[eventId]` | GET | member (guests → `/login`) | Calendar ride trace: Garmin course as a GPX file, other sources redirected |
+| `/api/trace/[eventId]` | GET | member (guests → `/login`) | Calendar ride trace: Garmin course as a GPX file, other sources redirected. `?t=<n>` = the ride's n-th trace when it has one per group or distance (0 = main) |
+| `/api/admin/attendance` | GET / POST | section `pointage-express` | Ticks (`add` / `remove`), and the weekend poll pre-check: `prefill-poll` ticks the respondents of the ride's day (automatic once per ride on the ride's day, or the « Cocher les répondants » button), `undo-prefill` unticks them |
 | `/api/calendar/ics`, `/api/calendar/subscribe.ics` | GET | public | iCalendar feed |
 | `/api/auth/strava/callback` | GET | OAuth | Strava link |
 | `/api/cron/create-weekend-poll` | GET/POST | `CRON_SECRET` if set | weekly poll |
@@ -194,7 +195,8 @@ Mon 06:00 UTC  cron create-weekend-poll ─► find Saturday sortie in calendar-
                ─► close previous polls ─► create weekend-polls (distance options from event)
 Mon–Fri        members answer /sondage · admin opens Saturday vote (saturday-rides: Voting)
 Fri            admin closes vote ─► selectedTraceId ─► WhatsApp summary export
-Sat/Sun        ride ─► pointage-express (QR) / admin toggles ─► attendance/{eventId}
+Sat/Sun        ride ─► pointage-express: poll respondents of the day start ticked (prefill-poll),
+               captain unticks no-shows, ticks the others (QR / taps) ─► attendance/{eventId}
 Daily 05:00    cron sync-leaderboard ─► Google Sheet CSV ─► attendance + leaderboard (carreVert.ts)
 ```
 

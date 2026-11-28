@@ -16,8 +16,8 @@ vi.mock('@/app/lib/trace-route', async (importOriginal) => ({
 import { GET } from '@/app/api/trace/[eventId]/route';
 
 const GARMIN = 'https://connect.garmin.com/app/course/532374522';
-const call = (eventId: string) =>
-  GET(new NextRequest(`http://localhost/api/trace/${eventId}`), {
+const call = (eventId: string, query = '') =>
+  GET(new NextRequest(`http://localhost/api/trace/${eventId}${query}`), {
     params: Promise.resolve({ eventId }),
   });
 
@@ -30,6 +30,15 @@ describe('GET /api/trace/[eventId]', () => {
       { id: 'strava', gpxUrl: 'https://www.strava.com/routes/999' },
       { id: 'script', gpxUrl: 'javascript:alert(1)' },
       { id: 'none', gpxUrl: '' },
+      {
+        id: 'ffbc',
+        gpxUrl: 'https://www.strava.com/routes/110',
+        traceLabel: '110 km',
+        extraTraces: [
+          { label: '80 km', gpxUrl: 'https://www.strava.com/routes/80' },
+          { label: 'bad', gpxUrl: 'javascript:alert(1)' },
+        ],
+      },
     ]);
   });
 
@@ -67,6 +76,19 @@ describe('GET /api/trace/[eventId]', () => {
     expect(res.status).toBe(302);
     expect(res.headers.get('location')).toBe('https://www.strava.com/routes/999');
     expect(fetchGarminCourseGpx).not.toHaveBeenCalled();
+  });
+
+  it('serves the n-th trace of a ride with one per group or distance', async () => {
+    expect((await call('ffbc')).headers.get('location')).toBe('https://www.strava.com/routes/110');
+    expect((await call('ffbc', '?t=0')).headers.get('location')).toBe('https://www.strava.com/routes/110');
+    expect((await call('ffbc', '?t=1')).headers.get('location')).toBe('https://www.strava.com/routes/80');
+    for (const t of ['?t=2', '?t=3', '?t=-1', '?t=1.5', '?t=x']) expect((await call('ffbc', t)).status).toBe(404);
+  });
+
+  it('brings a guest back to the same trace after login', async () => {
+    getSessionUser.mockResolvedValue(null);
+    const res = await call('ffbc', '?t=1');
+    expect(res.headers.get('location')).toBe('http://localhost/login?redirect=%2Fapi%2Ftrace%2Fffbc%3Ft%3D1');
   });
 
   it('is 404 for an unknown event, an event without trace or a non-web link', async () => {

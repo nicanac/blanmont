@@ -207,11 +207,17 @@ describe('Linking a catalog trace to a ride (#255)', () => {
   });
 
   describe('EventTraceFields (event forms)', () => {
-    function Form({ initial }: { initial: EventTraceValue }) {
+    const row = (over: Partial<EventTraceValue> = {}): EventTraceValue => ({
+      label: '',
+      traceId: '',
+      gpxUrl: '',
+      ...over,
+    });
+    function Form({ initial, distances }: { initial: EventTraceValue[]; distances?: string }) {
       const [value, setValue] = useState(initial);
       return (
         <>
-          <EventTraceFields value={value} onChange={setValue} />
+          <EventTraceFields value={value} onChange={setValue} distances={distances} />
           <output data-testid="value">{JSON.stringify(value)}</output>
         </>
       );
@@ -220,19 +226,19 @@ describe('Linking a catalog trace to a ride (#255)', () => {
 
     it('fills and locks the link from the picked trace', async () => {
       stubFetch(Response.json(PAYLOAD));
-      render(<Form initial={{ traceId: '', gpxUrl: '' }} />);
+      render(<Form initial={[row()]} />);
       const select = screen.getByLabelText('Trace du catalogue');
       await waitFor(() => expect(select).toBeEnabled());
 
       fireEvent.change(select, { target: { value: 'dyle' } });
 
-      expect(current()).toEqual({ traceId: 'dyle', gpxUrl: 'https://f.io/dyle.gpx' });
+      expect(current()).toEqual([row({ traceId: 'dyle', gpxUrl: 'https://f.io/dyle.gpx' })]);
       expect(screen.getByLabelText(/Lien de la trace/)).toHaveAttribute('readonly');
     });
 
     it('goes back to a link typed by hand with "Aucune"', async () => {
       stubFetch(Response.json(PAYLOAD));
-      render(<Form initial={{ traceId: 'villers', gpxUrl: 'https://www.komoot.com/tour/9' }} />);
+      render(<Form initial={[row({ traceId: 'villers', gpxUrl: 'https://www.komoot.com/tour/9' })]} />);
       const select = screen.getByLabelText('Trace du catalogue');
       await waitFor(() => expect(select).toBeEnabled());
 
@@ -241,17 +247,82 @@ describe('Linking a catalog trace to a ride (#255)', () => {
       expect(input).not.toHaveAttribute('readonly');
       fireEvent.change(input, { target: { value: 'https://www.strava.com/routes/1' } });
 
-      expect(current()).toEqual({ traceId: '', gpxUrl: 'https://www.strava.com/routes/1' });
+      expect(current()).toEqual([row({ gpxUrl: 'https://www.strava.com/routes/1' })]);
     });
 
     it('still lets the link be fixed by hand when the catalogue cannot load', async () => {
       stubFetch(new Response('down', { status: 500 }));
       vi.spyOn(console, 'error').mockImplementation(() => {});
-      render(<Form initial={{ traceId: 'villers', gpxUrl: 'https://www.komoot.com/tour/9' }} />);
+      render(<Form initial={[row({ traceId: 'villers', gpxUrl: 'https://www.komoot.com/tour/9' })]} />);
 
       await screen.findByText(/Catalogue indisponible/);
       expect(screen.getByLabelText('Trace du catalogue')).toBeDisabled();
       expect(screen.getByLabelText(/Lien de la trace/)).not.toHaveAttribute('readonly');
+    });
+
+    it('shows a single trace as before: no label field, no remove button', async () => {
+      stubFetch(Response.json(PAYLOAD));
+      render(<Form initial={[row()]} />);
+      await waitFor(() => expect(screen.getByLabelText('Trace du catalogue')).toBeEnabled());
+
+      expect(screen.queryByLabelText('Groupe ou distance')).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Retirer/ })).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Ajouter une trace/ })).toBeEnabled();
+    });
+
+    it('adds a trace per group or distance, each named and picked on its own', async () => {
+      stubFetch(Response.json(PAYLOAD));
+      render(<Form initial={[row({ traceId: 'dyle', gpxUrl: 'https://f.io/dyle.gpx' })]} distances="60-85" />);
+      await waitFor(() => expect(screen.getByLabelText('Trace du catalogue')).toBeEnabled());
+
+      fireEvent.click(screen.getByRole('button', { name: /Ajouter une trace/ }));
+
+      const first = screen.getByRole('group', { name: /Trace 1/ });
+      const second = screen.getByRole('group', { name: /Trace 2/ });
+      // The new row's label field takes the focus.
+      await waitFor(() => expect(within(second).getByLabelText('Groupe ou distance')).toHaveFocus());
+
+      fireEvent.change(within(first).getByLabelText('Groupe ou distance'), { target: { value: 'GR1' } });
+      fireEvent.change(within(second).getByLabelText('Groupe ou distance'), { target: { value: '60 km' } });
+      fireEvent.change(within(second).getByLabelText('Trace du catalogue'), { target: { value: 'villers' } });
+
+      expect(current()).toEqual([
+        row({ label: 'GR1', traceId: 'dyle', gpxUrl: 'https://f.io/dyle.gpx' }),
+        row({ label: '60 km', traceId: 'villers', gpxUrl: 'https://www.komoot.com/tour/9' }),
+      ]);
+      // Distances of the ride are offered as labels.
+      const options = Array.from(document.querySelectorAll('#trace-label-suggestions option')).map(
+        (o) => (o as HTMLOptionElement).value
+      );
+      expect(options).toEqual(expect.arrayContaining(['60 km', '85 km']));
+    });
+
+    it('removes a trace; the next one becomes the main trace', async () => {
+      stubFetch(Response.json(PAYLOAD));
+      render(
+        <Form
+          initial={[
+            row({ label: 'GR1', traceId: 'dyle', gpxUrl: 'https://f.io/dyle.gpx' }),
+            row({ label: 'GR3', gpxUrl: 'https://www.strava.com/routes/1' }),
+          ]}
+        />
+      );
+      await waitFor(() => expect(screen.getAllByLabelText('Trace du catalogue')[0]).toBeEnabled());
+
+      fireEvent.click(screen.getByRole('button', { name: 'Retirer la trace 1' }));
+
+      expect(current()).toEqual([row({ label: 'GR3', gpxUrl: 'https://www.strava.com/routes/1' })]);
+      // Back to one trace: its label stays visible since it has one.
+      expect(screen.getByLabelText('Groupe ou distance')).toHaveValue('GR3');
+      await waitFor(() => expect(screen.getByRole('button', { name: /Ajouter une trace/ })).toHaveFocus());
+    });
+
+    it('stops at the maximum number of traces', async () => {
+      stubFetch(Response.json(PAYLOAD));
+      render(<Form initial={Array.from({ length: 6 }, (_, i) => row({ label: `${60 + i * 10} km` }))} />);
+      await waitFor(() => expect(screen.getAllByLabelText('Trace du catalogue')[0]).toBeEnabled());
+      expect(screen.getByRole('button', { name: /Ajouter une trace/ })).toBeDisabled();
+      expect(screen.getByText('6 traces au plus par sortie.')).toBeInTheDocument();
     });
   });
 });

@@ -19,6 +19,7 @@ import RideWeatherBadge from '../components/ui/RideWeatherBadge';
 import { submitEventReviewAction, deleteEventReviewAction } from '../actions';
 import { toast } from 'sonner';
 import { parseDateInfo } from '../lib/carreVert';
+import { rideTraceLinks, traceDownloadLabel } from '../lib/ride-traces';
 import {
   XMarkIcon,
   MapPinIcon,
@@ -671,19 +672,19 @@ export default function CalendarDrawer({
                 </div>
 
                 {/* Primary Route Action Bar */}
-                <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
-                  {event.gpxUrl ? (
+                <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2.5 sm:gap-3">
+                  {/* One button per trace when the ride has one per group or distance (FFBC rides). */}
+                  {rideTraceLinks(event).map((trace) => (
                     <a
-                      href={event.gpxUrl}
+                      key={trace.index}
+                      href={trace.href}
                       className="min-h-[44px] flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-brand hover:bg-brand-strong text-white px-4 py-2.5 text-xs font-bold uppercase tracking-[0.06em] shadow-xs transition-colors text-center"
                       title="Télécharger ou ouvrir l'itinéraire officiel"
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />
-                      <span className="truncate">
-                        Télécharger la trace GPX
-                      </span>
+                      <span className="truncate">{traceDownloadLabel(trace.title)}</span>
                     </a>
-                  ) : null}
+                  ))}
 
                   <a
                     href={mapsLink}

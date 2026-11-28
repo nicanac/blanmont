@@ -13,15 +13,18 @@
  */
 import { randomUUID } from 'node:crypto';
 import { getAdminDatabase } from './firebase/admin';
-import { traceLink } from './event-trace';
+import { resolveEventTraceId, traceLink } from './event-trace';
+import { MAX_RIDE_TRACES, RIDE_TRACE_LABEL_MAX } from './ride-traces';
 import { garminCourseId, resolveTraceRoute, type TraceRoute } from './trace-route';
 import { isWebUiLink } from './urlUtils';
 import { formatFrenchDate } from '../utils/date';
-import type { CalendarEvent, Trace } from '../types';
+import type { CalendarEvent, RideTrace, Trace } from '../types';
 
 /** What a ride needs to find or create its catalog trace. */
 export type RideTraceSource = Partial<Pick<CalendarEvent, 'location' | 'isoDate' | 'group'>> & {
   gpxUrl?: unknown;
+  /** Group or distance of this trace when the ride has several ("GR1", "110 km"). */
+  label?: string;
 };
 
 /** A catalog trace a ride can follow: its id and the link the ride takes (#255). */
@@ -98,7 +101,11 @@ const NAME_MAX = 100;
 function traceName(ride: RideTraceSource, route: TraceRoute | null): string {
   const fromRoute = route?.name?.trim();
   if (fromRoute) return fromRoute.slice(0, NAME_MAX);
-  const parts = [ride.location?.trim() || 'Sortie du club', formatFrenchDate(ride.isoDate)].filter(Boolean);
+  const parts = [
+    ride.location?.trim() || 'Sortie du club',
+    formatFrenchDate(ride.isoDate),
+    ride.label?.trim(),
+  ].filter(Boolean);
   return parts.join(' · ').slice(0, NAME_MAX);
 }
 
@@ -170,6 +177,70 @@ export async function linkRideToCatalog(ride: RideTraceSource): Promise<CatalogL
     console.warn('Ride trace not added to the catalogue:', error instanceof Error ? error.message : error);
     return null;
   }
+}
+
+export type RideTracesResolution =
+  | { ok: true; traces: RideTrace[] }
+  | { ok: false; status: 400 | 404 | 422; error: string };
+
+const WEB_LINK = /^https?:\/\/\S+$/i;
+
+/**
+ * The traces a ride stores for the list an event form sent (one per group or distance):
+ * - a row with a catalog `traceId` takes that trace's link (#255);
+ * - a row with a link typed by hand joins the catalogue like the single trace did (#263);
+ * - empty rows are dropped; the first row left becomes the ride's main trace (`gpxUrl`).
+ * Rows are resolved one after the other, so two rows on one new course share its catalog trace.
+ */
+export async function resolveRideTraces(
+  value: unknown,
+  ride: RideTraceSource
+): Promise<RideTracesResolution> {
+  if (!Array.isArray(value)) return { ok: false, status: 400, error: 'Liste de traces invalide' };
+
+  const rows = value.filter((row): row is Record<string, unknown> => {
+    if (!row || typeof row !== 'object' || Array.isArray(row)) return false;
+    const r = row as Record<string, unknown>;
+    return Boolean(
+      (typeof r.traceId === 'string' && r.traceId.trim()) || (typeof r.gpxUrl === 'string' && r.gpxUrl.trim())
+    );
+  });
+  if (rows.length > MAX_RIDE_TRACES) {
+    return { ok: false, status: 400, error: `Une sortie compte au plus ${MAX_RIDE_TRACES} traces` };
+  }
+
+  const traces: RideTrace[] = [];
+  for (const row of rows) {
+    if (row.label !== undefined && row.label !== null && typeof row.label !== 'string') {
+      return { ok: false, status: 400, error: 'Libellé de trace invalide' };
+    }
+    const label = typeof row.label === 'string' ? row.label.trim() : '';
+    if (label.length > RIDE_TRACE_LABEL_MAX) {
+      return {
+        ok: false,
+        status: 400,
+        error: `Libellé de trace trop long (${RIDE_TRACE_LABEL_MAX} caractères au plus)`,
+      };
+    }
+
+    let trace: RideTrace;
+    if (typeof row.traceId === 'string' && row.traceId.trim()) {
+      const resolved = await resolveEventTraceId(row.traceId.trim());
+      if (!resolved.ok) return resolved;
+      if (!resolved.fields.traceId) return { ok: false, status: 400, error: 'Identifiant de trace invalide' };
+      trace = { traceId: resolved.fields.traceId, gpxUrl: resolved.fields.gpxUrl };
+    } else {
+      const url = String(row.gpxUrl).trim();
+      // Admin input: only web links, never a javascript: or data: URL.
+      if (!WEB_LINK.test(url)) {
+        return { ok: false, status: 400, error: `Lien de trace invalide : ${url.slice(0, 80)}` };
+      }
+      const linked = await linkRideToCatalog({ ...ride, gpxUrl: url, ...(label ? { label } : {}) });
+      trace = linked ? { traceId: linked.traceId, gpxUrl: linked.gpxUrl } : { gpxUrl: url };
+    }
+    traces.push(label ? { label, ...trace } : trace);
+  }
+  return { ok: true, traces };
 }
 
 export interface BackfillReport {

@@ -6,6 +6,7 @@ import CalendarView from './CalendarView';
 import CalendarSubscribeButton from './CalendarSubscribeButton';
 import { Spinner } from '../components/ui/Spinner';
 import { withMemberTraceLinks } from '../lib/member-trace';
+import { hasRideTrace } from '../lib/ride-traces';
 import { SheetHeader } from '../components/carte/SheetHeader';
 
 // Admin edits refresh the page at once (revalidateCalendarPages); this only bounds edits made
@@ -35,7 +36,7 @@ export default async function CalendarPage() {
 
   const nextRide = getNextScheduledRide(events);
   const totalEvents = events.length;
-  const eventsWithGpx = events.filter((e) => !!e.gpxUrl).length;
+  const eventsWithGpx = events.filter((e) => hasRideTrace(e)).length;
 
   return (
     <main className="min-h-screen bg-paper text-ink transition-colors duration-200 dark:bg-night dark:text-snow">

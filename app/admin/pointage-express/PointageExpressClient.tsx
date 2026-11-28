@@ -2,7 +2,7 @@
 
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useEffectEvent } from 'react';
 import Link from 'next/link';
 import type { CalendarEvent, Member } from '@/app/types';
 import {
@@ -10,12 +10,14 @@ import {
   ShieldCheckIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
+  ClipboardDocumentListIcon,
   CalendarDaysIcon,
   ChevronUpDownIcon,
 } from '@heroicons/react/24/outline';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { toast } from 'sonner';
 import { getTodayIso } from '@/app/utils/date';
+import { pollPrefillCandidates, type PollRespondent } from '@/app/lib/poll-attendance';
 
 interface PointageExpressClientProps {
   initialEvents: CalendarEvent[];
@@ -24,7 +26,22 @@ interface PointageExpressClientProps {
     string,
     Record<string, { name: string; group: string; markedAt: string }>
   >;
+  /** Weekend poll respondents riding on each ride's day, by event id (rides around today). */
+  pollRespondents?: Record<string, PollRespondent[]>;
+  /** Members the poll already pre-checked, by event id (a ride listed here is never auto pre-checked again). */
+  initialPollPrefilled?: Record<string, string[]>;
 }
+
+type AttendanceEntry = { name: string; group: string; markedAt: string };
+
+/** Answer of the `prefill-poll` action of /api/admin/attendance. */
+interface PrefillAnswer {
+  added: { memberId: string; name: string; group: string; markedAt: string }[];
+  prefilled: string[];
+  members: Record<string, { memberId: string; name: string; group: string; markedAt: string }>;
+}
+
+const plural = (n: number, one: string, many: string): string => `${n} ${n > 1 ? many : one}`;
 
 /**
  * Determines the default event ID for Pointage Express:
@@ -67,6 +84,8 @@ export default function PointageExpressClient({
   initialEvents,
   members,
   initialAttendanceMap,
+  pollRespondents = {},
+  initialPollPrefilled = {},
 }: PointageExpressClientProps): React.ReactElement {
   const todayIso = useMemo(() => getTodayIso(), []);
 
@@ -114,7 +133,9 @@ export default function PointageExpressClient({
   }, [initialEvents, todayIso]);
   const [attendanceMap, setAttendanceMap] = useState(initialAttendanceMap);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTab, setSelectedTab] = useState<'all' | 'present' | 'absent' | 'A' | 'B' | 'BC' | 'C' | 'VTT'>('all');
+  const [selectedTab, setSelectedTab] = useState<'all' | 'present' | 'absent' | 'poll' | 'A' | 'B' | 'BC' | 'C' | 'VTT'>('all');
+  const [pollPrefilled, setPollPrefilled] = useState(initialPollPrefilled);
+  const [isPrefilling, setIsPrefilling] = useState(false);
   const [activeIceMember, setActiveIceMember] = useState<Member | null>(null);
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
 
@@ -131,6 +152,23 @@ export default function PointageExpressClient({
   const presentMemberIds = useMemo(
     () => new Set(Object.keys(eventAttendance)),
     [eventAttendance]
+  );
+
+  // Weekend poll respondents of the selected ride (club members only), by member id.
+  const respondentById = useMemo(() => {
+    const known = new Set(members.map((m) => m.id));
+    return new Map(
+      (pollRespondents[selectedEventId] ?? [])
+        .filter((r) => known.has(r.memberId))
+        .map((r) => [r.memberId, r])
+    );
+  }, [pollRespondents, selectedEventId, members]);
+
+  // Respondents still to tick: not present and never ticked by the poll (an unticked no-show stays unticked).
+  const prefillCandidates = useMemo(
+    () =>
+      pollPrefillCandidates([...respondentById.values()], presentMemberIds, pollPrefilled[selectedEventId] ?? []),
+    [respondentById, presentMemberIds, pollPrefilled, selectedEventId]
   );
 
   // Group counts
@@ -180,6 +218,7 @@ export default function PointageExpressClient({
       // Tab filter
       if (selectedTab === 'present') return isPresent;
       if (selectedTab === 'absent') return !isPresent;
+      if (selectedTab === 'poll') return respondentById.has(member.id);
       if (selectedTab === 'A') return (member.preferredGroup || 'B') === 'A';
       if (selectedTab === 'B') return (member.preferredGroup || 'B') === 'B';
       if (selectedTab === 'BC') return member.preferredGroup === 'BC';
@@ -188,7 +227,7 @@ export default function PointageExpressClient({
 
       return true;
     });
-  }, [members, presentMemberIds, searchQuery, selectedTab]);
+  }, [members, presentMemberIds, searchQuery, selectedTab, respondentById]);
 
   // Toggle pointage handler
   const handleToggleAttendance = async (member: Member) => {
@@ -199,7 +238,9 @@ export default function PointageExpressClient({
 
     const isCurrentlyPresent = presentMemberIds.has(member.id);
     const action = isCurrentlyPresent ? 'remove' : 'add';
-    const memberGroup = member.preferredGroup || 'B';
+    // The group answered in this weekend's poll, else the member's usual group.
+    const memberGroup = respondentById.get(member.id)?.group || member.preferredGroup || 'B';
+    const previousEntry: AttendanceEntry | undefined = eventAttendance[member.id];
 
     // Optional haptic feedback on mobile
     if (typeof window !== 'undefined' && 'vibrate' in navigator) {
@@ -257,12 +298,97 @@ export default function PointageExpressClient({
       );
     } catch {
       toast.error('Erreur de connexion. Veuillez réessayer.');
-      // Rollback
-      setAttendanceMap(initialAttendanceMap);
+      // Rollback this member only: other ticks (and the poll pre-check) stay as they are.
+      setAttendanceMap((prev) => {
+        const currentEvMap = { ...(prev[currentEvent.id] || {}) };
+        if (previousEntry) currentEvMap[member.id] = previousEntry;
+        else delete currentEvMap[member.id];
+        return { ...prev, [currentEvent.id]: currentEvMap };
+      });
     } finally {
       setIsUpdating((prev) => ({ ...prev, [member.id]: false }));
     }
   };
+
+  // Unticks what a pre-check ticked (the toast's "Annuler").
+  const undoPollPrefill = async (eventId: string, memberIds: string[]): Promise<void> => {
+    try {
+      const res = await fetch('/api/admin/attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId, action: 'undo-prefill', memberIds }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = (await res.json()) as { removed: string[]; prefilled: string[] };
+      setAttendanceMap((prev) => {
+        const evMap = { ...(prev[eventId] || {}) };
+        data.removed.forEach((id) => delete evMap[id]);
+        return { ...prev, [eventId]: evMap };
+      });
+      setPollPrefilled((prev) => ({ ...prev, [eventId]: data.prefilled }));
+      toast.info(`Pré-cochage annulé (${plural(data.removed.length, 'membre', 'membres')})`);
+    } catch {
+      toast.error("Impossible d'annuler le pré-cochage. Décochez les membres à la main.");
+    }
+  };
+
+  /**
+   * Ticks the weekend poll's respondents for the selected ride. `auto`: the automatic pre-check
+   * on the ride's day, which the server runs once per ride (whatever the phone).
+   */
+  const prefillFromPoll = async (auto: boolean): Promise<void> => {
+    if (!currentEvent) return;
+    const eventId = currentEvent.id;
+    setIsPrefilling(true);
+    try {
+      const res = await fetch('/api/admin/attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId, action: 'prefill-poll', onlyIfFirst: auto }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = (await res.json()) as PrefillAnswer;
+
+      // The server's view of the ride: also shows ticks made meanwhile on another phone.
+      setAttendanceMap((prev) => ({
+        ...prev,
+        [eventId]: Object.fromEntries(
+          Object.entries(data.members ?? {}).map(([id, m]) => [id, { name: m.name, group: m.group, markedAt: m.markedAt }])
+        ),
+      }));
+      setPollPrefilled((prev) => ({ ...prev, [eventId]: data.prefilled ?? [] }));
+
+      const ids = data.added.map((m) => m.memberId);
+      if (ids.length > 0) {
+        toast.success(
+          `${plural(ids.length, 'répondant du sondage pré-coché', 'répondants du sondage pré-cochés')}. Décochez les absents.`,
+          { duration: 10000, action: { label: 'Annuler', onClick: () => void undoPollPrefill(eventId, ids) } }
+        );
+      } else if (!auto) {
+        toast.info('Aucun nouveau répondant à cocher.');
+      }
+    } catch {
+      toast.error(
+        auto
+          ? 'Pré-cochage du sondage impossible. Utilisez « Cocher les répondants ».'
+          : 'Erreur de connexion. Veuillez réessayer.'
+      );
+    } finally {
+      setIsPrefilling(false);
+    }
+  };
+
+  // On the ride's day, the poll's respondents start ticked: once per ride, the first time it opens.
+  const autoPrefillTried = React.useRef(new Set<string>());
+  const isRideDay = currentEvent?.isoDate === todayIso;
+  const neverPrefilled = Boolean(currentEvent) && !(selectedEventId in pollPrefilled);
+  const prefillRideDay = useEffectEvent(() => void prefillFromPoll(true));
+  useEffect(() => {
+    if (!currentEvent || !isRideDay || !neverPrefilled || prefillCandidates.length === 0) return;
+    if (autoPrefillTried.current.has(currentEvent.id)) return;
+    autoPrefillTried.current.add(currentEvent.id);
+    prefillRideDay();
+  }, [currentEvent, isRideDay, neverPrefilled, prefillCandidates.length]);
 
   // Handle express QR scan parameter (?memberId=...)
   const hasHandledQrRef = React.useRef(false);
@@ -395,6 +521,57 @@ export default function PointageExpressClient({
         </div>
       </div>
 
+      {/* Weekend poll: its respondents start ticked on the ride's day */}
+      {respondentById.size > 0 && currentEvent && (
+        <section
+          aria-labelledby="poll-prefill-title"
+          className="flex flex-col gap-3 rounded-md border border-hydro/30 bg-hydro/5 p-3.5 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="flex items-start gap-2.5">
+            <ClipboardDocumentListIcon className="mt-0.5 h-5 w-5 shrink-0 text-hydro dark:text-hydro-soft" aria-hidden="true" />
+            <div className="space-y-0.5">
+              <h2
+                id="poll-prefill-title"
+                className="font-mono text-xs font-bold uppercase tracking-wider text-ink dark:text-snow-1"
+              >
+                Sondage du week-end
+              </h2>
+              <p className="text-xs text-ink-2 dark:text-snow-2" aria-live="polite">
+                <span className="tabular-nums">
+                  {plural(respondentById.size, 'répondant roule', 'répondants roulent')} ce jour-là
+                  {' · '}
+                  {plural(
+                    [...respondentById.keys()].filter((id) => presentMemberIds.has(id)).length,
+                    'pointé',
+                    'pointés'
+                  )}
+                </span>
+                {currentEvent.isoDate > todayIso
+                  ? '. Ils seront pré-cochés le jour de la sortie.'
+                  : prefillCandidates.length > 0
+                    ? `. ${plural(prefillCandidates.length, 'pas encore coché', 'pas encore cochés')}.`
+                    : '. Décochez les absents, cochez les autres coureurs présents.'}
+              </p>
+            </div>
+          </div>
+          {currentEvent.isoDate <= todayIso && prefillCandidates.length > 0 && (
+            <button
+              type="button"
+              onClick={() => void prefillFromPoll(false)}
+              disabled={isPrefilling}
+              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-sm bg-hydro px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-hydro/90 disabled:opacity-60 cursor-pointer"
+            >
+              <CheckIcon className="h-4 w-4" aria-hidden="true" />
+              {isPrefilling
+                ? 'Pré-cochage…'
+                : prefillCandidates.length > 1
+                  ? `Cocher les ${prefillCandidates.length} répondants`
+                  : 'Cocher le répondant'}
+            </button>
+          )}
+        </section>
+      )}
+
       {/* Search & Filter Bar */}
       <div className="space-y-3">
         {/* Search Input */}
@@ -455,6 +632,19 @@ export default function PointageExpressClient({
           >
             Non pointés ({members.length - stats.present})
           </button>
+          {respondentById.size > 0 && (
+            <button
+              type="button"
+              onClick={() => setSelectedTab('poll')}
+              className={`px-3 py-1.5 rounded-full font-semibold shrink-0 transition-colors ${
+                selectedTab === 'poll'
+                  ? 'bg-hydro text-white'
+                  : 'bg-hydro/10 border border-hydro/30 text-hydro dark:text-hydro-soft hover:bg-hydro/20'
+              }`}
+            >
+              Sondage ({respondentById.size})
+            </button>
+          )}
           <button
             type="button"
             onClick={() => setSelectedTab('A')}
@@ -513,6 +703,7 @@ export default function PointageExpressClient({
             const isPresent = presentMemberIds.has(member.id);
             const isPending = isUpdating[member.id];
             const hasIce = Boolean(member.iceContactName && member.iceContactPhone);
+            const respondent = respondentById.get(member.id);
 
             return (
               <div
@@ -556,6 +747,14 @@ export default function PointageExpressClient({
                           className="h-1.5 w-1.5 rounded-full bg-vert shrink-0"
                           title="Cotisation 2026 en règle"
                         />
+                      )}
+                      {respondent && (
+                        <span
+                          className="shrink-0 rounded-full border border-hydro/30 bg-hydro/10 px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-wide text-hydro dark:text-hydro-soft"
+                          title={`A répondu au sondage : ${respondent.slotsLabel}`}
+                        >
+                          Sondage
+                        </span>
                       )}
                     </div>
                     <div className="flex items-center gap-2 mt-0.5 text-xs font-mono">

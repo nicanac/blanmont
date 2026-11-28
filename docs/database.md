@@ -147,12 +147,19 @@ Stores weekly scheduled rides and special events throughout the year.
     "alternative": "",
     "gpxUrl": "https://connect.garmin.com/modern/course/532374522",
     "traceId": "trace_dyle",
+    "traceLabel": "110 km",
+    "extraTraces": [
+      { "label": "80 km", "gpxUrl": "https://connect.garmin.com/modern/course/532374999", "traceId": "trace_80" },
+      { "label": "GR3", "gpxUrl": "https://www.strava.com/routes/123" }
+    ],
     "notionId": "2d29555c-6779-8106-8b31-fca30da6374b",
     "createdAt": "2025-12-23T15:52:00.000Z"
   }
 }
 ```
 `gpxUrl` is the ride's trace link (members only on public pages, #252). `traceId` (optional, #255) is the `/traces` record the ride follows; when an admin sets it, the server copies that trace's link into `gpxUrl` (GPX file, else map page). A `gpxUrl` typed by hand removes `traceId`.
+
+**Several traces per ride** (one per group or distance, like FFBC rides): `gpxUrl` / `traceId` stay the first (main) trace, so every single-trace reader keeps working; `traceLabel` names it ("GR1", "110 km") and `extraTraces` holds the others (`{ label?, gpxUrl, traceId? }`, at most 6 traces in all, labels ≤ 60 characters). Read them with `rideTraces()` and write them with `rideTraceFields()` (`app/lib/ride-traces.ts`). The event forms send the whole list as `traces` (`POST /api/admin/events`, `PUT /api/admin/events/[id]`): each row takes its catalog trace's link or joins the catalogue like a hand-typed `gpxUrl` (#263). `traceLabel` and `extraTraces` are written from `traces` only. Members download trace *n* at `/api/trace/<eventId>?t=<n>` (0 = main).
 
 ### 3.4. `/attendance` — Carré Vert Attendance & Groups
 Tracks ride attendance per event and group allocation (V = Vert, J = Jaune, B = Bleu, R = Rouge).
@@ -167,10 +174,16 @@ Tracks ride attendance per event and group allocation (V = Vert, J = Jaune, B = 
         "group": "V",
         "markedAt": "2026-08-26T05:37:19.856Z"
       }
+    },
+    "pollPrefill": {
+      "at": "2026-07-05T06:12:03.000Z",
+      "by": "Capitaine de route",
+      "memberIds": { "entry_1770390404487_13": true }
     }
   }
 }
 ```
+`pollPrefill` (optional): members the weekend poll pre-checked in Pointage Express (`app/lib/poll-attendance.ts`). On the ride's day the page ticks the members who answered that they ride that day (any Saturday slot for a Saturday ride, the Sunday slot for a Sunday ride) through `POST /api/admin/attendance` `{ action: 'prefill-poll', onlyIfFirst: true }`, once per ride (the marker is claimed in a transaction, so two phones tick each member once). A member listed here is never ticked again by the poll: a no-show the captain unticked stays unticked. `{ action: 'undo-prefill', memberIds }` unticks members the poll ticked and drops them from the marker (the marker itself stays, so the automatic pre-check does not come back). Pre-checked ticks update `/leaderboard` like ticks by hand. The leaderboard sheet sync (`/api/cron/sync-leaderboard`) rewrites whole attendance records and drops the marker.
 
 ### 3.5. `/saturday-rides` & `/votes` — Saturday Ride Voting System
 Democratic voting mechanism for the upcoming weekend ride.
