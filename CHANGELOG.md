@@ -49,6 +49,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.50.3] - 2026-11-28
+
+### Fixed
+- fix(members): print each role badge once (#262) (#265) (`1566c30`)
 ## [0.50.2] - 2026-11-28
 
 ### Fixed
