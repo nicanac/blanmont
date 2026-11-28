@@ -8,63 +8,35 @@ The YAML frontmatter is the machine-readable layer. It's what Stitch's linter va
 
 ```yaml
 ---
-name: CC Saint-Martin Blanmont
-description: "Système de design pour la plateforme cycliste du CC Saint-Martin Blanmont — La Feuille de Blanmont (Carte IGN)"
+name: <project title>
+description: <one-line tagline>
 colors:
-  paper: "#fbfbf8"
-  paper-2: "#f0f1eb"
-  line: "#dcddd4"
-  ink: "#16181b"
-  brand: "#d63535"
-  brand-strong: "#b82b2b"
-  night: "#0d1013"
-  night-2: "#151a1f"
-  snow: "#eef1f4"
-  bistre: "#b0703b"
-  hydro: "#1f6fbf"
-  vert: "#2e7d45"
-  ambre: "#e8962a"
+  primary: "#b8422e"
+  neutral-bg: "#faf7f2"
+  # ...one entry per extracted color; key = descriptive slug
 typography:
   display:
-    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(2.5rem, 7vw, 5rem)"
-    fontWeight: 800
-    lineHeight: 0.92
-    letterSpacing: "-0.02em"
-  headline:
-    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(1.5rem, 3vw, 2.25rem)"
-    fontWeight: 800
-    lineHeight: 1.05
-    letterSpacing: "-0.01em"
+    fontFamily: "Cormorant Garamond, Georgia, serif"
+    fontSize: "4.5rem"
+    fontWeight: 300
+    lineHeight: 1
+    letterSpacing: "0em"
   body:
-    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 400
-    lineHeight: 1.6
-  label:
-    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "0.75rem"
-    fontWeight: 700
-    lineHeight: 1.2
-    letterSpacing: "0.08em"
+    # ...
 rounded:
-  sm: "2px"
-  md: "3px"
-  lg: "4px"
-  full: "9999px"
+  sm: "4px"
+  md: "8px"
 spacing:
   sm: "8px"
   md: "16px"
-  lg: "24px"
 components:
   button-primary:
-    backgroundColor: "{colors.brand}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.md}"
-    padding: "12px 24px"
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.neutral-bg}"
+    rounded: "{rounded.sm}"
+    padding: "16px 48px"
   button-primary-hover:
-    backgroundColor: "{colors.brand-strong}"
+    backgroundColor: "{colors.primary-deep}"
 ---
 ```
 
@@ -96,14 +68,16 @@ Omit irrelevant sections rather than filling them with invented rules. Put respo
 - An existing `DESIGN.md` is stale (the design has drifted).
 - Before a large redesign, to capture the current state as a reference.
 
-If a `DESIGN.md` already exists, **do not silently overwrite it**. Show the user the existing file first. STOP and use Codex's structured user-input/question tool when available; if unavailable, ask directly in chat to clarify what you cannot infer. The choice is refresh, overwrite, or merge.
+If a `DESIGN.md` already exists, **do not silently overwrite it**. Show the user the existing file first. Ask with the AskUserQuestion tool and wait for the answer before continuing. The choice is refresh, overwrite, or merge. The one exception is the first build on a seeded world (below): the choice is refresh, with no question.
+
+A DESIGN.md written by `impeccable world` carries a `world: "<id>"` line in its frontmatter, and its sidecar carries a `seededFrom` object. Both name the catalog world this system grew from, and both survive every choice: copy the `world:` line into the new frontmatter unchanged, and copy `seededFrom` into the regenerated sidecar. This provenance does not forbid an explicit request from the person for a redesign or a different world, which follows the redesign flow in [new-work.md](new-work.md). A world that replaced the seeded one (its direction roll passed `--replace-world`) is the one case where both are dropped, or every later roll settles on the old world again. They are the one frontmatter key and the one sidecar key kept outside the schemas below.
 
 ## Two paths
 
 - **Scan mode** (default): the project has design tokens, components, or rendered output. Extract, then confirm descriptive language. Use when there's code to analyze.
 - **Seed mode**: the project is pre-implementation. Ensure PRODUCT.md exists, then reuse new-work's visual-world workshop and write its directional DESIGN.md seed. Re-run in scan mode once there's code.
 
-Decide by scanning first (Scan mode Step 1). If the scan finds no tokens, no component files, and no rendered site, offer seed mode; don't silently switch. `$impeccable document --seed` requests new-work's world workshop, but it does not authorize replacing coherent code: when an incumbent system exists, offer scan mode or route an explicit identity-replacement request through new-work.
+Decide by scanning first (Scan mode Step 1). If the scan finds no tokens, no component files, and no rendered site, offer seed mode; don't silently switch. `/impeccable document --seed` requests new-work's world workshop, but it does not authorize replacing coherent code: when an incumbent system exists, offer scan mode or route an explicit identity-replacement request through new-work.
 
 ## Scan mode (approach C: auto-extract, then confirm descriptive language)
 
@@ -353,7 +327,7 @@ If the project has **no component library yet** (bare landing page, new project)
 
 #### Tonal ramps
 
-For each color token, generate an 8-step `tonalRamp` array: dark to light, same hue and chroma, stepped lightness from ~15% to ~95%. The panel renders this as a strip under the swatch. If the project already defines a tonal scale (Material `surface-container-low` family, Tailwind-style `blue-50..blue-900`), use those values. Otherwise synthesize in OKLCH.
+For each color token, generate an 8-step `tonalRamp` array: dark to light, same hue, chroma reduced near white and black, stepped lightness from ~15% to ~95%. The panel renders this as a strip under the swatch. If the project already defines a tonal scale (Material `surface-container-low` family, Tailwind-style `blue-50..blue-900`), use those values. Otherwise synthesize in OKLCH.
 
 #### Narrative mapping
 
@@ -373,39 +347,22 @@ Do not reword. The panel shows these as secondary collapsible context; the same 
 2. Mention that `.impeccable/design.json` was also written alongside; the live panel will now render this project's actual button/input/nav primitives instead of generic approximations.
 3. Offer to refine any section: "Want me to revise a section, add component patterns I missed, or adjust the atmosphere language?"
 
+<!-- Blanmont project block: re-apply after every `npx impeccable update` (tests/design-system-integrity.test.ts checks it). -->
+### Project note: La Feuille de Blanmont (Carte IGN)
+
+In this repository the scan reads, in order: `app/globals.css` (live tokens; code wins), `design-system/tokens.json` (the same tokens as data plus role tokens and day/night pairings), `design-system/README.md` and `design-system/components/<Name>/README.md`. DESIGN.md keeps `name: CC Saint-Martin Blanmont` and the North Star "La Feuille de Blanmont — Carte IGN"; its frontmatter colours must match `globals.css` exactly (`tests/design-system-integrity.test.ts` and `tests/design-system-package.test.ts`). The sidecar keeps `schemaVersion: 2` and at least eight components.
+
 ### Step 6: Automated Git Workflow (Branch, Verify, Commit, Push, PR, Merge, Sync)
 
-Immediately after documenting or updating `DESIGN.md` / `.impeccable/design.json`, execute the automated Git lifecycle without stopping (per `docs/git-workflow.md`):
-1. **Branch**: Create and switch to a dedicated docs branch:
-   ```bash
-   bash scripts/git-branch.sh docs <name>
-   # or git checkout -b <username>/docs/<name>
-   ```
-2. **Verify**: Run the test suite to ensure design system integrity and regression-free code:
-   ```bash
-   npm test
-   ```
-3. **Commit**: Stage changes and commit using Conventional Commits:
-   ```bash
-   git add DESIGN.md .impeccable/design.json AGENTS.md GEMINI.md CLAUDE.md .cursorrules .windsurfrules tests/design-system-integrity.test.ts
-   git commit -m "docs(design): update DESIGN.md and design tokens"
-   ```
-4. **Push**: Push branch to remote:
-   ```bash
-   git push -u origin <branch>
-   ```
-5. **PR**: Create Pull Request via GitHub CLI:
-   ```bash
-   gh pr create --base master --title "docs(design): update DESIGN.md and design tokens" --body "## Summary\n\nSynchronize DESIGN.md and .impeccable/design.json design tokens with La Feuille de Blanmont specifications."
-   ```
-6. **Merge**: Merge the PR via squash and delete the remote branch:
-   ```bash
-   gh pr merge --squash --delete-branch
-   ```
-7. **Sync**: Return to `master` and pull latest changes:
-   ```bash
-   git checkout master && git pull origin master
-   ```
+Immediately after documenting or updating `DESIGN.md` / `.impeccable/design.json`, run the Git lifecycle of `docs/git-workflow.md` without stopping:
+
+1. **Branch:** `bash scripts/git-branch.sh docs <name>` (or `git checkout -b <username>/docs/<name>`).
+2. **Verify:** `npm test` (design-system integrity and package tests included).
+3. **Commit:** stage `DESIGN.md`, `.impeccable/design.json` and any rule file you touched; `git commit -m "docs(design): <summary>"`.
+4. **Push:** `git push -u origin <branch>`.
+5. **PR:** open a pull request against `master` that summarises what changed in DESIGN.md and the sidecar.
+6. **Merge:** squash merge and delete the branch once checks are green.
+7. **Sync:** `git checkout master && git pull origin master`.
 
 Your own write is the freshest source; subsequent commands in this session don't need a reload.
 
@@ -428,7 +385,7 @@ Use the canonical section order from Scan mode. Populate the selected workshop d
 Lead the file with:
 
 ```markdown
-<!-- SEED: established with the user before implementation; re-run $impeccable document once there's code to capture the actual tokens and components. -->
+<!-- SEED: established with the user before implementation; re-run /impeccable document once there's code to capture the actual tokens and components. -->
 ```
 
 Per-section guidance in seed mode:
@@ -447,7 +404,7 @@ Seed mode writes a minimal frontmatter with `name` and `description` only; no co
 ### Step 3: Confirm
 
 1. Show the seed DESIGN.md. Call out that it is a seed (the marker is the literal commitment).
-2. Tell the user: "Re-run `$impeccable document` once you have some code. That pass will extract real tokens and generate the sidecar."
+2. Tell the user: "Re-run `/impeccable document` once you have some code. That pass will extract real tokens and generate the sidecar."
 
 Your own write is the freshest source; no reload needed.
 

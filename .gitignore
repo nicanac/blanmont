@@ -64,6 +64,7 @@ nul
 # Impeccable tool artifacts
 .impeccable/*
 !.impeccable/design.json
+!.impeccable/config.json
 
 # Playwright artifacts
 test-results/
