@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { cloudinaryRendition, PHOTO_WIDTH } from '@/app/lib/cloudinary-url';
 import { useRouter } from 'next/navigation';
 import { Feedback, Member } from '../../types';
 import { PencilSquareIcon, StarIcon } from '@heroicons/react/20/solid';
@@ -62,7 +63,7 @@ export default function FeedbackList({
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-night-2 dark:bg-night-line border border-line dark:border-night-line flex items-center justify-center text-xs font-bold text-white">
                 {hasPhoto ? (
                   <Image
-                    src={avatarUrl!}
+                    src={cloudinaryRendition(avatarUrl!, PHOTO_WIDTH.avatar)}
                     alt={authorName}
                     fill
                     unoptimized

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { cloudinaryRendition, PHOTO_WIDTH } from '@/app/lib/cloudinary-url';
 import { Member } from '../../../types';
 import { ShieldCheckIcon, UserIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import Badge from '@/app/components/ui/Badge';
@@ -84,7 +85,7 @@ export default function MemberCard({ member }: MemberCardProps) {
         {hasValidPhoto ? (
           <Image
             className="object-cover transition-transform duration-500 group-hover:scale-105"
-            src={member.photoUrl}
+            src={cloudinaryRendition(member.photoUrl, PHOTO_WIDTH.portrait)}
             alt={member.name}
             fill
             unoptimized

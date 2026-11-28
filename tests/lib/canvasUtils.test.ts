@@ -2,7 +2,17 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import getCroppedImg, { getRadianAngle, rotateSize, createImage, getOutputSize } from '@/app/lib/canvasUtils';
+import getCroppedImg, {
+  getRadianAngle,
+  rotateSize,
+  createImage,
+  getOutputSize,
+  getCroppedImgWithin,
+  isLowResolutionCrop,
+  MEMBER_PHOTO_STEPS,
+  MIN_SHARP_PHOTO_PX,
+  SERVER_ACTION_PHOTO_BYTES,
+} from '@/app/lib/canvasUtils';
 
 describe('canvasUtils', () => {
   describe('getRadianAngle', () => {
@@ -78,6 +88,19 @@ describe('canvasUtils', () => {
 
     it('never upscales a crop smaller than maxSize', () => {
       expect(getOutputSize(300, 200, 512)).toEqual({ width: 300, height: 200 });
+    });
+  });
+
+  describe('isLowResolutionCrop (#260)', () => {
+    it('flags a crop whose shortest side is under the sharp-portrait minimum', () => {
+      expect(isLowResolutionCrop({ width: 103, height: 137 })).toBe(true);
+      expect(isLowResolutionCrop({ width: MIN_SHARP_PHOTO_PX - 1, height: 2000 })).toBe(true);
+      expect(isLowResolutionCrop({ width: MIN_SHARP_PHOTO_PX, height: 1000 })).toBe(false);
+      expect(isLowResolutionCrop({ width: 3000, height: 3000 })).toBe(false);
+    });
+
+    it('takes another minimum', () => {
+      expect(isLowResolutionCrop({ width: 300, height: 300 }, 256)).toBe(false);
     });
   });
 
@@ -182,6 +205,69 @@ describe('canvasUtils', () => {
       expect(canvases[1].width).toBe(500);
       expect(canvases[1].height).toBe(500);
       expect(mockContext.getImageData).not.toHaveBeenCalled();
+    });
+
+    describe('getCroppedImgWithin (#260)', () => {
+      const crop = { x: 0, y: 500, width: 3000, height: 3000 };
+      /** Blob sizes returned by successive toBlob calls. */
+      const blobSizes = (...sizes: number[]): void => {
+        let call = 0;
+        HTMLCanvasElement.prototype.toBlob = vi.fn().mockImplementation((callback) => {
+          callback(new Blob([new Uint8Array(sizes[Math.min(call++, sizes.length - 1)])]));
+        });
+      };
+
+      beforeEach(() => {
+        // Each encoding attempt loads the source again: fire `load` as soon as src is set.
+        (global as any).Image = class extends EventTarget {
+          width = 3000;
+          height = 4000;
+          private url = '';
+          setAttribute(): void {}
+          get src(): string {
+            return this.url;
+          }
+          set src(value: string) {
+            this.url = value;
+            queueMicrotask(() => this.dispatchEvent(new Event('load')));
+          }
+        };
+      });
+
+      it('keeps the sharpest encoding when it fits the Server Action budget', async () => {
+        blobSizes(400 * 1024);
+        const blob = await getCroppedImgWithin('data:image/jpeg;base64,xx', crop, SERVER_ACTION_PHOTO_BYTES);
+
+        expect(blob?.size).toBe(400 * 1024);
+        expect(HTMLCanvasElement.prototype.toBlob).toHaveBeenCalledTimes(1);
+        expect(HTMLCanvasElement.prototype.toBlob).toHaveBeenCalledWith(expect.any(Function), 'image/jpeg', 0.9);
+        expect(canvases[0].width).toBe(1600);
+        expect(canvases[0].height).toBe(1600);
+      });
+
+      it('steps down quality, then size, until the JPEG fits', async () => {
+        blobSizes(1500 * 1024, 1000 * 1024, 700 * 1024);
+        const blob = await getCroppedImgWithin('data:image/jpeg;base64,xx', crop, SERVER_ACTION_PHOTO_BYTES);
+
+        expect(blob?.size).toBe(700 * 1024);
+        const qualities = vi.mocked(HTMLCanvasElement.prototype.toBlob).mock.calls.map((c) => c[2]);
+        expect(qualities).toEqual([0.9, 0.82, 0.82]);
+        expect(canvases.map((c) => c.width)).toEqual([1600, 1600, 1280]);
+      });
+
+      it('returns the smallest encoding when none fits, so the upload fails loudly', async () => {
+        blobSizes(5000 * 1024);
+        const blob = await getCroppedImgWithin('data:image/jpeg;base64,xx', crop, SERVER_ACTION_PHOTO_BYTES);
+
+        expect(blob?.size).toBe(5000 * 1024);
+        expect(HTMLCanvasElement.prototype.toBlob).toHaveBeenCalledTimes(MEMBER_PHOTO_STEPS.length);
+        expect(canvases.at(-1)?.width).toBe(1024);
+      });
+
+      it('stops at once when the canvas cannot encode', async () => {
+        vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
+        expect(await getCroppedImgWithin('data:image/jpeg;base64,xx', crop, 1)).toBeNull();
+      });
     });
 
     it('returns null if 2d context is unavailable', async () => {

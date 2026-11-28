@@ -3,6 +3,7 @@
 import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { cloudinaryRendition, PHOTO_WIDTH } from '@/app/lib/cloudinary-url';
 import { toast } from 'sonner';
 import {
   ArrowRightIcon,
@@ -623,7 +624,7 @@ export default function WeekendPollView({
                         !res.memberPhotoUrl.includes('placehold') &&
                         !res.memberPhotoUrl.includes('default-avatar') && (
                           <Image
-                            src={res.memberPhotoUrl}
+                            src={cloudinaryRendition(res.memberPhotoUrl, PHOTO_WIDTH.avatar)}
                             alt={res.memberName}
                             fill
                             unoptimized
