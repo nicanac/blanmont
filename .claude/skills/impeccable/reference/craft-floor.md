@@ -1,10 +1,10 @@
 # Craft floor
 
-Load this after the direction is settled, and build without announcing the checklist. A pinned brief or the committed visual world overrides anything here; your own habit does not. When the design hook is active it already enforces the mechanical checks below as you edit: act on its findings instead of re-auditing each rule.
+Load this after the direction is settled, and build without announcing the checklist. A pinned brief or the committed visual world overrides anything here except a line marked as a ban; your own habit does not. When the design hook is active it already enforces the mechanical checks below as you edit: act on its findings instead of re-auditing each rule.
 
 ## Verify
 
-Each of these is a check on the built result, not an intention. Run them together in the batched inspection rounds, not as separate screenshot trips; the checks share one render.
+Each of these is a check on the built result, not an intention. Run them together in each batched look at the render (on the web, one `.claude/skills/impeccable/scripts/impeccable shot <page or url>`), not as separate screenshot trips; the checks share one render.
 
 - **Contrast:** body and placeholder text ≥4.5:1, large text ≥3:1. On colored surfaces tint secondary text from that hue or the foreground; never gray.
 - **Depth:** shadows carry an offset and a soft blur. A zero-offset colored halo is decoration.
@@ -32,28 +32,25 @@ Surface habits:
 
 - Gradient text. Emphasis comes from weight or size.
 - Glass and blur as decoration rather than as a specific effect.
-- A colored `border-left` or `border-right` above 1px on cards, list items, callouts, or alerts.
+- A bar down one side of a rounded box (a one-sided border, inset shadow or pseudo-element), any colour or state. Use a full border, a tint, or a leading icon or label.
 - Hard offset shadows (`box-shadow: 4px 4px 0`) outside a world that is actually neobrutalist. The zero-blur block shadow is a costume, not a depth system; a world that did not choose it never earns it as a default.
 - Sparklines, progress rings, and soft-shadowed rounded rectangles standing in for content.
 - Monospace as a costume for "technical" rather than for code, data, or measurement.
-- A system display face (Impact, Arial Black, the platform sans) as the display voice of an own-world page. Source and self-host a face whose character matches the approved lettering; the closest installed font is a failure, not a fallback.
+- A system display face (Impact, Arial Black, the platform sans) as the display voice of an own-world page. Source and self-host a face whose character matches the approved lettering (Google: `.claude/skills/impeccable/scripts/impeccable font-fetch <Family>`); the closest installed font is a failure, not a fallback.
 - Unicode glyphs or emoji standing in for an icon system. Icons are drawn, from a real library or authored SVG, in one consistent stroke and weight.
 - Geometric masks standing in for organic contours. A circle, polygon, or radial-gradient cutout approximating a photographic subject's edge is the cheap version of the effect and reads worse than omitting it. Derive an alpha matte from the actual image, or produce a cut-out asset.
 - Light or dark picked by category. Pick it from the use scene: who, where, under what ambient light.
 
-- Tracking stops at -0.04em. -0.02 to -0.03em usually reads better.
-- Declare elevation once, border or shadow. A 1px border under a wide soft shadow is the ghost card. In this design system ("La Feuille de Blanmont — Carte IGN"), card and container radii strictly stay at crisp 2px–6px (`rounded-sm` to `rounded-2xl`, standard 3px `rounded-md`), evoking printed topographic map sheets; full pill radii (`rounded-full`) are strictly reserved for status chips and tags (never for buttons or cards).
-- Real illustration or none. Sketch-style SVG scenes, `loose-sketch` / `doodle` class names, and `feTurbulence` grain read as amateur. This bans SVG imitating pictures, never SVG doing geometry: crisp vector shapes, diagrams, animated linework, and shader-driven effects remain first-class media. A shaded, perspectived, or figure-bearing illustration is a picture even in line-art style; geometry means shapes a session can specify exactly.
-- Backgrounds are surfaces, textured only from the subject's world. `repeating-linear-gradient` stripes and two-axis grid overlays need an actual canvas, map, blueprint, or measuring tool under them.
-- Claims and configuration come from supplied truth; label illustrative values honestly. Naming a concept and then ironizing it is not a claim.
+<!-- Blanmont project block: re-apply after every `npx impeccable update` (tests/design-system-integrity.test.ts checks it). -->
+Project non-negotiable refusals ("La Feuille de Blanmont — Carte IGN"; sources `app/globals.css` → `design-system/tokens.json` → `design-system/README.md`):
 
-Project non-negotiable refusals ("La Feuille de Blanmont — Carte IGN"):
-
-- Generic SaaS dashboards, glassmorphism, blur halos, or purple/indigo themes. Surfaces are flat day map paper (`#fbfbf8`) or nocturnal dark sheet (`#0d1013`), bounded by 1px hairline neatlines (`border-line` / `border-night-line`).
-- Poppins, Inter, Roboto, or generic sans-serif faces. The Archivo superfamily is mandatory, with width-driven hierarchy (`font-wide` display, `font-semiwide` headlines, `font-narrow` labels/badges).
-- Non-tabular cycling figures. Every cycling metric (distance in km, elevation in m D+, speed in km/h, stopwatch splits) must use `tabular-nums` with explicit units.
-- Non-cartouche heroes on major pages. Anchor key pages with `SheetHeader` (`app/components/carte/SheetHeader.tsx`) showing geodetic mark and coordinates (`50°37′23″ N · 4°38′32″ E`).
-- English user-facing copy. All user-facing UI copy must be in idiomatic French.
+- Card, container, button and input radii outside crisp 2px–6px (`rounded-sm` to `rounded-2xl`, standard 3px `rounded-md`): the surfaces are printed map sheets. Full pill radii (`rounded-full`) only for status chips, filter pills and tags, never buttons or cards. Declare elevation once: a 1px `rule` frame at rest, a shadow only on raised paper (menus, drawers, dialogs, the cartouche over its map band).
+- Generic SaaS dashboards, glassmorphism, blur halos, purple/indigo themes. Surfaces are flat day map paper (`#fbfbf8`) or night sheet (`#0d1013`), bounded by 1px hairlines (`border-line` / `border-night-line`).
+- A day class without its night pair, or a pair that names a token that does not exist (`dark:text-snow-1`): elements keep their day colour by night.
+- Poppins, Inter, Roboto or any second face. Archivo with width-driven hierarchy (`font-wide` display, `font-semiwide` headlines, `font-narrow` labels, badges, buttons).
+- Non-tabular cycling figures. Every metric (km, m D+, km/h, splits) uses `tabular-nums`, its unit and French number format ("84,5 km").
+- Non-cartouche heroes on public pages. Open them with `SheetHeader` (`app/components/carte/SheetHeader.tsx`), coordinates `50°37′23″ N · 4°38′32″ E`, key facts in the legend rather than metric tiles.
+- Small text in `brand-vif`, `ambre`, `brand-soft` on paper, `bistre` or `vert` on `bois`: use `brand-strong`, `ambre-ink`, `bistre-ink`, `vert-strong`.
+- English user-facing copy. Every user-facing string is idiomatic French, verb first on actions, no exclamation marks or emoji.
 
 The floor holds the mechanics; it never picks the direction. With every check green, spend the page on the committed world, and when torn between refined and committed, commit.
-

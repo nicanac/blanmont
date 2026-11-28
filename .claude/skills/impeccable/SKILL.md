@@ -1,61 +1,53 @@
 ---
 name: impeccable
-description: Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize, extract, or otherwise improve a frontend interface. Covers websites, landing pages, dashboards, product UI, app shells, components, forms, settings, onboarding, and empty states. Handles UX review, visual hierarchy, information architecture, cognitive load, accessibility, performance, responsive behavior, theming, anti-patterns, typography, fonts, spacing, layout, alignment, color, motion, micro-interactions, UX copy, error states, edge cases, i18n, and reusable design systems or tokens. Also use for bland designs that need to become bolder or more delightful, loud designs that should become quieter, live browser iteration on UI elements, or ambitious visual effects that should feel technically extraordinary. Not for backend-only or non-UI tasks.
-version: 4.1.1
+description: "Use to design, redesign, critique, audit, polish or animate a frontend: websites, landing pages, dashboards, app UI, components, native iOS/Android screens, or a design system (DESIGN.md)."
+version: 4.11.1
 user-invocable: true
-argument-hint: "[shape · audit|critique · animate|bolder|colorize|delight|layout|overdrive|quieter|typeset · adapt|clarify|distill · harden|onboard|optimize|polish · init|document|extract|live] [target]"
+argument-hint: "[shape · audit|critique · animate|bolder|colorize|delight|layout|overdrive|quieter|typeset · adapt|clarify|distill · harden|onboard|optimize|polish · init|document|extract|live|generate] [target]"
 license: Apache 2.0
-allowed-tools:
-  - Bash(npx impeccable *)
-  - Bash(node .claude/skills/impeccable/scripts/*)
 ---
 
-This skill gives you the tools and permission to create design that earns to be called out-of-distribution craft: Whereas before, your design work would have been safe, timid and measured, you now approach every design task as a award-winning design director with impeccable understanding for what makes exceptional design work: production-grade code, peak creativity, a clear POV, deep understanding of the needs of the client and users, and exceptional craft.
+This skill gives you the tools and permission to make design that earns the name out-of-distribution craft. Work as an award-winning design director would: production-grade code, a clear POV, a deep grasp of what the client and its users need, and exceptional craft.
 
 Core principles:
-- Go all out. No hedging, no shortcuts. The deliverable must be complete (except assets the user must provide).
-- Dream big and bold. Distinct, beautiful, outstanding and highly inspiring work.
-- Verify in bounded passes, not a loop, and the ceiling covers the whole cycle: screenshots, defect scans, micro-edits, and rebuilds alike. Build fully, inspect once with a batched round (desktop and mobile together on the web; the shipped device classes on a native platform), fix everything it shows in one batch, confirm with at most one more round, and stop polishing. Open-ended self-QA burns the user's money doing worse what the finish handoffs do better.
+- Finish the job. No hedging, no shortcuts: the deliverable is complete, except assets the user must provide.
+- Scale ambition to the surface's mode (see Modes). Persuade and Experience get full commitment: bold, distinct work with a point of view. On Operate and Read, ambition shows as precision and restraint, and patterns the visitor already knows earn their place.
+- Verify by looking at the rendered result at the sizes it ships at (web: `.claude/skills/impeccable/scripts/impeccable shot <page>`), and batch the checks: fix what one look shows before looking again.
 
 ## Setup
 
-1. Run `node <skill-base-dir>/scripts/context.mjs` once per session, where `<skill-base-dir>` is the loaded base directory the runtime reports for this skill; keep cwd at the user's project. That base directory resolves every `node .claude/skills/impeccable/scripts/...` command in this skill and its references, and `.claude/skills/impeccable/scripts` is the fallback only when the runtime reports no base directory. Pass a named source file or route as `--target <path>`. It loads PRODUCT.md, DESIGN.md, the matching surface brief, and native-platform guidance when applicable; follow its directives and do not rerun it.
-2. Before acting, load the one playbook that owns the request: the Commands table's reference for an explicit or clearly implied sub-command, or [reference/new-work.md](reference/new-work.md) for a new surface or replacement visual world. Then inspect the target and at least one representative source of incumbent visual truth (tokens, theme, CSS, component, or asset) before editing.
-3. After analysis and direction are resolved, load [reference/craft-floor.md](reference/craft-floor.md) immediately before editing UI. It carries the quality floor, the absolute bans, and the reflexes no detector catches. Do not load it for planning-only work.
+1. Run `<skill-base-dir>/scripts/impeccable context` once per session, where `<skill-base-dir>` is the directory that contains this SKILL.md (the skill folder, not a plugin root two levels above it); keep cwd at the user's project. That base directory resolves every `.claude/skills/impeccable/scripts/impeccable <verb>` command in this skill and its references, and `.claude/skills/impeccable/scripts` is the fallback only when the runtime reports no base directory. On a Windows shell without `sh`, call `.claude/skills/impeccable/scripts/impeccable.cmd` instead. The launcher runs a self-contained binary that ships next to it or is downloaded once on first run; no Node or other runtime is required. Pass a named source file or route as `--target <path>`. It loads PRODUCT.md and DESIGN.md (long ones as a map: read the sections your task needs), the matching surface brief, and native-platform guidance when applicable; follow its directives and do not rerun it.
+2. Load the request's playbook: its Commands-table reference for an explicit/implied sub-command, or [reference/new-work.md](reference/new-work.md) for a new surface, a replacement visual world, or a build from an approved comp. Some playbooks come in parts; read the part this request needs in the same step: [reference/new-work-world.md](reference/new-work-world.md) when a visual world is created or replaced (a redesign, a new look, or no established world), [reference/new-work-comp.md](reference/new-work-comp.md) for a build from an approved comp or on a comp-led build path, and [reference/critique-rubric.md](reference/critique-rubric.md) for a critique whose Assessment A runs in this context (a native platform, or no sub-agent tool); a delegated Assessment A gets the rubric's path in its prompt instead. Inspect target and incumbent visual truth before editing. When the app cannot run, start with committed visual-regression goldens or screenshot fixtures; verify target and freshness against current tokens, CSS, components, or assets, resolve conflicts, and compare theme/variant captures.
+3. After resolving analysis and direction, read [reference/craft-floor.md](reference/craft-floor.md) immediately before any UI edit, including small refinements. It carries the quality floor, the absolute bans, and the reflexes no detector catches. Do not load it for planning-only work.
+
+**Launcher unavailable:** On the first refusal or failure, don’t retry; send a separate message **before the next tool call**: “Context loading did not run; I’ll read the existing project context directly.” Then read existing PRODUCT.md and DESIGN.md without inventing missing context, follow applicable steps 2–3, including reading [reference/craft-floor.md](reference/craft-floor.md) immediately before any UI edit, and continue through permitted tools. This applies to planning and editing; launcher failure alone does not block either.
 
 ## How to design
 
 - **The brief wins.** Honor pinned aesthetics, eras, materials, fonts, and palettes even when they conflict with a saturated-pattern warning. Redirecting a clear brief toward your taste is failure.
 - **Refinement preserves; redesign replaces.** Refinement keeps the incumbent identity, behavior, copy, and everything outside scope. Ask before replacing factual copy or adding claims. Redesign keeps product truth, content, function, native affordances, and constraints, but treats the old look as evidence and anti-reference; choose a replacement world in new-work and replace DESIGN.md. Never split the difference into polish on the discarded look.
+- **Loaded symbols stay out of the decoration.** A subject's world does not license emblems tied to militarism, supremacy, or hate movements as motifs, badges, or ornament, such as the Rising Sun flag's rays, the Confederate battle flag, or Nazi-era insignia and their stylised variants; reach for that world's neutral forms instead. Content that documents such a symbol as fact stays as it is.
 - **Visual authority is evidence, not a filename.** Missing DESIGN.md alone does not make a project greenfield; new-work decides whether to preserve, expand, or replace the incumbent world.
 
+<!-- Blanmont project block: re-apply after every `npx impeccable update` (tests/design-system-integrity.test.ts checks it). -->
 ## Project Design Authority — "La Feuille de Blanmont — Carte IGN"
 
-All visual work, components, and pages on this platform must strictly preserve and implement the **"La Feuille de Blanmont — Carte IGN"** visual system defined in DESIGN.md and .impeccable/design.json:
-- **Grounds**: Day Map Paper (g-paper / #fbfbf8), recessed paper (g-paper-2 / #f0f1eb), nocturnal dark sheet (g-night / #0d1013, g-night-2 / #151a1f).
-- **Spot Inks**: Route Red (rand / #d63535, roads rand-vif / #e03e3e), Relief Bistre (istre / #b0703b), Hydro Blue (hydro / #1f6fbf), Woodland Green (ert / #2e7d45, ois / #dcebcf), Amber (mbre / #e8962a). Never use arbitrary saturated colors or generic SaaS blues/purples.
-- **Typography**: Google variable font Archivo (ar(--font-archivo)) with width-driven hierarchy (ont-wide display, ont-semiwide headlines, ont-narrow labels/badges). Tabular figures (	abular-nums) for all cycling telemetry (km, m D+, km/h, stopwatch splits). Absolute prohibition of Poppins, Inter, Roboto, or arbitrary fonts.
-- **Cartouches**: Key pages must use SheetHeader (pp/components/carte/SheetHeader.tsx) with geodetic mark (GeodeticMark), coordinates (50°37′23″ N · 4°38′32″ E), and territory facts.
-- **Form Language & Precision**: Continuous 1px hairline neatlines (order-line / order-night-line), crisp 2px–6px sheet corners (ounded-sm to ounded-2xl, standard 3px ounded-md), corner ticks (corner-ticks). Full pill radii (ounded-full) are strictly reserved for status chips and tags (never for buttons or cards).
-- **Absolute Prohibitions**: No generic SaaS dashboards, no glassmorphism, no artificial drop-shadow blur halos, no gradient text, no uncalibrated inline styles.
-- **UI Copy**: Strictly idiomatic French for all user-facing copy.
+Every page, view and component of this platform preserves the **"La Feuille de Blanmont — Carte IGN"** system. Sources of truth, in order: `app/globals.css` (live tokens, code wins) → `design-system/tokens.json` (same tokens as data plus role tokens) → `design-system/README.md` and `design-system/components/<Name>/README.md` → `DESIGN.md` and `.impeccable/design.json` (this skill's narrative and sidecar, regenerated from the three above).
+
+- **Grounds:** day map paper `paper` (#fbfbf8) with `paper-2` recessed; night sheet `night` (#0d1013) with `night-2` raised and `night-3` recessed. Write against the role pairs: `surface` = `bg-paper dark:bg-night`, `rule` = `border-line dark:border-night-line`, `text-muted` = `text-ink-3 dark:text-snow-3`. Only tokens that exist: there is no `snow-1`.
+- **Spot inks:** route red `brand` (#d63535; hover `brand-strong`, map roads and the Heart Line `brand-vif` #e03e3e, red on night `brand-soft`), relief `bistre` (#b0703b, small text `bistre-ink`), `hydro` (#1f6fbf), woodland `vert` (#2e7d45, tint `bois` / `vert-tint`, small text `vert-strong`), `ambre` (#e8962a, never text on paper: `ambre-ink`). Never arbitrary saturated colours or SaaS blues/purples.
+- **Typography:** Archivo only (`var(--font-archivo)`), hierarchy on the width axis: `font-wide` (125%) display, `font-semiwide` (112.5%) headlines, `font-narrow` (87.5%) labels, badges, buttons. Every metric `tabular-nums` with its unit, French number format ("84,5 km", "720 m D+"). No Poppins, Inter, Roboto or second face; no eyebrow above a headline.
+- **Cartouches:** public page headers use `SheetHeader` (`app/components/carte/SheetHeader.tsx`) with the coordinates `50°37′23″ N · 4°38′32″ E` and key facts in its legend.
+- **Form language:** 1px hairline `rule`, `neatline` / `corner-ticks` / `scale-strip` / `map-grid` as the framing devices (one per box), crisp 2px–6px corners (`rounded-sm` to `rounded-2xl`, 3px `rounded-md` for buttons, inputs, cards). `rounded-full` only for status chips and pills. Flat at rest; shadows only on raised paper (`shadow-md` cartouche, `shadow-lg` menus, `shadow-xl` drawers, `shadow-2xl` dialogs).
+- **Prohibitions:** no generic SaaS dashboards, glassmorphism, blur halos, gradient text, hard-coded hex utilities or uncalibrated inline styles.
+- **Copy:** idiomatic French for every user-facing string; code, commits and comments in English.
 
 ## Project Way of Working & Git Automation
 
-- **Tech Stack**: Next.js 16 (App Router), React 19, Tailwind CSS v4 semantic tokens only (pp/globals.css), Firebase Realtime Database as single source of truth.
-- **Codebase Navigation (Graft)**: Use pre-computed repo graph in graft/ (graft ask, graft grep, graft skeleton, graft callers) instead of brute-force source scans.
-- **Test Verification**: Whenever modifying, creating, or polishing code, run related tests and ensure all tests pass (
-pm test) before concluding work.
-- **Documentation Git Automation**: Whenever documenting or updating the design system (/impeccable document or updates to DESIGN.md / .impeccable/design.json), automatically execute the full Git flow defined in docs/git-workflow.md:
-  1. Branch: create branch (ash scripts/git-branch.sh docs <name> or git checkout -b <username>/docs/<name>).
-  2. Verify: run 
-pm test to confirm test suite integrity.
-  3. Commit: commit using Conventional Commits (docs(design): ...).
-  4. Push: push to remote (git push -u origin <branch>).
-  5. PR: create Pull Request via GitHub CLI (gh pr create).
-  6. Merge: merge via squash and delete remote branch (gh pr merge --squash --delete-branch).
-  7. Sync: return to master and pull latest (git checkout master && git pull origin master).
-
+- **Stack:** Next.js 16 (App Router), React 19, Tailwind CSS v4 tokens from `app/globals.css` only, Firebase Realtime Database as the single source of truth.
+- **Navigation:** use the Graft index (`graft ask`, `graft grep`, `graft skeleton`, `graft callers`) before brute-force source scans.
+- **Tests:** run the related tests and `npm test` before concluding any code change; `tests/design-system-package.test.ts` keeps `design-system/` in sync with `globals.css`.
+- **Documentation Git automation:** whenever `/impeccable document` or any edit updates `DESIGN.md` / `.impeccable/design.json`, run the full flow of `docs/git-workflow.md`: branch (`bash scripts/git-branch.sh docs <name>`), `npm test`, Conventional Commit (`docs(design): …`), push, pull request, squash merge with branch deletion, then return to `master` and pull.
 
 ## Modes
 
@@ -94,21 +86,25 @@ Choose the mode from the requested surface, not the product, and persist it only
 | `clarify [target]` | Fix | Improve UX copy, labels, and error messages | [reference/clarify.md](reference/clarify.md) |
 | `adapt [target]` | Fix | Adapt for different devices and screen sizes | [reference/adapt.md](reference/adapt.md) · native: [reference/adapt.native.md](reference/adapt.native.md) |
 | `optimize [target]` | Fix | Diagnose and fix UI performance | [reference/optimize.md](reference/optimize.md) |
-| `live` | Iterate | Visual variant mode: pick elements in the browser, generate alternatives | [reference/live.md](reference/live.md) |
+| `live` | Iterate | Visual variant mode: pick elements in the browser, iterate on alternatives | [reference/live.md](reference/live.md) |
+| `generate [n] [action] [element]` | Iterate | Variants, versions, or alternatives of a named element to choose from in the live browser; no manual picking | [reference/generate.md](reference/generate.md) |
 
 Routing:
 
 - **No argument:** read [routing.md](reference/routing.md) and present its context-aware menu; never auto-run a command.
-- **Explicit or clearly implied command:** load its reference (native variant on native platforms) and follow it. Ask once if two commands fit.
-- **Otherwise:** treat the request as general design work. Missing PRODUCT.md routes a new surface or replacement world through init, then new-work; a narrow refinement of existing code proceeds on the incumbent implementation as context.mjs directs, offering init afterward rather than blocking on it.
+- **Explicit or clearly implied request to run a command:** load its reference (native variant on native platforms) and follow it. Ask once if two commands fit.
+- **Workflow or command-selection question:** read [Workflow questions](reference/routing.md#workflow-questions).
+- **Otherwise:** treat the request as general design work. Missing PRODUCT.md routes a new surface or replacement world through init, then new-work; a narrow refinement of existing code proceeds on the incumbent implementation as `impeccable context` directs, offering init afterward rather than blocking on it.
 - `teach` aliases `init`. `craft` is a deprecated alias for ordinary new-work and adds nothing. `shape` owns task discovery, then enters new-work only for visual-world and surface-concept decisions.
 
-After init writes PRODUCT.md, resume without rerunning `context.mjs`; init loads the native platform reference itself when the platform it recorded is `ios`, `android`, or `adaptive`.
+After init writes PRODUCT.md, resume without rerunning `impeccable context`; init loads the native platform reference itself when the platform it recorded is `ios`, `android`, or `adaptive`.
 
-**Pin / Unpin:** `node .claude/skills/impeccable/scripts/pin.mjs <pin|unpin> <command>` creates or removes a standalone `/<command>` shortcut. Report the script's result concisely; relay stderr verbatim on error.
+**Pin / Unpin:** `.claude/skills/impeccable/scripts/impeccable pin <pin|unpin> <command>` creates or removes a standalone `/<command>` shortcut. Report the script's result concisely; relay stderr verbatim on error.
 
 **Hooks:** `/impeccable hooks <on|off|status|ignore-rule|ignore-file|ignore-value|reset>` manages the design detector hook for this project (auto-runs the detector after UI file edits and surfaces findings). Load [reference/hooks.md](reference/hooks.md) when the user invokes it with any argument.
 
 **Doctor:** `/impeccable doctor` reports and repairs drift between this project's Impeccable artifacts (PRODUCT.md, DESIGN.md and its sidecar, config, surface briefs, the hook) and what this version reads. Load [reference/doctor.md](reference/doctor.md) when the user invokes it, or when they ask what is out of date, stale, or needs refreshing. A `CONTEXT_STALE` directive in Setup's output is the cheap subset of the same report; act on it there per its own instructions rather than running doctor unasked.
+
+**Foundations:** `/impeccable foundations` runs `.claude/skills/impeccable/scripts/impeccable foundations` and walks the user through the product-foundations roadmap (secrets, 404 page, icons, CI and more); `/impeccable foundations <id>` fixes that one item. Load [reference/foundations.md](reference/foundations.md) when the user invokes it.
 
 **Never repair drift as a side effect of a design task.** A `CONTEXT_STALE` finding is reported, not acted on, unless the user asks. The one exception is a finding marked `auto`, which the next write to that file performs anyway.

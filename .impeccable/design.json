@@ -1,391 +1,1123 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-23T13:35:00.000Z",
-  "title": "Design System: CC Saint-Martin Blanmont",
+  "generatedAt": "2026-11-28T09:19:03.988Z",
+  "title": "Design System: La Feuille de Blanmont",
+  "sources": [
+    "app/globals.css",
+    "design-system/tokens.json",
+    "design-system/README.md",
+    "design-system/components/*/README.md"
+  ],
   "extensions": {
     "colorMeta": {
       "brand": {
         "role": "primary",
-        "displayName": "Route Red (Club Color)",
+        "displayName": "Route Red",
         "canonical": "#d63535",
-        "tonalRamp": ["#3b0808", "#6c1717", "#8c1919", "#b82b2b", "#d63535", "#e03e3e", "#f87171", "#fdeceb"]
+        "usage": "Route red, the club colour, calibrated for UI: primary buttons, active tabs, live dots, focus ring, caret, selection. White on it 4.75:1; on paper 4.58:1. Never a broad wash.",
+        "tonalRamp": [
+          "#1e0101",
+          "#4a0306",
+          "#7a0b11",
+          "#ad171e",
+          "#de3d3b",
+          "#fc756b",
+          "#fcb6af",
+          "#ffe9e6"
+        ]
       },
       "brand-strong": {
         "role": "primary",
-        "displayName": "Deep Route Red (Hover/Active)",
+        "displayName": "Route Red Strong",
         "canonical": "#b82b2b",
-        "tonalRamp": ["#2e0606", "#501212", "#751818", "#982020", "#b82b2b", "#cf3e3e", "#e87a7a", "#f9dada"]
+        "usage": "Hover/pressed of brand, red text on brand-tint (5.4:1), prose links.",
+        "tonalRamp": [
+          "#1f0001",
+          "#490407",
+          "#7c000c",
+          "#ab1c20",
+          "#d64944",
+          "#fa766d",
+          "#ffb5ad",
+          "#fee9e6"
+        ]
       },
       "brand-vif": {
         "role": "primary",
-        "displayName": "Map Route Red Vif",
+        "displayName": "Road Red Vif",
         "canonical": "#e03e3e",
-        "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#e03e3e", "#f87171", "#fdeceb"]
+        "usage": "Map road red and the Heart Line mark. Large fields and strokes only: 4.1:1 on paper is below AA for small text.",
+        "tonalRamp": [
+          "#1e0101",
+          "#4a0206",
+          "#7a0a12",
+          "#ad151f",
+          "#de3c3c",
+          "#fc746c",
+          "#fcb6af",
+          "#ffe9e6"
+        ]
       },
       "brand-tint": {
         "role": "primary",
-        "displayName": "Brand Tint Wash",
+        "displayName": "Crimson Wash",
         "canonical": "#fdeceb",
-        "tonalRamp": ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5", "#fdeceb"]
+        "usage": "Crimson wash behind brand/danger badges and admin-danger buttons. Text on it: brand-strong.",
+        "tonalRamp": [
+          "#0f0a09",
+          "#2c2120",
+          "#493c3b",
+          "#685a59",
+          "#8b7c7b",
+          "#b0a09f",
+          "#d4c7c6",
+          "#f2eded"
+        ]
       },
       "brand-soft": {
         "role": "primary",
-        "displayName": "Brand Soft Crimson Highlight (Night)",
+        "displayName": "Night Red",
         "canonical": "#ff7b72",
-        "tonalRamp": ["#4a0d0d", "#7a1a1a", "#b82b2b", "#d63535", "#ff7b72", "#ffa39c", "#ffd1cd", "#fff0ef"]
-      },
-      "paper": {
-        "role": "neutral",
-        "displayName": "Map Paper Ground",
-        "canonical": "#fbfbf8",
-        "tonalRamp": ["#1c1c1a", "#383834", "#66665e", "#99998c", "#c7c7bb", "#e3e3d9", "#f4f4ee", "#fbfbf8"]
-      },
-      "paper-2": {
-        "role": "neutral",
-        "displayName": "Recessed Map Paper Ground",
-        "canonical": "#f0f1eb",
-        "tonalRamp": ["#1a1b18", "#33352f", "#5e6155", "#8c9080", "#b8bbae", "#d7d9ce", "#e8e9e2", "#f0f1eb"]
-      },
-      "line": {
-        "role": "neutral",
-        "displayName": "Hairline Neatline Rule (Day)",
-        "canonical": "#dcddd4",
-        "tonalRamp": ["#171816", "#2f312c", "#565950", "#838779", "#b0b4a4", "#cbcebf", "#dcddd4", "#f3f4ee"]
-      },
-      "line-strong": {
-        "role": "neutral",
-        "displayName": "High-Contrast Dividing Border (Day)",
-        "canonical": "#b8baaf",
-        "tonalRamp": ["#141513", "#2a2c27", "#4e5148", "#787c6f", "#a3a797", "#b8baaf", "#d2d4cb", "#edeee8"]
-      },
-      "ink": {
-        "role": "neutral",
-        "displayName": "Printed Ink Black",
-        "canonical": "#16181b",
-        "tonalRamp": ["#08090a", "#101214", "#16181b", "#2c3036", "#4a515c", "#707a8a", "#a2abc0", "#e2e6f0"]
-      },
-      "ink-2": {
-        "role": "neutral",
-        "displayName": "Readable Body Ink",
-        "canonical": "#3c4047",
-        "tonalRamp": ["#111214", "#212327", "#3c4047", "#585e68", "#767d8a", "#98a0ae", "#bfc5d0", "#edf0f4"]
-      },
-      "ink-3": {
-        "role": "neutral",
-        "displayName": "Secondary Telemetry & Captions Ink",
-        "canonical": "#5c6069",
-        "tonalRamp": ["#18191b", "#2e3035", "#474a51", "#5c6069", "#797e8a", "#9ca2af", "#c3c7d1", "#eff1f5"]
-      },
-      "night": {
-        "role": "neutral",
-        "displayName": "Nocturnal Map Sheet Ground",
-        "canonical": "#0d1013",
-        "tonalRamp": ["#050607", "#0d1013", "#171c22", "#242c36", "#374352", "#526379", "#788ea9", "#cdd8e6"]
-      },
-      "night-2": {
-        "role": "neutral",
-        "displayName": "Raised Nocturnal Panel Surface",
-        "canonical": "#151a1f",
-        "tonalRamp": ["#090b0d", "#151a1f", "#202830", "#303c48", "#47596b", "#667f99", "#8fa9c6", "#d8e3ef"]
-      },
-      "night-3": {
-        "role": "neutral",
-        "displayName": "Secondary Nocturnal Ground",
-        "canonical": "#1c2228",
-        "tonalRamp": ["#0b0d10", "#14181d", "#1c2228", "#2a333d", "#3d4b59", "#586b7e", "#7e95ad", "#cfdbe8"]
-      },
-      "night-line": {
-        "role": "neutral",
-        "displayName": "Hairline Neatline Rule (Night)",
-        "canonical": "#28303a",
-        "tonalRamp": ["#0f1317", "#1d232b", "#28303a", "#3b4756", "#54657a", "#7389a3", "#9cb0c9", "#e0e7f1"]
-      },
-      "night-line-strong": {
-        "role": "neutral",
-        "displayName": "High-Contrast Dividing Border (Night)",
-        "canonical": "#3a4450",
-        "tonalRamp": ["#15191e", "#272e36", "#3a4450", "#515e6f", "#6e7f94", "#90a2b8", "#b6c4d5", "#e8eef5"]
-      },
-      "snow": {
-        "role": "neutral",
-        "displayName": "Snow Lettering (Night Display)",
-        "canonical": "#eef1f4",
-        "tonalRamp": ["#181a1c", "#32353a", "#545962", "#7f8693", "#abb2be", "#cfd4dc", "#eef1f4", "#ffffff"]
-      },
-      "snow-2": {
-        "role": "neutral",
-        "displayName": "Secondary Snow Copy (Night)",
-        "canonical": "#c9cfd6",
-        "tonalRamp": ["#151719", "#2d3034", "#4e535a", "#757c87", "#9fa7b4", "#c9cfd6", "#e4e7eb", "#f7f8f9"]
-      },
-      "snow-3": {
-        "role": "neutral",
-        "displayName": "Muted Snow Telemetry (Night)",
-        "canonical": "#9aa3ad",
-        "tonalRamp": ["#121315", "#24272a", "#40454b", "#636a74", "#8a939f", "#9aa3ad", "#c3c8cf", "#edf0f2"]
+        "usage": "Red lettering on night sheets (7.6:1 on night). Fails on paper (2.4:1): night only.",
+        "tonalRamp": [
+          "#1f0001",
+          "#490407",
+          "#7c010d",
+          "#a62828",
+          "#cf504a",
+          "#fa766e",
+          "#feb5ad",
+          "#fee9e6"
+        ]
       },
       "bistre": {
         "role": "secondary",
-        "displayName": "Relief Bistre (Topographic Contours)",
+        "displayName": "Relief Bistre",
         "canonical": "#b0703b",
-        "tonalRamp": ["#2e1b0d", "#533218", "#7e4d25", "#b0703b", "#cd8c55", "#e0ab7d", "#f0cca9", "#faebdc"]
+        "usage": "Relief bistre: contours, elevation, gravel. As text 3.9:1 on paper (large only); use bistre-ink for small text.",
+        "tonalRamp": [
+          "#150701",
+          "#391b02",
+          "#5f3307",
+          "#894c11",
+          "#af6f3a",
+          "#d6945f",
+          "#f5bd93",
+          "#feeadd"
+        ]
+      },
+      "bistre-soft": {
+        "role": "secondary",
+        "displayName": "Light Bistre",
+        "canonical": "#ddb088",
+        "usage": "Light bistre for elevation fills and profiles.",
+        "tonalRamp": [
+          "#150800",
+          "#371d01",
+          "#5b360d",
+          "#7b542e",
+          "#a07650",
+          "#c79b73",
+          "#e8c3a2",
+          "#f9ece1"
+        ]
+      },
+      "bistre-ink": {
+        "role": "secondary",
+        "displayName": "Bistre Ink",
+        "canonical": "#8a5226",
+        "usage": "Bistre lettering on paper (6.1:1).",
+        "tonalRamp": [
+          "#160700",
+          "#3a1a01",
+          "#613104",
+          "#854e21",
+          "#ab7145",
+          "#d29569",
+          "#f2be9a",
+          "#fcebdf"
+        ]
       },
       "hydro": {
         "role": "secondary",
-        "displayName": "Hydro Blue (Dyle & Wind Vectors)",
+        "displayName": "Hydro Blue",
         "canonical": "#1f6fbf",
-        "tonalRamp": ["#08203a", "#0f3c6e", "#16589e", "#1f6fbf", "#4691db", "#77afee", "#a7cefa", "#e1edfd"]
+        "usage": "Hydro blue: rivers, wind vectors, GPX tracks, weather. 5.0:1 on paper.",
+        "tonalRamp": [
+          "#000b1e",
+          "#032447",
+          "#0a4075",
+          "#015eac",
+          "#3582d4",
+          "#5ca8fd",
+          "#a7cefc",
+          "#e4f0fe"
+        ]
+      },
+      "hydro-soft": {
+        "role": "secondary",
+        "displayName": "Light Hydro",
+        "canonical": "#9cc6ec",
+        "usage": "Light hydro for water fills and charts.",
+        "tonalRamp": [
+          "#010c19",
+          "#022641",
+          "#1c4362",
+          "#3b6183",
+          "#5d85a8",
+          "#80a9ce",
+          "#adcfee",
+          "#e5f0fa"
+        ]
+      },
+      "hydro-tint": {
+        "role": "secondary",
+        "displayName": "Hydro Wash",
+        "canonical": "#e7f0f9",
+        "usage": "Hydro wash behind weather/info callouts.",
+        "tonalRamp": [
+          "#090b0e",
+          "#1e252b",
+          "#394148",
+          "#575f66",
+          "#798189",
+          "#9da6ae",
+          "#c4cbd2",
+          "#eceff1"
+        ]
       },
       "vert": {
-        "role": "accent",
-        "displayName": "Woodland Green (Carré Vert & Assiduité)",
+        "role": "secondary",
+        "displayName": "Woodland Green",
         "canonical": "#2e7d45",
-        "tonalRamp": ["#0b2312", "#154223", "#216435", "#2e7d45", "#47a362", "#74c28b", "#a7dfb8", "#e3f5ea"]
+        "usage": "Woodland green: Carré Vert, attendance, validated rides, vert cartouche. White on it 5.1:1.",
+        "tonalRamp": [
+          "#001003",
+          "#012d10",
+          "#054d21",
+          "#1d6f38",
+          "#46935a",
+          "#6bb97d",
+          "#9edcaa",
+          "#e1f5e4"
+        ]
+      },
+      "vert-strong": {
+        "role": "secondary",
+        "displayName": "Deep Woodland",
+        "canonical": "#1f6434",
+        "usage": "Success badge text on vert-tint (6.2:1), vert cartouche on night.",
+        "tonalRamp": [
+          "#001003",
+          "#032d11",
+          "#0b4d23",
+          "#2a6d3d",
+          "#4f915f",
+          "#73b782",
+          "#a4daae",
+          "#e2f4e5"
+        ]
+      },
+      "vert-vif": {
+        "role": "secondary",
+        "displayName": "Bright Woodland",
+        "canonical": "#3fa35e",
+        "usage": "Success lettering on night (6.0:1).",
+        "tonalRamp": [
+          "#001003",
+          "#042c12",
+          "#014e22",
+          "#077135",
+          "#319752",
+          "#5abd76",
+          "#93e0a5",
+          "#def6e2"
+        ]
+      },
+      "vert-tint": {
+        "role": "secondary",
+        "displayName": "Woodland Wash",
+        "canonical": "#e4f1e6",
+        "usage": "Success badge ground.",
+        "tonalRamp": [
+          "#080c09",
+          "#1d271f",
+          "#38433a",
+          "#566158",
+          "#78847a",
+          "#9ca89e",
+          "#c3cec5",
+          "#ecefed"
+        ]
       },
       "bois": {
         "role": "secondary",
-        "displayName": "Bois de Buis Tint Ground",
+        "displayName": "Bois de Buis",
         "canonical": "#dcebcf",
-        "tonalRamp": ["#263819", "#445e31", "#688d4d", "#92b972", "#b6d59b", "#dcebcf", "#ecf5e4", "#f7fbf3"]
+        "usage": "Bois de Buis woodland tint: forest fills, Carré Vert chip ground (vert text on it 4.1:1: use vert-strong for small text).",
+        "tonalRamp": [
+          "#080d05",
+          "#1d2812",
+          "#38442d",
+          "#56634a",
+          "#78856c",
+          "#9caa90",
+          "#c3cfb9",
+          "#ecf0e9"
+        ]
       },
       "ambre": {
-        "role": "accent",
-        "displayName": "Amber Caution & Secondary Roads",
+        "role": "secondary",
+        "displayName": "Amber",
         "canonical": "#e8962a",
-        "tonalRamp": ["#3b2204", "#693d07", "#9f5d0b", "#d57d0e", "#e8962a", "#f1b35b", "#f7cf92", "#fdf0db"]
+        "usage": "Amber: warnings, secondary roads, detours. Never text on paper (2.3:1); fine as text on night (8.0:1).",
+        "tonalRamp": [
+          "#140800",
+          "#351e02",
+          "#5a3707",
+          "#825110",
+          "#b16f12",
+          "#e19020",
+          "#ffbb70",
+          "#feebd7"
+        ]
+      },
+      "ambre-ink": {
+        "role": "secondary",
+        "displayName": "Amber Ink",
+        "canonical": "#9a560a",
+        "usage": "Warning lettering on paper (5.5:1).",
+        "tonalRamp": [
+          "#150700",
+          "#391b00",
+          "#603302",
+          "#894c08",
+          "#b36d2c",
+          "#db9253",
+          "#f9bc8a",
+          "#ffeada"
+        ]
+      },
+      "jaune": {
+        "role": "tertiary",
+        "displayName": "Map Yellow",
+        "canonical": "#f2cd48",
+        "usage": "Map yellow, sparing highlight on map layers.",
+        "tonalRamp": [
+          "#0f0b00",
+          "#2c2302",
+          "#4d3e07",
+          "#6f5c10",
+          "#987e13",
+          "#c2a121",
+          "#e6c967",
+          "#f7efd1"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Map Paper",
+        "canonical": "#fbfbf8",
+        "usage": "Day map paper: the base ground of every day sheet.",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#242422",
+          "#40403d",
+          "#5e5e5b",
+          "#80807e",
+          "#a5a5a2",
+          "#cbcbc8",
+          "#eeeeee"
+        ]
+      },
+      "paper-2": {
+        "role": "neutral",
+        "displayName": "Recessed Paper",
+        "canonical": "#f0f1eb",
+        "usage": "Recessed survey ground: chips, tabular cells, scrollbar track.",
+        "tonalRamp": [
+          "#0b0b09",
+          "#242420",
+          "#3f403b",
+          "#5d5e59",
+          "#80817b",
+          "#a4a5a0",
+          "#cacbc6",
+          "#eeefed"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "Sheet White",
+        "canonical": "#ffffff",
+        "usage": "Lettering on red, green and blue fills; day panels (bg-white) and inputs.",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#dcddd4",
+        "usage": "Day 1px hairline (neatlines, dividers). Decorative only: 1.3:1 on paper, never a control border alone.",
+        "tonalRamp": [
+          "#0b0b08",
+          "#24251e",
+          "#404039",
+          "#5e5e57",
+          "#808179",
+          "#a4a59d",
+          "#cacbc4",
+          "#eeefec"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "#b8baaf",
+        "usage": "Day high-contrast divider, card hover border, scrollbar thumb.",
+        "tonalRamp": [
+          "#0b0c08",
+          "#24251d",
+          "#3f4138",
+          "#5d5f55",
+          "#808177",
+          "#a4a69b",
+          "#caccc3",
+          "#eeefec"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink Black",
+        "canonical": "#16181b",
+        "usage": "Printed black: headings, primary text, scale-bar segments, outline buttons.",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222427",
+          "#3e4043",
+          "#5b5e61",
+          "#7e8084",
+          "#a2a5a9",
+          "#c8cbce",
+          "#eeeef0"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Body Ink",
+        "canonical": "#3c4047",
+        "usage": "Body ink on day paper.",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#21242b",
+          "#3c4047",
+          "#5a5e65",
+          "#7c8088",
+          "#a0a5ad",
+          "#c7cbd2",
+          "#edeef1"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#5c6069",
+        "usage": "Muted ink: captions, coordinates, legend terms (6.1:1 on paper).",
+        "tonalRamp": [
+          "#0a0b0f",
+          "#21242c",
+          "#3c4048",
+          "#5a5e67",
+          "#7c808a",
+          "#a0a5ae",
+          "#c7cad3",
+          "#edeef1"
+        ]
+      },
+      "night": {
+        "role": "neutral",
+        "displayName": "Night Sheet",
+        "canonical": "#0d1013",
+        "usage": "Night sheet ground.",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#212428",
+          "#3d4044",
+          "#5a5e62",
+          "#7d8185",
+          "#a1a5a9",
+          "#c7cbce",
+          "#edeef0"
+        ]
+      },
+      "night-2": {
+        "role": "neutral",
+        "displayName": "Night Panel",
+        "canonical": "#151a1f",
+        "usage": "Raised night panel, cards, inactive pills on night.",
+        "tonalRamp": [
+          "#090b0e",
+          "#1f252a",
+          "#3b4046",
+          "#585e64",
+          "#7b8187",
+          "#9fa5ac",
+          "#c6cbd1",
+          "#edeff1"
+        ]
+      },
+      "night-3": {
+        "role": "neutral",
+        "displayName": "Night Recess",
+        "canonical": "#1c2228",
+        "usage": "Recessed night cells, inputs on night, ghost hover.",
+        "tonalRamp": [
+          "#090b0e",
+          "#1f252b",
+          "#3a4147",
+          "#575e66",
+          "#7a8189",
+          "#9ea6ad",
+          "#c5cbd2",
+          "#eceff1"
+        ]
+      },
+      "night-line": {
+        "role": "neutral",
+        "displayName": "Night Hairline",
+        "canonical": "#28303a",
+        "usage": "Night 1px hairline.",
+        "tonalRamp": [
+          "#080b10",
+          "#1d252e",
+          "#38414b",
+          "#565e6a",
+          "#78818d",
+          "#9ca6b2",
+          "#c3cbd6",
+          "#eceff2"
+        ]
+      },
+      "night-line-strong": {
+        "role": "neutral",
+        "displayName": "Night Strong Hairline",
+        "canonical": "#3a4450",
+        "usage": "Night high-contrast divider, legend borders in the nuit cartouche.",
+        "tonalRamp": [
+          "#080c10",
+          "#1c2530",
+          "#37414d",
+          "#545f6b",
+          "#76818f",
+          "#9aa6b4",
+          "#c2ccd7",
+          "#ebeff3"
+        ]
+      },
+      "snow": {
+        "role": "neutral",
+        "displayName": "Snow",
+        "canonical": "#eef1f4",
+        "usage": "Night primary lettering (16.8:1 on night).",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#222426",
+          "#3e4042",
+          "#5b5e60",
+          "#7e8083",
+          "#a2a5a8",
+          "#c8cbcd",
+          "#eeeeef"
+        ]
+      },
+      "snow-2": {
+        "role": "neutral",
+        "displayName": "Snow Body",
+        "canonical": "#c9cfd6",
+        "usage": "Night body copy, scale-strip ink on night.",
+        "tonalRamp": [
+          "#090b0e",
+          "#20242a",
+          "#3b4046",
+          "#595e64",
+          "#7b8187",
+          "#9fa5ac",
+          "#c6cbd1",
+          "#edeff0"
+        ]
+      },
+      "snow-3": {
+        "role": "neutral",
+        "displayName": "Snow Muted",
+        "canonical": "#9aa3ad",
+        "usage": "Night muted lettering, neatline and tick ink on night (7.5:1 on night).",
+        "tonalRamp": [
+          "#080b0f",
+          "#1e252d",
+          "#394149",
+          "#565f68",
+          "#79818b",
+          "#9da6b0",
+          "#c4cbd4",
+          "#eceff2"
+        ]
       }
     },
+    "roleTokens": [
+      {
+        "name": "surface",
+        "value": {
+          "light": "{paper}",
+          "dark": "{night}"
+        },
+        "usage": "Page ground. Code pairing: bg-paper dark:bg-night."
+      },
+      {
+        "name": "surface-raised",
+        "value": {
+          "light": "{white}",
+          "dark": "{night-2}"
+        },
+        "usage": "Panels set on the ground: cartouche panel, empty state, inputs, inactive pills. Code: bg-white dark:bg-night-2 (cards also use bg-paper dark:bg-night-2)."
+      },
+      {
+        "name": "surface-recessed",
+        "value": {
+          "light": "{paper-2}",
+          "dark": "{night-3}"
+        },
+        "usage": "Recessed cells: chips, table cells, ghost-button hover, legends. Code: bg-paper-2 dark:bg-night-3."
+      },
+      {
+        "name": "rule",
+        "value": {
+          "light": "{line}",
+          "dark": "{night-line}"
+        },
+        "usage": "Every 1px hairline: card borders, dividers, legend rows. Code: border-line dark:border-night-line (the most used pair in the app)."
+      },
+      {
+        "name": "rule-strong",
+        "value": {
+          "light": "{line-strong}",
+          "dark": "{night-line-strong}"
+        },
+        "usage": "Hover border on cards, borders between major sections."
+      },
+      {
+        "name": "text",
+        "value": {
+          "light": "{ink}",
+          "dark": "{snow}"
+        },
+        "usage": "Headings and primary lettering. 17.2:1 on surface (day), 16.8:1 (night). Code: text-ink dark:text-snow."
+      },
+      {
+        "name": "text-body",
+        "value": {
+          "light": "{ink-2}",
+          "dark": "{snow-2}"
+        },
+        "usage": "Running copy and descriptions. 10.1:1 on paper, 12.2:1 on night."
+      },
+      {
+        "name": "text-muted",
+        "value": {
+          "light": "{ink-3}",
+          "dark": "{snow-3}"
+        },
+        "usage": "Captions, coordinates, legend terms, sheet margin. 6.1:1 on paper, 7.5:1 on night."
+      },
+      {
+        "name": "text-accent",
+        "value": {
+          "light": "{brand}",
+          "dark": "{brand-soft}"
+        },
+        "usage": "Red lettering: links, active tab, live labels. 4.58:1 on paper (AA), only 4.18:1 on paper-2: use brand-strong there. brand-soft is 7.6:1 on night."
+      },
+      {
+        "name": "on-brand",
+        "value": "{white}",
+        "usage": "Lettering on a brand or brand-strong fill (4.75:1 and 6.1:1). Also on vert (5.1:1) and hydro (5.1:1)."
+      },
+      {
+        "name": "focus-ring",
+        "value": "{brand}",
+        "usage": "Global :focus-visible outline: 2px solid, 2px offset, in both themes."
+      },
+      {
+        "name": "neat",
+        "value": {
+          "light": "{ink}",
+          "dark": "{snow-3}"
+        },
+        "usage": "Ink of the neatline frame (CSS var --neat in globals.css)."
+      },
+      {
+        "name": "strip",
+        "value": {
+          "light": "{ink}",
+          "dark": "{snow-2}"
+        },
+        "usage": "Ink of the graduated scale strip (CSS var --strip)."
+      },
+      {
+        "name": "tick",
+        "value": {
+          "light": "{ink}",
+          "dark": "{snow-3}"
+        },
+        "usage": "Corner-tick ink (CSS var --tick; components set dark:[--tick:var(--color-snow-3)])."
+      }
+    ],
+    "mapLayers": [
+      {
+        "name": "map-paper",
+        "value": {
+          "light": "#fbfbf8",
+          "dark": "#0d1013"
+        },
+        "usage": "Territory map ground."
+      },
+      {
+        "name": "map-woods",
+        "value": {
+          "light": "#dcebcf",
+          "dark": "#16231a"
+        },
+        "usage": "Woods mask layer (carte-woods)."
+      },
+      {
+        "name": "map-contour",
+        "value": {
+          "light": "#dfb68e",
+          "dark": "#4a3a2b"
+        },
+        "usage": "5 m contour lines (carte-relief)."
+      },
+      {
+        "name": "map-contour-index",
+        "value": {
+          "light": "#b77a44",
+          "dark": "#74553a"
+        },
+        "usage": "Index contour lines (carte-relief-index)."
+      },
+      {
+        "name": "map-water",
+        "value": {
+          "light": "#2b78c2",
+          "dark": "#3f86cf"
+        },
+        "usage": "Rivers: the Dyle and tributaries (carte-water)."
+      },
+      {
+        "name": "map-lake",
+        "value": {
+          "light": "#a9cdef",
+          "dark": "#1d3b58"
+        },
+        "usage": "Lakes and ponds (carte-lakes)."
+      },
+      {
+        "name": "map-road-major",
+        "value": {
+          "light": "#b8322f",
+          "dark": "#b8403d"
+        },
+        "usage": "Major roads."
+      },
+      {
+        "name": "map-road-primary",
+        "value": {
+          "light": "#e03e3e",
+          "dark": "#c94a47"
+        },
+        "usage": "Primary roads."
+      },
+      {
+        "name": "map-road-secondary",
+        "value": {
+          "light": "#ec9f36",
+          "dark": "#9c6b2d"
+        },
+        "usage": "Secondary roads (amber)."
+      },
+      {
+        "name": "map-road-tertiary",
+        "value": {
+          "light": "#c9c3b6",
+          "dark": "#3b3f45"
+        },
+        "usage": "Tertiary roads and lanes."
+      },
+      {
+        "name": "map-rail",
+        "value": {
+          "light": "#2a2c30",
+          "dark": "#8b939c"
+        },
+        "usage": "Railway."
+      },
+      {
+        "name": "map-grid",
+        "value": {
+          "light": "rgba(31, 111, 191, 0.16)",
+          "dark": "rgba(77, 149, 220, 0.14)"
+        },
+        "usage": "Kilometric grid printed over the sheet (2 km cells)."
+      },
+      {
+        "name": "map-label",
+        "value": {
+          "light": "#16181b",
+          "dark": "#eef1f4"
+        },
+        "usage": "Place names on the map."
+      },
+      {
+        "name": "map-halo",
+        "value": {
+          "light": "#fbfbf8",
+          "dark": "#0d1013"
+        },
+        "usage": "Paper glow behind map labels (map-label utility)."
+      },
+      {
+        "name": "map-wind",
+        "value": {
+          "light": "rgba(31, 111, 191, 0.55)",
+          "dark": "rgba(125, 182, 238, 0.55)"
+        },
+        "usage": "Wind field particles and vectors."
+      }
+    ],
     "typographyMeta": {
       "display": {
-        "displayName": "Cartouche Sheet Title",
-        "purpose": "Major topographic sheet title rendered in expanded uppercase Archivo (font-wide, font-extrabold)."
+        "displayName": "Cartouche Title",
+        "purpose": "SheetHeader title: wide 125%, extra-bold, uppercase, one per page, max 20ch."
       },
       "headline": {
         "displayName": "Section Headline",
-        "purpose": "Major section titles and bento headings in semiwide uppercase Archivo (font-semiwide, font-extrabold)."
+        "purpose": "Section headlines: semiwide 112.5%, extra-bold, uppercase. No eyebrow above."
       },
       "title": {
         "displayName": "Route & Card Title",
-        "purpose": "Route names, drawer titles, modal dialogs, and article headings in standard bold Archivo."
+        "purpose": "Route names, card, drawer and dialog titles."
       },
       "body": {
-        "displayName": "Cartographic Body",
-        "purpose": "Readable descriptions, instructions, regulations, and blog editorial copy."
+        "displayName": "Sheet Body",
+        "purpose": "Descriptions, regulations, form help; 65–75ch."
       },
       "label": {
-        "displayName": "Sheet Label & Micro-Badge",
-        "purpose": "Cartouche coordinates, category chips, status tags, and table column headers in narrow uppercase Archivo."
+        "displayName": "Legend Label",
+        "purpose": "Badges, table headers, legend terms, coordinates: narrow 87.5%, uppercase, 0.08em (legend terms 11px, 0.12em)."
       },
-      "data": {
-        "displayName": "Cycling Telemetry & Data",
-        "purpose": "Tabular figures (tabular-nums) for kilometers, elevation in m D+, average speed in km/h, and stopwatch splits."
+      "button": {
+        "displayName": "Button Lettering",
+        "purpose": "Buttons: narrow, uppercase, 0.07em; sm 0.75rem, lg 0.875rem."
+      },
+      "telemetry": {
+        "displayName": "Telemetry",
+        "purpose": "Every cycling metric: tabular figures, unit with a non-breaking space, French decimal comma."
+      },
+      "prose-body": {
+        "displayName": "Carnet de route",
+        "purpose": "Article paragraphs (.prose): 1.0625rem / 1.72 in body ink."
       }
     },
+    "fontStretch": [
+      {
+        "name": "stretch-wide",
+        "value": "125%",
+        "purpose": "Display, cartouche titles, wordmark."
+      },
+      {
+        "name": "stretch-semiwide",
+        "value": "112.5%",
+        "purpose": "Headlines, legend values, map labels, prose headings."
+      },
+      {
+        "name": "stretch-narrow",
+        "value": "87.5%",
+        "purpose": "Labels, badges, buttons, table headers."
+      },
+      {
+        "name": "stretch-condensed",
+        "value": "75%",
+        "purpose": "Dense map annotations."
+      }
+    ],
     "shadows": [
       {
-        "name": "sheet-hover",
-        "value": "0 2px 8px -1px rgba(22, 24, 27, 0.08)",
-        "purpose": "Micro-elevation on interactive card hover states while preserving flat sheet geometry."
+        "name": "shadow-2xs",
+        "value": "0 1px 0 rgba(22, 24, 27, 0.04)",
+        "purpose": "Small inputs."
       },
       {
-        "name": "dropdown-float",
-        "value": "0 10px 25px -5px rgba(22, 24, 27, 0.14)",
-        "purpose": "Floating navigation menus, popovers, and quick-filter trays."
+        "name": "shadow-xs",
+        "value": "0 1px 2px rgba(22, 24, 27, 0.06)",
+        "purpose": "Inputs."
       },
       {
-        "name": "modal-overlay",
-        "value": "0 25px 50px -12px rgba(13, 16, 19, 0.45)",
-        "purpose": "Elevated modal dialogs and mobile navigation drawers."
+        "name": "shadow-sm",
+        "value": "0 1px 3px rgba(22, 24, 27, 0.08)",
+        "purpose": "Card hover lift."
+      },
+      {
+        "name": "shadow-md",
+        "value": "0 3px 8px -2px rgba(22, 24, 27, 0.12)",
+        "purpose": "Cartouche panel over the map band."
+      },
+      {
+        "name": "shadow-lg",
+        "value": "0 10px 24px -8px rgba(22, 24, 27, 0.18)",
+        "purpose": "Dropdowns, popovers, filter trays."
+      },
+      {
+        "name": "shadow-xl",
+        "value": "0 18px 36px -14px rgba(22, 24, 27, 0.24)",
+        "purpose": "Drawers."
+      },
+      {
+        "name": "shadow-2xl",
+        "value": "0 28px 56px -20px rgba(13, 16, 19, 0.38)",
+        "purpose": "Modal dialogs."
       }
     ],
     "motion": [
       {
-        "name": "ease-carto",
-        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "Topographic motion signature: fast exponential ease-out for drawer reveals and sheet flips."
+        "name": "ease-plot",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Plotting: sheet develop, route draw, compass turn, pulse ring."
       },
       {
-        "name": "transition-fast",
-        "value": "150ms ease",
-        "purpose": "Brisk state transitions for buttons, chips, and neatline borders."
+        "name": "ease-stamp",
+        "value": "cubic-bezier(0.2, 0.9, 0.3, 1)",
+        "purpose": "Stamp-in of badges and markers, wordmark hover."
+      },
+      {
+        "name": "duration-state",
+        "value": "150ms",
+        "purpose": "Colour transitions on controls; buttons press 1px down."
+      },
+      {
+        "name": "duration-stamp",
+        "value": "550ms",
+        "purpose": "Badges and markers stamping in (ease-stamp)."
+      },
+      {
+        "name": "duration-develop",
+        "value": "2400ms",
+        "purpose": "The territory sheet developing outward from the Place de la Féchère (ease-plot)."
       }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" },
-      { "name": "md", "value": "768px" },
-      { "name": "lg", "value": "1024px" },
-      { "name": "xl", "value": "1280px" },
-      { "name": "2xl", "value": "1536px" }
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Tablet gutter, larger cartouche band."
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Wordmark subline appears."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Cartouche splits into title and legend columns; 32px gutter."
+      },
+      {
+        "name": "xl",
+        "value": "1280px",
+        "purpose": "Container max width."
+      }
     ]
   },
   "components": [
     {
-      "name": "Bouton d'Action Primaire (Route Red)",
+      "name": "Bouton principal (rouge route)",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Bouton principal rouge route pour actions d'engagement (rejoindre, valider, s'inscrire).",
-      "html": "<button class=\"ds-btn-primary\">REJOINDRE LE PELOTON</button>",
-      "css": ".ds-btn-primary { background-color: #d63535; color: #fbfbf8; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 700; font-stretch: 85%; text-transform: uppercase; letter-spacing: 0.07em; padding: 12px 24px; border: 1px solid #b82b2b; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 150ms ease, transform 100ms ease; } .ds-btn-primary:hover { background-color: #b82b2b; } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: 2px solid #d63535; outline-offset: 2px; }"
+      "description": "The one primary action of a view (Button variant default): Route Red, white narrow uppercase lettering.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3\"/></svg>Télécharger le GPX</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border: 1px solid transparent; border-radius: 3px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; font-stretch: 87.5%; font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease; background: var(--color-brand, #d63535); color: #ffffff; box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.16); } .ds-btn-primary:hover { background: var(--color-brand-strong, #b82b2b); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--color-brand, #d63535); outline-offset: 2px; } .ds-btn-primary svg { width: 16px; height: 16px; flex: none; }"
     },
     {
-      "name": "Bouton Papier Secondaire",
+      "name": "Bouton contour",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Second action beside a primary (Button variant outline): 1px ink border, fills ink on hover.",
+      "html": "<button class=\"ds-btn-outline\">Voir le calendrier</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border: 1px solid transparent; border-radius: 3px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; font-stretch: 87.5%; font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease; background: transparent; color: var(--color-ink, #16181b); border-color: var(--color-ink, #16181b); } .ds-btn-outline:hover { background: var(--color-ink, #16181b); color: #ffffff; } .ds-btn-outline:active { transform: translateY(1px); } .ds-btn-outline:focus-visible { outline: 2px solid var(--color-brand, #d63535); outline-offset: 2px; }"
+    },
+    {
+      "name": "Bouton encre",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Bouton secondaire sur fond de feuille topographique claire.",
-      "html": "<button class=\"ds-btn-secondary\">TÉLÉCHARGER LE GPX</button>",
-      "css": ".ds-btn-secondary { background-color: #f0f1eb; color: #16181b; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 700; font-stretch: 85%; text-transform: uppercase; letter-spacing: 0.07em; padding: 12px 24px; border: 1px solid #dcddd4; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease; } .ds-btn-secondary:hover { background-color: #dcddd4; border-color: #b8baaf; } .ds-btn-secondary:active { transform: translateY(1px); } .ds-btn-secondary:focus-visible { outline: 2px solid #d63535; outline-offset: 2px; }"
+      "description": "Solid ink action (Button variant secondary); snow with night lettering on the night sheet.",
+      "html": "<button class=\"ds-btn-ink\">S'inscrire</button>",
+      "css": ".ds-btn-ink { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border: 1px solid transparent; border-radius: 3px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; font-stretch: 87.5%; font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease; background: var(--color-ink, #16181b); color: #ffffff; } .ds-btn-ink:hover { background: var(--color-ink-2, #3c4047); } .ds-btn-ink:active { transform: translateY(1px); } .ds-btn-ink:focus-visible { outline: 2px solid var(--color-brand, #d63535); outline-offset: 2px; }"
     },
     {
-      "name": "Bouton Feuille Nocturne",
-      "kind": "button",
-      "refersTo": "button-night",
-      "description": "Bouton d'action sur fond noir nocturne ou cartouche de nuit.",
-      "html": "<button class=\"ds-btn-night\">VOIR LE PARCOURS</button>",
-      "css": ".ds-btn-night { background-color: #151a1f; color: #eef1f4; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 700; font-stretch: 85%; text-transform: uppercase; letter-spacing: 0.07em; padding: 12px 24px; border: 1px solid #28303a; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease; } .ds-btn-night:hover { background-color: #1c2228; border-color: #3a4450; } .ds-btn-night:active { transform: translateY(1px); } .ds-btn-night:focus-visible { outline: 2px solid #d63535; outline-offset: 2px; }"
-    },
-    {
-      "name": "Pastille Statut Direct (Rouge Route)",
+      "name": "Pastilles de statut",
       "kind": "chip",
-      "refersTo": "chip-status-live",
-      "description": "Pastille d'activité en direct avec pulsation cartographique pour les sorties et rassemblements.",
-      "html": "<div class=\"ds-chip-live\"><span class=\"ds-pulse-dot\"></span>PROCHAIN DÉPART • 09:00</div>",
-      "css": ".ds-chip-live { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; background-color: #fdeceb; border: 1px solid rgba(214, 53, 53, 0.3); border-radius: 9999px; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 700; font-stretch: 85%; letter-spacing: 0.08em; text-transform: uppercase; color: #d63535; } .ds-pulse-dot { width: 7px; height: 7px; border-radius: 9999px; background-color: #d63535; animation: ds-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; } @keyframes ds-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.85); } }"
+      "refersTo": "badge-brand",
+      "description": "Badge variants brand, success (Carré Vert) and warning: full pill, narrow uppercase, state in words not colour alone.",
+      "html": "<div class=\"ds-badges\"><span class=\"ds-badge ds-badge--brand\"><span class=\"ds-dot\"></span>En direct</span><span class=\"ds-badge ds-badge--success\">Carré Vert · 12</span><span class=\"ds-badge ds-badge--warning\">Déviation</span><span class=\"ds-badge ds-badge--paper\">84,5 km</span></div>",
+      "css": ".ds-badges { display: flex; flex-wrap: wrap; gap: 8px; } .ds-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid transparent; border-radius: 9999px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; font-stretch: 87.5%; font-weight: 700; font-size: 0.75rem; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; } .ds-badge--brand { background: var(--color-brand-tint, #fdeceb); color: var(--color-brand-strong, #b82b2b); border-color: rgba(214, 53, 53, 0.3); } .ds-badge--success { background: var(--color-vert-tint, #e4f1e6); color: var(--color-vert-strong, #1f6434); border-color: rgba(46, 125, 69, 0.25); } .ds-badge--warning { background: rgba(232, 150, 42, 0.15); color: var(--color-ambre-ink, #9a560a); border-color: rgba(232, 150, 42, 0.3); } .ds-badge--paper { background: var(--color-paper-2, #f0f1eb); color: var(--color-ink, #16181b); border-color: var(--color-line, #dcddd4); } .ds-dot { width: 6px; height: 6px; border-radius: 9999px; background: var(--color-brand, #d63535); }"
     },
     {
-      "name": "Badge Encre Spot Vert (Carré Vert)",
+      "name": "Pilules de filtre",
       "kind": "chip",
-      "refersTo": "chip-carre-vert",
-      "description": "Badge officiel Carré Vert attestant de l'assiduité du cycliste ou de la validation d'une sortie.",
-      "html": "<span class=\"ds-badge-vert\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg>CARRÉ VERT VALIDÉ</span>",
-      "css": ".ds-badge-vert { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background-color: #dcebcf; color: #1e582e; border: 1px solid rgba(46, 125, 69, 0.3); border-radius: 9999px; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 700; font-stretch: 85%; letter-spacing: 0.08em; text-transform: uppercase; }"
+      "refersTo": "pill-active",
+      "description": "Filter pair pill-active / pill-inactive at the 44px touch size, used for group and surface filters.",
+      "html": "<div class=\"ds-pills\" role=\"group\" aria-label=\"Groupe\"><button class=\"ds-pill ds-pill--on\" aria-pressed=\"true\">GR1</button><button class=\"ds-pill\" aria-pressed=\"false\">GR2+</button><button class=\"ds-pill\" aria-pressed=\"false\">GR3</button></div>",
+      "css": ".ds-pills { display: flex; flex-wrap: wrap; gap: 8px; } .ds-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid transparent; border-radius: 9999px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; font-stretch: 87.5%; font-weight: 700; font-size: 0.75rem; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; min-height: 44px; padding: 8px 16px; gap: 8px; cursor: pointer; background: #ffffff; color: var(--color-ink-2, #3c4047); border-color: var(--color-line, #dcddd4); transition: border-color 150ms ease; } .ds-pill:hover { border-color: var(--color-ink, #16181b); } .ds-pill--on { background: var(--color-ink, #16181b); color: #ffffff; border-color: var(--color-ink, #16181b); } .ds-pill:focus-visible { outline: 2px solid var(--color-brand, #d63535); outline-offset: 2px; }"
     },
     {
-      "name": "Cartouche de Feuille Topographique (SheetHeader)",
-      "kind": "custom",
-      "refersTo": "sheet-header",
-      "description": "Signature cartographique IGN structurant l'ouverture de chaque feuille de parcours ou de section.",
-      "html": "<div class=\"ds-sheet-header\"><div class=\"ds-sheet-meta\"><div class=\"ds-sheet-geo\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"21\"></line><line x1=\"3\" y1=\"12\" x2=\"21\" y2=\"12\"></line></svg><span>50°37′23″ N · 4°38′32″ E</span></div><span class=\"ds-sheet-num\">FEUILLE 40/1-2 · BRABANT WALLON</span></div><div class=\"ds-sheet-main\"><h2 class=\"ds-sheet-title\">CATALOGUE DES PARCOURS</h2><div class=\"ds-sheet-legend\"><div class=\"ds-legend-item\"><span class=\"ds-legend-val\">104</span><span class=\"ds-legend-lbl\">TRACÉS</span></div><div class=\"ds-legend-div\"></div><div class=\"ds-legend-item\"><span class=\"ds-legend-val\">7 820</span><span class=\"ds-legend-lbl\">KM TOTAL</span></div></div></div></div>",
-      "css": ".ds-sheet-header { background-color: #fbfbf8; border: 1px solid #dcddd4; border-radius: 4px; padding: 20px 24px; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; } .ds-sheet-meta { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #dcddd4; padding-bottom: 10px; margin-bottom: 14px; font-size: 0.6875rem; font-weight: 700; font-stretch: 85%; letter-spacing: 0.08em; text-transform: uppercase; color: #5c6069; } .ds-sheet-geo { display: flex; align-items: center; gap: 6px; color: #d63535; } .ds-sheet-num { font-variant-numeric: tabular-nums; } .ds-sheet-main { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; } .ds-sheet-title { font-size: 1.75rem; font-weight: 800; font-stretch: 125%; line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase; color: #16181b; margin: 0; } .ds-sheet-legend { display: flex; align-items: center; gap: 14px; background-color: #f0f1eb; border: 1px solid #dcddd4; border-radius: 3px; padding: 8px 14px; } .ds-legend-item { display: flex; flex-direction: column; } .ds-legend-val { font-size: 1rem; font-weight: 800; font-variant-numeric: tabular-nums; color: #16181b; line-height: 1; } .ds-legend-lbl { font-size: 0.625rem; font-weight: 700; font-stretch: 85%; letter-spacing: 0.06em; color: #5c6069; margin-top: 2px; } .ds-legend-div { width: 1px; height: 22px; background-color: #dcddd4; }"
-    },
-    {
-      "name": "Fiche Topographique (Corner Ticks)",
-      "kind": "card",
-      "refersTo": "card-paper",
-      "description": "Carte de parcours imprimée sur papier avec repères cartographiques d'angles et télémétrie cycliste.",
-      "html": "<div class=\"ds-card-sheet\"><div class=\"ds-card-head\"><span class=\"ds-card-tag\">PARCOURS CCB-042</span><span class=\"ds-card-zone\">BOIS DE BUIS</span></div><h3 class=\"ds-card-title\">Boucle Brabançonne & Dyle</h3><div class=\"ds-card-telemetry\"><div class=\"ds-tel-cell\"><span class=\"ds-tel-num\">84.5</span><span class=\"ds-tel-unit\">KM</span></div><div class=\"ds-tel-sep\"></div><div class=\"ds-tel-cell\"><span class=\"ds-tel-num\">720</span><span class=\"ds-tel-unit\">M D+</span></div><div class=\"ds-tel-sep\"></div><div class=\"ds-tel-cell\"><span class=\"ds-tel-num\">26.0</span><span class=\"ds-tel-unit\">KM/H</span></div></div></div>",
-      "css": ".ds-card-sheet { position: relative; background-color: #fbfbf8; border: 1px solid #dcddd4; border-radius: 3px; padding: 20px; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; transition: border-color 150ms ease; } .ds-card-sheet:hover { border-color: #b8baaf; } .ds-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.6875rem; font-weight: 700; font-stretch: 85%; letter-spacing: 0.08em; text-transform: uppercase; color: #5c6069; } .ds-card-tag { color: #d63535; } .ds-card-title { font-size: 1.25rem; font-weight: 800; font-stretch: 112%; text-transform: uppercase; letter-spacing: -0.01em; color: #16181b; margin: 0 0 16px 0; } .ds-card-telemetry { display: flex; align-items: center; justify-content: space-between; background-color: #f0f1eb; border: 1px solid #dcddd4; border-radius: 2px; padding: 10px 14px; } .ds-tel-cell { display: flex; align-items: baseline; gap: 4px; } .ds-tel-num { font-size: 1.125rem; font-weight: 800; font-variant-numeric: tabular-nums; color: #16181b; } .ds-tel-unit { font-size: 0.6875rem; font-weight: 700; font-stretch: 85%; letter-spacing: 0.05em; color: #5c6069; } .ds-tel-sep { width: 1px; height: 18px; background-color: #dcddd4; }"
-    },
-    {
-      "name": "Échelle Topographique & Flèche Nord",
-      "kind": "custom",
-      "refersTo": "scale-bar",
-      "description": "Indicateur d'échelle métrique alternée et aiguille magnétique cartographique.",
-      "html": "<div class=\"ds-scale-container\"><div class=\"ds-scale-bar\"><div class=\"ds-scale-ticks\"><span class=\"ds-scale-tick\">0</span><span class=\"ds-scale-tick\">500 m</span><span class=\"ds-scale-tick\">1 km</span></div><div class=\"ds-scale-blocks\"><div class=\"ds-scale-blk ds-scale-black\"></div><div class=\"ds-scale-blk ds-scale-white\"></div><div class=\"ds-scale-blk ds-scale-black\"></div><div class=\"ds-scale-blk ds-scale-white\"></div></div><span class=\"ds-scale-ratio\">ÉCHELLE 1:25 000</span></div><div class=\"ds-north-arrow\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><polygon points=\"12 2 15 14 12 11 9 14\" fill=\"#d63535\"></polygon><polygon points=\"12 22 15 14 12 11 9 14\" fill=\"#5c6069\"></polygon><text x=\"12\" y=\"-1\" font-size=\"8\" font-weight=\"800\" text-anchor=\"middle\" fill=\"#d63535\" font-family=\"Archivo\">N</text></svg></div></div>",
-      "css": ".ds-scale-container { display: inline-flex; align-items: center; gap: 20px; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; } .ds-scale-bar { display: flex; flex-direction: column; width: 120px; } .ds-scale-ticks { display: flex; justify-content: space-between; font-size: 0.5625rem; font-weight: 700; font-stretch: 85%; color: #5c6069; font-variant-numeric: tabular-nums; margin-bottom: 2px; } .ds-scale-blocks { display: flex; height: 4px; border: 1px solid #16181b; } .ds-scale-blk { flex: 1; } .ds-scale-black { background-color: #16181b; } .ds-scale-white { background-color: #fbfbf8; } .ds-scale-ratio { font-size: 0.5625rem; font-weight: 700; font-stretch: 85%; letter-spacing: 0.06em; color: #5c6069; margin-top: 3px; } .ds-north-arrow { display: flex; align-items: center; justify-content: center; }"
-    },
-    {
-      "name": "Champ de Saisie Topographique",
+      "name": "Champ de saisie",
       "kind": "input",
-      "refersTo": "input-text",
-      "description": "Champ de recherche et formulaire avec bordure nette et curseur rouge route.",
-      "html": "<input type=\"text\" class=\"ds-input-paper\" placeholder=\"Rechercher une trace, un dénivelé...\" />",
-      "css": ".ds-input-paper { width: 100%; box-sizing: border-box; background-color: #ffffff; color: #16181b; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; padding: 10px 14px; border: 1px solid #dcddd4; border-radius: 3px; caret-color: #d63535; transition: border-color 150ms ease, box-shadow 150ms ease; } .ds-input-paper::placeholder { color: #5c6069; } .ds-input-paper:focus { outline: none; border-color: #d63535; box-shadow: 0 0 0 1px #d63535; }"
+      "refersTo": "input",
+      "description": "Labelled text field: white, 1px rule border, 3px corners, Route Red caret and focus ring.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-label\">Nom du parcours</span><input class=\"ds-input\" placeholder=\"Boucle de la Dyle\" /><span class=\"ds-help\">Le nom apparaît dans le catalogue des parcours.</span></label>",
+      "css": ".ds-field { display: grid; gap: 6px; max-width: 360px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; } .ds-label { font-stretch: 87.5%; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-ink-3, #5c6069); } .ds-input { display: block; width: 100%; box-sizing: border-box; padding: 8px 14px; border: 1px solid var(--color-line, #dcddd4); border-radius: 3px; background: #ffffff; color: var(--color-ink, #16181b); font: 400 0.875rem/1.4 var(--font-archivo, Archivo), ui-sans-serif, sans-serif; caret-color: var(--color-brand, #d63535); box-shadow: 0 1px 2px rgba(22, 24, 27, 0.06); transition: border-color 150ms ease; } .ds-input::placeholder { color: var(--color-ink-3, #5c6069); } .ds-input:focus { outline: none; border-color: var(--color-brand, #d63535); box-shadow: 0 0 0 1px var(--color-brand, #d63535); } .ds-help { font-size: 0.8125rem; line-height: 1.5; color: var(--color-ink-3, #5c6069); }"
     },
     {
-      "name": "État Vide Topographique",
+      "name": "Cartouche de feuille (SheetHeader)",
+      "kind": "custom",
+      "refersTo": "sheet-header-panel",
+      "description": "Page cartouche: map band with the 2 km grid, neatline panel with shadow-md, wide display title, legend column and sheet margin with coordinates.",
+      "html": "<header class=\"ds-sheet\"><div class=\"ds-sheet__band\"></div><div class=\"ds-sheet__panel\"><div class=\"ds-sheet__main\"><h1 class=\"ds-sheet__title\">Calendrier des sorties</h1><p class=\"ds-sheet__desc\">Toutes les sorties du club, du samedi matin aux brevets de l'été.</p></div><dl class=\"ds-sheet__legend\"><div class=\"ds-sheet__row\"><dt>Prochaine sortie</dt><dd>Sam. 6 déc. · 08:30</dd></div><div class=\"ds-sheet__row\"><dt>Distance</dt><dd>84,5 km</dd></div><div class=\"ds-sheet__row\"><dt>Dénivelé</dt><dd>720 m D+</dd></div></dl></div><div class=\"ds-sheet__margin\"><span>Feuille · Calendrier</span><span class=\"ds-sheet__coords\">50°37′23″ N · 4°38′32″ E</span></div></header>",
+      "css": ".ds-sheet { font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; background: var(--color-paper, #fbfbf8); color: var(--color-ink, #16181b); padding: 0 16px; } .ds-sheet__band { height: 96px; margin: 0 -16px; border-bottom: 1px solid var(--color-line, #dcddd4); background-color: var(--color-paper, #fbfbf8); background-image: linear-gradient(rgba(31, 111, 191, 0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(31, 111, 191, 0.16) 1px, transparent 1px), radial-gradient(ellipse at 30% 60%, var(--color-bois, #dcebcf) 0 22%, transparent 23%), linear-gradient(115deg, transparent 47%, var(--color-brand-vif, #e03e3e) 47% 48.5%, transparent 48.5%); background-size: 48px 48px, 48px 48px, 100% 100%, 100% 100%; } .ds-sheet__panel { position: relative; display: grid; grid-template-columns: 2fr 1fr; margin-top: -48px; background: #ffffff; border: 1px solid var(--color-ink, #16181b); box-shadow: 0 3px 8px -2px rgba(22, 24, 27, 0.12); } .ds-sheet__main { padding: 24px; } .ds-sheet__title { margin: 0; max-width: 20ch; font-stretch: 125%; font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 0.94; letter-spacing: -0.01em; text-transform: uppercase; } .ds-sheet__desc { margin: 16px 0 0; max-width: 62ch; font-size: 1rem; line-height: 1.6; color: var(--color-ink-2, #3c4047); } .ds-sheet__legend { margin: 0; padding: 24px; border-left: 1px solid var(--color-line, #dcddd4); } .ds-sheet__row { padding: 10px 0; border-bottom: 1px solid var(--color-line, #dcddd4); } .ds-sheet__row:last-child { border-bottom: 0; } .ds-sheet__row dt { font-stretch: 87.5%; font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-ink-3, #5c6069); } .ds-sheet__row dd { margin: 4px 0 0; font-stretch: 112.5%; font-weight: 700; font-variant-numeric: tabular-nums; } .ds-sheet__margin { display: flex; justify-content: space-between; gap: 8px; padding: 12px 0; font-stretch: 87.5%; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-ink-3, #5c6069); } .ds-sheet__coords { font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: 0.04em; }"
+    },
+    {
+      "name": "État vide (corner ticks)",
       "kind": "card",
       "refersTo": "empty-state",
-      "description": "Conteneur d'absence de données avec filets d'angle et repères géodésiques.",
-      "html": "<div class=\"ds-empty-box\"><div class=\"ds-empty-symbol\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#d63535\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"21\"></line><line x1=\"3\" y1=\"12\" x2=\"21\" y2=\"12\"></line></svg></div><h4 class=\"ds-empty-heading\">AUCUN PARCOURS IDENTIFIÉ</h4><p class=\"ds-empty-text\">Ajustez vos filtres de distance ou de secteur pour afficher les tracés disponibles.</p></div>",
-      "css": ".ds-empty-box { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; background-color: #fbfbf8; border: 1px solid #dcddd4; border-radius: 3px; font-family: Archivo, ui-sans-serif, system-ui, sans-serif; } .ds-empty-symbol { margin-bottom: 12px; } .ds-empty-heading { font-size: 1rem; font-weight: 800; font-stretch: 112%; text-transform: uppercase; letter-spacing: -0.01em; color: #16181b; margin: 0 0 6px 0; } .ds-empty-text { font-size: 0.8125rem; color: #5c6069; max-width: 360px; line-height: 1.5; margin: 0; }"
+      "description": "Framed absence: corner ticks on a hairline box, square icon frame, semiwide title, one sentence of advice, two actions.",
+      "html": "<section class=\"ds-empty\"><div class=\"ds-empty__icon\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z\"/></svg></div><h3 class=\"ds-empty__title\">Aucune sortie prévue</h3><p class=\"ds-empty__desc\">Aucune sortie prévue cette semaine. Proposez un parcours.</p><div class=\"ds-empty__actions\"><button class=\"ds-empty__btn ds-empty__btn--primary\">Proposer un parcours</button><button class=\"ds-empty__btn\">Voir le calendrier</button></div></section>",
+      "css": ".ds-empty { display: grid; justify-items: center; gap: 16px; padding: 48px 32px; border: 1px solid var(--color-line, #dcddd4); background-color: #ffffff; text-align: center; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; background-image: linear-gradient(var(--color-ink, #16181b) 0 0), linear-gradient(var(--color-ink, #16181b) 0 0), linear-gradient(var(--color-ink, #16181b) 0 0), linear-gradient(var(--color-ink, #16181b) 0 0), linear-gradient(var(--color-ink, #16181b) 0 0), linear-gradient(var(--color-ink, #16181b) 0 0), linear-gradient(var(--color-ink, #16181b) 0 0), linear-gradient(var(--color-ink, #16181b) 0 0); background-repeat: no-repeat; background-size: 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px; background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%; } .ds-empty__icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border: 1px solid var(--color-ink, #16181b); border-radius: 2px; color: var(--color-ink, #16181b); } .ds-empty__title { margin: 0; font-stretch: 112.5%; font-weight: 800; font-size: 1.125rem; text-transform: uppercase; color: var(--color-ink, #16181b); } .ds-empty__desc { margin: 0; max-width: 28rem; font-size: 0.875rem; line-height: 1.625; color: var(--color-ink-2, #3c4047); } .ds-empty__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; } .ds-empty__btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border: 1px solid transparent; border-radius: 3px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; font-stretch: 87.5%; font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease; background: transparent; color: var(--color-ink, #16181b); border-color: var(--color-ink, #16181b); } .ds-empty__btn--primary { background: var(--color-brand, #d63535); border-color: var(--color-brand, #d63535); color: #ffffff; } .ds-empty__btn:hover { background: var(--color-ink, #16181b); border-color: var(--color-ink, #16181b); color: #ffffff; } .ds-empty__btn--primary:hover { background: var(--color-brand-strong, #b82b2b); border-color: var(--color-brand-strong, #b82b2b); } .ds-empty__btn:focus-visible { outline: 2px solid var(--color-brand, #d63535); outline-offset: 2px; }"
+    },
+    {
+      "name": "Échelle et flèche nord (ScaleBar)",
+      "kind": "custom",
+      "refersTo": "scale-bar",
+      "description": "True-to-scale kilometre bar in alternating strip ink with tabular labels, paired with the north arrow.",
+      "html": "<div class=\"ds-scale\"><svg class=\"ds-north\" viewBox=\"0 0 20 32\" aria-label=\"Nord\"><text x=\"10\" y=\"8\" text-anchor=\"middle\" font-size=\"8\" font-weight=\"700\" fill=\"currentColor\">N</text><path d=\"M10 11 L15 30 L10 26 Z\" fill=\"currentColor\"/><path d=\"M10 11 L5 30 L10 26 Z\" fill=\"#fbfbf8\" stroke=\"currentColor\" stroke-width=\"0.8\"/></svg><div><div class=\"ds-scale__bar\"><span></span><span></span><span></span><span></span><span></span></div><div class=\"ds-scale__labels\"><span>0</span><span>5 km</span></div></div></div>",
+      "css": ".ds-scale { display: inline-flex; align-items: flex-end; gap: 16px; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; color: var(--color-ink, #16181b); } .ds-north { width: 20px; height: 32px; } .ds-scale__bar { display: flex; width: 160px; height: 5px; border: 1px solid var(--color-ink, #16181b); box-sizing: border-box; } .ds-scale__bar span { flex: 1; background: var(--color-paper, #fbfbf8); } .ds-scale__bar span:nth-child(odd) { background: var(--color-ink, #16181b); } .ds-scale__labels { display: flex; justify-content: space-between; margin-top: 4px; font-stretch: 87.5%; font-weight: 600; font-size: 10px; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; color: var(--color-ink-2, #3c4047); }"
+    },
+    {
+      "name": "Signature du club (Wordmark)",
+      "kind": "nav",
+      "refersTo": "wordmark",
+      "description": "Masthead signature: Heart Line mark in Road Red Vif beside BLANMONT in wide extra-bold capitals, narrow subline.",
+      "html": "<a class=\"ds-wordmark\" href=\"#\" aria-label=\"CC Saint-Martin Blanmont — accueil\"><svg class=\"ds-wordmark__mark\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" aria-hidden=\"true\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2 12h4l2-5 3 10 2.5-7 1.5 2h7\"/></svg><span class=\"ds-wordmark__name\">Blanmont</span><span class=\"ds-wordmark__sub\">Cyclo Club<br/>Saint-Martin</span></a>",
+      "css": ".ds-wordmark { display: inline-flex; align-items: center; gap: 10px; color: var(--color-ink, #16181b); text-decoration: none; font-family: var(--font-archivo, Archivo), ui-sans-serif, system-ui, sans-serif; } .ds-wordmark__mark { width: 1.15rem; height: 1.15rem; color: var(--color-brand-vif, #e03e3e); flex: none; transition: transform 300ms cubic-bezier(0.2, 0.9, 0.3, 1); } .ds-wordmark:hover .ds-wordmark__mark { transform: translateY(-2px) scale(1.05); } .ds-wordmark__name { font-stretch: 125%; font-weight: 800; font-size: 1.05rem; line-height: 1; letter-spacing: 0.03em; text-transform: uppercase; } .ds-wordmark__sub { padding-left: 10px; border-left: 1px solid var(--color-line, #dcddd4); font-stretch: 87.5%; font-weight: 600; font-size: 0.6875rem; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-ink-3, #5c6069); } .ds-wordmark:focus-visible { outline: 2px solid var(--color-brand, #d63535); outline-offset: 2px; }"
     }
   ],
   "narrative": {
     "northStar": "La Feuille de Blanmont — Carte IGN",
-    "overview": "The CC Saint-Martin Blanmont visual system is printed like a topographic sheet of the club's real territory around the Place de la Féchère (5m contours, Dyle rivers, railway, secondary roads, Bois de Buis). The website is not a generic SaaS dashboard, but a tactile, cartographic document of Flemish & Walloon Brabant cycling routes.\n\nThe light sheet rests on creamy topographic map paper (#fbfbf8) with black Archivo lettering and official map spot inks (route red, relief bistre, hydro blue, woodland green, and amber). The night sheet inverts onto deep nocturnal inks (#0d1013) with crisp snow lettering (#eef1f4). Structure is established through precision neatlines (border-line / border-night-line), corner ticks, geodetic marks, and printed cartouches.",
+    "overview": "The CC Saint-Martin Blanmont platform is printed like a topographic sheet of the club's own territory: a 32 km square centred on the Place de la Féchère in Blanmont (50°37′23″ N · 4°38′32″ E), with its 5 m contours, the Dyle, the railway and the woods of the Bois de Buis. Map paper, black Archivo lettering and the map's spot inks, each ink with a geographic meaning. It is a club document members read before and after a ride, not a SaaS dashboard.\n\nTwo sheets carry the whole interface. The day sheet is map paper (#fbfbf8) with black lettering; the night sheet is a deep ink ground (#0d1013) with snow lettering, and the territory map reprints itself in darker inks by night. Structure comes from print devices, not from shadows: 1px hairlines, the neatline of the cartouche, registration corner ticks, the graduated scale strip and the 2 km kilometric grid. Hierarchy comes from Archivo's width axis rather than from extra faces or tracking.\n\nDensity follows the map: key facts sit in a legend beside the title, metrics are tabular and carry their units, and pages are composed like a map sheet with varied spans rather than rows of identical cards. All copy is French, plain and sporty: the place, the distance, the time.",
     "keyCharacteristics": [
-      "Topographic Sheet Cartouche: Every major page opens on a band of the club's territory with a printed cartouche header (SheetHeader), coordinates, and key facts legend.",
-      "Archivo Superfamily Hierarchy: Variable font Archivo carrying hierarchy through font width (font-wide, font-semiwide, font-narrow) rather than oversized tracked type.",
-      "Spot Inks: Map colors are semantic spot inks: Route Red (#d63535), Relief Bistre (#b0703b), Hydro Blue (#1f6fbf), Woodland Green (#2e7d45), and Amber (#e8962a).",
-      "Flat-by-Default & Hairline Precision: 1px hairline rules (border-line / border-night-line), crisp 2–6px sheet corners, corner ticks, and zero artificial blur/shadow unless elevated.",
-      "Geodetic Point & Telemetry: Departure point at Place de la Féchère (50°37′23″ N · 4°38′32″ E) printed with the geodetic mark (GeodeticMark), tabular figures (tabular-nums) for all metrics."
+      "Every public page opens with the `SheetHeader` cartouche over a band of the real territory, key facts in its legend.",
+      "Two grounds only (day paper, night sheet) written as day/night role pairs; never a mid-tone grey or a third ground.",
+      "Spot inks with a meaning: route red for the one action and live state, bistre for relief, hydro for water and wind, vert for Carré Vert and attendance, ambre for warnings.",
+      "Archivo variable font, hierarchy on the width axis: wide (125%) display, semiwide (112.5%) headlines, narrow (87.5%) labels, badges and buttons.",
+      "Printed frames (hairline, neatline, corner ticks, scale strip, map grid), crisp 2–6px corners, flat at rest.",
+      "Every cycling metric in tabular figures with its unit, French number format (\"84,5 km\", \"720 m D+\", \"26,0 km/h\")."
     ],
     "rules": [
       {
-        "name": "The Map Spot Ink Rule",
-        "body": "Colors represent physical geography and status (Route Red, Relief Bistre, Hydro Blue, Woodland Green, Amber). Never introduce decorative gradients, arbitrary pastels, or SaaS blues.",
+        "name": "The Role Pair Rule",
+        "body": "Every surface, rule and text colour is written as a day/night pair: `surface` = `bg-paper dark:bg-night`, `surface-raised` = `bg-white dark:bg-night-2`, `surface-recessed` = `bg-paper-2 dark:bg-night-3`, `rule` = `border-line dark:border-night-line`, `text` = `text-ink dark:text-snow`, `text-body` = `text-ink-2 dark:text-snow-2`, `text-muted` = `text-ink-3 dark:text-snow-3`, `text-accent` = `text-brand dark:text-brand-soft`. A day class without its night pair, or a pair naming a token that does not exist, is a bug.",
         "section": "colors"
       },
       {
-        "name": "The Ground Contrast Rule",
-        "body": "Surfaces are strictly authentic map paper (#fbfbf8) or nocturnal sheet (#0d1013), divided by neatlines. Never introduce muddy mid-tone grays.",
+        "name": "The Spot Ink Rule",
+        "body": "Each ink means one thing on the map and in the UI (red road and action, bistre relief, hydro water and weather, vert woods and attendance, ambre warning). No decorative gradients, pastels or SaaS blues and purples.",
         "section": "colors"
       },
       {
-        "name": "The Full-Strength Brand Accent Rule",
-        "body": "Brand red (#d63535) is reserved strictly for action triggers, active tabs, live dots, and primary CTAs. It is never used as a diffuse wash over large containers.",
+        "name": "The One Red Rule",
+        "body": "Route Red marks the one action a view is for and live state. It is never a broad background wash; washes use Crimson Wash behind red lettering.",
+        "section": "colors"
+      },
+      {
+        "name": "The Small Text Ink Rule",
+        "body": "Small text never uses Road Red Vif, Amber, Night Red on paper, or Relief Bistre on paper: use Route Red Strong, Amber Ink, Bistre Ink and Deep Woodland.",
         "section": "colors"
       },
       {
         "name": "The Width-Over-Tracking Rule",
-        "body": "Express typographic hierarchy through Archivo's variable font width (font-wide for display, font-semiwide for headlines, font-narrow for labels) rather than artificially stretched letter-spacing.",
+        "body": "Hierarchy is set with `font-wide`, `font-semiwide`, `font-narrow` and `font-condensed`, not with stretched letter-spacing or a second family.",
         "section": "typography"
       },
       {
         "name": "The Tabular Metric Rule",
-        "body": "Every cycling metric (km, m D+, km/h, time splits) must use tabular-nums with explicit units.",
+        "body": "Every cycling metric (km, m D+, km/h, splits, counts in legends) uses `tabular-nums`, its unit and French number format: decimal comma, non-breaking space before the unit (\"84,5 km\").",
         "section": "typography"
       },
       {
         "name": "The No-Eyebrow Rule",
-        "body": "Do not stack ornamental uppercase kickers above major headlines; let the cartouche and scale bar speak.",
+        "body": "No uppercase kicker or eyebrow above a headline. The sheet name belongs in the cartouche margin (\"Feuille · Calendrier\"), not above the title.",
         "section": "typography"
       },
       {
-        "name": "The Cartouche Sheet Rule",
-        "body": "Every major section or page opens with a cartouche neatline banner (SheetHeader) stating coordinates and territory facts.",
+        "name": "The Map Sheet Rule",
+        "body": "Never compose a page from rows of identical cards. Vary spans, pair a map with its table, and put the key facts in a legend.",
         "section": "layout"
       },
       {
-        "name": "The Asymmetric Spread Rule",
-        "body": "Never compose pages from monotonous rows of identical cards; vary cell spans, topographic previews, and tabular blocks to construct an authentic cartographic sheet.",
+        "name": "The Touch Target Rule",
+        "body": "Controls reach 44px on phones: buttons are 44px tall below 640px (40px above), filter pills use the lg size.",
         "section": "layout"
-      },
-      {
-        "name": "The Neatline Depth Rule",
-        "body": "A 1px crisp neatline rule conveys precision boundaries faster and cleaner than a soft blur.",
-        "section": "elevation"
       },
       {
         "name": "The Flat-At-Rest Rule",
-        "body": "Surfaces rest completely flat against their ground; elevation occurs solely in response to interactive states (hover, focus, modal dialog).",
+        "body": "A container declares its elevation once: a 1px `rule` frame at rest, or a shadow because it is raised. Never a wide soft shadow under a bordered card.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Printed Frame Rule",
+        "body": "Frames are printed: `neatline` for the cartouche and heroes, `corner-ticks` for callouts and empty states, `scale-strip` under the masthead, `map-grid` over map bands. One framing device per box. No glassmorphism, backdrop blur or glow.",
         "section": "elevation"
       },
       {
         "name": "The Sheet Corner Rule",
-        "body": "Interactive containers and cards use crisp 3px–6px radii reminiscent of printed card sheets; full pill radii are reserved strictly for status chips and badges.",
-        "section": "shapes"
-      },
-      {
-        "name": "The Corner Tick Rule",
-        "body": "Hero containers and callout boxes use subtle corner tick marks (corner-ticks) evoking survey sheet framing.",
+        "body": "Buttons, inputs, cards and panels stay between 2px and 6px; a pill-shaped button or card is off-system.",
         "section": "shapes"
       }
     ],
     "dos": [
-      "Do write all user-facing copy in idiomatic French (e.g. 'Parcours', 'Sortie du Samedi', 'Dénivelé', 'Télécharger GPX').",
-      "Do use semantic Tailwind tokens (bg-paper, text-ink, border-line, bg-night, text-snow, bg-brand).",
-      "Do use SheetHeader for page headers across the public site.",
-      "Do format cycling metrics with tabular-nums and appropriate French non-breaking spacing (85 km, 720 m D+).",
-      "Do respect prefers-reduced-motion for all map animations and canvas wind fields.",
-      "Do use 1px hairlines and corner ticks to frame cartographic surfaces."
+      "**Do** write every user-facing string in idiomatic French, verb first on actions (\"Télécharger le GPX\", \"S'inscrire\"), no exclamation marks, no emoji.",
+      "**Do** write colours as role pairs that exist in `app/globals.css`: `bg-paper dark:bg-night`, `border-line dark:border-night-line`, `text-ink-3 dark:text-snow-3`.",
+      "**Do** open every public page with `SheetHeader` and put its key facts in the legend.",
+      "**Do** set every metric in `tabular-nums` with its unit and French number format (\"84,5 km\", \"720 m D+\", \"26,0 km/h\", \"08:30\").",
+      "**Do** frame with 1px hairlines, the neatline or corner ticks, one device per box.",
+      "**Do** keep one primary red button per view and make every control 44px tall on phones.",
+      "**Do** say what happened and the next step in empty and error states (\"Aucune sortie prévue cette semaine. Proposez un parcours.\").",
+      "**Do** parse dates in Europe/Brussels and stop every animation under `prefers-reduced-motion`."
     ],
     "donts": [
-      "Don't use hardcoded hex utilities (#101216, #faf8f5, #0a0c10) — always use semantic theme tokens.",
-      "Don't use decorative glassmorphism, blur halos, or gratuitous gradients.",
-      "Don't use Poppins or arbitrary Google fonts — Archivo is the superfamily.",
-      "Don't use naive UTC date parsing that causes date shifts across timezones.",
-      "Don't use full pill radii on buttons; reserve pills strictly for status indicators."
+      "**Don't** hard-code hex values or inline styles in components; use the tokens of `app/globals.css`.",
+      "**Don't** use a token that does not exist (`dark:text-snow-1`): the element keeps its day colour by night.",
+      "**Don't** use glassmorphism, backdrop blur, blur halos, glows or gradient text; surfaces are flat paper or night sheet.",
+      "**Don't** use Poppins, Inter, Roboto or any second face; Archivo is the only family.",
+      "**Don't** round buttons, inputs or cards beyond 6px or into pills; `rounded-full` is for chips and pills only.",
+      "**Don't** set small text in Road Red Vif, Amber, Night Red or Relief Bistre on paper; use Route Red Strong, Amber Ink, Bistre Ink, Deep Woodland.",
+      "**Don't** spread Route Red as a background wash or add a second primary action.",
+      "**Don't** place an eyebrow label above a headline or build a page from rows of identical cards or hero-metric tiles."
     ]
   }
 }
