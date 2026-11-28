@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
-import { CalendarDaysIcon, LinkIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, CalendarDaysIcon, LinkIcon } from '@heroicons/react/24/outline';
 import { Spinner } from '@/app/components/ui/Spinner';
 import { formatFrenchDate } from '@/app/utils/date';
 import type { CatalogTraceOption, EventTraceRow } from '@/app/lib/event-trace';
+import type { BackfillReport } from '@/app/lib/event-trace-catalog';
 import { traceOptionLabel, useTraceLinks } from '../../events/components/useTraceLinks';
 
 /** Rides listed before "show all": about two months of weekends. */
@@ -135,13 +136,83 @@ function EventTraceRowForm({ row, traces, onSaved }: RowProps): React.ReactEleme
   );
 }
 
+/** Calls of the backfill route at most, a few seconds each (a run stops earlier when done). */
+const MAX_BACKFILL_CALLS = 40;
+
+const plural = (n: number, word: string): string => `${n} ${word}${n > 1 ? 's' : ''}`;
+
+/**
+ * "Traces des sorties → catalogue" (#263): adds to the club catalogue the trace links already
+ * typed on calendar rides (past and upcoming) and links each ride to its catalog trace. New
+ * links are added when a ride is saved; this button catches up the older ones.
+ */
+function RideTraceBackfill({ onDone }: { onDone: () => void }): React.ReactElement {
+  const [running, setRunning] = useState(false);
+
+  const run = async (): Promise<void> => {
+    if (running) return;
+    setRunning(true);
+    const total = { linked: 0, created: 0, remaining: 0 };
+    try {
+      for (let call = 0; call < MAX_BACKFILL_CALLS; call++) {
+        const res = await fetch('/api/admin/events/trace-catalog', { method: 'POST' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const report = (await res.json()) as BackfillReport;
+        total.linked += report.linked;
+        total.created += report.created;
+        total.remaining = report.remaining;
+        // Done, or nothing linked in this call (only rides the catalogue refused are left).
+        if (report.remaining === 0 || report.linked === 0) break;
+      }
+      if (total.linked === 0 && total.remaining === 0) {
+        toast.success('Toutes les traces des sorties sont déjà dans le catalogue.');
+      } else {
+        const summary = `${plural(total.linked, 'sortie')} liée${total.linked > 1 ? 's' : ''} · ${plural(
+          total.created,
+          'trace'
+        )} ajoutée${total.created > 1 ? 's' : ''} au catalogue`;
+        if (total.remaining > 0) {
+          toast.warning(`${summary} · ${total.remaining} à reprendre : relancez plus tard.`);
+        } else {
+          toast.success(summary);
+        }
+      }
+      onDone();
+    } catch (error) {
+      console.error('Error adding ride traces to the catalogue:', error);
+      toast.error("Impossible d'ajouter les traces des sorties au catalogue");
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-3 border-b border-line dark:border-night-line px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-xs text-ink-3 dark:text-snow-3 leading-relaxed sm:max-w-[60ch]">
+        Un lien saisi sur une sortie rejoint le catalogue public des traces à l&apos;enregistrement.
+        Ajoutez aussi les liens des sorties déjà enregistrées, passées et à venir.
+      </p>
+      <button
+        type="button"
+        onClick={run}
+        disabled={running}
+        aria-busy={running}
+        className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-sm border border-line dark:border-night-line bg-paper dark:bg-night-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink dark:text-white hover:bg-paper-2 dark:hover:bg-night-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <ArrowPathIcon className={`h-4 w-4 text-brand ${running ? 'animate-spin' : ''}`} aria-hidden="true" />
+        {running ? 'Ajout en cours…' : 'Ajouter les traces des sorties au catalogue'}
+      </button>
+    </div>
+  );
+}
+
 /**
  * "Lier une trace à une sortie" (#255): links a trace of the catalogue to an upcoming ride of
  * the calendar. The ride then shows the trace everywhere (calendar, poll, next ride), for
  * members only (#252). Needs the Événements & Sorties section: hidden without it.
  */
 export default function EventTraceLinker(): React.ReactElement | null {
-  const { status, traces, events } = useTraceLinks();
+  const { status, traces, events, reload } = useTraceLinks();
   // Rides saved here since the load, by id: the list shows them over the loaded rows.
   const [saved, setSaved] = useState<Record<string, EventTraceRow>>({});
   const [showAll, setShowAll] = useState(false);
@@ -178,6 +249,16 @@ export default function EventTraceLinker(): React.ReactElement | null {
           connectés. Elle remplace un lien saisi à la main.
         </p>
       </div>
+
+      {status === 'ready' && (
+        <RideTraceBackfill
+          onDone={() => {
+            // Show the rides as the backfill left them.
+            setSaved({});
+            reload();
+          }}
+        />
+      )}
 
       {status === 'loading' && (
         <div className="flex items-center justify-center py-10">

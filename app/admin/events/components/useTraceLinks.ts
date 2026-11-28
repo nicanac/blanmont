@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { CatalogTraceOption, EventTraceRow, TraceLinksPayload } from '@/app/lib/event-trace';
 
 export type TraceLinksStatus = 'loading' | 'ready' | 'denied' | 'error';
@@ -12,8 +12,11 @@ export interface TraceLinksState {
 }
 
 /** Catalog traces and upcoming rides for the trace pickers (#255). `denied`: no Événements access. */
-export function useTraceLinks(): TraceLinksState {
+export function useTraceLinks(): TraceLinksState & { reload: () => void } {
   const [state, setState] = useState<TraceLinksState>({ status: 'loading', traces: [], events: [] });
+  // Bumped to read the catalogue and the rides again (after the #263 backfill).
+  const [version, setVersion] = useState(0);
+  const reload = useCallback(() => setVersion((v) => v + 1), []);
 
   useEffect(() => {
     let live = true;
@@ -35,9 +38,9 @@ export function useTraceLinks(): TraceLinksState {
     return () => {
       live = false;
     };
-  }, []);
+  }, [version]);
 
-  return state;
+  return { ...state, reload };
 }
 
 /** "Name · 85 km · 950 m D+", the label of a trace in a picker. */

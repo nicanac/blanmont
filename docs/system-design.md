@@ -159,7 +159,8 @@ equipment ──n:m (items[])── equipment-orders
 | Path | Method | Auth | Notes |
 |---|---|---|---|
 | `/api/admin/**` | CRUD | proxy **+** `verifySectionRequest` (`verifyOwnerRequest` for feedback-settings) | members, events, blog, equipment, attendance, hero, galerie, CSV import, GPX parse, metadata fetch |
-| `/api/admin/events/trace-links` | GET | section `events` | Catalog traces with a link + upcoming rides, for the trace pickers (#255). A ride is linked with `PUT /api/admin/events/[id]` `{ traceId }`: the server copies the trace's link (GPX file, else map) into `gpxUrl`; `''` unlinks; a `gpxUrl` typed by hand clears `traceId` |
+| `/api/admin/events/trace-links` | GET | section `events` | Catalog traces with a link + upcoming rides, for the trace pickers (#255). A ride is linked with `PUT /api/admin/events/[id]` `{ traceId }`: the server copies the trace's link (GPX file, else map) into `gpxUrl`; `''` unlinks; a `gpxUrl` typed by hand (event create/edit, PDF import) links the ride to the catalog trace of the same course, or to a new public catalog trace made from the link (#263, `app/lib/event-trace-catalog.ts`); when the catalogue cannot be written the ride keeps its link without `traceId` |
+| `/api/admin/events/trace-catalog` | POST | section `events` | Backfill (#263): links each ride that has a trace link and no `traceId` to its catalog trace, creating one per new course. Works ~8 s per call and answers `{ linked, created, failed, remaining }`; the /admin/traces button calls it again while rides remain. Safe to repeat |
 | `/api/upload` | POST | session | Cloudinary upload |
 | `/api/logs` | POST / GET / PATCH / DELETE | POST open (session optional), others admin | telemetry ingestion, review, pruning |
 | `/api/rejoindre` | POST | public | trial request (Zod-validated) |

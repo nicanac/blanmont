@@ -4,6 +4,7 @@ import { CalendarEvent } from '@/app/types';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { requireSectionAccess } from '@/app/lib/auth/admin-access';
 import { revalidateCalendarPages } from '@/app/lib/revalidate-calendar';
+import { linkRideToCatalog } from '@/app/lib/event-trace-catalog';
 
 const MONTHS: { [key: string]: string } = {
   janvier: '01',
@@ -97,8 +98,11 @@ export async function saveImportedEventsAction(
       const safeLoc = event.location.replace(/[^a-zA-Z0-9]/g, '').slice(0, 12);
       const id = `${event.isoDate.replace(/-/g, '')}-${safeLoc || 'blanmont'}`;
 
+      // A trace link read from the programme joins the club catalogue (#263).
+      const linked = event.gpxUrl && !event.traceId ? await linkRideToCatalog(event) : null;
       await ref.child(id).set({
         ...event,
+        ...(linked ? { traceId: linked.traceId, gpxUrl: linked.gpxUrl } : {}),
         id,
         createdAt: new Date().toISOString(),
       });
