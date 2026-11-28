@@ -33,103 +33,103 @@ Full UI audit of the Blanmont platform against the « La Feuille de Blanmont —
 
 | ID | Issue | Category | Where | GitHub |
 |---|---|---|---|---|
-| F01 | 🐛 [bug] campagne: stock lines show raw ids « MaiCXPRO », « CuiCouHo » | Implementation Integrity | `/admin/commandes/campagnes/campaign_2026_maillots` | — |
-| F02 | 🐛 [bug] admin membres: Actions column off-screen at 1440 px | Responsive | `/admin/members` | — |
-| F03 | 🐛 [bug] leaderboard: rider drawer overflows phones, close clipped | Responsive | `/leaderboard`, `/leaderboard?year=all` | — |
-| F04 | 🐛 [bug] schedule: summer times (8h15/8h30/9h00) shown in winter | Copy | `/`, `/le-club`, `/rejoindre` +1 | — |
-| F05 | 🐛 [bug] cartouche: long titles overflow the panel (« Confidentialité ») | Responsive | `/confidentialite`, `/admin/equipements`, `/admin/events` +3 | — |
-| F06 | 🐛 [bug] profile: opening /profile directly sends a member to login | UX | `/profile` | — |
-| F07 | 🐛 [bug] a11y: icon buttons, links and form fields without accessible names | Accessibility | `/admin (all pages on phones)`, `/admin/blog/[id]/edit`, `/admin/equipements/[id]` +5 | — |
-| F08 | 🐛 [bug] a11y: spot-ink text pairs below WCAG AA contrast on 128 views | Accessibility | `/`, `/calendrier`, `/le-club` +9 | — |
+| F01 | 🐛 [bug] campagne: stock lines show raw ids « MaiCXPRO », « CuiCouHo » | Implementation Integrity | `/admin/commandes/campagnes/campaign_2026_maillots` | [#268](https://github.com/nicanac/blanmont/issues/268) |
+| F02 | 🐛 [bug] admin membres: Actions column off-screen at 1440 px | Responsive | `/admin/members` | [#269](https://github.com/nicanac/blanmont/issues/269) |
+| F03 | 🐛 [bug] leaderboard: rider drawer overflows phones, close clipped | Responsive | `/leaderboard`, `/leaderboard?year=all` | [#270](https://github.com/nicanac/blanmont/issues/270) |
+| F04 | 🐛 [bug] schedule: summer times (8h15/8h30/9h00) shown in winter | Copy | `/`, `/le-club`, `/rejoindre` +1 | [#271](https://github.com/nicanac/blanmont/issues/271) |
+| F05 | 🐛 [bug] cartouche: long titles overflow the panel (« Confidentialité ») | Responsive | `/confidentialite`, `/admin/equipements`, `/admin/events` +3 | [#272](https://github.com/nicanac/blanmont/issues/272) |
+| F06 | 🐛 [bug] profile: opening /profile directly sends a member to login | UX | `/profile` | [#273](https://github.com/nicanac/blanmont/issues/273) |
+| F07 | 🐛 [bug] a11y: icon buttons, links and fields without names | Accessibility | `/admin (all pages on phones)`, `/admin/blog/[id]/edit`, `/admin/equipements/[id]` +5 | [#274](https://github.com/nicanac/blanmont/issues/274) |
+| F08 | 🐛 [bug] a11y: spot-ink text pairs below WCAG AA contrast on 128 views | Accessibility | `/`, `/calendrier`, `/le-club` +9 | [#275](https://github.com/nicanac/blanmont/issues/275) |
 
 ### P2 (63)
 
 | ID | Issue | Category | Where | GitHub |
 |---|---|---|---|---|
-| F09 | 💄 [ui] admin: page and section headers follow four patterns | UX | `/admin/traces`, `/admin/add-trace`, `/admin/blog/new` +9 | — |
-| F10 | 🐛 [bug] admin: cartouche margin reads « Feuille · Feuille · … » | Implementation Integrity | `/admin`, `/admin/acces`, `/admin/blog` +7 | — |
-| F11 | 💄 [ui] admin: ISO dates, « 83.00 € », dot decimals, « 1 pièces » | Copy | `/admin`, `/admin/blog`, `/admin/commandes` +9 | — |
-| F12 | 💄 [ui] admin topbar: wrong breadcrumbs, « A › Tr… » and tiny targets | UX | `/admin/acces`, `/admin/commandes`, `/admin/commandes/banque` +9 | — |
-| F13 | 💄 [ui] admin sidebar: lower sections hidden, active item off-screen | UX | `/admin/equipements`, `/admin/equipements/MaiCXPRO`, `/admin/equipements/MaiCXPRO/edit` +4 | — |
-| F14 | 🐛 [bug] events mobile: ride rows cut off at the right edge | Responsive | `/admin/events` | — |
-| F15 | 💄 [ui] admin mobile: role matrix and order table hide key columns | Responsive | `/admin/acces`, `/admin/commandes/campagnes/campaign_2026_maillots` | — |
-| F16 | 💄 [ui] admin: hand-rolled buttons in 6+ styles, admin variants unused | Implementation Integrity | `/admin`, `/admin/traces`, `/admin/add-trace` +9 | — |
-| F17 | 💄 [ui] admin: form fields, labels and file inputs differ per page | Implementation Integrity | `/admin/blog/new`, `/admin/blog/post_1/edit`, `/admin/add-trace` +9 | — |
-| F18 | 💄 [ui] admin: route red on every row action, link and selected chip | Theming | `/admin/traces`, `/admin/commandes/banque`, `/admin/commandes` +3 | — |
-| F19 | 🐛 [bug] equipement edit: stock inputs clip the digits (0 reads « C ») | Responsive | `/admin/equipements/MaiCXPRO/edit` | — |
-| F20 | 🐛 [bug] admin membre: edit form has no phone; create form no uploader | Implementation Integrity | `/admin/members/m-julie/edit`, `/admin/members/new` | — |
-| F21 | ♻️ [refactor] font: monospace face on 320+ elements (admin, pass) | Theming | `/admin/pointage-express`, `/admin/statistics`, `/admin/sondages` +9 | — |
-| F22 | 💄 [ui] admin: the same filter control is drawn six different ways | Implementation Integrity | `/admin/members`, `/admin/logs`, `/admin/retours` +4 | — |
-| F23 | 💄 [ui] admin: hero-metric KPI tiles on five pages | UX | `/admin/prospects`, `/admin/statistics`, `/admin/sondages` +4 | — |
-| F24 | 💄 [ui] admin: English labels and options, raw enums, emoji | Copy | `/admin/logs`, `/admin/members`, `/admin/members/m-julie/edit` +8 | — |
-| F25 | 🐛 [bug] admin hero: blocks #2–#4 and live preview ignored by home | Implementation Integrity | `/admin/hero`, `/` | — |
-| F26 | 💄 [ui] admin paramètres: dark theme preview is unreadable | Theming | `/admin/settings`, `/admin/parametres` | — |
-| F27 | 💄 [ui] admin journal: triage filter row overflows phones by 191 px | Responsive | `/admin/logs` | — |
-| F28 | 💄 [ui] admin portraits: opens on an empty « Avec photo (0) » filter | UX | `/admin/members/photos` | — |
-| F29 | 💄 [ui] admin statistiques: « JUI » twice, traffic-light bars, no key | Theming | `/admin/statistics` | — |
-| F30 | 💄 [ui] sondage: winter poll still offers « Samedi matin · 8h30 » | UX | `/sondage` | — |
-| F31 | 💄 [ui] members: phone cards are 470 px map placeholders | Responsive | `/members` | — |
-| F32 | 💄 [ui] cartouche: missing on /profile/pass and blog articles | Implementation Integrity | `/profile/pass`, `/profile`, `/profile/commandes` +1 | — |
-| F33 | 💄 [ui] profile/pass: raw role « Member », internal ID and ISO dates | Copy | `/profile/pass`, `/profile` | — |
-| F34 | 🐛 [bug] footer: « Se connecter » offered to signed-in members | UX | `/sondage`, `/leaderboard`, `/galerie` +3 | — |
-| F35 | 💄 [ui] tool pages: four different headers, a screen of blank paper | Implementation Integrity | `/traces/trace_01/edit`, `/import/strava`, `/import/garmin` +1 | — |
-| F36 | 💄 [ui] sondage: raw title « Sortie du Weekend - 2026-11-28 » | Copy | `/sondage` | — |
-| F37 | 💄 [ui] retours: missing-token error blames an admin, offers no fix | UX | `/retours`, `/admin/retours` | — |
-| F38 | 💄 [ui] leaderboard: tied leaders shown three different ways | UX | `/leaderboard` | — |
-| F39 | 💄 [ui] leaderboard: phone table stacks five labelled rows per rider | Responsive | `/leaderboard` | — |
-| F40 | 💄 [ui] galerie: album badges overlap on phones | Responsive | `/galerie` | — |
-| F41 | 💄 [ui] galerie: stats strip repeats the legend, « 1 saisons » | Implementation Integrity | `/galerie` | — |
-| F42 | 🐛 [bug] trace-detail: admin tools and review edit shown to visitors | Implementation Integrity | `/traces/trace_01` | — |
-| F43 | 💄 [ui] equipement: three competing order actions above the catalogue | UX | `/le-club/equipement` | — |
-| F44 | 💄 [ui] equipement: eyebrow, icon tiles and off-system section headings | Theming | `/le-club/equipement` | — |
-| F45 | 💄 [ui] home: full-bleed route-red band breaks the One Red Rule | Theming | `/` | — |
-| F46 | 🐛 [bug] public pages: every tab carries the same generic <title> | Accessibility | `/le-club`, `/le-club/equipement`, `/calendrier` +2 | — |
-| F47 | 💄 [ui] public pages: the GPX download is drawn five different ways | UX | `/`, `/calendrier`, `/traces` +1 | — |
-| F48 | 🐛 [bug] trace-detail: no GPX download, description and map link twice | UX | `/traces/trace_01` | — |
-| F49 | 💄 [ui] copy: Title Case, franglais, « ! » and typos on public pages | Copy | `/`, `/le-club`, `/le-club/equipement` +9 | — |
-| F50 | 💄 [ui] le-club: « 1 ou 2 sorties » vs « Trois sorties d’essai » | Copy | `/le-club`, `/` | — |
-| F51 | 💄 [ui] traces: empty catalogue blames the visitor’s filters | UX | `/traces` | — |
-| F52 | 💄 [ui] traces, equipement: English words in the French UI | Copy | `/traces`, `/traces/trace_01`, `/le-club/equipement` | — |
-| F53 | 💄 [ui] traces, equipement, calendrier: decimal point and mixed ranges | Copy | `/traces`, `/traces/trace_01`, `/le-club/equipement` +2 | — |
-| F54 | 🐛 [bug] equipement: product photos 404 (public and admin) | Implementation Integrity | `/le-club/equipement`, `/admin/equipements`, `/admin/equipements/MaiCXPRO` +1 | — |
-| F55 | 🐛 [bug] equipement: « Épuisé » shown on items in stock, double « Tous » | UX | `/le-club/equipement`, `/admin/equipements` | — |
-| F56 | 💄 [ui] equipement: placeholder art overlaps labels, socks as a jersey | Implementation Integrity | `/le-club/equipement` | — |
-| F57 | 💄 [ui] chips: wrapping amber pill, rect filters, red category chip | Implementation Integrity | `/confidentialite`, `/securite`, `/blog` +1 | — |
-| F58 | 💄 [ui] forms: field style differs per page and text is 12 px on phones | Responsive | `/login`, `/login/forgot-password`, `/auth/action` +3 | — |
-| F59 | 💄 [ui] rejoindre, securite, article: red beyond the one action | Theming | `/rejoindre`, `/securite`, `/blog/recit-la-boucle-de-lorne-sous-le-soleil` | — |
-| F60 | 💄 [ui] securite: diagrams illegible on phones and off-palette | Responsive | `/securite` | — |
-| F61 | 🐛 [bug] groups: names and paces hard-coded, not from group settings | Implementation Integrity | `/saturday-ride`, `/rejoindre`, `/admin/prospects` +1 | — |
-| F62 | 💄 [ui] auth pages: translucent card, amber actions, not one system | Theming | `/login`, `/login/forgot-password`, `/auth/action` +2 | — |
-| F63 | 💄 [ui] login, auth: 14–16 px tall recovery links on phones | Accessibility | `/login`, `/auth/action`, `/checkout` | — |
-| F64 | 🐛 [bug] saturday-ride: login button loses the return to the vote | UX | `/saturday-ride`, `/checkout` | — |
-| F65 | ♻️ [refactor] public pages: red buttons hand-rolled in 5 styles + glow | Implementation Integrity | `/saturday-ride`, `/login`, `/rejoindre` +3 | — |
-| F66 | 💄 [ui] rejoindre, securite, confidentialite: 3 section-headline styles | Implementation Integrity | `/rejoindre`, `/securite`, `/confidentialite` | — |
-| F67 | 🐛 [bug] avatars: default-avatar.png does not exist (broken image) | Implementation Integrity | `/galerie`, `/sondage`, `/retours` +2 | — |
-| F68 | 💄 [ui] tokens: 739 Tailwind default colours (emerald, amber, sky…) in 53 files | Theming | `/login`, `/auth/action`, `/leaderboard` +9 | — |
-| F69 | 💄 [ui] admin: night sheet locked out; dark classes are dead code | Theming | `/admin/**` | — |
-| F70 | 💄 [ui] design system: frosted glass (backdrop blur) on navbar and 10 more | Theming | `/securite`, `/profile/pass`, `/le-club/equipement` +6 | — |
-| F71 | ♻️ [refactor] type: 168 literal 10–11px sizes off the type ramp | Implementation Integrity |  +1 | — |
+| F09 | 💄 [ui] admin: page and section headers follow four patterns | UX | `/admin/traces`, `/admin/add-trace`, `/admin/blog/new` +9 | [#276](https://github.com/nicanac/blanmont/issues/276) |
+| F10 | 🐛 [bug] admin: cartouche margin reads « Feuille · Feuille · … » | Implementation Integrity | `/admin`, `/admin/acces`, `/admin/blog` +7 | [#277](https://github.com/nicanac/blanmont/issues/277) |
+| F11 | 💄 [ui] admin: ISO dates, « 83.00 € », dot decimals, « 1 pièces » | Copy | `/admin`, `/admin/blog`, `/admin/commandes` +9 | [#278](https://github.com/nicanac/blanmont/issues/278) |
+| F12 | 💄 [ui] admin topbar: wrong breadcrumbs, « A › Tr… » and tiny targets | UX | `/admin/acces`, `/admin/commandes`, `/admin/commandes/banque` +9 | [#279](https://github.com/nicanac/blanmont/issues/279) |
+| F13 | 💄 [ui] admin sidebar: lower sections hidden, active item off-screen | UX | `/admin/equipements`, `/admin/equipements/MaiCXPRO`, `/admin/equipements/MaiCXPRO/edit` +4 | [#280](https://github.com/nicanac/blanmont/issues/280) |
+| F14 | 🐛 [bug] events mobile: ride rows cut off at the right edge | Responsive | `/admin/events` | [#281](https://github.com/nicanac/blanmont/issues/281) |
+| F15 | 💄 [ui] admin mobile: role matrix and order table hide key columns | Responsive | `/admin/acces`, `/admin/commandes/campagnes/campaign_2026_maillots` | [#282](https://github.com/nicanac/blanmont/issues/282) |
+| F16 | 💄 [ui] admin: hand-rolled buttons in 6+ styles, admin variants unused | Implementation Integrity | `/admin`, `/admin/traces`, `/admin/add-trace` +9 | [#283](https://github.com/nicanac/blanmont/issues/283) |
+| F17 | 💄 [ui] admin: form fields, labels and file inputs differ per page | Implementation Integrity | `/admin/blog/new`, `/admin/blog/post_1/edit`, `/admin/add-trace` +9 | [#284](https://github.com/nicanac/blanmont/issues/284) |
+| F18 | 💄 [ui] admin: route red on every row action, link and selected chip | Theming | `/admin/traces`, `/admin/commandes/banque`, `/admin/commandes` +3 | [#285](https://github.com/nicanac/blanmont/issues/285) |
+| F19 | 🐛 [bug] equipement edit: stock inputs clip the digits (0 reads « C ») | Responsive | `/admin/equipements/MaiCXPRO/edit` | [#286](https://github.com/nicanac/blanmont/issues/286) |
+| F20 | 🐛 [bug] admin membre: edit form has no phone; create form no uploader | Implementation Integrity | `/admin/members/m-julie/edit`, `/admin/members/new` | [#287](https://github.com/nicanac/blanmont/issues/287) |
+| F21 | ♻️ [refactor] font: monospace face on 320+ elements (admin, pass) | Theming | `/admin/pointage-express`, `/admin/statistics`, `/admin/sondages` +9 | [#288](https://github.com/nicanac/blanmont/issues/288) |
+| F22 | 💄 [ui] admin: the same filter control is drawn six different ways | Implementation Integrity | `/admin/members`, `/admin/logs`, `/admin/retours` +4 | [#289](https://github.com/nicanac/blanmont/issues/289) |
+| F23 | 💄 [ui] admin: hero-metric KPI tiles on five pages | UX | `/admin/prospects`, `/admin/statistics`, `/admin/sondages` +4 | [#290](https://github.com/nicanac/blanmont/issues/290) |
+| F24 | 💄 [ui] admin: English labels and options, raw enums, emoji | Copy | `/admin/logs`, `/admin/members`, `/admin/members/m-julie/edit` +8 | [#291](https://github.com/nicanac/blanmont/issues/291) |
+| F25 | 🐛 [bug] admin hero: blocks #2–#4 and live preview ignored by home | Implementation Integrity | `/admin/hero`, `/` | [#292](https://github.com/nicanac/blanmont/issues/292) |
+| F26 | 💄 [ui] admin paramètres: dark theme preview is unreadable | Theming | `/admin/settings`, `/admin/parametres` | [#293](https://github.com/nicanac/blanmont/issues/293) |
+| F27 | 💄 [ui] admin journal: triage filter row overflows phones by 191 px | Responsive | `/admin/logs` | [#294](https://github.com/nicanac/blanmont/issues/294) |
+| F28 | 💄 [ui] admin portraits: opens on an empty « Avec photo (0) » filter | UX | `/admin/members/photos` | [#295](https://github.com/nicanac/blanmont/issues/295) |
+| F29 | 💄 [ui] admin statistiques: « JUI » twice, traffic-light bars, no key | Theming | `/admin/statistics` | [#296](https://github.com/nicanac/blanmont/issues/296) |
+| F30 | 💄 [ui] sondage: winter poll still offers « Samedi matin · 8h30 » | UX | `/sondage` | [#297](https://github.com/nicanac/blanmont/issues/297) |
+| F31 | 💄 [ui] members: phone cards are 470 px map placeholders | Responsive | `/members` | [#298](https://github.com/nicanac/blanmont/issues/298) |
+| F32 | 💄 [ui] cartouche: missing on /profile/pass and blog articles | Implementation Integrity | `/profile/pass`, `/profile`, `/profile/commandes` +1 | [#299](https://github.com/nicanac/blanmont/issues/299) |
+| F33 | 💄 [ui] profile/pass: raw role « Member », internal ID and ISO dates | Copy | `/profile/pass`, `/profile` | [#300](https://github.com/nicanac/blanmont/issues/300) |
+| F34 | 🐛 [bug] footer: « Se connecter » offered to signed-in members | UX | `/sondage`, `/leaderboard`, `/galerie` +3 | [#301](https://github.com/nicanac/blanmont/issues/301) |
+| F35 | 💄 [ui] tool pages: four different headers, a screen of blank paper | Implementation Integrity | `/traces/trace_01/edit`, `/import/strava`, `/import/garmin` +1 | [#302](https://github.com/nicanac/blanmont/issues/302) |
+| F36 | 💄 [ui] sondage: raw title « Sortie du Weekend - 2026-11-28 » | Copy | `/sondage` | [#303](https://github.com/nicanac/blanmont/issues/303) |
+| F37 | 💄 [ui] retours: missing-token error blames an admin, offers no fix | UX | `/retours`, `/admin/retours` | [#304](https://github.com/nicanac/blanmont/issues/304) |
+| F38 | 💄 [ui] leaderboard: tied leaders shown three different ways | UX | `/leaderboard` | [#305](https://github.com/nicanac/blanmont/issues/305) |
+| F39 | 💄 [ui] leaderboard: phone table stacks five labelled rows per rider | Responsive | `/leaderboard` | [#306](https://github.com/nicanac/blanmont/issues/306) |
+| F40 | 💄 [ui] galerie: album badges overlap on phones | Responsive | `/galerie` | [#307](https://github.com/nicanac/blanmont/issues/307) |
+| F41 | 💄 [ui] galerie: stats strip repeats the legend, « 1 saisons » | Implementation Integrity | `/galerie` | [#308](https://github.com/nicanac/blanmont/issues/308) |
+| F42 | 🐛 [bug] trace-detail: admin tools and review edit shown to visitors | Implementation Integrity | `/traces/trace_01` | [#309](https://github.com/nicanac/blanmont/issues/309) |
+| F43 | 💄 [ui] equipement: three competing order actions above the catalogue | UX | `/le-club/equipement` | [#310](https://github.com/nicanac/blanmont/issues/310) |
+| F44 | 💄 [ui] equipement: eyebrow, icon tiles and off-system section headings | Theming | `/le-club/equipement` | [#311](https://github.com/nicanac/blanmont/issues/311) |
+| F45 | 💄 [ui] home: full-bleed route-red band breaks the One Red Rule | Theming | `/` | [#312](https://github.com/nicanac/blanmont/issues/312) |
+| F46 | 🐛 [bug] public pages: every tab carries the same generic <title> | Accessibility | `/le-club`, `/le-club/equipement`, `/calendrier` +2 | [#313](https://github.com/nicanac/blanmont/issues/313) |
+| F47 | 💄 [ui] public pages: the GPX download is drawn five different ways | UX | `/`, `/calendrier`, `/traces` +1 | [#314](https://github.com/nicanac/blanmont/issues/314) |
+| F48 | 🐛 [bug] trace-detail: no GPX download, description and map link twice | UX | `/traces/trace_01` | [#315](https://github.com/nicanac/blanmont/issues/315) |
+| F49 | 💄 [ui] copy: Title Case, franglais, « ! » and typos on public pages | Copy | `/`, `/le-club`, `/le-club/equipement` +9 | [#316](https://github.com/nicanac/blanmont/issues/316) |
+| F50 | 💄 [ui] le-club: « 1 ou 2 sorties » vs « Trois sorties d’essai » | Copy | `/le-club`, `/` | [#317](https://github.com/nicanac/blanmont/issues/317) |
+| F51 | 💄 [ui] traces: empty catalogue blames the visitor’s filters | UX | `/traces` | [#318](https://github.com/nicanac/blanmont/issues/318) |
+| F52 | 💄 [ui] traces, equipement: English words in the French UI | Copy | `/traces`, `/traces/trace_01`, `/le-club/equipement` | [#319](https://github.com/nicanac/blanmont/issues/319) |
+| F53 | 💄 [ui] traces, equipement, calendrier: decimal point and mixed ranges | Copy | `/traces`, `/traces/trace_01`, `/le-club/equipement` +2 | [#320](https://github.com/nicanac/blanmont/issues/320) |
+| F54 | 🐛 [bug] equipement: product photos 404 (public and admin) | Implementation Integrity | `/le-club/equipement`, `/admin/equipements`, `/admin/equipements/MaiCXPRO` +1 | [#321](https://github.com/nicanac/blanmont/issues/321) |
+| F55 | 🐛 [bug] equipement: « Épuisé » shown on items in stock, double « Tous » | UX | `/le-club/equipement`, `/admin/equipements` | [#322](https://github.com/nicanac/blanmont/issues/322) |
+| F56 | 💄 [ui] equipement: placeholder art overlaps labels, socks as a jersey | Implementation Integrity | `/le-club/equipement` | [#323](https://github.com/nicanac/blanmont/issues/323) |
+| F57 | 💄 [ui] chips: wrapping amber pill, rect filters, red category chip | Implementation Integrity | `/confidentialite`, `/securite`, `/blog` +1 | [#324](https://github.com/nicanac/blanmont/issues/324) |
+| F58 | 💄 [ui] forms: field style differs per page and text is 12 px on phones | Responsive | `/login`, `/login/forgot-password`, `/auth/action` +3 | [#325](https://github.com/nicanac/blanmont/issues/325) |
+| F59 | 💄 [ui] rejoindre, securite, article: red beyond the one action | Theming | `/rejoindre`, `/securite`, `/blog/recit-la-boucle-de-lorne-sous-le-soleil` | [#326](https://github.com/nicanac/blanmont/issues/326) |
+| F60 | 💄 [ui] securite: diagrams illegible on phones and off-palette | Responsive | `/securite` | [#327](https://github.com/nicanac/blanmont/issues/327) |
+| F61 | 🐛 [bug] groups: names and paces hard-coded, not from group settings | Implementation Integrity | `/saturday-ride`, `/rejoindre`, `/admin/prospects` +1 | [#328](https://github.com/nicanac/blanmont/issues/328) |
+| F62 | 💄 [ui] auth pages: translucent card, amber actions, not one system | Theming | `/login`, `/login/forgot-password`, `/auth/action` +2 | [#329](https://github.com/nicanac/blanmont/issues/329) |
+| F63 | 💄 [ui] login, auth: 14–16 px tall recovery links on phones | Accessibility | `/login`, `/auth/action`, `/checkout` | [#330](https://github.com/nicanac/blanmont/issues/330) |
+| F64 | 🐛 [bug] saturday-ride: login button loses the return to the vote | UX | `/saturday-ride`, `/checkout` | [#331](https://github.com/nicanac/blanmont/issues/331) |
+| F65 | ♻️ [refactor] public pages: red buttons hand-rolled in 5 styles + glow | Implementation Integrity | `/saturday-ride`, `/login`, `/rejoindre` +3 | [#332](https://github.com/nicanac/blanmont/issues/332) |
+| F66 | 💄 [ui] rejoindre, securite, confidentialite: 3 section-headline styles | Implementation Integrity | `/rejoindre`, `/securite`, `/confidentialite` | [#333](https://github.com/nicanac/blanmont/issues/333) |
+| F67 | 🐛 [bug] avatars: default-avatar.png does not exist (broken image) | Implementation Integrity | `/galerie`, `/sondage`, `/retours` +2 | [#334](https://github.com/nicanac/blanmont/issues/334) |
+| F68 | 💄 [ui] tokens: 739 stock Tailwind colours in 53 files | Theming | `/login`, `/auth/action`, `/leaderboard` +9 | [#335](https://github.com/nicanac/blanmont/issues/335) |
+| F69 | 💄 [ui] admin: night sheet locked out; dark classes are dead code | Theming | `/admin/**` | [#336](https://github.com/nicanac/blanmont/issues/336) |
+| F70 | 💄 [ui] design system: frosted glass on navbar and 10 more | Theming | `/securite`, `/profile/pass`, `/le-club/equipement` +6 | [#337](https://github.com/nicanac/blanmont/issues/337) |
+| F71 | ♻️ [refactor] type: 168 literal 10–11px sizes off the type ramp | Implementation Integrity |  +1 | [#338](https://github.com/nicanac/blanmont/issues/338) |
 
 ### P3 (16)
 
 | ID | Issue | Category | Where | GitHub |
 |---|---|---|---|---|
-| F72 | ♻️ [refactor] admin: unknown tokens ambre-dark, paper-3, vert-light | Theming | `/admin/events`, `/admin/events/import` | — |
-| F73 | 💄 [ui] admin pointage: fixed bar covers the sidebar, halo shadow | Implementation Integrity | `/admin/pointage-express` | — |
-| F74 | 💄 [ui] profile: the member's own card drawn three different ways | Implementation Integrity | `/profile`, `/profile/pass`, `/sondage` | — |
-| F75 | 💄 [ui] import/garmin, trace edit: emoji controls, « 10MB », red tab | Copy | `/import/garmin`, `/traces/trace_01/edit` | — |
-| F76 | 💄 [ui] sondage: groups and question headings disagree within the poll | Implementation Integrity | `/sondage` | — |
-| F77 | 💄 [ui] leaderboard: bold names in the table mean nothing visible | UX | `/leaderboard` | — |
-| F78 | 💄 [ui] leaderboard: season switcher offers empty 2027, wraps on phones | Responsive | `/leaderboard` | — |
-| F79 | 💄 [ui] home, calendrier: key facts cut by ellipsis | Responsive | `/`, `/calendrier` | — |
-| F80 | 💄 [ui] footer: scale plate hides towns, theme toggle colours swapped | Implementation Integrity | `/`, `/le-club`, `/le-club/equipement` +9 | — |
-| F81 | 💄 [ui] blog post: title, photo, text and share box on 3 left edges | UX | `/blog/recit-la-boucle-de-lorne-sous-le-soleil` | — |
-| F82 | 💄 [ui] securite: page built from identical card grids, labels doubled | UX | `/securite` | — |
-| F83 | 💄 [ui] a11y: invalid legend markup, unlabelled chart, heading jumps | Accessibility | `/`, `/admin/statistics`, `/sondage` +3 | — |
-| F84 | ♻️ [refactor] tokens: hard-coded hex/rgba colours (Strava, WhatsApp, charts) | Theming | `/import/strava`, `/members`, `/calendrier` +4 | — |
-| F85 | ♻️ [refactor] layout: internal design brief shipped in every page's HTML | Implementation Integrity |  +1 | — |
-| F86 | ♻️ [refactor] design system: remove dead Poppins config and unused PageHero | Implementation Integrity |  +1 | — |
-| F87 | 💄 [ui] home: eyebrow and repeated date above « Qui roule ce week-end ? » | Implementation Integrity | `/` | — |
+| F72 | ♻️ [refactor] admin: unknown tokens ambre-dark, paper-3, vert-light | Theming | `/admin/events`, `/admin/events/import` | [#339](https://github.com/nicanac/blanmont/issues/339) |
+| F73 | 💄 [ui] admin pointage: fixed bar covers the sidebar, halo shadow | Implementation Integrity | `/admin/pointage-express` | [#340](https://github.com/nicanac/blanmont/issues/340) |
+| F74 | 💄 [ui] profile: the member's own card drawn three different ways | Implementation Integrity | `/profile`, `/profile/pass`, `/sondage` | [#341](https://github.com/nicanac/blanmont/issues/341) |
+| F75 | 💄 [ui] import/garmin, trace edit: emoji controls, « 10MB », red tab | Copy | `/import/garmin`, `/traces/trace_01/edit` | [#342](https://github.com/nicanac/blanmont/issues/342) |
+| F76 | 💄 [ui] sondage: groups and question headings disagree within the poll | Implementation Integrity | `/sondage` | [#343](https://github.com/nicanac/blanmont/issues/343) |
+| F77 | 💄 [ui] leaderboard: bold names in the table mean nothing visible | UX | `/leaderboard` | [#344](https://github.com/nicanac/blanmont/issues/344) |
+| F78 | 💄 [ui] leaderboard: season switcher offers empty 2027, wraps on phones | Responsive | `/leaderboard` | [#345](https://github.com/nicanac/blanmont/issues/345) |
+| F79 | 💄 [ui] home, calendrier: key facts cut by ellipsis | Responsive | `/`, `/calendrier` | [#346](https://github.com/nicanac/blanmont/issues/346) |
+| F80 | 💄 [ui] footer: scale plate hides towns, theme toggle colours swapped | Implementation Integrity | `/`, `/le-club`, `/le-club/equipement` +9 | [#347](https://github.com/nicanac/blanmont/issues/347) |
+| F81 | 💄 [ui] blog post: title, photo, text and share box on 3 left edges | UX | `/blog/recit-la-boucle-de-lorne-sous-le-soleil` | [#348](https://github.com/nicanac/blanmont/issues/348) |
+| F82 | 💄 [ui] securite: page built from identical card grids, labels doubled | UX | `/securite` | [#349](https://github.com/nicanac/blanmont/issues/349) |
+| F83 | 💄 [ui] a11y: invalid legend markup, unlabelled chart, heading jumps | Accessibility | `/`, `/admin/statistics`, `/sondage` +3 | [#350](https://github.com/nicanac/blanmont/issues/350) |
+| F84 | ♻️ [refactor] tokens: raw hex/rgba (Strava, WhatsApp, charts) | Theming | `/import/strava`, `/members`, `/calendrier` +4 | [#351](https://github.com/nicanac/blanmont/issues/351) |
+| F85 | ♻️ [refactor] layout: internal design brief shipped in every page's HTML | Implementation Integrity |  +1 | [#352](https://github.com/nicanac/blanmont/issues/352) |
+| F86 | ♻️ [refactor] design system: drop dead Poppins config, PageHero | Implementation Integrity |  +1 | [#353](https://github.com/nicanac/blanmont/issues/353) |
+| F87 | 💄 [ui] home: eyebrow and repeated date above « Qui roule ce week-end ? » | Implementation Integrity | `/` | [#354](https://github.com/nicanac/blanmont/issues/354) |
 
 ## Patterns & Systemic Issues
 
