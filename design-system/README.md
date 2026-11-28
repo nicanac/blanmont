@@ -11,7 +11,7 @@ This folder is the portable, tool-agnostic copy of the system. Anyone building U
 | 1 | `app/globals.css` | The live tokens (`@theme`), dark-mode map inks, sheet utilities, `.prose`. Code wins any disagreement. |
 | 2 | `design-system/tokens.json` | The same tokens as data, plus role tokens (`surface`, `text`, `rule`…) that encode the app's day/night pairings. A test fails if a colour here drifts from `globals.css`. |
 | 3 | `design-system/README.md` and `components/*/README.md` | This brand book and the usage rules per component. |
-| 4 | `DESIGN.md`, `.impeccable/design.json` | The narrative and the impeccable skill's sidecar. Same system, older wording. |
+| 4 | `DESIGN.md`, `.impeccable/design.json` | The narrative and the impeccable skill's sidecar, regenerated from 1–3 with `/impeccable document` (last on 2026-11-28, Impeccable 4.11.1). |
 
 ## Voice and content
 
@@ -94,5 +94,5 @@ In the app, import the React components from `app/components`. Outside it (email
 - **Fonts:** Archivo is served by Google Fonts / `next/font`; no font files are kept here. The five `.woff2` files in `public/fonts` are unidentified build subsets and were left out.
 - **Components:** static renditions (HTML + `bundle.css`), hand-written from the source files named in each card. The React components were not bundled (`Button` needs `class-variance-authority`, `SheetHeader` needs the territory map and Next.js).
 - **Left out:** `TerritoryMap`, `WindField`, `WindRose`, `WeatherGlyph`, `RoadSwatch`, `GeodeticMark` as a component (its mark is an asset), `Navbar`, `Footer`, `NextRideCard`, `GpxStatsDisplay`, `Tooltip`, `Spinner`, `MapPreview`, parallax helpers.
-- **Drift found between docs and code (code kept):** `DESIGN.md` gives `font-narrow` as 85% (code 87.5%); its shadow names (`sheet-hover`, `dropdown-float`, `modal-overlay`) and `ease-carto` do not exist in code (`shadow-2xs`…`shadow-2xl`, `ease-plot`, `ease-stamp` do); it omits `bistre-soft`, `bistre-ink`, `hydro-soft`, `hydro-tint`, `vert-strong`, `vert-vif`, `vert-tint`, `ambre-ink`, `jaune`.
+- **Drift between docs and code:** resolved on 2026-11-28: `DESIGN.md` and `.impeccable/design.json` now carry `font-narrow` 87.5%, the shadow scale `shadow-2xs`…`shadow-2xl`, `ease-plot` / `ease-stamp` and every colour of `globals.css`.
 - **Bugs found in code:** `dark:text-snow-1` appears in 18 files but no `snow-1` token exists, so those elements keep their day colour by night. `tailwind.config.ts` still declares Poppins and an old `brand.primary`; it is not loaded by Tailwind v4 (`globals.css` has no `@config`) and can be deleted.
