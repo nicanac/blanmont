@@ -50,6 +50,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.51.0] - 2026-11-28
+
+### Added
+- feat(traces): add the trace links of calendar rides to the club catalogue (#263) (#266) (`acb6b20`)
 ## [0.50.3] - 2026-11-28
 
 ### Fixed
