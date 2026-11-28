@@ -38,14 +38,32 @@ describe('weekendTraces', () => {
     ]);
     // Saturday 31 Jan → Sunday 1 Feb.
     expect(weekendTraces([event('2027-02-01', 'x'), event('2027-01-31')], '2027-01-31')).toEqual([
-      { eventId: '2027-02-01', isoDate: '2027-02-01', url: 'x' },
+      { eventId: '2027-02-01', index: 0, label: '', isoDate: '2027-02-01', url: 'x' },
     ]);
   });
 
   it('carries the calendar event id for the member GPX download (#259)', () => {
     const ride = { ...event('2026-11-28', 'https://connect.garmin.com/app/course/1'), id: 'evt-42' };
     expect(weekendTraces([ride], '2026-11-28')).toEqual([
-      { eventId: 'evt-42', isoDate: '2026-11-28', url: 'https://connect.garmin.com/app/course/1' },
+      { eventId: 'evt-42', index: 0, label: '', isoDate: '2026-11-28', url: 'https://connect.garmin.com/app/course/1' },
+    ]);
+  });
+
+  it('lists every trace of a ride with one per group or distance, main trace first', () => {
+    const ride = {
+      ...event('2026-11-28', 'https://connect.garmin.com/app/course/1'),
+      id: 'ffbc',
+      traceLabel: '110 km',
+      extraTraces: [
+        { label: '80 km', gpxUrl: 'https://connect.garmin.com/app/course/2' },
+        { gpxUrl: 'https://f.io/50.gpx' },
+      ],
+    };
+    expect(weekendTraces([ride], '2026-11-28')).toEqual([
+      { eventId: 'ffbc', index: 0, label: '110 km', isoDate: '2026-11-28', url: 'https://connect.garmin.com/app/course/1' },
+      { eventId: 'ffbc', index: 1, label: '80 km', isoDate: '2026-11-28', url: 'https://connect.garmin.com/app/course/2' },
+      // An unnamed trace among several is numbered.
+      { eventId: 'ffbc', index: 2, label: 'Trace 3', isoDate: '2026-11-28', url: 'https://f.io/50.gpx' },
     ]);
   });
 });
@@ -59,6 +77,20 @@ describe('buildPollShareMessage', () => {
   ];
   const groupName = (code: string): string =>
     ({ 'Groupe A': 'GR1', 'Groupe B': 'GR2' })[code] ?? code;
+
+  it('names each trace of a ride that has one per group or distance', () => {
+    const msg = buildPollShareMessage({
+      poll: { weekendIsoDate: '2026-11-28', status: 'active' },
+      responses,
+      traces: [
+        { isoDate: '2026-11-28', url: 'https://strava.com/routes/1', label: 'GR1' },
+        { isoDate: '2026-11-28', url: 'https://strava.com/routes/2', label: 'GR3' },
+      ],
+      groupName,
+    });
+    expect(msg).toContain('🗺️ Tracé GPS · Samedi 28 novembre 2026 · GR1 : https://strava.com/routes/1');
+    expect(msg).toContain('🗺️ Tracé GPS · Samedi 28 novembre 2026 · GR3 : https://strava.com/routes/2');
+  });
 
   it('prints the slot tally, groups in vote order, traces and the vote link', () => {
     const msg = buildPollShareMessage({

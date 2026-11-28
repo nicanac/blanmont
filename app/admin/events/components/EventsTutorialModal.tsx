@@ -128,7 +128,7 @@ export default function EventsTutorialModal({
                 </span>
               </div>
               <p className="text-ink-3 dark:text-snow-3 text-xs leading-relaxed">
-                Renseignez le lien vers le tracé GPX ou Komoot pour que le bouton de téléchargement apparaisse directement dans la fiche de la sortie et sur le sondage hebdomadaire.
+                Renseignez le lien vers le tracé GPX ou Komoot pour que le bouton de téléchargement apparaisse directement dans la fiche de la sortie et sur le sondage hebdomadaire. Plusieurs groupes ou distances (sorties FFBC) ? « Ajouter une trace » : une trace par groupe ou distance, chacune nommée (« GR1 », « 110 km »).
               </p>
             </div>
           </div>

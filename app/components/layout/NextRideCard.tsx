@@ -8,6 +8,8 @@ import RideWeatherBadge from '../ui/RideWeatherBadge';
 import { useTheme } from '../../context/ThemeContext';
 import { HeartLineMark } from '../brand/HeartLineMark';
 import { cn } from '../../utils/cn';
+import { rideTraceLinks, traceDownloadLabel } from '../../lib/ride-traces';
+import type { RideTrace } from '../../types';
 
 export interface ScheduledRideInfo {
   isoDate: string;
@@ -18,6 +20,8 @@ export interface ScheduledRideInfo {
   address?: string;
   remarks?: string;
   gpxUrl?: string;
+  traceLabel?: string;
+  extraTraces?: RideTrace[];
   group?: string;
   isCustomEvent: boolean;
 }
@@ -31,6 +35,7 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const pathname = usePathname();
   const { resolvedTheme } = useTheme();
+  const traceLinks = rideTraceLinks(nextRide);
 
   // On the homepage the next departure is already the cover of the sheet
   if (pathname === '/') {
@@ -104,16 +109,20 @@ export default function NextRideCard({ nextRide, defaultExpanded = false }: Next
               theme={resolvedTheme === 'dark' ? 'dark' : 'paper'}
             />
 
-            {nextRide.gpxUrl && (
-              // Member link (/api/trace/<id>, #252): the source URL never reaches the page.
-              <div className="pt-1">
-                <a
-                  href={nextRide.gpxUrl}
-                  className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-md border border-ink px-3 font-narrow text-xs font-bold uppercase tracking-[0.07em] text-ink transition-colors hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night"
-                >
-                  <ArrowDownTrayIcon className="size-3.5" aria-hidden="true" />
-                  <span>Télécharger la trace GPX</span>
-                </a>
+            {traceLinks.length > 0 && (
+              // Member links (/api/trace/<id>, #252): the source URL never reaches the page.
+              // One button per trace when the ride has one per group or distance.
+              <div className="space-y-2 pt-1">
+                {traceLinks.map((trace) => (
+                  <a
+                    key={trace.index}
+                    href={trace.href}
+                    className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-md border border-ink px-3 font-narrow text-xs font-bold uppercase tracking-[0.07em] text-ink transition-colors hover:bg-ink hover:text-white dark:border-snow-2 dark:text-snow dark:hover:bg-snow dark:hover:text-night"
+                  >
+                    <ArrowDownTrayIcon className="size-3.5 shrink-0" aria-hidden="true" />
+                    <span>{traceDownloadLabel(trace.title)}</span>
+                  </a>
+                ))}
               </div>
             )}
 

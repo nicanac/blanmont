@@ -33,6 +33,7 @@ import { isAbsent, ridesSaturday, ridesSunday } from '../lib/poll-slots';
 import { getSessionUser, isSessionAdmin } from '../lib/auth/session';
 import { allowedAdminSections } from '../lib/auth/admin-access';
 import DelegatedDashboard from './components/DelegatedDashboard';
+import { rideTraceLinks } from '@/app/lib/ride-traces';
 
 export const dynamic = 'force-dynamic';
 
@@ -93,6 +94,7 @@ export default async function AdminDashboardPage({
     .filter((e) => e.isoDate >= todayStr)
     .sort((a, b) => a.isoDate.localeCompare(b.isoDate));
   const nextRide = sortedUpcomingEvents[0] || null;
+  const nextRideTraces = rideTraceLinks(nextRide);
 
   // Group and day breakdown
   const groupSettings = await getCachedGroupSettings();
@@ -246,7 +248,7 @@ export default async function AdminDashboardPage({
                 departureLocation={nextRide?.location}
                 departureTime={nextRide?.departure}
                 distance={nextRide?.distances}
-                gpxUrl={nextRide?.gpxUrl}
+                traces={rideTraceLinks(nextRide)}
               />
             </div>
 
@@ -283,16 +285,21 @@ export default async function AdminDashboardPage({
                   <span className="text-ink-3 dark:text-snow-3 block font-narrow uppercase tracking-wider text-xs">
                     Parcours &amp; GPX
                   </span>
-                  {nextRide?.gpxUrl ? (
-                    <a
-                      href={nextRide.gpxUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-brand hover:underline truncate inline-flex items-center gap-1"
-                    >
-                      <span>{nextRide.distances || 'Télécharger la trace'}</span>
-                      <span>↗</span>
-                    </a>
+                  {nextRideTraces.length > 0 ? (
+                    <span className="flex flex-wrap gap-x-3">
+                      {nextRideTraces.map((trace) => (
+                        <a
+                          key={trace.index}
+                          href={trace.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-semibold text-brand hover:underline truncate inline-flex items-center gap-1"
+                        >
+                          <span>{trace.title || nextRide?.distances || 'Télécharger la trace'}</span>
+                          <span aria-hidden="true">↗</span>
+                        </a>
+                      ))}
+                    </span>
                   ) : (
                     <span className="text-ink-3 dark:text-snow-3 italic">
                       {nextRide?.distances ? `${nextRide.distances} (GPX à venir)` : 'À définir'}

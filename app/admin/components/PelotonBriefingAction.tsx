@@ -18,6 +18,8 @@ export interface PelotonBriefingActionProps {
   departureTime?: string;
   distance?: string;
   gpxUrl?: string;
+  /** Every trace of the ride (one per group or distance); wins over `gpxUrl` when given. */
+  traces?: { title: string; href: string }[];
 }
 
 export default function PelotonBriefingAction({
@@ -28,6 +30,7 @@ export default function PelotonBriefingAction({
   departureTime,
   distance,
   gpxUrl,
+  traces,
 }: PelotonBriefingActionProps): React.ReactElement {
   const [copied, setCopied] = useState(false);
 
@@ -44,7 +47,11 @@ export default function PelotonBriefingAction({
       distance ? `📏 Parcours : ${distance}` : null,
       `👥 Peloton : ${attendeesCount} inscrit${attendeesCount > 1 ? 's' : ''}`,
       groupLines ? `\n*Groupes constitués :*\n${groupLines}` : null,
-      gpxUrl ? `\n🗺️ Parcours GPX : ${gpxUrl}` : null,
+      traces && traces.length > 0
+        ? `\n${traces.map((t) => `🗺️ Parcours GPX${t.title ? ` · ${t.title}` : ''} : ${t.href}`).join('\n')}`
+        : gpxUrl
+          ? `\n🗺️ Parcours GPX : ${gpxUrl}`
+          : null,
       `\nConsignes : Port du casque obligatoire, respect du code de la route et esprit de groupe. Bonne sortie ! 🇧🇪`,
     ]
       .filter(Boolean)

@@ -12,6 +12,7 @@ import { PACE_GROUPS } from '@/app/constants/cycling';
 import type { RideWeather } from '@/app/lib/weather';
 import type { HeroSettings, WeekendPoll } from '@/app/types';
 import type { ScheduledRideInfo } from '@/app/lib/firebase/calendar';
+import { rideTraceLinks, traceDownloadLabel } from '@/app/lib/ride-traces';
 import { departureDateParts, windAdvice, cardinalName, formatDistance } from './homeData';
 import { cn } from '@/app/utils/cn';
 import type { WeekendSchedule } from '@/app/lib/weekendSchedule';
@@ -221,13 +222,14 @@ export default function HomeCover({
                 />
               </Link>
             )}
-            {nextRide.gpxUrl && (
-              // Member link (/api/trace/<id>): a Garmin course downloads as GPX (#246), guests log in (#252).
-              <a href={nextRide.gpxUrl} className={outlineButton}>
-                <ArrowDownTrayIcon className="size-4" aria-hidden="true" />
-                Télécharger la trace GPX
+            {rideTraceLinks(nextRide).map((trace) => (
+              // Member links (/api/trace/<id>): a Garmin course downloads as GPX (#246), guests log in (#252).
+              // One button per trace when the ride has one per group or distance.
+              <a key={trace.index} href={trace.href} className={outlineButton}>
+                <ArrowDownTrayIcon className="size-4 shrink-0" aria-hidden="true" />
+                {traceDownloadLabel(trace.title)}
               </a>
-            )}
+            ))}
             {pollOpen && ridersAnnounced > 0 && (
               <span className="font-narrow text-sm text-ink-3 dark:text-snow-3">
                 <strong className="tabular-nums text-ink dark:text-snow">{ridersAnnounced}</strong>{' '}
