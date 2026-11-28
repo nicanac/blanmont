@@ -32,6 +32,7 @@ export {
 
 export {
   loginAction,
+  loginWithStatusAction,
   logoutAction,
   getCurrentSessionUserAction,
   requestAccountActivationAction,

@@ -63,16 +63,33 @@ Dans la table des membres (`members`), la propriété `role` (tableau de chaîne
 
 ### Étape 2 : Définition du mot de passe initial
 
-Il existe 2 méthodes pour configurer le mot de passe du nouvel administrateur :
+L'**adresse email de la fiche membre est l'identifiant de connexion**. Sans email dans la fiche, pas de connexion possible.
 
-#### Méthode A — Envoi de lien sécurisé par email *(Recommandé)*
-1. Le nouvel utilisateur se rend sur la page **`/login/forgot-password`** (Mot de passe oublié).
-2. Il saisit son adresse email enregistrée.
-3. Il reçoit un email automatique Firebase contenant un lien unique pour choisir son mot de passe en toute sécurité.
+#### Méthode A — Lien par email *(recommandé)*
+1. Le membre ouvre **`/login`**, onglet **« 1ère connexion »** (ou « Oublié ? »), et saisit l'adresse de sa fiche.
+2. Le serveur prépare son compte de connexion (créé s'il n'existe pas, déplacé sur la nouvelle adresse si un admin a changé l'email de la fiche, relié à la fiche) puis demande à Firebase d'envoyer l'email « choisir votre mot de passe ».
+3. Expéditeur : `noreply@blanmont-c11e3.firebaseapp.com`. L'email arrive en général en moins de 2 minutes ; **il tombe souvent dans les spams** (Hotmail/Outlook, Proximus/Skynet, Telenet).
+4. Le membre clique sur le lien, choisit son mot de passe, puis se connecte.
 
-#### Méthode B — Définition directe par l'administrateur
-1. Depuis l'administration des membres (`/admin/members`), l'admin clique sur le membre puis sur **Réinitialiser le mot de passe** (`/admin/members/[id]/reset-password`).
-2. Il saisit un mot de passe temporaire (minimum 6 caractères) et le transmet au nouvel utilisateur.
+Si Firebase refuse l'envoi (quota, panne), le membre voit un message d'erreur au lieu d'un faux « c'est parti », et l'échec est journalisé (`auth:activation_email_failed`, page Journal d'activité).
+
+#### Méthode B — Mot de passe donné par un responsable *(si l'email n'arrive pas)*
+1. **`/admin/members`** → le membre → **Réinitialiser le mot de passe** (`/admin/members/[id]/reset-password`).
+2. La page affiche l'**identifiant de connexion** (l'email de la fiche). Saisissez un mot de passe temporaire (6 caractères minimum) et validez.
+3. Ça marche même si le membre ne s'est **jamais** connecté : le compte est créé et relié à la fiche. L'écran de confirmation rappelle l'email à transmettre avec le mot de passe.
+4. Refus possibles : fiche sans email (ajoutez-le), adresse déjà utilisée par la fiche d'un autre membre (un email = un seul compte, donnez une adresse personnelle), compte du propriétaire du site (lui seul peut le changer).
+
+#### Messages de la page de connexion
+
+| Message | Cause | Que faire |
+| :--- | :--- | :--- |
+| « Email ou mot de passe incorrect » | Mauvais mot de passe, ou adresse différente de celle de la fiche | Vérifier l'adresse ; sinon « 1ère connexion » ou méthode B |
+| « Trop de tentatives » | Firebase bloque le compte quelques minutes après plusieurs échecs | Attendre, ou définir un nouveau mot de passe (méthode A ou B) : cela débloque tout de suite |
+| « …n'est relié à aucune fiche membre » | Le mot de passe est bon mais aucune fiche n'a cet email | Corriger l'email de la fiche, puis méthode B |
+
+#### Réglages Firebase (console, propriétaire du projet)
+- **Authentication → Settings → Authorized domains** : ajouter `blanmont.vercel.app` (et `cyclo-blanmont.be`, `www.cyclo-blanmont.be` au passage de domaine). Sans cela, le lien de l'email ouvre la page de Firebase au lieu de revenir sur le site (l'email part quand même).
+- **Authentication → Templates → Password reset** : langue française, et « Customize action URL » → `https://blanmont.vercel.app/auth/action` pour que le membre choisisse son mot de passe sur le site et soit connecté directement.
 
 ---
 

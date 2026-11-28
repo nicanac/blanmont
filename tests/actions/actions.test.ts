@@ -224,12 +224,10 @@ describe('Server Actions (app/actions.ts)', () => {
 
   describe('Auth Actions (loginAction, logoutAction, getCurrentSessionUserAction)', () => {
     it('loginAction validates credentials and sets session cookie for valid member', async () => {
-      vi.spyOn(firebaseRoot, 'validateUser').mockResolvedValue({
-        id: 'mem-1',
-        email: 'user@blanmont.be',
-        name: 'User One',
-        role: ['Member'],
-      } as any);
+      vi.spyOn(firebaseRoot, 'authenticateMember').mockResolvedValue({
+        ok: true,
+        member: { id: 'mem-1', email: 'user@blanmont.be', name: 'User One', role: ['Member'] } as any,
+      });
       const setCookieSpy = vi.spyOn(sessionModule, 'setSessionCookie').mockResolvedValue({} as any);
 
       const member = await loginAction('user@blanmont.be', 'validpass');
@@ -240,13 +238,16 @@ describe('Server Actions (app/actions.ts)', () => {
     });
 
     it('loginAction puts the verified login email in the cookie, not in the returned member', async () => {
-      vi.spyOn(firebaseRoot, 'validateUser').mockResolvedValue({
-        id: 'mem-1',
-        email: 'record@example.test',
-        name: 'User One',
-        role: ['Member'],
-        verifiedEmail: 'login@example.test',
-      } as any);
+      vi.spyOn(firebaseRoot, 'authenticateMember').mockResolvedValue({
+        ok: true,
+        member: {
+          id: 'mem-1',
+          email: 'record@example.test',
+          name: 'User One',
+          role: ['Member'],
+          verifiedEmail: 'login@example.test',
+        } as any,
+      });
       const setCookieSpy = vi.spyOn(sessionModule, 'setSessionCookie').mockResolvedValue({} as any);
 
       const member = await loginAction('login@example.test', 'validpass');

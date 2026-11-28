@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import TerritoryMap from '../components/carte/TerritoryMap';
 import { requestAccountActivationAction } from '../actions';
-import { getFirebaseAuth, isMockMode, sendPasswordResetEmail } from '../lib/firebase/client';
+import { LOGIN_FAILURE_MESSAGES } from '../lib/auth/login-messages';
 import Link from 'next/link';
 import {
   LockClosedIcon,
@@ -23,7 +23,7 @@ type AuthMode = 'login' | 'activate';
 function LoginForm(): React.ReactElement {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login } = useAuth();
+  const { loginWithReason } = useAuth();
 
   const [mode, setMode] = useState<AuthMode>('login');
   const [email, setEmail] = useState('');
@@ -55,12 +55,12 @@ function LoginForm(): React.ReactElement {
         return;
       }
 
-      const success = await login(email.trim(), password);
-      if (success) {
+      const result = await loginWithReason(email.trim(), password);
+      if (result.ok) {
         const redirect = searchParams.get('redirect') || '/';
         router.push(redirect);
       } else {
-        setError('Identifiants incorrects. S\'il s\'agit de votre première visite, activez votre compte ci-dessus.');
+        setError(LOGIN_FAILURE_MESSAGES[result.reason]);
       }
     } catch {
       setError('Une erreur est survenue lors de la connexion.');
@@ -83,15 +83,9 @@ function LoginForm(): React.ReactElement {
         return;
       }
 
+      // The server prepares the account and has Firebase email the link (never returned here).
       const result = await requestAccountActivationAction(email.trim());
       if (result.success) {
-        // Firebase emails the link to the owner of the address. Errors (unknown user, rate limit...)
-        // are ignored so the answer never reveals whether the address is a member.
-        if (!isMockMode) {
-          await sendPasswordResetEmail(getFirebaseAuth(), email.trim(), {
-            url: `${window.location.origin}/login`,
-          }).catch(() => undefined);
-        }
         setSuccessMessage(result.message);
       } else {
         setError(result.message || 'Impossible d\'envoyer le lien d\'activation.');

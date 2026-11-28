@@ -17,6 +17,8 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps): R
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [memberName, setMemberName] = useState('');
+  // The directory email is the member's login identifier.
+  const [loginEmail, setLoginEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
   useEffect(() => {
@@ -26,6 +28,7 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps): R
         if (response.ok) {
           const data = await response.json();
           setMemberName(data.name);
+          setLoginEmail(typeof data.email === 'string' ? data.email.trim().toLowerCase() : '');
         }
       } catch (error) {
         console.error('Error fetching member:', error);
@@ -49,6 +52,8 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps): R
       });
 
       if (response.ok) {
+        const data = await response.json().catch(() => ({}));
+        if (typeof data.loginEmail === 'string') setLoginEmail(data.loginEmail);
         setSuccess(true);
         toast.success('Mot de passe réinitialisé avec succès !');
       } else {
@@ -89,6 +94,12 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps): R
           <p className="text-emerald-800 dark:text-emerald-200">
             Le mot de passe de <strong>{memberName}</strong> a été réinitialisé avec succès.
           </p>
+          {loginEmail && (
+            <p className="mt-2 text-emerald-800 dark:text-emerald-200">
+              Transmettez-lui son identifiant : <strong className="break-all">{loginEmail}</strong> et ce mot de passe, à
+              saisir dans l&apos;onglet « Connexion » de la page de connexion.
+            </p>
+          )}
           <Link
             href="/admin/members"
             className="mt-4 inline-block rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors duration-150 min-h-[44px] inline-flex items-center"
@@ -133,6 +144,16 @@ export default function ResetPasswordPage({ params }: ResetPasswordPageProps): R
               className="w-full rounded-md border border-line dark:border-night-line bg-white dark:bg-night-3 px-4 py-2 text-sm text-ink dark:text-white placeholder:text-snow-3 focus:border-brand focus:outline-hidden focus:ring-1 focus:ring-brand transition-colors duration-150"
               placeholder="Minimum 6 caractères"
             />
+            <p className="mt-2 text-sm text-ink-3 dark:text-snow-3">
+              {loginEmail ? (
+                <>
+                  Identifiant de connexion : <strong className="break-all text-ink dark:text-white">{loginEmail}</strong>.
+                  Le compte est créé s&apos;il n&apos;existe pas encore.
+                </>
+              ) : (
+                <>Ce membre n&apos;a pas d&apos;adresse email : ajoutez-la à sa fiche, c&apos;est son identifiant de connexion.</>
+              )}
+            </p>
           </div>
         </div>
 

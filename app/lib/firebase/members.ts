@@ -13,6 +13,8 @@ import {
 } from './client';
 // Admin SDK import
 import { getAdminAuth, getAdminDatabase } from './admin';
+import { isGrandfatheredAccount, normalizeEmail } from '../auth/member-account';
+import { loginFailureFromFirebaseCode, type LoginFailureReason } from '../auth/login-messages';
 
 /**
  * Fetches the list of all active members from Firebase.
@@ -89,35 +91,51 @@ export const getMember = async (id: string): Promise<Member | null> => {
   }
 };
 
+/** A member authenticated by password; `verifiedEmail` = login email verified by Firebase (server only). */
+export type AuthenticatedMember = Member & { verifiedEmail?: string };
+
+export type MemberAuthResult =
+  | { ok: true; member: AuthenticatedMember }
+  | { ok: false; reason: LoginFailureReason; code?: string };
+
+/** Firebase Auth error code of a failed sign-in (`auth/...`), from `.code` or the message. */
+function firebaseAuthCode(error: unknown): string | undefined {
+  const e = error as { code?: unknown; message?: unknown } | null;
+  if (typeof e?.code === 'string' && e.code) return e.code;
+  const match = typeof e?.message === 'string' ? e.message.match(/auth\/[a-z0-9-]+/) : null;
+  return match?.[0];
+}
+
 /**
- * Validates user credentials using Firebase Auth.
+ * Signs in with email + password (Firebase Auth) and finds the member record of that account.
+ *
+ * A record matches when its `authUid` is the account's uid, or when its directory email equals
+ * the account's email AND that email is verified (or the account predates the cutoff of
+ * `isGrandfatheredAccount`). An email match links the record (`authUid`).
  */
-/** `verifiedEmail`: the login email as verified by Firebase Auth (ID token checked with the Admin SDK); server only. */
-export const validateUser = async (
-  email: string,
-  password: string
-): Promise<(Member & { verifiedEmail?: string }) | null> => {
+export const authenticateMember = async (email: string, password: string): Promise<MemberAuthResult> => {
   if (isMockMode) {
     if (email === 'mock@test.com' && password === 'password') {
       return {
-        id: '1',
-        name: 'Mock User',
-        role: ['Member'],
-        bio: 'Mock',
-        photoUrl: '',
-        email: 'mock@test.com',
+        ok: true,
+        member: { id: '1', name: 'Mock User', role: ['Member'], bio: 'Mock', photoUrl: '', email: 'mock@test.com' },
       };
     }
-    return null;
+    return { ok: false, reason: 'invalid_credentials' };
+  }
+
+  const loginEmail = normalizeEmail(email);
+  let user: Awaited<ReturnType<typeof signInWithEmailAndPassword>>['user'];
+  try {
+    user = (await signInWithEmailAndPassword(getFirebaseAuth(), loginEmail, password)).user;
+  } catch (error) {
+    const code = firebaseAuthCode(error);
+    const reason = loginFailureFromFirebaseCode(code);
+    if (reason === 'unavailable') console.error('[authenticateMember] Sign-in failed:', error);
+    return { ok: false, reason, code };
   }
 
   try {
-    console.log(`[validateUser] Starting validation for: ${email}`);
-    const auth = getFirebaseAuth();
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    console.log(`[validateUser] Auth successful. UID: ${user.uid}`);
-
     // Owner checks (OWNER_EMAILS) use this, never the member-record email that admins can edit.
     let verifiedEmail: string | undefined;
     if (typeof window === 'undefined') {
@@ -125,62 +143,56 @@ export const validateUser = async (
         const token = await getAdminAuth().verifyIdToken(await user.getIdToken());
         if (token.email && token.email_verified === true) verifiedEmail = token.email;
       } catch (tokenErr) {
-        console.warn('[validateUser] Could not verify the ID token; session gets no verified email:', tokenErr);
+        console.warn('[authenticateMember] Could not verify the ID token; session gets no verified email:', tokenErr);
       }
     }
 
-    // Fetch member data from database
-    let snapshot;
+    // Server: Admin SDK (the live RTDB rules deny clients). Browser: client SDK.
+    const snapshot =
+      typeof window === 'undefined'
+        ? await getAdminDatabase().ref('members').once('value')
+        : await get(ref(getFirebaseDatabase(), 'members'));
 
-    if (typeof window === 'undefined') {
-      // Server-side: Use Admin SDK to bypass rules (Permission Denied fix)
-      console.log('[validateUser] Using Admin SDK for DB lookup');
-      const db = getAdminDatabase();
-      snapshot = await db.ref('members').once('value');
-    } else {
-      // Client-side: Use Client SDK
-      console.log('[validateUser] Using Client SDK for DB lookup');
-      const db = getFirebaseDatabase();
-      const membersRef = ref(db, 'members');
-      snapshot = await get(membersRef);
-    }
+    const accountEmail = normalizeEmail(user.email ?? loginEmail);
+    const emailTrusted = user.emailVerified === true || isGrandfatheredAccount(user.metadata?.creationTime);
 
-    console.log(`[validateUser] Members snapshot exists: ${snapshot.exists()}`);
-
+    // `null as` keeps TypeScript from narrowing to null (the assignments happen in the callback).
+    let byUid = null as (Member & { authUid?: string }) | null;
+    let byEmail = null as (Member & { authUid?: string }) | null;
     if (snapshot.exists()) {
-      let foundMember = null as (Member & { authUid?: string }) | null;
       snapshot.forEach((child: { key: string | null; val: () => Record<string, unknown> }) => {
-        const memberData = child.val() as Partial<Member> & { email?: string; authUid?: string };
-        // Loose check matching
-        if (
-          memberData.email?.toLowerCase() === email.toLowerCase() ||
-          memberData.authUid === user.uid
-        ) {
-          console.log(`[validateUser] Match found in DB! Key: ${child.key}`);
-          foundMember = { id: child.key, ...memberData } as Member & { authUid?: string };
-        }
+        const data = child.val() as Partial<Member> & { email?: string; authUid?: string };
+        const candidate = { id: child.key, ...data } as Member & { authUid?: string };
+        if (data.authUid === user.uid) byUid = candidate;
+        else if (emailTrusted && normalizeEmail(data.email) === accountEmail) byEmail = candidate;
       });
-
-      if (foundMember) {
-        // Sync authUid to member record if missing
-        if (!foundMember.authUid && typeof window === 'undefined') {
-          try {
-            const db = getAdminDatabase();
-            await db.ref(`members/${foundMember.id}`).update({ authUid: user.uid });
-          } catch (syncErr) {
-            console.warn('[validateUser] Failed to sync authUid:', syncErr);
-          }
-        }
-        return verifiedEmail ? { ...foundMember, verifiedEmail } : foundMember;
-      }
     }
 
-    console.warn(`[validateUser] No member record found in DB for email "${email}" (uid: ${user.uid}). Authentication rejected.`);
-    return null;
+    const found = byUid ?? byEmail;
+    if (!found) {
+      console.warn(`[authenticateMember] No member record for uid ${user.uid} (email verified: ${user.emailVerified}).`);
+      return { ok: false, reason: 'not_linked' };
+    }
+
+    // Matched by email: link the record to this account (first login, or the email moved account).
+    if (found.authUid !== user.uid && typeof window === 'undefined') {
+      try {
+        await getAdminDatabase().ref(`members/${found.id}`).update({ authUid: user.uid });
+      } catch (syncErr) {
+        console.warn('[authenticateMember] Failed to link authUid:', syncErr);
+      }
+    }
+    return { ok: true, member: verifiedEmail ? { ...found, verifiedEmail } : found };
   } catch (error) {
-    console.error('Failed to validate user:', error);
-    return null;
+    console.error('[authenticateMember] Member lookup failed:', error);
+    return { ok: false, reason: 'unavailable' };
   }
+};
+
+/** Validates credentials; the member, or null (see {@link authenticateMember} for the reason). */
+export const validateUser = async (email: string, password: string): Promise<AuthenticatedMember | null> => {
+  const result = await authenticateMember(email, password);
+  return result.ok ? result.member : null;
 };
 
 /**

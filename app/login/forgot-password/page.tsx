@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { requestAccountActivationAction } from '../../actions';
 import TerritoryMap from '../../components/carte/TerritoryMap';
-import { getFirebaseAuth, isMockMode, sendPasswordResetEmail } from '../../lib/firebase/client';
 import {
   ArrowLeftIcon,
   EnvelopeIcon,
@@ -24,15 +23,9 @@ export default function ForgotPasswordPage(): React.ReactElement {
     setIsSubmitting(true);
 
     try {
+      // The server prepares the account and has Firebase email the link (never returned here).
       const result = await requestAccountActivationAction(email.trim());
       if (result.success) {
-        // Firebase emails the link to the owner of the address. Errors (unknown user, rate limit...)
-        // are ignored so the answer never reveals whether the address is a member.
-        if (!isMockMode) {
-          await sendPasswordResetEmail(getFirebaseAuth(), email.trim(), {
-            url: `${window.location.origin}/login`,
-          }).catch(() => undefined);
-        }
         setMessage({
           type: 'success',
           text: result.message,

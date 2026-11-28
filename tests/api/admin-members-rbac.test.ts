@@ -153,9 +153,17 @@ describe('members API: role assignment stays admin-only (Secrétaire has the mem
   });
 
   it('lets only an admin reset the password of an officer', async () => {
-    fakeDb(members);
+    fakeDb({ ...members, 'members/tres': { ...members['members/tres'], email: 'tres@example.test' } });
     const updateUser = vi.fn();
-    vi.spyOn(adminModule, 'getAdminAuth').mockReturnValue({ updateUser } as never);
+    const accounts: Record<string, { uid: string; email: string }> = {
+      'rider@example.test': { uid: 'uid-rider', email: 'rider@example.test' },
+      'tres@example.test': { uid: 'uid-tres', email: 'tres@example.test' },
+    };
+    vi.spyOn(adminModule, 'getAdminAuth').mockReturnValue({
+      updateUser,
+      getUserByEmail: async (email: string) => accounts[email],
+      getUser: async (uid: string) => Object.values(accounts).find((a) => a.uid === uid),
+    } as never);
     const body = { password: 'long-enough-1' };
     const officer = await resetPassword(await requestAs('/api/admin/members/tres/reset-password', USERS.secretaire, { method: 'POST', body }), ctx('tres'));
     expect(officer.status).toBe(403);
