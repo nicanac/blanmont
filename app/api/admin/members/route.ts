@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { delegatedMemberChangeError, verifySectionRequest } from '@/app/lib/auth/admin-access';
+import { uniqueRoles } from '@/app/constants/roles';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const authCheck = await verifySectionRequest(request, 'members');
@@ -19,13 +20,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Generate new member ID
     const membersRef = db.ref('members');
     const newMemberRef = membersRef.push();
+    // Each role once (#262).
+    const roles = uniqueRoles(data.role);
 
     const memberData = {
       name: data.name,
       email: data.email || null,
       bio: data.bio || '',
       photoUrl: data.photoUrl || '/images/default-avatar.png',
-      role: data.role || ['Member'],
+      role: roles.length > 0 ? roles : ['Member'],
       stravaId: data.stravaId || null,
       cotisation2026Status: data.cotisation2026Status || 'pending',
       cotisation2026PaidAt: data.cotisation2026PaidAt || null,

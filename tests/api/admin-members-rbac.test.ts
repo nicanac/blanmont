@@ -34,6 +34,41 @@ describe('members API: role assignment stays admin-only (Secrétaire has the mem
     expect(db.update).toHaveBeenCalledWith('members/plain', expect.objectContaining({ cotisation2026Status: 'paid' }));
   });
 
+  it('saves a member whose stored roles repeat, and writes each role once (#262)', async () => {
+    const db = fakeDb({
+      ...members,
+      'members/cm': { name: 'CM', role: ['Member', 'Capitaine de Route', 'Membre du comité', 'Membre du comité'] },
+    });
+    // The edit form sends the roles back as loaded (repeat included), or already deduplicated.
+    for (const role of [
+      ['Member', 'Capitaine de Route', 'Membre du comité', 'Membre du comité'],
+      ['Member', 'Capitaine de Route', 'Membre du comité'],
+    ]) {
+      const res = await updateMember(
+        await requestAs('/api/admin/members/cm', USERS.secretaire, { method: 'PUT', body: { bio: 'x', role } }),
+        ctx('cm')
+      );
+      expect(res.status).toBe(200);
+    }
+    expect(db.update).toHaveBeenLastCalledWith(
+      'members/cm',
+      expect.objectContaining({ role: ['Member', 'Capitaine de Route', 'Membre du comité'] })
+    );
+  });
+
+  it('still refuses a real role change hidden behind a repeat (#262)', async () => {
+    const db = fakeDb(members);
+    const res = await updateMember(
+      await requestAs('/api/admin/members/plain', USERS.secretaire, {
+        method: 'PUT',
+        body: { role: ['Member', 'Member', 'Capitaine de Route'] },
+      }),
+      ctx('plain')
+    );
+    expect(res.status).toBe(403);
+    expect(db.update).not.toHaveBeenCalled();
+  });
+
   it('refuses a role change to the Secrétaire, even with the members section', async () => {
     const db = fakeDb(members);
     const res = await updateMember(

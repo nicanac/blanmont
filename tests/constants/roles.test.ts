@@ -10,6 +10,8 @@ import {
   checkIsAdmin,
   ADMIN_ROLES,
   getAdminEmails,
+  uniqueRoles,
+  foldRole,
 } from '@/app/constants/roles';
 
 describe('roles constants & utils', () => {
@@ -133,5 +135,50 @@ describe('roles constants & utils', () => {
 
     vi.stubEnv('ADMIN_EMAILS', ' A@x.be ,, b@y.be ');
     expect(getAdminEmails()).toEqual(['a@x.be', 'b@y.be']);
+  });
+
+  describe('uniqueRoles (#262 double badge)', () => {
+    it('drops a repeated role, keeping the first spelling', () => {
+      // Christian M.'s stored roles on production.
+      expect(
+        uniqueRoles(['Member', 'Capitaine de Route', 'Membre du comité', 'Membre du comité', 'Admin'])
+      ).toEqual(['Member', 'Capitaine de Route', 'Membre du comité', 'Admin']);
+      expect(uniqueRoles(['Membre du comité', ' membre du COMITE ', 'Membre-du-comité'])).toEqual([
+        'Membre du comité',
+      ]);
+    });
+
+    it('folds the other names of a standard role into the first one stored', () => {
+      expect(uniqueRoles(['Trésorier', 'Member', 'Treasurer'])).toEqual(['Trésorier', 'Member']);
+      expect(uniqueRoles(['President', 'Président'])).toEqual(['President']);
+      expect(uniqueRoles(['Secrétaire', 'secretary', 'Secretaire'])).toEqual(['Secrétaire']);
+      expect(uniqueRoles(['Capitaine de Route', 'Road Captain', 'capitaine'])).toEqual(['Capitaine de Route']);
+      expect(uniqueRoles(['Admin', 'Administrateur'])).toEqual(['Admin']);
+    });
+
+    it('keeps roles that only contain a standard name, and the WebMaster title', () => {
+      expect(uniqueRoles(['Président', 'Vice Président', 'Vice-Président'])).toEqual(['Président', 'Vice Président']);
+      expect(uniqueRoles(['Member', 'Membre du comité'])).toEqual(['Member', 'Membre du comité']);
+      expect(uniqueRoles(['Admin', 'WebMaster', 'Member'])).toEqual(['Admin', 'WebMaster', 'Member']);
+      expect(uniqueRoles(['Traceur', 'Resp. maillots', 'Resp maillots'])).toEqual(['Traceur', 'Resp. maillots']);
+    });
+
+    it('accepts a single role, nothing, and blank entries', () => {
+      expect(uniqueRoles('Trésorier')).toEqual(['Trésorier']);
+      expect(uniqueRoles(undefined)).toEqual([]);
+      expect(uniqueRoles(['', '  ', 'Member'])).toEqual(['Member']);
+    });
+
+    it('folds case, accents, hyphens and spaces for comparison', () => {
+      expect(foldRole('  Vice-Président ')).toBe('vice president');
+      expect(foldRole('Resp.  Maillots')).toBe('resp maillots');
+    });
+
+    it('shows one custom-role chip per role in the admin selector', () => {
+      expect(extractCustomRoles(['Traceur', 'Admin', 'traceur', 'Resp. maillots'])).toEqual([
+        'Traceur',
+        'Resp. maillots',
+      ]);
+    });
   });
 });
