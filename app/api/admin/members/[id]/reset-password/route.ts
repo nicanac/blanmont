@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminAuth, getAdminDatabase } from '@/app/lib/firebase/admin';
 import { delegatedPasswordResetError, verifySectionRequest } from '@/app/lib/auth/admin-access';
-import { isOwnerEmail } from '@/app/lib/auth/session-token';
+import { isOwnerEmail, isSessionAdmin } from '@/app/lib/auth/session-token';
 import {
   ensureMemberAccount,
   MemberAccountError,
@@ -68,16 +68,30 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
 
     let account;
     try {
-      account = await ensureMemberAccount(id, member, 'admin');
+      account = await ensureMemberAccount(id, member, 'admin', {
+        callerIsAdmin: isSessionAdmin(authCheck.user),
+        callerVerifiedEmail: authCheck.user.verifiedEmail ?? null,
+      });
     } catch (error) {
-      if (error instanceof MemberAccountError && error.problem === 'linked_elsewhere') {
+      if (error instanceof MemberAccountError) {
         const holder = error.otherMemberName ? ` (fiche de ${error.otherMemberName})` : '';
-        return NextResponse.json(
-          {
-            error: `L'adresse ${loginEmail} sert déjà de compte de connexion à un autre membre${holder}. Une adresse email ne peut ouvrir qu'un seul compte : donnez une adresse personnelle à ce membre.`,
-          },
-          { status: 409 }
-        );
+        if (error.problem === 'linked_elsewhere' || error.problem === 'shared_email') {
+          return NextResponse.json(
+            {
+              error:
+                error.problem === 'linked_elsewhere'
+                  ? `L'adresse ${loginEmail} sert déjà de compte de connexion à un autre membre${holder}. Une adresse email ne peut ouvrir qu'un seul compte : donnez une adresse personnelle à ce membre.`
+                  : `L'adresse ${loginEmail} figure aussi sur une autre fiche${holder}. Donnez une adresse personnelle à ce membre, ou demandez à un administrateur.`,
+            },
+            { status: 409 }
+          );
+        }
+        if (error.problem === 'owner_account') {
+          return NextResponse.json(
+            { error: 'Seul le propriétaire du site peut changer le mot de passe de ce compte.' },
+            { status: 403 }
+          );
+        }
       }
       throw error;
     }

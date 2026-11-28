@@ -106,14 +106,22 @@ describe('loginContinueUrl', () => {
 
   it('uses the request host over https, http only on localhost', () => {
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', '');
+    vi.stubEnv('VERCEL_PROJECT_PRODUCTION_URL', '');
     expect(loginContinueUrl('blanmont.vercel.app', 'https')).toBe('https://blanmont.vercel.app/login');
     expect(loginContinueUrl('blanmont.vercel.app', 'http')).toBe('https://blanmont.vercel.app/login');
     expect(loginContinueUrl('localhost:3000', 'http')).toBe('http://localhost:3000/login');
     expect(loginContinueUrl('a.example, b.example', null)).toBe('https://a.example/login');
   });
 
+  it('prefers the Vercel production domain over request headers', () => {
+    vi.stubEnv('NEXT_PUBLIC_SITE_URL', '');
+    vi.stubEnv('VERCEL_PROJECT_PRODUCTION_URL', 'blanmont.vercel.app');
+    expect(loginContinueUrl('evil.example', 'https')).toBe('https://blanmont.vercel.app/login');
+  });
+
   it('rejects a malformed host and prefers NEXT_PUBLIC_SITE_URL', () => {
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', '');
+    vi.stubEnv('VERCEL_PROJECT_PRODUCTION_URL', '');
     expect(loginContinueUrl('evil.example/path?x', 'https')).toBeNull();
     expect(loginContinueUrl(null, null)).toBeNull();
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://www.cyclo-blanmont.be');

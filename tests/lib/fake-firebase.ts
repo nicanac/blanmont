@@ -55,6 +55,9 @@ export function fakeAdminAuth(initial: Array<Partial<FakeUser> & { uid: string; 
       users.set(uid, user);
       return { ...user };
     }),
+    deleteUser: vi.fn(async (uid: string) => {
+      if (!users.delete(uid)) throw notFound();
+    }),
     updateUser: vi.fn(async (uid: string, props: Partial<FakeUser>) => {
       const u = users.get(uid);
       if (!u) throw notFound();

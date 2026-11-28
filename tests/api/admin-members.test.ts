@@ -186,6 +186,8 @@ describe('Admin Members API Endpoints', () => {
 
       expect(res.status).toBe(200);
       expect(await res.json()).toEqual({ success: true, loginEmail: 'nouveau@blanmont.be', accountCreated: true });
+      // An admin-typed address proves nothing: the account stays unverified, linked by uid
+      expect(api.createUser).toHaveBeenCalledWith(expect.objectContaining({ email: 'nouveau@blanmont.be', emailVerified: false }));
       expect(db.members['mem-123'].authUid).toBe('uid-new-1');
       expect(api.updateUser).toHaveBeenCalledWith('uid-new-1', { password: 'secure-password-123' });
     });
@@ -214,9 +216,9 @@ describe('Admin Members API Endpoints', () => {
       expect(users.get('auth-user-999')).toMatchObject({ email: 'nouvelle@gmail.com', password: 'secure-password-123' });
     });
 
-    it('links an existing unlinked account of that email (e.g. created by a first-login attempt)', async () => {
+    it('links an existing unlinked account of that email (verified, e.g. made by a first-login request)', async () => {
       asAdmin();
-      const { api } = fakeAdminAuth([{ uid: 'uid-orphan', email: 'membre@blanmont.be', emailVerified: false }]);
+      const { api } = fakeAdminAuth([{ uid: 'uid-orphan', email: 'membre@blanmont.be', emailVerified: true }]);
       const db = fakeMembersDb({ 'mem-123': { name: 'Membre', email: 'membre@blanmont.be' } });
 
       const res = await post('secure-password-123');
@@ -224,6 +226,56 @@ describe('Admin Members API Endpoints', () => {
       expect(res.status).toBe(200);
       expect(db.members['mem-123'].authUid).toBe('uid-orphan');
       expect(api.updateUser).toHaveBeenCalledWith('uid-orphan', { password: 'secure-password-123' });
+    });
+
+    it('adopts a hand-made account from before the fix, replaces a newer unverified one', async () => {
+      asAdmin();
+      const legacy = fakeAdminAuth([
+        { uid: 'uid-hand', email: 'membre@blanmont.be', metadata: { creationTime: 'Wed, 25 Nov 2026 10:00:00 GMT' } },
+      ]);
+      fakeMembersDb({ 'mem-123': { name: 'Membre', email: 'membre@blanmont.be' } });
+      expect((await post('secure-password-123')).status).toBe(200);
+      expect(legacy.api.updateUser).toHaveBeenCalledWith('uid-hand', { password: 'secure-password-123' });
+
+      vi.restoreAllMocks();
+      asAdmin();
+      vi.spyOn(activityLogger, 'recordActivity').mockResolvedValue('log_1');
+      const fresh = fakeAdminAuth([{ uid: 'uid-self-made', email: 'membre@blanmont.be', emailVerified: false }]);
+      const db = fakeMembersDb({ 'mem-123': { name: 'Membre', email: 'membre@blanmont.be' } });
+      expect((await post('secure-password-123')).status).toBe(200);
+      expect(fresh.api.deleteUser).toHaveBeenCalledWith('uid-self-made');
+      expect(db.members['mem-123'].authUid).toBe('uid-new-1');
+    });
+
+    it("a delegated officer cannot set a password on an email another record carries (an admin's)", async () => {
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'sec-1', name: 'Secrétaire', isAdmin: false, role: ['Secrétaire'] },
+      } as any);
+      const { api } = fakeAdminAuth();
+      fakeMembersDb({
+        'mem-123': { name: 'Copie', email: 'admin@blanmont.be', role: ['Member'] },
+        'mem-admin': { name: 'Vrai Admin', email: 'admin@blanmont.be', role: ['Admin'] },
+      });
+
+      const res = await post('secure-password-123');
+
+      expect(res.status).toBe(409);
+      expect(api.createUser).not.toHaveBeenCalled();
+      expect(api.updateUser).not.toHaveBeenCalled();
+    });
+
+    it("refuses to move the owner's account to another address", async () => {
+      vi.stubEnv('OWNER_EMAILS', 'owner@blanmont.be');
+      asAdmin({ verifiedEmail: 'other-admin@blanmont.be' });
+      const { api, users } = fakeAdminAuth([{ uid: 'uid-owner', email: 'owner@blanmont.be', emailVerified: true }]);
+      // An admin changed the owner's record email to an address they control.
+      fakeMembersDb({ 'mem-123': { name: 'Owner', email: 'mine@attacker.test', authUid: 'uid-owner' } });
+
+      expect((await post('secure-password-123')).status).toBe(403);
+      expect(users.get('uid-owner')?.email).toBe('owner@blanmont.be');
+      expect(api.updateUser).not.toHaveBeenCalled();
+      vi.unstubAllEnvs();
     });
 
     it("refuses with 409 when the email is another member's login account", async () => {

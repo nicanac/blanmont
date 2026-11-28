@@ -89,14 +89,19 @@ export async function sendPasswordSetupEmail(
 }
 
 /**
- * Login page URL of the site the request came from, used as continue URL of the email
- * (https only, or http on localhost). Null when it cannot be worked out.
+ * Login page URL used as continue URL of the email: NEXT_PUBLIC_SITE_URL, else the Vercel
+ * production domain, else the request host (https only, http on localhost). Null when unknown.
  */
 export function loginContinueUrl(host: string | null, forwardedProto: string | null): string | null {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (fromEnv) {
+  const configured =
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.trim()}`
+      : '');
+  if (configured) {
     try {
-      return new URL('/login', fromEnv).toString();
+      const url = new URL('/login', configured);
+      if (url.protocol === 'https:' || url.protocol === 'http:') return url.toString();
     } catch {
       // Malformed env value: fall back to the request host.
     }
@@ -104,6 +109,6 @@ export function loginContinueUrl(host: string | null, forwardedProto: string | n
   const cleanHost = host?.split(',')[0]?.trim().toLowerCase();
   if (!cleanHost || !/^[a-z0-9.-]+(:\d+)?$/.test(cleanHost)) return null;
   const isLocal = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(cleanHost);
-  const proto = isLocal ? (forwardedProto?.split(',')[0]?.trim() || 'http') : 'https';
+  const proto = isLocal && forwardedProto?.split(',')[0]?.trim() === 'https' ? 'https' : isLocal ? 'http' : 'https';
   return `${proto}://${cleanHost}/login`;
 }

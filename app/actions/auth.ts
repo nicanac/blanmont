@@ -16,8 +16,6 @@ import { loginContinueUrl, sendPasswordSetupEmail } from '../lib/auth/password-e
 
 const ACTIVATION_NEUTRAL_MESSAGE =
   "Si cette adresse est enregistrée dans l'annuaire du club, un email pour choisir votre mot de passe vient de partir. Il arrive en général en moins de 2 minutes : pensez à regarder dans vos spams ou courriers indésirables. Rien après 10 minutes ? Contactez un responsable du club.";
-const ACTIVATION_RATE_LIMITED_MESSAGE =
-  'Un email vient déjà de partir pour cette adresse. Regardez dans vos spams et patientez quelques minutes avant de redemander un lien.';
 const ACTIVATION_FAILED_MESSAGE =
   "L'email n'a pas pu être envoyé pour le moment. Réessayez dans quelques minutes, ou demandez à un responsable du club de vous donner un mot de passe.";
 
@@ -203,6 +201,19 @@ export async function requestAccountActivationAction(email: string): Promise<{
       role: memberData.role,
     };
 
+    if (!mail.sent && mail.reason === 'rate_limited') {
+      // An email went out for this address a moment ago: same answer as a success (no enumeration).
+      await recordActivity({
+        category: 'auth',
+        action: 'auth:activation_rate_limited',
+        title: `Activation redemandée trop vite : ${memberData.name}`,
+        severity: 'warn',
+        user: memberUser,
+        metadata: { memberKey, firebaseCode: mail.code },
+      });
+      return neutralSuccess;
+    }
+
     if (!mail.sent) {
       console.error(`[activation] Password email not sent (${mail.code})`);
       await recordActivity({
@@ -213,10 +224,7 @@ export async function requestAccountActivationAction(email: string): Promise<{
         user: memberUser,
         metadata: { memberKey, reason: mail.reason, firebaseCode: mail.code },
       });
-      return {
-        success: false,
-        message: mail.reason === 'rate_limited' ? ACTIVATION_RATE_LIMITED_MESSAGE : ACTIVATION_FAILED_MESSAGE,
-      };
+      return { success: false, message: ACTIVATION_FAILED_MESSAGE };
     }
 
     await recordActivity({

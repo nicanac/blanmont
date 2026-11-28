@@ -76,27 +76,42 @@ describe('requestAccountActivationAction', () => {
     expect(send).toHaveBeenCalledWith('bruyere.nicolas@gmail.com', null);
   });
 
-  it('moves the linked account to the directory email when an admin changed it', async () => {
+  it('gives the new directory email its own account when an admin changed it (never moves an account)', async () => {
     const { api, users } = fakeAdminAuth([{ uid: 'uid-admin-1', email: 'old-address@gmail.com', emailVerified: true }]);
-    fakeMembersDb(MEMBERS);
+    const db = fakeMembersDb(MEMBERS);
 
     const res = await requestAccountActivationAction('bruyere.nicolas@gmail.com');
 
     expect(res.success).toBe(true);
-    expect(api.createUser).not.toHaveBeenCalled();
-    expect(users.get('uid-admin-1')).toMatchObject({ email: 'bruyere.nicolas@gmail.com', emailVerified: false });
+    expect(users.get('uid-admin-1')?.email).toBe('old-address@gmail.com');
+    expect(api.createUser).toHaveBeenCalledWith(expect.objectContaining({ email: 'bruyere.nicolas@gmail.com', emailVerified: true }));
+    expect(db.members.member_1.authUid).toBe('uid-new-1');
     expect(send).toHaveBeenCalledWith('bruyere.nicolas@gmail.com', null);
   });
 
-  it('does not link an unverified account it did not create (anyone can create one through the public API)', async () => {
-    fakeAdminAuth([{ uid: 'uid-self-made', email: 'laurent@blanmont.be', emailVerified: false }]);
+  it("never re-points the site owner's record to another address", async () => {
+    vi.stubEnv('OWNER_EMAILS', 'owner@blanmont.be');
+    const { api } = fakeAdminAuth([{ uid: 'uid-admin-1', email: 'owner@blanmont.be', emailVerified: true }]);
+    const db = fakeMembersDb(MEMBERS); // an admin changed the owner's record email to bruyere.nicolas@gmail.com
+
+    const res = await requestAccountActivationAction('bruyere.nicolas@gmail.com');
+
+    expect(res.success).toBe(false);
+    expect(api.createUser).not.toHaveBeenCalled();
+    expect(db.members.member_1.authUid).toBe('uid-admin-1');
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  it('replaces an unverified account made outside the site (public API) instead of adopting it', async () => {
+    const { api, users } = fakeAdminAuth([{ uid: 'uid-self-made', email: 'laurent@blanmont.be', emailVerified: false }]);
     const db = fakeMembersDb(MEMBERS);
 
     const res = await requestAccountActivationAction('laurent@blanmont.be');
 
     expect(res.success).toBe(true);
-    expect(db.members.member_2.authUid).toBeUndefined();
-    // The emailed link verifies the address; the account gets linked at its first login.
+    expect(api.deleteUser).toHaveBeenCalledWith('uid-self-made');
+    expect(users.has('uid-self-made')).toBe(false);
+    expect(db.members.member_2.authUid).toBe('uid-new-1');
     expect(send).toHaveBeenCalledWith('laurent@blanmont.be', null);
   });
 
@@ -118,14 +133,16 @@ describe('requestAccountActivationAction', () => {
     );
   });
 
-  it('asks to wait when Firebase rate-limits the email', async () => {
+  it('answers a rate-limited request like any other (an email just left; no member enumeration)', async () => {
     fakeAdminAuth([{ uid: 'uid-admin-1', email: 'bruyere.nicolas@gmail.com', emailVerified: true }]);
     fakeMembersDb(MEMBERS);
     send.mockResolvedValueOnce({ sent: false, reason: 'rate_limited', code: 'RESET_PASSWORD_EXCEED_LIMIT' });
 
-    const res = await requestAccountActivationAction('bruyere.nicolas@gmail.com');
+    const limited = await requestAccountActivationAction('bruyere.nicolas@gmail.com');
+    const stranger = await requestAccountActivationAction('stranger@external.com');
 
-    expect(res).toEqual({ success: false, message: expect.stringMatching(/vient déjà de partir/) });
+    expect(limited).toEqual(stranger);
+    expect(record).toHaveBeenCalledWith(expect.objectContaining({ action: 'auth:activation_rate_limited' }));
   });
 
   it('never leaks an internal error text', async () => {
