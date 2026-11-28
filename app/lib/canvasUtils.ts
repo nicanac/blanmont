@@ -158,6 +158,53 @@ export default async function getCroppedImg(
   return toJpegBlob(canvas, options.quality)
 }
 
+/**
+ * Most bytes a cropped photo may weigh when it goes through a Server Action: the 1 MB
+ * default body limit minus room for the multipart boundaries and the other fields.
+ */
+export const SERVER_ACTION_PHOTO_BYTES = 900 * 1024
+
+/** Encodings tried in order for a member photo (#260): sharp first, smaller only if too heavy. */
+export const MEMBER_PHOTO_STEPS: readonly CropOutputOptions[] = [
+  { maxSize: 1600, quality: 0.9 },
+  { maxSize: 1600, quality: 0.82 },
+  { maxSize: 1280, quality: 0.82 },
+  { maxSize: 1024, quality: 0.8 },
+]
+
+/**
+ * Crops like `getCroppedImg` (no rotation), trying each encoding of `steps` in order and
+ * returning the first JPEG of at most `maxBytes`. When none fits, the last (smallest) one
+ * is returned: the caller's upload then fails loudly instead of silently losing quality.
+ */
+export async function getCroppedImgWithin(
+  imageSrc: string,
+  pixelCrop: { x: number; y: number; width: number; height: number },
+  maxBytes: number,
+  steps: readonly CropOutputOptions[] = MEMBER_PHOTO_STEPS
+): Promise<Blob | null> {
+  let blob: Blob | null = null
+  for (const step of steps) {
+    blob = await getCroppedImg(imageSrc, pixelCrop, 0, undefined, step)
+    if (!blob || blob.size <= maxBytes) return blob
+  }
+  return blob
+}
+
+/**
+ * Shortest side, in source px, below which a member portrait looks soft on /members
+ * (the card is ~1160 device px wide on a phone; the crop is never upscaled).
+ */
+export const MIN_SHARP_PHOTO_PX = 800
+
+/** True when the cropped area holds too few source pixels for a sharp portrait (#260). */
+export function isLowResolutionCrop(
+  pixelCrop: { width: number; height: number },
+  minPx: number = MIN_SHARP_PHOTO_PX
+): boolean {
+  return Math.min(pixelCrop.width, pixelCrop.height) < minPx
+}
+
 function toJpegBlob(canvas: HTMLCanvasElement, quality?: number): Promise<Blob | null> {
   return new Promise((resolve) => {
     canvas.toBlob((file) => resolve(file), 'image/jpeg', quality)

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { cloudinaryRendition, PHOTO_WIDTH } from '@/app/lib/cloudinary-url';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { getMemberProfileAction, updateMemberEmergencyAction } from '@/app/actions';
@@ -412,7 +413,7 @@ END:VCARD`;
                 <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-lg bg-night border border-line dark:border-night-line overflow-hidden shrink-0">
                   {hasPhoto ? (
                     <Image
-                      src={memberData.photoUrl!}
+                      src={cloudinaryRendition(memberData.photoUrl!, PHOTO_WIDTH.pass)}
                       alt={memberData.name}
                       fill
                       unoptimized

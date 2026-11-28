@@ -556,6 +556,15 @@ describe('Server Actions (app/actions.ts)', () => {
           'mem-10',
           'https://cloudinary.com/profiles/avatar.jpg'
         );
+        // Stored as framed, at full quality: no 256 px incoming crop any more (#260).
+        const { v2 } = await import('cloudinary');
+        const [, uploadOptions] = vi.mocked(v2.uploader.upload).mock.lastCall!;
+        expect(uploadOptions).toMatchObject({
+          folder: 'profiles',
+          public_id: 'profile-mem-10',
+          overwrite: true,
+        });
+        expect(uploadOptions?.transformation).toBeUndefined();
       } finally {
         process.env = origEnv;
       }

@@ -6,7 +6,12 @@ import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 import { updateProfilePhotoAction, getMemberProfileAction, updateMemberEmergencyAction } from '../actions';
 import Cropper from 'react-easy-crop';
-import getCroppedImg from '../lib/canvasUtils';
+import {
+  getCroppedImgWithin,
+  isLowResolutionCrop,
+  SERVER_ACTION_PHOTO_BYTES,
+} from '../lib/canvasUtils';
+import { cloudinaryRendition, PHOTO_WIDTH } from '../lib/cloudinary-url';
 import { SheetHeader } from '../components/carte/SheetHeader';
 import Link from 'next/link';
 import {
@@ -24,9 +29,6 @@ import { toast } from 'sonner';
 import { Spinner } from '../components/ui/Spinner';
 import { useGroupLabels } from '@/app/context/GroupLabelsContext';
 import { PACE_GROUPS, type CyclingGroup } from '@/app/constants/cycling';
-
-/** Longest side, in px, of the cropped profile photo sent to the server. */
-const PROFILE_PHOTO_MAX_PX = 512;
 
 // Helper function to read file as Data URL
 const readFile = (file: File): Promise<string> => {
@@ -87,15 +89,17 @@ export default function ProfilePage(): React.ReactElement | null {
     const toastId = toast.loading('Recadrage et téléversement de votre photo...');
 
     try {
-      // Cloudinary stores the avatar at 256 px: 512 px keeps a sharp source while the JPEG
-      // stays far below the 1 MB Server Action body limit (a full-size phone crop is 2–4 MB).
-      const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels, 0, undefined, {
-        maxSize: PROFILE_PHOTO_MAX_PX,
-        quality: 0.88,
-      });
+      // The portrait is printed ~1160 device px wide on /members (#260): up to 1600 px, and
+      // smaller or more compressed only when the JPEG would pass the 1 MB Server Action limit.
+      const croppedBlob = await getCroppedImgWithin(
+        imageSrc,
+        croppedAreaPixels,
+        SERVER_ACTION_PHOTO_BYTES
+      );
       if (!croppedBlob) {
         throw new Error('Impossible de préparer la photo recadrée.');
       }
+      const lowResolution = isLowResolutionCrop(croppedAreaPixels);
       const formData = new FormData();
       formData.append('file', croppedBlob, 'profile.jpg');
       formData.append('memberId', user.id);
@@ -106,6 +110,11 @@ export default function ProfilePage(): React.ReactElement | null {
         updateUser({ avatarUrl: newUrl });
         setImgError(false);
         toast.success('Photo de profil mise à jour avec succès !', { id: toastId });
+        if (lowResolution) {
+          toast.warning(
+            'Photo de faible résolution : elle sera floue sur la page Membres. Choisissez une photo plus grande ou dézoomez.'
+          );
+        }
       } else {
         toast.error('Erreur lors de la mise à jour de la photo.', { id: toastId });
       }
@@ -232,7 +241,7 @@ export default function ProfilePage(): React.ReactElement | null {
             <div className="relative aspect-square w-full overflow-hidden rounded-[8px] bg-night-2 group border border-line dark:border-night-line">
               {hasPhoto ? (
                 <Image
-                  src={user.avatarUrl!}
+                  src={cloudinaryRendition(user.avatarUrl!, PHOTO_WIDTH.portrait)}
                   alt={user.name}
                   fill
                   unoptimized

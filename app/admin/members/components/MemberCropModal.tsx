@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
-import getCroppedImg from '@/app/lib/canvasUtils';
+import getCroppedImg, { isLowResolutionCrop } from '@/app/lib/canvasUtils';
 import {
   XMarkIcon,
   MagnifyingGlassPlusIcon,
@@ -66,6 +66,12 @@ export default function MemberCropModal({
       }
       await onCropConfirmed(croppedBlob);
       toast.success('Photo recadrée avec succès ! Pensez à enregistrer le membre.');
+      if (isLowResolutionCrop(croppedAreaPixels)) {
+        // The crop is never upscaled: a small source stays blurry on /members (#260).
+        toast.warning(
+          'Photo de faible résolution : elle sera floue sur la page Membres. Utilisez une photo plus grande ou dézoomez.'
+        );
+      }
       onClose();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors du recadrage';

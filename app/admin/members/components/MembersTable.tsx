@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { cloudinaryRendition, PHOTO_WIDTH } from '@/app/lib/cloudinary-url';
 import {
   PencilIcon,
   KeyIcon,
@@ -335,7 +336,7 @@ export default function MembersTable({ initialMembers }: MembersTableProps) {
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-night-2 border border-line flex items-center justify-center font-bold text-xs text-white">
                           {hasPhoto ? (
                             <Image
-                              src={member.photoUrl}
+                              src={cloudinaryRendition(member.photoUrl, PHOTO_WIDTH.avatar)}
                               alt={member.name}
                               fill
                               unoptimized

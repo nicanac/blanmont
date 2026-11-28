@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useRef } from 'react';
 import Image from 'next/image';
+import { cloudinaryRendition, PHOTO_WIDTH } from '@/app/lib/cloudinary-url';
 import {
   PhotoIcon,
   AdjustmentsHorizontalIcon,
@@ -777,7 +778,7 @@ export default function MemberPhotosManager({
                           <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded border border-night-line bg-ink">
                             {hasPhoto ? (
                               <Image
-                                src={member.photoUrl}
+                                src={cloudinaryRendition(member.photoUrl, PHOTO_WIDTH.avatar)}
                                 alt={member.name}
                                 fill
                                 unoptimized

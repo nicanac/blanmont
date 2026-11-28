@@ -46,12 +46,14 @@ export async function updateProfilePhotoAction(input: string | FormData, memberI
       throw new Error(imageValidation.error.issues.map(e => e.message).join(', '));
     }
 
+    // Stored as the member framed it (the browser crops it to ≤ 1600 px): no incoming
+    // transformation. The old 256 px face crop made every portrait blurry on /members (#260);
+    // each page now asks Cloudinary for the size it shows (`cloudinaryRendition`).
     const result = await uploadImageToCloudinary(file, {
       folder: 'profiles',
       publicId: `profile-${targetMemberId}`,
       resourceType: 'auto',
       overwrite: true,
-      transformation: [{ width: 256, height: 256, crop: 'fill', gravity: 'face' }],
     });
 
     finalPhotoUrl = result.secure_url;
