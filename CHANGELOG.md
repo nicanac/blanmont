@@ -48,6 +48,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.50.2] - 2026-11-28
+
+### Fixed
+- fix(members): store member photos at full quality and serve sized renditions (#260) (#264) (`b77424a`)
 ## [0.50.1] - 2026-11-28
 
 ### Fixed
