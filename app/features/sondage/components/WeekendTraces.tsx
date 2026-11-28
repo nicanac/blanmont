@@ -2,11 +2,11 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { ArrowDownTrayIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { buttonVariants } from '@/app/components/ui/Button';
+import { memberTraceHref } from '@/app/lib/member-trace';
 import type { WeekendTrace } from '@/app/lib/poll-share';
 import type { TraceRoute } from '@/app/lib/trace-route';
-import { isWebUiLink } from '@/app/lib/urlUtils';
 import { formatFrenchDate } from '@/app/utils/date';
 import { cn } from '@/app/utils/cn';
 
@@ -38,19 +38,12 @@ export function traceFacts(route: Pick<TraceRoute, 'distanceKm' | 'elevationM'>)
   return parts.join(' · ');
 }
 
-/** Visible label of the trace link, by source. */
-export function traceLinkLabel(url: string): string {
-  if (/garmin\.com/i.test(url)) return 'Ouvrir sur Garmin Connect';
-  if (/strava\.com/i.test(url)) return 'Ouvrir sur Strava';
-  if (/komoot/i.test(url)) return 'Ouvrir sur Komoot';
-  return 'Télécharger la trace GPX';
-}
+/** Same label as the home page, the calendar and the next-ride card (#252, #259). */
+export const TRACE_DOWNLOAD_LABEL = 'Télécharger la trace GPX';
 
 function TraceFigure({ trace }: { trace: WeekendTrace }): React.ReactElement {
   const { route } = trace;
   const day = traceDayLabel(trace.isoDate);
-  const linkLabel = traceLinkLabel(trace.url);
-  const LinkIcon = isWebUiLink(trace.url) ? ArrowTopRightOnSquareIcon : ArrowDownTrayIcon;
 
   return (
     <figure className="space-y-3">
@@ -80,15 +73,15 @@ function TraceFigure({ trace }: { trace: WeekendTrace }): React.ReactElement {
           </span>
         )}
       </figcaption>
+      {/* Member link, as on the home page: a Garmin course downloads as GPX (#246),
+          any other source redirects to it; a guest is sent to the login page (#252). */}
       <a
-        href={trace.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`${linkLabel} · ${day} (nouvel onglet)`}
+        href={memberTraceHref(trace.eventId)}
+        aria-label={`${TRACE_DOWNLOAD_LABEL} · ${day}`}
         className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'w-full')}
       >
-        <LinkIcon className="size-4 shrink-0" aria-hidden="true" />
-        {linkLabel}
+        <ArrowDownTrayIcon className="size-4 shrink-0" aria-hidden="true" />
+        {TRACE_DOWNLOAD_LABEL}
       </a>
     </figure>
   );
@@ -96,7 +89,7 @@ function TraceFigure({ trace }: { trace: WeekendTrace }): React.ReactElement {
 
 /**
  * GPS traces the calendar lists for the poll's weekend, printed in the cartouche legend
- * column under the group breakdown: map preview, course name, distance and D+, and the link.
+ * column under the group breakdown: map preview, course name, distance and D+, and the GPX download.
  */
 export default function WeekendTraces({
   traces,

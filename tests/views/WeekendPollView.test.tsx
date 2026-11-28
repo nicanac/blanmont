@@ -152,6 +152,7 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
         members={mockMembers}
         traces={[
           {
+            eventId: 'evt-thyle',
             isoDate: '2026-09-26',
             url: 'https://connect.garmin.com/app/course/532374522',
             route: {
@@ -176,11 +177,12 @@ describe('WeekendPollView Component (app/features/sondage/components/WeekendPoll
     ).toBeTruthy();
     expect(within(traces).getByText('Boucle de la Thyle')).toBeDefined();
     expect(within(traces).getByTestId('trace-map')).toBeDefined();
+    // Same GPX download as the home page (#259).
     expect(
       within(traces)
-        .getByRole('link', { name: /Ouvrir sur Garmin Connect/ })
+        .getByRole('link', { name: /Télécharger la trace GPX/ })
         .getAttribute('href')
-    ).toBe('https://connect.garmin.com/app/course/532374522');
+    ).toBe('/api/trace/evt-thyle');
   });
 
   it('prints no trace block when the calendar has no trace for the weekend', () => {

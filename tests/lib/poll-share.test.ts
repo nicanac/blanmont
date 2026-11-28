@@ -38,7 +38,14 @@ describe('weekendTraces', () => {
     ]);
     // Saturday 31 Jan → Sunday 1 Feb.
     expect(weekendTraces([event('2027-02-01', 'x'), event('2027-01-31')], '2027-01-31')).toEqual([
-      { isoDate: '2027-02-01', url: 'x' },
+      { eventId: '2027-02-01', isoDate: '2027-02-01', url: 'x' },
+    ]);
+  });
+
+  it('carries the calendar event id for the member GPX download (#259)', () => {
+    const ride = { ...event('2026-11-28', 'https://connect.garmin.com/app/course/1'), id: 'evt-42' };
+    expect(weekendTraces([ride], '2026-11-28')).toEqual([
+      { eventId: 'evt-42', isoDate: '2026-11-28', url: 'https://connect.garmin.com/app/course/1' },
     ]);
   });
 });
