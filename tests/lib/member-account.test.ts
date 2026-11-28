@@ -45,6 +45,21 @@ describe('member login accounts', () => {
     expect(db.members.a.authUid).toBe('uid-hand');
   });
 
+  it('survives a concurrent creation of the same account', async () => {
+    const { api } = fakeAdminAuth();
+    const db = fakeMembersDb({ a: { name: 'A', email: 'anne@blanmont.be' } });
+    api.createUser.mockImplementationOnce(async () => {
+      // Another request created it between our lookup and our create.
+      await api.createUser.getMockImplementation()!({ email: 'anne@blanmont.be', emailVerified: true });
+      throw Object.assign(new Error('exists'), { code: 'auth/email-already-exists' });
+    });
+
+    const result = await ensureMemberAccount('a', db.members.a, 'activation');
+
+    expect(result.user.email).toBe('anne@blanmont.be');
+    expect(db.members.a.authUid).toBe(result.user.uid);
+  });
+
   it('activation leaves the account of a shared email to the member already linked to it', async () => {
     fakeAdminAuth([{ uid: 'uid-1', email: 'famille@blanmont.be', emailVerified: true }]);
     const db = fakeMembersDb({

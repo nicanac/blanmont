@@ -172,8 +172,10 @@ const hasSession = async (ctx) => (await ctx.cookies()).some((c) => c.name === '
   const { ctx, page } = await newPage();
   const msg = await requestLink(page, 'eva.nouvelle@exemple.be');
   check('4. request accepted', /spams/.test(msg), msg.slice(0, 80));
-  const moved = await lookup('eva.nouvelle@exemple.be');
-  check('4. the existing account moved to the new email', moved?.users?.[0]?.localId === evaOld.localId);
+  const fresh = await lookup('eva.nouvelle@exemple.be');
+  const evaUid = fresh?.users?.[0]?.localId;
+  check('4. the new address got its own account (the old one is left untouched)', Boolean(evaUid) && evaUid !== evaOld.localId);
+  check('4. ...linked to the member', (await dbGet('members/m-eva'))?.authUid === evaUid);
   const oob = await lastOob('eva.nouvelle@exemple.be');
   check('4. email sent to the new address', Boolean(oob));
   await setPasswordFromLink(page, oob.oobCode, 'Eva-nouveau-1');
@@ -198,7 +200,9 @@ const hasSession = async (ctx) => (await ctx.cookies()).some((c) => c.name === '
 
   const { ctx, page } = await newPage();
   await requestLink(page, 'zoe@exemple.be');
-  check('5. the self-made account is not linked by the request', !(await dbGet('members/m-zoe'))?.authUid);
+  const replaced = (await lookup('zoe@exemple.be'))?.users?.[0]?.localId;
+  check('5. the self-made account is replaced, never adopted', Boolean(replaced) && replaced !== self.localId);
+  check('5. ...and the new account is linked', (await dbGet('members/m-zoe'))?.authUid === replaced);
   const oob = await lastOob('zoe@exemple.be');
   await setPasswordFromLink(page, oob.oobCode, 'Zoe-vraie-1');
   check('5. the real owner (emailed link) gets in and is linked', (await hasSession(ctx)) && Boolean((await dbGet('members/m-zoe'))?.authUid));
