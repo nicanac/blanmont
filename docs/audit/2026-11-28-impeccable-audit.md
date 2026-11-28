@@ -83,7 +83,7 @@ Full UI audit of the Blanmont platform against the « La Feuille de Blanmont —
 | F43 | 💄 [ui] equipement: three competing order actions above the catalogue | UX | `/le-club/equipement` | [#310](https://github.com/nicanac/blanmont/issues/310) |
 | F44 | 💄 [ui] equipement: eyebrow, icon tiles and off-system section headings | Theming | `/le-club/equipement` | [#311](https://github.com/nicanac/blanmont/issues/311) |
 | F45 | 💄 [ui] home: full-bleed route-red band breaks the One Red Rule | Theming | `/` | [#312](https://github.com/nicanac/blanmont/issues/312) |
-| F46 | 🐛 [bug] public pages: every tab carries the same generic <title> | Accessibility | `/le-club`, `/le-club/equipement`, `/calendrier` +2 | [#313](https://github.com/nicanac/blanmont/issues/313) |
+| F46 | 🐛 [bug] public pages: every tab shows the same generic page title | Accessibility | `/le-club`, `/le-club/equipement`, `/calendrier` +2 | [#313](https://github.com/nicanac/blanmont/issues/313) |
 | F47 | 💄 [ui] public pages: the GPX download is drawn five different ways | UX | `/`, `/calendrier`, `/traces` +1 | [#314](https://github.com/nicanac/blanmont/issues/314) |
 | F48 | 🐛 [bug] trace-detail: no GPX download, description and map link twice | UX | `/traces/trace_01` | [#315](https://github.com/nicanac/blanmont/issues/315) |
 | F49 | 💄 [ui] copy: Title Case, franglais, « ! » and typos on public pages | Copy | `/`, `/le-club`, `/le-club/equipement` +9 | [#316](https://github.com/nicanac/blanmont/issues/316) |
