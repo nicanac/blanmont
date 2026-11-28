@@ -52,6 +52,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.51.2] - 2026-11-28
+
+### Fixed
+- fix(auth): close account-takeover paths found in review (`0b63b85`)
+- fix(auth): send the first-login email from the server and make admin-set passwords work (`fc42ae2`)
+- fix(logging): drop undefined values before writing activity logs (`b9244fc`)
 ## [0.51.1] - 2026-11-28
 
 ### Chores
