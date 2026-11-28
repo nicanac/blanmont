@@ -46,6 +46,24 @@ describe('MemberCard portrait (#260)', () => {
     expect(screen.getByRole('img', { name: 'Dany Niset' })).toHaveAttribute('src', external);
   });
 
+  it('prints each role badge once, without the plain membership (#262)', () => {
+    render(
+      <ul>
+        <MemberCard
+          member={{
+            ...member(''),
+            role: ['Member', 'Capitaine de Route', 'Membre du comité', 'Membre du comité', 'Trésorier', 'Treasurer'],
+          }}
+        />
+      </ul>
+    );
+    expect(screen.getAllByText('Membre du comité')).toHaveLength(1);
+    expect(screen.getByText('Trésorier')).toBeInTheDocument();
+    expect(screen.queryByText('Treasurer')).not.toBeInTheDocument();
+    expect(screen.getByText('Capitaine de Route')).toBeInTheDocument();
+    expect(screen.queryByText('Member')).not.toBeInTheDocument();
+  });
+
   it('prints the monogram when there is no real photo', () => {
     render(<ul><MemberCard member={member('/images/default-avatar.png')} /></ul>);
     expect(screen.queryByRole('img', { name: 'Dany Niset' })).not.toBeInTheDocument();

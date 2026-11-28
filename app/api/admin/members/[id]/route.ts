@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAdminDatabase } from '@/app/lib/firebase/admin';
 import { delegatedMemberChangeError, verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { isSessionAdmin } from '@/app/lib/auth/session';
+import { uniqueRoles } from '@/app/constants/roles';
 
 /** Non-admins (members section): refusal for this change, read against the stored record. */
 async function delegatedDenial(
@@ -60,6 +61,8 @@ export async function PUT(request: NextRequest, context: RouteContext): Promise<
 
     await db.ref(`members/${id}`).update({
       ...data,
+      // Each role once: a save cleans the repeats older imports left (#262).
+      ...(Array.isArray(data.role) ? { role: uniqueRoles(data.role) } : {}),
       updatedAt: new Date().toISOString(),
     });
 

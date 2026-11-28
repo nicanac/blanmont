@@ -7,6 +7,7 @@ import { Member } from '../../../types';
 import { ShieldCheckIcon, UserIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import Badge from '@/app/components/ui/Badge';
 import TerritoryMap from '@/app/components/carte/TerritoryMap';
+import { uniqueRoles } from '@/app/constants/roles';
 
 interface MemberCardProps {
   member: Member;
@@ -38,17 +39,11 @@ function getSheetFocus(name: string): { x: number; y: number } {
 }
 
 /**
- * Categorizes and formats roles safely.
+ * Badges of a member: each role once (#262: "Membre du comité" stored twice, "Treasurer" next to
+ * "Trésorier"), without the plain membership.
  */
-function normalizeRoles(roles: string[] | string | undefined): string[] {
-  if (!roles) return [];
-  if (Array.isArray(roles)) {
-    return roles.filter((r) => Boolean(r) && r !== 'Member' && r !== 'Membre');
-  }
-  if (typeof roles === 'string') {
-    return [roles].filter((r) => r !== 'Member' && r !== 'Membre');
-  }
-  return [];
+function badgeRoles(roles: string[] | string | undefined): string[] {
+  return uniqueRoles(roles).filter((r) => r !== 'Member' && r !== 'Membre');
 }
 
 /**
@@ -75,7 +70,7 @@ export default function MemberCard({ member }: MemberCardProps) {
   const [imgError, setImgError] = useState(false);
   const initials = getInitials(member.name);
   const focus = getSheetFocus(member.name);
-  const roles = normalizeRoles(member.role);
+  const roles = badgeRoles(member.role);
   const hasValidPhoto = isValidPhotoUrl(member.photoUrl) && !imgError;
 
   return (
@@ -119,13 +114,13 @@ export default function MemberCard({ member }: MemberCardProps) {
         {/* Floating role badge overlay on photo top */}
         {roles.length > 0 && (
           <div className="absolute top-3 left-3 right-3 flex flex-wrap gap-1.5 z-10">
-            {roles.map((role, idx) => {
+            {roles.map((role) => {
               const isBureau = /président|tresorier|trésorier|secrétaire|secretaire|vice/i.test(role);
               const isCaptain = /capitaine/i.test(role);
 
               return (
                 <Badge
-                  key={idx}
+                  key={role}
                   variant={isBureau ? 'brand-solid' : 'neutral'}
                   size="sm"
                   icon={isBureau ? ShieldCheckIcon : undefined}

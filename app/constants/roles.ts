@@ -91,6 +91,45 @@ export function normalizeRoles(roles: string[] | string | undefined | null): str
   return [String(roles).trim()].filter(Boolean);
 }
 
+/** A role spelling for comparisons: lower case, no accents, one space ("Vice-Président" = "vice président"). */
+export function foldRole(role: string): string {
+  return role
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[\s\-_.]+/g, ' ')
+    .trim();
+}
+
+/**
+ * Job titles listed as a standard role's synonym for its rights, but printed as a badge of their own:
+ * a WebMaster has the Admin rights and both badges stay.
+ */
+const OWN_BADGE_TITLES = new Set(['webmaster']);
+
+/** What a role spelling names: the standard role it spells exactly (key, label or synonym), else itself. */
+function roleIdentity(role: string): string {
+  const folded = foldRole(role);
+  if (OWN_BADGE_TITLES.has(folded)) return folded;
+  const def = CLUB_ROLES.find((d) => [d.key, d.label, ...d.synonyms].some((s) => foldRole(s) === folded));
+  return def ? `club:${def.key}` : folded;
+}
+
+/**
+ * Each role once (#262): a repeated role ("Membre du comité" twice) and the other names of a standard
+ * role ("Treasurer" next to "Trésorier") keep their first stored spelling. Whole names only:
+ * "Vice-Président" stays a role of its own.
+ */
+export function uniqueRoles(roles: string[] | string | undefined | null): string[] {
+  const seen = new Set<string>();
+  return normalizeRoles(roles).filter((role) => {
+    const identity = roleIdentity(role);
+    if (seen.has(identity)) return false;
+    seen.add(identity);
+    return true;
+  });
+}
+
 /**
  * Checks if a member has a specific role by key or synonym (case and accent insensitive).
  */
@@ -209,8 +248,8 @@ export function toggleClubRole(
  * Extracts non-standard / specialized roles (e.g. Traceur, Resp. Calendrier, Resp. maillots, Vice-Président).
  */
 export function extractCustomRoles(roles: string[] | string | undefined | null): string[] {
-  const normalized = normalizeRoles(roles);
-  return normalized.filter((r) => !isStandardClubRole(r));
+  // One chip per role, even when the stored list repeats it (#262).
+  return uniqueRoles(roles).filter((r) => !isStandardClubRole(r));
 }
 
 /**

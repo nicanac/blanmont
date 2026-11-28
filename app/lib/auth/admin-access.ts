@@ -199,9 +199,9 @@ function grantsAdmin(member: MemberFields | null | undefined): boolean {
   });
 }
 
+// A repeated role grants nothing more: the stored list and a deduplicated copy sign the same (#262).
 const roleSignature = (roles: unknown): string =>
-  normalizeRoles(roles as string[] | string | null)
-    .map((r) => r.toLowerCase())
+  [...new Set(normalizeRoles(roles as string[] | string | null).map((r) => r.toLowerCase()))]
     .sort()
     .join('|') || 'member';
 
