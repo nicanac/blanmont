@@ -86,7 +86,8 @@ export async function recordActivity(input: RecordActivityInput): Promise<string
 
   try {
     const db = getAdminDatabase();
-    await db.ref(`activity-logs/${yearMonth}/${id}`).set(logEntry);
+    // RTDB refuses undefined values (e.g. user.visitorId of a server-side event): drop them.
+    await db.ref(`activity-logs/${yearMonth}/${id}`).set(JSON.parse(JSON.stringify(logEntry)));
     return id;
   } catch (error) {
     console.error(`[activityLogger] Failed to record log to Firebase:`, error);
