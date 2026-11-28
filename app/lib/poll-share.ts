@@ -13,7 +13,10 @@ import {
 export const SONDAGE_URL = 'https://blanmont.be/sondage';
 
 export interface WeekendTrace {
+  /** Calendar event of the ride: the page links its member download, `/api/trace/<eventId>` (#259). */
+  eventId: string;
   isoDate: string;
+  /** Source link (Garmin, Strava, Komoot, GPX file): drawn server-side, shared on WhatsApp. */
   url: string;
   /** Map and figures resolved server-side (`withTraceRoutes`); null or absent = link only. */
   route?: TraceRoute | null;
@@ -29,7 +32,7 @@ export function weekendTraces(
   return events
     .filter((e) => e.gpxUrl && (e.isoDate === saturdayIso || e.isoDate === sundayIso))
     .sort((a, b) => a.isoDate.localeCompare(b.isoDate))
-    .map((e) => ({ isoDate: e.isoDate, url: e.gpxUrl as string }));
+    .map((e) => ({ eventId: e.id, isoDate: e.isoDate, url: e.gpxUrl as string }));
 }
 
 const plural = (n: number, word: string): string => `${n} ${word}${n > 1 ? 's' : ''}`;
@@ -48,7 +51,7 @@ export function buildPollShareMessage({
 }: {
   poll: Pick<WeekendPoll, 'weekendIsoDate' | 'status'>;
   responses: readonly PollResponse[];
-  traces: readonly WeekendTrace[];
+  traces: readonly Pick<WeekendTrace, 'isoDate' | 'url'>[];
   /** Maps a stored group code to its display name (useGroupLabels().label). */
   groupName: (code: string) => string;
 }): string {
