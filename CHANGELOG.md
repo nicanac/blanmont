@@ -53,6 +53,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.52.0] - 2026-11-28
+
+### Added
+- feat: several GPX traces per ride and poll respondents pre-checked in Pointage Express (#356) (`413df07`)
 ## [0.51.2] - 2026-11-28
 
 ### Fixed
