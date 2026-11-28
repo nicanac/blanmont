@@ -4,6 +4,7 @@ import { CalendarEvent } from '@/app/types';
 import { verifySectionRequest } from '@/app/lib/auth/admin-access';
 import { revalidateCalendarPages } from '@/app/lib/revalidate-calendar';
 import { resolveEventTraceId } from '@/app/lib/event-trace';
+import { linkRideToCatalog } from '@/app/lib/event-trace-catalog';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const authCheck = await verifySectionRequest(request, 'events');
@@ -37,6 +38,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         return NextResponse.json({ error: resolved.error }, { status: resolved.status });
       }
       Object.assign(eventData, resolved.fields);
+    } else if (eventData.gpxUrl) {
+      // A link typed on the ride joins the club catalogue and the ride follows that trace (#263).
+      const linked = await linkRideToCatalog(eventData);
+      if (linked) Object.assign(eventData, { traceId: linked.traceId, gpxUrl: linked.gpxUrl });
     }
 
     await newEventRef.set({

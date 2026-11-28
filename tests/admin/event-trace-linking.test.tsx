@@ -16,7 +16,7 @@ vi.mock('next/link', () => ({
     </a>
   ),
 }));
-vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
+vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn(), warning: vi.fn() } }));
 
 const PAYLOAD: TraceLinksPayload = {
   traces: [
@@ -47,6 +47,7 @@ describe('Linking a catalog trace to a ride (#255)', () => {
   beforeEach(() => {
     vi.mocked(toast.success).mockClear();
     vi.mocked(toast.error).mockClear();
+    vi.mocked(toast.warning).mockClear();
   });
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -116,6 +117,92 @@ describe('Linking a catalog trace to a ride (#255)', () => {
 
       await waitFor(() => expect(fetchMock).toHaveBeenCalled());
       await waitFor(() => expect(container).toBeEmptyDOMElement());
+    });
+  });
+
+  describe('Ride traces → catalogue (#263)', () => {
+    const BUTTON = { name: 'Ajouter les traces des sorties au catalogue' };
+    const AFTER: TraceLinksPayload = {
+      ...PAYLOAD,
+      events: [{ ...PAYLOAD.events[0], traceId: 'dyle', gpxUrl: 'https://f.io/dyle.gpx' }, PAYLOAD.events[1]],
+    };
+
+    /** GET trace-links answers `links` in turn; each POST of the backfill answers the next report. */
+    function stubBackfill(links: TraceLinksPayload[], reports: (Record<string, number> | number)[]) {
+      const fetchMock = vi.fn((url: string, init?: RequestInit) => {
+        if (init?.method === 'POST') {
+          const next = reports.shift();
+          return Promise.resolve(
+            typeof next === 'number' ? new Response('{}', { status: next }) : Response.json(next)
+          );
+        }
+        return Promise.resolve(Response.json(links.length > 1 ? links.shift() : links[0]));
+      });
+      vi.stubGlobal('fetch', fetchMock);
+      return fetchMock;
+    }
+    const posts = (fetchMock: ReturnType<typeof vi.fn>) =>
+      fetchMock.mock.calls.filter(([, init]) => init?.method === 'POST').map(([url]) => url);
+
+    it('runs until no ride is left, sums the runs, then shows the rides as linked', async () => {
+      const fetchMock = stubBackfill(
+        [PAYLOAD, AFTER],
+        [
+          { linked: 2, created: 1, failed: 0, remaining: 3 },
+          { linked: 3, created: 2, failed: 0, remaining: 0 },
+        ]
+      );
+      render(<EventTraceLinker />);
+
+      fireEvent.click(await screen.findByRole('button', BUTTON));
+
+      await waitFor(() =>
+        expect(toast.success).toHaveBeenCalledWith('5 sorties liées · 3 traces ajoutées au catalogue')
+      );
+      expect(posts(fetchMock)).toEqual(['/api/admin/events/trace-catalog', '/api/admin/events/trace-catalog']);
+      const [saturday] = within(await screen.findByRole('list')).getAllByRole('form');
+      await waitFor(() =>
+        expect(within(saturday).getByText('Vallée de la Dyle', { selector: 'span' })).toBeInTheDocument()
+      );
+    });
+
+    it('stops when a run links nothing and says what is left', async () => {
+      const fetchMock = stubBackfill([PAYLOAD], [{ linked: 0, created: 0, failed: 1, remaining: 1 }]);
+      render(<EventTraceLinker />);
+
+      fireEvent.click(await screen.findByRole('button', BUTTON));
+
+      await waitFor(() =>
+        expect(toast.warning).toHaveBeenCalledWith(
+          '0 sortie liée · 0 trace ajoutée au catalogue · 1 à reprendre : relancez plus tard.'
+        )
+      );
+      expect(posts(fetchMock)).toHaveLength(1);
+    });
+
+    it('says so when every ride is already in the catalogue', async () => {
+      stubBackfill([PAYLOAD], [{ linked: 0, created: 0, failed: 0, remaining: 0 }]);
+      render(<EventTraceLinker />);
+
+      fireEvent.click(await screen.findByRole('button', BUTTON));
+
+      await waitFor(() =>
+        expect(toast.success).toHaveBeenCalledWith('Toutes les traces des sorties sont déjà dans le catalogue.')
+      );
+    });
+
+    it('shows an error and stays usable when the server refuses', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+      stubBackfill([PAYLOAD], [500]);
+      render(<EventTraceLinker />);
+      const button = await screen.findByRole('button', BUTTON);
+
+      fireEvent.click(button);
+
+      await waitFor(() =>
+        expect(toast.error).toHaveBeenCalledWith("Impossible d'ajouter les traces des sorties au catalogue")
+      );
+      expect(button).toBeEnabled();
     });
   });
 

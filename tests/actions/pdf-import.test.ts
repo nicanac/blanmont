@@ -6,6 +6,7 @@ import {
 } from '@/app/admin/events/import/actions';
 import * as adminAccessModule from '@/app/lib/auth/admin-access';
 import * as adminModule from '@/app/lib/firebase/admin';
+import * as eventTraceCatalog from '@/app/lib/event-trace-catalog';
 
 // Mock next/cache
 vi.mock('next/cache', () => ({
@@ -166,6 +167,33 @@ describe('PDF Calendar Ingestion Actions', () => {
       expect(childMock).toHaveBeenCalledWith('20260516-Walhain');
       expect(childMock).toHaveBeenCalledWith('20260523-Jodoigne');
       expect(setMock).toHaveBeenCalledTimes(2);
+    });
+
+    it('adds an imported trace link to the club catalogue and links the ride (#263)', async () => {
+      vi.spyOn(adminAccessModule, 'requireSectionAccess').mockResolvedValue({ id: 'admin-1', isAdmin: true } as any);
+      const link = vi
+        .spyOn(eventTraceCatalog, 'linkRideToCatalog')
+        .mockResolvedValue({ traceId: 'trace_1', gpxUrl: 'https://f.io/walhain.gpx', created: true });
+      const setMock = vi.fn().mockResolvedValue(undefined);
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({
+        ref: vi.fn().mockReturnValue({ child: vi.fn().mockReturnValue({ set: setMock }) }),
+      } as any);
+
+      await saveImportedEventsAction([
+        { isoDate: '2026-05-16', location: 'Walhain', gpxUrl: 'https://www.f.io/walhain.gpx' },
+        { isoDate: '2026-05-23', location: 'Jodoigne' },
+        { isoDate: '2026-05-30', location: 'Perwez', gpxUrl: 'https://f.io/p.gpx', traceId: 'dyle' },
+      ] as any[]);
+
+      // Only the ride with a link and no catalog trace goes through the catalogue.
+      expect(link).toHaveBeenCalledTimes(1);
+      expect(link).toHaveBeenCalledWith(expect.objectContaining({ location: 'Walhain' }));
+      expect(setMock).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({ traceId: 'trace_1', gpxUrl: 'https://f.io/walhain.gpx' })
+      );
+      expect(setMock.mock.calls[1][0]).not.toHaveProperty('traceId');
+      expect(setMock.mock.calls[2][0]).toMatchObject({ traceId: 'dyle' });
     });
 
     it('handles database errors during save', async () => {
