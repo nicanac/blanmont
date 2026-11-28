@@ -1,5 +1,6 @@
 import { isMockMode, getFirebaseDatabase, ref, get, set, remove } from './client';
 import { getAdminDatabase } from './admin';
+import type { PollPrefillRecord } from '../poll-attendance';
 
 /**
  * Represents attendance for a single calendar event.
@@ -14,6 +15,8 @@ export interface EventAttendance {
   members: Record<string, AttendanceMember>;
   /** Last updated timestamp */
   updatedAt?: string;
+  /** Members the weekend poll pre-checked (app/lib/poll-attendance). */
+  pollPrefill?: PollPrefillRecord;
 }
 
 export interface AttendanceMember {
@@ -90,6 +93,7 @@ export const getAllAttendance = async (): Promise<EventAttendance[]> => {
       isoDate: (data.isoDate as string) || '',
       members: (data.members as Record<string, AttendanceMember>) || {},
       updatedAt: data.updatedAt as string | undefined,
+      ...(data.pollPrefill ? { pollPrefill: data.pollPrefill as PollPrefillRecord } : {}),
     }));
   } catch (error) {
     console.error('Failed to fetch all attendance:', error);
