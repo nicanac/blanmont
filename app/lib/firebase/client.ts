@@ -15,6 +15,7 @@ import {
 import {
   getAuth,
   Auth,
+  connectAuthEmulator,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
@@ -67,6 +68,11 @@ export function getFirebaseDatabase(): Database {
 export function getFirebaseAuth(): Auth {
   if (!auth) {
     auth = getAuth(getFirebaseApp());
+    // Local tests only (never set in production): the Firebase Auth emulator.
+    const emulatorHost =
+      process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST ||
+      (typeof window === 'undefined' ? process.env.FIREBASE_AUTH_EMULATOR_HOST : undefined);
+    if (emulatorHost) connectAuthEmulator(auth, `http://${emulatorHost}`, { disableWarnings: true });
   }
   return auth;
 }

@@ -1,13 +1,18 @@
 'use client';
 
-import { loginAction, logoutAction, getCurrentSessionUserAction } from '../actions';
+import { loginWithStatusAction, logoutAction, getCurrentSessionUserAction } from '../actions';
+import type { LoginFailureReason } from '../lib/auth/login-messages';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { checkIsAdmin } from '../utils/auth';
 import { User } from '../types';
 
+/** Result of a login attempt: why it failed, so the page can show the right help. */
+export type LoginResult = { ok: true } | { ok: false; reason: LoginFailureReason };
+
 interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<boolean>;
+    loginWithReason: (email: string, password: string) => Promise<LoginResult>;
     logout: () => Promise<void>;
     updateUser: (updates: Partial<User>) => void;
     isAuthenticated: boolean;
@@ -56,34 +61,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
     }, []);
 
-    const login = async (email: string, password: string): Promise<boolean> => {
+    const loginWithReason = async (email: string, password: string): Promise<LoginResult> => {
         try {
-            const member = await loginAction(email, password);
-            if (member) {
-                const newUser: User = {
-                    id: member.id,
-                    username: member.email || member.name, // Fallback to name if email missing
-                    name: member.name,
-                    avatarUrl: member.photoUrl,
-                    email: member.email,
-                    phone: member.phone,
-                    role: member.role
-                };
-                // The admin flag is decided server-side (roles + ADMIN_EMAILS env), read it back.
-                try {
-                    const sessionUser = await getCurrentSessionUserAction();
-                    newUser.isAdmin = sessionUser?.isAdmin ?? false;
-                } catch {
-                    newUser.isAdmin = false;
-                }
-                setUser(newUser);
-                return true;
+            const outcome = await loginWithStatusAction(email, password);
+            if (!outcome.ok) return { ok: false, reason: outcome.reason };
+            const member = outcome.member;
+            const newUser: User = {
+                id: member.id,
+                username: member.email || member.name, // Fallback to name if email missing
+                name: member.name,
+                avatarUrl: member.photoUrl,
+                email: member.email,
+                phone: member.phone,
+                role: member.role
+            };
+            // The admin flag is decided server-side (roles + ADMIN_EMAILS env), read it back.
+            try {
+                const sessionUser = await getCurrentSessionUserAction();
+                newUser.isAdmin = sessionUser?.isAdmin ?? false;
+            } catch {
+                newUser.isAdmin = false;
             }
-            return false;
+            setUser(newUser);
+            return { ok: true };
         } catch (err) {
             console.error('Login failed', err);
-            return false;
+            return { ok: false, reason: 'unavailable' };
         }
+    };
+
+    const login = async (email: string, password: string): Promise<boolean> => {
+        return (await loginWithReason(email, password)).ok;
     };
 
     const logout = async () => {
@@ -110,6 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         <AuthContext.Provider value={{
             user,
             login,
+            loginWithReason,
             logout,
             updateUser,
             isAuthenticated: !!user,

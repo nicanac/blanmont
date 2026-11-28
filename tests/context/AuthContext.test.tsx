@@ -10,6 +10,7 @@ import * as actions from '@/app/actions';
 // Mock server actions
 vi.mock('@/app/actions', () => ({
   loginAction: vi.fn(),
+  loginWithStatusAction: vi.fn(),
   logoutAction: vi.fn(),
   getCurrentSessionUserAction: vi.fn(),
 }));
@@ -70,13 +71,16 @@ describe('AuthContext & AuthProvider', () => {
 
   it('handles login successfully and updates user state', async () => {
     vi.mocked(actions.getCurrentSessionUserAction).mockResolvedValue(null);
-    vi.mocked(actions.loginAction).mockResolvedValue({
-      id: 'member-25',
-      email: 'cycliste@blanmont.be',
-      name: 'Laurent Cycliste',
-      role: 'Member',
-      photoUrl: 'https://example.com/avatar.jpg',
-    } as any);
+    vi.mocked(actions.loginWithStatusAction).mockResolvedValue({
+      ok: true,
+      member: {
+        id: 'member-25',
+        email: 'cycliste@blanmont.be',
+        name: 'Laurent Cycliste',
+        role: 'Member',
+        photoUrl: 'https://example.com/avatar.jpg',
+      } as any,
+    });
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -98,7 +102,7 @@ describe('AuthContext & AuthProvider', () => {
 
   it('handles login failure gracefully', async () => {
     vi.mocked(actions.getCurrentSessionUserAction).mockResolvedValue(null);
-    vi.mocked(actions.loginAction).mockResolvedValue(null);
+    vi.mocked(actions.loginWithStatusAction).mockResolvedValue({ ok: false, reason: 'too_many_attempts' });
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -112,6 +116,12 @@ describe('AuthContext & AuthProvider', () => {
     });
 
     expect(success).toBe(false);
+    // The reason reaches the page, so it can show the right help
+    let outcome: unknown;
+    await act(async () => {
+      outcome = await result.current.loginWithReason('bad@blanmont.be', 'wrongpassword');
+    });
+    expect(outcome).toEqual({ ok: false, reason: 'too_many_attempts' });
     expect(result.current.isAuthenticated).toBe(false);
     expect(result.current.user).toBeNull();
   });

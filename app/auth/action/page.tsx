@@ -11,8 +11,6 @@ import {
   verifyPasswordResetCode,
   confirmPasswordReset,
   applyActionCode,
-  isMockMode,
-  sendPasswordResetEmail,
 } from '../../lib/firebase/client';
 import {
   LockClosedIcon,
@@ -157,15 +155,9 @@ function AuthActionHandler(): React.ReactElement {
         return;
       }
 
+      // The server prepares the account and has Firebase email the link (never returned here).
       const result = await requestAccountActivationAction(recoveryEmail.trim());
       if (result.success) {
-        // Firebase emails the link to the owner of the address. Errors (unknown user, rate limit...)
-        // are ignored so the answer never reveals whether the address is a member.
-        if (!isMockMode) {
-          await sendPasswordResetEmail(getFirebaseAuth(), recoveryEmail.trim(), {
-            url: `${window.location.origin}/login`,
-          }).catch(() => undefined);
-        }
         setRecoverySuccess(result.message);
       } else {
         setErrorMessage(result.message || 'Impossible d\'envoyer le nouveau lien.');

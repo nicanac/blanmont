@@ -3,6 +3,7 @@ import {
   getMembers,
   getMember,
   validateUser,
+  authenticateMember,
   updateMemberPhoto,
   createMember,
   updateMember,
@@ -103,7 +104,7 @@ describe('Firebase Members Service (app/lib/firebase/members.ts)', () => {
   describe('validateUser', () => {
     it('authenticates user and returns matching member, syncing authUid if absent', async () => {
       vi.spyOn(clientModule, 'signInWithEmailAndPassword').mockResolvedValue({
-        user: { uid: 'firebase-uid-777', email: 'julien@blanmont.be' },
+        user: { uid: 'firebase-uid-777', email: 'julien@blanmont.be', emailVerified: true },
       } as any);
 
       const mockMembers = [
@@ -184,12 +185,99 @@ describe('Firebase Members Service (app/lib/firebase/members.ts)', () => {
     });
 
     it('returns null when password authentication fails', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      vi.spyOn(clientModule, 'signInWithEmailAndPassword').mockRejectedValue(new Error('auth/wrong-password'));
+      vi.spyOn(clientModule, 'signInWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/wrong-password).'));
 
       const member = await validateUser('member@test.com', 'wrongpassword');
       expect(member).toBeNull();
-      expect(consoleSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('authenticateMember', () => {
+    const membersDb = (records: Record<string, Record<string, unknown>>) => {
+      const update = vi.fn().mockResolvedValue(undefined);
+      const refMock = vi.fn((_path: string) => ({
+        once: vi.fn().mockResolvedValue({
+          exists: () => true,
+          forEach: (cb: (item: any) => void) =>
+            Object.entries(records).forEach(([key, val]) => cb({ key, val: () => val })),
+        }),
+        update,
+      }));
+      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+      return { refMock, update };
+    };
+    const signedIn = (user: Record<string, unknown>) =>
+      vi.spyOn(clientModule, 'signInWithEmailAndPassword').mockResolvedValue({ user } as any);
+
+    it('says why Firebase refused the password', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+      const signIn = vi.spyOn(clientModule, 'signInWithEmailAndPassword');
+      const cases: Array<[unknown, string]> = [
+        [Object.assign(new Error('x'), { code: 'auth/invalid-credential' }), 'invalid_credentials'],
+        [Object.assign(new Error('x'), { code: 'auth/too-many-requests' }), 'too_many_attempts'],
+        [Object.assign(new Error('x'), { code: 'auth/user-disabled' }), 'account_disabled'],
+        [Object.assign(new Error('x'), { code: 'auth/network-request-failed' }), 'unavailable'],
+      ];
+      for (const [error, reason] of cases) {
+        signIn.mockRejectedValueOnce(error);
+        expect(await authenticateMember('m@test.com', 'pw')).toMatchObject({ ok: false, reason });
+      }
+    });
+
+    it('signs in with the trimmed, lower-cased email', async () => {
+      const signIn = signedIn({ uid: 'u1', email: 'julien@blanmont.be', emailVerified: true });
+      membersDb({ m1: { name: 'J', email: ' Julien@Blanmont.be ', authUid: 'u1' } });
+
+      const result = await authenticateMember('  JULIEN@blanmont.be ', 'pw');
+
+      expect(signIn).toHaveBeenCalledWith(undefined, 'julien@blanmont.be', 'pw');
+      expect(result).toMatchObject({ ok: true, member: { id: 'm1' } });
+    });
+
+    it('prefers the record linked to the account over an email match', async () => {
+      signedIn({ uid: 'u-linked', email: 'shared@blanmont.be', emailVerified: true });
+      membersDb({
+        first: { name: 'Linked', email: 'shared@blanmont.be', authUid: 'u-linked' },
+        second: { name: 'Same email', email: 'shared@blanmont.be' },
+      });
+
+      expect(await authenticateMember('shared@blanmont.be', 'pw')).toMatchObject({ ok: true, member: { id: 'first' } });
+    });
+
+    it('refuses an unverified account that is not linked to the record (self-made through the public API)', async () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => {});
+      signedIn({
+        uid: 'u-intruder',
+        email: 'julien@blanmont.be',
+        emailVerified: false,
+        metadata: { creationTime: 'Tue, 01 Dec 2026 10:00:00 GMT' },
+      });
+      const { update } = membersDb({ m1: { name: 'J', email: 'julien@blanmont.be' } });
+
+      expect(await authenticateMember('julien@blanmont.be', 'pw')).toEqual({ ok: false, reason: 'not_linked' });
+      expect(update).not.toHaveBeenCalled();
+    });
+
+    it('still accepts an unverified account created before the fix (made by hand for a member)', async () => {
+      signedIn({
+        uid: 'u-legacy',
+        email: 'julien@blanmont.be',
+        emailVerified: false,
+        metadata: { creationTime: 'Wed, 25 Nov 2026 10:00:00 GMT' },
+      });
+      const { update } = membersDb({ m1: { name: 'J', email: 'julien@blanmont.be' } });
+
+      expect(await authenticateMember('julien@blanmont.be', 'pw')).toMatchObject({ ok: true, member: { id: 'm1' } });
+      expect(update).toHaveBeenCalledWith({ authUid: 'u-legacy' });
+    });
+
+    it('relinks the record when a verified account owns its email (the email moved to a new account)', async () => {
+      signedIn({ uid: 'u-new', email: 'julien@blanmont.be', emailVerified: true });
+      const { refMock, update } = membersDb({ m1: { name: 'J', email: 'julien@blanmont.be', authUid: 'u-old' } });
+
+      expect(await authenticateMember('julien@blanmont.be', 'pw')).toMatchObject({ ok: true, member: { id: 'm1' } });
+      expect(refMock).toHaveBeenCalledWith('members/m1');
+      expect(update).toHaveBeenCalledWith({ authUid: 'u-new' });
     });
   });
 

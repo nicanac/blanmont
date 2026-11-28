@@ -9,6 +9,8 @@ import {
 import { POST as resetPasswordRoute } from '@/app/api/admin/members/[id]/reset-password/route';
 import * as adminModule from '@/app/lib/firebase/admin';
 import * as adminAccessModule from '@/app/lib/auth/admin-access';
+import * as activityLogger from '@/app/lib/logging/activityLogger';
+import { fakeAdminAuth, fakeMembersDb } from '../lib/fake-firebase';
 
 describe('Admin Members API Endpoints', () => {
   const mockContext = {
@@ -140,75 +142,117 @@ describe('Admin Members API Endpoints', () => {
   });
 
   describe('POST /api/admin/members/[id]/reset-password', () => {
+    const asAdmin = (extra: Record<string, unknown> = {}) =>
+      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
+        authorized: true,
+        user: { id: 'admin-1', name: 'Seb', isAdmin: true, ...extra },
+      } as any);
+    const post = (password: string) =>
+      resetPasswordRoute(
+        new NextRequest('http://localhost:3000/api/admin/members/mem-123/reset-password', {
+          method: 'POST',
+          body: JSON.stringify({ password }),
+        }),
+        mockContext
+      );
+
+    beforeEach(() => {
+      vi.spyOn(activityLogger, 'recordActivity').mockResolvedValue('log_1');
+    });
+
     it('returns 400 when password is too short', async () => {
-      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
-        authorized: true,
-        user: { id: 'admin-1', isAdmin: true },
-      } as any);
-
-      const req = new NextRequest('http://localhost:3000/api/admin/members/mem-123/reset-password', {
-        method: 'POST',
-        body: JSON.stringify({ password: '123' }),
-      });
-
-      const res = await resetPasswordRoute(req, mockContext);
+      asAdmin();
+      const res = await post('123');
       expect(res.status).toBe(400);
-      const data = await res.json();
-      expect(data.error).toMatch(/at least 6 characters/i);
+      expect((await res.json()).error).toMatch(/au moins|entre 6/i);
     });
 
-    it('returns 400 when member has no Firebase Auth authUid linked', async () => {
-      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
-        authorized: true,
-        user: { id: 'admin-1', isAdmin: true },
-      } as any);
+    it('returns 400 when the member has no email (it is the login identifier)', async () => {
+      asAdmin();
+      fakeAdminAuth();
+      fakeMembersDb({ 'mem-123': { name: 'Sans Email' } });
 
-      const onceMock = vi.fn().mockResolvedValue({
-        exists: () => true,
-        val: () => ({ name: 'Sans Auth', authUid: null }),
-      });
-      const refMock = vi.fn().mockReturnValue({ once: onceMock });
-      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
-
-      const req = new NextRequest('http://localhost:3000/api/admin/members/mem-123/reset-password', {
-        method: 'POST',
-        body: JSON.stringify({ password: 'new-valid-pass' }),
-      });
-
-      const res = await resetPasswordRoute(req, mockContext);
+      const res = await post('new-valid-pass');
       expect(res.status).toBe(400);
-      const data = await res.json();
-      expect(data.error).toMatch(/pas de compte authentifié/i);
+      expect((await res.json()).error).toMatch(/pas d'adresse email/i);
     });
 
-    it('updates password via Firebase Admin Auth when authUid exists', async () => {
-      vi.spyOn(adminAccessModule, 'verifySectionRequest').mockResolvedValue({
-        authorized: true,
-        user: { id: 'admin-1', isAdmin: true },
-      } as any);
+    it('creates and links the login account of a member who never logged in, then sets the password', async () => {
+      asAdmin();
+      const { api } = fakeAdminAuth();
+      const db = fakeMembersDb({ 'mem-123': { name: 'Nouveau', email: 'Nouveau@Blanmont.be' } });
 
-      const onceMock = vi.fn().mockResolvedValue({
-        exists: () => true,
-        val: () => ({ name: 'Avec Auth', authUid: 'auth-user-999' }),
-      });
-      const refMock = vi.fn().mockReturnValue({ once: onceMock });
-      vi.spyOn(adminModule, 'getAdminDatabase').mockReturnValue({ ref: refMock } as any);
+      const res = await post('secure-password-123');
 
-      const updateUserMock = vi.fn().mockResolvedValue({} as any);
-      vi.spyOn(adminModule, 'getAdminAuth').mockReturnValue({ updateUser: updateUserMock } as any);
-
-      const req = new NextRequest('http://localhost:3000/api/admin/members/mem-123/reset-password', {
-        method: 'POST',
-        body: JSON.stringify({ password: 'secure-password-123' }),
-      });
-
-      const res = await resetPasswordRoute(req, mockContext);
       expect(res.status).toBe(200);
-      const data = await res.json();
-      expect(data.success).toBe(true);
-      expect(updateUserMock).toHaveBeenCalledWith('auth-user-999', {
-        password: 'secure-password-123',
+      expect(await res.json()).toEqual({ success: true, loginEmail: 'nouveau@blanmont.be', accountCreated: true });
+      expect(db.members['mem-123'].authUid).toBe('uid-new-1');
+      expect(api.updateUser).toHaveBeenCalledWith('uid-new-1', { password: 'secure-password-123' });
+    });
+
+    it('updates the password of the linked account', async () => {
+      asAdmin();
+      const { api } = fakeAdminAuth([{ uid: 'auth-user-999', email: 'avec@blanmont.be', emailVerified: true }]);
+      fakeMembersDb({ 'mem-123': { name: 'Avec Auth', email: 'avec@blanmont.be', authUid: 'auth-user-999' } });
+
+      const res = await post('secure-password-123');
+
+      expect(res.status).toBe(200);
+      expect((await res.json()).loginEmail).toBe('avec@blanmont.be');
+      expect(api.createUser).not.toHaveBeenCalled();
+      expect(api.updateUser).toHaveBeenCalledWith('auth-user-999', { password: 'secure-password-123' });
+    });
+
+    it('moves a linked account whose email is stale to the directory email', async () => {
+      asAdmin();
+      const { users } = fakeAdminAuth([{ uid: 'auth-user-999', email: 'ancienne@gmail.com', emailVerified: true }]);
+      fakeMembersDb({ 'mem-123': { name: 'Changé', email: 'nouvelle@gmail.com', authUid: 'auth-user-999' } });
+
+      const res = await post('secure-password-123');
+
+      expect(res.status).toBe(200);
+      expect(users.get('auth-user-999')).toMatchObject({ email: 'nouvelle@gmail.com', password: 'secure-password-123' });
+    });
+
+    it('links an existing unlinked account of that email (e.g. created by a first-login attempt)', async () => {
+      asAdmin();
+      const { api } = fakeAdminAuth([{ uid: 'uid-orphan', email: 'membre@blanmont.be', emailVerified: false }]);
+      const db = fakeMembersDb({ 'mem-123': { name: 'Membre', email: 'membre@blanmont.be' } });
+
+      const res = await post('secure-password-123');
+
+      expect(res.status).toBe(200);
+      expect(db.members['mem-123'].authUid).toBe('uid-orphan');
+      expect(api.updateUser).toHaveBeenCalledWith('uid-orphan', { password: 'secure-password-123' });
+    });
+
+    it("refuses with 409 when the email is another member's login account", async () => {
+      asAdmin();
+      const { api } = fakeAdminAuth([{ uid: 'uid-partner', email: 'famille@blanmont.be', emailVerified: true }]);
+      fakeMembersDb({
+        'mem-123': { name: 'Second', email: 'famille@blanmont.be' },
+        'mem-1': { name: 'Premier', email: 'famille@blanmont.be', authUid: 'uid-partner' },
       });
+
+      const res = await post('secure-password-123');
+
+      expect(res.status).toBe(409);
+      expect((await res.json()).error).toMatch(/Premier/);
+      expect(api.updateUser).not.toHaveBeenCalled();
+    });
+
+    it("refuses to set the site owner's password for anyone but the owner", async () => {
+      vi.stubEnv('OWNER_EMAILS', 'owner@blanmont.be');
+      const { api } = fakeAdminAuth([{ uid: 'uid-owner', email: 'owner@blanmont.be', emailVerified: true }]);
+      fakeMembersDb({ 'mem-123': { name: 'Owner', email: 'owner@blanmont.be', authUid: 'uid-owner' } });
+
+      asAdmin({ verifiedEmail: 'other-admin@blanmont.be' });
+      expect((await post('secure-password-123')).status).toBe(403);
+      expect(api.updateUser).not.toHaveBeenCalled();
+
+      asAdmin({ verifiedEmail: 'owner@blanmont.be' });
+      expect((await post('secure-password-123')).status).toBe(200);
+      vi.unstubAllEnvs();
     });
   });
 });
