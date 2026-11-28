@@ -51,6 +51,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and thi
 
 
 
+
+## [0.51.1] - 2026-11-28
+
+### Chores
+- docs(design): Impeccable 4.11.1, DESIGN.md from the design-system package, full UI audit (#267) (`7b3c145`)
 ## [0.51.0] - 2026-11-28
 
 ### Added
